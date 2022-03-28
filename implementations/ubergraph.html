@@ -15,11 +15,13 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Ontobee Endpoint" href="ontobee.html" />
-    <link rel="prev" title="SQL Database Implementation" href="sqldb.html" /> 
+    <link rel="prev" title="Sparql Endpoint" href="sparql.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,11 +42,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Class Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Implementations</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#core">Core</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#remote-sparql">Remote Sparql</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Ubergraph Endpoint</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#about">About</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#interfaces-implemented">Interfaces Implemented</a></li>
@@ -108,6 +112,8 @@ endpoint serving multiple OBO ontologies, pre-processed with</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.ubergraph.ubergraph_implementation.</span></span><span class="sig-name descname"><span class="pre">UbergraphImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/obolib-aqGZzxm3-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/ubergraph/ubergraph_implementation.html#UbergraphImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation" title="Permalink to this definition"></a></dt>
 <dd><p>Wraps the Ubergraph sparql endpoint</p>
 <p>See: <a class="reference external" href="https://github.com/INCATools/ubergraph">https://github.com/INCATools/ubergraph</a></p>
+<p>This is a specialization of the more generic <a class="reference internal" href="sparql.html#obolib.implementations.sparql.sparql_implementation.SparqlImplementation" title="obolib.implementations.sparql.sparql_implementation.SparqlImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparqlImplementation</span></code></a>, which
+has knowledge of some of the specialized patterns found in Ubergraph</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">obolib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation" title="obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation"><span class="pre">obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation</span></a></span></span><a class="reference internal" href="../_modules/obolib/implementations/ubergraph/ubergraph_implementation.html#UbergraphImplementation.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create" title="Permalink to this definition"></a></dt>
@@ -128,6 +134,12 @@ endpoint serving multiple OBO ontologies, pre-processed with</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="obolib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.ubergraph.ubergraph_implementation.</span></span><span class="sig-name descname"><span class="pre">RelationGraphEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/ubergraph/ubergraph_implementation.html#RelationGraphEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum" title="Permalink to this definition"></a></dt>
+<dd><p>triples in UG are organized into different graphs</p>
+</dd></dl>
+
 </section>
 </section>
 
@@ -135,7 +147,7 @@ endpoint serving multiple OBO ontologies, pre-processed with</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="sqldb.html" class="btn btn-neutral float-left" title="SQL Database Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sparql.html" class="btn btn-neutral float-left" title="Sparql Endpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ontobee.html" class="btn btn-neutral float-right" title="Ontobee Endpoint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

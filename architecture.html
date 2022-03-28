@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TODO &mdash; obolib  documentation</title>
+  <title>Architecture &mdash; obolib  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -15,6 +15,8 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -41,7 +43,12 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">TODO</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ontology-interfaces">Ontology Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementations">Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-interfaces">Other Interfaces</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vocabulary/index.html">Ontology-Metadata</a></li>
@@ -62,9 +69,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>TODO</li>
+      <li>Architecture</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/architecture.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -72,8 +79,141 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="todo">
-<h1>TODO<a class="headerlink" href="#todo" title="Permalink to this headline"></a></h1>
+  <section id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline"></a></h1>
+<section id="ontology-interfaces">
+<h2>Ontology Interfaces<a class="headerlink" href="#ontology-interfaces" title="Permalink to this headline"></a></h2>
+<p>This library provides a collection of ontology <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a> that describe a set of operations
+that can be performed on an ontology</p>
+<p>The core interface is <span class="xref std std-ref">BasicOntologyInterface</span> which provides some of the most common operations
+you can do on an ontology, mostly simple lookup operations. Here is a simplified picture:</p>
+<div class="mermaid">
+            classDiagram
+    class OntologyInterface {
+        +interfaces_implemented()
+    }
+    class BasicOntologyInterface {
+        +get_label_by_curie(curie)
+        +get_definition_by_curie(curie)
+        +all_entity_curies(curie)
+        +basic_search(search_term)
+        +get_outgoing_relationships_by_curie(curie)
+        +...
+    }
+    OntologyInterface &lt;|-- BasicOntologyInterface
+        </div></section>
+<section id="implementations">
+<h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this headline"></a></h2>
+<p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
+<p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">obolib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
+<span class="n">paranasal</span> <span class="n">sinus</span>
+</pre></div>
+</div>
+<p>Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.</p>
+<p>You can do the same thing using a different implementation. This one uses the pronto library and the OBO library registry of OBO files</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">from</span> <span class="n">obolib</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">pronto</span><span class="o">.</span><span class="n">pronto_basic_impl</span> <span class="kn">import</span> <span class="nn">ProntoImplementation</span>
+<span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
+<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
+<span class="n">paranasal</span> <span class="n">sinus</span>
+</pre></div>
+</div>
+<p>There are other implementations - for relational databases, for ontology portal APIs, for OWL ontologies…</p>
+<p>Why so many implementations? The answer is that different use cases require different implementations.</p>
+<p>Ontology portal APIs work great, so long as the ontology you care about is loaded, and you don’t have to repeated calls with high
+network latency. Local files work great, but they require downloads, and have a high memory burden for large ontologies (most
+ontologies are small, but there is a long tail of very large ontologies like PRO, CHEBI, NCBITaxon, DRON, …).</p>
+</section>
+<section id="other-interfaces">
+<h2>Other Interfaces<a class="headerlink" href="#other-interfaces" title="Permalink to this headline"></a></h2>
+<p>The basic interface is only intended for, well, basic operations. These typically serve 80% of use cases. But
+there are many many uses for ontologies. Some of these demand particular <em>abstractions</em> over an ontology; e.g
+as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lexical artefact.</p>
+<p>We provide a number of different interfaces, designed for these different purposes. Here are a few:</p>
+<blockquote>
+<div><dl>
+<dt>classDiagram</dt><dd><dl class="simple">
+<dt>class OntologyInterface {</dt><dd><p>+interfaces_implemented()</p>
+</dd>
+</dl>
+<p>}
+class BasicOntologyInterface {</p>
+<blockquote>
+<div><p>+get_label_by_curie(curie)
++get_definition_by_curie(curie)
++all_entity_curies(curie)
++basic_search(search_term)
++get_outgoing_relationships_by_curie(curie)
++…</p>
+</div></blockquote>
+<p>}
+OntologyInterface &lt;<a href="#id1"><span class="problematic" id="id2">|</span></a>– BasicOntologyInterface
+class OwlInterface {</p>
+<blockquote>
+<div><p>+all_axioms()
++get_axioms_about(curie)
++…</p>
+</div></blockquote>
+<p>}
+BasicOntologyInterface &lt;<a href="#id3"><span class="problematic" id="id4">|</span></a>– OwlInterface
+class RelationGraphInterface {</p>
+<blockquote>
+<div><p>+entailed_relationships(curies)
++ancestors(curie)
++…</p>
+</div></blockquote>
+<p>}
+BasicOntologyInterface &lt;<a href="#id5"><span class="problematic" id="id6">|</span></a>– RelationGraphInterface</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Some interfaces may require
+a particular <em>object model</em> (note that the BasicOntologyInterface avoids an object model, with operations
+accepting and returning simple scalars, dicts, and lists).</p>
+<p>An example would be an OWL interface that uses an OWL object model (here funowl)</p>
+<div class="mermaid">
+            classDiagram
+    class OntologyInterface {
+        +interfaces_implemented()
+    }
+    class BasicOntologyInterface {
+        +get_label_by_curie(curie)
+        +get_definition_by_curie(curie)
+        +all_entity_curies(curie)
+        +basic_search(search_term)
+        +get_outgoing_relationships_by_curie(curie)
+        +...
+    }
+    OntologyInterface &lt;|-- BasicOntologyInterface
+    class OwlInterface {
+        +all_axioms()
+        +get_axioms_about(curie)
+        +...
+    }
+    BasicOntologyInterface &lt;|-- OwlInterface
+    OwlInterface --&gt; OwlOntology
+    class OwlOntology {
+        +axioms()
+        +...
+    }
+    class Axiom {
+        +Annotation annotations[]
+    }
+    OwlOntology --&gt; Axiom
+    class SubClassOf {
+        +ClassExpression subClass
+        +ClassExpression superClass
+    }
+    class EquivalentClasses {
+        +ClassExpression ops[]
+    }
+    Axiom &lt;|-- EquivalentClasses
+        </div><p>This is a little bit involved - however, if you are not working OWL, you don’t need it!</p>
+<p>Not all implementations work with all interfaces. Even if an implementation implements an
+interface, it may not implement all operations</p>
+</section>
 </section>
 
 

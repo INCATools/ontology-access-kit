@@ -37,7 +37,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Class Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../vocabulary/index.html">Ontology-Metadata</a></li>
@@ -76,10 +77,11 @@
 
 <span class="kn">from</span> <span class="nn">obolib.implementations.pronto.pronto</span> <span class="kn">import</span> <span class="n">ProntoProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
-    <span class="n">METADATA_MAP</span>
+    <span class="n">METADATA_MAP</span><span class="p">,</span> <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.ontology_interface</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.qc_interface</span> <span class="kn">import</span> <span class="n">QualityControlInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.rdf_interface</span> <span class="kn">import</span> <span class="n">RdfInterface</span>
+<span class="kn">from</span> <span class="nn">obolib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">obolib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary.vocabulary</span> <span class="kn">import</span> <span class="n">LABEL_PREDICATE</span><span class="p">,</span> <span class="n">IS_A</span>
@@ -87,7 +89,7 @@
 
 
 <div class="viewcode-block" id="ProntoImplementation"><a class="viewcode-back" href="../../../../implementations/obofiles.html#obolib.implementations.pronto.pronto_implementation.ProntoImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">ProntoImplementation</span><span class="p">(</span><span class="n">QualityControlInterface</span><span class="p">,</span> <span class="n">RdfInterface</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ProntoImplementation</span><span class="p">(</span><span class="n">QualityControlInterface</span><span class="p">,</span> <span class="n">RdfInterface</span><span class="p">,</span> <span class="n">RelationGraphInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pronto wraps local-file based ontologies in the following formats:</span>
 
@@ -171,6 +173,20 @@
         <span class="k">for</span> <span class="n">rel_type</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">term</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">rels</span><span class="p">[</span><span class="n">rel_type</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">rels</span>
+
+    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">terms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">include_aliases</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">synonyms</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">syn</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
+                        <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="k">continue</span>
+        <span class="k">return</span> <span class="n">matches</span>
+
 
     <span class="k">def</span> <span class="nf">create_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">RELATIONSHIP_MAP</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
         <span class="n">ont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span>

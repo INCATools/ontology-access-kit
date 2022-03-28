@@ -37,7 +37,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Class Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../vocabulary/index.html">Ontology-Metadata</a></li>
@@ -155,7 +156,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.curie_from_uri"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_from_uri">[docs]</a>    <span class="k">def</span> <span class="nf">curie_from_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">URI</span><span class="p">]:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.curie_to_uri"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">[docs]</a>    <span class="k">def</span> <span class="nf">curie_to_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">URI</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expands a CURIE</span>
 
@@ -165,7 +166,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.uri_from_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_from_curie">[docs]</a>    <span class="k">def</span> <span class="nf">uri_from_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.uri_to_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">[docs]</a>    <span class="k">def</span> <span class="nf">uri_to_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Contracts a URI</span>
 
@@ -242,9 +243,11 @@
 <span class="sd">        Returns all hierarchical parents</span>
 
 <span class="sd">        The definition of hierarchical parent depends on the provider. For example, in OLS,</span>
-<span class="sd">        this will return part-of parents for GO</span>
+<span class="sd">        this will return part-of parents for GO, as well as is-a</span>
 
 <span class="sd">        This only returns Named Entities; i.e. if an RDF source is wrapped, this will NOT return blank nodes</span>
+
+<span class="sd">        To get all relationships, see :ref:`get_outgoing_relationships_by_curie`</span>
 
 <span class="sd">        A fresh map is created each invocation</span>
 

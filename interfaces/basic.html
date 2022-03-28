@@ -15,10 +15,12 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Implementations" href="../implementations/index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="owl.html" />
     <link rel="prev" title="Interfaces" href="index.html" /> 
 </head>
 
@@ -40,13 +42,18 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Class Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Ontology Interface</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#about">About</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qc.html">QC Ontology Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -247,8 +254,8 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_from_uri">
-<span class="sig-name descname"><span class="pre">curie_from_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.curie_from_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_from_uri" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">
+<span class="sig-name descname"><span class="pre">curie_to_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.curie_to_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri" title="Permalink to this definition"></a></dt>
 <dd><p>Expands a CURIE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -358,8 +365,9 @@ are the ‘parents’ or fillers</p>
 <span class="sig-name descname"><span class="pre">get_parents_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isa_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_parents_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_parents_by_curie" title="Permalink to this definition"></a></dt>
 <dd><p>Returns all hierarchical parents</p>
 <p>The definition of hierarchical parent depends on the provider. For example, in OLS,
-this will return part-of parents for GO</p>
+this will return part-of parents for GO, as well as is-a</p>
 <p>This only returns Named Entities; i.e. if an RDF source is wrapped, this will NOT return blank nodes</p>
+<p>To get all relationships, see <span class="xref std std-ref">get_outgoing_relationships_by_curie</span></p>
 <p>A fresh map is created each invocation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -402,8 +410,8 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_from_curie">
-<span class="sig-name descname"><span class="pre">uri_from_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.uri_from_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_from_curie" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">
+<span class="sig-name descname"><span class="pre">uri_to_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.uri_to_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie" title="Permalink to this definition"></a></dt>
 <dd><p>Contracts a URI</p>
 <p>If strict conditions hold, then no URI can map to more than one CURIE (i.e one URI base should not start with another)</p>
 <dl class="field-list simple">
@@ -429,7 +437,7 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../implementations/index.html" class="btn btn-neutral float-right" title="Implementations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="owl.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

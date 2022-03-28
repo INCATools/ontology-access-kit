@@ -37,7 +37,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Class Diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../vocabulary/index.html">Ontology-Metadata</a></li>
@@ -69,13 +70,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for obolib.implementations.sqldb.sql_implementation</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span>
 
-<span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span>
+<span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span>
 <span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.sqldb</span> <span class="kn">import</span> <span class="n">SqlDatabaseProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">SearchConfiguration</span>
+<span class="kn">from</span> <span class="nn">obolib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">obolib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary.vocabulary</span> <span class="kn">import</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span> <span class="n">omd_slots</span>
@@ -84,7 +87,19 @@
 
 
 <div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../implementations/sqldb.html#obolib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database</span>
+
+<span class="sd">    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL)</span>
+
+<span class="sd">    The schema is assumed to follow the `semantic-sql &lt;https://github.com/cmungall/semantic-sql&gt;`_ schema</span>
+
+<span class="sd">    This uses SQLAlchemy ORM Models:</span>
+
+<span class="sd">    - :class:`Statements`</span>
+<span class="sd">    - :class:`Edge`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">engine</span><span class="p">:</span> <span class="n">Any</span>
     <span class="n">_session</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_connection</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
@@ -131,7 +146,14 @@
         <span class="n">view</span> <span class="o">=</span> <span class="n">Statements</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">preds</span><span class="p">)))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="n">search_term</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">distinct</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+        <span class="n">rmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Edge</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Edge</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">curie</span><span class="p">):</span>
+            <span class="n">rmap</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rmap</span></div>
+
 
 
 

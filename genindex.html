@@ -14,6 +14,8 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -38,7 +40,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">TODO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vocabulary/index.html">Ontology-Metadata</a></li>
@@ -86,6 +88,7 @@
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="Symbols">Symbols</h2>
@@ -190,6 +193,8 @@
       <ul>
         <li><a href="implementations/obofiles.html#obolib.implementations.pronto.pronto_implementation.ProntoImplementation.create">(obolib.implementations.pronto.pronto_implementation.ProntoImplementation class method)</a>
 </li>
+        <li><a href="implementations/sparql.html#obolib.implementations.sparql.sparql_implementation.SparqlImplementation.create">(obolib.implementations.sparql.sparql_implementation.SparqlImplementation class method)</a>
+</li>
         <li><a href="implementations/sqldb.html#obolib.implementations.sqldb.sql_implementation.SqlImplementation.create">(obolib.implementations.sqldb.sql_implementation.SqlImplementation class method)</a>
 </li>
         <li><a href="implementations/ubergraph.html#obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create">(obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation class method)</a>
@@ -199,7 +204,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity">create_entity() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_from_uri">curie_from_uri() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">curie_to_uri() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -207,10 +212,12 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/relation-graph.html#obolib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (obolib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+      <li><a href="implementations/sqldb.html#obolib.implementations.sqldb.model.Edge">Edge (class in obolib.implementations.sqldb.model)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/relation-graph.html#obolib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (obolib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+</li>
       <li><a href="interfaces/subsetting.html#obolib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">extract_subset_ontology() (obolib.interfaces.subsetter_interface.SubsetterInterface method)</a>
 </li>
   </ul></td>
@@ -296,6 +303,10 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/ubergraph.html#obolib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">RelationGraphEnum (class in obolib.implementations.ubergraph.ubergraph_implementation)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/relation-graph.html#obolib.interfaces.relation_graph_interface.RelationGraphInterface">RelationGraphInterface (class in obolib.interfaces.relation_graph_interface)</a>
 </li>
   </ul></td>
@@ -317,7 +328,11 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/sparql.html#obolib.implementations.sparql.sparql_implementation.SparqlImplementation">SparqlImplementation (class in obolib.implementations.sparql.sparql_implementation)</a>
+</li>
       <li><a href="implementations/sqldb.html#obolib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in obolib.implementations.sqldb.sql_implementation)</a>
+</li>
+      <li><a href="implementations/sqldb.html#obolib.implementations.sqldb.model.Statements">Statements (class in obolib.implementations.sqldb.model)</a>
 </li>
       <li><a href="interfaces/subsetting.html#obolib.interfaces.subsetter_interface.SubsetterInterface">SubsetterInterface (class in obolib.interfaces.subsetter_interface)</a>
 </li>
@@ -344,7 +359,15 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_from_curie">uri_from_curie() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">uri_to_curie() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/relation-graph.html#obolib.interfaces.relation_graph_interface.RelationGraphInterface.walk_up_relationship_graph">walk_up_relationship_graph() (obolib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
