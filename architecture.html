@@ -132,44 +132,33 @@ ontologies are small, but there is a long tail of very large ontologies like PRO
 there are many many uses for ontologies. Some of these demand particular <em>abstractions</em> over an ontology; e.g
 as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lexical artefact.</p>
 <p>We provide a number of different interfaces, designed for these different purposes. Here are a few:</p>
-<blockquote>
-<div><dl>
-<dt>classDiagram</dt><dd><dl class="simple">
-<dt>class OntologyInterface {</dt><dd><p>+interfaces_implemented()</p>
-</dd>
-</dl>
-<p>}
-class BasicOntologyInterface {</p>
-<blockquote>
-<div><p>+get_label_by_curie(curie)
-+get_definition_by_curie(curie)
-+all_entity_curies(curie)
-+basic_search(search_term)
-+get_outgoing_relationships_by_curie(curie)
-+…</p>
-</div></blockquote>
-<p>}
-OntologyInterface &lt;<a href="#id1"><span class="problematic" id="id2">|</span></a>– BasicOntologyInterface
-class OwlInterface {</p>
-<blockquote>
-<div><p>+all_axioms()
-+get_axioms_about(curie)
-+…</p>
-</div></blockquote>
-<p>}
-BasicOntologyInterface &lt;<a href="#id3"><span class="problematic" id="id4">|</span></a>– OwlInterface
-class RelationGraphInterface {</p>
-<blockquote>
-<div><p>+entailed_relationships(curies)
-+ancestors(curie)
-+…</p>
-</div></blockquote>
-<p>}
-BasicOntologyInterface &lt;<a href="#id5"><span class="problematic" id="id6">|</span></a>– RelationGraphInterface</p>
-</dd>
-</dl>
-</div></blockquote>
-<p>Some interfaces may require
+<div class="mermaid">
+            classDiagram
+    class OntologyInterface {
+        +interfaces_implemented()
+    }
+    class BasicOntologyInterface {
+        +get_label_by_curie(curie)
+        +get_definition_by_curie(curie)
+        +all_entity_curies(curie)
+        +basic_search(search_term)
+        +get_outgoing_relationships_by_curie(curie)
+        +...
+    }
+    OntologyInterface &lt;|-- BasicOntologyInterface
+    class OwlInterface {
+        +all_axioms()
+        +get_axioms_about(curie)
+        +...
+    }
+    BasicOntologyInterface &lt;|-- OwlInterface
+    class RelationGraphInterface {
+        +entailed_relationships(curies)
+        +ancestors(curie)
+        +...
+    }
+    BasicOntologyInterface &lt;|-- RelationGraphInterface
+        </div><p>Some interfaces may require
 a particular <em>object model</em> (note that the BasicOntologyInterface avoids an object model, with operations
 accepting and returning simple scalars, dicts, and lists).</p>
 <p>An example would be an OWL interface that uses an OWL object model (here funowl)</p>
