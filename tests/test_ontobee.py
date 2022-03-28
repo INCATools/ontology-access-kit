@@ -1,7 +1,6 @@
 import unittest
 
 from obolib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
-from obolib.resource import OntologyResource
 from obolib.vocabulary.vocabulary import IS_A
 
 from tests import OUTPUT_DIR, INPUT_DIR

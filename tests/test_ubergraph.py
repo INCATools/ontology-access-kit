@@ -1,8 +1,7 @@
 import unittest
 
 from obolib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
-from obolib.resource import OntologyResource
-from obolib.vocabulary.vocabulary import IS_A
+from obolib.vocabulary.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 
@@ -18,15 +17,13 @@ class TestUbergraphProvider(unittest.TestCase):
         oi = UbergraphImplementation.create()
         self.basic_ont = oi
 
-    #@unittest.skip('TODO')
     def test_relationships(self):
         ont = self.basic_ont
         rels = ont.get_outgoing_relationships_by_curie('GO:0005773')
         for k, v in rels.items():
             print(f'{k} = {v}')
-        #TODO
-        #self.assertCountEqual(rels[IS_A], ['GO:0005773', 'GO:0043231'])
-        #self.assertCountEqual(rels['part_of'], ['GO:0005737'])
+        self.assertIn('GO:0043231', rels[IS_A])
+        self.assertIn('GO:0005737', rels[PART_OF])
 
     def test_labels(self):
         label = self.basic_ont.get_label_by_curie('UBERON:0002544')

@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
@@ -15,6 +16,33 @@ from rdflib import URIRef, RDFS
 
 VAL_VAR = 'v'
 
+VAR_NAME = str
+WHERE_CLAUSE = str
+
+@dataclass
+class SparqlQuery:
+    distinct: bool = None
+    select: List[VAR_NAME] = None
+    graph: Optional[URI] = None
+    where: List[WHERE_CLAUSE] = None
+
+    def select_str(self):
+        distinct = 'DISTINCT ' if self.distinct else ''
+        return f'{distinct}{" ".join(self.select)} '
+
+    def where_str(self):
+        return ". ".join(self.where)
+
+    def query_str(self):
+        w = self.where_str()
+        if self.graph:
+            w = f'GRAPH <{self.graph}> {{ {w} }}'
+        return f'SELECT {self.select_str()} WHERE {{ {w} }}'
+
+
+
+
+
 @dataclass
 class SparqlImplementation(BasicOntologyInterface):
     engine: SPARQLWrapper
@@ -26,7 +54,7 @@ class SparqlImplementation(BasicOntologyInterface):
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
-        return {}
+        return {'rdfs': str(RDFS)}
 
     #def store(self, resource: OntologyResource) -> None:
     #    SparqlBasicImpl.dump(self.engine, resource)
@@ -45,18 +73,17 @@ class SparqlImplementation(BasicOntologyInterface):
         # TODO: do not hardcode OBO
         pm = self.get_prefix_map()
         for k, v in pm.items():
-            if uri.startswith(k):
-                return uri.replace(k,f'{v}:')
+            if uri.startswith(v):
+                return uri.replace(v, f'{k}:')
         if uri.startswith('http://purl.obolibrary.org/obo/'):
             uri = uri.replace('http://purl.obolibrary.org/obo/', "")
-            return uri.replace('_',':')
+            return uri.replace('_', ':')
         return uri
 
     def _query(self, query: str, prefixes: PREFIX_MAP = {}):
         sw = self.engine
         for k, v in prefixes.items():
             query = f'PREFIX {k}: <{v}>\n' + query
-        print(f'Q={query}')
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
         ret = sw.queryAndConvert()
@@ -93,7 +120,12 @@ class SparqlImplementation(BasicOntologyInterface):
 
     def get_label_by_curie(self, curie: CURIE):
         labels = self._get_anns(curie, RDFS.label)
-        return labels[0]
+        if labels:
+            if len(labels) > 1:
+                logging.error(f'Multiple labels for {curie} = {labels}')
+            return labels[0]
+        else:
+            return None
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         uri = self.curie_to_uri(curie)

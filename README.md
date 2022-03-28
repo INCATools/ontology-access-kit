@@ -1,5 +1,8 @@
 # obolib: Common ontology operations over a variety of backends
 
+![](https://github.com/cmungall/obolin/workflows/Build/badge.svg)
+[![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/cmungall/obolib/main?filepath=notebooks)
+
 This library provides a collection of different interfaces for different kinds of ontology operations, including:
 
  - lookup of basic features of an ontology element, such as it's label, definition, relationships, or aliases
@@ -14,9 +17,14 @@ These interfaces are *separated* from any particular backend. This means the sam
  - is to be downloaded from a remote repository such as the OBO library
  - is queried from a remote database, including SPARQL endpoints, A SQL database, a Solr/ES endpoint
 
+## Documentation:
+
+- [cmungall.github.io/obolib](https://cmungall.github.io/obolib)
+
 ## Current status
 
  - only a handful of interface-implementaton combos are implemented
+ - anything could change including the name, "obolib" may be presumptious
 
 ## Example
 
@@ -32,6 +40,9 @@ for curie in ont.basic_search("cell"):
             print(f'     * {filler} ! {impl.get_label_by_curie(filler)}')
 ```
 
+See also
+
+- [demo notebook](https://github.com/cmungall/obolib/blob/main/notebooks/basic-demo.ipynb)
 
 ## Command Line
 
