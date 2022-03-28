@@ -36,7 +36,9 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'myst_parser'
+    'myst_parser',
+    'sphinx.ext.intersphinx',
+    'sphinxcontrib.mermaid'
 ]
 
 # The suffix(es) of source filenames.

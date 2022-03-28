@@ -1,0 +1,150 @@
+Architecture
+============
+
+Ontology Interfaces
+-------------------
+
+.. currentmodule:: obolib.interfaces
+
+This library provides a collection of ontology :ref:`interfaces` that describe a set of operations
+that can be performed on an ontology
+
+The core interface is :ref:`BasicOntologyInterface` which provides some of the most common operations
+you can do on an ontology, mostly simple lookup operations. Here is a simplified picture:
+
+.. mermaid::
+
+  classDiagram
+      class OntologyInterface {
+          +interfaces_implemented()
+      }
+      class BasicOntologyInterface {
+          +get_label_by_curie(curie)
+          +get_definition_by_curie(curie)
+          +all_entity_curies(curie)
+          +basic_search(search_term)
+          +get_outgoing_relationships_by_curie(curie)
+          +...
+      }
+      OntologyInterface <|-- BasicOntologyInterface
+
+Implementations
+-------------------
+
+Interfaces don't do much by themselves. Client code never instantiates these directly. Instead, :ref:`implementations` do all the work.
+
+Here is an example of code that uses an Ubergraph implementation to do a simple lookup:
+
+.. code:: python
+
+    >> from obolib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+    >> oi = UbergraphImplementation.create()
+    >> print(oi.get_label_by_curie('UBERON:0001825'))
+    paranasal sinus
+
+Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.
+
+You can do the same thing using a different implementation. This one uses the pronto library and the OBO library registry of OBO files
+
+.. code:: python
+
+    >> from from obolib.implementations.pronto.pronto_basic_impl import ProntoImplementation
+    >> oi = ProntoImplementation.create(OntologyResource(local=False, slug='go.obo'))
+    >> print(oi.get_label_by_curie('UBERON:0001825'))
+    paranasal sinus
+
+There are other implementations - for relational databases, for ontology portal APIs, for OWL ontologies...
+
+Why so many implementations? The answer is that different use cases require different implementations.
+
+Ontology portal APIs work great, so long as the ontology you care about is loaded, and you don't have to repeated calls with high
+network latency. Local files work great, but they require downloads, and have a high memory burden for large ontologies (most
+ontologies are small, but there is a long tail of very large ontologies like PRO, CHEBI, NCBITaxon, DRON, ...).
+
+Other Interfaces
+----------------
+
+The basic interface is only intended for, well, basic operations. These typically serve 80% of use cases. But
+there are many many uses for ontologies. Some of these demand particular *abstractions* over an ontology; e.g
+as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lexical artefact.
+
+We provide a number of different interfaces, designed for these different purposes. Here are a few:
+
+  classDiagram
+      class OntologyInterface {
+          +interfaces_implemented()
+      }
+      class BasicOntologyInterface {
+          +get_label_by_curie(curie)
+          +get_definition_by_curie(curie)
+          +all_entity_curies(curie)
+          +basic_search(search_term)
+          +get_outgoing_relationships_by_curie(curie)
+          +...
+      }
+      OntologyInterface <|-- BasicOntologyInterface
+      class OwlInterface {
+          +all_axioms()
+          +get_axioms_about(curie)
+          +...
+      }
+      BasicOntologyInterface <|-- OwlInterface
+      class RelationGraphInterface {
+          +entailed_relationships(curies)
+          +ancestors(curie)
+          +...
+      }
+      BasicOntologyInterface <|-- RelationGraphInterface
+
+
+
+Some interfaces may require
+a particular *object model* (note that the BasicOntologyInterface avoids an object model, with operations
+accepting and returning simple scalars, dicts, and lists).
+
+An example would be an OWL interface that uses an OWL object model (here funowl)
+
+.. mermaid::
+
+  classDiagram
+      class OntologyInterface {
+          +interfaces_implemented()
+      }
+      class BasicOntologyInterface {
+          +get_label_by_curie(curie)
+          +get_definition_by_curie(curie)
+          +all_entity_curies(curie)
+          +basic_search(search_term)
+          +get_outgoing_relationships_by_curie(curie)
+          +...
+      }
+      OntologyInterface <|-- BasicOntologyInterface
+      class OwlInterface {
+          +all_axioms()
+          +get_axioms_about(curie)
+          +...
+      }
+      BasicOntologyInterface <|-- OwlInterface
+      OwlInterface --> OwlOntology
+      class OwlOntology {
+          +axioms()
+          +...
+      }
+      class Axiom {
+          +Annotation annotations[]
+      }
+      OwlOntology --> Axiom
+      class SubClassOf {
+          +ClassExpression subClass
+          +ClassExpression superClass
+      }
+      class EquivalentClasses {
+          +ClassExpression ops[]
+      }
+      Axiom <|-- EquivalentClasses
+
+This is a little bit involved - however, if you are not working OWL, you don't need it!
+
+Not all implementations work with all interfaces. Even if an implementation implements an
+interface, it may not implement all operations
+

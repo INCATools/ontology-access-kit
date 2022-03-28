@@ -14,6 +14,9 @@ from obolib.types import CURIE
 
 
 class RelationGraphEnum(Enum):
+    """
+    triples in UG are organized into different graphs
+    """
     ontology = "http://reasoner.renci.org/ontology"
     redundant = "http://reasoner.renci.org/redundant"
     nonredundant = "http://reasoner.renci.org/nonredundant"
@@ -25,6 +28,10 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
     Wraps the Ubergraph sparql endpoint
 
     See: `<https://github.com/INCATools/ubergraph>`_
+
+    This is a specialization of the more generic :class:`.SparqlImplementation`, which
+    has knowledge of some of the specialized patterns found in Ubergraph
+
     """
     engine: SPARQLWrapper
 

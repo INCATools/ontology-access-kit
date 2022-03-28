@@ -22,3 +22,7 @@ Code
                    
 .. autoclass:: UbergraphImplementation
     :members: create
+
+.. autoclass:: RelationGraphEnum
+
+              

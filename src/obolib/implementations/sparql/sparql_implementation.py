@@ -21,6 +21,9 @@ WHERE_CLAUSE = str
 
 @dataclass
 class SparqlQuery:
+    """
+    Represents a SPARQL query
+    """
     distinct: bool = None
     select: List[VAR_NAME] = None
     graph: Optional[URI] = None
@@ -34,17 +37,28 @@ class SparqlQuery:
         return ". ".join(self.where)
 
     def query_str(self):
+        """
+        Generate the SPARQL query string
+        :return:
+        """
         w = self.where_str()
         if self.graph:
             w = f'GRAPH <{self.graph}> {{ {w} }}'
         return f'SELECT {self.select_str()} WHERE {{ {w} }}'
 
 
-
-
-
 @dataclass
 class SparqlImplementation(BasicOntologyInterface):
+    """
+    An OntologyInterface implementation that wraps a (typically remote) SPARQL endpoint.
+
+    Note: Each sparql endpoint typically implements its own bespoke transformations, leading
+    to lack of interoperability. For some purposes it may be better to use a more specific
+    implementation:
+
+    - :class:`.OntobeeImplementation`
+    - :class:`.UbergraphImplementation`
+    """
     engine: SPARQLWrapper
 
     @classmethod

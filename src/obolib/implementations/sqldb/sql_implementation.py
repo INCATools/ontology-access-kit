@@ -16,6 +16,18 @@ from sqlalchemy.orm import sessionmaker
 
 @dataclass
 class SqlImplementation(RelationGraphInterface):
+    """
+    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
+
+    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL)
+
+    The schema is assumed to follow the `semantic-sql <https://github.com/cmungall/semantic-sql>`_ schema
+
+    This uses SQLAlchemy ORM Models:
+
+    - :class:`Statements`
+    - :class:`Edge`
+    """
     engine: Any
     _session: Any = None
     _connection: Any = None

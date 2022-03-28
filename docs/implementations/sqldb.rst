@@ -1,21 +1,6 @@
 SQL Database Implementation
 ===========================
 
-About
------
-
-Either local files (SQLite files) or database servers can be used.
-
-The underlying implementation is SQL Alchemy
-
-Initialization
---------------
-
-sqlite
-^^^^^^
-
-database server (e.g. postgresql)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 Code
@@ -25,3 +10,11 @@ Code
                    
 .. autoclass:: SqlImplementation
     :members: create
+
+SQL Alchemy ORM Model
+---------------------
+
+.. currentmodule:: obolib.implementations.sqldb.model
+                   
+.. autoclass:: Statements
+.. autoclass:: Edge
