@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Ontology Interface &mdash; obolib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Implementations" href="../implementations/index.html" />
+    <link rel="prev" title="Interfaces" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> obolib
+            <img src="https://linkml.io/uploads/linkml-logo_color.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Class Diagram</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Ontology Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#about">About</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vocabulary/index.html">Ontology-Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">obolib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Interfaces</a> &raquo;</li>
+      <li>Basic Ontology Interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/interfaces/basic.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="basic-ontology-interface">
+<h1>Basic Ontology Interface<a class="headerlink" href="#basic-ontology-interface" title="Permalink to this headline"></a></h1>
+<section id="about">
+<h2>About<a class="headerlink" href="#about" title="Permalink to this headline"></a></h2>
+</section>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.interfaces.basic_ontology_interface.</span></span><span class="sig-name descname"><span class="pre">BasicOntologyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="Permalink to this definition"></a></dt>
+<dd><p>Basic lookup operations on ontologies</p>
+<p>No Object Model is used - input and payloads are simple scalars, dicts, and lists</p>
+<p>This presents an intentionally highly simplistic, lossy view of an ontology. It
+is intended to fit the “80% of uses” scenario - for more advanced uses, use one of the
+more specialized subclasses</p>
+<p>Basic concepts:</p>
+<ul>
+<li><p>An ontology is a collection of entities</p></li>
+<li><p>Entities are typically classes (terms), but they may be other types</p></li>
+<li><p>An entity MUST BE uniquely identifier by a CURIE</p></li>
+<li><p>Each entity SHOULD have a single name</p></li>
+<li><p>Entities may have hierarchical parents and children</p></li>
+<li><p>Entities may have simple relationships to other terms</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>A relationship is a simple triple (in OWL terms, these may represent existential relationships)</p></li>
+<li><p>A CURIE is used for the predicate</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Entities may have aliases (synonyms)</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>these MAY be typed (scoped)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Entities have simple key-value metadata associated with them, where keys are open-ended</p></li>
+</ul>
+<p>Out of scope:</p>
+<ul>
+<li><p>Many OWL axioms including:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Disjointness</p></li>
+<li><p>Equivalence (including “logical definitions”)</p></li>
+<li><p>Property characteristics</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>All OWL expressions</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>but note that simple SomeValuesFrom expressions are included as relationships</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Information about specific assignments (“axiom annotations” in OWL terms)</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>this includes attribution for synonyms, definitions, …</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>A fixed datamodel for metadata, beyond core minimal information</p></li>
+</ul>
+<p>CURIEs are used as the default means of identifying entities.</p>
+<p>In some cases there may not be a defined CURIE form for an entity, such as an ontology,
+in which case URIs may be used</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">
+<span class="sig-name descname"><span class="pre">alias_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.alias_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>Returns aliases keyed by alias type (scope in OBO terms)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">
+<span class="sig-name descname"><span class="pre">aliases_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.aliases_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>All aliases/synonyms for a given CURIE</p>
+<p>This lumps together all synonym categories (scopes)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">
+<span class="sig-name descname"><span class="pre">all_entity_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_entity_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known entity CURIEs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies">
+<span class="sig-name descname"><span class="pre">all_ontology_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_ontology_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known ontology CURIEs</p>
+<p>Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
+Even when a single ontology is wrapped, there may be multiple ontologies included as imports</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">
+<span class="sig-name descname"><span class="pre">all_relationships</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known relationships</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.basic_search">
+<span class="sig-name descname"><span class="pre">basic_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">obolib.interfaces.basic_ontology_interface.SearchConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.basic_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.basic_search" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_term</strong> – </p></li>
+<li><p><strong>config</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity">
+<span class="sig-name descname"><span class="pre">create_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relationships</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.create_entity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an entity to the resource</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>label</strong> – </p></li>
+<li><p><strong>relationships</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_from_uri">
+<span class="sig-name descname"><span class="pre">curie_from_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.curie_from_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_from_uri" title="Permalink to this definition"></a></dt>
+<dd><p>Expands a CURIE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>strict</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label">
+<span class="sig-name descname"><span class="pre">get_curies_by_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_curies_by_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches all curies with a given label</p>
+<p>This SHOULD return maximum one CURIE but there are circumstances where multiple CURIEs
+may share a label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">
+<span class="sig-name descname"><span class="pre">get_definition_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_definition_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+</dl>
+<p>:return:x`</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships_by_curie">
+<span class="sig-name descname"><span class="pre">get_incoming_relationships_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_incoming_relationships_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships_by_curie" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">
+<span class="sig-name descname"><span class="pre">get_label_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_label_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>fetches the unique label for a CURIE</p>
+<p>The CURIE may be for a class, individual, property, or ontology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_mappings_by_curie">
+<span class="sig-name descname"><span class="pre">get_mappings_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_mappings_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_mappings_by_curie" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships_by_curie">
+<span class="sig-name descname"><span class="pre">get_outgoing_relationships_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_outgoing_relationships_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>The return relationship map is keyed by relationship type, where the values
+are the ‘parents’ or fillers</p>
+<p>OWL formulation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>is_a: {P : SubClassOf(C P), class(P)}</p></li>
+<li><p>R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – the ‘child’ term</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_parents_by_curie">
+<span class="sig-name descname"><span class="pre">get_parents_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isa_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_parents_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_parents_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all hierarchical parents</p>
+<p>The definition of hierarchical parent depends on the provider. For example, in OLS,
+this will return part-of parents for GO</p>
+<p>This only returns Named Entities; i.e. if an RDF source is wrapped, this will NOT return blank nodes</p>
+<p>A fresh map is created each invocation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>isa_only</strong> – restrict hierarchical parents to isa only</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">
+<span class="sig-name descname"><span class="pre">get_prefix_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_prefix_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all prefixes known to the resource plus their URI expansion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie">
+<span class="sig-name descname"><span class="pre">metadata_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.metadata_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary keyed by property predicate, with a list of zero or more values,
+where each key corresponds to any of a set of open-ended metadata predicates</p>
+<p>This is a simplified version of the metadata model in many ontologies</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_from_curie">
+<span class="sig-name descname"><span class="pre">uri_from_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.uri_from_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_from_curie" title="Permalink to this definition"></a></dt>
+<dd><p>Contracts a URI</p>
+<p>If strict conditions hold, then no URI can map to more than one CURIE (i.e one URI base should not start with another)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uri</strong> – </p></li>
+<li><p><strong>strict</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../implementations/index.html" class="btn btn-neutral float-right" title="Implementations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chris Mungall.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
