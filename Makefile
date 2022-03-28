@@ -16,3 +16,5 @@ nb:
 
 sphinx-%:
 	cd docs && ( $(RUN) make $* )
+
+#gh-deploy
