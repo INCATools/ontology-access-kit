@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "obolib"
+version = "0.1.0"
+description = ""
+authors = ["cmungall <cjm@berkeleybop.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+nxontology = "^0.4.0"
+pronto = "^2.4.4"
+SPARQLWrapper = "^2.0.0"
+SQLAlchemy = "^1.4.32"
+linkml-runtime = "^1.2.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+Sphinx = "^4.4.0"
+jupyter = "^1.0.0"
+sphinx-rtd-theme = "^1.0.0"
+sphinx-click = "^3.1.0"
+myst-parser = "^0.17.0"
+linkml = "^1.2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
