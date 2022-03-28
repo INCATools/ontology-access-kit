@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -15,25 +16,25 @@ class TestProntoProvider(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
-        ont = ProntoImplementation.create(resource)
-        self.basic_ont = ont
+        oi = ProntoImplementation.create(resource)
+        self.oi = oi
 
     def test_relationships(self):
-        ont = self.basic_ont
-        rels = ont.get_outgoing_relationships_by_curie('GO:0005773')
+        oi = self.oi
+        rels = oi.get_outgoing_relationships_by_curie('GO:0005773')
         for k, v in rels.items():
             print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0005773', 'GO:0043231'])
         self.assertCountEqual(rels['part_of'], ['GO:0005737'])
 
     def test_all_terms(self):
-        assert any(curie for curie in self.basic_ont.all_entity_curies() if curie == 'GO:0008152')
+        assert any(curie for curie in self.oi.all_entity_curies() if curie == 'GO:0008152')
 
     def test_metadata(self):
-        for curie in self.basic_ont.all_entity_curies():
-            m = self.basic_ont.metadata_map_by_curie(curie)
+        for curie in self.oi.all_entity_curies():
+            m = self.oi.metadata_map_by_curie(curie)
             print(f'{curie} {m}')
-        m = self.basic_ont.metadata_map_by_curie('GO:0005622')
+        m = self.oi.metadata_map_by_curie('GO:0005622')
         assert 'term_tracker_item' in m.keys()
         assert 'https://github.com/geneontology/go-ontology/issues/17776' in m['term_tracker_item']
 
@@ -43,18 +44,18 @@ class TestProntoProvider(unittest.TestCase):
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
         :return:
         """
-        ont = self.basic_ont
-        label = ont.get_label_by_curie('GO:0005773')
+        oi = self.oi
+        label = oi.get_label_by_curie('GO:0005773')
         self.assertEqual(label, 'vacuole')
-        label = ont.get_label_by_curie('FOOBAR:123')
+        label = oi.get_label_by_curie('FOOBAR:123')
         self.assertIsNone(label)
         # TODO: test strict mode
-        label = ont.get_label_by_curie(IS_A)
+        label = oi.get_label_by_curie(IS_A)
         self.assertIsNotNone(label)
 
 
     def test_synonyms(self):
-        syns = self.basic_ont.aliases_by_curie('GO:0005575')
+        syns = self.oi.aliases_by_curie('GO:0005575')
         #print(syns)
         self.assertCountEqual(syns, ['cellular_component',
                                     'cellular component',
@@ -62,25 +63,56 @@ class TestProntoProvider(unittest.TestCase):
                                     'subcellular entity'])
 
     def test_save(self):
-        ont = ProntoImplementation.create()
+        oi = ProntoImplementation.create()
         OUTPUT_DIR.mkdir(exist_ok=True)
-        ont.create_entity('FOO:1', label='foo', relationships = {IS_A: ['FOO:2'], 'part_of': ['FOO:3']})
-        ont.store(OntologyResource(slug='go-nucleus.saved.obo', directory=OUTPUT_DIR, local=True, format='obo'))
+        oi.create_entity('FOO:1', label='foo', relationships={IS_A: ['FOO:2'], 'part_of': ['FOO:3']})
+        oi.store(OntologyResource(slug='go-nucleus.saved.obo', directory=OUTPUT_DIR, local=True, format='obo'))
 
     def test_from_obo_library(self):
-        ont = ProntoImplementation.create(OntologyResource(local=False, slug='pato.obo'))
-        curies = ont.get_curies_by_label('shape')
+        oi = ProntoImplementation.create(OntologyResource(local=False, slug='pato.obo'))
+        curies = oi.get_curies_by_label('shape')
         self.assertEqual(['PATO:0000052'], curies)
 
     def test_subontology(self):
-        subont = self.basic_ont.create_subontology(['GO:0005575', 'GO:0005773'])
+        subont = self.oi.create_subontology(['GO:0005575', 'GO:0005773'])
         subont.store(OntologyResource(slug='go-nucleus.filtered.obo', directory=OUTPUT_DIR, local=True, format='obo'))
 
     def test_qc(self):
-        ont = self.basic_ont
-        for t in ont.term_curies_without_definitions():
+        oi = self.oi
+        for t in oi.term_curies_without_definitions():
             print(t)
-        self.assertIn('CARO:0000003', ont.term_curies_without_definitions())
+        self.assertIn('CARO:0000003', oi.term_curies_without_definitions())
+
+    def test_walk_up(self):
+        oi = self.oi
+        rels = list(oi.walk_up_relationship_graph('GO:0005773'))
+        print('ALL')
+        for rel in rels:
+            logging.info(rel)
+        assert ('GO:0043227', 'has_part', 'GO:0016020') in rels
+        print('**IS_A')
+        rels = list(oi.walk_up_relationship_graph('GO:0005773', predicates=[IS_A]))
+        for rel in rels:
+            logging.info(rel)
+            self.assertEqual(rel[1], IS_A)
+        assert ('GO:0043227', 'has_part', 'GO:0016020') not in rels
+        assert ('GO:0110165', 'rdfs:subClassOf', 'CARO:0000000') in rels
+
+    def test_ancestors(self):
+        oi = self.oi
+        ancs = list(oi.ancestors('GO:0005773'))
+        for a in ancs:
+            logging.info(a)
+        assert 'NCBITaxon:1' in ancs
+        assert 'GO:0005773' in ancs  # reflexive
+        ancs = list(oi.ancestors('GO:0005773', predicates=[IS_A]))
+        for a in ancs:
+            print(a)
+        assert 'NCBITaxon:1' not in ancs
+        assert 'GO:0005773' in ancs  # reflexive
+        assert 'GO:0043231' in ancs  # reflexive
+
+
 
 
 

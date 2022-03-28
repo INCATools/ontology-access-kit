@@ -5,10 +5,11 @@ from typing import List, Iterable, Type
 
 from obolib.implementations.pronto.pronto import ProntoProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
-    METADATA_MAP
+    METADATA_MAP, SearchConfiguration
 from obolib.interfaces.ontology_interface import OntologyInterface
 from obolib.interfaces.qc_interface import QualityControlInterface
 from obolib.interfaces.rdf_interface import RdfInterface
+from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
 from obolib.types import CURIE
 from obolib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A
@@ -16,7 +17,7 @@ from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue
 
 
 @dataclass
-class ProntoImplementation(QualityControlInterface, RdfInterface):
+class ProntoImplementation(QualityControlInterface, RdfInterface, RelationGraphInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -100,6 +101,20 @@ class ProntoImplementation(QualityControlInterface, RdfInterface):
         for rel_type, parents in term.relationships.items():
             rels[rel_type.id] = [p.id for p in parents]
         return rels
+
+    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+        matches = []
+        for t in self.engine.terms():
+            if search_term in t.name:
+                matches.append(t.id)
+                continue
+            if config.include_aliases:
+                for syn in t.synonyms:
+                    if search_term in syn.description:
+                        matches.append(t.id)
+                        continue
+        return matches
+
 
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
         ont = self.engine

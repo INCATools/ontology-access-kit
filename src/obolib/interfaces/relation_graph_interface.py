@@ -1,8 +1,9 @@
 from abc import ABC
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Iterable, Union
 
-from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP
-from obolib.types import CURIE, LABEL, URI
+from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
+from obolib.types import CURIE, LABEL, URI, PRED_CURIE
+from obolib.utilities.graph.relationship_walker import walk_up
 
 
 class RelationGraphInterface(BasicOntologyInterface, ABC):
@@ -23,5 +24,23 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         :param curie: the 'child' term
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
+
+    def walk_up_relationship_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
+        """
+        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
+
+        Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
+
+        :param start_curies:
+        :param predicates:
+        :return:
+        """
+        return walk_up(self, start_curies, predicates=predicates)
+
+    def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        ancs = set([x[2] for x in self.walk_up_relationship_graph(start_curies, predicates)])
+        for a in ancs:
+            yield a
+
 

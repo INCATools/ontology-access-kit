@@ -59,10 +59,17 @@ def main(verbose: int, quiet: bool, input: str):
         rest = ':'.join(toks[1:])
         if scheme == 'sqlite':
             impl_class = SqlImplementation
+        if scheme == 'obolibrary':
+            impl_class = ProntoImplementation
+            if resource.slug.endswith('.obo'):
+                resource.format = 'obo'
+            resource.local = False
+            resource.slug = resource.slug.replace('obolibrary:', '')
         else:
             raise ValueError(f'Scheme {scheme} not known')
     else:
         impl_class = ProntoImplementation
+    logging.info(f'RESOURCE={resource}')
     settings.impl = impl_class.create(resource)
 
 @main.command()

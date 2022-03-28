@@ -1,10 +1,12 @@
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Any, Iterable
 
-from obolib.implementations.sqldb.model import Statements
+from obolib.implementations.sqldb.model import Statements, Edge
 from obolib.implementations.sqldb.sqldb import SqlDatabaseProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     SearchConfiguration
+from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
 from obolib.types import CURIE
 from obolib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots
@@ -13,7 +15,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 @dataclass
-class SqlImplementation(BasicOntologyInterface):
+class SqlImplementation(RelationGraphInterface):
     engine: Any
     _session: Any = None
     _connection: Any = None
@@ -61,6 +63,13 @@ class SqlImplementation(BasicOntologyInterface):
         q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds))).filter(view.value.like(search_term))
         for row in q.distinct():
             yield str(row.subject)
+
+    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+        rmap = defaultdict(list)
+        for row in self.session.query(Edge).filter(Edge.subject == curie):
+            rmap[row.predicate].append(row.object)
+        return rmap
+
 
 
 

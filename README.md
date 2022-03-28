@@ -29,25 +29,41 @@ These interfaces are *separated* from any particular backend. This means the sam
 ## Example
 
 ```python
-# alternate implementations commented out
-resource = OntologyResource(slug='tests/input/go-nucleus.obo', local=True)
-ont = SqlDatabaseBasicImpl.create(resource)
-for curie in ont.basic_search("cell"):
-    print(f'{curie} ! {impl.get_label_by_curie(curie)}')
-    for rel, fillers in ont.get_outgoing_relationships().items():
-        print(f'  RELATION:: {rel} ! {impl.get_label_by_curie(rel)}')
+resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
+oi = SqlImplementation.create(resource)
+for curie in oi.basic_search("cell"):
+    print(f'{curie} ! {oi.get_label_by_curie(curie)}')
+    for rel, fillers in oi.get_outgoing_relationships().items():
+        print(f'  RELATION:: {rel} ! {oi.get_label_by_curie(rel)}')
         for filler in fillers:
-            print(f'     * {filler} ! {impl.get_label_by_curie(filler)}')
+            print(f'     * {filler} ! {oi.get_label_by_curie(filler)}')
 ```
 
-See also
+For more examples, see
 
 - [demo notebook](https://github.com/cmungall/obolib/blob/main/notebooks/basic-demo.ipynb)
 
 ## Command Line
 
+There is currently a very limited CLI
+
+For demo purposes we will switch to the obolibrary/pronto backend, but any implementation can be used:
+
 ```bash
-obolib -i sqlite:go-nucleus.db search nucl
+obolib -i obolibrary:pato.obo search osmol 
+```
+
+Returns:
+
+```
+PATO:0001655 ! osmolarity
+PATO:0001656 ! decreased osmolarity
+PATO:0001657 ! increased osmolarity
+PATO:0002027 ! osmolality
+PATO:0002028 ! decreased osmolality
+PATO:0002029 ! increased osmolality
+PATO:0045034 ! normal osmolality
+PATO:0045035 ! normal osmolarity
 ```
 
 ## Documentation
