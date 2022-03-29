@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Subset &mdash; obolib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> obolib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">obolib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Class: Subset</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/ontology-metadata/Subset.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-subset">
+<h1>Class: Subset<a class="headerlink" href="#class-subset" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="http://www.geneontology.org/formats/oboInOwl#Subset">oio:Subset</a></p>
+<section id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]</p>
+<ul>
+<li><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="AnnotationProperty.html"><span class="doc std std-doc">AnnotationProperty</span></a></p>
+<ul>
+<li><p><strong>Subset</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Range</p></th>
+<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Info</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="shorthand.html"><span class="doc std std-doc">shorthand</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="domain.html"><span class="doc std std-doc">domain</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="range.html"><span class="doc std std-doc">range</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="is_class_level.html"><span class="doc std std-doc">is_class_level</span></a></p></td>
+<td><p><span class="xref myst">boolean</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="is_metadata_tag.html"><span class="doc std std-doc">is_metadata_tag</span></a></p></td>
+<td><p><span class="xref myst">boolean</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="has_exact_synonym.html"><span class="doc std std-doc">has_exact_synonym</span></a></p></td>
+<td><p><span class="xref myst">label_type</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="has_narrow_synonym.html"><span class="doc std std-doc">has_narrow_synonym</span></a></p></td>
+<td><p><span class="xref myst">label_type</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="has_broad_synonym.html"><span class="doc std std-doc">has_broad_synonym</span></a></p></td>
+<td><p><span class="xref myst">label_type</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="has_related_synonym.html"><span class="doc std std-doc">has_related_synonym</span></a></p></td>
+<td><p><span class="xref myst">label_type</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="alternative_term.html"><span class="doc std std-doc">alternative_term</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ISA_alternative_term.html"><span class="doc std std-doc">ISA_alternative_term</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="IEDB_alternative_term.html"><span class="doc std std-doc">IEDB_alternative_term</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="editor_preferred_term.html"><span class="doc std std-doc">editor_preferred_term</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="OBO_foundry_unique_label.html"><span class="doc std std-doc">OBO_foundry_unique_label</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a></p></td>
+<td><p><span class="xref myst">boolean</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="has_obsolescence_reason.html"><span class="doc std std-doc">has_obsolescence_reason</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="term_replaced_by.html"><span class="doc std std-doc">term_replaced_by</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="consider.html"><span class="doc std std-doc">consider</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="has_alternative_id.html"><span class="doc std std-doc">has_alternative_id</span></a></p></td>
+<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="excluded_from_QC_check.html"><span class="doc std std-doc">excluded_from_QC_check</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="excluded_subClassOf.html"><span class="doc std std-doc">excluded_subClassOf</span></a></p></td>
+<td><p><a class="reference internal" href="Class.html"><span class="doc std std-doc">Class</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="excluded_synonym.html"><span class="doc std std-doc">excluded_synonym</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="should_conform_to.html"><span class="doc std std-doc">should_conform_to</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="created_by.html"><span class="doc std std-doc">created_by</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="creation_date.html"><span class="doc std std-doc">creation_date</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="contributor.html"><span class="doc std std-doc">contributor</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="editor_note.html"><span class="doc std std-doc">editor_note</span></a></p></td>
+<td><p><span class="xref myst">narrative_text</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
+<td><p><a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="imported_from.html"><span class="doc std std-doc">imported_from</span></a></p></td>
+<td><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="broadMatch.html"><span class="doc std std-doc">broadMatch</span></a></p></td>
+<td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="closeMatch.html"><span class="doc std std-doc">closeMatch</span></a></p></td>
+<td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="exactMatch.html"><span class="doc std std-doc">exactMatch</span></a></p></td>
+<td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="narrowMatch.html"><span class="doc std std-doc">narrowMatch</span></a></p></td>
+<td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="doc std std-doc">database_cross_reference</span></a></p></td>
+<td><p><a class="reference internal" href="CURIELiteral.html"><span class="doc std std-doc">CURIELiteral</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Subset</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>Maps an ontology element to a subset it belongs to</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="conformsTo.html"><span class="doc std std-doc">conformsTo</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="seeAlso.html"><span class="doc std std-doc">seeAlso</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="image.html"><span class="doc std std-doc">image</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="example_of_usage.html"><span class="doc std std-doc">example_of_usage</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="curator_note.html"><span class="doc std std-doc">curator_note</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="has_curation_status.html"><span class="doc std std-doc">has_curation_status</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="page.html"><span class="doc std std-doc">page</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
+<td><p><span class="xref myst">label_type</span></p></td>
+<td><p>0..* <em>recommended</em></p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="definition.html"><span class="doc std std-doc">definition</span></a></p></td>
+<td><p><span class="xref myst">narrative_text</span></p></td>
+<td><p>0..* <em>recommended</em></p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p>1..1</p></td>
+<td><p>this maps to the URI in RDF</p></td>
+<td><p>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>used by</p></th>
+<th class="head"><p>used in</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Class.html"><span class="doc std std-doc">Class</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="AnnotationProperty.html"><span class="doc std std-doc">AnnotationProperty</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ObjectProperty.html"><span class="doc std std-doc">ObjectProperty</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="TransitiveProperty.html"><span class="doc std std-doc">TransitiveProperty</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">Subset</span></a></p></td>
+<td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<td><p>range</p></td>
+<td><p>Subset</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
+<details>
+```yaml
+name: Subset
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+is_a: AnnotationProperty
+class_uri: oio:Subset
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: Subset
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+is_a: AnnotationProperty
+attributes:
+  shorthand:
+    name: shorthand
+    deprecated: deprecated oboInOwl property
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:shorthand
+    multivalued: true
+    alias: shorthand
+    owner: Subset
+    range: string
+  domain:
+    name: domain
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdfs:domain
+    multivalued: true
+    alias: domain
+    owner: Subset
+    range: string
+  range:
+    name: range
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdfs:range
+    multivalued: true
+    alias: range
+    owner: Subset
+    range: string
+  is_class_level:
+    name: is_class_level
+    deprecated: deprecated oboInOwl property
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:is_class_level
+    alias: is_class_level
+    owner: Subset
+    range: boolean
+  is_metadata_tag:
+    name: is_metadata_tag
+    deprecated: deprecated oboInOwl property
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:is_metadata_tag
+    alias: is_metadata_tag
+    owner: Subset
+    range: boolean
+  has_exact_synonym:
+    name: has_exact_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: synonym
+    slot_uri: oio:hasExactSynonym
+    multivalued: true
+    alias: has_exact_synonym
+    owner: Subset
+    range: label type
+  has_narrow_synonym:
+    name: has_narrow_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: synonym
+    slot_uri: oio:hasNarrowSynonym
+    multivalued: true
+    alias: has_narrow_synonym
+    owner: Subset
+    range: label type
+  has_broad_synonym:
+    name: has_broad_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: synonym
+    slot_uri: oio:hasBroadSynonym
+    multivalued: true
+    alias: has_broad_synonym
+    owner: Subset
+    range: label type
+  has_related_synonym:
+    name: has_related_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:hasRelatedSynonym
+    multivalued: true
+    alias: has_related_synonym
+    owner: Subset
+    range: label type
+  alternative_term:
+    name: alternative_term
+    exact_mappings:
+    - skos:altLabel
+    in_subset:
+    - allotrope permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: IAO:0000118
+    multivalued: true
+    alias: alternative_term
+    owner: Subset
+    range: string
+  ISA_alternative_term:
+    name: ISA_alternative_term
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: alternative_term
+    slot_uri: OBI:0001847
+    multivalued: true
+    alias: ISA_alternative_term
+    owner: Subset
+    range: string
+  IEDB_alternative_term:
+    name: IEDB_alternative_term
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: alternative_term
+    slot_uri: OBI:9991118
+    multivalued: true
+    alias: IEDB_alternative_term
+    owner: Subset
+    range: string
+  editor_preferred_term:
+    name: editor_preferred_term
+    in_subset:
+    - obi permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: alternative_term
+    slot_uri: IAO:0000111
+    multivalued: true
+    alias: editor_preferred_term
+    owner: Subset
+    range: string
+  OBO_foundry_unique_label:
+    name: OBO_foundry_unique_label
+    todos:
+    - add uniquekey
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: alternative_term
+    slot_uri: IAO:0000589
+    multivalued: true
+    alias: OBO_foundry_unique_label
+    owner: Subset
+    range: string
+  deprecated:
+    name: deprecated
+    aliases:
+    - is obsolete
+    in_subset:
+    - allotrope permitted profile
+    - go permitted profile
+    - obi permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: obsoletion_related_property
+    slot_uri: owl:deprecated
+    alias: deprecated
+    owner: Subset
+    range: boolean
+  has_obsolescence_reason:
+    name: has_obsolescence_reason
+    todos:
+    - restrict range
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: obsoletion_related_property
+    slot_uri: IAO:0000231
+    alias: has_obsolescence_reason
+    owner: Subset
+    range: string
+  term_replaced_by:
+    name: term_replaced_by
+    exact_mappings:
+    - dcterms:isReplacedBy
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
+    in_subset:
+    - go permitted profile
+    - obi permitted profile
+    - allotrope permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: obsoletion_related_property
+    slot_uri: IAO:0100001
+    alias: term_replaced_by
+    owner: Subset
+    range: Thing
+  consider:
+    name: consider
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
+    in_subset:
+    - go permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: obsoletion_related_property
+    slot_uri: oio:consider
+    multivalued: true
+    alias: consider
+    owner: Subset
+    range: string
+  has_alternative_id:
+    name: has_alternative_id
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;object must be deprecated&#39;&#39;}&#39;
+    in_subset:
+    - go permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: obsoletion_related_property
+    slot_uri: oio:hasAlternativeId
+    multivalued: true
+    alias: has_alternative_id
+    owner: Subset
+    range: uriorcurie
+  excluded_from_QC_check:
+    name: excluded_from_QC_check
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: excluded_axiom
+    alias: excluded_from_QC_check
+    owner: Subset
+    range: Thing
+  excluded_subClassOf:
+    name: excluded_subClassOf
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: excluded_axiom
+    multivalued: true
+    alias: excluded_subClassOf
+    owner: Subset
+    range: Class
+  excluded_synonym:
+    name: excluded_synonym
+    exact_mappings:
+    - skos:hiddenSynonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: excluded_axiom
+    multivalued: true
+    alias: excluded_synonym
+    owner: Subset
+    range: string
+  should_conform_to:
+    name: should_conform_to
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: excluded_axiom
+    alias: should_conform_to
+    owner: Subset
+    range: Thing
+  created_by:
+    name: created_by
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: oio:created_by
+    alias: created_by
+    owner: Subset
+    range: string
+  creation_date:
+    name: creation_date
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: oio:creation_date
+    multivalued: true
+    alias: creation_date
+    owner: Subset
+    range: string
+  contributor:
+    name: contributor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:contributor
+    multivalued: true
+    alias: contributor
+    owner: Subset
+    range: Thing
+  creator:
+    name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:creator
+    multivalued: true
+    alias: creator
+    owner: Subset
+    range: string
+  editor_note:
+    name: editor_note
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000116
+    multivalued: true
+    alias: editor_note
+    owner: Subset
+    range: narrative text
+  term_editor:
+    name: term_editor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000117
+    multivalued: true
+    alias: term_editor
+    owner: Subset
+    range: string
+  definition_source:
+    name: definition_source
+    todos:
+    - restrict range
+    in_subset:
+    - obi permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000119
+    multivalued: true
+    alias: definition_source
+    owner: Subset
+    range: string
+  ontology_term_requester:
+    name: ontology_term_requester
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000234
+    alias: ontology_term_requester
+    owner: Subset
+    range: string
+  date:
+    name: date
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:date
+    multivalued: true
+    alias: date
+    owner: Subset
+    range: string
+  isDefinedBy:
+    name: isDefinedBy
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: rdfs:isDefinedBy
+    alias: isDefinedBy
+    owner: Subset
+    range: Ontology
+  imported_from:
+    name: imported_from
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000412
+    multivalued: true
+    alias: imported_from
+    owner: Subset
+    range: NamedIndividual
+  term_tracker_item:
+    name: term_tracker_item
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000233
+    multivalued: true
+    alias: term_tracker_item
+    owner: Subset
+    range: string
+  broadMatch:
+    name: broadMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: match
+    slot_uri: skos:broadMatch
+    multivalued: true
+    alias: broadMatch
+    owner: Subset
+    range: Property
+  closeMatch:
+    name: closeMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: match
+    slot_uri: skos:closeMatch
+    multivalued: true
+    alias: closeMatch
+    owner: Subset
+    range: Property
+  exactMatch:
+    name: exactMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: match
+    slot_uri: skos:exactMatch
+    multivalued: true
+    alias: exactMatch
+    owner: Subset
+    range: Property
+  narrowMatch:
+    name: narrowMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: match
+    slot_uri: skos:narrowMatch
+    multivalued: true
+    alias: narrowMatch
+    owner: Subset
+    range: Property
+  database_cross_reference:
+    name: database_cross_reference
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: match
+    slot_uri: oio:hasDbXref
+    multivalued: true
+    alias: database_cross_reference
+    owner: Subset
+    range: CURIELiteral
+  has_obo_namespace:
+    name: has_obo_namespace
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:hasOBONamespace
+    multivalued: true
+    alias: has_obo_namespace
+    owner: Subset
+    range: string
+  category:
+    name: category
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: biolink:category
+    alias: category
+    owner: Subset
+    range: string
+  in_subset:
+    name: in_subset
+    description: Maps an ontology element to a subset it belongs to
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:inSubset
+    multivalued: true
+    alias: in_subset
+    owner: Subset
+    range: Subset
+  conformsTo:
+    name: conformsTo
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: dcterms:conformsTo
+    multivalued: true
+    alias: conformsTo
+    owner: Subset
+    range: Thing
+  comment:
+    name: comment
+    comments:
+    - in obo format, a term cannot have more than one comment
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: rdfs:comment
+    multivalued: true
+    alias: comment
+    owner: Subset
+    range: string
+  seeAlso:
+    name: seeAlso
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: rdfs:seeAlso
+    multivalued: true
+    alias: seeAlso
+    owner: Subset
+    range: string
+  image:
+    name: image
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: sdo:image
+    alias: image
+    owner: Subset
+    range: Thing
+  example_of_usage:
+    name: example_of_usage
+    exact_mappings:
+    - skos:example
+    in_subset:
+    - allotrope permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: IAO:0000112
+    multivalued: true
+    alias: example_of_usage
+    owner: Subset
+    range: string
+  curator_note:
+    name: curator_note
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: IAO:0000232
+    multivalued: true
+    alias: curator_note
+    owner: Subset
+    range: string
+  has_curation_status:
+    name: has_curation_status
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: IAO:0000114
+    alias: has_curation_status
+    owner: Subset
+    range: string
+  depicted_by:
+    name: depicted_by
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: foaf:depicted_by
+    multivalued: true
+    alias: depicted_by
+    owner: Subset
+    range: string
+  page:
+    name: page
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: informative_property
+    slot_uri: foaf:page
+    multivalued: true
+    alias: page
+    owner: Subset
+    range: string
+  label:
+    name: label
+    exact_mappings:
+    - skos:prefLabel
+    comments:
+    - SHOULD follow OBO label guidelines
+    - MUST be unique within an ontology
+    - SHOULD be unique across OBO
+    in_subset:
+    - allotrope required profile
+    - go required profile
+    - obi required profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: core_property
+    slot_uri: rdfs:label
+    multivalued: true
+    alias: label
+    owner: Subset
+    range: label type
+    recommended: true
+  definition:
+    name: definition
+    exact_mappings:
+    - skos:definition
+    comments:
+    - SHOULD be in Aristotelian (genus-differentia) form
+    in_subset:
+    - allotrope required profile
+    - go required profile
+    - obi required profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: core_property
+    slot_uri: IAO:0000115
+    multivalued: true
+    alias: definition
+    owner: Subset
+    range: narrative text
+    recommended: true
+  id:
+    name: id
+    description: this maps to the URI in RDF
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: core_property
+    identifier: true
+    alias: id
+    owner: Subset
+    range: uriorcurie
+    required: true
+class_uri: oio:Subset
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chris Mungall.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -24,7 +24,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
           +all_entity_curies(curie)
           +basic_search(search_term)
           +get_outgoing_relationships_by_curie(curie)
-          +...
+          +...()
       }
       OntologyInterface <|-- BasicOntologyInterface
 
@@ -82,27 +82,47 @@ We provide a number of different interfaces, designed for these different purpos
           +all_entity_curies(curie)
           +basic_search(search_term)
           +get_outgoing_relationships_by_curie(curie)
-          +...
+          +...()
       }
       OntologyInterface <|-- BasicOntologyInterface
       class OwlInterface {
           +all_axioms()
           +get_axioms_about(curie)
-          +...
+          +...()
       }
       BasicOntologyInterface <|-- OwlInterface
       class RelationGraphInterface {
           +entailed_relationships(curies)
           +ancestors(curie)
-          +...
+          +...()
       }
       BasicOntologyInterface <|-- RelationGraphInterface
+      class PatcherInterface {
+          +apply_patch(patch)
+          +...()
+      }
+      BasicOntologyInterface <|-- PatcherInterface
+      class QCInterface {
+          +terms_without_definitions()
+          +get_obo_conformance_report()
+          +...()
+      }
+      BasicOntologyInterface <|-- QCInterface
+      class SubsetterInterface {
+          +extract_subset(seed_curies)
+          +fill_gaps(seed_curies)
+          +...()
+      }
+      BasicOntologyInterface <|-- SubsetterInterface
 
+It's highly unlikely you will care about all of these - in fact most applications will only need one!
 
+Example: OWL Ontology Interface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Some interfaces may require
 a particular *object model* (note that the BasicOntologyInterface avoids an object model, with operations
-accepting and returning simple scalars, dicts, and lists).
+accepting and returning simple scalars, dicts, and lists). See :ref:`datamodels` for a description of data models used.
 
 An example would be an OWL interface that uses an OWL object model (here funowl)
 
@@ -118,13 +138,13 @@ An example would be an OWL interface that uses an OWL object model (here funowl)
           +all_entity_curies(curie)
           +basic_search(search_term)
           +get_outgoing_relationships_by_curie(curie)
-          +...
+          +...()
       }
       OntologyInterface <|-- BasicOntologyInterface
       class OwlInterface {
           +all_axioms()
           +get_axioms_about(curie)
-          +...
+          +...()
       }
       BasicOntologyInterface <|-- OwlInterface
       OwlInterface --> OwlOntology
@@ -140,13 +160,34 @@ An example would be an OWL interface that uses an OWL object model (here funowl)
           +ClassExpression subClass
           +ClassExpression superClass
       }
+      Axiom <|-- SubClassOf
       class EquivalentClasses {
           +ClassExpression ops[]
       }
       Axiom <|-- EquivalentClasses
 
-This is a little bit involved - however, if you are not working OWL, you don't need it!
+.. note:: If this seems a little involved, don't worry! You don't need to use the OWL interface
+          or the OWL datamodel. It is intended for use cases where there is a *particular need*
+          for this level of abstraction!
+
+Partial and Complete Implementation
+-----------------------------------
 
 Not all implementations work with all interfaces. Even if an implementation implements an
-interface, it may not implement all operations
+interface, it may not implement all operations.
+
+See :ref:`implementations` for full documentation on each implementation (more coming soon), but
+to give you a sense:
+
+- the Pronto based implementation will not support all of OWL (which is fine for most purposes)
+- Same for the Ontology Portal APIs, which focus on the most common operations a developer may need
+- Search/autocomplete are the specialization of ontology portal APIs, as these are backed by powerful lexical indexes
+- In theory any SPARQL endpoint can support all of OWL in the future, but this will take some work to implement
+- we plan to have full OWL support for the SQL Database endpoint
+
+.. warning ::
+
+    At this stage in development of this library, most implementations are partial and things are subject to change!
+
+
 

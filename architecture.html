@@ -30,7 +30,6 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="index.html" class="icon icon-home"> obolib
-            <img src="https://linkml.io/uploads/linkml-logo_color.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,13 +45,18 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#ontology-interfaces">Ontology Interfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#implementations">Implementations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#other-interfaces">Other Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-interfaces">Other Interfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-owl-ontology-interface">Example: OWL Ontology Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#partial-and-complete-implementation">Partial and Complete Implementation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vocabulary/index.html">Ontology-Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 </ul>
 
         </div>
@@ -98,7 +102,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
         +all_entity_curies(curie)
         +basic_search(search_term)
         +get_outgoing_relationships_by_curie(curie)
-        +...
+        +...()
     }
     OntologyInterface &lt;|-- BasicOntologyInterface
         </div></section>
@@ -143,24 +147,44 @@ as a graph-like artefact, as an OWL bundle of axioms, or as a terminological-lex
         +all_entity_curies(curie)
         +basic_search(search_term)
         +get_outgoing_relationships_by_curie(curie)
-        +...
+        +...()
     }
     OntologyInterface &lt;|-- BasicOntologyInterface
     class OwlInterface {
         +all_axioms()
         +get_axioms_about(curie)
-        +...
+        +...()
     }
     BasicOntologyInterface &lt;|-- OwlInterface
     class RelationGraphInterface {
         +entailed_relationships(curies)
         +ancestors(curie)
-        +...
+        +...()
     }
     BasicOntologyInterface &lt;|-- RelationGraphInterface
-        </div><p>Some interfaces may require
+    class PatcherInterface {
+        +apply_patch(patch)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- PatcherInterface
+    class QCInterface {
+        +terms_without_definitions()
+        +get_obo_conformance_report()
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- QCInterface
+    class SubsetterInterface {
+        +extract_subset(seed_curies)
+        +fill_gaps(seed_curies)
+        +...()
+    }
+    BasicOntologyInterface &lt;|-- SubsetterInterface
+        </div><p>It’s highly unlikely you will care about all of these - in fact most applications will only need one!</p>
+<section id="example-owl-ontology-interface">
+<h3>Example: OWL Ontology Interface<a class="headerlink" href="#example-owl-ontology-interface" title="Permalink to this headline"></a></h3>
+<p>Some interfaces may require
 a particular <em>object model</em> (note that the BasicOntologyInterface avoids an object model, with operations
-accepting and returning simple scalars, dicts, and lists).</p>
+accepting and returning simple scalars, dicts, and lists). See <a class="reference internal" href="datamodels/index.html#datamodels"><span class="std std-ref">Datamodels</span></a> for a description of data models used.</p>
 <p>An example would be an OWL interface that uses an OWL object model (here funowl)</p>
 <div class="mermaid">
             classDiagram
@@ -173,13 +197,13 @@ accepting and returning simple scalars, dicts, and lists).</p>
         +all_entity_curies(curie)
         +basic_search(search_term)
         +get_outgoing_relationships_by_curie(curie)
-        +...
+        +...()
     }
     OntologyInterface &lt;|-- BasicOntologyInterface
     class OwlInterface {
         +all_axioms()
         +get_axioms_about(curie)
-        +...
+        +...()
     }
     BasicOntologyInterface &lt;|-- OwlInterface
     OwlInterface --&gt; OwlOntology
@@ -195,13 +219,36 @@ accepting and returning simple scalars, dicts, and lists).</p>
         +ClassExpression subClass
         +ClassExpression superClass
     }
+    Axiom &lt;|-- SubClassOf
     class EquivalentClasses {
         +ClassExpression ops[]
     }
     Axiom &lt;|-- EquivalentClasses
-        </div><p>This is a little bit involved - however, if you are not working OWL, you don’t need it!</p>
+        </div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If this seems a little involved, don’t worry! You don’t need to use the OWL interface
+or the OWL datamodel. It is intended for use cases where there is a <em>particular need</em>
+for this level of abstraction!</p>
+</div>
+</section>
+</section>
+<section id="partial-and-complete-implementation">
+<h2>Partial and Complete Implementation<a class="headerlink" href="#partial-and-complete-implementation" title="Permalink to this headline"></a></h2>
 <p>Not all implementations work with all interfaces. Even if an implementation implements an
-interface, it may not implement all operations</p>
+interface, it may not implement all operations.</p>
+<p>See <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but
+to give you a sense:</p>
+<ul class="simple">
+<li><p>the Pronto based implementation will not support all of OWL (which is fine for most purposes)</p></li>
+<li><p>Same for the Ontology Portal APIs, which focus on the most common operations a developer may need</p></li>
+<li><p>Search/autocomplete are the specialization of ontology portal APIs, as these are backed by powerful lexical indexes</p></li>
+<li><p>In theory any SPARQL endpoint can support all of OWL in the future, but this will take some work to implement</p></li>
+<li><p>we plan to have full OWL support for the SQL Database endpoint</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>At this stage in development of this library, most implementations are partial and things are subject to change!</p>
+</div>
 </section>
 </section>
 
