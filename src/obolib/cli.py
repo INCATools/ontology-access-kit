@@ -11,6 +11,7 @@ from obolib.implementations.sqldb.sql_implementation import SqlImplementation
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from obolib.interfaces.ontology_interface import OntologyInterface
 from obolib.resource import OntologyResource
+from obolib.utilities.obograph_utils import draw_graph
 
 
 @dataclass
@@ -59,7 +60,8 @@ def main(verbose: int, quiet: bool, input: str):
         rest = ':'.join(toks[1:])
         if scheme == 'sqlite':
             impl_class = SqlImplementation
-        if scheme == 'obolibrary':
+            resource.slug = f'sqlite:///{Path(rest).absolute()}'
+        elif scheme == 'obolibrary':
             impl_class = ProntoImplementation
             if resource.slug.endswith('.obo'):
                 resource.format = 'obo'
@@ -71,6 +73,7 @@ def main(verbose: int, quiet: bool, input: str):
         impl_class = ProntoImplementation
     logging.info(f'RESOURCE={resource}')
     settings.impl = impl_class.create(resource)
+
 
 @main.command()
 @click.argument("terms", nargs=-1)
@@ -87,6 +90,26 @@ def search(terms, output: str):
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@output_option
+def viz(terms, output: str):
+    """
+    Visualizing an ancestor graph using obographviz
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        curies = []
+        for term in terms:
+            if ':' in term:
+                curies.append(term)
+            else:
+                curies += impl.basic_search(term)
+        graph = impl.ancestor_graph(curies)
+        draw_graph(graph)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 
 

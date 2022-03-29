@@ -1,8 +1,10 @@
 import logging
 import unittest
 
+import yaml
 from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
 from obolib.resource import OntologyResource
+from obolib.utilities.obograph_utils import graph_as_dict
 from obolib.vocabulary.vocabulary import IS_A
 from pronto import Ontology
 
@@ -111,6 +113,11 @@ class TestProntoProvider(unittest.TestCase):
         assert 'NCBITaxon:1' not in ancs
         assert 'GO:0005773' in ancs  # reflexive
         assert 'GO:0043231' in ancs  # reflexive
+
+    def test_obograph(self):
+        g = self.oi.ancestor_graph('GO:0005773')
+        obj = graph_as_dict(g)
+        print(yaml.dump(obj))
 
 
 

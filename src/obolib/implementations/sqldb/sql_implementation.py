@@ -1,21 +1,23 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Any, Iterable
+from typing import List, Any, Iterable, Optional
 
-from obolib.implementations.sqldb.model import Statements, Edge
+from obolib.implementations.sqldb.model import Statements, Edge, HasOioSynonymStatement, HasSynonymStatement
 from obolib.implementations.sqldb.sqldb import SqlDatabaseProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     SearchConfiguration
+from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
 from obolib.types import CURIE
-from obolib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots
+from obolib.vocabulary import obograph
+from obolib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE
 from sqlalchemy import select, text
 from sqlalchemy.orm import sessionmaker
 
 
 @dataclass
-class SqlImplementation(RelationGraphInterface):
+class SqlImplementation(RelationGraphInterface, OboGraphInterface):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -46,7 +48,7 @@ class SqlImplementation(RelationGraphInterface):
         return self._session
 
     @classmethod
-    def create(cls, resource: OntologyResource = None) -> BasicOntologyInterface:
+    def create(cls, resource: OntologyResource = None) -> "SqlImplementation":
         engine = SqlDatabaseProvider.create_engine(resource)
         return SqlImplementation(engine)
 
@@ -56,11 +58,17 @@ class SqlImplementation(RelationGraphInterface):
             yield row['id']
 
 
-    def get_label_by_curie(self, curie: CURIE):
-
+    def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         s = text('SELECT value FROM rdfs_label_statement WHERE subject = :curie')
         for row in self.engine.execute(s, curie=curie):
             return row['value']
+
+    def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
+        m = defaultdict(list)
+        m[LABEL_PREDICATE] = [self.get_label_by_curie(curie)]
+        for row in self.session.query(HasSynonymStatement).filter(HasSynonymStatement.subject == curie):
+            m[row.predicate].append(row.value)
+        return m
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         search_term = f'%{search_term}%'
@@ -82,11 +90,23 @@ class SqlImplementation(RelationGraphInterface):
             rmap[row.predicate].append(row.object)
         return rmap
 
-
-
-
-
-
+    def node(self, curie: CURIE) -> obograph.Node:
+        meta = obograph.Meta()
+        n = obograph.Node(id=curie, meta=meta)
+        for row in self.session.query(Statements).filter(Statements.subject == curie):
+            if row.value is not None:
+                v = row.value
+            elif row.object is not None:
+                v = row.object
+            else:
+                continue
+            pred = row.predicate
+            if pred == omd_slots.label.curie:
+                n.label = v
+            else:
+                if pred == omd_slots.definition.curie:
+                    meta.definition = obograph.DefinitionPropertyValue(val=v)
+        return n
 
 
 

@@ -6,18 +6,20 @@ from typing import List, Iterable, Type
 from obolib.implementations.pronto.pronto import ProntoProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, SearchConfiguration
+from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.interfaces.ontology_interface import OntologyInterface
 from obolib.interfaces.qc_interface import QualityControlInterface
 from obolib.interfaces.rdf_interface import RdfInterface
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
 from obolib.types import CURIE
+from obolib.vocabulary import obograph
 from obolib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue
 
 
 @dataclass
-class ProntoImplementation(QualityControlInterface, RdfInterface, RelationGraphInterface):
+class ProntoImplementation(QualityControlInterface, RdfInterface, RelationGraphInterface, OboGraphInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -137,19 +139,9 @@ class ProntoImplementation(QualityControlInterface, RdfInterface, RelationGraphI
             t.relationships[predicate_term].add(filler_term)
 
     def get_definition_by_curie(self, curie: CURIE) -> str:
-        """
-
-        :param curie:
-        :return:
-        """
         return self._term(curie).definition
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
-        """
-
-        :param curie:
-        :return:
-        """
         t = self._term(curie)
         m = defaultdict(list)
         m[LABEL_PREDICATE] = [t.name]
@@ -179,6 +171,23 @@ class ProntoImplementation(QualityControlInterface, RdfInterface, RelationGraphI
         typ: Type[OntologyInterface] = type(self)
         return typ(subontology)
 
+    # -- OboGraphs --
+
+    def node(self, curie: CURIE) -> obograph.Node:
+        t = self._term(curie)
+        if t is None:
+            return obograph.Node(id=curie)
+        else:
+            meta = obograph.Meta()
+            if t.definition:
+                meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
+            #for s in t.synonyms:
+            #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
+            #                                                       scope=s.scope.lower(),
+            #                                                      xrefs=[x.id for x in s.xrefs]))
+            return obograph.Node(id=t.id,
+                                 label=t.name,
+                                 meta=meta)
 
 
 

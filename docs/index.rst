@@ -14,7 +14,7 @@ OboLib Documentation
    architecture
    interfaces/index
    implementations/index
-   vocabulary/index
+   datamodels/index
    utils
    cli
    notebooks

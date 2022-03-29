@@ -1,6 +1,8 @@
 Command Line
 ============
 
+Currently the command line interface is very rudimentary - the docs
+below are generated from the code
 
 .. currentmodule:: obolib.cli
 
@@ -9,6 +11,10 @@ Command Line
     :nested: short
 
 .. click:: obolib.cli:search
+    :prog: search
+    :nested: short
+
+.. click:: obolib.cli:viz
     :prog: search
     :nested: short
 

@@ -45,9 +45,11 @@ For more examples, see
 
 ## Command Line
 
-There is currently a very limited CLI
+There is currently a very limited CLI. See [CLI docs](https://cmungall.github.io/obolib/cli.html)
 
-For demo purposes we will switch to the obolibrary/pronto backend, but any implementation can be used:
+### Search
+
+Use the pronto backend to fetch and parse an ontology from the OBO library, then use the `search` command
 
 ```bash
 obolib -i obolibrary:pato.obo search osmol 
@@ -66,9 +68,19 @@ PATO:0045034 ! normal osmolality
 PATO:0045035 ! normal osmolarity
 ```
 
+### Visualization of ancestor graphs
+
+Use the sqlite backend to find all terms matching the string "nucl" walk up the graph and visualize it
+
+```bash
+obolib -i sqlite:tests/input/go-nucleus.db  viz nucl
+```
+
+TODO: add figure to docs
+
 ## Documentation
 
-See sphinx [todo]
+- [cmungall.github.io/obolib](https://cmungall.github.io/obolib)
 
 ## Potential Refactoring
 
