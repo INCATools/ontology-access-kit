@@ -14,3 +14,7 @@ below are generated from the code
     :prog: search
     :nested: short
 
+.. click:: obolib.cli:viz
+    :prog: search
+    :nested: short
+
