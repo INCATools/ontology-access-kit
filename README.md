@@ -87,3 +87,7 @@ TODO: add figure to docs
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
 
 One possibility is to split out each implementation into its own repo and use a plugin architecture
+
+## PyPI release
+
+We will put this on PyPI when we decide on a name - suggest in the tracker! obolib is a placeholder.
