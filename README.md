@@ -68,6 +68,15 @@ PATO:0045034 ! normal osmolality
 PATO:0045035 ! normal osmolarity
 ```
 
+### QC and Validation
+
+
+```bash
+obolib validate -i sqlite:../semantic-sql/db/pr.db
+```
+
+
+
 ### Visualization of ancestor graphs
 
 Use the sqlite backend to find all terms matching the string "nucl" walk up the graph and visualize it
