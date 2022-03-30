@@ -1,23 +1,25 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Any, Iterable, Optional
+from typing import List, Any, Iterable, Optional, Type
 
-from obolib.implementations.sqldb.model import Statements, Edge, HasOioSynonymStatement, HasSynonymStatement
+from obolib.implementations.sqldb.model import Statements, Edge, HasOioSynonymStatement, HasSynonymStatement, \
+    HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode
 from obolib.implementations.sqldb.sqldb import SqlDatabaseProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     SearchConfiguration
 from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
+from obolib.interfaces.validator_interface import ValidatorInterface
 from obolib.resource import OntologyResource
 from obolib.types import CURIE
 from obolib.vocabulary import obograph
 from obolib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE
-from sqlalchemy import select, text
+from sqlalchemy import select, text, exists
 from sqlalchemy.orm import sessionmaker
 
 
 @dataclass
-class SqlImplementation(RelationGraphInterface, OboGraphInterface):
+class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -72,13 +74,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface):
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         search_term = f'%{search_term}%'
-        print(search_term)
         preds = []
         if config.include_label:
             preds.append(omd_slots.label.curie)
         if config.include_aliases:
             preds += SYNONYM_PREDICATES
-        print(f'PREDS = {preds}')
         view = Statements
         q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds))).filter(view.value.like(search_term))
         for row in q.distinct():
@@ -107,6 +107,20 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface):
                 if pred == omd_slots.definition.curie:
                     meta.definition = obograph.DefinitionPropertyValue(val=v)
         return n
+
+    ## QC
+    def _missing_value(self, predicate_table: Type, type_table: Type = ClassNode) -> Iterable[CURIE]:
+        pred_subq = self.session.query(predicate_table.subject)
+        obs_subq = self.session.query(DeprecatedNode.id)
+        main_q = self.session.query(type_table).join(IriNode, type_table.id == IriNode.id)
+        for row in main_q.filter(type_table.id.not_in(pred_subq)).filter(type_table.id.not_in(obs_subq)):
+            yield row.id
+
+    def term_curies_without_definitions(self) -> Iterable[CURIE]:
+        return self._missing_value(HasTextDefinitionStatement)
+
+    def term_curies_without_labels(self) -> Iterable[CURIE]:
+        return self._missing_value(RdfsLabelStatement)
 
 
 

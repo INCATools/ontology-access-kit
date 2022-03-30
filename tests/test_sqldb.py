@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 import yaml
@@ -45,7 +46,6 @@ class TestSqlDatabaseProvider(unittest.TestCase):
         self.assertEqual(list(oi.basic_search('protoplasm')), ['GO:0005622'])
         self.assertEqual(list(oi.basic_search('protoplasm', SearchConfiguration(include_aliases=False))), [])
 
-    #@unittest.skip("TODO")
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         print(syns)
@@ -62,3 +62,11 @@ class TestSqlDatabaseProvider(unittest.TestCase):
         g = self.oi.ancestor_graph('GO:0005773')
         obj = graph_as_dict(g)
         print(yaml.dump(obj))
+
+    # QC
+    def test_no_definitions(self):
+        missing = list(self.oi.term_curies_without_definitions())
+        for curie in missing:
+            logging.info(curie)
+        assert 'CHEBI:36357' in missing
+        assert CELLULAR_COMPONENT not in missing

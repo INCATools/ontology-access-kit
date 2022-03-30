@@ -10,6 +10,7 @@ from obolib.implementations.pronto.pronto_implementation import ProntoImplementa
 from obolib.implementations.sqldb.sql_implementation import SqlImplementation
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from obolib.interfaces.ontology_interface import OntologyInterface
+from obolib.interfaces.validator_interface import ValidatorInterface
 from obolib.resource import OntologyResource
 from obolib.utilities.obograph_utils import draw_graph
 
@@ -108,6 +109,19 @@ def viz(terms, output: str):
                 curies += impl.basic_search(term)
         graph = impl.ancestor_graph(curies)
         draw_graph(graph)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@output_option
+def validate(output: str):
+    """
+    Validate an ontology
+    """
+    impl = settings.impl
+    if isinstance(impl, ValidatorInterface):
+        for curie in impl.term_curies_without_definitions():
+            print(f'NO DEFINITION: {curie} ! {impl.get_label_by_curie(curie)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

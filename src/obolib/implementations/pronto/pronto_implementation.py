@@ -8,7 +8,7 @@ from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, R
     METADATA_MAP, SearchConfiguration
 from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.interfaces.ontology_interface import OntologyInterface
-from obolib.interfaces.qc_interface import QualityControlInterface
+from obolib.interfaces.validator_interface import ValidatorInterface
 from obolib.interfaces.rdf_interface import RdfInterface
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
@@ -19,7 +19,7 @@ from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue
 
 
 @dataclass
-class ProntoImplementation(QualityControlInterface, RdfInterface, RelationGraphInterface, OboGraphInterface):
+class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
