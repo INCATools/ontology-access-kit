@@ -9,9 +9,7 @@ TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 
-#@unittest.skip('server is down')
 class TestUbergraphProvider(unittest.TestCase):
-    """tests pronto """
 
     def setUp(self) -> None:
         oi = UbergraphImplementation.create()

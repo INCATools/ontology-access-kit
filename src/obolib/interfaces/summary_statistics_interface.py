@@ -3,7 +3,9 @@ from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
+import obolib.vocabulary.summary_statistics_datamodel.slots as statdict_slots
 from obolib.types import CURIE, LABEL, URI, PRED_CURIE
+
 
 SUMMARY_STATISTICS_MAP = Dict[str, Any]
 
@@ -34,5 +36,17 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
         :return:
         """
+        raise NotImplementedError
+
+    def get_metric_description(self, metric: str) -> str:
+        """
+        Examines the data dictionary to retrieve the definition of a metric
+
+        Any dictionary can be used, but summary_statistics_datamodel is favored
+
+        :param metric:
+        :return:
+        """
+        #statdict_slots[metric]
         raise NotImplementedError
 

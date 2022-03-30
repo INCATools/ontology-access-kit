@@ -52,36 +52,41 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
                     print(f'    {parent} ! {oi.get_label_by_curie(parent)}')
 
     """
-    engine: Ontology
+    wrapped_ontology: Ontology = None
+
+    # TODO: move provider object here
+    def __post_init__(self):
+        if self.wrapped_ontology is None:
+            self.wrapped_ontology = ProntoProvider.create_engine(self.resource)
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> "ProntoImplementation":
         ontology = ProntoProvider.create_engine(resource)
-        return ProntoImplementation(ontology)
+        return ProntoImplementation(wrapped_ontology=ontology, resource=resource)
 
     def store(self, resource: OntologyResource) -> None:
-        ProntoProvider.dump(self.engine, resource)
+        ProntoProvider.dump(self.wrapped_ontology, resource)
 
     def _term(self, curie: CURIE):
-        if curie in self.engine:
-            return self.engine[curie]
+        if curie in self.wrapped_ontology:
+            return self.wrapped_ontology[curie]
         else:
             return None
 
     def _create(self, curie: CURIE, exist_ok = True):
-        if curie in self.engine:
-            return self.engine[curie]
+        if curie in self.wrapped_ontology:
+            return self.wrapped_ontology[curie]
         else:
-            return self.engine.create_term(curie)
+            return self.wrapped_ontology.create_term(curie)
 
     def _create_pred(self, curie: CURIE, exist_ok = True):
-        if curie in self.engine:
-            return self.engine[curie]
+        if curie in self.wrapped_ontology:
+            return self.wrapped_ontology[curie]
         else:
-            return self.engine.create_relationship(curie)
+            return self.wrapped_ontology.create_relationship(curie)
 
     def all_entity_curies(self) -> Iterable[CURIE]:
-        for t in self.engine.terms():
+        for t in self.wrapped_ontology.terms():
             yield t.id
 
     def get_label_by_curie(self, curie: CURIE):
@@ -95,7 +100,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
                 return None
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
-        return [t.id for t in self.engine.terms() if t.name == label]
+        return [t.id for t in self.wrapped_ontology.terms() if t.name == label]
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         term = self._term(curie)
@@ -106,7 +111,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         matches = []
-        for t in self.engine.terms():
+        for t in self.wrapped_ontology.terms():
             if search_term in t.name:
                 matches.append(t.id)
                 continue
@@ -119,7 +124,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
 
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
-        ont = self.engine
+        ont = self.wrapped_ontology
         t = ont.create_term(curie)
         t.name = label
         for pred, fillers in relationships.items():

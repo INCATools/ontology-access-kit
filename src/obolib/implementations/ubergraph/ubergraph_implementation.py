@@ -52,9 +52,6 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
         engine = UbergraphProvider.create_engine(resource)
         return UbergraphImplementation(engine)
 
-    def store(self, resource: OntologyResource) -> None:
-        UbergraphProvider.dump(self.engine, resource)
-
     def _get_outgoing_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum) -> Iterable[Tuple[CURIE, CURIE]]:
         rmap = defaultdict(list)
         subj = self.curie_to_uri(curie)

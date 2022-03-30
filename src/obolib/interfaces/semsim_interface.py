@@ -5,7 +5,7 @@ from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from obolib.types import CURIE, LABEL, URI
 
 
-class NetworkxInterface(BasicOntologyInterface, ABC):
+class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     """
     TODO: consider direct use of nxontology
     """

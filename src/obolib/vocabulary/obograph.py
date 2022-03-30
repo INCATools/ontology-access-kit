@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-28T17:52:19
+# Generation date: 2022-03-29T18:42:06
 # Schema: obographs_linkml_model
 #
 # id: https://github.com/geneontology/obographs
@@ -180,7 +180,7 @@ class Meta(YAMLRoot):
     subsets: Optional[Union[str, List[str]]] = empty_list()
     version: Optional[str] = None
     comments: Optional[Union[str, List[str]]] = empty_list()
-    definition: Optional[Union[Union[dict, "DefinitionPropertyValue"], List[Union[dict, "DefinitionPropertyValue"]]]] = empty_list()
+    definition: Optional[Union[dict, "DefinitionPropertyValue"]] = None
     xrefs: Optional[Union[str, List[str]]] = empty_list()
     synonyms: Optional[Union[Union[dict, "SynonymPropertyValue"], List[Union[dict, "SynonymPropertyValue"]]]] = empty_list()
     basicPropertyValues: Optional[Union[Union[dict, "BasicPropertyValue"], List[Union[dict, "BasicPropertyValue"]]]] = empty_list()
@@ -198,9 +198,8 @@ class Meta(YAMLRoot):
             self.comments = [self.comments] if self.comments is not None else []
         self.comments = [v if isinstance(v, str) else str(v) for v in self.comments]
 
-        if not isinstance(self.definition, list):
-            self.definition = [self.definition] if self.definition is not None else []
-        self.definition = [v if isinstance(v, DefinitionPropertyValue) else DefinitionPropertyValue(**as_dict(v)) for v in self.definition]
+        if self.definition is not None and not isinstance(self.definition, DefinitionPropertyValue):
+            self.definition = DefinitionPropertyValue(**as_dict(self.definition))
 
         if not isinstance(self.xrefs, list):
             self.xrefs = [self.xrefs] if self.xrefs is not None else []
@@ -446,7 +445,7 @@ slots.meta = Slot(uri=OG.meta, name="meta", curie=OG.curie('meta'),
                    model_uri=OG.meta, domain=None, range=Optional[Union[dict, Meta]])
 
 slots.definition = Slot(uri=OG.definition, name="definition", curie=OG.curie('definition'),
-                   model_uri=OG.definition, domain=None, range=Optional[Union[Union[dict, DefinitionPropertyValue], List[Union[dict, DefinitionPropertyValue]]]])
+                   model_uri=OG.definition, domain=None, range=Optional[Union[dict, DefinitionPropertyValue]])
 
 slots.basicPropertyValues = Slot(uri=OG.basicPropertyValues, name="basicPropertyValues", curie=OG.curie('basicPropertyValues'),
                    model_uri=OG.basicPropertyValues, domain=None, range=Optional[Union[Union[dict, BasicPropertyValue], List[Union[dict, BasicPropertyValue]]]])

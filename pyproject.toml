@@ -11,6 +11,7 @@ pronto = "^2.4.4"
 SPARQLWrapper = "^2.0.0"
 SQLAlchemy = "^1.4.32"
 linkml-runtime = "^1.2.3"
+networkx = "^2.7.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

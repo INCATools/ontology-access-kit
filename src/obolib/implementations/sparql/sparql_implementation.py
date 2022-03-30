@@ -59,7 +59,7 @@ class SparqlImplementation(BasicOntologyInterface):
     - :class:`.OntobeeImplementation`
     - :class:`.UbergraphImplementation`
     """
-    engine: SPARQLWrapper
+    engine: SPARQLWrapper = None
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> BasicOntologyInterface:

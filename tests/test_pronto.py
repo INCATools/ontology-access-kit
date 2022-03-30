@@ -75,6 +75,14 @@ class TestProntoProvider(unittest.TestCase):
         curies = oi.get_curies_by_label('shape')
         self.assertEqual(['PATO:0000052'], curies)
 
+    @unittest.skip('Hide warnings')
+    def test_from_owl(self):
+        r = OntologyResource(local=True, slug='go-nucleus.owl', directory=INPUT_DIR)
+        oi = ProntoImplementation.create(r)
+        rels = list(oi.walk_up_relationship_graph('GO:0005773'))
+        for rel in rels:
+            print(rel)
+
     def test_subontology(self):
         subont = self.oi.create_subontology(['GO:0005575', 'GO:0005773'])
         subont.store(OntologyResource(slug='go-nucleus.filtered.obo', directory=OUTPUT_DIR, local=True, format='obo'))

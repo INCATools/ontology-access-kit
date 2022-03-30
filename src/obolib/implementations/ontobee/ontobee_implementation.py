@@ -4,7 +4,6 @@ from dataclasses import dataclass
 import SPARQLWrapper
 from obolib.implementations.ontobee.ontobee import OntobeeProvider
 from obolib.implementations.sparql.sparql_implementation import SparqlImplementation
-from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
 from obolib.resource import OntologyResource
 
 
@@ -34,8 +33,6 @@ class OntobeeImplementation(SparqlImplementation):
         engine = OntobeeProvider.create_engine(resource)
         return OntobeeImplementation(engine)
 
-    def store(self, resource: OntologyResource) -> None:
-        OntobeeProvider.dump(self.engine, resource)
 
 
 

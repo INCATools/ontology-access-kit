@@ -32,7 +32,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     - :class:`Statements`
     - :class:`Edge`
     """
-    engine: Any
+    engine: Any = None
     _session: Any = None
     _connection: Any = None
 
@@ -48,6 +48,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         if self._connection is None:
             self._connection = self.engine.connect()
         return self._session
+
+    # TODO: move provider object here
+    def __post_init__(self):
+        if self.engine is None:
+            self.engine = SqlDatabaseProvider.create_engine(self.resource)
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> "SqlImplementation":
