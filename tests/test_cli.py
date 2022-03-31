@@ -1,0 +1,85 @@
+import logging
+import unittest
+
+import yaml
+from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
+from obolib.resource import OntologyResource
+from obolib.utilities.obograph_utils import graph_as_dict
+from obolib.cli import search, main
+from pronto import Ontology
+
+from tests import OUTPUT_DIR, INPUT_DIR
+from click.testing import CliRunner
+
+TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
+TEST_DB = INPUT_DIR / 'go-nucleus.db'
+TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
+NUCLEUS = 'GO:0005634'
+ATOM = 'CHEBI:33250'
+
+class TestCommandLineInterface(unittest.TestCase):
+
+    def setUp(self) -> None:
+        runner = CliRunner(mix_stderr=False)
+        self.runner = runner
+
+    def test_main_help(self):
+        result = self.runner.invoke(main, ['--help'])
+        out = result.stdout
+        err = result.stderr
+        self.assertIn('search', out)
+        self.assertIn('subset', out)
+        self.assertIn('validate', out)
+        self.assertEqual(0, result.exit_code)
+
+    ## SEARCH
+
+    def test_search_help(self):
+        result = self.runner.invoke(main, ['search', '--help'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+
+    def test_search_local(self):
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
+            logging.info(f'INPUT={input_arg}')
+            result = self.runner.invoke(main, ['-i', input_arg, 'search', 'nucl'])
+            out = result.stdout
+            err = result.stderr
+            if result.exit_code != 0:
+                print(f'INPUT: {input_arg} code = {result.exit_code}')
+                print(f'OUTPUT={out}')
+                print(f'ERR={err}')
+            logging.info(f'OUTPUT={out}')
+            logging.info(f'ERR={err}')
+            self.assertEqual(0, result.exit_code)
+            self.assertIn(NUCLEUS, out)
+            self.assertIn('nucleus', out)
+            self.assertEqual("", err)
+
+    def test_search_pronto_obolibrary(self):
+        result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 'shape'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        self.assertIn('PATO:0002021', out)
+        self.assertEqual("", err)
+
+    ## VALIDATE
+
+    def test_validate_help(self):
+        result = self.runner.invoke(main, ['validate', '--help'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+
+    def test_validate_local(self):
+        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}']:
+            logging.info(f'INPUT={input_arg}')
+            result = self.runner.invoke(main, ['-i', input_arg, 'validate'])
+            out = result.stdout
+            err = result.stderr
+            logging.info(f'ERR={err}')
+            self.assertEqual(0, result.exit_code)
+            self.assertIn(ATOM, out)
+            self.assertEqual("", err)

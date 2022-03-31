@@ -16,6 +16,7 @@ from obolib.vocabulary import obograph
 from obolib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE
 from sqlalchemy import select, text, exists
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
 
 
 @dataclass
@@ -32,9 +33,15 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     - :class:`Statements`
     - :class:`Edge`
     """
+    # TODO: use SQLA types
     engine: Any = None
     _session: Any = None
     _connection: Any = None
+
+    def __post_init__(self):
+        if self.engine is None:
+            self.engine = create_engine(self.resource.slug)  ## TODO
+
 
     @property
     def session(self):
@@ -49,15 +56,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             self._connection = self.engine.connect()
         return self._session
 
-    # TODO: move provider object here
-    def __post_init__(self):
-        if self.engine is None:
-            self.engine = SqlDatabaseProvider.create_engine(self.resource)
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> "SqlImplementation":
         engine = SqlDatabaseProvider.create_engine(resource)
-        return SqlImplementation(engine)
+        return SqlImplementation(engine=engine)
 
     def all_entity_curies(self) -> Iterable[CURIE]:
         s = text('SELECT id FROM class_node WHERE id NOT LIKE "_:%"')

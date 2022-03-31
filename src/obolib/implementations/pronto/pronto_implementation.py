@@ -5,7 +5,7 @@ from typing import List, Iterable, Type
 
 from obolib.implementations.pronto.pronto import ProntoProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
-    METADATA_MAP, SearchConfiguration
+    METADATA_MAP, SearchConfiguration, PREFIX_MAP
 from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.interfaces.ontology_interface import OntologyInterface
 from obolib.interfaces.validator_interface import ValidatorInterface
@@ -14,7 +14,8 @@ from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
 from obolib.types import CURIE
 from obolib.vocabulary import obograph
-from obolib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A
+from obolib.vocabulary.obograph import Edge, Graph
+from obolib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue
 
 
@@ -51,6 +52,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
                 for parent in parents:
                     print(f'    {parent} ! {oi.get_label_by_curie(parent)}')
 
+
     """
     wrapped_ontology: Ontology = None
 
@@ -66,6 +68,13 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
     def store(self, resource: OntologyResource) -> None:
         ProntoProvider.dump(self.wrapped_ontology, resource)
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: BasicOntologyInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def get_prefix_map(self) -> PREFIX_MAP:
+        return {}
 
     def _term(self, curie: CURIE):
         if curie in self.wrapped_ontology:
@@ -103,6 +112,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return [t.id for t in self.wrapped_ontology.terms() if t.name == label]
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+        # See: https://github.com/althonos/pronto/issues/119
         term = self._term(curie)
         rels = {IS_A: [p.id for p in term.superclasses(distance=1)]}
         for rel_type, parents in term.relationships.items():
@@ -154,6 +164,25 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             m[s.scope].append(s.description)
         return m
 
+    def get_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        t = self._term(curie)
+        m = defaultdict(list)
+        for s in t.xrefs:
+            m[HAS_DBXREF].append(s.id)
+        for s in t.annotations:
+            # TODO: less hacky
+            if s.property.startswith('skos'):
+                if isinstance(s, LiteralPropertyValue):
+                    v = s.literal
+                    m[s.property].append(v)
+                elif isinstance(s, ResourcePropertyValue):
+                    v = self.uri_to_curie(s.resource)
+                else:
+                    v = None
+                if v:
+                    m[s.property].append(v)
+        return m
+
     def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
         t = self._term(curie)
         m = defaultdict(list)
@@ -172,11 +201,12 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             subontology.create_term(curie)
             t2 = subontology[curie]
             t2.name = t.name
-            # TODO
-        typ: Type[OntologyInterface] = type(self)
-        return typ(subontology)
+            # TODO - complete object
+        return ProntoImplementation(wrapped_ontology=subontology)
 
-    # -- OboGraphs --
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OboGraphInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def node(self, curie: CURIE) -> obograph.Node:
         t = self._term(curie)
@@ -193,6 +223,11 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             return obograph.Node(id=t.id,
                                  label=t.name,
                                  meta=meta)
+
+    def as_obograph(self) -> Graph:
+        nodes = [self.node(curie) for curie in self.all_entity_curies()]
+        edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
+        return Graph(id='TODO', nodes=nodes, edges=edges)
 
 
 

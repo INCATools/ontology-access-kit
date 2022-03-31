@@ -36,6 +36,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
+    'sphinx.ext.autosummary',
     'myst_parser',
     'sphinx.ext.intersphinx',
     'sphinxcontrib.mermaid'

@@ -4,7 +4,7 @@ from typing import Dict, List, Iterable, Tuple, Optional, Any
 
 from obolib.interfaces.ontology_interface import OntologyInterface
 from obolib.types import CURIE, LABEL, URI, PRED_CURIE
-from obolib.vocabulary.vocabulary import IS_A
+from obolib.vocabulary.vocabulary import IS_A, OBO_PURL
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
@@ -82,9 +82,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
-    def curie_to_uri(self, curie: CURIE, strict=True) -> Optional[URI]:
+    def curie_to_uri(self, curie: CURIE, strict=False) -> Optional[URI]:
         """
         Expands a CURIE
 
@@ -92,7 +92,15 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict:
         :return:
         """
-        raise NotImplementedError()
+        if curie.startswith('http'):
+            return curie
+        pm = self.get_prefix_map()
+        pfx, local_id = curie.split(':')
+        if pfx in pm:
+            return f'{pm[pfx]}{local_id}'
+        else:
+            # TODO: not hardcode
+            return f'{OBO_PURL}/{pfx}_{local_id}'
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         """
@@ -104,7 +112,15 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict:
         :return:
         """
-        raise NotImplementedError()
+        pm = self.get_prefix_map()
+        for k, v in pm.items():
+            if uri.startswith(v):
+                return uri.replace(v, f'{k}:')
+        if uri.startswith(OBO_PURL):
+            # TODO: do not hardcode OBO purl behavior
+            uri = uri.replace(f'{OBO_PURL}', "")
+            return uri.replace('_', ':')
+        return uri
 
 
     def all_ontology_curies(self) -> Iterable[CURIE]:
@@ -132,7 +148,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :return:
         """
-        raise NotImplementedError
+        for curie in self.all_entity_curies():
+            for pred, fillers in self.get_outgoing_relationships_by_curie(curie).items():
+                for filler in fillers:
+                    yield curie, pred, filler
+
 
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         """

@@ -6,7 +6,7 @@ from typing import List, Iterable, Tuple, Optional
 
 import SPARQLWrapper
 from SPARQLWrapper import JSON
-from obolib.implementations.ubergraph.ubergraph import UbergraphProvider
+from obolib.implementations.sparql.sparql import SparqlEndpointProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
 from obolib.resource import OntologyResource
@@ -59,12 +59,12 @@ class SparqlImplementation(BasicOntologyInterface):
     - :class:`.OntobeeImplementation`
     - :class:`.UbergraphImplementation`
     """
-    engine: SPARQLWrapper = None
+    sparql_wrapper: SPARQLWrapper = None
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> BasicOntologyInterface:
-        engine = UbergraphProvider.create_engine(resource)
-        return SparqlImplementation(engine)
+        sw = SparqlEndpointProvider.create_engine(resource)
+        return SparqlImplementation(sparql_wrapper=sw)
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
@@ -95,7 +95,7 @@ class SparqlImplementation(BasicOntologyInterface):
         return uri
 
     def _query(self, query: str, prefixes: PREFIX_MAP = {}):
-        sw = self.engine
+        sw = self.sparql_wrapper
         for k, v in prefixes.items():
             query = f'PREFIX {k}: <{v}>\n' + query
         sw.setQuery(query)
@@ -154,7 +154,7 @@ class SparqlImplementation(BasicOntologyInterface):
 
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
-        return [t.id for t in self.engine.terms()]
+        return [t.id for t in self.sparql_wrapper.terms()]
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         term = self._term(curie)

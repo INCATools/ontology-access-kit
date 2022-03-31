@@ -1,16 +1,34 @@
+"""
+Utilities for the OBOGraph Datamodel
+------------------------------------
+
+See :ref:`datamodels`
+
+"""
 import json
 import logging
 import shutil
 import subprocess
 import tempfile
-from typing import Dict, Any
+from copy import deepcopy
+from typing import Dict, Any, List
 
 import yaml
 from linkml_runtime.dumpers import json_dumper
+from obolib.types import PRED_CURIE
 from obolib.vocabulary.obograph import Graph
-
+import networkx as nx
 
 def graph_as_dict(graph: Graph) -> Dict[str, Any]:
+    """
+    Convert an OBOGraph representation to a dictionary representation isomorphic to the
+    OBOGraphs json standard.
+
+    Note: in the python datamodel we use "label", this is converted to "lbl" for the standard
+
+    :param graph:
+    :return:
+    """
     obj = json_dumper.to_dict(graph)
     for n in obj['nodes']:
         if 'label' in n:
@@ -20,6 +38,15 @@ def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     return obj
 
 def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None) -> None:
+    """
+    Renders a graph using obographviz
+
+    :param graph:
+    :param seeds:
+    :param configure:
+    :param stylemap:
+    :return:
+    """
     g = {"graphs": [graph_as_dict(graph)]}
     logging.debug(f'graph = {g}')
     EXEC = 'og2dot.js'
@@ -58,3 +85,34 @@ def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None) ->
         logging.debug(f'Run: {cmdtoks}')
         subprocess.run(cmdtoks)
         subprocess.run(['open', pngfile])
+
+def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:
+    """
+    Create a subgraph that has only edges whose predicates are in the predicate list
+
+    :param graph:
+    :param predicates:
+    :param graph_id:
+    :return:
+    """
+    if graph_id is None:
+        graph_id = graph.id
+    edges = [edge for edge in graph.edges if edge.pred in predicates]
+    return Graph(graph_id, nodes=deepcopy(graph.nodes))
+
+def as_multi_digraph(graph: Graph, reverse: bool = True) -> nx.MultiDiGraph:
+    """
+    Convert to a networkx :class:`.MultiDiGraph`
+
+    :param graph: OBOGraph
+    :param reverse:
+    :return:
+    """
+    mdg = nx.MultiDiGraph()
+    for edge in graph.edges:
+        edge_attrs = {"predicate": edge.pred}
+        if reverse:
+            mdg.add_edge(edge.obj, edge.sub, **edge_attrs)
+        else:
+            mdg.add_edge(edge.sub, edge.obj, **edge_attrs)
+    return mdg

@@ -9,21 +9,47 @@ from rdflib import Graph
 class SkosInterface(BasicOntologyInterface, ABC):
     """
     presents ontology as simple SKOS vocabularies
+
+    `SKOS <https://www.w3.org/2004/02/skos/>`_
     """
 
-    def concepts(self) -> Iterable[CURIE]
+    def concepts(self) -> Iterable[CURIE]:
+        """
+
+        :return:
+        """
         raise NotImplementedError
 
-    def broader(self, curie: CURIE) -> Iterable[CURIE]
+    def broader(self, curie: CURIE) -> Iterable[CURIE]:
+        """
+
+        :param curie:
+        :return:
+        """
         raise NotImplementedError
 
-    def narrower(self, curie: CURIE) -> Iterable[CURIE]
+    def narrower(self, curie: CURIE) -> Iterable[CURIE]:
+        """
+
+        :param curie:
+        :return:
+        """
         raise NotImplementedError
 
-    def exact(self, curie: CURIE) -> Iterable[CURIE]
+    def exact(self, curie: CURIE) -> Iterable[CURIE]:
+        """
+
+        :param curie:
+        :return:
+        """
         raise NotImplementedError
 
-    def related(self, curie: CURIE) -> Iterable[CURIE]
+    def related(self, curie: CURIE) -> Iterable[CURIE]:
+        """
+
+        :param curie:
+        :return:
+        """
         raise NotImplementedError
 
 

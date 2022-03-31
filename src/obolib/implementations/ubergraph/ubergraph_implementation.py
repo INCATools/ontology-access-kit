@@ -33,7 +33,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
     has knowledge of some of the specialized patterns found in Ubergraph
 
     """
-    engine: SPARQLWrapper
+    #sparql_wrapper: SPARQLWrapper
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> "UbergraphImplementation":
@@ -50,7 +50,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
         :return:
         """
         engine = UbergraphProvider.create_engine(resource)
-        return UbergraphImplementation(engine)
+        return UbergraphImplementation(sparql_wrapper=engine)
 
     def _get_outgoing_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum) -> Iterable[Tuple[CURIE, CURIE]]:
         rmap = defaultdict(list)

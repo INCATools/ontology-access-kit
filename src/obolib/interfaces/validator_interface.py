@@ -17,6 +17,10 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
     - lexical checks
     - wrapping reasoning
     - structural graph checks
+
+    Specific implementations may choose to implement efficient methods for this.
+    For example, a SQL implementation can quickly determine all terms
+    missing definitions with a query over an indexed table
     """
 
     def term_curies_without_definitions(self) -> Iterable[CURIE]:

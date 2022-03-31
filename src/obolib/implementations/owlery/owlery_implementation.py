@@ -9,7 +9,7 @@ from obolib.resource import OntologyResource
 @dataclass
 class OwleryImplementation(OwlInterface, SparqlImplementation):
     """
-    Wraps an OWLery endpoint
+    Wraps an owlery endpoint
 
      See `<https://github.com/phenoscape/owlery>`_
 

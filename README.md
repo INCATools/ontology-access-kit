@@ -70,10 +70,37 @@ PATO:0045035 ! normal osmolarity
 
 ### QC and Validation
 
+Perform validation on PR using sqlite/rdftab instance:
 
 ```bash
 obolib validate -i sqlite:../semantic-sql/db/pr.db
 ```
+
+### List all terms
+
+List all terms obolibrary has for mondo
+
+```bash
+obolib validate -i obolibrary:mondo.obo terms
+```
+
+### Lexical index
+
+Make a lexical index of all terms in Mondo:
+
+```bash
+obolib lexmatch -i obolibrary:mondo.obo -L mondo.index.yaml
+```
+
+### Mapping
+
+Create a SSSOM mapping file for a set of ontologies:
+
+```bash
+robot merge -I http://purl.obolibrary.org/obo/hp.owl -I http://purl.obolibrary.org/obo/mp.owl convert --check false -o hp-mp.obo
+obolib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
+```
+
 
 
 

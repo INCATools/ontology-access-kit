@@ -189,5 +189,8 @@ to give you a sense:
 
     At this stage in development of this library, most implementations are partial and things are subject to change!
 
+Datamodels used
+----------------
 
+See :ref:`datamodels` 
 

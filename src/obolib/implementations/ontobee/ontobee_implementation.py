@@ -14,7 +14,6 @@ class OntobeeImplementation(SparqlImplementation):
 
     See: `<https://www.ontobee.org/>`_
     """
-    engine: SPARQLWrapper
 
     @classmethod
     def create(cls, resource: OntologyResource = None) -> "OntobeeImplementation":
@@ -31,7 +30,7 @@ class OntobeeImplementation(SparqlImplementation):
         :return: OntobeeImplementation
         """
         engine = OntobeeProvider.create_engine(resource)
-        return OntobeeImplementation(engine)
+        return OntobeeImplementation(sparql_wrapper=engine)
 
 
 

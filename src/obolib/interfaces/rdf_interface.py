@@ -2,16 +2,15 @@ from abc import ABC
 from typing import Dict, List, Tuple
 
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from obolib.types import CURIE, LABEL, URI
-from rdflib import Graph
+import rdflib
 
 
 class RdfInterface(BasicOntologyInterface, ABC):
     """
-    presents ontology as simple RDF graphs
+    presents ontology as simple RDF graphs, using the rdflib datamodel
     """
 
-    def graph(self) -> Graph:
+    def graph(self) -> rdflib.Graph:
         raise NotImplementedError()
 
     def triples(self, pattern: Tuple):

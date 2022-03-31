@@ -18,7 +18,7 @@ class TestProntoProvider(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
-        oi = ProntoImplementation.create(resource)
+        oi = ProntoImplementation(resource)
         self.oi = oi
 
     def test_relationships(self):
@@ -40,7 +40,6 @@ class TestProntoProvider(unittest.TestCase):
         assert 'term_tracker_item' in m.keys()
         assert 'https://github.com/geneontology/go-ontology/issues/17776' in m['term_tracker_item']
 
-
     def test_labels(self):
         """
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
@@ -54,7 +53,6 @@ class TestProntoProvider(unittest.TestCase):
         # TODO: test strict mode
         label = oi.get_label_by_curie(IS_A)
         self.assertIsNotNone(label)
-
 
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie('GO:0005575')

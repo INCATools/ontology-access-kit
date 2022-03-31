@@ -216,6 +216,7 @@ id: CHEBI:36338
 name: lepton
 is_a: CHEBI:33233 ! fundamental particle
 is_a: CHEBI:36340 ! fermion
+property_value: skos:exactMatch SWEET:lepton
 
 [Term]
 id: CHEBI:36339

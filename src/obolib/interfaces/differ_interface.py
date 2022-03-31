@@ -10,6 +10,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
     """
     Generates descriptions of differences
 
+    TBD: low level diffs vs high level
+
+     See `KGCL <https://github.com/cmungall/knowledge-graph-change-language>`_
     """
 
     def diff(self, left_ontology_id: CURIE, right_ontology_id: CURIE) -> str:

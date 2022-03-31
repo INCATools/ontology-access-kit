@@ -14,11 +14,12 @@ DB = INPUT_DIR / 'go-nucleus.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 CELLULAR_COMPONENT = 'GO:0005575'
 
+
 class TestSqlDatabaseProvider(unittest.TestCase):
 
     def setUp(self) -> None:
         print(f'DB={str(DB)}')
-        oi = SqlImplementation.create(OntologyResource(slug=f'sqlite:///{str(DB)}'))
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{str(DB)}'))
         self.oi = oi
 
     def test_relationships(self):

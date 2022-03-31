@@ -10,6 +10,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
     """
     Applies diffs
 
+    See `KGCL <https://github.com/cmungall/knowledge-graph-change-language>`_
     """
 
     def apply_patch(self, patch: str) -> None:

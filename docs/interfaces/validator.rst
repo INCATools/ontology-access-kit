@@ -9,7 +9,7 @@ About
 Code
 ----
 
-.. currentmodule:: obolib.interfaces.qc_interface
+.. currentmodule:: obolib.interfaces.validator_interface
                    
-.. autoclass:: QualityControlInterface
+.. autoclass:: ValidatorInterface
     :members:

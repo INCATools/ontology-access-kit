@@ -1,0 +1,120 @@
+id: https://w3id.org/linkml/lexical_index
+title: Lexical Index
+name: lexican-index
+description: A datamodel for representing a lexical index of an ontology
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  li: https://w3id.org/linkml/lexical_index/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+
+default_prefix: li
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  LexicalIndex:
+    description: An index over an ontology keyed by lexical unit
+    attributes:
+      groupings:
+        description: all groupings
+        range: LexicalGrouping
+        multivalued: true
+        inlined: true
+      pipelines:
+        description: all pipelines used to build the index
+        range: LexicalTransformationPipeline
+        multivalued: true
+        inlined: true
+
+  LexicalGrouping:
+    description: A grouping of ontology elements by a shared lexical term
+    attributes:
+      term:
+        key: true
+        description: A normalized term that groups ontology elements
+      relationships:
+        range: RelationshipToTerm
+        multivalued: true
+        description: All ontology elements grouped and their relationship to the normalized term
+
+  RelationshipToTerm:
+    description: A relationship of an ontology element to a lexical term
+    attributes:
+      predicate:
+        range: uriorcurie
+      element:
+        range: uriorcurie
+      element_term:
+        description: the original term used in the element
+      source:
+        range: uriorcurie
+      pipeline:
+        range: LexicalTransformationPipeline
+        multivalued: true
+
+  Activity:
+    description: Generic grouping for any lexical operation
+    abstract: true
+    class_uri: prov:Activity
+
+  LexicalTransformationPipeline:
+    is_a: Activity
+    description: A collection of atomic lexical transformations that are applied in serial fashion
+    attributes:
+      name:
+        key: true
+      transformations:
+        range: LexicalTransformation
+        multivalued: true
+
+  LexicalTransformation:
+    is_a: Activity
+    description: An atomic lexical transformation applied on a term (string) yielding a transformed string
+    attributes:
+      type:
+        range: TransformationType
+        description: The type of transformation
+      params:
+        description: Any parameters to be applied to the transformation algorithm
+
+enums:
+  TransformationType:
+    description: A controlled vocabulary of the types of transformation that can be applied to
+    permissible_values:
+      Stemming:
+        description: Removal of the last few characters of a word to yield a stem term for each word in the term
+      Lemmatization:
+        description: Contextual reduction of a word to its base form for each word in the term
+      WordOrderNormalization:
+        description: reorder words in the term to a standard order such that comparisons are order-independent
+      Depluralization:
+        description: Transform plural form to singular form for each word in a term
+      CaseNormalization:
+        description: Transform term to a standard case, typically lowercase
+      WhitespaceNormalization:
+        description: Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces
+      TermExpanson:
+        description: Expand terms using a dictionary

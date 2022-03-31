@@ -12,3 +12,8 @@ SYNONYM_PREDICATES = [HAS_RELATED_SYNONYM, HAS_NARROW_SYNONYM, HAS_EXACT_SYNONYM
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 PART_OF = 'BFO:0000050'
+
+OBO_PURL = 'http://purl.obolibrary.org/obo/'
+
+SKOS_EXACT_MATCH = 'skos:exactMatch'
+HAS_DBXREF = omd.slots.database_cross_reference.curie

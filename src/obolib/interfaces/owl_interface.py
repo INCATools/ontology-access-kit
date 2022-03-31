@@ -65,6 +65,6 @@ class OwlInterface(BasicOntologyInterface, ABC):
     def is_satisfiable(self, curie: CURIE) -> bool:
         raise NotImplementedError
 
-    def reasoner_configurations(self) -> List[ReasonerConfiguration]
+    def reasoner_configurations(self) -> List[ReasonerConfiguration]:
         raise NotImplementedError
 

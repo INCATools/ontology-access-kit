@@ -1,8 +1,12 @@
 from copy import copy
-from typing import List, Union, Dict, Iterable
+from dataclasses import dataclass
+from typing import List, Union, Dict, Iterable, Tuple
 
 from obolib.interfaces.basic_ontology_interface import RELATIONSHIP, BasicOntologyInterface
 from obolib.types import CURIE, PRED_CURIE
+
+#PATH = Tuple[CURIE, List[PRED_CURIE], CURIE]
+PATH = List[RELATIONSHIP]
 
 
 def walk_up(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
@@ -33,3 +37,4 @@ def walk_up(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]],
                     rels.append((next_curie, pred, filler))
     for rel in rels:
         yield rel
+
