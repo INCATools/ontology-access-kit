@@ -17,6 +17,7 @@
       draw_graph
       filter_by_predicates
       graph_as_dict
+      graph_to_image
    
    
 

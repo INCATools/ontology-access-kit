@@ -56,6 +56,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -86,8 +88,10 @@
 <span id="id1"></span><h1>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this headline"></a></h1>
 <p>obolib provides a variety of <em>interfaces</em> that abstract away from
 implementation details and provide a coherent set of operations to
-perform on an ontology.</p>
-<p>The most common operations are found in the <span class="xref std std-ref">basic</span> interface</p>
+perform on an ontology. Developers can code to the interface largely without
+worrying about whether the implementation is a relational database, a local
+file, etc.</p>
+<p>The most common operations are found in the <a class="reference internal" href="basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a></p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -105,6 +109,12 @@ perform on an ontology.</p>
 </ul>
 </li>
 </ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some interfaces may not be “pure” interfaces is that they may provide
+a default implementation, which may or may not be overridden by an
+implementation</p>
 </div>
 </section>
 

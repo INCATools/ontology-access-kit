@@ -13,12 +13,19 @@
 
    .. autosummary::
    
+      add_labels_from_uris
       apply_transformation
       create_lexical_index
       create_mapping
+      inferred_mapping
+      inverse_logit
+      invert_mapping_predicate
       lexical_index_to_sssom
       load_lexical_index
+      load_mapping_rules
+      precondition_holds
       save_lexical_index
+      save_mapping_rules
    
    
 

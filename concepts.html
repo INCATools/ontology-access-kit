@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ontology Concepts &mdash; obolib  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Notebooks" href="notebooks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> obolib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ontology Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ontology">Ontology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ontology-element">Ontology Element</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imports-and-ontologies-within-ontologies">Imports and Ontologies within Ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uris-and-curies-and-identifiers">URIs and CURIEs and identifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prefix-maps">Prefix Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#relationships-edges">Relationships / Edges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mappings">Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ontology-format">Ontology Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#statements-and-axioms">Statements and Axioms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subsets">Subsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#labels-names">Labels/Names</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">obolib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Ontology Concepts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concepts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ontology-concepts">
+<span id="concepts"></span><h1>Ontology Concepts<a class="headerlink" href="#ontology-concepts" title="Permalink to this headline"></a></h1>
+<p>Here we describe some of the over-arching concepts in this library. Note that distinct <a class="reference internal" href="datamodels/index.html#datamodels"><span class="std std-ref">Datamodels</span></a> may impose
+their own specific views of the world, but the concepts here are intended as a kind of lingua-franca</p>
+<section id="ontology">
+<h2>Ontology<a class="headerlink" href="#ontology" title="Permalink to this headline"></a></h2>
+<p>This library has a very broad concept of what an Ontology is, in keeping with the broad range of use cases addressed.</p>
+<p>For many users the concept of an ontology is quite straightforward - it’s something like what is described in the GO
+paper from 2000, a collection of thousands of inter-related terms. However, the concept of “ontology” turns out to be
+very flexible and malleable, and might include things like:</p>
+<ul class="simple">
+<li><p>things that are more “schema-like”, such as schema.org or PROV</p></li>
+<li><p>formal logical artefacts like BFO</p></li>
+<li><p>an “instance graph” for example of countries and their connections</p></li>
+<li><p>a knowledge base encoded in RDF</p></li>
+<li><p>the entirety of wikidata</p></li>
+<li><p>in OWL, an ontology is just a collection of axioms</p></li>
+</ul>
+<p>We try to be as pluralistic as possible and provide a way to access all of the above using
+the appropriate abstractions. However, the main community served in “classic” ontologies such
+as those found in the OBO library or those encoded in OWL</p>
+</section>
+<section id="ontology-element">
+<h2>Ontology Element<a class="headerlink" href="#ontology-element" title="Permalink to this headline"></a></h2>
+<p>Ontologies can be conceived of as collection of different kinds of <em>elements</em>, which can loosely be thought of as something
+with a persistent identifier, and optionally having various kinds of metadata associated with it.</p>
+<p>The different kinds of elements are:</p>
+<ul class="simple">
+<li><p>Classes or Concepts – the predominant kind, for most ontologies</p></li>
+<li><p>Properties or Relationship Types</p></li>
+<li><p>Individuals or Instances</p></li>
+<li><p>Subsets</p></li>
+<li><p>Ontologies (an ontology is itself an ontology element)</p></li>
+<li><p>Various other elements used for particular purposes</p></li>
+</ul>
+<p>These are not necessarily disjoint categories!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We sometimes use the term “term” but this can be ambiguous. Sometimes it is equated with the OWL concept of a Class, sometimes it it used
+more broadly to encompass other elements that may have names/labels (for example, Scotland, which is an instance, not a class). And sometimes
+it is used to refer to the string by which the element is denoted!</p>
+</div>
+<p>When working with a specific datamodel these may be partitioned more strictly. For example, in OWL, there are three disjoint kinds of properties:</p>
+<ul class="simple">
+<li><p>ObjectProperties</p></li>
+<li><p>AnnotationProperties</p></li>
+<li><p>DatatypeProperties</p></li>
+</ul>
+<p>The BasicOntologyInterface does not discriminate between different kinds of element. This can be confusing,
+if you ask for all elements thinking you might get back only the “terms” but you would also get elements for
+relationship types, subsets, etc.</p>
+</section>
+<section id="imports-and-ontologies-within-ontologies">
+<h2>Imports and Ontologies within Ontologies<a class="headerlink" href="#imports-and-ontologies-within-ontologies" title="Permalink to this headline"></a></h2>
+<p>Many users are accustomed to ontologies being simple stand-alone monolithic entities, and a lot of tooling makes that assumption.</p>
+<p>In fact, many ontologies are organized as modular components that are <em>imported</em> by other ontologies, much the same way that
+software has evolved from monolithic programs to modular systems. Sometimes for ontologies releases, the imports are <em>merged</em> such that
+what appears to be one ontology has pieces of other ontologies incorporated in.</p>
+<p>This library is designed to handle all of these scenarios. In the BasicOntologyInterface, you don’t have to worry about imports,
+you just get a view where everything appears as if it were in a single ontologies (even this ontologies actually a combination of
+ontologies). Other interfaces let you explore the compositional structure in more detail</p>
+</section>
+<section id="uris-and-curies-and-identifiers">
+<h2>URIs and CURIEs and identifiers<a class="headerlink" href="#uris-and-curies-and-identifiers" title="Permalink to this headline"></a></h2>
+<p>Some communities prefer to use prefixed identifiers like <a class="reference external" href="GO:0008152">GO:0008152</a>, others prefer to use URIs as identifiers. This is driven
+largely by the tools and infrastructure used, with “semantic web” stacks using URIs and data science/bioinformatics tools
+using identifiers.</p>
+<p>We bridge these worlds by using CURIEs, essentially prefixed identifiers where there is a well-defined prefix expansion.</p>
+<p>Most methods in the interfaces in this library accept CURIEs, but these can always be expanded and contracted.</p>
+</section>
+<section id="prefix-maps">
+<h2>Prefix Maps<a class="headerlink" href="#prefix-maps" title="Permalink to this headline"></a></h2>
+<p>A prefix map maps between prefixes and their URI base expansions</p>
+</section>
+<section id="relationships-edges">
+<h2>Relationships / Edges<a class="headerlink" href="#relationships-edges" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It may seem surprising but the Owl standard has no construct that directly corresponds to what we call
+a relationship here.</p>
+</div>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+</section>
+<section id="ontology-format">
+<h2>Ontology Format<a class="headerlink" href="#ontology-format" title="Permalink to this headline"></a></h2>
+</section>
+<section id="statements-and-axioms">
+<h2>Statements and Axioms<a class="headerlink" href="#statements-and-axioms" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You only need to understand this if you are working with the OwlInterface or the RdfInterface</p>
+</div>
+</section>
+<section id="subsets">
+<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this headline"></a></h2>
+</section>
+<section id="labels-names">
+<h2>Labels/Names<a class="headerlink" href="#labels-names" title="Permalink to this headline"></a></h2>
+<p>It is common for biological ontologies to use an opaque identifier for each element, and include exactly one “name” or “label”
+which serves as a unique string for humans to identify the element. In OWL representations, the name is typically represented
+using rdfs:label.</p>
+<p>This is by no means universal:</p>
+<ul>
+<li><p>some ontologies use non-opaque identifiers, and omit a separate label field</p></li>
+<li><p>some ontologies may use a different property, such as skos:prefLabel</p></li>
+<li><p>some ontologies may have some elements that are “dangling” and do not have label populated</p></li>
+<li><p>sometimes the same label may be shared by different identifiers, even within an ontology</p></li>
+<li><p>some ontologies may have multiple labels for an element</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>this may be intentional, as in the case of different languages (wikidata)</p></li>
+<li><p>or it may be unintentional, for example, resulting from ontology merges of different versions of the same ontology</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>The OWL datamodel allows for complete flexibility here, giving ontology providers the freedom to model things however they like.
+The OBO Format datamodel (and the corresponding obojson) is a little more restrictive here, for example, disallowing multiple labels.</p>
+<p>The OBO community have defined a suite of QC checks implemented in the OBO dashboard to try and get ontologies align to a datamodel
+where elements have exactly one label.</p>
+<p>This library aims to be pluralistic and allow for all scenarios. However, it makes the common case the most “convenient”.
+And it may also be the case that some interfaces impose a certain restriction - for example, the obograph interface uses
+the obograph datamodel which has a maximum cardinality of 1 for labels.</p>
+<p>Some implementations may also impose their own restrictions - e.g. pronto, OLS, and bioportal all roughly adhere to the OBO model
+of making label be single-valued.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notebooks.html" class="btn btn-neutral float-left" title="Notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chris Mungall.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

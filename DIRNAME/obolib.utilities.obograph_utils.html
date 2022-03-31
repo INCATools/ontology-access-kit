@@ -57,6 +57,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -99,14 +101,17 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">as_multi_digraph</span></code>(graph[, reverse])</p></td>
 <td><p>Convert to a networkx <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiDiGraph</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_graph</span></code>(graph[, seeds, configure, stylemap])</p></td>
-<td><p>Renders a graph using obographviz</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_graph</span></code>(graph[, seeds, configure, ...])</p></td>
+<td><p>Generates an image from a graph using <span class="xref std std-ref">graph_to_image</span> then open for display</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_by_predicates</span></code>(graph, predicates[, ...])</p></td>
 <td><p>Create a subgraph that has only edges whose predicates are in the predicate list</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_as_dict</span></code>(graph)</p></td>
 <td><p>Convert an OBOGraph representation to a dictionary representation isomorphic to the OBOGraphs json standard.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_to_image</span></code>(graph[, seeds, configure, ...])</p></td>
+<td><p>Renders a graph to png using obographviz</p></td>
 </tr>
 </tbody>
 </table>
