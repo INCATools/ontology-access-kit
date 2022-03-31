@@ -1,0 +1,21 @@
+# Slot: results
+
+URI: [https://w3id.org/linkml/reportresults](https://w3id.org/linkml/reportresults)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: ValidationResult
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

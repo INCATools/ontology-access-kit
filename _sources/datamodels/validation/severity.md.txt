@@ -1,0 +1,21 @@
+# Slot: severity
+
+URI: [https://w3id.org/linkml/reportseverity](https://w3id.org/linkml/reportseverity)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: severity_options
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

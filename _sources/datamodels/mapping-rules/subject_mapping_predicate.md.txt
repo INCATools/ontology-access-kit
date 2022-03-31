@@ -1,0 +1,21 @@
+# Slot: subject_mapping_predicate
+
+URI: [https://w3id.org/linkml/mapping_rules_datamodel/subject_mapping_predicate](https://w3id.org/linkml/mapping_rules_datamodel/subject_mapping_predicate)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: None
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

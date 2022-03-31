@@ -1,0 +1,21 @@
+# Slot: object_source
+
+URI: [https://w3id.org/linkml/mapping_rules_datamodel/object_source](https://w3id.org/linkml/mapping_rules_datamodel/object_source)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: None
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

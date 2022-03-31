@@ -1,0 +1,23 @@
+# Slot: symmetric
+_if true then subject and object can be switched and predicate inverted_
+
+
+URI: [https://w3id.org/linkml/mapping_rules_datamodel/symmetric](https://w3id.org/linkml/mapping_rules_datamodel/symmetric)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: None
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

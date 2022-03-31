@@ -1,0 +1,29 @@
+﻿obolib.utilities.graph.relationship\_walker
+===========================================
+
+.. automodule:: obolib.utilities.graph.relationship_walker
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      walk_up
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

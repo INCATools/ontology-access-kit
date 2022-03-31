@@ -104,6 +104,7 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     multivalued: true
     inlined: true
+    inlined_as_list: true
     alias: edges
     owner: Graph
     range: Edge

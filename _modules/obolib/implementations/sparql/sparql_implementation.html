@@ -14,6 +14,8 @@
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -25,7 +27,6 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="../../../../index.html" class="icon icon-home"> obolib
-            <img src="https://linkml.io/uploads/linkml-logo_color.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -41,8 +42,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../vocabulary/index.html">Ontology-Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
 </ul>
 
         </div>
@@ -78,7 +81,7 @@
 
 <span class="kn">import</span> <span class="nn">SPARQLWrapper</span>
 <span class="kn">from</span> <span class="nn">SPARQLWrapper</span> <span class="kn">import</span> <span class="n">JSON</span>
-<span class="kn">from</span> <span class="nn">obolib.implementations.ubergraph.ubergraph</span> <span class="kn">import</span> <span class="n">UbergraphProvider</span>
+<span class="kn">from</span> <span class="nn">obolib.implementations.sparql.sparql</span> <span class="kn">import</span> <span class="n">SparqlEndpointProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">PREFIX_MAP</span>
 <span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
@@ -131,12 +134,12 @@
 <span class="sd">    - :class:`.OntobeeImplementation`</span>
 <span class="sd">    - :class:`.UbergraphImplementation`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">engine</span><span class="p">:</span> <span class="n">SPARQLWrapper</span>
+    <span class="n">sparql_wrapper</span><span class="p">:</span> <span class="n">SPARQLWrapper</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SparqlImplementation.create"><a class="viewcode-back" href="../../../../implementations/sparql.html#obolib.implementations.sparql.sparql_implementation.SparqlImplementation.create">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BasicOntologyInterface</span><span class="p">:</span>
-        <span class="n">engine</span> <span class="o">=</span> <span class="n">UbergraphProvider</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">SparqlImplementation</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span></div>
+        <span class="n">sw</span> <span class="o">=</span> <span class="n">SparqlEndpointProvider</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SparqlImplementation</span><span class="p">(</span><span class="n">sparql_wrapper</span><span class="o">=</span><span class="n">sw</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">get_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="c1"># TODO</span>
@@ -167,7 +170,7 @@
         <span class="k">return</span> <span class="n">uri</span>
 
     <span class="k">def</span> <span class="nf">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">:</span> <span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="p">{}):</span>
-        <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span>
+        <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparql_wrapper</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">prefixes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;PREFIX </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: &lt;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&gt;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">query</span>
         <span class="n">sw</span><span class="o">.</span><span class="n">setQuery</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
@@ -226,7 +229,7 @@
 
 
     <span class="k">def</span> <span class="nf">get_curies_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">terms</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparql_wrapper</span><span class="o">.</span><span class="n">terms</span><span class="p">()]</span>
 
     <span class="k">def</span> <span class="nf">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="n">term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_term</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>

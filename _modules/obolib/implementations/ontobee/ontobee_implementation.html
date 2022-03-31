@@ -14,6 +14,8 @@
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -25,7 +27,6 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="../../../../index.html" class="icon icon-home"> obolib
-            <img src="https://linkml.io/uploads/linkml-logo_color.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -41,8 +42,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../vocabulary/index.html">Ontology-Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
 </ul>
 
         </div>
@@ -76,7 +79,6 @@
 <span class="kn">import</span> <span class="nn">SPARQLWrapper</span>
 <span class="kn">from</span> <span class="nn">obolib.implementations.ontobee.ontobee</span> <span class="kn">import</span> <span class="n">OntobeeProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span>
-<span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span>
 <span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 
 
@@ -87,7 +89,6 @@
 
 <span class="sd">    See: `&lt;https://www.ontobee.org/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">engine</span><span class="p">:</span> <span class="n">SPARQLWrapper</span>
 
 <div class="viewcode-block" id="OntobeeImplementation.create"><a class="viewcode-back" href="../../../../implementations/ontobee.html#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OntobeeImplementation&quot;</span><span class="p">:</span>
@@ -104,10 +105,8 @@
 <span class="sd">        :return: OntobeeImplementation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">engine</span> <span class="o">=</span> <span class="n">OntobeeProvider</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">OntobeeImplementation</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">OntobeeImplementation</span><span class="p">(</span><span class="n">sparql_wrapper</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span></div></div>
 
-    <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">OntobeeProvider</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">resource</span><span class="p">)</span></div>
 
 
 

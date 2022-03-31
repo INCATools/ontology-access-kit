@@ -1,0 +1,21 @@
+# Slot: instantiates
+
+URI: [https://w3id.org/linkml/reportinstantiates](https://w3id.org/linkml/reportinstantiates)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: nodeidentifier
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

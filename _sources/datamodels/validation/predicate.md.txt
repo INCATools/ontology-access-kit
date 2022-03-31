@@ -1,0 +1,21 @@
+# Slot: predicate
+
+URI: [https://w3id.org/linkml/reportpredicate](https://w3id.org/linkml/reportpredicate)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: nodeidentifier
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

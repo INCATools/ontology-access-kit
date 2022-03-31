@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Ontology-Metadata" href="ontology-metadata/index.html" />
-    <link rel="prev" title="Ontobee Endpoint" href="../implementations/ontobee.html" /> 
+    <link rel="prev" title="Command Line" href="../cli.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,13 +45,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Datamodels</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ontology-metadata/index.html">Ontology-Metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obograph/index.html">obographs_linkml_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sssom/index.html">SSSOM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="funowl/index.html">FunOwl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics/index.html">summary-statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation/index.html">validaton-results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lexical-index/index.html">lexican-index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-rules/index.html">mapping-rules</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 </ul>
 
         </div>
@@ -88,6 +95,10 @@ lossy with respect to one another.</p>
 <p>You don’t need to use <em>any</em> of these to use the
 BasicOntologyInterface, which uses simple python datatypes.</p>
 </div>
+<p>Each datamodel represents the perspective of one or more <a class="reference internal" href="../interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a>. For example,
+the funowl datamodel is used by OwlInterface, and represents the perspective of an ontology
+as being a collection of Owl <em>axioms</em>. Other interfaces present different views and do
+not need this.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -103,7 +114,32 @@ BasicOntologyInterface, which uses simple python datatypes.</p>
 <li class="toctree-l2"><a class="reference internal" href="obograph/index.html#enums">Enums</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sssom/index.html">SSSOM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="funowl/index.html">FunOwl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summary-statistics/index.html">summary-statistics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics/index.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics/index.html#slots">Slots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics/index.html#enums">Enums</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validation/index.html">validaton-results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validation/index.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation/index.html#slots">Slots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation/index.html#enums">Enums</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lexical-index/index.html">lexican-index</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lexical-index/index.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lexical-index/index.html#slots">Slots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lexical-index/index.html#enums">Enums</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mapping-rules/index.html">mapping-rules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mapping-rules/index.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-rules/index.html#slots">Slots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping-rules/index.html#enums">Enums</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -112,7 +148,7 @@ BasicOntologyInterface, which uses simple python datatypes.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../implementations/ontobee.html" class="btn btn-neutral float-left" title="Ontobee Endpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cli.html" class="btn btn-neutral float-left" title="Command Line" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ontology-metadata/index.html" class="btn btn-neutral float-right" title="Ontology-Metadata" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

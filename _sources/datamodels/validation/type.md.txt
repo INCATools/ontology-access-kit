@@ -1,0 +1,23 @@
+# Slot: type
+_The type of validation result. SHACL validation vocabulary is recommended._
+
+
+URI: [https://w3id.org/shacl/sourceConstraintComponent](https://w3id.org/shacl/sourceConstraintComponent)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: nodeidentifier
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

@@ -10,6 +10,10 @@ lossy with respect to one another.
 .. note:: You don't need to use *any* of these to use the
           BasicOntologyInterface, which uses simple python datatypes.
 
+Each datamodel represents the perspective of one or more :ref:`interfaces`. For example,
+the funowl datamodel is used by OwlInterface, and represents the perspective of an ontology
+as being a collection of Owl *axioms*. Other interfaces present different views and do
+not need this.
 
 .. toctree::
    :maxdepth: 3
@@ -17,5 +21,12 @@ lossy with respect to one another.
 
    ontology-metadata/index
    obograph/index
+   sssom/index
    funowl/index
+   rdflib/index
+   summary-statistics/index
+   validation/index
+   lexical-index/index
+   mapping-rules/index
+
 

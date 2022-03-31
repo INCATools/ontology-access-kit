@@ -14,10 +14,11 @@ The most common operations are found in the :ref:`basic` interface
    :caption: Contents:
 
    basic
-   owl
    subsetting
    relation-graph
+   obograph
+   owl
    summary-statistics
    rdf
-   qc
+   validator
    

@@ -1,0 +1,21 @@
+# Slot: object
+
+URI: [https://w3id.org/shacl/value](https://w3id.org/shacl/value)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: nodeidentifier
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

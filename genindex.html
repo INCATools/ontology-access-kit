@@ -42,8 +42,9 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 </ul>
 
@@ -81,13 +82,14 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
- | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
 </div>
@@ -162,13 +164,17 @@
 </li>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">aliases_by_curie() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">all_entity_curies() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies">all_ontology_curies() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">all_relationships() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">ancestor_graph() (obolib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+      <li><a href="interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.as_obograph">as_obograph() (obolib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -214,6 +220,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="implementations/sqldb.html#obolib.implementations.sqldb.model.Edge">Edge (class in obolib.implementations.sqldb.model)</a>
 </li>
+      <li><a href="interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.edges">edges() (obolib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/relation-graph.html#obolib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (obolib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
@@ -254,12 +262,37 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie">metadata_map_by_curie() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="DIRNAME/obolib.utilities.graph.relationship_walker.html#module-obolib.utilities.graph.relationship_walker">obolib.utilities.graph.relationship_walker</a>
+</li>
+        <li><a href="DIRNAME/obolib.utilities.lexical.lexical_indexer.html#module-obolib.utilities.lexical.lexical_indexer">obolib.utilities.lexical.lexical_indexer</a>
+</li>
+        <li><a href="DIRNAME/obolib.utilities.obograph_utils.html#module-obolib.utilities.obograph_utils">obolib.utilities.obograph_utils</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.node">node() (obolib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.nodes">nodes() (obolib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in obolib.interfaces.obograph_interface)</a>
+</li>
       <li>
     obolib command line option
 
@@ -279,6 +312,27 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    obolib.utilities.graph.relationship_walker
+
+      <ul>
+        <li><a href="DIRNAME/obolib.utilities.graph.relationship_walker.html#module-obolib.utilities.graph.relationship_walker">module</a>
+</li>
+      </ul></li>
+      <li>
+    obolib.utilities.lexical.lexical_indexer
+
+      <ul>
+        <li><a href="DIRNAME/obolib.utilities.lexical.lexical_indexer.html#module-obolib.utilities.lexical.lexical_indexer">module</a>
+</li>
+      </ul></li>
+      <li>
+    obolib.utilities.obograph_utils
+
+      <ul>
+        <li><a href="DIRNAME/obolib.utilities.obograph_utils.html#module-obolib.utilities.obograph_utils">module</a>
+</li>
+      </ul></li>
       <li><a href="implementations/ontobee.html#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in obolib.implementations.ontobee.ontobee_implementation)</a>
 </li>
   </ul></td>
@@ -288,14 +342,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="implementations/obofiles.html#obolib.implementations.pronto.pronto_implementation.ProntoImplementation">ProntoImplementation (class in obolib.implementations.pronto.pronto_implementation)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="Q">Q</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/qc.html#obolib.interfaces.qc_interface.QualityControlInterface">QualityControlInterface (class in obolib.interfaces.qc_interface)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -342,6 +388,10 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/validator.html#obolib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">term_curies_without_definitions() (obolib.interfaces.validator_interface.ValidatorInterface method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     TERMS
 
@@ -360,6 +410,18 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">uri_to_curie() (obolib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/validator.html#obolib.interfaces.validator_interface.ValidatorInterface.validate">validate() (obolib.interfaces.validator_interface.ValidatorInterface method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/validator.html#obolib.interfaces.validator_interface.ValidatorInterface">ValidatorInterface (class in obolib.interfaces.validator_interface)</a>
 </li>
   </ul></td>
 </tr></table>

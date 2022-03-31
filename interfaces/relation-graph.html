@@ -20,7 +20,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Summary Statistics" href="summary-statistics.html" />
+    <link rel="next" title="&lt;no title&gt;" href="obograph.html" />
     <link rel="prev" title="Subsetting" href="subsetting.html" /> 
 </head>
 
@@ -48,12 +48,14 @@
 <li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Relation Graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qc.html">QC Ontology Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validator.html">QC Ontology Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 </ul>
 
         </div>
@@ -85,7 +87,7 @@
 <h1>Relation Graph<a class="headerlink" href="#relation-graph" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="obolib.interfaces.relation_graph_interface.RelationGraphInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.interfaces.relation_graph_interface.</span></span><span class="sig-name descname"><span class="pre">RelationGraphInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/interfaces/relation_graph_interface.html#RelationGraphInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.relation_graph_interface.RelationGraphInterface" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.interfaces.relation_graph_interface.</span></span><span class="sig-name descname"><span class="pre">RelationGraphInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">obolib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/interfaces/relation_graph_interface.html#RelationGraphInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.relation_graph_interface.RelationGraphInterface" title="Permalink to this definition"></a></dt>
 <dd><p>an interface that provides relation graph abstractions</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="obolib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">
@@ -136,7 +138,7 @@ are the ‘parents’ or fillers</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="subsetting.html" class="btn btn-neutral float-left" title="Subsetting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="summary-statistics.html" class="btn btn-neutral float-right" title="Summary Statistics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="obograph.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

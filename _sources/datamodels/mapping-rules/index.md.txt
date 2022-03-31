@@ -1,0 +1,58 @@
+# mapping-rules
+
+A datamodel for specifying lexical mapping rules
+
+URI: https://w3id.org/linkml/mapping_rules_datamodel
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| [MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules | 
+| [MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied | 
+| [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping | 
+| [Postcondition](Postcondition.md) | None | 
+| [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit | 
+| [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term | 
+| [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term | 
+| [Activity](Activity.md) | None | 
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | None | 
+| [LexicalTransformation](LexicalTransformation.md) | None | 
+
+
+## Slots
+
+| Slot | Description |
+| --- | --- |
+| [rules](rules.md) | all rules | 
+| [symmetric](symmetric.md) | if true then subject and object can be switched and predicate inverted | 
+| [preconditions](preconditions.md) | all of the criteria that must be true before a rule is fired | 
+| [postconditions](postconditions.md) | conditions that apply if preconditions match | 
+| [subject_source](subject_source.md) | None | 
+| [object_source](object_source.md) | None | 
+| [mapping_source](mapping_source.md) | None | 
+| [subject_mapping_predicate](subject_mapping_predicate.md) | None | 
+| [object_mapping_predicate](object_mapping_predicate.md) | None | 
+| [transformations_included_in](transformations_included_in.md) | None | 
+| [predicate](predicate.md) | None | 
+| [weight](weight.md) | Weighting of the rule, positive increases the confidence, negative decreases | 
+| [groupings](groupings.md) | all groupings | 
+| [pipelines](pipelines.md) | all pipelines used to build the index | 
+| [term](term.md) | A normalized term that groups ontology elements | 
+| [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term | 
+| [element](element.md) | None | 
+| [element_term](element_term.md) | the original term used in the element | 
+| [source](source.md) | None | 
+| [pipeline](pipeline.md) | None | 
+| [name](name.md) | None | 
+| [transformations](transformations.md) | None | 
+| [type](type.md) | None | 
+| [params](params.md) | None | 
+
+
+## Enums
+
+| Enums | Description |
+| --- | --- |
+| [TransformationType](TransformationType.md) | None | 
+

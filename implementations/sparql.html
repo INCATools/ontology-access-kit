@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Ubergraph Endpoint" href="ubergraph.html" />
-    <link rel="prev" title="SQL Database Implementation" href="sqldb.html" /> 
+    <link rel="prev" title="Bioportal Endpoint" href="bioportal.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -55,8 +55,10 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#portals">Portals</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 </ul>
 
         </div>
@@ -88,7 +90,7 @@
 <h1>Sparql Endpoint<a class="headerlink" href="#sparql-endpoint" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="obolib.implementations.sparql.sparql_implementation.SparqlImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.sparql.sparql_implementation.</span></span><span class="sig-name descname"><span class="pre">SparqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/obolib-aqGZzxm3-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/sparql/sparql_implementation.html#SparqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.sparql.sparql_implementation.SparqlImplementation" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.sparql.sparql_implementation.</span></span><span class="sig-name descname"><span class="pre">SparqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">obolib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/obolib-aqGZzxm3-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/sparql/sparql_implementation.html#SparqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.sparql.sparql_implementation.SparqlImplementation" title="Permalink to this definition"></a></dt>
 <dd><p>An OntologyInterface implementation that wraps a (typically remote) SPARQL endpoint.</p>
 <p>Note: Each sparql endpoint typically implements its own bespoke transformations, leading
 to lack of interoperability. For some purposes it may be better to use a more specific
@@ -119,7 +121,7 @@ implementation:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="sqldb.html" class="btn btn-neutral float-left" title="SQL Database Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bioportal.html" class="btn btn-neutral float-left" title="Bioportal Endpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ubergraph.html" class="btn btn-neutral float-right" title="Ubergraph Endpoint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

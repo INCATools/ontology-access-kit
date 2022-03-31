@@ -1,0 +1,34 @@
+﻿obolib.utilities.lexical.lexical\_indexer
+=========================================
+
+.. automodule:: obolib.utilities.lexical.lexical_indexer
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      apply_transformation
+      create_lexical_index
+      create_mapping
+      lexical_index_to_sssom
+      load_lexical_index
+      save_lexical_index
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

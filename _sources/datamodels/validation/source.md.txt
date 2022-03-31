@@ -1,0 +1,21 @@
+# Slot: source
+
+URI: [https://w3id.org/linkml/reportsource](https://w3id.org/linkml/reportsource)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: nodeidentifier
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

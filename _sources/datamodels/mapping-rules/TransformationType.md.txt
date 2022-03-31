@@ -1,0 +1,24 @@
+# TransformationType
+
+None
+
+URI: TransformationType
+
+## Permissible Values
+
+| Value | Meaning | Description | Info |
+| --- | --- | --- | --- |
+| Stemming | None | None | |
+| Lemmatization | None | None | |
+| WordOrderNormalization | None | None | |
+| Depluralization | None | None | |
+| CaseNormalization | None | None | |
+| WhitespaceNormalization | None | None | |
+
+
+## Identifier and Mapping Information
+
+
+
+
+

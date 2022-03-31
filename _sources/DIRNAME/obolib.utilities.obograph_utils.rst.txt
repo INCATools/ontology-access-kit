@@ -1,0 +1,32 @@
+﻿obolib.utilities.obograph\_utils
+================================
+
+.. automodule:: obolib.utilities.obograph_utils
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      as_multi_digraph
+      draw_graph
+      filter_by_predicates
+      graph_as_dict
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

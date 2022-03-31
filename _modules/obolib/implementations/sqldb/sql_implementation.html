@@ -42,8 +42,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
 </ul>
 
@@ -74,24 +75,27 @@
   <h1>Source code for obolib.implementations.sqldb.sql_implementation</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
-<span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">HasOioSynonymStatement</span><span class="p">,</span> <span class="n">HasSynonymStatement</span>
+<span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">HasOioSynonymStatement</span><span class="p">,</span> <span class="n">HasSynonymStatement</span><span class="p">,</span> \
+    <span class="n">HasTextDefinitionStatement</span><span class="p">,</span> <span class="n">ClassNode</span><span class="p">,</span> <span class="n">IriNode</span><span class="p">,</span> <span class="n">RdfsLabelStatement</span><span class="p">,</span> <span class="n">DeprecatedNode</span>
 <span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.sqldb</span> <span class="kn">import</span> <span class="n">SqlDatabaseProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
+<span class="kn">from</span> <span class="nn">obolib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">obolib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary</span> <span class="kn">import</span> <span class="n">obograph</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary.vocabulary</span> <span class="kn">import</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span> <span class="n">omd_slots</span><span class="p">,</span> <span class="n">LABEL_PREDICATE</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">text</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">exists</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
 
 
 <div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../implementations/sqldb.html#obolib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database</span>
 
@@ -104,9 +108,15 @@
 <span class="sd">    - :class:`Statements`</span>
 <span class="sd">    - :class:`Edge`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">engine</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="c1"># TODO: use SQLA types</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_session</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_connection</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="p">)</span>  <span class="c1">## TODO</span>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -121,10 +131,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
 
+
 <div class="viewcode-block" id="SqlImplementation.create"><a class="viewcode-back" href="../../../../implementations/sqldb.html#obolib.implementations.sqldb.sql_implementation.SqlImplementation.create">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SqlImplementation&quot;</span><span class="p">:</span>
         <span class="n">engine</span> <span class="o">=</span> <span class="n">SqlDatabaseProvider</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s1">&#39;SELECT id FROM class_node WHERE id NOT LIKE &quot;_:%&quot;&#39;</span><span class="p">)</span>
@@ -146,13 +157,11 @@
 
     <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">search_term</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{</span><span class="n">search_term</span><span class="si">}</span><span class="s1">%&#39;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">search_term</span><span class="p">)</span>
         <span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">include_label</span><span class="p">:</span>
             <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">omd_slots</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">include_aliases</span><span class="p">:</span>
             <span class="n">preds</span> <span class="o">+=</span> <span class="n">SYNONYM_PREDICATES</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PREDS = </span><span class="si">{</span><span class="n">preds</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">view</span> <span class="o">=</span> <span class="n">Statements</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">preds</span><span class="p">)))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">like</span><span class="p">(</span><span class="n">search_term</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">distinct</span><span class="p">():</span>
@@ -180,7 +189,21 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="n">omd_slots</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">curie</span><span class="p">:</span>
                     <span class="n">meta</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">DefinitionPropertyValue</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">n</span></div>
+        <span class="k">return</span> <span class="n">n</span>
+
+    <span class="c1">## QC</span>
+    <span class="k">def</span> <span class="nf">_missing_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate_table</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">type_table</span><span class="p">:</span> <span class="n">Type</span> <span class="o">=</span> <span class="n">ClassNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="n">pred_subq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">predicate_table</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
+        <span class="n">obs_subq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DeprecatedNode</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">main_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">type_table</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">IriNode</span><span class="p">,</span> <span class="n">type_table</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">IriNode</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">main_q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">type_table</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">not_in</span><span class="p">(</span><span class="n">pred_subq</span><span class="p">))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">type_table</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">not_in</span><span class="p">(</span><span class="n">obs_subq</span><span class="p">)):</span>
+            <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span>
+
+    <span class="k">def</span> <span class="nf">term_curies_without_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_missing_value</span><span class="p">(</span><span class="n">HasTextDefinitionStatement</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">term_curies_without_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_missing_value</span><span class="p">(</span><span class="n">RdfsLabelStatement</span><span class="p">)</span></div>
 
 
 

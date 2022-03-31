@@ -1,0 +1,21 @@
+# Slot: subject
+
+URI: [https://w3id.org/shacl/focusNode](https://w3id.org/shacl/focusNode)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: nodeidentifier
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

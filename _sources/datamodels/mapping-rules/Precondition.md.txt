@@ -1,0 +1,130 @@
+# Class: Precondition
+_A pattern to be matched against an individual SSSOM mapping_
+
+
+
+
+
+URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Precondition)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+## Slots
+
+| Name | Range | Cardinality | Description  | Info |
+| ---  | --- | --- | --- | --- |
+| [subject_source](subject_source.md) | [string](string.md) | 0..1 | None  | . |
+| [object_source](object_source.md) | [string](string.md) | 0..1 | None  | . |
+| [mapping_source](mapping_source.md) | [string](string.md) | 0..1 | None  | . |
+| [subject_mapping_predicate](subject_mapping_predicate.md) | [string](string.md) | 0..1 | None  | . |
+| [object_mapping_predicate](object_mapping_predicate.md) | [string](string.md) | 0..1 | None  | . |
+| [transformations_included_in](transformations_included_in.md) | [string](string.md) | 0..* | None  | . |
+
+
+## Usages
+
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [MappingRule](MappingRule.md) | [preconditions](preconditions.md) | range | Precondition |
+| [MappingRule](MappingRule.md) | [postconditions](postconditions.md) | range | Precondition |
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+
+
+## LinkML Specification
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: Precondition
+description: A pattern to be matched against an individual SSSOM mapping
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+attributes:
+  subject_source:
+    name: subject_source
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  object_source:
+    name: object_source
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  mapping_source:
+    name: mapping_source
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  subject_mapping_predicate:
+    name: subject_mapping_predicate
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  object_mapping_predicate:
+    name: object_mapping_predicate
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  transformations_included_in:
+    name: transformations_included_in
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    multivalued: true
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Precondition
+description: A pattern to be matched against an individual SSSOM mapping
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+attributes:
+  subject_source:
+    name: subject_source
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: subject_source
+    owner: Precondition
+    range: string
+  object_source:
+    name: object_source
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: object_source
+    owner: Precondition
+    range: string
+  mapping_source:
+    name: mapping_source
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: mapping_source
+    owner: Precondition
+    range: string
+  subject_mapping_predicate:
+    name: subject_mapping_predicate
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: subject_mapping_predicate
+    owner: Precondition
+    range: string
+  object_mapping_predicate:
+    name: object_mapping_predicate
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: object_mapping_predicate
+    owner: Precondition
+    range: string
+  transformations_included_in:
+    name: transformations_included_in
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    multivalued: true
+    alias: transformations_included_in
+    owner: Precondition
+    range: string
+
+```
+</details>

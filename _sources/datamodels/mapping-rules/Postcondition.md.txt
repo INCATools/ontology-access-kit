@@ -1,0 +1,89 @@
+# Class: Postcondition
+
+
+
+
+URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Postcondition)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+## Slots
+
+| Name | Range | Cardinality | Description  | Info |
+| ---  | --- | --- | --- | --- |
+| [predicate](predicate.md) | [string](string.md) | 0..1 | None  | . |
+| [weight](weight.md) | [float](float.md) | 0..1 | Weighting of the rule, positive increases the confidence, negative decreases  | . |
+
+
+## Usages
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+
+
+## LinkML Specification
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: Postcondition
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+attributes:
+  predicate:
+    name: predicate
+    comments:
+    - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
+      narrow
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  weight:
+    name: weight
+    description: Weighting of the rule, positive increases the confidence, negative
+      decreases
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    range: float
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Postcondition
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+attributes:
+  predicate:
+    name: predicate
+    comments:
+    - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
+      narrow
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: predicate
+    owner: Postcondition
+    range: string
+  weight:
+    name: weight
+    description: Weighting of the rule, positive increases the confidence, negative
+      decreases
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: weight
+    owner: Postcondition
+    range: float
+
+```
+</details>
