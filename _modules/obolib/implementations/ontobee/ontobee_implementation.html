@@ -46,6 +46,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -76,10 +78,7 @@
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
-<span class="kn">import</span> <span class="nn">SPARQLWrapper</span>
-<span class="kn">from</span> <span class="nn">obolib.implementations.ontobee.ontobee</span> <span class="kn">import</span> <span class="n">OntobeeProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span>
-<span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 
 
 <div class="viewcode-block" id="OntobeeImplementation"><a class="viewcode-back" href="../../../../implementations/ontobee.html#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">[docs]</a><span class="nd">@dataclass</span>
@@ -87,13 +86,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wraps the Ontobee sparql endpoint</span>
 
-<span class="sd">    See: `&lt;https://www.ontobee.org/&gt;`_</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="OntobeeImplementation.create"><a class="viewcode-back" href="../../../../implementations/ontobee.html#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OntobeeImplementation&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        An OntobeeImplementation can be initialed by:</span>
+<span class="sd">    An OntobeeImplementation can be initialed by:</span>
 
 <span class="sd">        .. code:: python</span>
 
@@ -101,11 +94,13 @@
 
 <span class="sd">        The default ontobee endpoint will be assumed</span>
 
-<span class="sd">        :param resource: optional</span>
-<span class="sd">        :return: OntobeeImplementation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">engine</span> <span class="o">=</span> <span class="n">OntobeeProvider</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">OntobeeImplementation</span><span class="p">(</span><span class="n">sparql_wrapper</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span></div></div>
+<span class="sd">    See: `&lt;https://www.ontobee.org/&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_default_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;http://sparql.hegroup.org/sparql&quot;</span></div>
+
+
 
 
 

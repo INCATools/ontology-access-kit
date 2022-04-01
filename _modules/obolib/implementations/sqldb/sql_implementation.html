@@ -46,6 +46,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -79,13 +81,11 @@
 
 <span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">HasOioSynonymStatement</span><span class="p">,</span> <span class="n">HasSynonymStatement</span><span class="p">,</span> \
     <span class="n">HasTextDefinitionStatement</span><span class="p">,</span> <span class="n">ClassNode</span><span class="p">,</span> <span class="n">IriNode</span><span class="p">,</span> <span class="n">RdfsLabelStatement</span><span class="p">,</span> <span class="n">DeprecatedNode</span>
-<span class="kn">from</span> <span class="nn">obolib.implementations.sqldb.sqldb</span> <span class="kn">import</span> <span class="n">SqlDatabaseProvider</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
-<span class="kn">from</span> <span class="nn">obolib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">obolib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary</span> <span class="kn">import</span> <span class="n">obograph</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary.vocabulary</span> <span class="kn">import</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span> <span class="n">omd_slots</span><span class="p">,</span> <span class="n">LABEL_PREDICATE</span>
@@ -131,11 +131,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
 
-
-<div class="viewcode-block" id="SqlImplementation.create"><a class="viewcode-back" href="../../../../implementations/sqldb.html#obolib.implementations.sqldb.sql_implementation.SqlImplementation.create">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SqlImplementation&quot;</span><span class="p">:</span>
-        <span class="n">engine</span> <span class="o">=</span> <span class="n">SqlDatabaseProvider</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s1">&#39;SELECT id FROM class_node WHERE id NOT LIKE &quot;_:%&quot;&#39;</span><span class="p">)</span>

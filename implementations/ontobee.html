@@ -64,6 +64,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -103,23 +105,26 @@
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.ontobee.ontobee_implementation.</span></span><span class="sig-name descname"><span class="pre">OntobeeImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">obolib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/obolib-aqGZzxm3-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.ontobee.ontobee_implementation.</span></span><span class="sig-name descname"><span class="pre">OntobeeImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">obolib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/obolib-aqGZzxm3-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="Permalink to this definition"></a></dt>
 <dd><p>Wraps the Ontobee sparql endpoint</p>
-<p>See: <a class="reference external" href="https://www.ontobee.org/">https://www.ontobee.org/</a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">obolib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation"><span class="pre">obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation</span></a></span></span><a class="reference internal" href="../_modules/obolib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create" title="Permalink to this definition"></a></dt>
-<dd><p>An OntobeeImplementation can be initialed by:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<p>An OntobeeImplementation can be initialed by:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The default ontobee endpoint will be assumed</p>
+</div></blockquote>
+<p>See: <a class="reference external" href="https://www.ontobee.org/">https://www.ontobee.org/</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">obolib.resource.OntologyResource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">obolib.interfaces.ontology_interface.OntologyInterface</span></span></span><a class="headerlink" href="#obolib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new ontology interface from a resource</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>resource</strong> – optional</p>
+<dd class="field-odd"><p><strong>resource</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>OntobeeImplementation</p>
+<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>
