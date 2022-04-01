@@ -7,6 +7,8 @@ NetworkX is a popular python package for working with graphs
 from collections import Iterable
 
 import networkx as nx
+from obolib.interfaces.basic_ontology_interface import RELATIONSHIP
+
 
 def relationships_to_multi_digraph(relationships: Iterable[RELATIONSHIP], reverse: bool = True) -> nx.MultiDiGraph:
     """

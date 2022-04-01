@@ -9,7 +9,7 @@ from obolib.implementations.sqldb.sql_implementation import SqlImplementation
 from obolib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from obolib.resource import OntologyResource
 from obolib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
-    load_lexical_index
+    load_lexical_index, load_mapping_rules, add_labels_from_uris
 from obolib.utilities.obograph_utils import draw_graph
 import sssom.writers as sssom_writers
 
@@ -80,7 +80,7 @@ def main(verbose: int, quiet: bool, input: str):
             resource.local = True
             impl_class = ProntoImplementation
         logging.info(f'RESOURCE={resource}')
-        settings.impl = impl_class.create(resource)
+        settings.impl = impl_class(resource)
 
 
 @main.command()
@@ -95,6 +95,21 @@ def search(terms, output: str):
         for t in terms:
             for curie in impl.basic_search(t):
                 print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@click.argument("subset")
+@output_option
+def list_subset(subset, output: str):
+    """
+    Shows IDs in subset
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        for curie in impl.curies_by_subset(subset):
+            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -151,12 +166,13 @@ def axioms(output: str):
     raise NotImplementedError
 
 
-
 @main.command()
 @output_option
 def validate(output: str):
     """
     Validate an ontology
+
+    INCOMPLETE
     """
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
@@ -172,6 +188,8 @@ def validate(output: str):
 def subset(curies, output: str):
     """
     Extracts a subset
+
+    INCOMPLETE
     """
     impl = settings.impl
     if isinstance(impl, SubsetterInterface):
@@ -184,17 +202,38 @@ def subset(curies, output: str):
 @main.command()
 @click.option("--lexical-index-file", "-L",
               help="path to lexical index. This is recreated each time unless --no-recreate is passed")
+@click.option("--rules-file", "-R",
+              help="path to rules file. Conforms to rules_datamodel.")
+@click.option("--add-labels/--no-add-labels",
+              default=False,
+              show_default=True,
+              help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs")
 @click.option("--recreate/--no-recreate",
               default=True,
               show_default=True,
               help="if true and lexical index is specified, always recreate, otherwise load from index")
 @output_option
-def lexmatch(output: str, recreate, lexical_index_file):
+def lexmatch(output: str, recreate, rules_file, lexical_index_file, add_labels):
     """
     Generates lexical index and mappings
+
+    Examples:
+        lexmatch -i foo.obo -o foo.sssom.tsv
+
+    Outputting intermediate index:
+        lexmatch -i foo.obo -L foo.index.yaml -o foo.sssom.tsv
+
+    Using custom rules:
+        lexmatch -i foo.obo -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
     """
     impl = settings.impl
+    if rules_file:
+        ruleset = load_mapping_rules(rules_file)
+    else:
+        ruleset = None
     if isinstance(impl, BasicOntologyInterface):
+        if add_labels:
+            add_labels_from_uris(impl)
         if not recreate and Path(lexical_index_file).exists():
             ix = load_lexical_index(lexical_index_file)
         else:
@@ -202,7 +241,7 @@ def lexmatch(output: str, recreate, lexical_index_file):
         if lexical_index_file:
             if recreate:
                 save_lexical_index(ix, lexical_index_file)
-        msdf = lexical_index_to_sssom(impl, ix)
+        msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset)
         with open(output, 'w', encoding='utf-8') as file:
             sssom_writers.write_table(msdf, file)
     else:

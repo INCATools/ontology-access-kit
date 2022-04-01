@@ -17,7 +17,7 @@ class TestRelationshipWalker(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
-        oi = ProntoImplementation.create(resource)
+        oi = ProntoImplementation(resource)
         self.oi = oi
 
     def test_walk_up(self):

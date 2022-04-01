@@ -8,23 +8,44 @@ Various utilities for working with lexical aspects of ontologies plus mappings
 import logging
 import re
 from collections import defaultdict
-from typing import List
+from typing import List, Dict, Optional
 
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from obolib.interfaces import BasicOntologyInterface
+from obolib.types import PRED_CURIE
 from obolib.vocabulary.lexical_index import LexicalIndex, LexicalTransformation, TransformationType, RelationshipToTerm, \
     LexicalGrouping, LexicalTransformationPipeline
-from obolib.vocabulary.vocabulary import SKOS_EXACT_MATCH
+from obolib.vocabulary.mapping_rules_datamodel import MappingRule, Precondition, MappingRuleCollection
+from obolib.vocabulary.vocabulary import SKOS_EXACT_MATCH, SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, \
+    SKOS_CLOSE_MATCH
 from sssom import Mapping
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
 from sssom.sssom_datamodel import MatchTypeEnum, MappingSet
 
+def add_labels_from_uris(oi: BasicOntologyInterface):
+    """
+    Adds a label based on the CURIE or URI for entities that lack labels
+
+    :param oi:
+    :return:
+    """
+    for curie in oi.all_entity_curies():
+        if not oi.get_label_by_curie(curie):
+            if '#' in curie:
+                sep = '#'
+            elif curie.startswith('http'):
+                sep = '/'
+            else:
+                sep = ':'
+            label = curie.split(sep)[-1]
+            oi.set_label_for_curie(curie, label)
 
 def create_lexical_index(oi: BasicOntologyInterface,
                          pipelines: List[LexicalTransformationPipeline] = None) -> LexicalIndex:
     """
+    Generates a LexicalIndex keyed by normalized terms
 
     :param oi:
     :param pipelines:
@@ -71,13 +92,12 @@ def load_lexical_index(path: str) -> LexicalIndex:
     :param path:
     :return:
     """
-    return yaml_loader.load(path, target_class=LexicalIndex, source=path)
+    return yaml_loader.load(path, target_class=LexicalIndex)
 
-def lexical_index_to_sssom(oi: BasicOntologyInterface, lexical_index: LexicalIndex, id='default') -> MappingSetDataFrame:
+def lexical_index_to_sssom(oi: BasicOntologyInterface, lexical_index: LexicalIndex, id='default',
+                           ruleset: MappingRuleCollection = None) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term
-
-        TODO: Add rules
 
     :param oi:
     :param lexical_index:
@@ -98,7 +118,7 @@ def lexical_index_to_sssom(oi: BasicOntologyInterface, lexical_index: LexicalInd
                 if e1 < e2:
                     for r1 in elementmap[e1]:
                         for r2 in elementmap[e2]:
-                            mappings.append(create_mapping(oi, term, r1, r2))
+                            mappings.append(inferred_mapping(oi, term, r1, r2, ruleset=ruleset))
 
         #for r1 in grouping.relationships:
         #    for r2 in grouping.relationships:
@@ -111,19 +131,95 @@ def lexical_index_to_sssom(oi: BasicOntologyInterface, lexical_index: LexicalInd
     return to_mapping_set_dataframe(doc)
 
 
-def create_mapping(oi: BasicOntologyInterface, term: str, r1: RelationshipToTerm, r2: RelationshipToTerm) -> Mapping:
-    m = Mapping(subject_id=r1.element,
-                subject_label=oi.get_label_by_curie(r1.element),
-                object_id=r2.element,
-                object_label=oi.get_label_by_curie(r2.element),
-                predicate_id=SKOS_EXACT_MATCH,
-                match_string=term,
-                subject_match_field=r1.predicate,
-                object_match_field=r2.predicate,
-                match_type=MatchTypeEnum.Lexical,
-                mapping_tool='obolib'
-                )
-    return m
+def create_mapping(term: str, r1: RelationshipToTerm, r2: RelationshipToTerm,
+                   pred: PRED_CURIE = SKOS_CLOSE_MATCH, confidence: float = None) -> Mapping:
+    return Mapping(subject_id=r1.element,
+                   object_id=r2.element,
+                   predicate_id=pred,
+                   confidence=confidence,
+                   match_string=term,
+                   subject_match_field=r1.predicate,
+                   object_match_field=r2.predicate,
+                   match_type=MatchTypeEnum.Lexical,
+                   mapping_tool='obolib'
+                   )
+
+def inferred_mapping(oi: BasicOntologyInterface, term: str, r1: RelationshipToTerm, r2: RelationshipToTerm,
+                     ruleset: MappingRuleCollection = None) -> Mapping:
+    m1 = create_mapping(term, r1, r2)
+    m2 = create_mapping(term, r2, r1)
+    weightmap: Dict[PRED_CURIE, float] = {}
+    best: Tuple[float, Mapping, PRED_CURIE] = None, m1, m1.predicate_id
+    if ruleset is not None:
+        rules = ruleset.rules
+    else:
+        rules = []
+    for rule in rules:
+        inverted = False
+        if precondition_holds(rule.preconditions, m1):
+            m = m1
+        elif not rule.oneway and precondition_holds(rule.preconditions, m2):
+            m = m2
+            inverted = True
+        else:
+            m = None
+        if m:
+            weight = 0.0
+            if rule.postconditions.predicate_id:
+                m.predicate_id = rule.postconditions.predicate_id
+            if rule.postconditions.weight:
+                weight = rule.postconditions.weight
+            if inverted:
+                inv_pred = invert_mapping_predicate(m.predicate_id)
+                if inv_pred:
+                    m.predicate_id = inv_pred
+                else:
+                    m = None
+            if m:
+                if m.predicate_id not in weightmap:
+                    weightmap[m.predicate_id] = weight
+                else:
+                    weightmap[m.predicate_id] += weight
+                weight = weightmap[m.predicate_id]
+                if best[0] is None or weight > best[0]:
+                    best = weight, m, m.predicate_id
+                    #print(f' ** BEST {best} ==> {m}')
+    best_weight, best_mapping, _ = best
+    if best_weight is not None:
+        best_mapping.confidence = inverse_logit(best_weight)
+    best_mapping.subject_label = oi.get_label_by_curie(best_mapping.subject_id)
+    best_mapping.object_label = oi.get_label_by_curie(best_mapping.object_id)
+    return best_mapping
+
+def inverse_logit(weight: float) -> float:
+    """
+    Inverse logit
+
+    https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+
+    :param weight:
+    :return: probability between 0 and 1
+    """
+    return 1/(1+2**(-weight))
+
+def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
+    if pred == SKOS_EXACT_MATCH or pred == SKOS_CLOSE_MATCH:
+        return pred
+    if pred == SKOS_BROAD_MATCH:
+        return SKOS_NARROW_MATCH
+    return None
+
+def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
+    for k in ['subject_match_field', 'object_match_field']:
+        k_one_of = f'{k}_one_of'
+        expected_values = getattr(precondition, k_one_of, [])
+        actual_values = getattr(mapping, k, [])
+        #print(f'CHECKING {actual_values} << {expected_values}')
+        if expected_values and not any(v for v in actual_values if v in expected_values ):
+            #print('** NO MATCH')
+            return False
+        #print(f'**** MTCH {k}')
+    return True
 
 def apply_transformation(term: str, transformation: LexicalTransformation) -> str:
     """
@@ -140,3 +236,23 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
         return re.sub(" {2,}", " ", term.strip())
     else:
         raise NotImplementedError(f'Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}')
+
+    
+def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
+    """
+    Saves a YAML using standard mapping of datanodel to YAML
+
+    :param mapping_rules:
+    :param path:
+    :return:
+    """
+    yaml_dumper.dump(mapping_rules, to_file=path)
+
+def load_mapping_rules(path: str) -> MappingRuleCollection:
+    """
+    Loads from a YAML file
+
+    :param path:
+    :return:
+    """
+    return yaml_loader.load(path, target_class=MappingRuleCollection)

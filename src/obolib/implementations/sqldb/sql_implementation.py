@@ -4,13 +4,11 @@ from typing import List, Any, Iterable, Optional, Type
 
 from obolib.implementations.sqldb.model import Statements, Edge, HasOioSynonymStatement, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode
-from obolib.implementations.sqldb.sqldb import SqlDatabaseProvider
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     SearchConfiguration
 from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.interfaces.validator_interface import ValidatorInterface
-from obolib.resource import OntologyResource
 from obolib.types import CURIE
 from obolib.vocabulary import obograph
 from obolib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE
@@ -56,11 +54,6 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             self._connection = self.engine.connect()
         return self._session
 
-
-    @classmethod
-    def create(cls, resource: OntologyResource = None) -> "SqlImplementation":
-        engine = SqlDatabaseProvider.create_engine(resource)
-        return SqlImplementation(engine=engine)
 
     def all_entity_curies(self) -> Iterable[CURIE]:
         s = text('SELECT id FROM class_node WHERE id NOT LIKE "_:%"')

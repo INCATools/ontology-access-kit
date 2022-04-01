@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Iterable, Tuple, Optional, Any
 
 from obolib.interfaces.ontology_interface import OntologyInterface
-from obolib.types import CURIE, LABEL, URI, PRED_CURIE
+from obolib.types import CURIE, URI, PRED_CURIE, SUBSET_CURIE
 from obolib.vocabulary.vocabulary import IS_A, OBO_PURL
 
 NC_NAME = str
@@ -153,6 +153,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 for filler in fillers:
                     yield curie, pred, filler
 
+    def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
+        """
+        returns iterator over all known subset CURIEs
+
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        """
+        returns iterator over all CURIEs belonging to a subset
+
+        :return: iterator
+        """
+        raise NotImplementedError
+
 
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         """
@@ -163,7 +179,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
+
+    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+        """
+        updates the label
+
+        :param curie:
+        :param label:
+        :return:
+        """
+        raise NotImplementedError
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         """

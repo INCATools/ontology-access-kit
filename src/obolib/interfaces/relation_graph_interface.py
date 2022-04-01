@@ -39,7 +39,8 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         return walk_up(self, start_curies, predicates=predicates)
 
     def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
-        ancs = set([x[2] for x in self.walk_up_relationship_graph(start_curies, predicates)])
+        # TODO: make reflexivity a parameters
+        ancs = set([x[2] for x in self.walk_up_relationship_graph(start_curies, predicates)] + [start_curies])
         for a in ancs:
             yield a
 

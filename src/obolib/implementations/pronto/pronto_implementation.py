@@ -3,20 +3,19 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Iterable, Type
 
-from obolib.implementations.pronto.pronto import ProntoProvider
+from deprecated import deprecated
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, SearchConfiguration, PREFIX_MAP
 from obolib.interfaces.obograph_interface import OboGraphInterface
-from obolib.interfaces.ontology_interface import OntologyInterface
 from obolib.interfaces.validator_interface import ValidatorInterface
 from obolib.interfaces.rdf_interface import RdfInterface
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
 from obolib.resource import OntologyResource
-from obolib.types import CURIE
+from obolib.types import CURIE, SUBSET_CURIE
 from obolib.vocabulary import obograph
 from obolib.vocabulary.obograph import Edge, Graph
-from obolib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF
-from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue
+from obolib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP
+from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
 
 
 @dataclass
@@ -56,18 +55,31 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     """
     wrapped_ontology: Ontology = None
 
-    # TODO: move provider object here
     def __post_init__(self):
         if self.wrapped_ontology is None:
-            self.wrapped_ontology = ProntoProvider.create_engine(self.resource)
+            resource = self.resource
+            if resource is None:
+                ontology = Ontology()
+            elif resource.local:
+                ontology = Ontology(str(resource.local_path))
+            else:
+                ontology = Ontology.from_obo_library(resource.slug)
+            self.wrapped_ontology = ontology
 
     @classmethod
+    @deprecated('old style')
     def create(cls, resource: OntologyResource = None) -> "ProntoImplementation":
-        ontology = ProntoProvider.create_engine(resource)
-        return ProntoImplementation(wrapped_ontology=ontology, resource=resource)
+        return ProntoImplementation(resource=resource)
 
-    def store(self, resource: OntologyResource) -> None:
-        ProntoProvider.dump(self.wrapped_ontology, resource)
+    def store(self, resource: OntologyResource = None) -> None:
+        if resource is None:
+            resource = self.resource
+        ontology = self.wrapped_ontology
+        if resource.local:
+            with open(str(resource.local_path), 'wb') as f:
+                ontology.dump(f, format=resource.format)
+        else:
+            raise NotImplementedError(f'Cannot dump to {resource}')
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
@@ -76,7 +88,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     def get_prefix_map(self) -> PREFIX_MAP:
         return {}
 
-    def _term(self, curie: CURIE):
+    def _entity(self, curie: CURIE):
         if curie in self.wrapped_ontology:
             return self.wrapped_ontology[curie]
         else:
@@ -97,9 +109,26 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     def all_entity_curies(self) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
             yield t.id
+        # note what Pronto calls "relationship" is actually "relationship type"
+        for t in self.wrapped_ontology.relationships():
+            yield t.id
+        for t in self.wrapped_ontology.synonym_types():
+            yield t.id
+
+    def all_subset_curies(self) -> Iterable[CURIE]:
+        subsets = set()
+        for t in self.wrapped_ontology.terms():
+            subsets.update(t.subsets)
+        for subset in subsets:
+            yield subset
+
+    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        for t in self.wrapped_ontology.terms():
+            if subset in t.subsets:
+                yield t.id
 
     def get_label_by_curie(self, curie: CURIE):
-        t = self._term(curie)
+        t = self._entity(curie)
         if t:
             return t.name
         else:
@@ -108,15 +137,34 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             else:
                 return None
 
+    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+        t = self._entity(curie)
+        if t:
+            curr = t.name
+            if curr != label:
+                t.name = label
+                return True
+            else:
+                return False
+
+
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         return [t.id for t in self.wrapped_ontology.terms() if t.name == label]
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         # See: https://github.com/althonos/pronto/issues/119
-        term = self._term(curie)
-        rels = {IS_A: [p.id for p in term.superclasses(distance=1)]}
-        for rel_type, parents in term.relationships.items():
-            rels[rel_type.id] = [p.id for p in parents]
+        term = self._entity(curie)
+        if isinstance(term, Term):
+            # only "Terms" in pronto have relationships
+            rels = {IS_A: [p.id for p in term.superclasses(distance=1) if p.id != curie]}
+            for rel_type, parents in term.relationships.items():
+                pred = rel_type.id
+                for x in rel_type.xrefs:
+                    if x.id.startswith('BFO:') or x.id.startswith('RO:'):
+                        pred = x.id
+                rels[pred] = [p.id for p in parents]
+        else:
+            rels = {}
         return rels
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
@@ -143,7 +191,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return curie
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
-        t = self._term(curie)
+        t = self._entity(curie)
         filler_term = self._create(filler)
         if predicate == IS_A:
             t.superclasses().add(filler_term)
@@ -154,18 +202,23 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             t.relationships[predicate_term].add(filler_term)
 
     def get_definition_by_curie(self, curie: CURIE) -> str:
-        return self._term(curie).definition
+        return self._entity(curie).definition
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
-        t = self._term(curie)
+        t = self._entity(curie)
         m = defaultdict(list)
         m[LABEL_PREDICATE] = [t.name]
         for s in t.synonyms:
-            m[s.scope].append(s.description)
+            scope = s.scope.upper()
+            if scope in SCOPE_TO_SYNONYM_PRED_MAP:
+                pred = SCOPE_TO_SYNONYM_PRED_MAP[scope]
+            else:
+                raise ValueError(f'Unknown scope: {scope}')
+            m[pred].append(s.description)
         return m
 
     def get_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        t = self._term(curie)
+        t = self._entity(curie)
         m = defaultdict(list)
         for s in t.xrefs:
             m[HAS_DBXREF].append(s.id)
@@ -184,7 +237,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return m
 
     def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
-        t = self._term(curie)
+        t = self._entity(curie)
         m = defaultdict(list)
         for ann in t.annotations:
             p = ann.property
@@ -197,7 +250,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     def create_subontology(self, curies: List[CURIE]) -> "ProntoImplementation":
         subontology = Ontology()
         for curie in curies:
-            t = self._term(curie)
+            t = self._entity(curie)
             subontology.create_term(curie)
             t2 = subontology[curie]
             t2.name = t.name
@@ -209,7 +262,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def node(self, curie: CURIE) -> obograph.Node:
-        t = self._term(curie)
+        t = self._entity(curie)
         if t is None:
             return obograph.Node(id=curie)
         else:

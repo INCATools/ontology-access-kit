@@ -1,0 +1,49 @@
+rules:
+  - description: default
+    postconditions:
+      predicate_id: skos:closeMatch
+      weight: 0.0
+
+  - description: exact to exact
+    preconditions:
+      subject_match_field_one_of:
+        - oio:hasExactMatch
+        - rdfs:label
+      object_match_field_one_of:
+        - oio:hasExactMatch
+        - rdfs:label
+    postconditions:
+      predicate_id: skos:exactMatch
+      weight: 2.0
+
+  - description: xref match
+    preconditions:
+      subject_match_field_one_of:
+        - oio:hasDbXref
+        - skos:exactMatch
+      object_match_field_one_of:
+        - oio:hasDbXref
+        - skos:exactMatch
+    postconditions:
+      predicate_id: skos:exactMatch
+      weight: 4.0
+
+  - preconditions:
+      subject_match_field_one_of:
+        - oio:hasExactMatch
+        - rdfs:label
+      object_match_field_one_of:
+        - oio:hasBroadMatch
+    postconditions:
+      predicate_id: skos:broadMatch
+      weight: 2.0
+
+  - preconditions:
+      subject_match_field_one_of:
+        - oio:hasExactMatch
+        - rdfs:label
+      object_match_field_one_of:
+        - oio:hasNarrowMatch
+    postconditions:
+      predicate_id: skos:narrowMatch
+      weight: 2.0

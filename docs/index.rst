@@ -18,6 +18,8 @@ OboLib Documentation
    datamodels/index
    utilities
    notebooks
+   concepts
+   glossary
 
 Indices and tables
 ==================

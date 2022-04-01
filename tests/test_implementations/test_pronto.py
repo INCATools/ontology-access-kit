@@ -5,8 +5,7 @@ import yaml
 from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
 from obolib.resource import OntologyResource
 from obolib.utilities.obograph_utils import graph_as_dict
-from obolib.vocabulary.vocabulary import IS_A
-from pronto import Ontology
+from obolib.vocabulary.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 
@@ -14,7 +13,7 @@ TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 
-class TestProntoProvider(unittest.TestCase):
+class TestProntoImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
@@ -26,8 +25,8 @@ class TestProntoProvider(unittest.TestCase):
         rels = oi.get_outgoing_relationships_by_curie('GO:0005773')
         for k, v in rels.items():
             print(f'{k} = {v}')
-        self.assertCountEqual(rels[IS_A], ['GO:0005773', 'GO:0043231'])
-        self.assertCountEqual(rels['part_of'], ['GO:0005737'])
+        self.assertCountEqual(rels[IS_A], ['GO:0043231'])
+        self.assertCountEqual(rels[PART_OF], ['GO:0005737'])
 
     def test_all_terms(self):
         assert any(curie for curie in self.oi.all_entity_curies() if curie == 'GO:0008152')
@@ -47,6 +46,7 @@ class TestProntoProvider(unittest.TestCase):
         """
         oi = self.oi
         label = oi.get_label_by_curie('GO:0005773')
+        self.assertEqual(str,  type(label))
         self.assertEqual(label, 'vacuole')
         label = oi.get_label_by_curie('FOOBAR:123')
         self.assertIsNone(label)
@@ -61,6 +61,13 @@ class TestProntoProvider(unittest.TestCase):
                                     'cellular component',
                                     'cell or subcellular entity',
                                     'subcellular entity'])
+
+    def test_subsets(self):
+        oi = self.oi
+        subsets = list(oi.all_subset_curies())
+        self.assertIn('goslim_aspergillus', subsets)
+        self.assertIn('GO:0003674', oi.curies_by_subset('goslim_generic'))
+        self.assertNotIn('GO:0003674', oi.curies_by_subset('gocheck_do_not_manually_annotate'))
 
     def test_save(self):
         oi = ProntoImplementation.create()

@@ -1,15 +1,12 @@
-from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
 from typing import List, Iterable, Tuple
 
-import SPARQLWrapper
-from obolib.implementations.sparql.sparql_implementation import SparqlImplementation, SparqlQuery
-from obolib.implementations.ubergraph.ubergraph import UbergraphProvider
-from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
+from obolib.implementations.sparql.sparql_implementation import SparqlImplementation
+from obolib.implementations.sparql.sparql_query import SparqlQuery
+from obolib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
 from obolib.interfaces.relation_graph_interface import RelationGraphInterface
-from obolib.resource import OntologyResource
 from obolib.types import CURIE
 
 
@@ -32,13 +29,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
     This is a specialization of the more generic :class:`.SparqlImplementation`, which
     has knowledge of some of the specialized patterns found in Ubergraph
 
-    """
-    #sparql_wrapper: SPARQLWrapper
-
-    @classmethod
-    def create(cls, resource: OntologyResource = None) -> "UbergraphImplementation":
-        """
-        An UbergraphImplementation can be initialed by:
+    An UbergraphImplementation can be initialed by:
 
         .. code:: python
 
@@ -46,11 +37,13 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
 
         The default ubergraph endpoint will be assumed
 
-        :param resource: optional
-        :return:
-        """
-        engine = UbergraphProvider.create_engine(resource)
-        return UbergraphImplementation(sparql_wrapper=engine)
+    """
+    #sparql_wrapper: SPARQLWrapper
+
+    def _default_url(self) -> str:
+        return "https://ubergraph.apps.renci.org/sparql"
+
+
 
     def _get_outgoing_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum) -> Iterable[Tuple[CURIE, CURIE]]:
         rmap = defaultdict(list)

@@ -1,10 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
 
-import SPARQLWrapper
-from obolib.implementations.ontobee.ontobee import OntobeeProvider
 from obolib.implementations.sparql.sparql_implementation import SparqlImplementation
-from obolib.resource import OntologyResource
 
 
 @dataclass
@@ -12,13 +9,7 @@ class OntobeeImplementation(SparqlImplementation):
     """
     Wraps the Ontobee sparql endpoint
 
-    See: `<https://www.ontobee.org/>`_
-    """
-
-    @classmethod
-    def create(cls, resource: OntologyResource = None) -> "OntobeeImplementation":
-        """
-        An OntobeeImplementation can be initialed by:
+    An OntobeeImplementation can be initialed by:
 
         .. code:: python
 
@@ -26,11 +17,13 @@ class OntobeeImplementation(SparqlImplementation):
 
         The default ontobee endpoint will be assumed
 
-        :param resource: optional
-        :return: OntobeeImplementation
-        """
-        engine = OntobeeProvider.create_engine(resource)
-        return OntobeeImplementation(sparql_wrapper=engine)
+    See: `<https://www.ontobee.org/>`_
+    """
+
+    def _default_url(self) -> str:
+        return "http://sparql.hegroup.org/sparql"
+
+
 
 
 

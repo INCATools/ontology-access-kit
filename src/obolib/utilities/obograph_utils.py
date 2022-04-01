@@ -37,9 +37,23 @@ def graph_as_dict(graph: Graph) -> Dict[str, Any]:
             del n['label']
     return obj
 
-def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None) -> None:
+def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None, imgfile = None) -> None:
     """
-    Renders a graph using obographviz
+    Generates an image from a graph using :ref:`graph_to_image` then open for display
+
+    :param graph:
+    :param seeds:
+    :param configure:
+    :param stylemap:
+    :param imgfile:
+    :return:
+    """
+    imgfile = graph_to_image(graph, seeds, configure=configure, stylemap=stylemap, imgfile=imgfile)
+    subprocess.run(['open', imgfile])
+
+def graph_to_image(graph: Graph, seeds = None, configure = None, stylemap = None, imgfile = None) -> str:
+    """
+    Renders a graph to png using obographviz
 
     :param graph:
     :param seeds:
@@ -76,15 +90,16 @@ def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None) ->
         tmpfile.write(json_dump)
         logging.debug(f'JSON {json_dump}')
         tmpfile.flush()
-        pngfile = f'{temp_file_name}.png'
+        if imgfile is None:
+            imgfile = f'{temp_file_name}.png'
         style_json = json.dumps(style).replace("'", "\\'")
         logging.debug(f'Style = {style_json}')
-        cmdtoks = [EXEC, '-S', style_json, '-t', 'png', temp_file_name, '-o', pngfile]
+        cmdtoks = [EXEC, '-S', style_json, '-t', 'png', temp_file_name, '-o', imgfile]
         if stylemap is not None:
             cmdtoks += ['-s', stylemap]
         logging.debug(f'Run: {cmdtoks}')
         subprocess.run(cmdtoks)
-        subprocess.run(['open', pngfile])
+        return imgfile
 
 def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:
     """

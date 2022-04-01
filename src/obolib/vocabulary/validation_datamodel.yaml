@@ -58,6 +58,17 @@ classes:
       - source
       - info
 
+  ExternalReferenceValidationResult:
+    is_a: ValidationResult
+    description: A validation result where the check is to determine if a link to an external resource is still valid
+    attributes:
+      url:
+      time_checked:
+      number_of_attempts:
+        range: integer
+      http_response_code:
+        range: integer
+
 #==================================
 # Slots                           #
 #==================================
@@ -65,7 +76,9 @@ slots:
   type:
     range: nodeidentifier
     slot_uri: sh:sourceConstraintComponent
-    description: The type of validation result. SHACL validation vocabulary is recommended.
+    description: >-
+      The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel.
+      For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID
   subject:
     range: nodeidentifier
     slot_uri: sh:focusNode

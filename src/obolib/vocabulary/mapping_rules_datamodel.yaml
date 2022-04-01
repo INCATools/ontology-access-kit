@@ -1,7 +1,7 @@
 id: https://w3id.org/linkml/mapping_rules_datamodel
 title: Mapping Rules Datamodel
 name: mapping-rules
-description: A datamodel for specifying lexical mapping rules
+description: A datamodel for specifying lexical mapping rules. NOTE -- this may move to another package
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
@@ -45,39 +45,49 @@ classes:
         range: MappingRule
         multivalued: true
         inlined: true
+      minimum_confidence:
+        range: float
 
   MappingRule:
     description: An individual mapping rule, if preconditions match the postconditions are applied
     attributes:
-      symmetric:
-        ifabsent: True
+      description:
+      oneway:
+        ifabsent: False
+        range: boolean
         description: if true then subject and object can be switched and predicate inverted
       preconditions:
         range: Precondition
-        multivalued: true
         slot_uri: sh:condition
         description: all of the criteria that must be true before a rule is fired
       postconditions:
-        range: Precondition
-        multivalued: true
+        range: Postcondition
         description: conditions that apply if preconditions match
 
   Precondition:
     description: A pattern to be matched against an individual SSSOM mapping
     attributes:
-      subject_source:
-      object_source:
-      mapping_source:
-      subject_mapping_predicate:
-      object_mapping_predicate:
+      subject_source_one_of:
+        multivalued: true
+      object_source_one_of:
+        multivalued: true
+      mapping_source_one_of:
+        multivalued: true
+      subject_match_field_one_of:
+        multivalued: true
+      object_match_field_one_of:
+        multivalued: true
       transformations_included_in:
         multivalued: true
 
   Postcondition:
     attributes:
-      predicate:
+      predicate_id:
         comments:
           - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes narrow
       weight:
         description: Weighting of the rule, positive increases the confidence, negative decreases
         range: float
+        see_also:
+          - https://en.wikipedia.org/wiki/Logit
+          - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png

@@ -1,9 +1,9 @@
 # Auto generated from lexical_index.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-30T12:03:47
-# Schema: validaton-results
+# Generation date: 2022-03-31T09:17:44
+# Schema: lexican-index
 #
-# id: https://w3id.org/linkml/validation_results
-# description: A datamodel for reports on data
+# id: https://w3id.org/linkml/lexical_index
+# description: A datamodel for representing a lexical index of an ontology
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -32,18 +32,18 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+LI = CurieNamespace('li', 'https://w3id.org/linkml/lexical_index/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
 OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 PAV = CurieNamespace('pav', 'http://purl.org/pav/')
 PROV = CurieNamespace('prov', 'http://www.w3.org/ns/prov#')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
-REPORTING = CurieNamespace('reporting', 'https://w3id.org/linkml/report')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
 SH = CurieNamespace('sh', 'https://w3id.org/shacl/')
 SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
 XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
-DEFAULT_ = REPORTING
+DEFAULT_ = LI
 
 
 # Types
@@ -64,10 +64,10 @@ class LexicalIndex(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.LexicalIndex
-    class_class_curie: ClassVar[str] = "reporting:LexicalIndex"
+    class_class_uri: ClassVar[URIRef] = LI.LexicalIndex
+    class_class_curie: ClassVar[str] = "li:LexicalIndex"
     class_name: ClassVar[str] = "LexicalIndex"
-    class_model_uri: ClassVar[URIRef] = REPORTING.LexicalIndex
+    class_model_uri: ClassVar[URIRef] = LI.LexicalIndex
 
     groupings: Optional[Union[Dict[Union[str, LexicalGroupingTerm], Union[dict, "LexicalGrouping"]], List[Union[dict, "LexicalGrouping"]]]] = empty_dict()
     pipelines: Optional[Union[Dict[Union[str, LexicalTransformationPipelineName], Union[dict, "LexicalTransformationPipeline"]], List[Union[dict, "LexicalTransformationPipeline"]]]] = empty_dict()
@@ -87,10 +87,10 @@ class LexicalGrouping(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.LexicalGrouping
-    class_class_curie: ClassVar[str] = "reporting:LexicalGrouping"
+    class_class_uri: ClassVar[URIRef] = LI.LexicalGrouping
+    class_class_curie: ClassVar[str] = "li:LexicalGrouping"
     class_name: ClassVar[str] = "LexicalGrouping"
-    class_model_uri: ClassVar[URIRef] = REPORTING.LexicalGrouping
+    class_model_uri: ClassVar[URIRef] = LI.LexicalGrouping
 
     term: Union[str, LexicalGroupingTerm] = None
     relationships: Optional[Union[Union[dict, "RelationshipToTerm"], List[Union[dict, "RelationshipToTerm"]]]] = empty_list()
@@ -115,10 +115,10 @@ class RelationshipToTerm(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.RelationshipToTerm
-    class_class_curie: ClassVar[str] = "reporting:RelationshipToTerm"
+    class_class_uri: ClassVar[URIRef] = LI.RelationshipToTerm
+    class_class_curie: ClassVar[str] = "li:RelationshipToTerm"
     class_name: ClassVar[str] = "RelationshipToTerm"
-    class_model_uri: ClassVar[URIRef] = REPORTING.RelationshipToTerm
+    class_model_uri: ClassVar[URIRef] = LI.RelationshipToTerm
 
     predicate: Optional[Union[str, URIorCURIE]] = None
     element: Optional[Union[str, URIorCURIE]] = None
@@ -147,22 +147,28 @@ class RelationshipToTerm(YAMLRoot):
 
 
 class Activity(YAMLRoot):
+    """
+    Generic grouping for any lexical operation
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = PROV.Activity
     class_class_curie: ClassVar[str] = "prov:Activity"
     class_name: ClassVar[str] = "Activity"
-    class_model_uri: ClassVar[URIRef] = REPORTING.Activity
+    class_model_uri: ClassVar[URIRef] = LI.Activity
 
 
 @dataclass
 class LexicalTransformationPipeline(Activity):
+    """
+    A collection of atomic lexical transformations that are applied in serial fashion
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.LexicalTransformationPipeline
-    class_class_curie: ClassVar[str] = "reporting:LexicalTransformationPipeline"
+    class_class_uri: ClassVar[URIRef] = LI.LexicalTransformationPipeline
+    class_class_curie: ClassVar[str] = "li:LexicalTransformationPipeline"
     class_name: ClassVar[str] = "LexicalTransformationPipeline"
-    class_model_uri: ClassVar[URIRef] = REPORTING.LexicalTransformationPipeline
+    class_model_uri: ClassVar[URIRef] = LI.LexicalTransformationPipeline
 
     name: Union[str, LexicalTransformationPipelineName] = None
     transformations: Optional[Union[Union[dict, "LexicalTransformation"], List[Union[dict, "LexicalTransformation"]]]] = empty_list()
@@ -182,12 +188,15 @@ class LexicalTransformationPipeline(Activity):
 
 @dataclass
 class LexicalTransformation(Activity):
+    """
+    An atomic lexical transformation applied on a term (string) yielding a transformed string
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.LexicalTransformation
-    class_class_curie: ClassVar[str] = "reporting:LexicalTransformation"
+    class_class_uri: ClassVar[URIRef] = LI.LexicalTransformation
+    class_class_curie: ClassVar[str] = "li:LexicalTransformation"
     class_name: ClassVar[str] = "LexicalTransformation"
-    class_model_uri: ClassVar[URIRef] = REPORTING.LexicalTransformation
+    class_model_uri: ClassVar[URIRef] = LI.LexicalTransformation
 
     type: Optional[Union[str, "TransformationType"]] = None
     params: Optional[str] = None
@@ -204,57 +213,68 @@ class LexicalTransformation(Activity):
 
 # Enumerations
 class TransformationType(EnumDefinitionImpl):
-
-    Stemming = PermissibleValue(text="Stemming")
-    Lemmatization = PermissibleValue(text="Lemmatization")
-    WordOrderNormalization = PermissibleValue(text="WordOrderNormalization")
-    Depluralization = PermissibleValue(text="Depluralization")
-    CaseNormalization = PermissibleValue(text="CaseNormalization")
-    WhitespaceNormalization = PermissibleValue(text="WhitespaceNormalization")
+    """
+    A controlled vocabulary of the types of transformation that can be applied to
+    """
+    Stemming = PermissibleValue(text="Stemming",
+                                       description="Removal of the last few characters of a word to yield a stem term for each word in the term")
+    Lemmatization = PermissibleValue(text="Lemmatization",
+                                                 description="Contextual reduction of a word to its base form for each word in the term")
+    WordOrderNormalization = PermissibleValue(text="WordOrderNormalization",
+                                                                   description="reorder words in the term to a standard order such that comparisons are order-independent")
+    Depluralization = PermissibleValue(text="Depluralization",
+                                                     description="Transform plural form to singular form for each word in a term")
+    CaseNormalization = PermissibleValue(text="CaseNormalization",
+                                                         description="Transform term to a standard case, typically lowercase")
+    WhitespaceNormalization = PermissibleValue(text="WhitespaceNormalization",
+                                                                     description="Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces")
+    TermExpanson = PermissibleValue(text="TermExpanson",
+                                               description="Expand terms using a dictionary")
 
     _defn = EnumDefinition(
         name="TransformationType",
+        description="A controlled vocabulary of the types of transformation that can be applied to",
     )
 
 # Slots
 class slots:
     pass
 
-slots.lexicalIndex__groupings = Slot(uri=REPORTING.groupings, name="lexicalIndex__groupings", curie=REPORTING.curie('groupings'),
-                   model_uri=REPORTING.lexicalIndex__groupings, domain=None, range=Optional[Union[Dict[Union[str, LexicalGroupingTerm], Union[dict, LexicalGrouping]], List[Union[dict, LexicalGrouping]]]])
+slots.lexicalIndex__groupings = Slot(uri=LI.groupings, name="lexicalIndex__groupings", curie=LI.curie('groupings'),
+                   model_uri=LI.lexicalIndex__groupings, domain=None, range=Optional[Union[Dict[Union[str, LexicalGroupingTerm], Union[dict, LexicalGrouping]], List[Union[dict, LexicalGrouping]]]])
 
-slots.lexicalIndex__pipelines = Slot(uri=REPORTING.pipelines, name="lexicalIndex__pipelines", curie=REPORTING.curie('pipelines'),
-                   model_uri=REPORTING.lexicalIndex__pipelines, domain=None, range=Optional[Union[Dict[Union[str, LexicalTransformationPipelineName], Union[dict, LexicalTransformationPipeline]], List[Union[dict, LexicalTransformationPipeline]]]])
+slots.lexicalIndex__pipelines = Slot(uri=LI.pipelines, name="lexicalIndex__pipelines", curie=LI.curie('pipelines'),
+                   model_uri=LI.lexicalIndex__pipelines, domain=None, range=Optional[Union[Dict[Union[str, LexicalTransformationPipelineName], Union[dict, LexicalTransformationPipeline]], List[Union[dict, LexicalTransformationPipeline]]]])
 
-slots.lexicalGrouping__term = Slot(uri=REPORTING.term, name="lexicalGrouping__term", curie=REPORTING.curie('term'),
-                   model_uri=REPORTING.lexicalGrouping__term, domain=None, range=URIRef)
+slots.lexicalGrouping__term = Slot(uri=LI.term, name="lexicalGrouping__term", curie=LI.curie('term'),
+                   model_uri=LI.lexicalGrouping__term, domain=None, range=URIRef)
 
-slots.lexicalGrouping__relationships = Slot(uri=REPORTING.relationships, name="lexicalGrouping__relationships", curie=REPORTING.curie('relationships'),
-                   model_uri=REPORTING.lexicalGrouping__relationships, domain=None, range=Optional[Union[Union[dict, RelationshipToTerm], List[Union[dict, RelationshipToTerm]]]])
+slots.lexicalGrouping__relationships = Slot(uri=LI.relationships, name="lexicalGrouping__relationships", curie=LI.curie('relationships'),
+                   model_uri=LI.lexicalGrouping__relationships, domain=None, range=Optional[Union[Union[dict, RelationshipToTerm], List[Union[dict, RelationshipToTerm]]]])
 
-slots.relationshipToTerm__predicate = Slot(uri=REPORTING.predicate, name="relationshipToTerm__predicate", curie=REPORTING.curie('predicate'),
-                   model_uri=REPORTING.relationshipToTerm__predicate, domain=None, range=Optional[Union[str, URIorCURIE]])
+slots.relationshipToTerm__predicate = Slot(uri=LI.predicate, name="relationshipToTerm__predicate", curie=LI.curie('predicate'),
+                   model_uri=LI.relationshipToTerm__predicate, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.relationshipToTerm__element = Slot(uri=REPORTING.element, name="relationshipToTerm__element", curie=REPORTING.curie('element'),
-                   model_uri=REPORTING.relationshipToTerm__element, domain=None, range=Optional[Union[str, URIorCURIE]])
+slots.relationshipToTerm__element = Slot(uri=LI.element, name="relationshipToTerm__element", curie=LI.curie('element'),
+                   model_uri=LI.relationshipToTerm__element, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.relationshipToTerm__element_term = Slot(uri=REPORTING.element_term, name="relationshipToTerm__element_term", curie=REPORTING.curie('element_term'),
-                   model_uri=REPORTING.relationshipToTerm__element_term, domain=None, range=Optional[str])
+slots.relationshipToTerm__element_term = Slot(uri=LI.element_term, name="relationshipToTerm__element_term", curie=LI.curie('element_term'),
+                   model_uri=LI.relationshipToTerm__element_term, domain=None, range=Optional[str])
 
-slots.relationshipToTerm__source = Slot(uri=REPORTING.source, name="relationshipToTerm__source", curie=REPORTING.curie('source'),
-                   model_uri=REPORTING.relationshipToTerm__source, domain=None, range=Optional[Union[str, URIorCURIE]])
+slots.relationshipToTerm__source = Slot(uri=LI.source, name="relationshipToTerm__source", curie=LI.curie('source'),
+                   model_uri=LI.relationshipToTerm__source, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.relationshipToTerm__pipeline = Slot(uri=REPORTING.pipeline, name="relationshipToTerm__pipeline", curie=REPORTING.curie('pipeline'),
-                   model_uri=REPORTING.relationshipToTerm__pipeline, domain=None, range=Optional[Union[Union[str, LexicalTransformationPipelineName], List[Union[str, LexicalTransformationPipelineName]]]])
+slots.relationshipToTerm__pipeline = Slot(uri=LI.pipeline, name="relationshipToTerm__pipeline", curie=LI.curie('pipeline'),
+                   model_uri=LI.relationshipToTerm__pipeline, domain=None, range=Optional[Union[Union[str, LexicalTransformationPipelineName], List[Union[str, LexicalTransformationPipelineName]]]])
 
-slots.lexicalTransformationPipeline__name = Slot(uri=REPORTING.name, name="lexicalTransformationPipeline__name", curie=REPORTING.curie('name'),
-                   model_uri=REPORTING.lexicalTransformationPipeline__name, domain=None, range=URIRef)
+slots.lexicalTransformationPipeline__name = Slot(uri=LI.name, name="lexicalTransformationPipeline__name", curie=LI.curie('name'),
+                   model_uri=LI.lexicalTransformationPipeline__name, domain=None, range=URIRef)
 
-slots.lexicalTransformationPipeline__transformations = Slot(uri=REPORTING.transformations, name="lexicalTransformationPipeline__transformations", curie=REPORTING.curie('transformations'),
-                   model_uri=REPORTING.lexicalTransformationPipeline__transformations, domain=None, range=Optional[Union[Union[dict, LexicalTransformation], List[Union[dict, LexicalTransformation]]]])
+slots.lexicalTransformationPipeline__transformations = Slot(uri=LI.transformations, name="lexicalTransformationPipeline__transformations", curie=LI.curie('transformations'),
+                   model_uri=LI.lexicalTransformationPipeline__transformations, domain=None, range=Optional[Union[Union[dict, LexicalTransformation], List[Union[dict, LexicalTransformation]]]])
 
-slots.lexicalTransformation__type = Slot(uri=REPORTING.type, name="lexicalTransformation__type", curie=REPORTING.curie('type'),
-                   model_uri=REPORTING.lexicalTransformation__type, domain=None, range=Optional[Union[str, "TransformationType"]])
+slots.lexicalTransformation__type = Slot(uri=LI.type, name="lexicalTransformation__type", curie=LI.curie('type'),
+                   model_uri=LI.lexicalTransformation__type, domain=None, range=Optional[Union[str, "TransformationType"]])
 
-slots.lexicalTransformation__params = Slot(uri=REPORTING.params, name="lexicalTransformation__params", curie=REPORTING.curie('params'),
-                   model_uri=REPORTING.lexicalTransformation__params, domain=None, range=Optional[str])
+slots.lexicalTransformation__params = Slot(uri=LI.params, name="lexicalTransformation__params", curie=LI.curie('params'),
+                   model_uri=LI.lexicalTransformation__params, domain=None, range=Optional[str])

@@ -44,4 +44,8 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         - specialized implementations may yield lexical or other kinds of problems
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
+
+    def check_external_references(self):
+        raise NotImplementedError
+

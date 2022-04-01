@@ -2,3 +2,4 @@
 __pycache__
 .ipynb_checkpoints/
 docs/_build/
+docs/datamodels/*/*.md

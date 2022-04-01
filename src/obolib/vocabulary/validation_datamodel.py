@@ -1,5 +1,5 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-29T15:47:56
+# Generation date: 2022-03-31T09:17:43
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -22,7 +22,7 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.linkml_model.types import Nodeidentifier, String
+from linkml_runtime.linkml_model.types import Integer, Nodeidentifier, String
 from linkml_runtime.utils.metamodelcore import NodeIdentifier
 
 metamodel_version = "1.7.0"
@@ -126,6 +126,39 @@ class ValidationResult(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
+@dataclass
+class ExternalReferenceValidationResult(ValidationResult):
+    """
+    A validation result where the check is to determine if a link to an external resource is still valid
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.ExternalReferenceValidationResult
+    class_class_curie: ClassVar[str] = "reporting:ExternalReferenceValidationResult"
+    class_name: ClassVar[str] = "ExternalReferenceValidationResult"
+    class_model_uri: ClassVar[URIRef] = REPORTING.ExternalReferenceValidationResult
+
+    url: Optional[str] = None
+    time_checked: Optional[str] = None
+    number_of_attempts: Optional[int] = None
+    http_response_code: Optional[int] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.url is not None and not isinstance(self.url, str):
+            self.url = str(self.url)
+
+        if self.time_checked is not None and not isinstance(self.time_checked, str):
+            self.time_checked = str(self.time_checked)
+
+        if self.number_of_attempts is not None and not isinstance(self.number_of_attempts, int):
+            self.number_of_attempts = int(self.number_of_attempts)
+
+        if self.http_response_code is not None and not isinstance(self.http_response_code, int):
+            self.http_response_code = int(self.http_response_code)
+
+        super().__post_init__(**kwargs)
+
+
 # Enumerations
 class SeverityOptions(EnumDefinitionImpl):
 
@@ -174,3 +207,15 @@ slots.info = Slot(uri=REPORTING.info, name="info", curie=REPORTING.curie('info')
 
 slots.validationReport__results = Slot(uri=REPORTING.results, name="validationReport__results", curie=REPORTING.curie('results'),
                    model_uri=REPORTING.validationReport__results, domain=None, range=Optional[Union[Union[dict, ValidationResult], List[Union[dict, ValidationResult]]]])
+
+slots.externalReferenceValidationResult__url = Slot(uri=REPORTING.url, name="externalReferenceValidationResult__url", curie=REPORTING.curie('url'),
+                   model_uri=REPORTING.externalReferenceValidationResult__url, domain=None, range=Optional[str])
+
+slots.externalReferenceValidationResult__time_checked = Slot(uri=REPORTING.time_checked, name="externalReferenceValidationResult__time_checked", curie=REPORTING.curie('time_checked'),
+                   model_uri=REPORTING.externalReferenceValidationResult__time_checked, domain=None, range=Optional[str])
+
+slots.externalReferenceValidationResult__number_of_attempts = Slot(uri=REPORTING.number_of_attempts, name="externalReferenceValidationResult__number_of_attempts", curie=REPORTING.curie('number_of_attempts'),
+                   model_uri=REPORTING.externalReferenceValidationResult__number_of_attempts, domain=None, range=Optional[int])
+
+slots.externalReferenceValidationResult__http_response_code = Slot(uri=REPORTING.http_response_code, name="externalReferenceValidationResult__http_response_code", curie=REPORTING.curie('http_response_code'),
+                   model_uri=REPORTING.externalReferenceValidationResult__http_response_code, domain=None, range=Optional[int])

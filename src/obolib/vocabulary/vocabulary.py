@@ -9,11 +9,22 @@ HAS_NARROW_SYNONYM = omd.slots.has_narrow_synonym.curie
 HAS_RELATED_SYNONYM = omd.slots.has_related_synonym.curie
 SYNONYM_PREDICATES = [HAS_RELATED_SYNONYM, HAS_NARROW_SYNONYM, HAS_EXACT_SYNONYM, HAS_BROAD_SYNONYM]
 
+SCOPE_TO_SYNONYM_PRED_MAP = {
+    'EXACT': HAS_EXACT_SYNONYM,
+    'RELATED': HAS_RELATED_SYNONYM,
+    'NARROW': HAS_NARROW_SYNONYM,
+    'BROAD': HAS_BROAD_SYNONYM
+}
+
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 PART_OF = 'BFO:0000050'
 
 OBO_PURL = 'http://purl.obolibrary.org/obo/'
 
-SKOS_EXACT_MATCH = 'skos:exactMatch'
+SKOS_EXACT_MATCH = omd.slots.exactMatch.curie
+SKOS_CLOSE_MATCH = omd.slots.closeMatch.curie
+SKOS_NARROW_MATCH = omd.slots.narrowMatch.curie
+SKOS_BROAD_MATCH = omd.slots.broadMatch.curie
 HAS_DBXREF = omd.slots.database_cross_reference.curie
+HAS_DEFINITION_URI = omd.slots.definition.uri

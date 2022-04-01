@@ -1,6 +1,6 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-29T18:42:06
-# Schema: obographs_linkml_model
+# Generation date: 2022-03-31T11:02:39
+# Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
 # description: Schema for benchmarking based on obographs
@@ -32,7 +32,6 @@ version = "0.0.1"
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-N = CurieNamespace('N', 'http://example.org/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
 OG = CurieNamespace('og', 'https://github.com/geneontology/obographs/')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')

@@ -1,6 +1,6 @@
 id: https://github.com/geneontology/obographs
-title: Obographs LinkML model
-name: obographs_linkml_model
+title: Obographs Datamodel
+name: obographs_datamodel
 description: Schema for benchmarking based on obographs
 license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
@@ -10,7 +10,6 @@ prefixes:
  sdo: https://schema.org/
  skos: http://www.w3.org/2004/02/skos/core#
  og: https://github.com/geneontology/obographs/
- N: http://example.org/
 
 default_curi_maps:
   - obo_context

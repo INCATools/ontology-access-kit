@@ -1,50 +1,20 @@
 import logging
-from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Iterable, Tuple, Optional
 
 import SPARQLWrapper
+import rdflib
 from SPARQLWrapper import JSON
-from obolib.implementations.sparql.sparql import SparqlEndpointProvider
+from obolib.implementations.sparql.sparql_query import SparqlQuery
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
 from obolib.resource import OntologyResource
 from obolib.types import CURIE, URI
-from obolib.vocabulary.vocabulary import IS_A
+from obolib.vocabulary.vocabulary import IS_A, HAS_DEFINITION_URI
 from rdflib import URIRef, RDFS
 
 VAL_VAR = 'v'
-
-VAR_NAME = str
-WHERE_CLAUSE = str
-
-@dataclass
-class SparqlQuery:
-    """
-    Represents a SPARQL query
-    """
-    distinct: bool = None
-    select: List[VAR_NAME] = None
-    graph: Optional[URI] = None
-    where: List[WHERE_CLAUSE] = None
-
-    def select_str(self):
-        distinct = 'DISTINCT ' if self.distinct else ''
-        return f'{distinct}{" ".join(self.select)} '
-
-    def where_str(self):
-        return ". ".join(self.where)
-
-    def query_str(self):
-        """
-        Generate the SPARQL query string
-        :return:
-        """
-        w = self.where_str()
-        if self.graph:
-            w = f'GRAPH <{self.graph}> {{ {w} }}'
-        return f'SELECT {self.select_str()} WHERE {{ {w} }}'
 
 
 @dataclass
@@ -60,11 +30,22 @@ class SparqlImplementation(BasicOntologyInterface):
     - :class:`.UbergraphImplementation`
     """
     sparql_wrapper: SPARQLWrapper = None
+    graph: rdflib.Graph = None
 
-    @classmethod
-    def create(cls, resource: OntologyResource = None) -> BasicOntologyInterface:
-        sw = SparqlEndpointProvider.create_engine(resource)
-        return SparqlImplementation(sparql_wrapper=sw)
+    def __post_init__(self):
+        if self.sparql_wrapper is None:
+            resource = self.resource
+            if resource is None:
+                resource = OntologyResource(url=self._default_url())
+            if resource.local:
+                self.graph = rdflib.Graph()
+                self.graph.parse(resource.local_path)
+            else:
+                self.sparql_wrapper = SPARQLWrapper.SPARQLWrapper(resource.url)
+
+    def _default_url(self) -> str:
+        raise NotImplementedError
+
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
@@ -98,6 +79,7 @@ class SparqlImplementation(BasicOntologyInterface):
         sw = self.sparql_wrapper
         for k, v in prefixes.items():
             query = f'PREFIX {k}: <{v}>\n' + query
+        logging.info(f'QUERY={query}')
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
         ret = sw.queryAndConvert()
@@ -125,12 +107,33 @@ class SparqlImplementation(BasicOntologyInterface):
             yield tuple([row[v]['value'] for v in vars])
 
     def get_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
-        return [self.uri_to_curie(obj_uri) for (obj_uri,) in self._triples(curie, RDFS.subClassOf, None, None)]
+        uri = self.curie_to_uri(curie)
+        query = SparqlQuery(select=['?o'],
+                            where=[f'<{uri}> <{RDFS.subClassOf}> ?o',
+                                   'FILTER (isIRI(?o))'])
+        bindings = self._query(query.query_str())
+        return list(set([self.uri_to_curie(row['o']['value']) for row in bindings]))
+
+    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+        uri = self.curie_to_uri(curie)
+        rels = defaultdict(list)
+        rels[IS_A] = self.get_parents_by_curie(curie)
+        query = SparqlQuery(select=['?p', '?o'],
+                            where=[f'<{uri}> <{RDFS.subClassOf}> [owl:onProperty ?p ; owl:someValuesFrom ?o]',
+                                   'FILTER (isIRI(?o))'])
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            pred = self.uri_to_curie(row['p']['value'])
+            obj = self.uri_to_curie(row['o']['value'])
+            if obj not in rels[pred]:
+                rels[pred].append(obj)
+        return rels
+
 
     def _get_anns(self, curie: CURIE, pred: URIRef):
         uri = self.curie_to_uri(curie)
         bindings = self._query(f"SELECT ?{VAL_VAR} WHERE {{ <{uri}> <{pred}> ?v }}")
-        return [row[VAL_VAR]['value'] for row in bindings]
+        return list(set([row[VAL_VAR]['value'] for row in bindings]))
 
     def get_label_by_curie(self, curie: CURIE):
         labels = self._get_anns(curie, RDFS.label)
@@ -156,32 +159,12 @@ class SparqlImplementation(BasicOntologyInterface):
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         return [t.id for t in self.sparql_wrapper.terms()]
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
-        term = self._term(curie)
-        rels = {IS_A: [p.id for p in term.superclasses(distance=1)]}
-        for rel_type, parents in term.relationships.items():
-            rels[rel_type.id] = [p.id for p in parents]
-        return rels
 
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
-        ont = self.ontology
-        t = ont.create_term(curie)
-        t.name = label
-        for pred, fillers in relationships.items():
-            for filler in fillers:
-                self.add_relationship(curie, pred, filler)
-        return curie
+        raise NotImplementedError
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
-        t = self._term(curie)
-        filler_term = self._create(filler)
-        if predicate == IS_A:
-            t.superclasses().add(filler_term)
-        else:
-            predicate_term = self._create_pred(predicate)
-            if predicate_term not in t.relationships.keys():
-                t.relationships[predicate_term] = []
-            t.relationships[predicate_term].add(filler_term)
+        raise NotImplementedError
 
     def get_definition_by_curie(self, curie: CURIE) -> str:
         """
@@ -189,7 +172,13 @@ class SparqlImplementation(BasicOntologyInterface):
         :param curie:
         :return:
         """
-        return self._term(curie).definition
+        labels = self._get_anns(curie, HAS_DEFINITION_URI)
+        if labels:
+            if len(labels) > 1:
+                logging.error(f'Multiple labels for {curie} = {labels}')
+            return labels[0]
+        else:
+            return None
 
 
 

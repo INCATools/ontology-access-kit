@@ -15,7 +15,7 @@ TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 CELLULAR_COMPONENT = 'GO:0005575'
 
 
-class TestSqlDatabaseProvider(unittest.TestCase):
+class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
         print(f'DB={str(DB)}')

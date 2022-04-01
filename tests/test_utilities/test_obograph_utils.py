@@ -20,7 +20,7 @@ class TestOboGraphUtils(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
-        oi = ProntoImplementation.create(resource)
+        oi = ProntoImplementation(resource)
         self.oi = oi
         self.graph = oi.as_obograph()
 

@@ -83,3 +83,18 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(0, result.exit_code)
             self.assertIn(ATOM, out)
             self.assertEqual("", err)
+
+    ## LEXICAL
+
+    def test_lexmatch(self):
+        outfile = f'{OUTPUT_DIR}/matcher-test-cli.sssom.tsv'
+        result = self.runner.invoke(main, ['-i', f'{INPUT_DIR}/matcher-test.owl', 'lexmatch', '-R', f'{INPUT_DIR}/matcher_rules.yaml',
+                                           '-o', outfile])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as stream:
+            contents = "\n".join(stream.readlines())
+            self.assertIn('skos:closeMatch', contents)
+            self.assertIn('skos:exactMatch', contents)
+        #self.assertEqual("", err)
