@@ -7,10 +7,12 @@ See :ref:`datamodels`
 """
 import json
 import logging
+import os
 import shutil
 import subprocess
 import tempfile
 from copy import deepcopy
+from pathlib import Path
 from typing import Dict, Any, List
 
 import yaml
@@ -18,6 +20,14 @@ from linkml_runtime.dumpers import json_dumper
 from obolib.types import PRED_CURIE
 from obolib.vocabulary.obograph import Graph
 import networkx as nx
+# https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
+from obolib import conf as conf_package
+
+DEFAULT_STYLEMAP = 'obograph-style.json'
+
+def default_stylemap_path():
+    conf_path = os.path.dirname(conf_package.__file__)
+    return str(Path(conf_path) / DEFAULT_STYLEMAP)
 
 def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     """

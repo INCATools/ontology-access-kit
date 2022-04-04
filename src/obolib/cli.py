@@ -14,14 +14,9 @@ from obolib.resource import OntologyResource
 from obolib.types import PRED_CURIE
 from obolib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
-from obolib.utilities.obograph_utils import draw_graph, graph_to_image
+from obolib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path
 import sssom.writers as sssom_writers
 from obolib.vocabulary.vocabulary import IS_A, PART_OF
-
-# https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
-from obolib import conf as conf_package
-
-DEFAULT_STYLEMAP = 'obograph-style.json'
 
 
 @dataclass
@@ -167,8 +162,7 @@ def viz(terms, predicates, down, view, stylemap, configure, output: str):
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         if stylemap is None:
-            conf_path = os.path.dirname(conf_package.__file__)
-            stylemap = str(Path(conf_path) / DEFAULT_STYLEMAP)
+            stylemap = default_stylemap_path()
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(impl.multiterm_search(terms))
         if down:
