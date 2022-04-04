@@ -1,4 +1,6 @@
 import logging
+import os
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
@@ -7,11 +9,19 @@ import click
 from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
 from obolib.implementations.sqldb.sql_implementation import SqlImplementation
 from obolib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
+from obolib.interfaces.obograph_interface import OboGraphInterface
 from obolib.resource import OntologyResource
+from obolib.types import PRED_CURIE
 from obolib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
-from obolib.utilities.obograph_utils import draw_graph
+from obolib.utilities.obograph_utils import draw_graph, graph_to_image
 import sssom.writers as sssom_writers
+from obolib.vocabulary.vocabulary import IS_A, PART_OF
+
+# https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
+from obolib import conf as conf_package
+
+DEFAULT_STYLEMAP = 'obograph-style.json'
 
 
 @dataclass
@@ -41,6 +51,26 @@ output_type_option = click.option(
     "--output-type",
     help=f'Desired output type, e.g. {",".join([])}',
 )
+predicates_option = click.option(
+    "-p",
+    "--predicates",
+    help="A comma-separated list of predicates"
+)
+
+def _process_predicates_arg(preds_str: str) -> List[PRED_CURIE]:
+    if preds_str is None:
+        return None
+    inputs = preds_str.split(',')
+    preds = [_shorthand_to_pred_curie(p) for p in inputs]
+    return preds
+
+def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
+    if shorthand == 'i':
+        return IS_A
+    elif shorthand == 'p':
+        return PART_OF
+    else:
+        return shorthand
 
 
 @click.group()
@@ -115,25 +145,91 @@ def list_subset(subset, output: str):
 
 
 @main.command()
+@click.option("--view/--no-view",
+              default=True,
+              show_default=True,
+              help="if view is set then open the image after rendering")
+@click.option("--down/--no-down",
+              default=True,
+              show_default=True,
+              help="traverse down")
+@click.option('-S', '--stylemap',
+              help='a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/')
+@click.option('-C', '--configure',
+              help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `')
 @click.argument("terms", nargs=-1)
+@predicates_option
 @output_option
-def viz(terms, output: str):
+def viz(terms, predicates, down, view, stylemap, configure, output: str):
     """
     Visualizing an ancestor graph using obographviz
     """
     impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        curies = []
-        for term in terms:
-            if ':' in term:
-                curies.append(term)
-            else:
-                curies += impl.basic_search(term)
-        graph = impl.ancestor_graph(curies)
-        draw_graph(graph)
+    if isinstance(impl, OboGraphInterface):
+        if stylemap is None:
+            conf_path = os.path.dirname(conf_package.__file__)
+            stylemap = str(Path(conf_path) / DEFAULT_STYLEMAP)
+        actual_predicates = _process_predicates_arg(predicates)
+        curies = list(impl.multiterm_search(terms))
+        if down:
+            graph = impl.subgraph(curies, predicates=actual_predicates)
+        else:
+            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+        logging.info(f'Drawing graph seeded from {curies}')
+        imgfile = graph_to_image(graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output)
+        if view:
+            subprocess.run(['open', imgfile])
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@output_option
+def ancestors(terms, predicates, output: str):
+    """
+    List all ancestors
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        graph = impl.ancestor_graph(list(impl.multiterm_search(terms)), predicates=actual_predicates)
+        for n in graph.nodes:
+            print(f'{n.id} ! {n.label}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@output_option
+def descendants(terms, predicates, output: str):
+    """
+    List all descendants
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        graph = impl.descendant_graph(list(impl.multiterm_search(terms)), predicates=actual_predicates)
+        for n in graph.nodes:
+            print(f'{n.id} ! {n.label}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@output_option
+def info(terms, output: str):
+    """
+    Show info on terms
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        curies = list(impl.multiterm_search(terms))
+        for curie in curies:
+            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 @main.command()
 @output_option

@@ -3,6 +3,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Iterable, Type
 
+import pronto
 from deprecated import deprecated
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, SearchConfiguration, PREFIX_MAP
@@ -89,6 +90,15 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return {}
 
     def _entity(self, curie: CURIE):
+        for r in self.wrapped_ontology.relationships():
+            # see https://owlcollab.github.io/oboformat/doc/obo-syntax.html#4.4.1
+            # pronto gives relations shorthand IDs for RO and BFO, as it is providing
+            # oboformat as a level of abstraction. We want to map these back to the CURIEs
+            if r.id == curie:
+                return r
+            if curie.startswith('RO:') or curie.startswith('BFO:'):
+                if any(x for x in r.xrefs if x.id == curie):
+                    return r
         if curie in self.wrapped_ontology:
             return self.wrapped_ontology[curie]
         else:
@@ -147,9 +157,15 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             else:
                 return False
 
-
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         return [t.id for t in self.wrapped_ontology.terms() if t.name == label]
+
+    def _get_pronto_relationship_type_curie(self, rel_type: pronto.Relationship) -> CURIE:
+        for x in rel_type.xrefs:
+            if x.id.startswith('BFO:') or x.id.startswith('RO:'):
+                return x.id
+        return rel_type.id
+
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         # See: https://github.com/althonos/pronto/issues/119
@@ -158,11 +174,25 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             # only "Terms" in pronto have relationships
             rels = {IS_A: [p.id for p in term.superclasses(distance=1) if p.id != curie]}
             for rel_type, parents in term.relationships.items():
-                pred = rel_type.id
-                for x in rel_type.xrefs:
-                    if x.id.startswith('BFO:') or x.id.startswith('RO:'):
-                        pred = x.id
+                pred = self._get_pronto_relationship_type_curie(rel_type)
                 rels[pred] = [p.id for p in parents]
+        else:
+            rels = {}
+        return rels
+
+    def get_incoming_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+        term = self._entity(curie)
+        if isinstance(term, Term):
+            # only "Terms" in pronto have relationships
+            rels = {IS_A: [p.id for p in term.subclasses(distance=1) if p.id != curie]}
+            for xt in self.wrapped_ontology.terms():
+                for rel_type, parents in xt.relationships.items():
+                    pred = self._get_pronto_relationship_type_curie(rel_type)
+                    for p in parents:
+                        if curie == p.id:
+                            if pred not in rels:
+                                rels[pred] = []
+                            rels[pred].append(xt.id)
         else:
             rels = {}
         return rels
@@ -269,11 +299,19 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             meta = obograph.Meta()
             if t.definition:
                 meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
+            if isinstance(t, pronto.Relationship):
+                t_id = self._get_pronto_relationship_type_curie(t)
+            else:
+                t_id = t.id
+            if isinstance(t, pronto.Relationship):
+                for x in t.xrefs:
+                    if x.id.startswith('RO:') or x.id.startswith('BFO:'):
+                        t_id = x.id
             #for s in t.synonyms:
             #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
             #                                                       scope=s.scope.lower(),
             #                                                      xrefs=[x.id for x in s.xrefs]))
-            return obograph.Node(id=t.id,
+            return obograph.Node(id=t_id,
                                  label=t.name,
                                  meta=meta)
 

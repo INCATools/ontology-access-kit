@@ -38,3 +38,30 @@ def walk_up(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]],
     for rel in rels:
         yield rel
 
+
+def walk_down(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
+    """
+    As walk_up, but traversing incoming, not outgoing relationships
+
+    :param oi:
+    :param start_curies:
+    :param predicates:
+    :return:
+    """
+    if isinstance(start_curies, CURIE):
+        next_curies = [start_curies]
+    else:
+        next_curies = copy(start_curies) # do not mutate
+    rels = []
+    visited = copy(next_curies)
+    while len(next_curies) > 0:
+        next_curie = next_curies.pop()
+        for pred, subjects in oi.get_incoming_relationships_by_curie(next_curie).items():
+            if not predicates or pred in predicates:
+                for subject in subjects:
+                    if subject not in visited:
+                        next_curies.append(subject)
+                        visited.append(subject)
+                    rels.append((subject, pred, next_curie))
+    for rel in rels:
+        yield rel

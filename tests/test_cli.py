@@ -32,6 +32,24 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn('validate', out)
         self.assertEqual(0, result.exit_code)
 
+    ## OBOGRAPH
+
+    def test_obograph_local(self):
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
+            logging.info(f'INPUT={input_arg}')
+            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', 'nucl'])
+            out = result.stdout
+            assert 'GO:0043226 ! organelle' in out
+            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', '-p', 'i', 'plasma membrane'])
+            out = result.stdout
+            assert 'GO:0016020 ! membrane' in out
+            assert 'GO:0043226 ! organelle' not in out
+            result = self.runner.invoke(main, ['-i', input_arg, 'descendants', '-p', 'i', 'GO:0016020'])
+            out = result.stdout
+            # TODO:
+            #assert 'GO:0016020 ! membrane' not in out
+            assert 'GO:0043226 ! organelle' not in out
+
     ## SEARCH
 
     def test_search_help(self):

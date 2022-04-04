@@ -19,6 +19,7 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 PART_OF = 'BFO:0000050'
+HAS_PART = 'BFO:0000051'
 
 OBO_PURL = 'http://purl.obolibrary.org/obo/'
 

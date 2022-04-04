@@ -205,12 +205,35 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
         """
+        Search over ontology using the specified search term.
+
+        The search term may be a CURIE, label, or alias
 
         :param search_term:
         :param config:
         :return:
         """
         raise NotImplementedError
+
+    def multiterm_search(self, search_terms: List[str], config: SearchConfiguration = None) -> Iterable[CURIE]:
+        """
+        As basic_search, using multiple terms
+
+        :param search_terms:
+        :param config:
+        :return:
+        """
+        seen = set()
+        for t in search_terms:
+            if ':' in t:
+                yield t
+            for curie in self.basic_search(t):
+                if curie in seen:
+                    continue
+                seen.add(curie)
+                yield curie
+
+
 
     def get_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """

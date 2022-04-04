@@ -5,13 +5,14 @@ import yaml
 from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
 from obolib.resource import OntologyResource
 from obolib.utilities.obograph_utils import graph_as_dict
-from obolib.vocabulary.vocabulary import IS_A, PART_OF
+from obolib.vocabulary.vocabulary import IS_A, PART_OF, HAS_PART
 
 from tests import OUTPUT_DIR, INPUT_DIR
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
+CYTOPLASM = 'GO:0005737'
 
 class TestProntoImplementation(unittest.TestCase):
 
@@ -26,10 +27,26 @@ class TestProntoImplementation(unittest.TestCase):
         for k, v in rels.items():
             print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
-        self.assertCountEqual(rels[PART_OF], ['GO:0005737'])
+        self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
+
+    def test_incoming_relationships(self):
+        oi = self.oi
+        rels = oi.get_incoming_relationships_by_curie(CYTOPLASM)
+        for k, v in rels.items():
+            print(f'{k} = {v}')
+        self.assertCountEqual(rels[IS_A], ['GO:0005938', 'GO:0099568'])
+        self.assertCountEqual(rels[PART_OF], ['GO:0005773', 'GO:0099568'])
 
     def test_all_terms(self):
         assert any(curie for curie in self.oi.all_entity_curies() if curie == 'GO:0008152')
+
+    def test_relations(self):
+        oi = self.oi
+        label = oi.get_label_by_curie(PART_OF)
+        assert label.startswith('part')
+        t = self.oi.node(PART_OF)
+        assert t.id == PART_OF
+        assert t.label.startswith('part')
 
     def test_metadata(self):
         for curie in self.oi.all_entity_curies():
@@ -104,14 +121,14 @@ class TestProntoImplementation(unittest.TestCase):
         print('ALL')
         for rel in rels:
             logging.info(rel)
-        assert ('GO:0043227', 'has_part', 'GO:0016020') in rels
+        assert ('GO:0043227', HAS_PART, 'GO:0016020') in rels
         print('**IS_A')
         rels = list(oi.walk_up_relationship_graph('GO:0005773', predicates=[IS_A]))
         for rel in rels:
             logging.info(rel)
             self.assertEqual(rel[1], IS_A)
-        assert ('GO:0043227', 'has_part', 'GO:0016020') not in rels
-        assert ('GO:0110165', 'rdfs:subClassOf', 'CARO:0000000') in rels
+        assert ('GO:0043227', HAS_PART, 'GO:0016020') not in rels
+        assert ('GO:0110165', IS_A, 'CARO:0000000') in rels
 
     def test_ancestors(self):
         oi = self.oi

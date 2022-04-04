@@ -1,10 +1,30 @@
 from abc import ABC
-from typing import Dict, List, Tuple, Iterable, Union, Iterator
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Dict, List, Tuple, Iterable, Union, Iterator, Optional
 
 from obolib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
 from obolib.types import CURIE, LABEL, URI, PRED_CURIE
-from obolib.utilities.graph.relationship_walker import walk_up
+from obolib.utilities.graph.relationship_walker import walk_up, walk_down
 from obolib.vocabulary.obograph import Node, Graph, Edge
+
+class Distance(Enum):
+    """
+    Specifies how many hops to walk in any given direction
+    """
+    ZERO = "zero"
+    DIRECT = "direct"
+    TRANSITIVE = "transitive"
+
+
+@dataclass
+class TraversalConfiguration:
+    """
+    Specifies how to walk up and down a graph
+    """
+    predicates: List[PRED_CURIE] = None
+    up_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
+    down_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
 
 
 class OboGraphInterface(BasicOntologyInterface, ABC):
@@ -76,6 +96,32 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         return self._graph(walk_up(self, start_curies, predicates=predicates))
 
+    def descendant_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Graph:
+        """
+        As ancestor graph, but in opposite direction
+
+        :param start_curies:
+        :param predicates: if supplied then only follow edges with these predicates
+        :return: ancestor graph
+        """
+        return self._graph(walk_down(self, start_curies, predicates=predicates))
+
+    def subgraph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None,
+                 traversal: TraversalConfiguration = None) -> Graph:
+        if traversal is None:
+            traversal = TraversalConfiguration()
+        if traversal.up_distance == Distance.TRANSITIVE:
+            up_graph = self.ancestor_graph(start_curies, predicates=predicates)
+        else:
+            up_graph = None
+        if traversal.down_distance == Distance.TRANSITIVE:
+            down_graph = self.descendant_graph(start_curies, predicates=predicates)
+        else:
+            down_graph = None
+        g = self._merge_graphs([up_graph, down_graph])
+        return g
+
+
     def as_obograph(self) -> Graph:
         """
         Convert entire resource to an OBO Graph object
@@ -87,6 +133,17 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def _merge_graphs(self, graphs: List[Optional[Graph]]) -> Graph:
+        g = Graph(id='merged')
+        for src in graphs:
+            if src is not None:
+                g.nodes += src.nodes
+        for src in graphs:
+            if src is not None:
+                g.edges += src.edges
+        return g
+
 
 
 

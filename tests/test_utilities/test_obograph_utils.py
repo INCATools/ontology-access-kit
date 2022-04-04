@@ -28,12 +28,12 @@ class TestOboGraphUtils(unittest.TestCase):
         obj = graph_as_dict(self.graph)
         json_obj = json.dumps(obj)
         self.assertIn('{"id": "GO:0003674"', json_obj)
-        self.assertIn('{"sub": "CL:0000000", "pred": "has_part", "obj": "GO:0005634"}', json_obj)
+        self.assertIn('{"sub": "CL:0000000", "pred": "BFO:0000051", "obj": "GO:0005634"}', json_obj)
 
     def test_as_networkx(self):
         mdg = as_multi_digraph(self.graph)
         found = False
         self.assertIn(NUCLEUS, mdg.nodes)
         for e in mdg.edges(data=True):
-            print(f'SU={e}')
-        self.assertIn(('GO:0005634', 'GO:0031965', {'predicate': 'part_of'}), mdg.edges(data=True))
+            logging.info(f'SU={e}')
+        self.assertIn(('GO:0005634', 'GO:0031965', {'predicate': 'BFO:0000050'}), mdg.edges(data=True))
