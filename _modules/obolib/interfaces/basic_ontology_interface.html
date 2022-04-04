@@ -282,12 +282,35 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.basic_search"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.basic_search">[docs]</a>    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search over ontology using the specified search term.</span>
+
+<span class="sd">        The search term may be a CURIE, label, or alias</span>
 
 <span class="sd">        :param search_term:</span>
 <span class="sd">        :param config:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.multiterm_search"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.multiterm_search">[docs]</a>    <span class="k">def</span> <span class="nf">multiterm_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        As basic_search, using multiple terms</span>
+
+<span class="sd">        :param search_terms:</span>
+<span class="sd">        :param config:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">search_terms</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">t</span>
+            <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">curie</span></div>
+
+
 
 <div class="viewcode-block" id="BasicOntologyInterface.get_parents_by_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_parents_by_curie">[docs]</a>    <span class="k">def</span> <span class="nf">get_parents_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>

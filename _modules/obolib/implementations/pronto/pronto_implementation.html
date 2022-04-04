@@ -80,6 +80,7 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Type</span>
 
+<span class="kn">import</span> <span class="nn">pronto</span>
 <span class="kn">from</span> <span class="nn">deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">METADATA_MAP</span><span class="p">,</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">PREFIX_MAP</span>
@@ -166,6 +167,15 @@
         <span class="k">return</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="nf">_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
+            <span class="c1"># see https://owlcollab.github.io/oboformat/doc/obo-syntax.html#4.4.1</span>
+            <span class="c1"># pronto gives relations shorthand IDs for RO and BFO, as it is providing</span>
+            <span class="c1"># oboformat as a level of abstraction. We want to map these back to the CURIEs</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">curie</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">r</span>
+            <span class="k">if</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;RO:&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;BFO:&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">xrefs</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">curie</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">r</span>
         <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -224,9 +234,15 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
-
     <span class="k">def</span> <span class="nf">get_curies_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">terms</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">label</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_pronto_relationship_type_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel_type</span><span class="p">:</span> <span class="n">pronto</span><span class="o">.</span><span class="n">Relationship</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rel_type</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;BFO:&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;RO:&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="n">rel_type</span><span class="o">.</span><span class="n">id</span>
+
 
     <span class="k">def</span> <span class="nf">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="c1"># See: https://github.com/althonos/pronto/issues/119</span>
@@ -235,11 +251,25 @@
             <span class="c1"># only &quot;Terms&quot; in pronto have relationships</span>
             <span class="n">rels</span> <span class="o">=</span> <span class="p">{</span><span class="n">IS_A</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">term</span><span class="o">.</span><span class="n">superclasses</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">curie</span><span class="p">]}</span>
             <span class="k">for</span> <span class="n">rel_type</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">term</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">pred</span> <span class="o">=</span> <span class="n">rel_type</span><span class="o">.</span><span class="n">id</span>
-                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rel_type</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;BFO:&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;RO:&#39;</span><span class="p">):</span>
-                        <span class="n">pred</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pronto_relationship_type_curie</span><span class="p">(</span><span class="n">rel_type</span><span class="p">)</span>
                 <span class="n">rels</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">rels</span>
+
+    <span class="k">def</span> <span class="nf">get_incoming_relationships_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">Term</span><span class="p">):</span>
+            <span class="c1"># only &quot;Terms&quot; in pronto have relationships</span>
+            <span class="n">rels</span> <span class="o">=</span> <span class="p">{</span><span class="n">IS_A</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">term</span><span class="o">.</span><span class="n">subclasses</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">curie</span><span class="p">]}</span>
+            <span class="k">for</span> <span class="n">xt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">terms</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">rel_type</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">xt</span><span class="o">.</span><span class="n">relationships</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pronto_relationship_type_curie</span><span class="p">(</span><span class="n">rel_type</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">pred</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rels</span><span class="p">:</span>
+                                <span class="n">rels</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                            <span class="n">rels</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xt</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">rels</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">rels</span>
@@ -346,11 +376,19 @@
             <span class="n">meta</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Meta</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">definition</span><span class="p">:</span>
                 <span class="n">meta</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">DefinitionPropertyValue</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">definition</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">pronto</span><span class="o">.</span><span class="n">Relationship</span><span class="p">):</span>
+                <span class="n">t_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_pronto_relationship_type_curie</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">t_id</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">pronto</span><span class="o">.</span><span class="n">Relationship</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;RO:&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;BFO:&#39;</span><span class="p">):</span>
+                        <span class="n">t_id</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span>
             <span class="c1">#for s in t.synonyms:</span>
             <span class="c1">#    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,</span>
             <span class="c1">#                                                       scope=s.scope.lower(),</span>
             <span class="c1">#                                                      xrefs=[x.id for x in s.xrefs]))</span>
-            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="k">return</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">t_id</span><span class="p">,</span>
                                  <span class="n">label</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                                  <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
 

@@ -236,7 +236,9 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <dl class="py method">
 <dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.basic_search">
 <span class="sig-name descname"><span class="pre">basic_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">obolib.interfaces.basic_ontology_interface.SearchConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.basic_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.basic_search" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Search over ontology using the specified search term.</p>
+<p>The search term may be a CURIE, label, or alias</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>search_term</strong> – </p></li>
@@ -427,6 +429,23 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.multiterm_search">
+<span class="sig-name descname"><span class="pre">multiterm_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">obolib.interfaces.basic_ontology_interface.SearchConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/obolib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.multiterm_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.interfaces.basic_ontology_interface.BasicOntologyInterface.multiterm_search" title="Permalink to this definition"></a></dt>
+<dd><p>As basic_search, using multiple terms</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_terms</strong> – </p></li>
+<li><p><strong>config</strong> – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>

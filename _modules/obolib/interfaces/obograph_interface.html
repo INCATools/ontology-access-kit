@@ -46,6 +46,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -74,12 +76,32 @@
              
   <h1>Source code for obolib.interfaces.obograph_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">obolib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">RELATIONSHIP</span>
 <span class="kn">from</span> <span class="nn">obolib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">LABEL</span><span class="p">,</span> <span class="n">URI</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
-<span class="kn">from</span> <span class="nn">obolib.utilities.graph.relationship_walker</span> <span class="kn">import</span> <span class="n">walk_up</span>
+<span class="kn">from</span> <span class="nn">obolib.utilities.graph.relationship_walker</span> <span class="kn">import</span> <span class="n">walk_up</span><span class="p">,</span> <span class="n">walk_down</span>
 <span class="kn">from</span> <span class="nn">obolib.vocabulary.obograph</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">Edge</span>
+
+<span class="k">class</span> <span class="nc">Distance</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specifies how many hops to walk in any given direction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZERO</span> <span class="o">=</span> <span class="s2">&quot;zero&quot;</span>
+    <span class="n">DIRECT</span> <span class="o">=</span> <span class="s2">&quot;direct&quot;</span>
+    <span class="n">TRANSITIVE</span> <span class="o">=</span> <span class="s2">&quot;transitive&quot;</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TraversalConfiguration</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specifies how to walk up and down a graph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">up_distance</span><span class="p">:</span> <span class="n">Distance</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Distance</span><span class="o">.</span><span class="n">TRANSITIVE</span><span class="p">)</span>
+    <span class="n">down_distance</span><span class="p">:</span> <span class="n">Distance</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Distance</span><span class="o">.</span><span class="n">TRANSITIVE</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="OboGraphInterface"><a class="viewcode-back" href="../../../interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface">[docs]</a><span class="k">class</span> <span class="nc">OboGraphInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -151,6 +173,32 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">(</span><span class="n">walk_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">))</span></div>
 
+<div class="viewcode-block" id="OboGraphInterface.descendant_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">[docs]</a>    <span class="k">def</span> <span class="nf">descendant_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        As ancestor graph, but in opposite direction</span>
+
+<span class="sd">        :param start_curies:</span>
+<span class="sd">        :param predicates: if supplied then only follow edges with these predicates</span>
+<span class="sd">        :return: ancestor graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">(</span><span class="n">walk_down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">subgraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">traversal</span><span class="p">:</span> <span class="n">TraversalConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">traversal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">traversal</span> <span class="o">=</span> <span class="n">TraversalConfiguration</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">traversal</span><span class="o">.</span><span class="n">up_distance</span> <span class="o">==</span> <span class="n">Distance</span><span class="o">.</span><span class="n">TRANSITIVE</span><span class="p">:</span>
+            <span class="n">up_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">up_graph</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">traversal</span><span class="o">.</span><span class="n">down_distance</span> <span class="o">==</span> <span class="n">Distance</span><span class="o">.</span><span class="n">TRANSITIVE</span><span class="p">:</span>
+            <span class="n">down_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">descendant_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">down_graph</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_graphs</span><span class="p">([</span><span class="n">up_graph</span><span class="p">,</span> <span class="n">down_graph</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">g</span>
+
+
 <div class="viewcode-block" id="OboGraphInterface.as_obograph"><a class="viewcode-back" href="../../../interfaces/obograph.html#obolib.interfaces.obograph_interface.OboGraphInterface.as_obograph">[docs]</a>    <span class="k">def</span> <span class="nf">as_obograph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert entire resource to an OBO Graph object</span>
@@ -161,7 +209,18 @@
 <span class="sd">           to download the entire ontology as a graph</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="nf">_merge_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graphs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Graph</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;merged&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">nodes</span> <span class="o">+=</span> <span class="n">src</span><span class="o">.</span><span class="n">nodes</span>
+        <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">edges</span> <span class="o">+=</span> <span class="n">src</span><span class="o">.</span><span class="n">edges</span>
+        <span class="k">return</span> <span class="n">g</span></div>
+
 
 
 

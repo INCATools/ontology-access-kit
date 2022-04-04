@@ -13,6 +13,7 @@
 
    .. autosummary::
    
+      walk_down
       walk_up
    
    
