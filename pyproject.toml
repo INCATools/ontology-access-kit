@@ -5,7 +5,7 @@ description = ""
 authors = ["cmungall <cjm@berkeleybop.org>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 nxontology = "^0.4.0"
 pronto = "^2.4.4"
 SPARQLWrapper = "^2.0.0"
