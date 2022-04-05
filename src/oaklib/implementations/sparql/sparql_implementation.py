@@ -9,9 +9,10 @@ from SPARQLWrapper import JSON
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
+from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
-from oaklib.vocabulary.vocabulary import IS_A, HAS_DEFINITION_URI
+from oaklib.vocabulary.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE
 from rdflib import URIRef, RDFS
 
 VAL_VAR = 'v'
@@ -83,6 +84,7 @@ class SparqlImplementation(BasicOntologyInterface):
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
         ret = sw.queryAndConvert()
+        logging.info(f'RET={ret}')
         return ret["results"]["bindings"]
 
     def _triples(self, subject: CURIE = None, predicate: PRED_CURIE = None, object: PRED_CURIE = None, graph: CURIE = None) -> Iterable[Tuple]:
@@ -157,7 +159,10 @@ class SparqlImplementation(BasicOntologyInterface):
 
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
-        return [t.id for t in self.sparql_wrapper.terms()]
+        query = SparqlQuery(select=['?s'],
+                            where=[f'{{ {{ ?s rdfs:label "{label}" }} UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
+        bindings = self._query(query.query_str())
+        return [self.uri_to_curie(row['s']['value']) for row in bindings]
 
 
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
@@ -179,6 +184,27 @@ class SparqlImplementation(BasicOntologyInterface):
             return labels[0]
         else:
             return None
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SearchInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+        if config.complete:
+            filter = f'?v = "{search_term}"'
+        else:
+            filter = f'strStarts(?v, "{search_term}")'
+        preds = [LABEL_PREDICATE]
+        if len(preds) == 1:
+            where = [f'?s {preds[0]} ?v ']
+        else:
+            where = [f'?s ?p ?v ',
+                     f'VALUES ?p {{ {" ".join(preds)} }}']
+        query = SparqlQuery(select=['?s'],
+                            where=where + [f'FILTER({filter})'])
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            yield self.uri_to_curie(row['s']['value'])
 
 
 

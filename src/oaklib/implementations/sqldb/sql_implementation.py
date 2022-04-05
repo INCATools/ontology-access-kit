@@ -2,12 +2,12 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Any, Iterable, Optional, Type
 
-from oaklib.implementations.sqldb.model import Statements, Edge, HasOioSynonymStatement, HasSynonymStatement, \
+from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
-    SearchConfiguration
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
+from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE
 from oaklib.vocabulary import obograph
@@ -18,7 +18,7 @@ from sqlalchemy import create_engine
 
 
 @dataclass
-class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface):
+class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -90,6 +90,10 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for row in self.session.query(Edge).filter(Edge.subject == curie):
             rmap[row.predicate].append(row.object)
         return rmap
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OboGraphInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def node(self, curie: CURIE) -> obograph.Node:
         meta = obograph.Meta()

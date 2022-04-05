@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
@@ -6,8 +7,9 @@ from typing import List, Iterable, Type
 import pronto
 from deprecated import deprecated
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
-    METADATA_MAP, SearchConfiguration, PREFIX_MAP
+    METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
@@ -20,7 +22,7 @@ from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
 
 
 @dataclass
-class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface):
+class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface, SearchInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -197,18 +199,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             rels = {}
         return rels
 
-    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
-        matches = []
-        for t in self.wrapped_ontology.terms():
-            if search_term in t.name:
-                matches.append(t.id)
-                continue
-            if config.include_aliases:
-                for syn in t.synonyms:
-                    if search_term in syn.description:
-                        matches.append(t.id)
-                        continue
-        return matches
+
 
 
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
@@ -320,5 +311,22 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
         return Graph(id='TODO', nodes=nodes, edges=edges)
 
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SearchInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+        matches = []
+        for t in self.wrapped_ontology.terms():
+            if search_term in t.name:
+                matches.append(t.id)
+                logging.info(f'Name match to {t.id}')
+                continue
+            if config.include_aliases:
+                for syn in t.synonyms:
+                    if search_term in syn.description:
+                        logging.info(f'Syn match to {t.id}')
+                        matches.append(t.id)
+                        continue
+        return matches
 

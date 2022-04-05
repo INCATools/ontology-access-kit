@@ -1,3 +1,9 @@
+"""
+Command Line Interface to OAK
+-----------------------------
+
+Executed using "runoak" command
+"""
 import logging
 import os
 import subprocess
@@ -6,10 +12,13 @@ from pathlib import Path
 from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 
 import click
+from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
@@ -73,7 +82,14 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
 @click.option("-q", "--quiet")
 @input_option
 def main(verbose: int, quiet: bool, input: str):
-    """Run the oaklib CLI."""
+    """Run the oaklib Command Line.
+
+    A subcommand must be passed - for example: ancestors, terms, ...
+
+    Most commands require an input ontology to be specified:
+
+        runoak -i <INPUT SPECIFICATION> SUBCOMMAND <SUBCOMMAND OPTIONS AND ARGUMENTS>
+    """
     if verbose >= 2:
         logging.basicConfig(level=logging.DEBUG)
     elif verbose == 1:
@@ -85,6 +101,7 @@ def main(verbose: int, quiet: bool, input: str):
     resource = OntologyResource()
     resource.slug = input
     impl_class: Type[OntologyInterface]
+    # TODO: move to a separate module
     if input:
         if ':' in input:
             toks = input.split(':')
@@ -93,6 +110,12 @@ def main(verbose: int, quiet: bool, input: str):
             if scheme == 'sqlite':
                 impl_class = SqlImplementation
                 resource.slug = f'sqlite:///{Path(rest).absolute()}'
+            elif scheme == 'ubergraph':
+                impl_class = UbergraphImplementation
+                resource = None
+            elif scheme == 'ontobee':
+                impl_class = OntobeeImplementation
+                resource = None
             elif scheme == 'obolibrary':
                 impl_class = ProntoImplementation
                 if resource.slug.endswith('.obo'):
@@ -113,10 +136,13 @@ def main(verbose: int, quiet: bool, input: str):
 @output_option
 def search(terms, output: str):
     """
-    Searches ontology for entities that have a label, alias, or other property matching a search term
+    Searches ontology for entities that have a label, alias, or other property matching a search term.
+
+    Example:
+        runoak -i uberon.obo limb
     """
     impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
+    if isinstance(impl, SearchInterface):
         for t in terms:
             for curie in impl.basic_search(t):
                 print(f'{curie} ! {impl.get_label_by_curie(curie)}')
@@ -130,6 +156,9 @@ def search(terms, output: str):
 def list_subset(subset, output: str):
     """
     Shows IDs in subset
+
+    Example:
+        runoak -i obolibrary:go.obo goslim_generic
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -158,6 +187,11 @@ def list_subset(subset, output: str):
 def viz(terms, predicates, down, view, stylemap, configure, output: str):
     """
     Visualizing an ancestor graph using obographviz
+
+    Note the implementation must implement :class:`.OboGraphInterface`
+
+    Example:
+        runoak -i sqlite:cl.db viz CL:4023094
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -183,11 +217,16 @@ def viz(terms, predicates, down, view, stylemap, configure, output: str):
 def ancestors(terms, predicates, output: str):
     """
     List all ancestors
+
+    Example:
+        runoak -i cl.owl ancestors CL:4023094
     """
     impl = settings.impl
-    if isinstance(impl, OboGraphInterface):
+    if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        graph = impl.ancestor_graph(list(impl.multiterm_search(terms)), predicates=actual_predicates)
+        curies = list(impl.multiterm_search(terms))
+        logging.info(f'Ancestor seed: {curies}')
+        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
         for n in graph.nodes:
             print(f'{n.id} ! {n.label}')
     else:
@@ -216,6 +255,11 @@ def descendants(terms, predicates, output: str):
 def info(terms, output: str):
     """
     Show info on terms
+
+    TODO: currenly this only shows the label
+
+    Example:
+        runoak -i cl.owl info CL:4023094
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -226,10 +270,32 @@ def info(terms, output: str):
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 @main.command()
+@click.argument("terms", nargs=-1)
+@output_option
+def relationships(terms, output: str):
+    """
+    Show relationships for terms
+
+    Example:
+        runoak -i cl.owl relationships CL:4023094
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        curies = list(impl.multiterm_search(terms))
+        for curie in curies:
+            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            for pred, fillers in impl.get_outgoing_relationships_by_curie(curie):
+                print(f'  PRED: {pred} ! {impl.get_label_by_curie(pred)}')
+                for filler in fillers:
+                    print(f'    * {filler} ! {impl.get_label_by_curie(filler)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
 @output_option
 def terms(output: str):
     """
-    List all terms
+    List all terms in the ontology
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -245,7 +311,7 @@ def axioms(output: str):
     """
     List all axioms
 
-    TODO: as soon as funowl does not pin rdf version
+    TODO: this is a placeholder -- will be added when we add funowl
     """
     impl = settings.impl
     #if isinstance(impl, OwlInterface):
@@ -262,7 +328,9 @@ def validate(output: str):
     """
     Validate an ontology
 
-    INCOMPLETE
+    .. warning ::
+
+       currently highly incomplete
     """
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
@@ -279,7 +347,7 @@ def subset(curies, output: str):
     """
     Extracts a subset
 
-    INCOMPLETE
+    TODO: INCOMPLETE
     """
     impl = settings.impl
     if isinstance(impl, SubsetterInterface):
@@ -306,6 +374,8 @@ def subset(curies, output: str):
 def lexmatch(output: str, recreate, rules_file, lexical_index_file, add_labels):
     """
     Generates lexical index and mappings
+
+    See :ref:`.lexical_index_to_sssom`
 
     Examples:
         lexmatch -i foo.obo -o foo.sssom.tsv

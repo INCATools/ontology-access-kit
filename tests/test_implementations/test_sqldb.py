@@ -3,7 +3,7 @@ import unittest
 
 import yaml
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.interfaces.basic_ontology_interface import SearchConfiguration
+from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.vocabulary.vocabulary import IS_A, PART_OF
@@ -38,15 +38,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         label = self.oi.get_label_by_curie('GO:0005773')
         self.assertEqual(label, 'vacuole')
 
-    def test_search(self):
-        oi = self.oi
-        for curie in oi.basic_search('intracellular'):
-            print(curie)
-        self.assertIn('GO:0005622', oi.basic_search('intracellular'))
-        c = SearchConfiguration()
-        self.assertEqual(list(oi.basic_search('protoplasm')), ['GO:0005622'])
-        self.assertEqual(list(oi.basic_search('protoplasm', SearchConfiguration(include_aliases=False))), [])
-
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         print(syns)
@@ -71,3 +62,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(curie)
         assert 'CHEBI:36357' in missing
         assert CELLULAR_COMPONENT not in missing
+
+    def test_search(self):
+        oi = self.oi
+        for curie in oi.basic_search('intracellular'):
+            print(curie)
+        self.assertIn('GO:0005622', oi.basic_search('intracellular'))
+        self.assertEqual(list(oi.basic_search('protoplasm')), ['GO:0005622'])
+        self.assertEqual(list(oi.basic_search('protoplasm', SearchConfiguration(include_aliases=False))), [])

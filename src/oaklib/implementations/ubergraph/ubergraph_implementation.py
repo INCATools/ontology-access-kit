@@ -1,12 +1,13 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Iterable, Tuple
+from typing import Iterable, Tuple
 
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
+from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.types import CURIE
 
 
@@ -20,7 +21,7 @@ class RelationGraphEnum(Enum):
 
 
 @dataclass
-class UbergraphImplementation(SparqlImplementation, RelationGraphInterface):
+class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface):
     """
     Wraps the Ubergraph sparql endpoint
 
