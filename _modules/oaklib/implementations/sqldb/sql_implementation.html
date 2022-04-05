@@ -79,23 +79,23 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">HasOioSynonymStatement</span><span class="p">,</span> <span class="n">HasSynonymStatement</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">HasSynonymStatement</span><span class="p">,</span> \
     <span class="n">HasTextDefinitionStatement</span><span class="p">,</span> <span class="n">ClassNode</span><span class="p">,</span> <span class="n">IriNode</span><span class="p">,</span> <span class="n">RdfsLabelStatement</span><span class="p">,</span> <span class="n">DeprecatedNode</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
-    <span class="n">SearchConfiguration</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.vocabulary</span> <span class="kn">import</span> <span class="n">obograph</span>
-<span class="kn">from</span> <span class="nn">oaklib.vocabulary.vocabulary</span> <span class="kn">import</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span> <span class="n">omd_slots</span><span class="p">,</span> <span class="n">LABEL_PREDICATE</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span> <span class="n">omd_slots</span><span class="p">,</span> <span class="n">LABEL_PREDICATE</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">exists</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
 
 
 <div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database</span>
 

@@ -77,11 +77,11 @@
   <h1>Source code for oaklib.interfaces.basic_ontology_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterator</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.ontology_interface</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">URI</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
-<span class="kn">from</span> <span class="nn">oaklib.vocabulary.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OBO_PURL</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OBO_PURL</span>
 
 <span class="n">NC_NAME</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NC_NAME</span><span class="p">,</span> <span class="n">URI</span><span class="p">]</span>
@@ -92,12 +92,6 @@
 
 
 
-<span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SearchConfiguration</span><span class="p">:</span>
-    <span class="n">include_id</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">include_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">include_aliases</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">include_definition</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
 
 <div class="viewcode-block" id="BasicOntologyInterface"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">[docs]</a><span class="k">class</span> <span class="nc">BasicOntologyInterface</span><span class="p">(</span><span class="n">OntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -258,6 +252,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
+<div class="viewcode-block" id="BasicOntologyInterface.get_labels_for_curies"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels_for_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        fetches the unique label for a CURIE</span>
+
+<span class="sd">        The CURIE may be for a class, individual, property, or ontology</span>
+
+<span class="sd">        :param curie:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># default implementation: may be overridden for efficiency</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="p">[</span><span class="n">curie</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">)]</span></div>
+
 <div class="viewcode-block" id="BasicOntologyInterface.set_label_for_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label_for_curie">[docs]</a>    <span class="k">def</span> <span class="nf">set_label_for_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        updates the label</span>
@@ -280,35 +287,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.basic_search"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.basic_search">[docs]</a>    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Search over ontology using the specified search term.</span>
-
-<span class="sd">        The search term may be a CURIE, label, or alias</span>
-
-<span class="sd">        :param search_term:</span>
-<span class="sd">        :param config:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-<div class="viewcode-block" id="BasicOntologyInterface.multiterm_search"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multiterm_search">[docs]</a>    <span class="k">def</span> <span class="nf">multiterm_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        As basic_search, using multiple terms</span>
-
-<span class="sd">        :param search_terms:</span>
-<span class="sd">        :param config:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">search_terms</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">t</span>
-            <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-                <span class="k">yield</span> <span class="n">curie</span></div>
 
 
 
