@@ -1,0 +1,210 @@
+id: https://github.com/geneontology/obographs
+title: Obographs Datamodel
+name: obographs_datamodel
+description: Schema for benchmarking based on obographs
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+prefixes:
+ linkml: https://w3id.org/linkml/
+ sdo: https://schema.org/
+ skos: http://www.w3.org/2004/02/skos/core#
+ og: https://github.com/geneontology/obographs/
+
+default_curi_maps:
+  - obo_context
+  - idot_context
+  - monarch_context
+  - semweb_context
+
+emit_prefixes:
+  - rdf
+  - rdfs
+  - xsd
+  - skos
+
+imports:
+ - linkml:types
+default_prefix: og
+
+enums:
+  scopes_enum:
+    permissible_values:
+      exact:
+      narrow:
+      broad:
+      related:
+  preds_enum:
+    permissible_values:
+      hasExactSynonym:
+      hasNarrowSynonym:
+      hasBroadSynonym:
+      hasRelatedSynonym:
+
+slots:
+  id:
+    range: string
+    identifier: true
+  sub:
+    range: string
+  pred:
+    range: string
+  obj:
+    range: string
+  val:
+    range: string
+  label:
+    range: string
+  type:
+    # TODO: rdf:type not working - import problem?
+    range: string
+  meta:
+    range: Meta
+  definition:
+    range: DefinitionPropertyValue
+  basicPropertyValues:
+    range: BasicPropertyValue
+    multivalued: true
+  comments:
+    multivalued: true
+    range: string
+  version:
+    range: string
+  deprecated:
+    range: boolean
+  subsets:
+    multivalued: true
+    range: string
+  xrefs:
+    multivalued: true
+    range: string
+  lbl:
+    range: string
+  nodes:
+    multivalued: true
+    range: Node
+    inlined: true
+    inlined_as_list: true
+  edges:
+    multivalued: true
+    range: Edge
+    inlined: true
+    inlined_as_list: true
+  equivalentNodesSets:
+    multivalued: true
+    range: EquivalentNodesSet
+  logicalDefinitionAxioms:
+    multivalued: true
+    range: LogicalDefinitionAxiom
+  domainRangeAxioms:
+    multivalued: true
+    range: DomainRangeAxiom
+  propertyChainAxioms:
+    multivalued: true
+    range: PropertyChainAxiom
+  representitiveNodeId:
+    range: string
+  nodeIds:
+    multivalued: true
+    range: string
+  fillerId:
+    range: string
+  propertyId:
+    range: string
+  synonyms:
+    multivalued: true
+    range: SynonymPropertyValue
+  synonymType:
+    range: string
+  scope:
+    range: scopes_enum
+  isExact:
+    range: boolean
+
+
+classes:
+  Graph:
+    slots:
+      - id
+      - lbl
+      - meta
+      - nodes
+      - edges
+      - equivalentNodesSets
+      - logicalDefinitionAxioms
+      - domainRangeAxioms
+      - propertyChainAxioms
+
+  Node:
+    slots:
+      - id
+      - label
+      - type
+      - meta
+
+  Edge:
+    slots:
+      - sub
+      - pred
+      - obj
+#      - meta
+
+  Meta:
+    slots:
+      - subsets
+      - version
+      - comments
+      - definition
+      - xrefs
+      - synonyms
+      - basicPropertyValues
+      - deprecated
+
+  DefinitionPropertyValue:
+    is_a: PropertyValue
+  BasicPropertyValue:
+    is_a: PropertyValue
+  XrefPropertyValue:
+    is_a: PropertyValue
+  SynonymPropertyValue:
+    is_a: PropertyValue
+    slots:
+      - synonymType
+      - isExact
+      - scope
+
+  PropertyValue:
+    abstract: true
+    slots:
+      - pred
+      - val
+      - xrefs
+      - meta
+
+  Axiom:
+    abstract: true
+    slots:
+      - meta
+
+  DomainRangeAxiom:
+    is_a: Axiom
+
+  EquivalentNodesSet:
+    is_a: Axiom
+    slots:
+      - representitiveNodeId
+      - nodeIds
+
+  ExistentialRestrictionExpression:
+    slots:
+      - fillerId
+      - propertyId
+
+  LogicalDefinitionAxiom:
+    is_a: Axiom
+
+  PropertyChainAxiom:
+    is_a: Axiom
+
+
+

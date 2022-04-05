@@ -1,0 +1,166 @@
+id: https://w3id.org/linkml/summary_statistics
+title: Summary Statistics Datamodel
+name: summary-statistics
+description: A datamodel for reports on data
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  reporting: https://w3id.org/linkml/report
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+
+default_prefix: reporting
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  SummaryStatisticCollection:
+    description: A summary statistics report object
+    attributes:
+      class_count:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+      anonymous_class_expression_count:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+      unsatisfiable_class_count:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+      class_count_excluding_deprecated:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+      class_count_with_definitions:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+      property_count:
+        is_a: count_statistic
+        slot_group: property_statistic_group
+      object_property_count:
+        is_a: count_statistic
+        slot_group: property_statistic_group
+      datatype_property_count:
+        is_a: count_statistic
+        slot_group: property_statistic_group
+      annotation_property_count:
+        is_a: count_statistic
+        slot_group: property_statistic_group
+      individual_count:
+        is_a: count_statistic
+        slot_group: individual_statistic_group
+      named_individual_count:
+        is_a: count_statistic
+        slot_group: individual_statistic_group
+        annotations:
+          count_of: owl:NamedIndividual
+      anonymous_individual_count:
+        is_a: count_statistic
+        slot_group: individual_statistic_group
+        equals_expression: "{named_individual_count} - {individual_count}"
+      untyped_entity_count:
+        is_a: count_statistic
+      description_logic_profile:
+        range: string
+        slot_group: owl_statistic_group
+      owl_axiom_count:
+        is_a: count_statistic
+        slot_group: owl_statistic_group
+      rdf_triple_count:
+        is_a: count_statistic
+        slot_group: owl_statistic_group
+      subclass_of_axiom_count:
+        is_a: count_statistic
+        slot_group: owl_statistic_group
+      equivalentclasses_axiom_count:
+        is_a: count_statistic
+        slot_group: owl_statistic_group
+      distinct_synonym_count:
+        is_a: count_statistic
+        slot_group: metadata_statistic_group
+      synonym_statement_count:
+        is_a: count_statistic
+        slot_group: metadata_statistic_group
+      mapping_count:
+        is_a: count_statistic
+        slot_group: metadata_statistic_group
+      ontology_count:
+        is_a: count_statistic
+
+  GlobalStatistics:
+    is_a: SummaryStatisticCollection
+    description: summary statistics for the entire resource
+    attributes:
+      by_category:
+        description: statistics keyed by category
+        comments:
+          - for example, GO stats may be broken out by MF/BP/CC
+        range: FacetStatistics
+        multivalued: true
+        inlined: true
+      by_taxon:
+        description: statistics keyed by organism taxon
+        range: FacetStatistics
+        multivalued: true
+        inlined: true
+      by_ontology:
+        description: statistics keyed by ontology
+        comments:
+          - if a large ontology collection like OntoBee is indexed then it makes sense to break stats into each sub-ontology
+        range: FacetStatistics
+        multivalued: true
+        inlined: true
+      by_subset:
+        description: statistics keyed by ontology subset
+        comments:
+          - For example, GO metagenomics_slim
+        range: FacetStatistics
+        multivalued: true
+        inlined: true
+
+  FacetStatistics:
+    is_a: SummaryStatisticCollection
+    description: summary statistics for a data facet
+    attributes:
+      facet:
+        key: true
+
+#==================================
+# Slots                           #
+#==================================
+slots:
+  count_statistic:
+    range: integer
+  class_statistic_group:
+    is_grouping_slot: true
+    annotations:
+      count_of: owl:Class
+  property_statistic_group:
+    is_grouping_slot: true
+    annotations:
+      count_of: rdf:Property
+  individual_statistic_group:
+    is_grouping_slot: true
+  metadata_statistic_group:
+    is_grouping_slot: true
+  owl_statistic_group:
+    is_grouping_slot: true
+
