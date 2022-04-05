@@ -3,9 +3,9 @@
 ![](https://github.com/incatools/ontology-access-kit/workflows/Build/badge.svg)
 [![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/incatools/ontology-access-kit/main?filepath=notebooks)
 
-This library provides a collection of different interfaces for different kinds of ontology operations, including:
+This library provides a collection of different [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for different kinds of ontology operations, including:
 
- - lookup of basic features of an ontology element, such as it's label, definition, relationships, or aliases
+ - [lookup of basic features](https://incatools.github.io/ontology-access-kit/interfaces/basic.html) of an ontology element, such as it's label, definition, relationships, or aliases
  - search an ontology for a term
  - validating an ontology
  - updating, deleting, or modifying terms
@@ -13,7 +13,7 @@ This library provides a collection of different interfaces for different kinds o
  - generating and visualizing subgraphs
  - provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation
 
-These interfaces are *separated* from any particular backend. This means the same API can be used regardless of whether the ontology:
+These interfaces are *separated* from any particular [backend](https://incatools.github.io/ontology-access-kit/implementations/index.html). This means the same API can be used regardless of whether the ontology:
 
  - is served by a remote API such as OLS or BioPortal
  - is present locally on the filesystem in owl, obo, obojson, or sqlite formats
@@ -24,9 +24,6 @@ These interfaces are *separated* from any particular backend. This means the sam
 
 - [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
 
-## Current status
-
- - only a handful of interface-implementaton combos are implemented
 
 ## Example
 
@@ -47,7 +44,9 @@ For more examples, see
 
 ## Command Line
 
-There is currently a very limited CLI. See [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
+Documentation here is incomplete.
+
+See [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
 
 ### Search
 
@@ -111,10 +110,10 @@ oaklib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 Use the sqlite backend to find all terms matching the string "nucl" walk up the graph and visualize it
 
 ```bash
-oaklib -i sqlite:tests/input/go-nucleus.db  viz nucl
+oaklib -i sqlite:tests/input/go-nucleus.db  viz GO:0005773
 ```
 
-TODO: add figure to docs
+![img](notebooks/output/vacuole.png)
 
 ## Documentation
 
