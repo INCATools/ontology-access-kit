@@ -1,8 +1,8 @@
 import logging
 import unittest
 
-from obolib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
-from obolib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
+from oaklib.vocabulary.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 

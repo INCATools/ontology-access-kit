@@ -2,11 +2,11 @@ import json
 import logging
 import unittest
 
-from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
-from obolib.resource import OntologyResource
-from obolib.utilities.graph.relationship_walker import walk_up
-from obolib.utilities.obograph_utils import as_multi_digraph, graph_as_dict
-from obolib.vocabulary.vocabulary import IS_A
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.resource import OntologyResource
+from oaklib.utilities.graph.relationship_walker import walk_up
+from oaklib.utilities.obograph_utils import as_multi_digraph, graph_as_dict
+from oaklib.vocabulary.vocabulary import IS_A
 from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR

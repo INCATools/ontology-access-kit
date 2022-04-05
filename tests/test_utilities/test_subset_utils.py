@@ -1,11 +1,11 @@
 import logging
 import unittest
 
-from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
-from obolib.resource import OntologyResource
-from obolib.utilities.graph.relationship_walker import walk_up
-from obolib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-from obolib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.resource import OntologyResource
+from oaklib.utilities.graph.relationship_walker import walk_up
+from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
+from oaklib.vocabulary.vocabulary import IS_A, PART_OF
 from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR

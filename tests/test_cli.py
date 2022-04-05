@@ -2,10 +2,10 @@ import logging
 import unittest
 
 import yaml
-from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
-from obolib.resource import OntologyResource
-from obolib.utilities.obograph_utils import graph_as_dict
-from obolib.cli import search, main
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.resource import OntologyResource
+from oaklib.utilities.obograph_utils import graph_as_dict
+from oaklib.cli import search, main
 from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR
