@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "obolib"
+name = "oaklib"
 version = "0.1.0"
 description = ""
 authors = ["cmungall <cjm@berkeleybop.org>"]
@@ -29,4 +29,4 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-obolib = "obolib.cli:cli"
+runoak = "oaklib.cli:cli"

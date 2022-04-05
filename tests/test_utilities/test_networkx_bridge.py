@@ -1,9 +1,9 @@
 import logging
 import unittest
 
-from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
-from obolib.resource import OntologyResource
-from obolib.utilities.graph.networkx_bridge import relationships_to_multi_digraph
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.resource import OntologyResource
+from oaklib.utilities.graph.networkx_bridge import relationships_to_multi_digraph
 import networkx as nx
 
 from tests import OUTPUT_DIR, INPUT_DIR

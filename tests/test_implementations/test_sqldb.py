@@ -2,11 +2,11 @@ import logging
 import unittest
 
 import yaml
-from obolib.implementations.sqldb.sql_implementation import SqlImplementation
-from obolib.interfaces.basic_ontology_interface import SearchConfiguration
-from obolib.resource import OntologyResource
-from obolib.utilities.obograph_utils import graph_as_dict
-from obolib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.interfaces.basic_ontology_interface import SearchConfiguration
+from oaklib.resource import OntologyResource
+from oaklib.utilities.obograph_utils import graph_as_dict
+from oaklib.vocabulary.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 

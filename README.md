@@ -52,7 +52,7 @@ There is currently a very limited CLI. See [CLI docs](https://cmungall.github.io
 Use the pronto backend to fetch and parse an ontology from the OBO library, then use the `search` command
 
 ```bash
-obolib -i obolibrary:pato.obo search osmol 
+oaklib -i obolibrary:pato.obo search osmol 
 ```
 
 Returns:
@@ -73,7 +73,7 @@ PATO:0045035 ! normal osmolarity
 Perform validation on PR using sqlite/rdftab instance:
 
 ```bash
-obolib validate -i sqlite:../semantic-sql/db/pr.db
+oaklib validate -i sqlite:../semantic-sql/db/pr.db
 ```
 
 ### List all terms
@@ -81,7 +81,7 @@ obolib validate -i sqlite:../semantic-sql/db/pr.db
 List all terms obolibrary has for mondo
 
 ```bash
-obolib validate -i obolibrary:mondo.obo terms
+oaklib validate -i obolibrary:mondo.obo terms
 ```
 
 ### Lexical index
@@ -89,7 +89,7 @@ obolib validate -i obolibrary:mondo.obo terms
 Make a lexical index of all terms in Mondo:
 
 ```bash
-obolib lexmatch -i obolibrary:mondo.obo -L mondo.index.yaml
+oaklib lexmatch -i obolibrary:mondo.obo -L mondo.index.yaml
 ```
 
 ### Mapping
@@ -98,7 +98,7 @@ Create a SSSOM mapping file for a set of ontologies:
 
 ```bash
 robot merge -I http://purl.obolibrary.org/obo/hp.owl -I http://purl.obolibrary.org/obo/mp.owl convert --check false -o hp-mp.obo
-obolib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
+oaklib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 ```
 
 
@@ -109,7 +109,7 @@ obolib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 Use the sqlite backend to find all terms matching the string "nucl" walk up the graph and visualize it
 
 ```bash
-obolib -i sqlite:tests/input/go-nucleus.db  viz nucl
+oaklib -i sqlite:tests/input/go-nucleus.db  viz nucl
 ```
 
 TODO: add figure to docs

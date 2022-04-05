@@ -1,8 +1,8 @@
 import logging
 import unittest
 
-from obolib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
-from obolib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+from oaklib.vocabulary.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 

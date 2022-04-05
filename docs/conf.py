@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'obolib'
+project = 'oaklib'
 copyright = '2022, Chris Mungall'
 author = 'Chris Mungall'
 

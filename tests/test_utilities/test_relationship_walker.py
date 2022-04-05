@@ -1,10 +1,10 @@
 import logging
 import unittest
 
-from obolib.implementations.pronto.pronto_implementation import ProntoImplementation
-from obolib.resource import OntologyResource
-from obolib.utilities.graph.relationship_walker import walk_up, walk_down
-from obolib.vocabulary.vocabulary import IS_A, HAS_PART
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.resource import OntologyResource
+from oaklib.utilities.graph.relationship_walker import walk_up, walk_down
+from oaklib.vocabulary.vocabulary import IS_A, HAS_PART
 from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR
