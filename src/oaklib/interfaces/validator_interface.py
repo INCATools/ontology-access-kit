@@ -4,7 +4,7 @@ from typing import Dict, List, Iterable
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
-from oaklib.vocabulary.validation_datamodel import ValidationResult
+from oaklib.datamodels.validation_datamodel import ValidationResult
 
 
 class ValidatorInterface(BasicOntologyInterface, ABC):

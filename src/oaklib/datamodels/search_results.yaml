@@ -1,0 +1,61 @@
+id: https://w3id.org/linkml/search_results
+title: Search Results Datamodel
+name: search-results
+description: A datamodel for representing the results of ontology search
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  sr: https://w3id.org/linkml/search_results/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+
+default_prefix: sr
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+types:
+  Position:
+    typeof: integer
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  SearchResultSet:
+    description: A collection of annotation results
+    attributes:
+      results:
+        description: all annotations
+        range: SearchResult
+        multivalued: true
+        inlined: true
+
+
+  SearchResult:
+    description: An individual text annotation
+    attributes:
+      object_id:
+        slot_uri: sssom:object_id
+      object_label:
+        slot_uri: sssom:object_label
+      object_source:
+        slot_uri: sssom:object_source
+      matches_full_search_term:
+        range: boolean

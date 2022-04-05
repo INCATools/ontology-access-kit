@@ -9,8 +9,8 @@ from oaklib.utilities.graph.relationship_walker import walk_up
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     add_labels_from_uris, load_mapping_rules
 from oaklib.utilities.obograph_utils import as_multi_digraph, graph_as_dict
-from oaklib.vocabulary.mapping_rules_datamodel import MappingRuleCollection, MappingRule, Precondition, Postcondition
-from oaklib.vocabulary.vocabulary import IS_A, HAS_EXACT_SYNONYM, SKOS_EXACT_MATCH
+from oaklib.datamodels.mapping_rules_datamodel import MappingRuleCollection, MappingRule, Precondition, Postcondition
+from oaklib.datamodels.vocabulary import IS_A, HAS_EXACT_SYNONYM, SKOS_EXACT_MATCH
 from pronto import Ontology
 from sssom.writers import write_table
 

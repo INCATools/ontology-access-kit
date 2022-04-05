@@ -15,9 +15,9 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
-from oaklib.vocabulary import obograph
-from oaklib.vocabulary.obograph import Edge, Graph
-from oaklib.vocabulary.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP
+from oaklib.datamodels import obograph
+from oaklib.datamodels.obograph import Edge, Graph
+from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
 
 

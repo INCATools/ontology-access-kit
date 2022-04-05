@@ -5,7 +5,7 @@ import yaml
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
-from oaklib.vocabulary.vocabulary import IS_A, PART_OF, HAS_PART
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART
 
 from tests import OUTPUT_DIR, INPUT_DIR
 

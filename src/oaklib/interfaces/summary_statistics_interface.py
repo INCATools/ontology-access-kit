@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-import oaklib.vocabulary.summary_statistics_datamodel.slots as statdict_slots
+import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
 
 

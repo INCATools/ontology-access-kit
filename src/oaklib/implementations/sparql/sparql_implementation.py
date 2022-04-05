@@ -12,7 +12,8 @@ from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, R
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
-from oaklib.vocabulary.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE
+from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE
+from oaklib.utilities.rate_limiter import check_limit
 from rdflib import URIRef, RDFS
 
 VAL_VAR = 'v'
@@ -47,6 +48,9 @@ class SparqlImplementation(BasicOntologyInterface):
     def _default_url(self) -> str:
         raise NotImplementedError
 
+    def _is_blazegraph(self) -> bool:
+        return False
+
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
@@ -59,11 +63,15 @@ class SparqlImplementation(BasicOntologyInterface):
         if curie.startswith('http'):
             return curie
         pm = self.get_prefix_map()
-        pfx, local_id = curie.split(':')
-        if pfx in pm:
-            return f'{pm[pfx]}{local_id}'
+        if ':' in curie:
+            pfx, local_id = curie.split(':')
+            if pfx in pm:
+                return f'{pm[pfx]}{local_id}'
+            else:
+                return f'http://purl.obolibrary.org/obo/{pfx}_{local_id}'
         else:
-            return f'http://purl.obolibrary.org/obo/{pfx}_{local_id}'
+            logging.warning(f'Not a curie: {curie}')
+            return curie
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         # TODO: do not hardcode OBO
@@ -83,6 +91,7 @@ class SparqlImplementation(BasicOntologyInterface):
         logging.info(f'QUERY={query}')
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
+        check_limit()
         ret = sw.queryAndConvert()
         logging.info(f'RET={ret}')
         return ret["results"]["bindings"]
@@ -141,10 +150,31 @@ class SparqlImplementation(BasicOntologyInterface):
         labels = self._get_anns(curie, RDFS.label)
         if labels:
             if len(labels) > 1:
-                logging.error(f'Multiple labels for {curie} = {labels}')
+                logging.warning(f'Multiple labels for {curie} = {labels}')
             return labels[0]
         else:
             return None
+
+    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+        uri_map = {self.curie_to_uri(curie): curie for curie in curies}
+        uris = [f'<{uri}>' for uri in uri_map.keys()]
+        query = SparqlQuery(select=['?s ?label'],
+                            where=[f'?s <{RDFS.label}> ?label',
+                                   f'VALUES ?s {{ {" ".join(uris)} }}'])
+        bindings = self._query(query.query_str())
+        label_map = {}
+        for row in bindings:
+            curie, label = row['s']['value'], row['label']['value']
+            if curie in label_map:
+                if label_map[curie] != label:
+                    logging.warning(f'Multiple labels for {curie} = {label_map[curie]} != {label}')
+            else:
+                yield curie, label
+        for curie in curies:
+            if curie not in label_map:
+                yield curie, None
+
+
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         uri = self.curie_to_uri(curie)
@@ -190,10 +220,14 @@ class SparqlImplementation(BasicOntologyInterface):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
-        if config.complete:
-            filter = f'?v = "{search_term}"'
+        if self._is_blazegraph():
+            filter_clause = f'?v bds:search "{search_term}"'
         else:
-            filter = f'strStarts(?v, "{search_term}")'
+            if config.complete:
+                filter_clause = f'?v = "{search_term}"'
+            else:
+                filter_clause = f'strStarts(str(?v), "{search_term}")'
+            filter_clause = f'FILTER({filter_clause})'
         preds = [LABEL_PREDICATE]
         if len(preds) == 1:
             where = [f'?s {preds[0]} ?v ']
@@ -201,7 +235,7 @@ class SparqlImplementation(BasicOntologyInterface):
             where = [f'?s ?p ?v ',
                      f'VALUES ?p {{ {" ".join(preds)} }}']
         query = SparqlQuery(select=['?s'],
-                            where=where + [f'FILTER({filter})'])
+                            where=where + [filter_clause])
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])

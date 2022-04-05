@@ -102,7 +102,7 @@ classes:
 
 enums:
   TransformationType:
-    description: A controlled vocabulary of the types of transformation that can be applied to
+    description: A controlled datamodels of the types of transformation that can be applied to
     permissible_values:
       Stemming:
         description: Removal of the last few characters of a word to yield a stem term for each word in the term

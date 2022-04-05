@@ -3,7 +3,7 @@ import unittest
 
 from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces.search_interface import SearchConfiguration
-from oaklib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 

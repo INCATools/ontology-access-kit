@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple, Iterable, Union, Iterator, Optional
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
 from oaklib.utilities.graph.relationship_walker import walk_up, walk_down
-from oaklib.vocabulary.obograph import Node, Graph, Edge
+from oaklib.datamodels.obograph import Node, Graph, Edge
 
 class Distance(Enum):
     """

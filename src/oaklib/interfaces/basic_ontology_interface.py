@@ -1,10 +1,10 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, List, Iterable, Tuple, Optional, Any
+from typing import Dict, List, Iterable, Tuple, Optional, Any, Iterator
 
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, URI, PRED_CURIE, SUBSET_CURIE
-from oaklib.vocabulary.vocabulary import IS_A, OBO_PURL
+from oaklib.datamodels.vocabulary import IS_A, OBO_PURL
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
@@ -174,6 +174,19 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+        """
+        fetches the unique label for a CURIE
+
+        The CURIE may be for a class, individual, property, or ontology
+
+        :param curie:
+        :return:
+        """
+        # default implementation: may be overridden for efficiency
+        for curie in curies:
+            yield [curie, self.get_label_by_curie(curie)]
 
     def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
         """

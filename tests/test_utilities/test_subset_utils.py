@@ -5,7 +5,7 @@ from oaklib.implementations.pronto.pronto_implementation import ProntoImplementa
 from oaklib.resource import OntologyResource
 from oaklib.utilities.graph.relationship_walker import walk_up
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-from oaklib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR

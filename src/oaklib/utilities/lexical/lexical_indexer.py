@@ -14,10 +14,10 @@ from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import PRED_CURIE
-from oaklib.vocabulary.lexical_index import LexicalIndex, LexicalTransformation, TransformationType, RelationshipToTerm, \
+from oaklib.datamodels.lexical_index import LexicalIndex, LexicalTransformation, TransformationType, RelationshipToTerm, \
     LexicalGrouping, LexicalTransformationPipeline
-from oaklib.vocabulary.mapping_rules_datamodel import MappingRule, Precondition, MappingRuleCollection
-from oaklib.vocabulary.vocabulary import SKOS_EXACT_MATCH, SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, \
+from oaklib.datamodels.mapping_rules_datamodel import MappingRule, Precondition, MappingRuleCollection
+from oaklib.datamodels.vocabulary import SKOS_EXACT_MATCH, SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, \
     SKOS_CLOSE_MATCH
 from sssom import Mapping
 from sssom.sssom_document import MappingSetDocument

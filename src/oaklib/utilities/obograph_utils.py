@@ -18,7 +18,7 @@ from typing import Dict, Any, List
 import yaml
 from linkml_runtime.dumpers import json_dumper
 from oaklib.types import PRED_CURIE
-from oaklib.vocabulary.obograph import Graph
+from oaklib.datamodels.obograph import Graph
 import networkx as nx
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package

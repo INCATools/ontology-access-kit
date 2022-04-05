@@ -10,8 +10,8 @@ from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE
-from oaklib.vocabulary import obograph
-from oaklib.vocabulary.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE
+from oaklib.datamodels import obograph
+from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE
 from sqlalchemy import select, text, exists
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine

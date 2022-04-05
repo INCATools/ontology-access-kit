@@ -1,6 +1,7 @@
 from abc import ABC
 from typing import Dict, List, Iterable, Iterator
 
+from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE
@@ -20,5 +21,5 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     - spacy
     """
 
-    def annotate_text(self, text: TEXT) -> Iterator:
+    def annotate_text(self, text: TEXT) -> Iterator[TextAnnotation]:
         raise NotImplementedError

@@ -44,6 +44,12 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
     def _default_url(self) -> str:
         return "https://ubergraph.apps.renci.org/sparql"
 
+    def _is_blazegraph(self) -> bool:
+        """
+        Currently Ubergraph uses blazegraph
+        """
+        return True
+
 
 
     def _get_outgoing_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum) -> Iterable[Tuple[CURIE, CURIE]]:

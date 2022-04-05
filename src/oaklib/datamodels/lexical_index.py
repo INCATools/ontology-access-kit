@@ -214,7 +214,7 @@ class LexicalTransformation(Activity):
 # Enumerations
 class TransformationType(EnumDefinitionImpl):
     """
-    A controlled vocabulary of the types of transformation that can be applied to
+    A controlled datamodels of the types of transformation that can be applied to
     """
     Stemming = PermissibleValue(text="Stemming",
                                        description="Removal of the last few characters of a word to yield a stem term for each word in the term")
@@ -233,7 +233,7 @@ class TransformationType(EnumDefinitionImpl):
 
     _defn = EnumDefinition(
         name="TransformationType",
-        description="A controlled vocabulary of the types of transformation that can be applied to",
+        description="A controlled datamodels of the types of transformation that can be applied to",
     )
 
 # Slots

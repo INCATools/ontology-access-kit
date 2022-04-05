@@ -10,12 +10,18 @@ from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
 class SearchConfiguration:
     """
     Parameters for altering behavior of search
+
+    .. note::
+
+        many of these parameters are not yet implemented
     """
+    search_terms: List[str] = None
     include_id: bool = True
     include_label: bool = True
     include_aliases: bool = True
     include_definition: bool = False
     complete: bool = False
+    is_regex: bool = False
 
     def use_label_only(self) -> "SearchConfiguration":
         self.include_label = False

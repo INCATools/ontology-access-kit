@@ -6,7 +6,7 @@ from oaklib.implementations.pronto.pronto_implementation import ProntoImplementa
 from oaklib.resource import OntologyResource
 from oaklib.utilities.graph.relationship_walker import walk_up
 from oaklib.utilities.obograph_utils import as_multi_digraph, graph_as_dict
-from oaklib.vocabulary.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A
 from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR

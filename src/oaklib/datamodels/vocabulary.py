@@ -1,5 +1,5 @@
-from oaklib.vocabulary.ontology_metadata import slots as omd_slots
-import oaklib.vocabulary.ontology_metadata as omd
+from oaklib.datamodels.ontology_metadata import slots as omd_slots
+import oaklib.datamodels.ontology_metadata as omd
 
 # TODO: replace with oio vocab
 LABEL_PREDICATE = omd.slots.label.curie

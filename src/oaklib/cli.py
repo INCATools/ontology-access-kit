@@ -21,11 +21,12 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import PRED_CURIE
+from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
 from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path
 import sssom.writers as sssom_writers
-from oaklib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 
 @dataclass
@@ -144,8 +145,10 @@ def search(terms, output: str):
     impl = settings.impl
     if isinstance(impl, SearchInterface):
         for t in terms:
-            for curie in impl.basic_search(t):
-                print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            for curie_it in chunk(impl.basic_search(t)):
+                logging.info('** Next chunk:')
+                for curie, label in impl.get_labels_for_curies(curie_it):
+                    print(f'{curie} ! {label}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

@@ -1,0 +1,111 @@
+id: https://w3id.org/linkml/text_annotator
+title: Text Annotator Datamodel
+name: text-annotator
+description: A datamodel for representing the results of textual named entity recognition annotation results
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ann: https://w3id.org/linkml/text_annotator/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+
+default_prefix: ann
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+types:
+  Position:
+    typeof: integer
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  TextAnnotationResultSet:
+    description: A collection of annotation results
+    attributes:
+      annotations:
+        description: all annotations
+        range: TextAnnotation
+        multivalued: true
+        inlined: true
+
+  TextualElement:
+    id:
+      identifier: true
+      range: uriorcurie
+    text:
+      range: string
+    source_text:
+      range: string
+    parent_document:
+      range: uriorcurie
+
+  HasSpan:
+    mixin: true
+    attributes:
+      subject_start:
+        range: Position
+      subject_end:
+        range: Position
+      subject_label:
+        description: The portion of the subject text that is matched, ranging from subject_start to subject_end
+      subject_source:
+        slot_uri: sssom:subject_source
+      subject_text_id:
+        range: TextualElement
+
+  TextAnnotation:
+    description: An individual text annotation
+    mixins:
+      - HasSpan
+    attributes:
+      object_id:
+        slot_uri: sssom:object_id
+      object_label:
+        slot_uri: sssom:object_label
+      object_source:
+        slot_uri: sssom:object_source
+      confidence:
+        range: float
+        slot_uri: sssom:confidence
+      match_string:
+        slot_uri: sssom:match_string
+      is_longest_match:
+        range: boolean
+
+enums:
+  TransformationType:
+    description: A controlled datamodels of the types of transformation that can be applied to
+    permissible_values:
+      Stemming:
+        description: Removal of the last few characters of a word to yield a stem term for each word in the term
+      Lemmatization:
+        description: Contextual reduction of a word to its base form for each word in the term
+      WordOrderNormalization:
+        description: reorder words in the term to a standard order such that comparisons are order-independent
+      Depluralization:
+        description: Transform plural form to singular form for each word in a term
+      CaseNormalization:
+        description: Transform term to a standard case, typically lowercase
+      WhitespaceNormalization:
+        description: Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces
+      TermExpanson:
+        description: Expand terms using a dictionary

@@ -6,7 +6,7 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
-from oaklib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 

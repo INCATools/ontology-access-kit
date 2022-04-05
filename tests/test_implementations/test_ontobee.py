@@ -2,7 +2,7 @@ import logging
 import unittest
 
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
-from oaklib.vocabulary.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR
 
