@@ -1,6 +1,6 @@
 
 
-.. currentmodule:: obolib.interfaces.owl_interface
+.. currentmodule:: oaklib.interfaces.owl_interface
                    
 .. autoclass:: OwlInterface
     :members:

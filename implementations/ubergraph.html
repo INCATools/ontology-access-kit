@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ubergraph Endpoint &mdash; obolib  documentation</title>
+  <title>Ubergraph Endpoint &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -29,7 +29,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> obolib
+            <a href="../index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -74,7 +74,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">obolib</a>
+          <a href="../index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -111,11 +111,11 @@ endpoint serving multiple OBO ontologies, pre-processed with</p>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.ubergraph.ubergraph_implementation.</span></span><span class="sig-name descname"><span class="pre">UbergraphImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">obolib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/obolib-aqGZzxm3-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/ubergraph/ubergraph_implementation.html#UbergraphImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.ubergraph.ubergraph_implementation.</span></span><span class="sig-name descname"><span class="pre">UbergraphImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/Users/cjm/Library/Caches/pypoetry/virtualenvs/oaklib-OeQZizwE-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/ubergraph/ubergraph_implementation.html#UbergraphImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation" title="Permalink to this definition"></a></dt>
 <dd><p>Wraps the Ubergraph sparql endpoint</p>
 <p>See: <a class="reference external" href="https://github.com/INCATools/ubergraph">https://github.com/INCATools/ubergraph</a></p>
-<p>This is a specialization of the more generic <a class="reference internal" href="sparql.html#obolib.implementations.sparql.sparql_implementation.SparqlImplementation" title="obolib.implementations.sparql.sparql_implementation.SparqlImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparqlImplementation</span></code></a>, which
+<p>This is a specialization of the more generic <a class="reference internal" href="sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation" title="oaklib.implementations.sparql.sparql_implementation.SparqlImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparqlImplementation</span></code></a>, which
 has knowledge of some of the specialized patterns found in Ubergraph</p>
 <p>An UbergraphImplementation can be initialed by:</p>
 <blockquote>
@@ -125,8 +125,8 @@ has knowledge of some of the specialized patterns found in Ubergraph</p>
 <p>The default ubergraph endpoint will be assumed</p>
 </div></blockquote>
 <dl class="py method">
-<dt class="sig sig-object py" id="obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">obolib.resource.OntologyResource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">obolib.interfaces.ontology_interface.OntologyInterface</span></span></span><a class="headerlink" href="#obolib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.resource.OntologyResource</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.interfaces.ontology_interface.OntologyInterface</span></span></span><a class="headerlink" href="#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new ontology interface from a resource</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -141,8 +141,8 @@ has knowledge of some of the specialized patterns found in Ubergraph</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="obolib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">obolib.implementations.ubergraph.ubergraph_implementation.</span></span><span class="sig-name descname"><span class="pre">RelationGraphEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/obolib/implementations/ubergraph/ubergraph_implementation.html#RelationGraphEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#obolib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.ubergraph.ubergraph_implementation.</span></span><span class="sig-name descname"><span class="pre">RelationGraphEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/ubergraph/ubergraph_implementation.html#RelationGraphEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum" title="Permalink to this definition"></a></dt>
 <dd><p>triples in UG are organized into different graphs</p>
 </dd></dl>
 

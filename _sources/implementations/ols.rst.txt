@@ -10,7 +10,7 @@ When implemented this will also provide implementation of the mapping interface 
 Code
 ----
 
-.. currentmodule:: obolib.implementations.ols.ols_implementation
+.. currentmodule:: oaklib.implementations.ols.ols_implementation
                    
 .. autoclass:: OlsImplementation
     :members: create

@@ -8,7 +8,7 @@ About
 Code
 ----
 
-.. currentmodule:: obolib.implementations.owlery.owlery_implementation
+.. currentmodule:: oaklib.implementations.owlery.owlery_implementation
                    
 .. autoclass:: OwleryImplementation
     :members: create

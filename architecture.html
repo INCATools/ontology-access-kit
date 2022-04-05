@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Architecture &mdash; obolib  documentation</title>
+  <title>Architecture &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -29,7 +29,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> obolib
+            <a href="index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -59,6 +59,8 @@
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -67,7 +69,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">obolib</a>
+          <a href="index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -91,7 +93,7 @@
 <h2>Ontology Interfaces<a class="headerlink" href="#ontology-interfaces" title="Permalink to this headline"></a></h2>
 <p>This library provides a collection of ontology <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a> that describe a set of operations
 that can be performed on an ontology</p>
-<p>The core interface is <span class="xref std std-ref">BasicOntologyInterface</span> which provides some of the most common operations
+<p>The core interface is <a class="reference internal" href="interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a> which provides some of the most common operations
 you can do on an ontology, mostly simple lookup operations. Here is a simplified picture:</p>
 <div class="mermaid">
             classDiagram
@@ -112,7 +114,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
 <h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this headline"></a></h2>
 <p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
 <p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">obolib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
 <span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
 <span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
 <span class="n">paranasal</span> <span class="n">sinus</span>
@@ -120,7 +122,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
 </div>
 <p>Behind the scenes, this is implemented using a SPARQL query over the Ubergraph endpoint.</p>
 <p>You can do the same thing using a different implementation. This one uses the pronto library and the OBO library registry of OBO files</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">from</span> <span class="n">obolib</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">pronto</span><span class="o">.</span><span class="n">pronto_basic_impl</span> <span class="kn">import</span> <span class="nn">ProntoImplementation</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">from</span> <span class="n">oaklib</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">pronto</span><span class="o">.</span><span class="n">pronto_basic_impl</span> <span class="kn">import</span> <span class="nn">ProntoImplementation</span>
 <span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="s1">&#39;go.obo&#39;</span><span class="p">))</span>
 <span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="s1">&#39;UBERON:0001825&#39;</span><span class="p">))</span>
 <span class="n">paranasal</span> <span class="n">sinus</span>
