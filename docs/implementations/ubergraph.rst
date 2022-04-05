@@ -18,7 +18,7 @@ Interfaces Implemented
 Code
 ----
 
-.. currentmodule:: obolib.implementations.ubergraph.ubergraph_implementation
+.. currentmodule:: oaklib.implementations.ubergraph.ubergraph_implementation
                    
 .. autoclass:: UbergraphImplementation
     :members: create

@@ -12,7 +12,7 @@ Initialization
 Code
 ----
 
-.. currentmodule:: obolib.implementations.pronto.pronto_implementation
+.. currentmodule:: oaklib.implementations.pronto.pronto_implementation
                    
 .. autoclass:: ProntoImplementation
     :members: create

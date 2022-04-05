@@ -11,7 +11,7 @@ About
 Code
 ----
 
-.. currentmodule:: obolib.interfaces.basic_ontology_interface
+.. currentmodule:: oaklib.interfaces.basic_ontology_interface
                    
 .. autoclass:: BasicOntologyInterface
     :members:

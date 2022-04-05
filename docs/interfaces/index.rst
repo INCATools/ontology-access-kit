@@ -3,7 +3,7 @@
 Interfaces
 ===============
 
-obolib provides a variety of *interfaces* that abstract away from
+oaklib provides a variety of *interfaces* that abstract away from
 implementation details and provide a coherent set of operations to
 perform on an ontology. Developers can code to the interface largely without
 worrying about whether the implementation is a relational database, a local

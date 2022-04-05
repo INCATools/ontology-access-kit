@@ -1,7 +1,7 @@
 Subsetting
 ==============
 
-.. currentmodule:: obolib.interfaces.subsetter_interface
+.. currentmodule:: oaklib.interfaces.subsetter_interface
                    
 .. autoclass:: SubsetterInterface
     :members:

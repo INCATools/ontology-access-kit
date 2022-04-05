@@ -1,7 +1,7 @@
 Summary Statistics
 ==================
 
-.. currentmodule:: obolib.interfaces.summary_statistics
+.. currentmodule:: oaklib.interfaces.summary_statistics
                    
 .. autoclass:: SummaryStatisticsInterface
     :members:

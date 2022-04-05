@@ -4,17 +4,17 @@ Command Line
 Currently the command line interface is very rudimentary - the docs
 below are generated from the code
 
-.. currentmodule:: obolib.cli
+.. currentmodule:: oaklib.cli
 
-.. click:: obolib.cli:main
-    :prog: obolib
+.. click:: oaklib.cli:main
+    :prog: oaklib
     :nested: short
 
-.. click:: obolib.cli:search
+.. click:: oaklib.cli:search
     :prog: search
     :nested: short
 
-.. click:: obolib.cli:viz
+.. click:: oaklib.cli:viz
     :prog: search
     :nested: short
 

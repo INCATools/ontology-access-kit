@@ -2,7 +2,7 @@ Sparql Endpoint
 ==================
 
 
-.. currentmodule:: obolib.implementations.sparql.sparql_implementation
+.. currentmodule:: oaklib.implementations.sparql.sparql_implementation
                    
 .. autoclass:: SparqlImplementation
     :members: create

@@ -4,7 +4,7 @@ Architecture
 Ontology Interfaces
 -------------------
 
-.. currentmodule:: obolib.interfaces
+.. currentmodule:: oaklib.interfaces
 
 This library provides a collection of ontology :ref:`interfaces` that describe a set of operations
 that can be performed on an ontology
@@ -37,7 +37,7 @@ Here is an example of code that uses an Ubergraph implementation to do a simple 
 
 .. code:: python
 
-    >> from obolib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+    >> from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
     >> oi = UbergraphImplementation.create()
     >> print(oi.get_label_by_curie('UBERON:0001825'))
     paranasal sinus
@@ -48,7 +48,7 @@ You can do the same thing using a different implementation. This one uses the pr
 
 .. code:: python
 
-    >> from from obolib.implementations.pronto.pronto_basic_impl import ProntoImplementation
+    >> from from oaklib.implementations.pronto.pronto_basic_impl import ProntoImplementation
     >> oi = ProntoImplementation.create(OntologyResource(local=False, slug='go.obo'))
     >> print(oi.get_label_by_curie('UBERON:0001825'))
     paranasal sinus

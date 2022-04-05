@@ -1,7 +1,7 @@
-# obolib: Common ontology operations over a variety of backends
+# Ontology Access Kit: Python liv for common ontology operations over a variety of backends
 
-![](https://github.com/cmungall/obolin/workflows/Build/badge.svg)
-[![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/cmungall/obolib/main?filepath=notebooks)
+![](https://github.com/incatools/oaklib/workflows/Build/badge.svg)
+[![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/incatools/oaklib/main?filepath=notebooks)
 
 This library provides a collection of different interfaces for different kinds of ontology operations, including:
 
@@ -19,12 +19,11 @@ These interfaces are *separated* from any particular backend. This means the sam
 
 ## Documentation:
 
-- [cmungall.github.io/obolib](https://cmungall.github.io/obolib)
+- [incatools.github.io/oaklib](https://incatools.github.io/oaklib)
 
 ## Current status
 
  - only a handful of interface-implementaton combos are implemented
- - anything could change including the name, "obolib" may be presumptious
 
 ## Example
 
@@ -41,11 +40,11 @@ for curie in oi.basic_search("cell"):
 
 For more examples, see
 
-- [demo notebook](https://github.com/cmungall/obolib/blob/main/notebooks/basic-demo.ipynb)
+- [demo notebook](https://github.com/incatools/oaklib/blob/main/notebooks/basic-demo.ipynb)
 
 ## Command Line
 
-There is currently a very limited CLI. See [CLI docs](https://cmungall.github.io/obolib/cli.html)
+There is currently a very limited CLI. See [CLI docs](https://incatools.github.io/oaklib/cli.html)
 
 ### Search
 
@@ -116,7 +115,7 @@ TODO: add figure to docs
 
 ## Documentation
 
-- [cmungall.github.io/obolib](https://cmungall.github.io/obolib)
+- [incatools.github.io/oaklib](https://incatools.github.io/oaklib)
 
 ## Potential Refactoring
 
@@ -126,4 +125,4 @@ One possibility is to split out each implementation into its own repo and use a 
 
 ## PyPI release
 
-We will put this on PyPI when we decide on a name - suggest in the tracker! obolib is a placeholder.
+TODO
