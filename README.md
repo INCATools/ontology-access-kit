@@ -1,7 +1,7 @@
-# Ontology Access Kit: Python liv for common ontology operations over a variety of backends
+# Ontology Access Kit: Python lib for common ontology operations over a variety of backends
 
-![](https://github.com/incatools/oaklib/workflows/Build/badge.svg)
-[![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/incatools/oaklib/main?filepath=notebooks)
+![](https://github.com/incatools/ontology-access-kit/workflows/Build/badge.svg)
+[![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/incatools/ontology-access-kit/main?filepath=notebooks)
 
 This library provides a collection of different interfaces for different kinds of ontology operations, including:
 
@@ -19,7 +19,7 @@ These interfaces are *separated* from any particular backend. This means the sam
 
 ## Documentation:
 
-- [incatools.github.io/oaklib](https://incatools.github.io/oaklib)
+- [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
 
 ## Current status
 
@@ -40,11 +40,11 @@ for curie in oi.basic_search("cell"):
 
 For more examples, see
 
-- [demo notebook](https://github.com/incatools/oaklib/blob/main/notebooks/basic-demo.ipynb)
+- [demo notebook](https://github.com/incatools/ontology-access-kit/blob/main/notebooks/basic-demo.ipynb)
 
 ## Command Line
 
-There is currently a very limited CLI. See [CLI docs](https://incatools.github.io/oaklib/cli.html)
+There is currently a very limited CLI. See [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
 
 ### Search
 
@@ -115,7 +115,7 @@ TODO: add figure to docs
 
 ## Documentation
 
-- [incatools.github.io/oaklib](https://incatools.github.io/oaklib)
+- [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
 
 ## Potential Refactoring
 
