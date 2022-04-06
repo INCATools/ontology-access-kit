@@ -12,7 +12,7 @@ from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, R
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
-from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE
+from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL
 from oaklib.utilities.rate_limiter import check_limit
 from rdflib import URIRef, RDFS
 
@@ -79,8 +79,8 @@ class SparqlImplementation(BasicOntologyInterface):
         for k, v in pm.items():
             if uri.startswith(v):
                 return uri.replace(v, f'{k}:')
-        if uri.startswith('http://purl.obolibrary.org/obo/'):
-            uri = uri.replace('http://purl.obolibrary.org/obo/', "")
+        if uri.startswith(OBO_PURL):
+            uri = uri.replace(OBO_PURL, "")
             return uri.replace('_', ':')
         return uri
 
@@ -164,7 +164,7 @@ class SparqlImplementation(BasicOntologyInterface):
         bindings = self._query(query.query_str())
         label_map = {}
         for row in bindings:
-            curie, label = row['s']['value'], row['label']['value']
+            curie, label = self.uri_to_curie(row['s']['value']), row['label']['value']
             if curie in label_map:
                 if label_map[curie] != label:
                     logging.warning(f'Multiple labels for {curie} = {label_map[curie]} != {label}')
@@ -173,8 +173,6 @@ class SparqlImplementation(BasicOntologyInterface):
         for curie in curies:
             if curie not in label_map:
                 yield curie, None
-
-
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         uri = self.curie_to_uri(curie)

@@ -13,6 +13,7 @@ prefixes:
   sh: https://w3id.org/shacl/
   prov: http://www.w3.org/ns/prov#
   sssom: http://w3id.org/sssom/
+  bpa: https://bioportal.bioontology.org/annotator/
 
 default_prefix: ann
 default_range: string
@@ -48,25 +49,32 @@ classes:
         inlined: true
 
   TextualElement:
-    id:
-      identifier: true
-      range: uriorcurie
-    text:
-      range: string
-    source_text:
-      range: string
-    parent_document:
-      range: uriorcurie
+    attributes:
+      id:
+        identifier: true
+        range: uriorcurie
+      text:
+        range: string
+      source_text:
+        range: string
+      parent_document:
+        range: uriorcurie
 
   HasSpan:
     mixin: true
     attributes:
       subject_start:
         range: Position
+        exact_mappings:
+          - bpa:from
       subject_end:
         range: Position
+        exact_mappings:
+          - bpa:to
       subject_label:
         description: The portion of the subject text that is matched, ranging from subject_start to subject_end
+        exact_mappings:
+          - bpa:text
       subject_source:
         slot_uri: sssom:subject_source
       subject_text_id:
@@ -77,10 +85,16 @@ classes:
     mixins:
       - HasSpan
     attributes:
+      predicate_id:
+        slot_uri: sssom:predicate_id
       object_id:
         slot_uri: sssom:object_id
+        exact_mappings:
+          - bpa:annotatedClass.id
       object_label:
         slot_uri: sssom:object_label
+        exact_mappings:
+          - bpa:annotatedClass.prefLabel
       object_source:
         slot_uri: sssom:object_source
       confidence:
@@ -90,6 +104,8 @@ classes:
         slot_uri: sssom:match_string
       is_longest_match:
         range: boolean
+      match_type:
+      info:
 
 enums:
   TransformationType:

@@ -3,8 +3,6 @@ from typing import Dict, List, Iterable, Iterator
 
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.resource import OntologyResource
-from oaklib.types import CURIE
 
 TEXT = str
 

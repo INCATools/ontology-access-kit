@@ -5,7 +5,7 @@ test:
 
 ## Compiled
 
-MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator
+MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator search_results
 
 pyclasses: $(patsubst %, src/oaklib/datamodels/%.py, $(MODELS))
 

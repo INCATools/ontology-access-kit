@@ -14,6 +14,7 @@ linkml-runtime = "^1.2.3"
 networkx = "^2.7.1"
 sssom = "^0.3.7"
 ratelimit = "^2.2.1"
+appdirs = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -4,7 +4,7 @@ from typing import Dict, List, Iterable, Tuple, Optional, Any, Iterator
 
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, URI, PRED_CURIE, SUBSET_CURIE
-from oaklib.datamodels.vocabulary import IS_A, OBO_PURL
+from oaklib.datamodels.vocabulary import IS_A, OBO_PURL, BIOPORTAL_PURL
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
@@ -113,6 +113,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if uri.startswith(OBO_PURL):
             # TODO: do not hardcode OBO purl behavior
             uri = uri.replace(f'{OBO_PURL}', "")
+            return uri.replace('_', ':')
+        if uri.startswith(BIOPORTAL_PURL):
+            # TODO: do not hardcode OBO purl behavior
+            uri = uri.replace(f'{BIOPORTAL_PURL}', "")
             return uri.replace('_', ':')
         return uri
 

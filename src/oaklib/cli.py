@@ -12,6 +12,8 @@ from pathlib import Path
 from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 
 import click
+from linkml_runtime.dumpers import yaml_dumper
+from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
@@ -19,8 +21,10 @@ from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphI
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import PRED_CURIE
+from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
@@ -117,6 +121,9 @@ def main(verbose: int, quiet: bool, input: str):
             elif scheme == 'ontobee':
                 impl_class = OntobeeImplementation
                 resource = None
+            elif scheme == 'bioportal':
+                impl_class = BioportalImplementation
+                resource = None
             elif scheme == 'obolibrary':
                 impl_class = ProntoImplementation
                 if resource.slug.endswith('.obo'):
@@ -167,6 +174,24 @@ def list_subset(subset, output: str):
     if isinstance(impl, BasicOntologyInterface):
         for curie in impl.curies_by_subset(subset):
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@click.argument("words", nargs=-1)
+@output_option
+def annotate(words, output: str):
+    """
+    Annotate text
+
+    Example:
+        runoak -i obolibrary:go.obo goslim_generic
+    """
+    impl = settings.impl
+    text = ' '.join(words)
+    if isinstance(impl, TextAnnotatorInterface):
+        for ann in impl.annotate_text(text):
+            print(yaml_dumper.dumps(ann))
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -358,6 +383,19 @@ def subset(curies, output: str):
         print(f'TODO: {subont}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@click.option('--endpoint',
+              '-e')
+@click.argument("keyval")
+def set_apikey(endpoint, keyval):
+    """
+    Sets an API key
+
+    Example:
+        oak set-apikey -e bioportal MY-KEY-VALUE
+    """
+    set_apikey_value(endpoint, keyval)
 
 
 @main.command()

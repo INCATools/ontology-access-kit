@@ -42,7 +42,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         logging.info(defn)
         assert defn
 
-    @unittest.skip('Too slow')
+    #@unittest.skip('Too slow')
     def test_search(self):
         config = SearchConfiguration(complete=True).use_label_only()
         curies = list(self.oi.basic_search('limb', config=config))

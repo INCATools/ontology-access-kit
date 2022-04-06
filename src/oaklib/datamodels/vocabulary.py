@@ -1,6 +1,8 @@
 from oaklib.datamodels.ontology_metadata import slots as omd_slots
 import oaklib.datamodels.ontology_metadata as omd
 
+APP_NAME = 'ontology-access-kit'
+
 # TODO: replace with oio vocab
 LABEL_PREDICATE = omd.slots.label.curie
 HAS_EXACT_SYNONYM = omd.slots.has_exact_synonym.curie
@@ -22,6 +24,7 @@ PART_OF = 'BFO:0000050'
 HAS_PART = 'BFO:0000051'
 
 OBO_PURL = 'http://purl.obolibrary.org/obo/'
+BIOPORTAL_PURL = 'http://purl.bioontology.org/ontology/'
 
 SKOS_EXACT_MATCH = omd.slots.exactMatch.curie
 SKOS_CLOSE_MATCH = omd.slots.closeMatch.curie

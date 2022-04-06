@@ -15,9 +15,6 @@ The most mature implementations are:
 
     Currently numerous methods are not implemented!
 
-Core
-----
-
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
@@ -28,26 +25,9 @@ Core
    skos
    ols
    bioportal
-
-Remote Sparql
--------
-             
-.. toctree::
-   :maxdepth: 3
-   :caption: Contents:
-
    sparql
    ubergraph
    ontobee
-
-
-Portals
--------
-             
-.. toctree::
-   :maxdepth: 3
-   :caption: Contents:
-
    ols
    bioportal
    

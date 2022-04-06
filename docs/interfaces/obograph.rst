@@ -4,3 +4,6 @@
                    
 .. autoclass:: OboGraphInterface
     :members:
+
+.. autoclass:: TraversalConfiguration
+    :members:

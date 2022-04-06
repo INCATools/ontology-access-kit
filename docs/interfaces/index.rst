@@ -11,11 +11,14 @@ file, etc.
 
 The most common operations are found in the :ref:`BasicOntologyInterface`
 
+See also :ref:`BasicOntologyInterface`
+
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
 
    basic
+   search
    subsetting
    relation-graph
    mapping-provider

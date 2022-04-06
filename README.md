@@ -29,11 +29,11 @@ These interfaces are *separated* from any particular [backend](https://incatools
 
 ```python
 resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
-oi = SqlImplementation.create(resource)
+oi = SqlImplementation(resource)
 for curie in oi.basic_search("cell"):
     print(f'{curie} ! {oi.get_label_by_curie(curie)}')
     for rel, fillers in oi.get_outgoing_relationships().items():
-        print(f'  RELATION:: {rel} ! {oi.get_label_by_curie(rel)}')
+        print(f'  RELATION: {rel} ! {oi.get_label_by_curie(rel)}')
         for filler in fillers:
             print(f'     * {filler} ! {oi.get_label_by_curie(filler)}')
 ```
@@ -53,7 +53,7 @@ See [CLI docs](https://incatools.github.io/ontology-access-kit/cli.html)
 Use the pronto backend to fetch and parse an ontology from the OBO library, then use the `search` command
 
 ```bash
-oaklib -i obolibrary:pato.obo search osmol 
+runoak -i obolibrary:pato.obo search osmol 
 ```
 
 Returns:
@@ -74,7 +74,7 @@ PATO:0045035 ! normal osmolarity
 Perform validation on PR using sqlite/rdftab instance:
 
 ```bash
-oaklib validate -i sqlite:../semantic-sql/db/pr.db
+runoak validate -i sqlite:../semantic-sql/db/pr.db
 ```
 
 ### List all terms
@@ -82,7 +82,7 @@ oaklib validate -i sqlite:../semantic-sql/db/pr.db
 List all terms obolibrary has for mondo
 
 ```bash
-oaklib validate -i obolibrary:mondo.obo terms
+runoak validate -i obolibrary:mondo.obo terms
 ```
 
 ### Lexical index
@@ -90,7 +90,81 @@ oaklib validate -i obolibrary:mondo.obo terms
 Make a lexical index of all terms in Mondo:
 
 ```bash
-oaklib lexmatch -i obolibrary:mondo.obo -L mondo.index.yaml
+runoak lexmatch -i obolibrary:mondo.obo -L mondo.index.yaml
+```
+
+### Search
+
+Searching over OBO using ontobee:
+
+```bash
+runoak  -i ontobee: search tentacle
+```
+
+yields:
+
+```
+http://purl.obolibrary.org/obo/CEPH_0000256 ! tentacle
+http://purl.obolibrary.org/obo/CEPH_0000257 ! tentacle absence
+http://purl.obolibrary.org/obo/CEPH_0000258 ! tentacle pad
+...
+```
+
+Searching over a broader set of ontologies in bioportal (requires API KEY)
+
+```bash
+runoak set-apikey bioportal YOUR-KEY-HERE
+runoak  -i bioportal: search tentacle
+```
+
+yields:
+
+```
+BTO:0001357 ! tentacle
+http://purl.jp/bio/4/id/200906071014668510 ! tentacle
+CEPH:0000256 ! tentacle
+http://www.projecthalo.com/aura#Tentacle ! Tentacle
+CEPH:0000256 ! tentacle
+...
+```
+
+Searching over more limited set of ontologies in Ubergraph:
+
+```bash
+runoak -v -i ubergraph: search tentacle
+```
+
+yields
+```
+UBERON:0013206 ! nasal tentacle
+```
+
+### Annotating Texts
+
+```bash
+runoak  -i bioportal: annotate neuron from CA4 region of hippocampus of mouse
+```
+
+yields:
+
+```yaml
+object_id: CL:0000540
+object_label: neuron
+object_source: https://data.bioontology.org/ontologies/NIFDYS
+match_type: PREF
+subject_start: 1
+subject_end: 6
+subject_label: NEURON
+
+object_id: http://www.co-ode.org/ontologies/galen#Neuron
+object_label: Neuron
+object_source: https://data.bioontology.org/ontologies/GALEN
+match_type: PREF
+subject_start: 1
+subject_end: 6
+subject_label: NEURON
+
+...
 ```
 
 ### Mapping
@@ -99,7 +173,7 @@ Create a SSSOM mapping file for a set of ontologies:
 
 ```bash
 robot merge -I http://purl.obolibrary.org/obo/hp.owl -I http://purl.obolibrary.org/obo/mp.owl convert --check false -o hp-mp.obo
-oaklib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
+runoak lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 ```
 
 
@@ -110,7 +184,7 @@ oaklib lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 Use the sqlite backend to find all terms matching the string "nucl" walk up the graph and visualize it
 
 ```bash
-oaklib -i sqlite:tests/input/go-nucleus.db  viz GO:0005773
+runoak -i sqlite:tests/input/go-nucleus.db  viz GO:0005773
 ```
 
 ![img](notebooks/output/vacuole.png)

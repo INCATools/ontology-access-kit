@@ -1,4 +1,4 @@
-# obographs_linkml_model
+# obographs_datamodel
 
 Schema for benchmarking based on obographs
 
