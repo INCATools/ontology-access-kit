@@ -362,6 +362,10 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">basic_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">BasicOntologyInterface (class in oaklib.interfaces.basic_ontology_interface)</a>
 </li>
   </ul></td>
@@ -415,6 +419,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">disable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -425,8 +431,12 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">edges() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships_by_curie">entailed_incoming_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+</li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
       <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">extract_subset_ontology() (oaklib.interfaces.subsetter_interface.SubsetterInterface method)</a>
@@ -489,13 +499,21 @@
     module
 
       <ul>
+        <li><a href="DIRNAME/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">oaklib.utilities.graph.networkx_bridge</a>
+</li>
         <li><a href="DIRNAME/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">oaklib.utilities.graph.relationship_walker</a>
 </li>
         <li><a href="DIRNAME/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">oaklib.utilities.lexical.lexical_indexer</a>
 </li>
         <li><a href="DIRNAME/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">oaklib.utilities.obograph_utils</a>
 </li>
+        <li><a href="DIRNAME/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">oaklib.utilities.subsets.slimmer_utils</a>
+</li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">multiterm_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -516,6 +534,13 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    oaklib.utilities.graph.networkx_bridge
+
+      <ul>
+        <li><a href="DIRNAME/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">module</a>
+</li>
+      </ul></li>
       <li>
     oaklib.utilities.graph.relationship_walker
 
@@ -539,6 +564,13 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    oaklib.utilities.subsets.slimmer_utils
+
+      <ul>
+        <li><a href="DIRNAME/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">module</a>
+</li>
+      </ul></li>
       <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
@@ -761,16 +793,18 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">SearchInterface (class in oaklib.interfaces.search_interface)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label_for_curie">set_label_for_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">SparqlImplementation (class in oaklib.implementations.sparql.sparql_implementation)</a>
 </li>
       <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
 </li>
-      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.model.Statements">Statements (class in oaklib.implementations.sqldb.model)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.model.Statements">Statements (class in oaklib.implementations.sqldb.model)</a>
+</li>
       <li>
     SUBSET
 
@@ -807,6 +841,12 @@
         <li><a href="cli.html#cmdoption-runoak-viz-arg-TERMS">runoak-viz command line option</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">TextAnnotatorInterface (class in oaklib.interfaces.text_annotator_interface)</a>
+</li>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">TraversalConfiguration (class in oaklib.interfaces.obograph_interface)</a>
+</li>
   </ul></td>
 </tr></table>
 

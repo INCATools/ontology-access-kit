@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: Precondition &mdash; obolib  documentation</title>
+  <title>Class: Precondition &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> obolib
+            <a href="../../index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -55,7 +57,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">obolib</a>
+          <a href="../../index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -90,33 +92,33 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="doc std std-doc">subject_source_one_of</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
+<td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="doc std std-doc">object_source_one_of</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
+<td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="mapping_source.html"><span class="doc std std-doc">mapping_source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="doc std std-doc">mapping_source_one_of</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
+<td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="doc std std-doc">subject_match_field_one_of</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
+<td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="doc std std-doc">object_match_field_one_of</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
+<td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
@@ -145,11 +147,6 @@
 <td><p>range</p></td>
 <td><p>Precondition</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="MappingRule.html"><span class="doc std std-doc">MappingRule</span></a></p></td>
-<td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
-<td><p>range</p></td>
-<td><p>Precondition</p></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -167,21 +164,26 @@ name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  subject_source:
-    name: subject_source
+  subject_source_one_of:
+    name: subject_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  object_source:
-    name: object_source
+    multivalued: true
+  object_source_one_of:
+    name: object_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  mapping_source:
-    name: mapping_source
+    multivalued: true
+  mapping_source_one_of:
+    name: mapping_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  subject_mapping_predicate:
-    name: subject_mapping_predicate
+    multivalued: true
+  subject_match_field_one_of:
+    name: subject_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  object_mapping_predicate:
-    name: object_mapping_predicate
+    multivalued: true
+  object_match_field_one_of:
+    name: object_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    multivalued: true
   transformations_included_in:
     name: transformations_included_in
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
@@ -196,34 +198,39 @@ name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  subject_source:
-    name: subject_source
+  subject_source_one_of:
+    name: subject_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: subject_source
+    multivalued: true
+    alias: subject_source_one_of
     owner: Precondition
     range: string
-  object_source:
-    name: object_source
+  object_source_one_of:
+    name: object_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: object_source
+    multivalued: true
+    alias: object_source_one_of
     owner: Precondition
     range: string
-  mapping_source:
-    name: mapping_source
+  mapping_source_one_of:
+    name: mapping_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: mapping_source
+    multivalued: true
+    alias: mapping_source_one_of
     owner: Precondition
     range: string
-  subject_mapping_predicate:
-    name: subject_mapping_predicate
+  subject_match_field_one_of:
+    name: subject_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: subject_mapping_predicate
+    multivalued: true
+    alias: subject_match_field_one_of
     owner: Precondition
     range: string
-  object_mapping_predicate:
-    name: object_mapping_predicate
+  object_match_field_one_of:
+    name: object_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: object_mapping_predicate
+    multivalued: true
+    alias: object_match_field_one_of
     owner: Precondition
     range: string
   transformations_included_in:

@@ -143,6 +143,12 @@ to download the entire ontology as a graph</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">
+<span class="sig-name descname"><span class="pre">disable_transitive_query_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.disable_transitive_query_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache" title="Permalink to this definition"></a></dt>
+<dd><p>Do not cache transitive queries (default)</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.edges">
 <span class="sig-name descname"><span class="pre">edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.obograph.Edge</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.edges" title="Permalink to this definition"></a></dt>
 <dd><p>Iterator over all edges in all graphs</p>
@@ -151,6 +157,12 @@ to download the entire ontology as a graph</p>
 <dd class="field-odd"><p></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">
+<span class="sig-name descname"><span class="pre">enable_transitive_query_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.enable_transitive_query_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache" title="Permalink to this definition"></a></dt>
+<dd><p>Cache transitive queries</p>
 </dd></dl>
 
 <dl class="py method">
@@ -181,6 +193,12 @@ to download the entire ontology as a graph</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.TraversalConfiguration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.obograph_interface.</span></span><span class="sig-name descname"><span class="pre">TraversalConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicates:</span> <span class="pre">typing.Optional[typing.List[str]]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_distance:</span> <span class="pre">oaklib.interfaces.obograph_interface.Distance</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">down_distance:</span> <span class="pre">oaklib.interfaces.obograph_interface.Distance</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#TraversalConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.TraversalConfiguration" title="Permalink to this definition"></a></dt>
+<dd><p>Specifies how to walk up and down a graph</p>
 </dd></dl>
 
 

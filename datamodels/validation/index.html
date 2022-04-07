@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>validaton-results &mdash; obolib  documentation</title>
+  <title>validaton-results &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -29,7 +29,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> obolib
+            <a href="../../index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology-Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">obographs_linkml_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">obographs_datamodel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sssom/index.html">SSSOM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../funowl/index.html">FunOwl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../summary-statistics/index.html">summary-statistics</a></li>
@@ -60,10 +60,13 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../lexical-index/index.html">lexican-index</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../mapping-rules/index.html">mapping-rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">text-annotator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -72,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">obolib</a>
+          <a href="../../index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -110,6 +113,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 <td><p>An individual result arising from validation of a data instance using a particular rule</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ExternalReferenceValidationResult.html"><span class="doc std std-doc">ExternalReferenceValidationResult</span></a></p></td>
+<td><p>A validation result where the check is to determine if a link to an external resource is still valid</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -123,7 +129,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>The type of validation result. SHACL validation vocabulary is recommended.</p></td>
+<td><p>The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
 <td><p>None</p></td>
@@ -150,6 +156,18 @@
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="url.html"><span class="doc std std-doc">url</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="time_checked.html"><span class="doc std std-doc">time_checked</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="number_of_attempts.html"><span class="doc std std-doc">number_of_attempts</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="http_response_code.html"><span class="doc std std-doc">http_response_code</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 </tbody>

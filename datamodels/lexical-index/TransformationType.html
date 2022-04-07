@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TransformationType &mdash; obolib  documentation</title>
+  <title>TransformationType &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> obolib
+            <a href="../../index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -55,7 +57,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">obolib</a>
+          <a href="../../index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -75,7 +77,7 @@
              
   <section id="transformationtype">
 <h1>TransformationType<a class="headerlink" href="#transformationtype" title="Permalink to this headline"></a></h1>
-<p>None</p>
+<p>A controlled datamodels of the types of transformation that can be applied to</p>
 <p>URI: TransformationType</p>
 <section id="permissible-values">
 <h2>Permissible Values<a class="headerlink" href="#permissible-values" title="Permalink to this headline"></a></h2>
@@ -90,32 +92,37 @@
 <tbody>
 <tr class="row-even"><td><p>Stemming</p></td>
 <td><p>None</p></td>
-<td><p>None</p></td>
+<td><p>Removal of the last few characters of a word to yield a stem term for each word in the term</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>Lemmatization</p></td>
 <td><p>None</p></td>
-<td><p>None</p></td>
+<td><p>Contextual reduction of a word to its base form for each word in the term</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>WordOrderNormalization</p></td>
 <td><p>None</p></td>
-<td><p>None</p></td>
+<td><p>reorder words in the term to a standard order such that comparisons are order-independent</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>Depluralization</p></td>
 <td><p>None</p></td>
-<td><p>None</p></td>
+<td><p>Transform plural form to singular form for each word in a term</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>CaseNormalization</p></td>
 <td><p>None</p></td>
-<td><p>None</p></td>
+<td><p>Transform term to a standard case, typically lowercase</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>WhitespaceNormalization</p></td>
 <td><p>None</p></td>
+<td><p>Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>TermExpanson</p></td>
 <td><p>None</p></td>
+<td><p>Expand terms using a dictionary</p></td>
 <td><p></p></td>
 </tr>
 </tbody>

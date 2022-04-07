@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: MappingRule &mdash; obolib  documentation</title>
+  <title>Class: MappingRule &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> obolib
+            <a href="../../index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -47,6 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -55,7 +57,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">obolib</a>
+          <a href="../../index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -90,21 +92,27 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="symmetric.html"><span class="doc std std-doc">symmetric</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
+<td><p><span class="xref myst">boolean</span></p></td>
 <td><p>0..1</p></td>
 <td><p>if true then subject and object can be switched and predicate inverted</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
 <td><p><a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
-<td><p>0..*</p></td>
+<td><p>0..1</p></td>
 <td><p>all of the criteria that must be true before a rule is fired</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
-<td><p><a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
-<td><p>0..*</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
+<td><p><a class="reference internal" href="Postcondition.html"><span class="doc std std-doc">Postcondition</span></a></p></td>
+<td><p>0..1</p></td>
 <td><p>conditions that apply if preconditions match</p></td>
 <td><p>.</p></td>
 </tr>
@@ -145,24 +153,26 @@ description: An individual mapping rule, if preconditions match the postconditio
   are applied
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  symmetric:
-    name: symmetric
+  description:
+    name: description
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  oneway:
+    name: oneway
     description: if true then subject and object can be switched and predicate inverted
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    ifabsent: 'True'
+    ifabsent: 'False'
+    range: boolean
   preconditions:
     name: preconditions
     description: all of the criteria that must be true before a rule is fired
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     slot_uri: sh:condition
-    multivalued: true
     range: Precondition
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    multivalued: true
-    range: Precondition
+    range: Postcondition
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -174,20 +184,25 @@ description: An individual mapping rule, if preconditions match the postconditio
   are applied
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  symmetric:
-    name: symmetric
-    description: if true then subject and object can be switched and predicate inverted
+  description:
+    name: description
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    ifabsent: &#39;True&#39;
-    alias: symmetric
+    alias: description
     owner: MappingRule
     range: string
+  oneway:
+    name: oneway
+    description: if true then subject and object can be switched and predicate inverted
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    ifabsent: &#39;False&#39;
+    alias: oneway
+    owner: MappingRule
+    range: boolean
   preconditions:
     name: preconditions
     description: all of the criteria that must be true before a rule is fired
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     slot_uri: sh:condition
-    multivalued: true
     alias: preconditions
     owner: MappingRule
     range: Precondition
@@ -195,10 +210,9 @@ attributes:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    multivalued: true
     alias: postconditions
     owner: MappingRule
-    range: Precondition
+    range: Postcondition
 
 </pre></div>
 </div>

@@ -11,9 +11,9 @@ URI: https://w3id.org/linkml/lexical_index
 | [LexicalIndex](LexicalIndex.md) | An index over an ontology keyed by lexical unit | 
 | [LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term | 
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term | 
-| [Activity](Activity.md) | None | 
-| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | None | 
-| [LexicalTransformation](LexicalTransformation.md) | None | 
+| [Activity](Activity.md) | Generic grouping for any lexical operation | 
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fashion | 
+| [LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transformed string | 
 
 
 ## Slots
@@ -31,13 +31,13 @@ URI: https://w3id.org/linkml/lexical_index
 | [pipeline](pipeline.md) | None | 
 | [name](name.md) | None | 
 | [transformations](transformations.md) | None | 
-| [type](type.md) | None | 
-| [params](params.md) | None | 
+| [type](type.md) | The type of transformation | 
+| [params](params.md) | Any parameters to be applied to the transformation algorithm | 
 
 
 ## Enums
 
 | Enums | Description |
 | --- | --- |
-| [TransformationType](TransformationType.md) | None | 
+| [TransformationType](TransformationType.md) | A controlled datamodels of the types of transformation that can be applied to | 
 

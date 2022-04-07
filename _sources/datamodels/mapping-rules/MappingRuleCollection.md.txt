@@ -18,6 +18,7 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [rules](rules.md) | [MappingRule](MappingRule.md) | 0..* | all rules  | . |
+| [minimum_confidence](minimum_confidence.md) | [float](float.md) | 0..1 | None  | . |
 
 
 ## Usages
@@ -53,6 +54,10 @@ attributes:
     multivalued: true
     inlined: true
     range: MappingRule
+  minimum_confidence:
+    name: minimum_confidence
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    range: float
 tree_root: true
 
 ```
@@ -75,6 +80,12 @@ attributes:
     alias: rules
     owner: MappingRuleCollection
     range: MappingRule
+  minimum_confidence:
+    name: minimum_confidence
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    alias: minimum_confidence
+    owner: MappingRuleCollection
+    range: float
 tree_root: true
 
 ```

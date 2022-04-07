@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mapping-rules &mdash; obolib  documentation</title>
+  <title>mapping-rules &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Utilities" href="../../utilities.html" />
+    <link rel="next" title="text-annotator" href="../text-annotator/index.html" />
     <link rel="prev" title="lexican-index" href="../lexical-index/index.html" /> 
 </head>
 
@@ -29,7 +29,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> obolib
+            <a href="../../index.html" class="icon icon-home"> oaklib
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology-Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">obographs_linkml_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">obographs_datamodel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sssom/index.html">SSSOM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../funowl/index.html">FunOwl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../summary-statistics/index.html">summary-statistics</a></li>
@@ -60,10 +60,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#enums">Enums</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">text-annotator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 </ul>
 
         </div>
@@ -72,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">obolib</a>
+          <a href="../../index.html">oaklib</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -93,7 +96,7 @@
              
   <section id="mapping-rules">
 <h1>mapping-rules<a class="headerlink" href="#mapping-rules" title="Permalink to this headline"></a></h1>
-<p>A datamodel for specifying lexical mapping rules</p>
+<p>A datamodel for specifying lexical mapping rules. NOTE – this may move to another package</p>
 <p>URI: https://w3id.org/linkml/mapping_rules_datamodel</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
@@ -126,13 +129,13 @@
 <td><p>A relationship of an ontology element to a lexical term</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Activity.html"><span class="doc std std-doc">Activity</span></a></p></td>
-<td><p>None</p></td>
+<td><p>Generic grouping for any lexical operation</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
-<td><p>None</p></td>
+<td><p>A collection of atomic lexical transformations that are applied in serial fashion</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="LexicalTransformation.html"><span class="doc std std-doc">LexicalTransformation</span></a></p></td>
-<td><p>None</p></td>
+<td><p>An atomic lexical transformation applied on a term (string) yielding a transformed string</p></td>
 </tr>
 </tbody>
 </table>
@@ -149,7 +152,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="rules.html"><span class="doc std std-doc">rules</span></a></p></td>
 <td><p>all rules</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="symmetric.html"><span class="doc std std-doc">symmetric</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="doc std std-doc">minimum_confidence</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
 <td><p>if true then subject and object can be switched and predicate inverted</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
@@ -158,25 +167,25 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
 <td><p>conditions that apply if preconditions match</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="doc std std-doc">subject_source_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="doc std std-doc">object_source_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="mapping_source.html"><span class="doc std std-doc">mapping_source</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="doc std std-doc">mapping_source_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="doc std std-doc">subject_match_field_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="doc std std-doc">object_match_field_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="doc std std-doc">transformations_included_in</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="doc std std-doc">predicate_id</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="weight.html"><span class="doc std std-doc">weight</span></a></p></td>
@@ -194,29 +203,32 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="relationships.html"><span class="doc std std-doc">relationships</span></a></p></td>
 <td><p>All ontology elements grouped and their relationship to the normalized term</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="element.html"><span class="doc std std-doc">element</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="element_term.html"><span class="doc std std-doc">element_term</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="element.html"><span class="doc std std-doc">element</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="element_term.html"><span class="doc std std-doc">element_term</span></a></p></td>
 <td><p>the original term used in the element</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pipeline.html"><span class="doc std std-doc">pipeline</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="pipeline.html"><span class="doc std std-doc">pipeline</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="name.html"><span class="doc std std-doc">name</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="name.html"><span class="doc std std-doc">name</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="transformations.html"><span class="doc std std-doc">transformations</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="transformations.html"><span class="doc std std-doc">transformations</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>None</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
+<td><p>The type of transformation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>None</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
+<td><p>Any parameters to be applied to the transformation algorithm</p></td>
 </tr>
 </tbody>
 </table>
@@ -231,7 +243,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="TransformationType.html"><span class="doc std std-doc">TransformationType</span></a></p></td>
-<td><p>None</p></td>
+<td><p>A controlled datamodels of the types of transformation that can be applied to</p></td>
 </tr>
 </tbody>
 </table>
@@ -243,7 +255,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../lexical-index/index.html" class="btn btn-neutral float-left" title="lexican-index" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../text-annotator/index.html" class="btn btn-neutral float-right" title="text-annotator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

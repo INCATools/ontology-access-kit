@@ -28,5 +28,6 @@ not need this.
    validation/index
    lexical-index/index
    mapping-rules/index
+   text-annotator/index
 
 

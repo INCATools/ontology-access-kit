@@ -1,4 +1,6 @@
 # Class: LexicalTransformationPipeline
+_A collection of atomic lexical transformations that are applied in serial fashion_
+
 
 
 
@@ -53,6 +55,8 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 <details>
 ```yaml
 name: LexicalTransformationPipeline
+description: A collection of atomic lexical transformations that are applied in serial
+  fashion
 from_schema: https://w3id.org/linkml/lexical_index
 is_a: Activity
 attributes:
@@ -74,6 +78,8 @@ attributes:
 <details>
 ```yaml
 name: LexicalTransformationPipeline
+description: A collection of atomic lexical transformations that are applied in serial
+  fashion
 from_schema: https://w3id.org/linkml/lexical_index
 is_a: Activity
 attributes:

@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/predicate](https://w3id.org/linkml/mapping_rules_datamodel/predicate)
+URI: [https://w3id.org/linkml/lexical_index/predicate](https://w3id.org/linkml/lexical_index/predicate)
 
 
 
@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/predicate](https://w3id.or
 
 ## Properties
 
- * Range: None
+ * Range: uriorcurie
 
 
 

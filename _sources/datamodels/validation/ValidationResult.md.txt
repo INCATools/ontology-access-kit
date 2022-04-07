@@ -9,7 +9,12 @@ URI: [sh:ValidationResult](https://w3id.org/shacl/ValidationResult)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **ValidationResult**
+    * [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md)
+
 
 
 
@@ -17,7 +22,7 @@ URI: [sh:ValidationResult](https://w3id.org/shacl/ValidationResult)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [type](type.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | The type of validation result. SHACL validation vocabulary is recommended.  | . |
+| [type](type.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID  | . |
 | [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | None  | . |
 | [subject](subject.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
 | [instantiates](instantiates.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
@@ -85,7 +90,9 @@ from_schema: https://w3id.org/linkml/validation_results
 attributes:
   type:
     name: type
-    description: The type of validation result. SHACL validation vocabulary is recommended.
+    description: The type of validation result. SHACL validation vocabulary is recommended
+      for checks against a datamodel. For principle checks use the corresponding rule
+      or principle, e.g. GO RULE ID, OBO Principle ID
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:sourceConstraintComponent
     alias: type

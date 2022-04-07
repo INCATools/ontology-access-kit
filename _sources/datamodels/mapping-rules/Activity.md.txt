@@ -1,4 +1,6 @@
 # Class: Activity
+_Generic grouping for any lexical operation_
+
 
 
 * __NOTE__: this is an abstract class and should not be instantiated directly
@@ -48,6 +50,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 <details>
 ```yaml
 name: Activity
+description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/linkml/lexical_index
 abstract: true
 class_uri: prov:Activity
@@ -60,6 +63,7 @@ class_uri: prov:Activity
 <details>
 ```yaml
 name: Activity
+description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/linkml/lexical_index
 abstract: true
 class_uri: prov:Activity

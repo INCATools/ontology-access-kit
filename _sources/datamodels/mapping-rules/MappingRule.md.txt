@@ -17,9 +17,10 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [symmetric](symmetric.md) | [string](string.md) | 0..1 | if true then subject and object can be switched and predicate inverted  | . |
-| [preconditions](preconditions.md) | [Precondition](Precondition.md) | 0..* | all of the criteria that must be true before a rule is fired  | . |
-| [postconditions](postconditions.md) | [Precondition](Precondition.md) | 0..* | conditions that apply if preconditions match  | . |
+| [description](description.md) | [string](string.md) | 0..1 | None  | . |
+| [oneway](oneway.md) | [boolean](boolean.md) | 0..1 | if true then subject and object can be switched and predicate inverted  | . |
+| [preconditions](preconditions.md) | [Precondition](Precondition.md) | 0..1 | all of the criteria that must be true before a rule is fired  | . |
+| [postconditions](postconditions.md) | [Postcondition](Postcondition.md) | 0..1 | conditions that apply if preconditions match  | . |
 
 
 ## Usages
@@ -54,24 +55,26 @@ description: An individual mapping rule, if preconditions match the postconditio
   are applied
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  symmetric:
-    name: symmetric
+  description:
+    name: description
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+  oneway:
+    name: oneway
     description: if true then subject and object can be switched and predicate inverted
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    ifabsent: 'True'
+    ifabsent: 'False'
+    range: boolean
   preconditions:
     name: preconditions
     description: all of the criteria that must be true before a rule is fired
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     slot_uri: sh:condition
-    multivalued: true
     range: Precondition
   postconditions:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    multivalued: true
-    range: Precondition
+    range: Postcondition
 
 ```
 </details>
@@ -85,20 +88,25 @@ description: An individual mapping rule, if preconditions match the postconditio
   are applied
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  symmetric:
-    name: symmetric
-    description: if true then subject and object can be switched and predicate inverted
+  description:
+    name: description
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    ifabsent: 'True'
-    alias: symmetric
+    alias: description
     owner: MappingRule
     range: string
+  oneway:
+    name: oneway
+    description: if true then subject and object can be switched and predicate inverted
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    ifabsent: 'False'
+    alias: oneway
+    owner: MappingRule
+    range: boolean
   preconditions:
     name: preconditions
     description: all of the criteria that must be true before a rule is fired
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     slot_uri: sh:condition
-    multivalued: true
     alias: preconditions
     owner: MappingRule
     range: Precondition
@@ -106,10 +114,9 @@ attributes:
     name: postconditions
     description: conditions that apply if preconditions match
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    multivalued: true
     alias: postconditions
     owner: MappingRule
-    range: Precondition
+    range: Postcondition
 
 ```
 </details>

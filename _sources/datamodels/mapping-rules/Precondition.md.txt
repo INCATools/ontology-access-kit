@@ -17,11 +17,11 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [subject_source](subject_source.md) | [string](string.md) | 0..1 | None  | . |
-| [object_source](object_source.md) | [string](string.md) | 0..1 | None  | . |
-| [mapping_source](mapping_source.md) | [string](string.md) | 0..1 | None  | . |
-| [subject_mapping_predicate](subject_mapping_predicate.md) | [string](string.md) | 0..1 | None  | . |
-| [object_mapping_predicate](object_mapping_predicate.md) | [string](string.md) | 0..1 | None  | . |
+| [subject_source_one_of](subject_source_one_of.md) | [string](string.md) | 0..* | None  | . |
+| [object_source_one_of](object_source_one_of.md) | [string](string.md) | 0..* | None  | . |
+| [mapping_source_one_of](mapping_source_one_of.md) | [string](string.md) | 0..* | None  | . |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | [string](string.md) | 0..* | None  | . |
+| [object_match_field_one_of](object_match_field_one_of.md) | [string](string.md) | 0..* | None  | . |
 | [transformations_included_in](transformations_included_in.md) | [string](string.md) | 0..* | None  | . |
 
 
@@ -31,7 +31,6 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [MappingRule](MappingRule.md) | [preconditions](preconditions.md) | range | Precondition |
-| [MappingRule](MappingRule.md) | [postconditions](postconditions.md) | range | Precondition |
 
 
 
@@ -57,21 +56,26 @@ name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  subject_source:
-    name: subject_source
+  subject_source_one_of:
+    name: subject_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  object_source:
-    name: object_source
+    multivalued: true
+  object_source_one_of:
+    name: object_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  mapping_source:
-    name: mapping_source
+    multivalued: true
+  mapping_source_one_of:
+    name: mapping_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  subject_mapping_predicate:
-    name: subject_mapping_predicate
+    multivalued: true
+  subject_match_field_one_of:
+    name: subject_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-  object_mapping_predicate:
-    name: object_mapping_predicate
+    multivalued: true
+  object_match_field_one_of:
+    name: object_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    multivalued: true
   transformations_included_in:
     name: transformations_included_in
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
@@ -88,34 +92,39 @@ name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 attributes:
-  subject_source:
-    name: subject_source
+  subject_source_one_of:
+    name: subject_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: subject_source
+    multivalued: true
+    alias: subject_source_one_of
     owner: Precondition
     range: string
-  object_source:
-    name: object_source
+  object_source_one_of:
+    name: object_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: object_source
+    multivalued: true
+    alias: object_source_one_of
     owner: Precondition
     range: string
-  mapping_source:
-    name: mapping_source
+  mapping_source_one_of:
+    name: mapping_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: mapping_source
+    multivalued: true
+    alias: mapping_source_one_of
     owner: Precondition
     range: string
-  subject_mapping_predicate:
-    name: subject_mapping_predicate
+  subject_match_field_one_of:
+    name: subject_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: subject_mapping_predicate
+    multivalued: true
+    alias: subject_match_field_one_of
     owner: Precondition
     range: string
-  object_mapping_predicate:
-    name: object_mapping_predicate
+  object_match_field_one_of:
+    name: object_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    alias: object_mapping_predicate
+    multivalued: true
+    alias: object_match_field_one_of
     owner: Precondition
     range: string
   transformations_included_in:

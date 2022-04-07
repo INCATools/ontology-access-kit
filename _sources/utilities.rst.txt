@@ -13,4 +13,6 @@ being turned into :ref:`interfaces`.
 
    obograph_utils
    graph.relationship_walker
+   graph.networkx_bridge
    lexical.lexical_indexer
+   subsets.slimmer_utils
