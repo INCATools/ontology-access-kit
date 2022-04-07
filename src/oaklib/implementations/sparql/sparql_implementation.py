@@ -73,6 +73,9 @@ class SparqlImplementation(BasicOntologyInterface):
             logging.warning(f'Not a curie: {curie}')
             return curie
 
+    def curie_to_sparql(self, curie: CURIE, strict: bool = False) -> URI:
+        return f'<{self.curie_to_uri(curie, strict=strict)}>'
+
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         # TODO: do not hardcode OBO
         pm = self.get_prefix_map()
@@ -218,6 +221,9 @@ class SparqlImplementation(BasicOntologyInterface):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+        if ':' in search_term and ' ' not in search_term:
+            logging.debug(f'Not performing search on what looks like a CURIE: {search_term}')
+            return
         if self._is_blazegraph():
             filter_clause = f'?v bds:search "{search_term}"'
         else:

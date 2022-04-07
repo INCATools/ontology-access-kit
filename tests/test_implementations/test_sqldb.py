@@ -8,11 +8,10 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
-from tests import OUTPUT_DIR, INPUT_DIR
+from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM
 
 DB = INPUT_DIR / 'go-nucleus.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
-CELLULAR_COMPONENT = 'GO:0005575'
 
 
 class TestSqlDatabaseImplementation(unittest.TestCase):
@@ -24,7 +23,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie('GO:0005773')
+        rels = oi.get_outgoing_relationships_by_curie(VACUOLE)
         for k, v in rels.items():
             print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
@@ -35,8 +34,18 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             print(curie)
 
     def test_labels(self):
-        label = self.oi.get_label_by_curie('GO:0005773')
+        label = self.oi.get_label_by_curie(VACUOLE)
         self.assertEqual(label, 'vacuole')
+
+    def test_get_labels_for_curies(self):
+        oi = self.oi
+        curies = oi.curies_by_subset('goslim_generic')
+        tups = list(oi.get_labels_for_curies(curies))
+        for curie, label in tups:
+            print(f'{curie} ! {label}')
+        assert (VACUOLE, 'vacuole') in tups
+        assert (CYTOPLASM, 'cytoplasm') in tups
+        self.assertEqual(11, len(tups))
 
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
@@ -51,9 +60,47 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert n.meta.definition.val.startswith('A location, ')
 
     def test_obograph(self):
-        g = self.oi.ancestor_graph('GO:0005773')
+        g = self.oi.ancestor_graph(VACUOLE)
         obj = graph_as_dict(g)
-        print(yaml.dump(obj))
+        #print(yaml.dump(obj))
+        assert g.nodes
+        assert g.edges
+
+    def test_descendants(self):
+        curies = list(self.oi.descendants(CELLULAR_COMPONENT))
+        assert CELLULAR_COMPONENT in curies
+        assert VACUOLE in curies
+        assert CYTOPLASM in curies
+        curies = list(self.oi.descendants([CELLULAR_COMPONENT]))
+        assert CELLULAR_COMPONENT in curies
+        assert VACUOLE in curies
+        assert CYTOPLASM in curies
+        curies = list(self.oi.descendants(CELLULAR_COMPONENT, predicates=[IS_A]))
+        assert CELLULAR_COMPONENT in curies
+        assert VACUOLE in curies
+        assert CYTOPLASM in curies
+        curies = list(self.oi.descendants(CYTOPLASM, predicates=[IS_A]))
+        assert CELLULAR_COMPONENT not in curies
+        assert VACUOLE not in curies
+        assert CYTOPLASM in curies
+
+    def test_ancestors(self):
+        curies = list(self.oi.ancestors(VACUOLE))
+        for curie in curies:
+            print(curie)
+        assert CELLULAR_COMPONENT in curies
+        assert VACUOLE in curies
+        assert CYTOPLASM in curies
+        curies = list(self.oi.ancestors([VACUOLE]))
+        assert CELLULAR_COMPONENT in curies
+        assert VACUOLE in curies
+        assert CYTOPLASM in curies
+        curies = list(self.oi.ancestors(VACUOLE, predicates=[IS_A]))
+        assert CELLULAR_COMPONENT in curies
+        assert VACUOLE in curies
+        assert CYTOPLASM not in curies
+
+
 
     # QC
     def test_no_definitions(self):

@@ -7,12 +7,12 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART
 
-from tests import OUTPUT_DIR, INPUT_DIR
+from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
-CYTOPLASM = 'GO:0005737'
+
 
 class TestProntoImplementation(unittest.TestCase):
 
@@ -145,9 +145,23 @@ class TestProntoImplementation(unittest.TestCase):
         assert 'GO:0043231' in ancs  # reflexive
 
     def test_obograph(self):
-        g = self.oi.ancestor_graph('GO:0005773')
+        g = self.oi.ancestor_graph(VACUOLE)
         obj = graph_as_dict(g)
-        print(yaml.dump(obj))
+        assert 'nodes' in g
+        assert 'edges' in g
+        # check is reflexive
+        self.assertEqual(1, len([n for n in g.nodes if n.id == VACUOLE]))
+        ancs = list(self.oi.ancestors(VACUOLE, predicates=[IS_A, PART_OF]))
+        assert VACUOLE in ancs
+        assert CYTOPLASM in ancs
+        descs = list(self.oi.descendants(CYTOPLASM, predicates=[IS_A, PART_OF]))
+        assert VACUOLE in descs
+        assert CYTOPLASM in descs
+        g = self.oi.ancestor_graph(CYTOPLASM)
+        # check is reflexive
+        self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
+
+
 
 
 

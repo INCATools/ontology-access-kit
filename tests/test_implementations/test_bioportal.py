@@ -3,14 +3,8 @@ import logging
 import unittest
 
 from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
-from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
-from tests import OUTPUT_DIR, INPUT_DIR
-
-
-HUMAN = 'NCBITaxon:9606'
-NEURON = 'CL:0000540'
+from tests import HUMAN, NEURON
 
 class TestBioportal(unittest.TestCase):
 

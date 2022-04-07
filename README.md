@@ -181,13 +181,25 @@ runoak lexmatch -i hp-mp.obo -o hp-mp.sssom.tsv
 
 ### Visualization of ancestor graphs
 
-Use the sqlite backend to find all terms matching the string "nucl" walk up the graph and visualize it
+Use the sqlite backend to visualize graph up from 'vacuole' using test ontology sqlite:
 
 ```bash
 runoak -i sqlite:tests/input/go-nucleus.db  viz GO:0005773
 ```
 
 ![img](notebooks/output/vacuole.png)
+
+Same using ubergraph, restricting to is-a and part-of
+
+```bash
+runoak -i ubergraph:  viz GO:0005773 -p i,BFO:0000050
+```
+
+Same using pronto, fetching ontology from obolibrary
+
+```bash
+runoak -i obolibrary:go.obo  viz GO:0005773
+```
 
 ## Documentation
 

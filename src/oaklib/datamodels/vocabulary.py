@@ -20,11 +20,14 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
+EQUIVALENT_CLASS = 'owl:equivalentClass'
 PART_OF = 'BFO:0000050'
 HAS_PART = 'BFO:0000051'
 
 OBO_PURL = 'http://purl.obolibrary.org/obo/'
 BIOPORTAL_PURL = 'http://purl.bioontology.org/ontology/'
+
+IN_SUBSET = omd.slots.in_subset.curie
 
 SKOS_EXACT_MATCH = omd.slots.exactMatch.curie
 SKOS_CLOSE_MATCH = omd.slots.closeMatch.curie

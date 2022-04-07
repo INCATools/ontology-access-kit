@@ -1,4 +1,5 @@
 {
+    "includeIdInLabel": "true",
     "styles": [
         "filled",
         "rounded"

@@ -11,7 +11,8 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
     an interface that provides relation graph abstractions
     """
 
-    def entailed_outgoing_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def entailed_outgoing_relationships_by_curie(self, curie: CURIE,
+                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -22,6 +23,24 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
          - R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}
 
         :param curie: the 'child' term
+        :param predicates:
+        :return:
+        """
+        raise NotImplementedError
+
+    def entailed_incoming_relationships_by_curie(self, curie: CURIE,
+                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        """
+        The return relationship map is keyed by relationship type, where the values
+        are the 'parents' or fillers
+
+        OWL formulation:
+
+         - is_a: {P : SubClassOf(C P), class(P)}
+         - R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}
+
+        :param curie: the 'child' term
+        :param predicates:
         :return:
         """
         raise NotImplementedError
@@ -38,7 +57,7 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         """
         return walk_up(self, start_curies, predicates=predicates)
 
-    def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def xxxancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
         # TODO: make reflexivity a parameters
         ancs = set([x[2] for x in self.walk_up_relationship_graph(start_curies, predicates)] + [start_curies])
         for a in ancs:

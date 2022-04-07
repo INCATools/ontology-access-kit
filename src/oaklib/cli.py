@@ -30,7 +30,7 @@ from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_
     load_lexical_index, load_mapping_rules, add_labels_from_uris
 from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path
 import sssom.writers as sssom_writers
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
 
 
 @dataclass
@@ -78,6 +78,8 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return IS_A
     elif shorthand == 'p':
         return PART_OF
+    elif shorthand == 'e':
+        return EQUIVALENT_CLASS
     else:
         return shorthand
 
@@ -202,7 +204,7 @@ def annotate(words, output: str):
               show_default=True,
               help="if view is set then open the image after rendering")
 @click.option("--down/--no-down",
-              default=True,
+              default=False,
               show_default=True,
               help="traverse down")
 @click.option('-S', '--stylemap',

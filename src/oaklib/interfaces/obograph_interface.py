@@ -1,7 +1,8 @@
+import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Tuple, Iterable, Union, Iterator, Optional
+from typing import Dict, List, Tuple, Iterable, Union, Iterator, Optional, Any
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
@@ -41,6 +42,19 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     This datamodel conceives of an ontology as a graph
     """
+    transitive_query_cache: Dict[Any, Any] = None
+
+    def enable_transitive_query_cache(self):
+        """
+        Cache transitive queries
+        """
+        self.transitive_query_cache = {}
+
+    def disable_transitive_query_cache(self):
+        """
+        Do not cache transitive queries (default)
+        """
+        self.transitive_query_cache = None
 
     def nodes(self) -> Iterator[Node]:
         """
@@ -94,7 +108,14 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: if supplied then only follow edges with these predicates
         :return: ancestor graph
         """
-        return self._graph(walk_up(self, start_curies, predicates=predicates))
+        key = ('ancestor_graph', tuple(start_curies), tuple(predicates if predicates is not None else ()))
+        if self.transitive_query_cache is not None:
+            if key in self.transitive_query_cache:
+                return self.transitive_query_cache[key]
+        g = self._graph(walk_up(self, start_curies, predicates=predicates))
+        if self.transitive_query_cache is not None:
+            self.transitive_query_cache[key] = g
+        return g
 
     def descendant_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Graph:
         """
@@ -104,13 +125,29 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: if supplied then only follow edges with these predicates
         :return: ancestor graph
         """
-        return self._graph(walk_down(self, start_curies, predicates=predicates))
+        key = ('descendant_graph', tuple(start_curies), tuple(predicates if predicates is not None else ()))
+        if self.transitive_query_cache is not None:
+            if key in self.transitive_query_cache:
+                return self.transitive_query_cache[key]
+        g = self._graph(walk_down(self, start_curies, predicates=predicates))
+        if self.transitive_query_cache is not None:
+            self.transitive_query_cache[key] = g
+        return g
+
+    def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        for node in self.ancestor_graph(start_curies, predicates).nodes:
+            yield node.id
+
+    def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        for node in self.descendant_graph(start_curies, predicates).nodes:
+            yield node.id
 
     def subgraph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None,
                  traversal: TraversalConfiguration = None) -> Graph:
         if traversal is None:
             traversal = TraversalConfiguration()
         if traversal.up_distance == Distance.TRANSITIVE:
+            logging.info(f'Getting ancestor fraph from {type(self)}, start={start_curies}')
             up_graph = self.ancestor_graph(start_curies, predicates=predicates)
         else:
             up_graph = None

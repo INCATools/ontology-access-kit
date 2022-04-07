@@ -22,7 +22,7 @@ class SparqlQuery:
         return f'{distinct}{" ".join(self.select)} '
 
     def where_str(self):
-        return ". ".join(self.where)
+        return ". ".join([w for w in self.where if w])
 
     def query_str(self):
         """
