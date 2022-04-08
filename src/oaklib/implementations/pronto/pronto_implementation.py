@@ -318,7 +318,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         matches = []
         for t in self.wrapped_ontology.terms():
-            if search_term in t.name:
+            if t.name and search_term in t.name:
                 matches.append(t.id)
                 logging.info(f'Name match to {t.id}')
                 continue
