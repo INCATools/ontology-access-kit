@@ -25,7 +25,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
 
     This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL)
 
-    The schema is assumed to follow the `semantic-sql <https://github.com/cmungall/semantic-sql>`_ schema
+    The schema is assumed to follow the `semantic-sql <https://github.com/incatools/semantic-sql>`_ schema
 
     This uses SQLAlchemy ORM Models:
 

@@ -28,5 +28,6 @@ class TestBioportal(unittest.TestCase):
 
 
     def test_search(self):
-        results = list(itertools.islice(self.oi.basic_search('tentacle pocket'), 20))
-        assert 'CEPH:0000259' in results
+        if self.has_apikey:
+            results = list(itertools.islice(self.oi.basic_search('tentacle pocket'), 20))
+            assert 'CEPH:0000259' in results
