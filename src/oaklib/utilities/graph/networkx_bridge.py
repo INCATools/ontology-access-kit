@@ -4,7 +4,12 @@ Utilities for working with networkx
 
 NetworkX is a popular python package for working with graphs
 """
-from collections import Iterable
+try:
+    # Python <= 3.9
+    from collections import Iterable
+except ImportError:
+    # Python > 3.9
+    from collections.abc import Iterable
 
 import networkx as nx
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
