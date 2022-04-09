@@ -40,6 +40,21 @@ runoak -i sqlite:uberon.db validate
 
 This will stream yaml output. The output is linkml objects using the SHACL Validation vocabulary
 
+```
+type: https://w3id.org/shacl/MinCountConstraintComponent
+severity: ERROR
+subject: CARO:0000003
+predicate: rdfs:label
+info: Missing slot (label) for CARO:0000003
+
+type: https://w3id.org/shacl/MinCountConstraintComponent
+severity: ERROR
+subject: CARO:0000006
+predicate: rdfs:label
+info: Missing slot (label) for CARO:0000006
+```
+
+
 ## Caveats
 
 Currently only the following are implemented:
@@ -66,3 +81,4 @@ Different implementations are free to use this in different ways
 
 The SqlDatabase implementation attempts to do this in a performant way doing whole-database predicate-based queries
 
+Validation results use the [Validator Datamodel](https://incatools.github.io/ontology-access-kit/datamodels/validation), which reuses many URIs from SHACL
