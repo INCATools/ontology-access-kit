@@ -32,13 +32,13 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
     """
     an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel
 
-    See `OBOGraphs <https://github.com/geneontology/obographs>_`
+    See `OBOGraphs <https://github.com/geneontology/obographs>`_
 
     Key datamodel concepts:
 
-    - :class:`.Node` - any named ontology element
-    - :class:`.Edge` - any relationship between elements; for example between "finger" and "hand"
-    - :class:`.Graph` - a collection of nodes, edges, and other ontology components
+    - :class:`obograph.Node` - any named ontology element
+    - :class:`obograph.Edge` - any relationship between elements; for example between "finger" and "hand"
+    - :class:`obograph.Graph` - a collection of nodes, edges, and other ontology components
 
     This datamodel conceives of an ontology as a graph
     """
@@ -135,19 +135,51 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         return g
 
     def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        """
+        Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
+        predicates.
+
+        .. note::
+
+           This operation is reflexive: self is included
+
+        :param start_curies: curie or curies to start the walk from
+        :param predicates: only traverse over these (traverses over all if this is not set)
+        :return: all ancestor CURIEs
+        """
         for node in self.ancestor_graph(start_curies, predicates).nodes:
             yield node.id
 
     def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        """
+        Descendants obtained from a walk downwards starting from start_curies ending in roots, following only the specified
+        predicates.
+
+        .. note::
+
+           This operation is reflexive: self is included
+
+        :param start_curies: curie or curies to start the walk from
+        :param predicates: only traverse over these (traverses over all if this is not set)
+        :return: all descendant CURIEs
+        """
         for node in self.descendant_graph(start_curies, predicates).nodes:
             yield node.id
 
     def subgraph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None,
                  traversal: TraversalConfiguration = None) -> Graph:
+        """
+        Combines ancestors and descendants according to a traversal configuration
+
+        :param start_curies:
+        :param predicates:
+        :param traversal:
+        :return:
+        """
         if traversal is None:
             traversal = TraversalConfiguration()
         if traversal.up_distance == Distance.TRANSITIVE:
-            logging.info(f'Getting ancestor fraph from {type(self)}, start={start_curies}')
+            logging.info(f'Getting ancestor graph from {type(self)}, start={start_curies}')
             up_graph = self.ancestor_graph(start_curies, predicates=predicates)
         else:
             up_graph = None

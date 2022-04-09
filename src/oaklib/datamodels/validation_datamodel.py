@@ -1,5 +1,5 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-31T09:17:43
+# Generation date: 2022-04-08T10:17:55
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -174,6 +174,19 @@ class SeverityOptions(EnumDefinitionImpl):
         name="SeverityOptions",
     )
 
+class ValidationResultType(EnumDefinitionImpl):
+
+    DatatypeConstraintComponent = PermissibleValue(text="DatatypeConstraintComponent",
+                                                                             meaning=SH.DatatypeConstraintComponent)
+    MinCountConstraintComponent = PermissibleValue(text="MinCountConstraintComponent",
+                                                                             meaning=SH.MinCountConstraintComponent)
+    MaxCountConstraintComponent = PermissibleValue(text="MaxCountConstraintComponent",
+                                                                             meaning=SH.MaxCountConstraintComponent)
+
+    _defn = EnumDefinition(
+        name="ValidationResultType",
+    )
+
 # Slots
 class slots:
     pass
@@ -205,7 +218,7 @@ slots.severity = Slot(uri=REPORTING.severity, name="severity", curie=REPORTING.c
 slots.info = Slot(uri=REPORTING.info, name="info", curie=REPORTING.curie('info'),
                    model_uri=REPORTING.info, domain=None, range=Optional[str])
 
-slots.validationReport__results = Slot(uri=REPORTING.results, name="validationReport__results", curie=REPORTING.curie('results'),
+slots.validationReport__results = Slot(uri=SH.result, name="validationReport__results", curie=SH.curie('result'),
                    model_uri=REPORTING.validationReport__results, domain=None, range=Optional[Union[Union[dict, ValidationResult], List[Union[dict, ValidationResult]]]])
 
 slots.externalReferenceValidationResult__url = Slot(uri=REPORTING.url, name="externalReferenceValidationResult__url", curie=REPORTING.curie('url'),

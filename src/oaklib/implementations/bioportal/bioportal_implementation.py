@@ -97,12 +97,11 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface):
                          headers=self._headers(),
                          params={'q': search_term, 'include': ['prefLabel']})
         obj = r.json()
-        #print(obj)
         collection = obj['collection']
         while len(collection) > 0:
             result = collection[0]
             curie = self.uri_to_curie(result['@id'])
-            label = result['prefLabel']
+            label = result.get('prefLabel', None)
             self.label_cache[curie] = label
             logging.debug(f'M: {curie} => {label}')
             yield curie

@@ -1,9 +1,9 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots
+#import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
 
 
@@ -13,13 +13,9 @@ SUMMARY_STATISTICS_MAP = Dict[str, Any]
 class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
     """
     generates summary statistics
+
+    Uses SummaryStatistics datamodel, see :ref:`datamodels`
     """
-
-    def extract_subset_ontology(self, seed_curies: List[CURIE], strategy: SubsetStrategy = None) -> BasicOntologyInterface:
-        raise NotImplementedError
-
-    def gap_fill_relationships(self, seed_curies: List[CURIE]) -> List[RELATIONSHIP]:
-        raise NotImplementedError
 
     def get_global_summary_statistics(self) -> SUMMARY_STATISTICS_MAP:
         """
@@ -47,6 +43,5 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :param metric:
         :return:
         """
-        #statdict_slots[metric]
         raise NotImplementedError
 

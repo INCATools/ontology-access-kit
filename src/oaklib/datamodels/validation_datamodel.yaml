@@ -39,6 +39,7 @@ classes:
     description: A report object
     attributes:
       results:
+        slot_uri: sh:result
         range: ValidationResult
         multivalued: true
     todos:
@@ -118,3 +119,15 @@ enums:
         meaning: sh:Warning
       INFO:
         meaning: sh:Info
+
+  ValidationResultType:
+    # sh:sourceConstraintComponent
+    permissible_values:
+      DatatypeConstraintComponent:
+        meaning: sh:DatatypeConstraintComponent
+      MinCountConstraintComponent:
+        meaning: sh:MinCountConstraintComponent
+      MaxCountConstraintComponent:
+        meaning: sh:MaxCountConstraintComponent
+
+
