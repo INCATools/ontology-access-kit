@@ -5,7 +5,7 @@ This wraps either a local or remote SQL Database
 
 The schema is assumed to follow:
 
-- [semantic-sql](https://github.com/incatools/semantic-sql/)
+- `Semantic-SQL <https://github.com/incatools/semantic-sql>`_
 
 This uses the rdftab library to build an RDF-level `statements` table, on which numerous SQL Views
 are layered, providing higher level access

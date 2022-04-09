@@ -9,9 +9,19 @@ perform on an ontology. Developers can code to the interface largely without
 worrying about whether the implementation is a relational database, a local
 file, etc.
 
+For example, the :ref:`UbergraphImplementation` implements :ref:`SearchInterface` which
+has the method :ref:`SearchInterface.basic_search()`, so you can write code like this:
+
+.. code:: python
+
+    >>> from oaklib.implementations.ubergraph import UbergraphImplementation
+    >>> oi = UbergraphImplementation()
+    >>> for r in oi.basic_search('CA4 hippocampus'):
+    ...     print(r)
+
+
 The most common operations are found in the :ref:`BasicOntologyInterface`
 
-See also :ref:`BasicOntologyInterface`
 
 .. toctree::
    :maxdepth: 3
@@ -20,14 +30,15 @@ See also :ref:`BasicOntologyInterface`
    basic
    search
    subsetting
+   validator
    relation-graph
    mapping-provider
    obograph
+   text-annotator
    owl
    summary-statistics
    rdf
    skos
-   validator
    semsim
    differ
    patcher

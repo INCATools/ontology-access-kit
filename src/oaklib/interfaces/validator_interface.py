@@ -11,7 +11,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
     """
     Basic ontology QC
 
-    In future the following functionality will be defined:
+    The overall goal is to support the following
 
     - validating against OntologyMetadata schema
     - lexical checks
@@ -20,7 +20,14 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
 
     Specific implementations may choose to implement efficient methods for this.
     For example, a SQL implementation can quickly determine all terms
-    missing definitions with a query over an indexed table
+    missing definitions with a query over an indexed table.
+
+    Currently the main implementation for this is the SqlDatabase implementation,
+    this implements a generic property check using the OntologyMetadata datamodel
+
+    See:
+
+     - `OntologyMetadata <https://incatools.github.io/ontology-access-kit/datamodels/ontology-metadata/>`_
     """
 
     def term_curies_without_definitions(self) -> Iterable[CURIE]:

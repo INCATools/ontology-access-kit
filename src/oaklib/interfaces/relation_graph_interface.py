@@ -9,6 +9,11 @@ from oaklib.utilities.graph.relationship_walker import walk_up
 class RelationGraphInterface(BasicOntologyInterface, ABC):
     """
     an interface that provides relation graph abstractions
+
+    .. note ::
+
+        that the operations provided here are similar to the graph-walking operations provided in :class:`.OboGraphInterface`.
+        The main difference is that a RG provides a more restricted and formally correct set of entailments
     """
 
     def entailed_outgoing_relationships_by_curie(self, curie: CURIE,

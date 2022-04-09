@@ -7,6 +7,8 @@ INPUT_DIR = Path(ROOT) / 'input'
 OUTPUT_DIR = Path(ROOT) / 'output'
 SCHEMA_DIR = Path(ROOT) / '../src/linkml'
 
+def output_path(fn: str) -> str:
+    return str(Path(OUTPUT_DIR) / fn)
 
 
 DIGIT = 'UBERON:0002544'

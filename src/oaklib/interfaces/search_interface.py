@@ -11,7 +11,7 @@ class SearchConfiguration:
     """
     Parameters for altering behavior of search
 
-    .. note::
+    .. note ::
 
         many of these parameters are not yet implemented
     """

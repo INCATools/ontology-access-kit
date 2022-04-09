@@ -53,7 +53,9 @@ classes:
 
   #GOStyleTermProfile:
   #  slots:
-      
+
+  Any:
+    class_uri: linkml:Any
   
   AnnotationPropertyMixin:
     mixin: true
@@ -781,6 +783,7 @@ slots:
   annotatedSource:
     is_a: reification_predicate
     slot_uri: owl:annotatedSource
+    range: Thing
     exact_mappings:
       - rdf:subject
     todos:
@@ -792,6 +795,7 @@ slots:
     slot_uri: owl:annotatedTarget
     todos:
     - restrict range
+    range: Any
 
   imports:
     slot_uri: owl:imports
@@ -929,6 +933,7 @@ slots:
     multivalued: true
     todos:
     - restrict range
+    range: Thing
   type:
     is_a: logical_predicate
     slot_uri: rdf:type

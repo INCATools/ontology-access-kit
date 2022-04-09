@@ -1,9 +1,9 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-27T02:15:06
-# Schema: omo-schema
+# Generation date: 2022-04-08T15:26:27
+# Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
-# description: Example schema for ontology metadata
+# description: Schema for ontology metadata
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -26,6 +26,7 @@ from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcur
 from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE
 
 metamodel_version = "1.7.0"
+version = "0.0.1"
 
 # Overwrite dataclasses _init_fn to add **kwargs in __init__
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
@@ -135,6 +136,8 @@ class NamedIndividualId(TermId):
 class SubsetId(AnnotationPropertyId):
     pass
 
+
+Any = Any
 
 class AnnotationPropertyMixin(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
@@ -438,7 +441,7 @@ class HasUserInformation(AnnotationPropertyMixin):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.HasUserInformation
 
     comment: Optional[Union[str, List[str]]] = empty_list()
-    seeAlso: Optional[Union[str, List[str]]] = empty_list()
+    seeAlso: Optional[Union[Union[dict, "Thing"], List[Union[dict, "Thing"]]]] = empty_list()
     image: Optional[Union[dict, "Thing"]] = None
     example_of_usage: Optional[Union[str, List[str]]] = empty_list()
     curator_note: Optional[Union[str, List[str]]] = empty_list()
@@ -453,7 +456,7 @@ class HasUserInformation(AnnotationPropertyMixin):
 
         if not isinstance(self.seeAlso, list):
             self.seeAlso = [self.seeAlso] if self.seeAlso is not None else []
-        self.seeAlso = [v if isinstance(v, str) else str(v) for v in self.seeAlso]
+        self.seeAlso = [v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.seeAlso]
 
         if self.image is not None and not isinstance(self.image, Thing):
             self.image = Thing()
@@ -627,7 +630,7 @@ class Term(NamedObject):
     in_subset: Optional[Union[Union[str, SubsetId], List[Union[str, SubsetId]]]] = empty_list()
     conformsTo: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
-    seeAlso: Optional[Union[str, List[str]]] = empty_list()
+    seeAlso: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
     image: Optional[Union[dict, Thing]] = None
     example_of_usage: Optional[Union[str, List[str]]] = empty_list()
     curator_note: Optional[Union[str, List[str]]] = empty_list()
@@ -791,7 +794,7 @@ class Term(NamedObject):
 
         if not isinstance(self.seeAlso, list):
             self.seeAlso = [self.seeAlso] if self.seeAlso is not None else []
-        self.seeAlso = [v if isinstance(v, str) else str(v) for v in self.seeAlso]
+        self.seeAlso = [v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.seeAlso]
 
         if self.image is not None and not isinstance(self.image, Thing):
             self.image = Thing()
@@ -1144,13 +1147,13 @@ class Axiom(YAMLRoot):
     notes: Optional[Union[str, List[str]]] = empty_list()
     url: Optional[str] = None
     annotatedProperty: Optional[Union[str, AnnotationPropertyId]] = None
-    annotatedSource: Optional[str] = None
-    annotatedTarget: Optional[str] = None
+    annotatedSource: Optional[Union[dict, Thing]] = None
+    annotatedTarget: Optional[Union[dict, Any]] = None
     onProperty: Optional[Union[Union[dict, "PropertyExpression"], List[Union[dict, "PropertyExpression"]]]] = empty_list()
     someValuesFrom: Optional[Union[str, List[str]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
     label: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = empty_list()
-    seeAlso: Optional[Union[str, List[str]]] = empty_list()
+    seeAlso: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.has_axiom_label is not None and not isinstance(self.has_axiom_label, Thing):
@@ -1204,11 +1207,8 @@ class Axiom(YAMLRoot):
         if self.annotatedProperty is not None and not isinstance(self.annotatedProperty, AnnotationPropertyId):
             self.annotatedProperty = AnnotationPropertyId(self.annotatedProperty)
 
-        if self.annotatedSource is not None and not isinstance(self.annotatedSource, str):
-            self.annotatedSource = str(self.annotatedSource)
-
-        if self.annotatedTarget is not None and not isinstance(self.annotatedTarget, str):
-            self.annotatedTarget = str(self.annotatedTarget)
+        if self.annotatedSource is not None and not isinstance(self.annotatedSource, Thing):
+            self.annotatedSource = Thing()
 
         if not isinstance(self.onProperty, list):
             self.onProperty = [self.onProperty] if self.onProperty is not None else []
@@ -1228,7 +1228,7 @@ class Axiom(YAMLRoot):
 
         if not isinstance(self.seeAlso, list):
             self.seeAlso = [self.seeAlso] if self.seeAlso is not None else []
-        self.seeAlso = [v if isinstance(v, str) else str(v) for v in self.seeAlso]
+        self.seeAlso = [v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.seeAlso]
 
         super().__post_init__(**kwargs)
 
@@ -1647,10 +1647,10 @@ slots.annotatedProperty = Slot(uri=OWL.annotatedProperty, name="annotatedPropert
                    model_uri=OMOSCHEMA.annotatedProperty, domain=None, range=Optional[Union[str, AnnotationPropertyId]])
 
 slots.annotatedSource = Slot(uri=OWL.annotatedSource, name="annotatedSource", curie=OWL.curie('annotatedSource'),
-                   model_uri=OMOSCHEMA.annotatedSource, domain=None, range=Optional[str])
+                   model_uri=OMOSCHEMA.annotatedSource, domain=None, range=Optional[Union[dict, Thing]])
 
 slots.annotatedTarget = Slot(uri=OWL.annotatedTarget, name="annotatedTarget", curie=OWL.curie('annotatedTarget'),
-                   model_uri=OMOSCHEMA.annotatedTarget, domain=None, range=Optional[str])
+                   model_uri=OMOSCHEMA.annotatedTarget, domain=None, range=Optional[Union[dict, Any]])
 
 slots.imports = Slot(uri=OWL.imports, name="imports", curie=OWL.curie('imports'),
                    model_uri=OMOSCHEMA.imports, domain=None, range=Optional[str])
@@ -1734,7 +1734,7 @@ slots.isDefinedBy = Slot(uri=RDFS.isDefinedBy, name="isDefinedBy", curie=RDFS.cu
                    model_uri=OMOSCHEMA.isDefinedBy, domain=None, range=Optional[Union[str, OntologyId]])
 
 slots.seeAlso = Slot(uri=RDFS.seeAlso, name="seeAlso", curie=RDFS.curie('seeAlso'),
-                   model_uri=OMOSCHEMA.seeAlso, domain=None, range=Optional[Union[str, List[str]]])
+                   model_uri=OMOSCHEMA.seeAlso, domain=None, range=Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]])
 
 slots.type = Slot(uri=RDF.type, name="type", curie=RDF.curie('type'),
                    model_uri=OMOSCHEMA.type, domain=None, range=Optional[Union[Union[dict, ClassExpression], List[Union[dict, ClassExpression]]]])

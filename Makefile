@@ -8,9 +8,12 @@ test:
 MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator search_results
 
 pyclasses: $(patsubst %, src/oaklib/datamodels/%.py, $(MODELS))
+jsonschema: $(patsubst %, src/oaklib/datamodels/%.schema.json, $(MODELS))
 
 src/oaklib/datamodels/%.py: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-python $< > $@.tmp && mv $@.tmp $@
+src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
+	$(RUN) gen-json-schema $< > $@.tmp && mv $@.tmp $@
 
 gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann
 
