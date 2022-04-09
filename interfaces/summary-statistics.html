@@ -20,7 +20,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="QC Ontology Interface" href="validator.html" />
+    <link rel="next" title="Implementations" href="../implementations/index.html" />
     <link rel="prev" title="&lt;no title&gt;" href="owl.html" /> 
 </head>
 
@@ -45,10 +45,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html">Search Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validator.html">Validator Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Summary Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validator.html">QC Ontology Interface</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -87,6 +89,57 @@
              
   <section id="summary-statistics">
 <h1>Summary Statistics<a class="headerlink" href="#summary-statistics" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.summary_statistics_interface.</span></span><span class="sig-name descname"><span class="pre">SummaryStatisticsInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface" title="Permalink to this definition"></a></dt>
+<dd><p>generates summary statistics</p>
+<p>Uses SummaryStatistics datamodel, see <a class="reference internal" href="../datamodels/index.html#datamodels"><span class="std std-ref">Datamodels</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_global_summary_statistics">
+<span class="sig-name descname"><span class="pre">get_global_summary_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.get_global_summary_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_global_summary_statistics" title="Permalink to this definition"></a></dt>
+<dd><p>Gets summary statistics for all ontologies wrapped as a single dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_metric_description">
+<span class="sig-name descname"><span class="pre">get_metric_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.get_metric_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_metric_description" title="Permalink to this definition"></a></dt>
+<dd><p>Examines the data dictionary to retrieve the definition of a metric</p>
+<p>Any dictionary can be used, but summary_statistics_datamodel is favored</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_partitioned_summary_statistics">
+<span class="sig-name descname"><span class="pre">get_partitioned_summary_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.get_partitioned_summary_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_partitioned_summary_statistics" title="Permalink to this definition"></a></dt>
+<dd><p>Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed
+by ontology CURIE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.summary_statistics_datamodel.</span></span><span class="sig-name descname"><span class="pre">SummaryStatisticCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_if_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">jsonasobj2._jsonobj.JsonObj</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/datamodels/summary_statistics_datamodel.html#SummaryStatisticCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection" title="Permalink to this definition"></a></dt>
+<dd><p>A summary statistics report object</p>
+</dd></dl>
+
 </section>
 
 
@@ -94,7 +147,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="owl.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="validator.html" class="btn btn-neutral float-right" title="QC Ontology Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../implementations/index.html" class="btn btn-neutral float-right" title="Implementations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

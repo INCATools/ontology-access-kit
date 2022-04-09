@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+  <title>Text Annotator Interface &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="owl.html" />
+    <link rel="prev" title="OboGraph Interface" href="obograph.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,10 +40,20 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Interfaces</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html">Search Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validator.html">Validator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Text Annotator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
@@ -65,7 +77,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+          <li><a href="index.html">Interfaces</a> &raquo;</li>
+      <li>Text Annotator Interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/interfaces/text-annotator.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -75,25 +88,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <dl class="py class">
+  <section id="text-annotator-interface">
+<h1>Text Annotator Interface<a class="headerlink" href="#text-annotator-interface" title="Permalink to this headline"></a></h1>
+<dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.text_annotator_interface.</span></span><span class="sig-name descname"><span class="pre">TextAnnotatorInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface" title="Permalink to this definition"></a></dt>
-<dd><p>Annotates texts</p>
-<p>Note yet implemented; potential implementations:</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.text_annotator_interface.</span></span><span class="sig-name descname"><span class="pre">TextAnnotatorInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface" title="Permalink to this definition"></a></dt>
+<dd><p>Performs Named Entity Recognition on texts</p>
+<p>Currently this is only partially implemented by <code class="xref py py-class docutils literal notranslate"><span class="pre">BioportalInterface</span></code></p>
+<p>potential implementations:</p>
 <ul class="simple">
-<li><p>bioportal</p></li>
 <li><p>zooma</p></li>
 <li><p>scigraph-annotator</p></li>
 <li><p>ontorunner</p></li>
 <li><p>spacy</p></li>
 </ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">
+<span class="sig-name descname"><span class="pre">annotate_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.datamodels.text_annotator.TextAnnotation" title="oaklib.datamodels.text_annotator.TextAnnotation"><span class="pre">oaklib.datamodels.text_annotator.TextAnnotation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface.annotate_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text" title="Permalink to this definition"></a></dt>
+<dd><p>Annotate a piece of text</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>the signature of this method may change</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oaklib.datamodels.text_annotator.TextAnnotation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.text_annotator.</span></span><span class="sig-name descname"><span class="pre">TextAnnotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_if_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">jsonasobj2._jsonobj.JsonObj</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/datamodels/text_annotator.html#TextAnnotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.text_annotator.TextAnnotation" title="Permalink to this definition"></a></dt>
+<dd><p>An individual text annotation</p>
+</dd></dl>
+
+</section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="obograph.html" class="btn btn-neutral float-left" title="OboGraph Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="owl.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

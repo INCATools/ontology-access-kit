@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+  <title>OboGraph Interface &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -40,10 +40,19 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Interfaces</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html">Search Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validator.html">Validator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">OboGraph Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
@@ -68,7 +77,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Interfaces</a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li>OboGraph Interface</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/interfaces/obograph.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,16 +87,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <dl class="py class">
+  <section id="obograph-interface">
+<h1>OboGraph Interface<a class="headerlink" href="#obograph-interface" title="Permalink to this headline"></a></h1>
+<dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.obograph_interface.</span></span><span class="sig-name descname"><span class="pre">OboGraphInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.obograph_interface.</span></span><span class="sig-name descname"><span class="pre">OboGraphInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface" title="Permalink to this definition"></a></dt>
 <dd><p>an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel</p>
-<p>See <cite>OBOGraphs &lt;https://github.com/geneontology/obographs&gt;_</cite></p>
+<p>See <a class="reference external" href="https://github.com/geneontology/obographs">OBOGraphs</a></p>
 <p>Key datamodel concepts:</p>
 <ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code> - any named ontology element</p></li>
-<li><p><a class="reference internal" href="../implementations/sqldb.html#oaklib.implementations.sqldb.model.Edge" title="oaklib.implementations.sqldb.model.Edge"><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></a> - any relationship between elements; for example between “finger” and “hand”</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code> - a collection of nodes, edges, and other ontology components</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">obograph.Node</span></code> - any named ontology element</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">obograph.Edge</span></code> - any relationship between elements; for example between “finger” and “hand”</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">obograph.Graph</span></code> - a collection of nodes, edges, and other ontology components</p></li>
 </ul>
 <p>This datamodel conceives of an ontology as a graph</p>
 <dl class="py method">
@@ -105,6 +116,28 @@ list)</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ancestor graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">
+<span class="sig-name descname"><span class="pre">ancestors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.ancestors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors" title="Permalink to this definition"></a></dt>
+<dd><p>Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
+predicates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This operation is reflexive: self is included</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_curies</strong> – curie or curies to start the walk from</p></li>
+<li><p><strong>predicates</strong> – only traverse over these (traverses over all if this is not set)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all ancestor CURIEs</p>
 </dd>
 </dl>
 </dd></dl>
@@ -138,6 +171,28 @@ to download the entire ontology as a graph</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ancestor graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">
+<span class="sig-name descname"><span class="pre">descendants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.descendants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants" title="Permalink to this definition"></a></dt>
+<dd><p>Descendants obtained from a walk downwards starting from start_curies ending in roots, following only the specified
+predicates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This operation is reflexive: self is included</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_curies</strong> – curie or curies to start the walk from</p></li>
+<li><p><strong>predicates</strong> – only traverse over these (traverses over all if this is not set)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all descendant CURIEs</p>
 </dd>
 </dl>
 </dd></dl>
@@ -193,6 +248,24 @@ to download the entire ontology as a graph</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">
+<span class="sig-name descname"><span class="pre">subgraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traversal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.interfaces.obograph_interface.TraversalConfiguration" title="oaklib.interfaces.obograph_interface.TraversalConfiguration"><span class="pre">oaklib.interfaces.obograph_interface.TraversalConfiguration</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.obograph.Graph</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.subgraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph" title="Permalink to this definition"></a></dt>
+<dd><p>Combines ancestors and descendants according to a traversal configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_curies</strong> – </p></li>
+<li><p><strong>predicates</strong> – </p></li>
+<li><p><strong>traversal</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -201,6 +274,7 @@ to download the entire ontology as a graph</p>
 <dd><p>Specifies how to walk up and down a graph</p>
 </dd></dl>
 
+</section>
 
 
            </div>

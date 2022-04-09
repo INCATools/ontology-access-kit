@@ -88,7 +88,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Basic ontology QC</span>
 
-<span class="sd">    In future the following functionality will be defined:</span>
+<span class="sd">    The overall goal is to support the following</span>
 
 <span class="sd">    - validating against OntologyMetadata schema</span>
 <span class="sd">    - lexical checks</span>
@@ -97,7 +97,14 @@
 
 <span class="sd">    Specific implementations may choose to implement efficient methods for this.</span>
 <span class="sd">    For example, a SQL implementation can quickly determine all terms</span>
-<span class="sd">    missing definitions with a query over an indexed table</span>
+<span class="sd">    missing definitions with a query over an indexed table.</span>
+
+<span class="sd">    Currently the main implementation for this is the SqlDatabase implementation,</span>
+<span class="sd">    this implements a generic property check using the OntologyMetadata datamodel</span>
+
+<span class="sd">    See:</span>
+
+<span class="sd">     - `OntologyMetadata &lt;https://incatools.github.io/ontology-access-kit/datamodels/ontology-metadata/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ValidatorInterface.term_curies_without_definitions"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">term_curies_without_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
