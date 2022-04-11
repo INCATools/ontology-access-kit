@@ -31,7 +31,7 @@ Check your install works:
 runoak --help
 ```
 
-### Step 3: Validate the ontology
+### Step 3: Validate an individual ontology
 
 
 ```bash
@@ -54,13 +54,27 @@ predicate: rdfs:label
 info: Missing slot (label) for CARO:0000006
 ```
 
+### Step 3 (alternative): Validate multiple ontologies
+
+```bash
+runoak validate-multiple db/*.db -o obo-validation.tsv
+```
+
 
 ## Caveats
 
 Currently only the following are implemented:
 
-* MinCardinality checks (required or recommended)
-* basic type checks (literal vs object)
+* MinCountConstraintComponent checks (required or recommended)
+* MaxCountConstraintComponent checks
+* DeprecatedPropertyComponent
+* DatatypeConstraintComponent: basic type checks (literal vs object) DOES NOT YET CHECK SPECIFIC LITERAL TYPE
+* ClosedConstraintComponent
+
+
+## Using your own schema
+
+TODO: add an option to pass in your own yaml file
 
 ## How this works
 
@@ -82,3 +96,7 @@ Different implementations are free to use this in different ways
 The SqlDatabase implementation attempts to do this in a performant way doing whole-database predicate-based queries
 
 Validation results use the [Validator Datamodel](https://incatools.github.io/ontology-access-kit/datamodels/validation), which reuses many URIs from SHACL
+
+## Analysis
+
+See notebooks folder in [https://github.com/cmungall/obo-metadata](https://github.com/cmungall/obo-metadata)
