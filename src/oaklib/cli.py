@@ -7,6 +7,8 @@ Executed using "runoak" command
 import logging
 import os
 import subprocess
+import sys
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
@@ -22,6 +24,7 @@ from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, Validat
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.apikey_manager import set_apikey_value
@@ -43,7 +46,7 @@ settings = Settings()
 input_option = click.option(
     "-i",
     "--input",
-    help="path to file or URI for resource."
+    help="path to input implementation specification."
 )
 input_type_option = click.option(
     "-I",
@@ -53,6 +56,8 @@ input_type_option = click.option(
 output_option = click.option(
     "-o",
     "--output",
+    type=click.File(mode="w"),
+    default=sys.stdout,
     help="Output file, e.g. obo file"
 )
 output_type_option = click.option(
@@ -96,6 +101,10 @@ def main(verbose: int, quiet: bool, input: str):
     Most commands require an input ontology to be specified:
 
         runoak -i <INPUT SPECIFICATION> SUBCOMMAND <SUBCOMMAND OPTIONS AND ARGUMENTS>
+
+    Get help on any command, e.g:
+
+        runoak viz -h
     """
     if verbose >= 2:
         logging.basicConfig(level=logging.DEBUG)
@@ -149,7 +158,18 @@ def search(terms, output: str):
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
     Example:
-        runoak -i uberon.obo limb
+        runoak -i uberon.obo search limb
+
+    This uses the Pronto implementation to load uberon from disk, and does a basic substring
+    search over the labels and synonyms - results are not ranked
+
+    Bioportal:
+        runoak -i uberon.obo search limb
+
+    (You need to set your API key first)
+
+    This uses the Bioportal API to search over a broad set of ontologies, returning a ranked list
+    ranked by relevance. There may be many results, the results are streamed, do ctrl^C to stop
     """
     impl = settings.impl
     if isinstance(impl, SearchInterface):
@@ -167,10 +187,13 @@ def search(terms, output: str):
 @output_option
 def list_subset(subset, output: str):
     """
-    Shows IDs in subset
+    Shows IDs in a given subset
 
     Example:
-        runoak -i obolibrary:go.obo goslim_generic
+        runoak -i obolibrary:go.obo list-subset goslim_generic
+
+    Example:
+        oak -i sqlite:notebooks/input/go.db list-subset goslim_agr
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -184,10 +207,10 @@ def list_subset(subset, output: str):
 @output_option
 def annotate(words, output: str):
     """
-    Annotate text
+    Annotate a piece of text using a Named Entity Recognition annotation
 
     Example:
-        runoak -i obolibrary:go.obo goslim_generic
+        runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
     """
     impl = settings.impl
     text = ' '.join(words)
@@ -220,8 +243,23 @@ def viz(terms, predicates, down, view, stylemap, configure, output: str):
 
     Note the implementation must implement :class:`.OboGraphInterface`
 
+    This requires that `obographviz <https://github.com/cmungall/obographviz>`_ is installed.
+
     Example:
+
         runoak -i sqlite:cl.db viz CL:4023094
+
+    Example, showing only is-a:
+
+        runoak -i sqlite:cl.db viz CL:4023094 -p i
+
+    Example, showing only is-a and part-of, to include Uberon:
+
+        runoak -i sqlite:cl.db viz CL:4023094 -p i,p
+
+    As above, including develops-from:
+
+        runoak -i sqlite:cl.db viz CL:4023094 -p i,p,RO:0002202
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -249,7 +287,26 @@ def ancestors(terms, predicates, output: str):
     List all ancestors
 
     Example:
+
         runoak -i cl.owl ancestors CL:4023094
+
+    Note that ancestors is by default over ALL relationship types
+
+    Constrained to is-a and part-of:
+
+        runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
+
+    Same, on ubergraph:
+
+        runoak -i ubergraph: ancestors CL:4023094 -p i,BFO:0000050
+
+    Search terms can also be used:
+
+        runoak -i cl.owl ancestors 'goblet cell'
+
+    Multiple terms can be passed:
+
+        runoak -i sqlite:go.db ancestors GO:0005773 GO:0005737 -p i,p
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
@@ -268,7 +325,9 @@ def ancestors(terms, predicates, output: str):
 @output_option
 def descendants(terms, predicates, output: str):
     """
-    List all descendants
+    List all descendants of a term
+
+    See examples for 'ancestors' command
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -353,14 +412,83 @@ def axioms(output: str):
 
 
 @main.command()
+@click.option('--cutoff',
+              default=50,
+              show_default=True,
+              help="maximum results to report for any (type, predicate) pair")
 @output_option
-def validate(output: str):
+def validate(output: str, cutoff: int):
     """
-    Validate an ontology
+    Validate an ontology against ontology metadata
+    """
+    impl = settings.impl
+    if isinstance(impl, ValidatorInterface):
+        counts = defaultdict(int)
+        for result in impl.validate():
+            key = (result.type, result.predicate)
+            n = counts[key]
+            n += 1
+            counts[key] = n
+            if n % 1000 == 0:
+                logging.info(f'Reached {n} results with {key}')
+            if n == cutoff:
+                print(f'**TRUNCATING RESULTS FOR {key} at {cutoff}')
+            elif n < cutoff:
+                print(yaml_dumper.dumps(result))
+        for k, v in counts.items():
+            print(f'{k}:: {v}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
-    .. warning ::
 
-       currently highly incomplete
+@main.command()
+@click.option('--cutoff',
+              default=50,
+              show_default=True,
+              help="maximum results to report for any (type, predicate) pair")
+@click.argument("dbs", nargs=-1)
+@output_option
+def validate_multiple(dbs, output, cutoff: int):
+    """
+    Validate an ontology against ontology metadata
+    """
+    writer = StreamingCsvWriter(output)
+    for db in dbs:
+        try:
+            path = Path(db).absolute()
+            print(f'PATH={path}')
+            resource = OntologyResource(slug=f'sqlite:///{str(path)}')
+            impl = SqlImplementation(resource)
+            counts = defaultdict(int)
+            for result in impl.validate():
+                result.source = f'sqlite:{db}'
+                key = (result.type, result.predicate)
+                n = counts[key]
+                n += 1
+                counts[key] = n
+                if n % 1000 == 0:
+                    logging.info(f'Reached {n} results with {key}')
+                if n == cutoff:
+                    print(f'**TRUNCATING RESULTS FOR {key} at {cutoff}')
+                elif n < cutoff:
+                    try:
+                        print(yaml_dumper.dumps(result))
+                        writer.emit(result)
+                    except ValueError as e:
+                        logging.error(e)
+                        logging.error(f'Could not dump {result} -- bad identifier?')
+        except Exception as e:
+            logging.error(e)
+            logging.error(f'Problem with db')
+        for k, v in counts.items():
+            print(f'{k}:: {v}')
+
+
+@main.command()
+@output_option
+def check_definitions(output: str):
+    """
+    Check definitions
     """
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
@@ -368,6 +496,7 @@ def validate(output: str):
             print(f'NO DEFINITION: {curie} ! {impl.get_label_by_curie(curie)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 
 @main.command()
@@ -414,7 +543,7 @@ def set_apikey(endpoint, keyval):
               show_default=True,
               help="if true and lexical index is specified, always recreate, otherwise load from index")
 @output_option
-def lexmatch(output: str, recreate, rules_file, lexical_index_file, add_labels):
+def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     """
     Generates lexical index and mappings
 
@@ -445,8 +574,7 @@ def lexmatch(output: str, recreate, rules_file, lexical_index_file, add_labels):
             if recreate:
                 save_lexical_index(ix, lexical_index_file)
         msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset)
-        with open(output, 'w', encoding='utf-8') as file:
-            sssom_writers.write_table(msdf, file)
+        sssom_writers.write_table(msdf, output)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

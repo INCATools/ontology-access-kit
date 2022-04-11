@@ -1,13 +1,5 @@
-QC Ontology Interface
-========================
-
-About
------
-
-
-
-Code
-----
+Validator Interface
+--------------------
 
 .. currentmodule:: oaklib.interfaces.validator_interface
                    

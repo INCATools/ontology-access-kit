@@ -13,6 +13,7 @@ from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
+BAD_ONTOLOGY_DB = INPUT_DIR / 'bad-ontology.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 NUCLEUS = 'GO:0005634'
 ATOM = 'CHEBI:33250'
@@ -91,10 +92,22 @@ class TestCommandLineInterface(unittest.TestCase):
         err = result.stderr
         self.assertEqual(0, result.exit_code)
 
-    def test_validate_local(self):
-        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}']:
+    def test_validate_bad_ontology(self):
+        for input_arg in [f'sqlite:{BAD_ONTOLOGY_DB}']:
             logging.info(f'INPUT={input_arg}')
             result = self.runner.invoke(main, ['-i', input_arg, 'validate'])
+            out = result.stdout
+            err = result.stderr
+            logging.info(f'ERR={err}')
+            self.assertEqual(0, result.exit_code)
+            self.assertIn('EXAMPLE:1', out)
+            self.assertIn('EXAMPLE:2', out)
+            self.assertEqual("", err)
+
+    def test_check_definitions(self):
+        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}']:
+            logging.info(f'INPUT={input_arg}')
+            result = self.runner.invoke(main, ['-i', input_arg, 'check-definitions'])
             out = result.stdout
             err = result.stderr
             logging.info(f'ERR={err}')

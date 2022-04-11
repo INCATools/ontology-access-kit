@@ -1,5 +1,5 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-31T09:17:43
+# Generation date: 2022-04-09T19:14:46
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -39,7 +39,7 @@ RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
 REPORTING = CurieNamespace('reporting', 'https://w3id.org/linkml/report')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
-SH = CurieNamespace('sh', 'https://w3id.org/shacl/')
+SH = CurieNamespace('sh', 'http://www.w3.org/ns/shacl#')
 SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
 XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
 DEFAULT_ = REPORTING
@@ -174,6 +174,29 @@ class SeverityOptions(EnumDefinitionImpl):
         name="SeverityOptions",
     )
 
+class ValidationResultType(EnumDefinitionImpl):
+
+    DatatypeConstraintComponent = PermissibleValue(text="DatatypeConstraintComponent",
+                                                                             meaning=SH.DatatypeConstraintComponent)
+    MinCountConstraintComponent = PermissibleValue(text="MinCountConstraintComponent",
+                                                                             meaning=SH.MinCountConstraintComponent)
+    MaxCountConstraintComponent = PermissibleValue(text="MaxCountConstraintComponent",
+                                                                             meaning=SH.MaxCountConstraintComponent)
+    DeprecatedPropertyComponent = PermissibleValue(text="DeprecatedPropertyComponent",
+                                                                             meaning=REPORTING.DeprecatedPropertyComponent)
+    MaxLengthConstraintComponent = PermissibleValue(text="MaxLengthConstraintComponent",
+                                                                               meaning=SH.MaxLengthConstraintComponent)
+    MinLengthConstraintComponent = PermissibleValue(text="MinLengthConstraintComponent",
+                                                                               meaning=SH.MinLengthConstraintComponent)
+    PatternConstraintComponent = PermissibleValue(text="PatternConstraintComponent",
+                                                                           meaning=SH.PatternConstraintComponent)
+    ClosedConstraintComponent = PermissibleValue(text="ClosedConstraintComponent",
+                                                                         meaning=SH.ClosedConstraintComponent)
+
+    _defn = EnumDefinition(
+        name="ValidationResultType",
+    )
+
 # Slots
 class slots:
     pass
@@ -199,13 +222,13 @@ slots.object_str = Slot(uri=REPORTING.object_str, name="object_str", curie=REPOR
 slots.source = Slot(uri=REPORTING.source, name="source", curie=REPORTING.curie('source'),
                    model_uri=REPORTING.source, domain=None, range=Optional[Union[str, NodeIdentifier]])
 
-slots.severity = Slot(uri=REPORTING.severity, name="severity", curie=REPORTING.curie('severity'),
+slots.severity = Slot(uri=SH.resultSeverity, name="severity", curie=SH.curie('resultSeverity'),
                    model_uri=REPORTING.severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
 
-slots.info = Slot(uri=REPORTING.info, name="info", curie=REPORTING.curie('info'),
+slots.info = Slot(uri=SH.message, name="info", curie=SH.curie('message'),
                    model_uri=REPORTING.info, domain=None, range=Optional[str])
 
-slots.validationReport__results = Slot(uri=REPORTING.results, name="validationReport__results", curie=REPORTING.curie('results'),
+slots.validationReport__results = Slot(uri=SH.result, name="validationReport__results", curie=SH.curie('result'),
                    model_uri=REPORTING.validationReport__results, domain=None, range=Optional[Union[Union[dict, ValidationResult], List[Union[dict, ValidationResult]]]])
 
 slots.externalReferenceValidationResult__url = Slot(uri=REPORTING.url, name="externalReferenceValidationResult__url", curie=REPORTING.curie('url'),

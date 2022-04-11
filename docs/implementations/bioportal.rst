@@ -3,12 +3,17 @@ Bioportal Endpoint
 
 .. warning ::
 
-   not yet implemented!
+   Highly incomplete!
+
+So far this only implements:
+
+- :ref:`SearchInterface`
+- :ref:`TextAnnotatorInterface`
 
 Code
 ----
 
-.. currentmodule:: oaklib.implementations.ols.ols_implementation
+.. currentmodule:: oaklib.implementations.bioportal.bioportal_implementation
                    
-.. autoclass:: OlsImplementation
+.. autoclass:: BioportalImplementation
     :members: create
