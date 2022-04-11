@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-08T15:26:27
+# Generation date: 2022-04-10T13:59:10
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -46,7 +46,9 @@ OBO = CurieNamespace('obo', 'http://purl.obolibrary.org/obo/')
 OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
 OMOSCHEMA = CurieNamespace('omoschema', 'http://purl.obolibrary.org/obo/schema/')
 OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
+PAV = CurieNamespace('pav', 'http://purl.org/pav/')
 PROTEGE = CurieNamespace('protege', 'http://example.org/UNKNOWN/protege/')
+PROV = CurieNamespace('prov', 'http://www.w3.org/ns/prov-o#')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
 SDO = CurieNamespace('sdo', 'http://schema.org/')
@@ -80,7 +82,14 @@ class URLLiteral(String):
     type_model_uri = OMOSCHEMA.URLLiteral
 
 
-class LabelType(String):
+class TidyString(String):
+    type_class_uri = XSD.string
+    type_class_curie = "xsd:string"
+    type_name = "tidy string"
+    type_model_uri = OMOSCHEMA.TidyString
+
+
+class LabelType(TidyString):
     """ A string that provides a human-readable name for an entity """
     type_class_uri = XSD.string
     type_class_curie = "xsd:string"
@@ -140,6 +149,9 @@ class SubsetId(AnnotationPropertyId):
 Any = Any
 
 class AnnotationPropertyMixin(YAMLRoot):
+    """
+    Groups all annotation property bundles
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.AnnotationPropertyMixin
@@ -150,6 +162,9 @@ class AnnotationPropertyMixin(YAMLRoot):
 
 @dataclass
 class HasMinimalMetadata(AnnotationPropertyMixin):
+    """
+    Absolute minimum metadata model
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.HasMinimalMetadata
@@ -157,13 +172,12 @@ class HasMinimalMetadata(AnnotationPropertyMixin):
     class_name: ClassVar[str] = "HasMinimalMetadata"
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.HasMinimalMetadata
 
-    label: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = empty_list()
+    label: Optional[Union[str, LabelType]] = None
     definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if not isinstance(self.label, list):
-            self.label = [self.label] if self.label is not None else []
-        self.label = [v if isinstance(v, LabelType) else LabelType(v) for v in self.label]
+        if self.label is not None and not isinstance(self.label, LabelType):
+            self.label = LabelType(self.label)
 
         if not isinstance(self.definition, list):
             self.definition = [self.definition] if self.definition is not None else []
@@ -286,12 +300,13 @@ class HasProvenance(AnnotationPropertyMixin):
     creation_date: Optional[Union[str, List[str]]] = empty_list()
     contributor: Optional[Union[Union[dict, "Thing"], List[Union[dict, "Thing"]]]] = empty_list()
     creator: Optional[Union[str, List[str]]] = empty_list()
+    created: Optional[str] = None
+    date: Optional[Union[str, List[str]]] = empty_list()
+    isDefinedBy: Optional[Union[str, OntologyId]] = None
     editor_note: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = empty_list()
     term_editor: Optional[Union[str, List[str]]] = empty_list()
     definition_source: Optional[Union[str, List[str]]] = empty_list()
     ontology_term_requester: Optional[str] = None
-    date: Optional[Union[str, List[str]]] = empty_list()
-    isDefinedBy: Optional[Union[str, OntologyId]] = None
     imported_from: Optional[Union[Union[str, NamedIndividualId], List[Union[str, NamedIndividualId]]]] = empty_list()
     term_tracker_item: Optional[Union[str, List[str]]] = empty_list()
 
@@ -311,6 +326,16 @@ class HasProvenance(AnnotationPropertyMixin):
             self.creator = [self.creator] if self.creator is not None else []
         self.creator = [v if isinstance(v, str) else str(v) for v in self.creator]
 
+        if self.created is not None and not isinstance(self.created, str):
+            self.created = str(self.created)
+
+        if not isinstance(self.date, list):
+            self.date = [self.date] if self.date is not None else []
+        self.date = [v if isinstance(v, str) else str(v) for v in self.date]
+
+        if self.isDefinedBy is not None and not isinstance(self.isDefinedBy, OntologyId):
+            self.isDefinedBy = OntologyId(self.isDefinedBy)
+
         if not isinstance(self.editor_note, list):
             self.editor_note = [self.editor_note] if self.editor_note is not None else []
         self.editor_note = [v if isinstance(v, NarrativeText) else NarrativeText(v) for v in self.editor_note]
@@ -325,13 +350,6 @@ class HasProvenance(AnnotationPropertyMixin):
 
         if self.ontology_term_requester is not None and not isinstance(self.ontology_term_requester, str):
             self.ontology_term_requester = str(self.ontology_term_requester)
-
-        if not isinstance(self.date, list):
-            self.date = [self.date] if self.date is not None else []
-        self.date = [v if isinstance(v, str) else str(v) for v in self.date]
-
-        if self.isDefinedBy is not None and not isinstance(self.isDefinedBy, OntologyId):
-            self.isDefinedBy = OntologyId(self.isDefinedBy)
 
         if not isinstance(self.imported_from, list):
             self.imported_from = [self.imported_from] if self.imported_from is not None else []
@@ -371,7 +389,7 @@ class HasLifeCycle(AnnotationPropertyMixin):
             self.has_obsolescence_reason = str(self.has_obsolescence_reason)
 
         if self.term_replaced_by is not None and not isinstance(self.term_replaced_by, Thing):
-            self.term_replaced_by = Thing()
+            self.term_replaced_by = Thing(**as_dict(self.term_replaced_by))
 
         if not isinstance(self.consider, list):
             self.consider = [self.consider] if self.consider is not None else []
@@ -382,7 +400,7 @@ class HasLifeCycle(AnnotationPropertyMixin):
         self.has_alternative_id = [v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.has_alternative_id]
 
         if self.excluded_from_QC_check is not None and not isinstance(self.excluded_from_QC_check, Thing):
-            self.excluded_from_QC_check = Thing()
+            self.excluded_from_QC_check = Thing(**as_dict(self.excluded_from_QC_check))
 
         if not isinstance(self.excluded_subClassOf, list):
             self.excluded_subClassOf = [self.excluded_subClassOf] if self.excluded_subClassOf is not None else []
@@ -393,7 +411,7 @@ class HasLifeCycle(AnnotationPropertyMixin):
         self.excluded_synonym = [v if isinstance(v, str) else str(v) for v in self.excluded_synonym]
 
         if self.should_conform_to is not None and not isinstance(self.should_conform_to, Thing):
-            self.should_conform_to = Thing()
+            self.should_conform_to = Thing(**as_dict(self.should_conform_to))
 
         super().__post_init__(**kwargs)
 
@@ -459,7 +477,7 @@ class HasUserInformation(AnnotationPropertyMixin):
         self.seeAlso = [v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.seeAlso]
 
         if self.image is not None and not isinstance(self.image, Thing):
-            self.image = Thing()
+            self.image = Thing(**as_dict(self.image))
 
         if not isinstance(self.example_of_usage, list):
             self.example_of_usage = [self.example_of_usage] if self.example_of_usage is not None else []
@@ -483,6 +501,7 @@ class HasUserInformation(AnnotationPropertyMixin):
         super().__post_init__(**kwargs)
 
 
+@dataclass
 class Thing(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -491,9 +510,21 @@ class Thing(YAMLRoot):
     class_name: ClassVar[str] = "Thing"
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Thing
 
+    type: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if not isinstance(self.type, list):
+            self.type = [self.type] if self.type is not None else []
+        self.type = [v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.type]
+
+        super().__post_init__(**kwargs)
+
 
 @dataclass
 class NamedObject(Thing):
+    """
+    Anything with an IRI
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.NamedObject
@@ -514,6 +545,9 @@ class NamedObject(Thing):
 
 @dataclass
 class Ontology(NamedObject):
+    """
+    An OWL ontology
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.Ontology
@@ -522,14 +556,15 @@ class Ontology(NamedObject):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Ontology
 
     id: Union[str, OntologyId] = None
+    title: Union[str, NarrativeText] = None
     license: Union[dict, Thing] = None
     versionIRI: Union[str, URIorCURIE] = None
     versionInfo: str = None
-    title: str = None
     has_ontology_root_term: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     source: Optional[Union[str, List[str]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
     creator: Optional[Union[str, List[str]]] = empty_list()
+    created: Optional[str] = None
     imports: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -538,10 +573,15 @@ class Ontology(NamedObject):
         if not isinstance(self.id, OntologyId):
             self.id = OntologyId(self.id)
 
+        if self._is_empty(self.title):
+            self.MissingRequiredField("title")
+        if not isinstance(self.title, NarrativeText):
+            self.title = NarrativeText(self.title)
+
         if self._is_empty(self.license):
             self.MissingRequiredField("license")
         if not isinstance(self.license, Thing):
-            self.license = Thing()
+            self.license = Thing(**as_dict(self.license))
 
         if self._is_empty(self.versionIRI):
             self.MissingRequiredField("versionIRI")
@@ -552,11 +592,6 @@ class Ontology(NamedObject):
             self.MissingRequiredField("versionInfo")
         if not isinstance(self.versionInfo, str):
             self.versionInfo = str(self.versionInfo)
-
-        if self._is_empty(self.title):
-            self.MissingRequiredField("title")
-        if not isinstance(self.title, str):
-            self.title = str(self.title)
 
         if not isinstance(self.has_ontology_root_term, list):
             self.has_ontology_root_term = [self.has_ontology_root_term] if self.has_ontology_root_term is not None else []
@@ -574,6 +609,9 @@ class Ontology(NamedObject):
             self.creator = [self.creator] if self.creator is not None else []
         self.creator = [v if isinstance(v, str) else str(v) for v in self.creator]
 
+        if self.created is not None and not isinstance(self.created, str):
+            self.created = str(self.created)
+
         if self.imports is not None and not isinstance(self.imports, str):
             self.imports = str(self.imports)
 
@@ -582,6 +620,9 @@ class Ontology(NamedObject):
 
 @dataclass
 class Term(NamedObject):
+    """
+    A NamedThing that includes classes, properties, but not ontologies
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.Term
@@ -612,12 +653,13 @@ class Term(NamedObject):
     creation_date: Optional[Union[str, List[str]]] = empty_list()
     contributor: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
     creator: Optional[Union[str, List[str]]] = empty_list()
+    created: Optional[str] = None
+    date: Optional[Union[str, List[str]]] = empty_list()
+    isDefinedBy: Optional[Union[str, OntologyId]] = None
     editor_note: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = empty_list()
     term_editor: Optional[Union[str, List[str]]] = empty_list()
     definition_source: Optional[Union[str, List[str]]] = empty_list()
     ontology_term_requester: Optional[str] = None
-    date: Optional[Union[str, List[str]]] = empty_list()
-    isDefinedBy: Optional[Union[str, OntologyId]] = None
     imported_from: Optional[Union[Union[str, NamedIndividualId], List[Union[str, NamedIndividualId]]]] = empty_list()
     term_tracker_item: Optional[Union[str, List[str]]] = empty_list()
     broadMatch: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
@@ -637,7 +679,7 @@ class Term(NamedObject):
     has_curation_status: Optional[str] = None
     depicted_by: Optional[Union[str, List[str]]] = empty_list()
     page: Optional[Union[str, List[str]]] = empty_list()
-    label: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = empty_list()
+    label: Optional[Union[str, LabelType]] = None
     definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -684,7 +726,7 @@ class Term(NamedObject):
             self.has_obsolescence_reason = str(self.has_obsolescence_reason)
 
         if self.term_replaced_by is not None and not isinstance(self.term_replaced_by, Thing):
-            self.term_replaced_by = Thing()
+            self.term_replaced_by = Thing(**as_dict(self.term_replaced_by))
 
         if not isinstance(self.consider, list):
             self.consider = [self.consider] if self.consider is not None else []
@@ -695,7 +737,7 @@ class Term(NamedObject):
         self.has_alternative_id = [v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.has_alternative_id]
 
         if self.excluded_from_QC_check is not None and not isinstance(self.excluded_from_QC_check, Thing):
-            self.excluded_from_QC_check = Thing()
+            self.excluded_from_QC_check = Thing(**as_dict(self.excluded_from_QC_check))
 
         if not isinstance(self.excluded_subClassOf, list):
             self.excluded_subClassOf = [self.excluded_subClassOf] if self.excluded_subClassOf is not None else []
@@ -706,7 +748,7 @@ class Term(NamedObject):
         self.excluded_synonym = [v if isinstance(v, str) else str(v) for v in self.excluded_synonym]
 
         if self.should_conform_to is not None and not isinstance(self.should_conform_to, Thing):
-            self.should_conform_to = Thing()
+            self.should_conform_to = Thing(**as_dict(self.should_conform_to))
 
         if self.created_by is not None and not isinstance(self.created_by, str):
             self.created_by = str(self.created_by)
@@ -723,6 +765,16 @@ class Term(NamedObject):
             self.creator = [self.creator] if self.creator is not None else []
         self.creator = [v if isinstance(v, str) else str(v) for v in self.creator]
 
+        if self.created is not None and not isinstance(self.created, str):
+            self.created = str(self.created)
+
+        if not isinstance(self.date, list):
+            self.date = [self.date] if self.date is not None else []
+        self.date = [v if isinstance(v, str) else str(v) for v in self.date]
+
+        if self.isDefinedBy is not None and not isinstance(self.isDefinedBy, OntologyId):
+            self.isDefinedBy = OntologyId(self.isDefinedBy)
+
         if not isinstance(self.editor_note, list):
             self.editor_note = [self.editor_note] if self.editor_note is not None else []
         self.editor_note = [v if isinstance(v, NarrativeText) else NarrativeText(v) for v in self.editor_note]
@@ -737,13 +789,6 @@ class Term(NamedObject):
 
         if self.ontology_term_requester is not None and not isinstance(self.ontology_term_requester, str):
             self.ontology_term_requester = str(self.ontology_term_requester)
-
-        if not isinstance(self.date, list):
-            self.date = [self.date] if self.date is not None else []
-        self.date = [v if isinstance(v, str) else str(v) for v in self.date]
-
-        if self.isDefinedBy is not None and not isinstance(self.isDefinedBy, OntologyId):
-            self.isDefinedBy = OntologyId(self.isDefinedBy)
 
         if not isinstance(self.imported_from, list):
             self.imported_from = [self.imported_from] if self.imported_from is not None else []
@@ -797,7 +842,7 @@ class Term(NamedObject):
         self.seeAlso = [v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.seeAlso]
 
         if self.image is not None and not isinstance(self.image, Thing):
-            self.image = Thing()
+            self.image = Thing(**as_dict(self.image))
 
         if not isinstance(self.example_of_usage, list):
             self.example_of_usage = [self.example_of_usage] if self.example_of_usage is not None else []
@@ -818,9 +863,8 @@ class Term(NamedObject):
             self.page = [self.page] if self.page is not None else []
         self.page = [v if isinstance(v, str) else str(v) for v in self.page]
 
-        if not isinstance(self.label, list):
-            self.label = [self.label] if self.label is not None else []
-        self.label = [v if isinstance(v, LabelType) else LabelType(v) for v in self.label]
+        if self.label is not None and not isinstance(self.label, LabelType):
+            self.label = LabelType(self.label)
 
         if not isinstance(self.definition, list):
             self.definition = [self.definition] if self.definition is not None else []
@@ -839,7 +883,7 @@ class Class(Term):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Class
 
     id: Union[str, ClassId] = None
-    label: Union[Union[str, LabelType], List[Union[str, LabelType]]] = None
+    label: Union[str, LabelType] = None
     never_in_taxon: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     disconnected_from: Optional[Union[str, ClassId]] = None
     has_rank: Optional[Union[dict, Thing]] = None
@@ -865,9 +909,8 @@ class Class(Term):
 
         if self._is_empty(self.label):
             self.MissingRequiredField("label")
-        if not isinstance(self.label, list):
-            self.label = [self.label] if self.label is not None else []
-        self.label = [v if isinstance(v, LabelType) else LabelType(v) for v in self.label]
+        if not isinstance(self.label, LabelType):
+            self.label = LabelType(self.label)
 
         if not isinstance(self.never_in_taxon, list):
             self.never_in_taxon = [self.never_in_taxon] if self.never_in_taxon is not None else []
@@ -877,7 +920,7 @@ class Class(Term):
             self.disconnected_from = ClassId(self.disconnected_from)
 
         if self.has_rank is not None and not isinstance(self.has_rank, Thing):
-            self.has_rank = Thing()
+            self.has_rank = Thing(**as_dict(self.has_rank))
 
         if not isinstance(self.definition, list):
             self.definition = [self.definition] if self.definition is not None else []
@@ -943,7 +986,7 @@ class Property(Term):
     range: Optional[Union[str, List[str]]] = empty_list()
     is_class_level: Optional[Union[bool, Bool]] = None
     is_metadata_tag: Optional[Union[bool, Bool]] = None
-    label: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = empty_list()
+    label: Optional[Union[str, LabelType]] = None
     definition: Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]] = empty_list()
     broadMatch: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
     exactMatch: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
@@ -966,9 +1009,8 @@ class Property(Term):
         if self.is_metadata_tag is not None and not isinstance(self.is_metadata_tag, Bool):
             self.is_metadata_tag = Bool(self.is_metadata_tag)
 
-        if not isinstance(self.label, list):
-            self.label = [self.label] if self.label is not None else []
-        self.label = [v if isinstance(v, LabelType) else LabelType(v) for v in self.label]
+        if self.label is not None and not isinstance(self.label, LabelType):
+            self.label = LabelType(self.label)
 
         if not isinstance(self.definition, list):
             self.definition = [self.definition] if self.definition is not None else []
@@ -1108,17 +1150,12 @@ class NamedIndividual(Term):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.NamedIndividual
 
     id: Union[str, NamedIndividualId] = None
-    type: Optional[Union[Union[dict, "ClassExpression"], List[Union[dict, "ClassExpression"]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
             self.MissingRequiredField("id")
         if not isinstance(self.id, NamedIndividualId):
             self.id = NamedIndividualId(self.id)
-
-        if not isinstance(self.type, list):
-            self.type = [self.type] if self.type is not None else []
-        self.type = [v if isinstance(v, ClassExpression) else ClassExpression(**as_dict(v)) for v in self.type]
 
         super().__post_init__(**kwargs)
 
@@ -1132,6 +1169,13 @@ class Axiom(YAMLRoot):
     class_name: ClassVar[str] = "Axiom"
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Axiom
 
+    annotatedProperty: Optional[Union[str, AnnotationPropertyId]] = None
+    annotatedSource: Optional[Union[dict, Thing]] = None
+    annotatedTarget: Optional[Union[dict, Any]] = None
+    source: Optional[Union[str, List[str]]] = empty_list()
+    is_inferred: Optional[Union[bool, Bool]] = None
+    notes: Optional[Union[str, List[str]]] = empty_list()
+    url: Optional[str] = None
     has_axiom_label: Optional[Union[dict, Thing]] = None
     is_a_defining_property_chain_axiom: Optional[str] = None
     is_a_defining_property_chain_axiom_where_second_argument_is_reflexive: Optional[str] = None
@@ -1142,22 +1186,33 @@ class Axiom(YAMLRoot):
     database_cross_reference: Optional[Union[Union[str, CURIELiteral], List[Union[str, CURIELiteral]]]] = empty_list()
     has_exact_synonym: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = empty_list()
     has_synonym_type: Optional[Union[Union[str, AnnotationPropertyId], List[Union[str, AnnotationPropertyId]]]] = empty_list()
-    source: Optional[Union[str, List[str]]] = empty_list()
-    is_inferred: Optional[Union[bool, Bool]] = None
-    notes: Optional[Union[str, List[str]]] = empty_list()
-    url: Optional[str] = None
-    annotatedProperty: Optional[Union[str, AnnotationPropertyId]] = None
-    annotatedSource: Optional[Union[dict, Thing]] = None
-    annotatedTarget: Optional[Union[dict, Any]] = None
-    onProperty: Optional[Union[Union[dict, "PropertyExpression"], List[Union[dict, "PropertyExpression"]]]] = empty_list()
-    someValuesFrom: Optional[Union[str, List[str]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
-    label: Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]] = empty_list()
+    label: Optional[Union[str, LabelType]] = None
     seeAlso: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.annotatedProperty is not None and not isinstance(self.annotatedProperty, AnnotationPropertyId):
+            self.annotatedProperty = AnnotationPropertyId(self.annotatedProperty)
+
+        if self.annotatedSource is not None and not isinstance(self.annotatedSource, Thing):
+            self.annotatedSource = Thing(**as_dict(self.annotatedSource))
+
+        if not isinstance(self.source, list):
+            self.source = [self.source] if self.source is not None else []
+        self.source = [v if isinstance(v, str) else str(v) for v in self.source]
+
+        if self.is_inferred is not None and not isinstance(self.is_inferred, Bool):
+            self.is_inferred = Bool(self.is_inferred)
+
+        if not isinstance(self.notes, list):
+            self.notes = [self.notes] if self.notes is not None else []
+        self.notes = [v if isinstance(v, str) else str(v) for v in self.notes]
+
+        if self.url is not None and not isinstance(self.url, str):
+            self.url = str(self.url)
+
         if self.has_axiom_label is not None and not isinstance(self.has_axiom_label, Thing):
-            self.has_axiom_label = Thing()
+            self.has_axiom_label = Thing(**as_dict(self.has_axiom_label))
 
         if self.is_a_defining_property_chain_axiom is not None and not isinstance(self.is_a_defining_property_chain_axiom, str):
             self.is_a_defining_property_chain_axiom = str(self.is_a_defining_property_chain_axiom)
@@ -1190,41 +1245,12 @@ class Axiom(YAMLRoot):
             self.has_synonym_type = [self.has_synonym_type] if self.has_synonym_type is not None else []
         self.has_synonym_type = [v if isinstance(v, AnnotationPropertyId) else AnnotationPropertyId(v) for v in self.has_synonym_type]
 
-        if not isinstance(self.source, list):
-            self.source = [self.source] if self.source is not None else []
-        self.source = [v if isinstance(v, str) else str(v) for v in self.source]
-
-        if self.is_inferred is not None and not isinstance(self.is_inferred, Bool):
-            self.is_inferred = Bool(self.is_inferred)
-
-        if not isinstance(self.notes, list):
-            self.notes = [self.notes] if self.notes is not None else []
-        self.notes = [v if isinstance(v, str) else str(v) for v in self.notes]
-
-        if self.url is not None and not isinstance(self.url, str):
-            self.url = str(self.url)
-
-        if self.annotatedProperty is not None and not isinstance(self.annotatedProperty, AnnotationPropertyId):
-            self.annotatedProperty = AnnotationPropertyId(self.annotatedProperty)
-
-        if self.annotatedSource is not None and not isinstance(self.annotatedSource, Thing):
-            self.annotatedSource = Thing()
-
-        if not isinstance(self.onProperty, list):
-            self.onProperty = [self.onProperty] if self.onProperty is not None else []
-        self.onProperty = [v if isinstance(v, PropertyExpression) else PropertyExpression(**as_dict(v)) for v in self.onProperty]
-
-        if not isinstance(self.someValuesFrom, list):
-            self.someValuesFrom = [self.someValuesFrom] if self.someValuesFrom is not None else []
-        self.someValuesFrom = [v if isinstance(v, str) else str(v) for v in self.someValuesFrom]
-
         if not isinstance(self.comment, list):
             self.comment = [self.comment] if self.comment is not None else []
         self.comment = [v if isinstance(v, str) else str(v) for v in self.comment]
 
-        if not isinstance(self.label, list):
-            self.label = [self.label] if self.label is not None else []
-        self.label = [v if isinstance(v, LabelType) else LabelType(v) for v in self.label]
+        if self.label is not None and not isinstance(self.label, LabelType):
+            self.label = LabelType(self.label)
 
         if not isinstance(self.seeAlso, list):
             self.seeAlso = [self.seeAlso] if self.seeAlso is not None else []
@@ -1235,6 +1261,9 @@ class Axiom(YAMLRoot):
 
 @dataclass
 class Subset(AnnotationProperty):
+    """
+    A collection of terms grouped for some purpose
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OIO.Subset
@@ -1254,6 +1283,9 @@ class Subset(AnnotationProperty):
 
 
 class Anonymous(YAMLRoot):
+    """
+    Abstract root class for all anonymous (non-named; lacking an identifier) expressions
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.Anonymous
@@ -1411,6 +1443,33 @@ class PropertyExpression(Expression):
         super().__post_init__(**kwargs)
 
 
+@dataclass
+class ObsoleteAspect(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OMOSCHEMA.ObsoleteAspect
+    class_class_curie: ClassVar[str] = "omoschema:ObsoleteAspect"
+    class_name: ClassVar[str] = "ObsoleteAspect"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.ObsoleteAspect
+
+    label: Optional[Union[str, LabelType]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.label is not None and not isinstance(self.label, LabelType):
+            self.label = LabelType(self.label)
+
+        super().__post_init__(**kwargs)
+
+
+class NotObsoleteAspect(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OMOSCHEMA.NotObsoleteAspect
+    class_class_curie: ClassVar[str] = "omoschema:NotObsoleteAspect"
+    class_name: ClassVar[str] = "NotObsoleteAspect"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.NotObsoleteAspect
+
+
 # Enumerations
 
 
@@ -1425,10 +1484,13 @@ slots.id = Slot(uri=OMOSCHEMA.id, name="id", curie=OMOSCHEMA.curie('id'),
                    model_uri=OMOSCHEMA.id, domain=None, range=URIRef)
 
 slots.label = Slot(uri=RDFS.label, name="label", curie=RDFS.curie('label'),
-                   model_uri=OMOSCHEMA.label, domain=None, range=Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]])
+                   model_uri=OMOSCHEMA.label, domain=None, range=Optional[Union[str, LabelType]])
 
 slots.definition = Slot(uri=IAO['0000115'], name="definition", curie=IAO.curie('0000115'),
                    model_uri=OMOSCHEMA.definition, domain=None, range=Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]])
+
+slots.title = Slot(uri=DCTERMS.title, name="title", curie=DCTERMS.curie('title'),
+                   model_uri=OMOSCHEMA.title, domain=None, range=Optional[Union[str, NarrativeText]])
 
 slots.match_aspect = Slot(uri=OMOSCHEMA.match_aspect, name="match_aspect", curie=OMOSCHEMA.curie('match_aspect'),
                    model_uri=OMOSCHEMA.match_aspect, domain=None, range=Optional[str])
@@ -1537,6 +1599,9 @@ slots.contributor = Slot(uri=DCTERMS.contributor, name="contributor", curie=DCTE
 
 slots.creator = Slot(uri=DCTERMS.creator, name="creator", curie=DCTERMS.curie('creator'),
                    model_uri=OMOSCHEMA.creator, domain=None, range=Optional[Union[str, List[str]]])
+
+slots.created = Slot(uri=DCTERMS.created, name="created", curie=DCTERMS.curie('created'),
+                   model_uri=OMOSCHEMA.created, domain=None, range=Optional[str])
 
 slots.date = Slot(uri=DCTERMS.date, name="date", curie=DCTERMS.curie('date'),
                    model_uri=OMOSCHEMA.date, domain=None, range=Optional[Union[str, List[str]]])
@@ -1737,13 +1802,13 @@ slots.seeAlso = Slot(uri=RDFS.seeAlso, name="seeAlso", curie=RDFS.curie('seeAlso
                    model_uri=OMOSCHEMA.seeAlso, domain=None, range=Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]])
 
 slots.type = Slot(uri=RDF.type, name="type", curie=RDF.curie('type'),
-                   model_uri=OMOSCHEMA.type, domain=None, range=Optional[Union[Union[dict, ClassExpression], List[Union[dict, ClassExpression]]]])
+                   model_uri=OMOSCHEMA.type, domain=None, range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]])
 
 slots.subClassOf = Slot(uri=RDFS.subClassOf, name="subClassOf", curie=RDFS.curie('subClassOf'),
                    model_uri=OMOSCHEMA.subClassOf, domain=None, range=Optional[Union[Union[dict, ClassExpression], List[Union[dict, ClassExpression]]]])
 
 slots.oboInOwl_id = Slot(uri=OIO.id, name="oboInOwl_id", curie=OIO.curie('id'),
-                   model_uri=OMOSCHEMA.oboInOwl_id, domain=None, range=Optional[Union[str, URIorCURIE]])
+                   model_uri=OMOSCHEMA.oboInOwl_id, domain=None, range=Optional[str])
 
 slots.oboInOwl_ontology = Slot(uri=OIO.ontology, name="oboInOwl_ontology", curie=OIO.curie('ontology'),
                    model_uri=OMOSCHEMA.oboInOwl_ontology, domain=None, range=Optional[str])
@@ -1787,11 +1852,8 @@ slots.NCIT_term_type = Slot(uri=NCIT.P383, name="NCIT_term_type", curie=NCIT.cur
 slots.NCIT_term_source = Slot(uri=NCIT.P384, name="NCIT_term_source", curie=NCIT.curie('P384'),
                    model_uri=OMOSCHEMA.NCIT_term_source, domain=None, range=Optional[str])
 
-slots.title = Slot(uri=OMOSCHEMA.title, name="title", curie=OMOSCHEMA.curie('title'),
-                   model_uri=OMOSCHEMA.title, domain=None, range=str)
-
-slots.Ontology_title = Slot(uri=OMOSCHEMA.title, name="Ontology_title", curie=OMOSCHEMA.curie('title'),
-                   model_uri=OMOSCHEMA.Ontology_title, domain=Ontology, range=str)
+slots.Ontology_title = Slot(uri=DCTERMS.title, name="Ontology_title", curie=DCTERMS.curie('title'),
+                   model_uri=OMOSCHEMA.Ontology_title, domain=Ontology, range=Union[str, NarrativeText])
 
 slots.Ontology_license = Slot(uri=DCTERMS.license, name="Ontology_license", curie=DCTERMS.curie('license'),
                    model_uri=OMOSCHEMA.Ontology_license, domain=Ontology, range=Union[dict, Thing])
@@ -1803,7 +1865,7 @@ slots.Ontology_versionInfo = Slot(uri=OWL.versionInfo, name="Ontology_versionInf
                    model_uri=OMOSCHEMA.Ontology_versionInfo, domain=Ontology, range=str)
 
 slots.Class_label = Slot(uri=RDFS.label, name="Class_label", curie=RDFS.curie('label'),
-                   model_uri=OMOSCHEMA.Class_label, domain=Class, range=Union[Union[str, LabelType], List[Union[str, LabelType]]])
+                   model_uri=OMOSCHEMA.Class_label, domain=Class, range=Union[str, LabelType])
 
 slots.Class_definition = Slot(uri=IAO['0000115'], name="Class_definition", curie=IAO.curie('0000115'),
                    model_uri=OMOSCHEMA.Class_definition, domain=Class, range=Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]])
@@ -1824,7 +1886,7 @@ slots.Class_subClassOf = Slot(uri=RDFS.subClassOf, name="Class_subClassOf", curi
                    model_uri=OMOSCHEMA.Class_subClassOf, domain=Class, range=Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]])
 
 slots.Property_label = Slot(uri=RDFS.label, name="Property_label", curie=RDFS.curie('label'),
-                   model_uri=OMOSCHEMA.Property_label, domain=Property, range=Optional[Union[Union[str, LabelType], List[Union[str, LabelType]]]])
+                   model_uri=OMOSCHEMA.Property_label, domain=Property, range=Optional[Union[str, LabelType]])
 
 slots.Property_definition = Slot(uri=IAO['0000115'], name="Property_definition", curie=IAO.curie('0000115'),
                    model_uri=OMOSCHEMA.Property_definition, domain=Property, range=Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]])
@@ -1846,3 +1908,7 @@ slots.Property_subClassOf = Slot(uri=RDFS.subClassOf, name="Property_subClassOf"
 
 slots.Axiom_database_cross_reference = Slot(uri=OIO.hasDbXref, name="Axiom_database_cross_reference", curie=OIO.curie('hasDbXref'),
                    model_uri=OMOSCHEMA.Axiom_database_cross_reference, domain=Axiom, range=Optional[Union[Union[str, CURIELiteral], List[Union[str, CURIELiteral]]]])
+
+slots.ObsoleteAspect_label = Slot(uri=RDFS.label, name="ObsoleteAspect_label", curie=RDFS.curie('label'),
+                   model_uri=OMOSCHEMA.ObsoleteAspect_label, domain=None, range=Optional[Union[str, LabelType]],
+                   pattern=re.compile(r'^obsolete'))

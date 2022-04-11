@@ -26,6 +26,8 @@ prefixes:
   sdo: http://schema.org/  
   owl: http://www.w3.org/2002/07/owl#
   rdfs: http://www.w3.org/2000/01/rdf-schema#
+  pav: http://purl.org/pav/
+  prov: http://www.w3.org/ns/prov-o#
 
 default_prefix: omoschema
 default_range: string
@@ -59,10 +61,12 @@ classes:
   
   AnnotationPropertyMixin:
     mixin: true
+    description: Groups all annotation property bundles
 
   HasMinimalMetadata:
     mixin: true
     is_a: AnnotationPropertyMixin
+    description: Absolute minimum metadata model
     slots:
       - label
       - definition
@@ -87,31 +91,38 @@ classes:
     - IEDB_alternative_term
     - editor_preferred_term
     - OBO_foundry_unique_label
-    
+
+
   HasMappings:
     mixin: true
     is_a: AnnotationPropertyMixin
     slots:
+    # skos
     - broadMatch
     - closeMatch
     - exactMatch
     - narrowMatch
+    # oio
     - database_cross_reference
     
   HasProvenance:
     mixin: true
     is_a: AnnotationPropertyMixin
     slots:
+    # oio: proposed to be deprecated
     - created_by
     - creation_date
+    # dct / rdfs
     - contributor
     - creator
+    - created
+    - date
+    - isDefinedBy
+    # iao
     - editor_note
     - term_editor
     - definition_source
     - ontology_term_requester
-    - date
-    - isDefinedBy
     - imported_from
     - term_tracker_item
 
@@ -128,6 +139,43 @@ classes:
     - excluded_subClassOf
     - excluded_synonym
     - should_conform_to
+    rules:
+      - description: if a term is deprecated it should have either consider or replaced by
+        preconditions:
+          slot_conditions:
+            deprecated:
+              equals_expression: "true"
+        postconditions:
+          any_of:
+            - slot_conditions:
+                term_replaced_by:
+                  required: true
+            - slot_conditions:
+                consider:
+                  required: true
+      - description: if a term is not deprecated it should have neither consider nor replaced by
+        preconditions:
+          none_of:
+            - slot_conditions:
+                deprecated:
+                  equals_expression: "true"
+        postconditions:
+          none_of:
+            - slot_conditions:
+                term_replaced_by:
+                  required: true
+            - slot_conditions:
+                consider:
+                  required: true
+      - description: if a term is deprecated its label should start with the string obsolete
+        preconditions:
+          slot_conditions:
+            deprecated:
+              equals_expression: "true"
+        postconditions:
+          slot_conditions:
+            label:
+              pattern: "^obsolete "
 
   HasCategory:
     mixin: true
@@ -156,16 +204,25 @@ classes:
   Thing:
     abstract: true
     class_uri: owl:Thing
+    slots:
+      - type
     
   NamedObject:
     is_a: Thing
+    description: Anything with an IRI
+    aliases:
+      - named entity
+      - identified object
+      - IRI
     slots:
       - id
 
   Ontology:
     is_a: NamedObject
     class_uri: owl:Ontology
+    description: An OWL ontology
     slots:
+    - title
     - has_ontology_root_term
     - license
     - source
@@ -173,6 +230,7 @@ classes:
     - versionInfo
     - comment
     - creator
+    - created
     - imports
     slot_usage:
       title:
@@ -185,6 +243,7 @@ classes:
         required: true
       
   Term:
+    description: A NamedThing that includes classes, properties, but not ontologies
     aliases:
       - term
     is_a: NamedObject
@@ -211,12 +270,11 @@ classes:
     close_mappings:
       - skos:Concept
     slots:
-
     # logic shortcuts
     - never_in_taxon
     - disconnected_from
+    # taxon classes only
     - has_rank
-
     slot_usage:
       label:
         required: true
@@ -284,14 +342,23 @@ classes:
   NamedIndividual:
     is_a: Term
     class_uri: owl:NamedIndividual
-    slots:
-    - type
+    #slots:
+    #- type
     
   Axiom:
     class_uri: owl:Axiom
     exact_mappings:
       - rdf:Statement
     slots:
+    # owl
+    - annotatedProperty
+    - annotatedSource
+    - annotatedTarget
+    # other
+    - source
+    - is_inferred
+    - notes
+    - url
     - has_axiom_label
     - is_a_defining_property_chain_axiom
     - is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
@@ -302,15 +369,8 @@ classes:
     - database_cross_reference
     - has_exact_synonym
     - has_synonym_type
-    - source
-    - is_inferred
-    - notes
-    - url
-    - annotatedProperty
-    - annotatedSource
-    - annotatedTarget
-    - onProperty
-    - someValuesFrom
+    #- onProperty
+    #- someValuesFrom
     - comment
     - label
     - seeAlso
@@ -324,11 +384,13 @@ classes:
           - dcterms:source
           
   Subset:
+    description: A collection of terms grouped for some purpose
     is_a: AnnotationProperty
     class_uri: oio:Subset
 
   Anonymous:
     abstract: true
+    description: Abstract root class for all anonymous (non-named; lacking an identifier) expressions
 
   AnonymousClassExpression:
     is_a: Anonymous
@@ -367,6 +429,32 @@ classes:
     slots:
     - disjointWith
 
+  ObsoleteAspect:
+    description: Auto-classifies anything that is obsolete
+    mixin: true
+    slot_usage:
+      label:
+        pattern: "^obsolete"
+    classification_rules:
+      - slot_conditions:
+          deprecated:
+            equals_expression: "true"
+
+  NotObsoleteAspect:
+    description: Auto-classifies anything that is not obsolete
+    mixin: true
+    classification_rules:
+      - slot_conditions:
+          none_of:
+            deprecated:
+              equals_expression: "true"
+    rules:
+      postconditions:
+        none_of:
+          - slot_conditions:
+              label:
+                pattern: "^obsolete"
+
 slots:
 
   # core
@@ -384,7 +472,7 @@ slots:
   label:
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: true
+    multivalued: false
     range: label type
     exact_mappings:
       - skos:prefLabel
@@ -411,6 +499,10 @@ slots:
       - obi required profile
     comments:
       - SHOULD be in Aristotelian (genus-differentia) form
+
+  title:
+    slot_uri: dcterms:title
+    range: narrative text
     
   # aliases and synonyms
   match_aspect:
@@ -521,11 +613,15 @@ slots:
   versionInfo:
     is_a: version_property    
     slot_uri: owl:versionInfo
+    close_mappings:
+      - pav:version
 
-  
+
   # obsoletion and metadata
   obsoletion_related_property:
     abstract: true
+    description: Grouping class for all properties related to lifecycle
+
   deprecated:
     is_a: obsoletion_related_property
     aliases:
@@ -539,7 +635,7 @@ slots:
   term_replaced_by:
     is_a: obsoletion_related_property
     slot_uri: IAO:0100001
-    range: Thing
+    range: Any ## TODO
     comments:
       - RULE: subject must be deprecated
     exact_mappings:
@@ -563,6 +659,7 @@ slots:
       - RULE: subject must be deprecated
     in_subset:
       - go permitted profile
+    range: Any  ## TODO
   has_alternative_id:
     is_a: obsoletion_related_property
     slot_uri: oio:hasAlternativeId
@@ -593,14 +690,28 @@ slots:
     slot_uri: dcterms:contributor
     multivalued: true
     range: Thing
+    close_mappings:
+      - prov:wasAttributedTo
   creator:
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
+    close_mappings:
+      - prov:wasAttributedTo
+  created:
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    description: when the term came into being
+    close_mappings:
+      - pav:createdOn
   date:
     is_a: provenance_property
     slot_uri: dcterms:date
     multivalued: true
+    description: when the term was updated
+    close_mappings:
+      - pav:authoredOn
   source:
     is_a: provenance_property
     slot_uri: dcterms:source
@@ -611,10 +722,14 @@ slots:
   created_by:
     is_a: provenance_property
     slot_uri: oio:created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
+    deprecated_element_has_exact_replacement: creator
   creation_date:
     is_a: provenance_property
     slot_uri: oio:creation_date
     multivalued: true
+    deprecated: proposed obsoleted by OMO group 2022-04-12
+    deprecated_element_has_exact_replacement: created
     todos:
     - restrict range
   date_retrieved:
@@ -739,6 +854,9 @@ slots:
     slot_uri: oio:hasExactSynonym
     multivalued: true
     range: label type
+    disjoint_with:
+      - label
+
   has_narrow_synonym:
     is_a: synonym
     slot_uri: oio:hasNarrowSynonym
@@ -928,6 +1046,9 @@ slots:
   isDefinedBy:
     slot_uri: rdfs:isDefinedBy
     range: Ontology
+    close_mappings:
+      - pav:importedFrom
+      - dcterms:publisher
   seeAlso:
     slot_uri: rdfs:seeAlso
     multivalued: true
@@ -938,7 +1059,8 @@ slots:
     is_a: logical_predicate
     slot_uri: rdf:type
     multivalued: true
-    range: ClassExpression
+    range: uriorcurie
+    designates_type: true
   subClassOf:
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
@@ -949,9 +1071,10 @@ slots:
 
   oboInOwl_id:
     slot_uri: oio:id
-    range: uriorcurie
-    deprecated: redundant with URI
-    deprecated_element_has_exact_replacement: id
+    #range: uriorcurie
+    range: string
+    #deprecated: redundant with URI
+    #deprecated_element_has_exact_replacement: id
 
   oboInOwl_ontology:
     slot_uri: oio:ontology
@@ -1035,8 +1158,13 @@ types:
     description: >-
       A URL representation of a CURIE
 
-  label type:
+  tidy string:
     typeof: string
+    pattern: "^[^\\s].*[^\\s]$"
+
+  label type:
+    typeof: tidy string
+
     description: >-
       A string that provides a human-readable name for an entity
       

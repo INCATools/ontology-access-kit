@@ -6,11 +6,11 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  reporting: https://w3id.org/linkml/report
+  reporting: https://w3id.org/linkml/validation-model/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
-  sh: https://w3id.org/shacl/
+  sh: http://www.w3.org/ns/shacl#
 
 default_prefix: reporting
 default_range: string
@@ -100,8 +100,10 @@ slots:
     range: nodeidentifier
   severity:
     range: severity_options
+    slot_uri: sh:resultSeverity
   info:
     range: string
+    slot_uri: sh:resultMessage
 
 
 #==================================
@@ -129,5 +131,15 @@ enums:
         meaning: sh:MinCountConstraintComponent
       MaxCountConstraintComponent:
         meaning: sh:MaxCountConstraintComponent
+      DeprecatedPropertyComponent:
+        meaning: reporting:DeprecatedPropertyComponent
+      MaxLengthConstraintComponent:
+        meaning: sh:MaxLengthConstraintComponent
+      MinLengthConstraintComponent:
+        meaning: sh:MinLengthConstraintComponent
+      PatternConstraintComponent:
+        meaning: sh:PatternConstraintComponent
+      ClosedConstraintComponent:
+        meaning: sh:ClosedConstraintComponent
 
 

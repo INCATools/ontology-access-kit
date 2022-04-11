@@ -6,8 +6,10 @@ from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
+from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
-    HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge
+    HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
+    ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
@@ -18,8 +20,20 @@ from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET
 from sqlalchemy import select, text, exists
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
+
+
+# TODO: move to schemaview
+def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
+    t = sv.get_type(rng)
+    if t.uri:
+        return t.uri
+    elif t.typeof:
+        return get_range_xsd_type(sv, t.typeof)
+    else:
+        raise ValueError(f'No xsd type for {rng}')
+
 
 
 @dataclass
@@ -196,6 +210,8 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for slot_name in sv.all_slots():
             for r in self._check_slot(slot_name):
                 yield r
+        for r in self._check_for_unknown_slots():
+            yield r
 
     def _missing_value(self, predicate_table: Type, type_table: Type = ClassNode) -> Iterable[CURIE]:
         pred_subq = self.session.query(predicate_table.subject)
@@ -210,9 +226,50 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     def term_curies_without_labels(self) -> Iterable[CURIE]:
         return self._missing_value(RdfsLabelStatement)
 
-    def _check_slot(self, slot_name: str, class_name: str = 'Class') -> Iterable[vdm.ValidationResult]:
+    def _check_for_unknown_slots(self) -> Iterable[vdm.ValidationResult]:
         sv = self.ontology_metadata_model
+        preds = [sv.get_uri(s, expand=False) for s in sv.all_slots().values()]
+        logging.info(f'Known preds: {len(preds)} -- checking for other uses')
+        main_q = self.session.query(Statements).filter(Statements.predicate.not_in(preds)).join(IriNode, Statements.subject == IriNode.id)
+        try:
+            for row in main_q:
+                result = vdm.ValidationResult(subject=row.subject,
+                                              predicate=row.predicate,
+                                              severity=vdm.SeverityOptions.ERROR,
+                                              type=vdm.ValidationResultType.ClosedConstraintComponent.meaning,
+                                              info=f'Unknown pred ({row.predicate}) = {row.object} {row.value}'
+                                              )
+                yield result
+        except ValueError as e:
+            logging.error(f'EXCEPTION: {e}')
+            pass
+
+    def _check_slot(self, slot_name: str, class_name: str = 'Class') -> Iterable[vdm.ValidationResult]:
+        """
+        Validates all data with respect to a specific slot
+
+        :param slot_name:
+        :param class_name:
+        :return:
+        """
+        sv = self.ontology_metadata_model
+        class_cls = sv.get_class(class_name)
+        # for efficiency we map directly to table/view names rather
+        # than querying over rdf:type; this allows for optimization via view materialization
+        if class_name == 'Class':
+            sqla_cls = ClassNode
+        elif class_name == 'ObjectProperty':
+            sqla_cls = ObjectPropertyNode
+        elif class_name == 'AnnotationProperty':
+            sqla_cls = AnnotationPropertyNode
+        elif class_name == 'NamedIndividual':
+            sqla_cls = NamedIndividualNode
+        else:
+            raise NotImplementedError(f'cannot handle {class_name}')
         slot = sv.induced_slot(slot_name, class_name)
+        if slot.designates_type:
+            logging.info(f'Ignoring type designator: {slot_name}')
+            return
         logging.info(f'Validating: {slot_name}')
         predicate = sv.get_uri(slot, expand=False)
         is_used = self.session.query(Statements.predicate).filter(Statements.predicate == predicate).first() is not None
@@ -226,9 +283,9 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 severity = vdm.SeverityOptions.WARNING
             logging.info(f'MinCard check: Leaving off: {slot_name} is {severity.text}')
             # exclude blank nodes
-            main_q = self.session.query(ClassNode).join(IriNode, ClassNode.id == IriNode.id)
-            main_q = main_q.filter(ClassNode.id.not_in(pred_subq))
-            main_q = main_q.filter(ClassNode.id.not_in(obs_subq))
+            main_q = self.session.query(sqla_cls).join(IriNode, sqla_cls.id == IriNode.id)
+            main_q = main_q.filter(sqla_cls.id.not_in(pred_subq))
+            main_q = main_q.filter(sqla_cls.id.not_in(obs_subq))
             for row in main_q:
                 result = vdm.ValidationResult(subject=row.id,
                                               predicate=predicate,
@@ -239,13 +296,43 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 yield result
         if not is_used:
             return
+        if slot.deprecated:
+            main_q = self.session.query(Statements.subject).filter(Statements.predicate == predicate)
+            main_q = main_q.join(sqla_cls, Statements.subject == sqla_cls.id)
+            for row in main_q:
+                result = vdm.ValidationResult(subject=row.subject,
+                                              predicate=predicate,
+                                              severity=vdm.SeverityOptions.WARNING,
+                                              type=vdm.ValidationResultType.DeprecatedPropertyComponent.meaning,
+                                              info=f'Deprecated slot ({slot_name}) for {row.subject}'
+                                              )
+                yield result
         if not slot.multivalued:
             # MaxCardinality == 1
             # TODO
-            pass
+            is_object_iri = slot.range in sv.all_classes()
+            st1 = aliased(Statements)
+            st2 = aliased(Statements)
+            main_q = self.session.query(st1.subject).join(st2, st1.subject == st2.subject)
+            main_q = main_q.filter(st1.predicate == predicate)
+            main_q = main_q.filter(st2.predicate == predicate)
+            if is_object_iri:
+                main_q = main_q.filter(st1.object != st2.object)
+            else:
+                main_q = main_q.filter(st1.value != st2.value)
+            main_q = main_q.join(sqla_cls, st1.subject == sqla_cls.id)
+            for row in main_q:
+                result = vdm.ValidationResult(subject=row.subject,
+                                              predicate=predicate,
+                                              severity=vdm.SeverityOptions.ERROR,
+                                              type=vdm.ValidationResultType.MaxCountConstraintComponent.meaning,
+                                              info=f'Too many vals for {slot_name}'
+                                              )
+                yield result
         if slot.range:
             rng = slot.range
             rng_elements = sv.slot_applicable_range_elements(slot)
+            # for now we don't handle Union or Any
             if len(rng_elements) < 2:
                 logging.info(f'Datatype check: {slot_name} range is {rng_elements}')
                 is_object_iri = rng in sv.all_classes()
@@ -255,13 +342,32 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                     constr = Statements.value.is_(None)
                 main_q = self.session.query(Statements.subject)
                 main_q = main_q.join(IriNode, Statements.subject == IriNode.id)
-                main_q = main_q.join(ClassNode, Statements.subject == ClassNode.id)
+                main_q = main_q.join(sqla_cls, Statements.subject == sqla_cls.id)
                 main_q = main_q.filter(Statements.predicate == predicate, constr)
                 for row in main_q:
                     result = vdm.ValidationResult(subject=row.subject,
                                                   predicate=predicate,
                                                   severity=vdm.SeverityOptions.ERROR,
                                                   type=vdm.ValidationResultType.DatatypeConstraintComponent.meaning,
-                                                  info=f'Incorrect datatype for {slot_name} range = {rng} should_be_iri = {is_object_iri}'
+                                                  info=f'Incorrect object type for {slot_name} range = {rng} should_be_iri = {is_object_iri}'
                                                   )
                     yield result
+                if rng in sv.all_types():
+                    uri = get_range_xsd_type(sv, rng)
+                    #uri = rng_type.uri
+                    main_q = self.session.query(Statements.subject)
+                    main_q = main_q.join(IriNode, Statements.subject == IriNode.id)
+                    main_q = main_q.join(sqla_cls, Statements.subject == sqla_cls.id)
+                    main_q = main_q.filter(Statements.predicate == predicate, Statements.datatype != uri)
+                    #print(main_q)
+                    for row in main_q:
+                        result = vdm.ValidationResult(subject=row.subject,
+                                                      predicate=predicate,
+                                                      severity=vdm.SeverityOptions.ERROR,
+                                                      type=vdm.ValidationResultType.DatatypeConstraintComponent.meaning,
+                                                      info=f'Incorrect datatype for {slot_name} expected: {uri} for {rng}'
+                                                      )
+                        yield result
+
+
+
