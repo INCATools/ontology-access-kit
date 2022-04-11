@@ -10,7 +10,7 @@ from tests import output_path
 class TestOntologyMetadataDatamodel(unittest.TestCase):
 
     def test_create(self):
-        c = ontology_metadata.Class('EXAMPLE:1',
+        c = ontology_metadata.Class(id='EXAMPLE:1',
                                     label='foo',
                                     has_broad_synonym=['bar'])
         fn = output_path('example.om.yaml')

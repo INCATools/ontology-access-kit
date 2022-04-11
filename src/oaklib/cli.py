@@ -7,6 +7,7 @@ Executed using "runoak" command
 import logging
 import os
 import subprocess
+import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -23,6 +24,7 @@ from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, Validat
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.apikey_manager import set_apikey_value
@@ -54,6 +56,8 @@ input_type_option = click.option(
 output_option = click.option(
     "-o",
     "--output",
+    type=click.File(mode="w"),
+    default=sys.stdout,
     help="Output file, e.g. obo file"
 )
 output_type_option = click.option(
@@ -438,6 +442,49 @@ def validate(output: str, cutoff: int):
 
 
 @main.command()
+@click.option('--cutoff',
+              default=50,
+              show_default=True,
+              help="maximum results to report for any (type, predicate) pair")
+@click.argument("dbs", nargs=-1)
+@output_option
+def validate_multiple(dbs, output, cutoff: int):
+    """
+    Validate an ontology against ontology metadata
+    """
+    writer = StreamingCsvWriter(output)
+    for db in dbs:
+        try:
+            path = Path(db).absolute()
+            print(f'PATH={path}')
+            resource = OntologyResource(slug=f'sqlite:///{str(path)}')
+            impl = SqlImplementation(resource)
+            counts = defaultdict(int)
+            for result in impl.validate():
+                result.source = f'sqlite:{db}'
+                key = (result.type, result.predicate)
+                n = counts[key]
+                n += 1
+                counts[key] = n
+                if n % 1000 == 0:
+                    logging.info(f'Reached {n} results with {key}')
+                if n == cutoff:
+                    print(f'**TRUNCATING RESULTS FOR {key} at {cutoff}')
+                elif n < cutoff:
+                    try:
+                        print(yaml_dumper.dumps(result))
+                        writer.emit(result)
+                    except ValueError as e:
+                        logging.error(e)
+                        logging.error(f'Could not dump {result} -- bad identifier?')
+        except Exception as e:
+            logging.error(e)
+            logging.error(f'Problem with db')
+        for k, v in counts.items():
+            print(f'{k}:: {v}')
+
+
+@main.command()
 @output_option
 def check_definitions(output: str):
     """
@@ -496,7 +543,7 @@ def set_apikey(endpoint, keyval):
               show_default=True,
               help="if true and lexical index is specified, always recreate, otherwise load from index")
 @output_option
-def lexmatch(output: str, recreate, rules_file, lexical_index_file, add_labels):
+def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     """
     Generates lexical index and mappings
 
@@ -527,8 +574,7 @@ def lexmatch(output: str, recreate, rules_file, lexical_index_file, add_labels):
             if recreate:
                 save_lexical_index(ix, lexical_index_file)
         msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset)
-        with open(output, 'w', encoding='utf-8') as file:
-            sssom_writers.write_table(msdf, file)
+        sssom_writers.write_table(msdf, output)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
