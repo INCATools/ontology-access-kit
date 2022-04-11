@@ -20,8 +20,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Implementations" href="../implementations/index.html" />
-    <link rel="prev" title="Summary Statistics" href="summary-statistics.html" /> 
+    <link rel="next" title="Relation Graph" href="relation-graph.html" />
+    <link rel="prev" title="Subsetting" href="subsetting.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,10 +45,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search.html">Search Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
-<li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Validator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OboGraph Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text-annotator.html">Text Annotator Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary-statistics.html">Summary Statistics</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -89,7 +92,7 @@
 <h1>Validator Interface<a class="headerlink" href="#validator-interface" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.validator_interface.</span></span><span class="sig-name descname"><span class="pre">ValidatorInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.validator_interface.</span></span><span class="sig-name descname"><span class="pre">ValidatorInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface" title="Permalink to this definition"></a></dt>
 <dd><p>Basic ontology QC</p>
 <p>The overall goal is to support the following</p>
 <ul class="simple">
@@ -141,8 +144,8 @@ this implements a generic property check using the OntologyMetadata datamodel</p
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="summary-statistics.html" class="btn btn-neutral float-left" title="Summary Statistics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../implementations/index.html" class="btn btn-neutral float-right" title="Implementations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="subsetting.html" class="btn btn-neutral float-left" title="Subsetting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="relation-graph.html" class="btn btn-neutral float-right" title="Relation Graph" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

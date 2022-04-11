@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Validate an OBO ontology using Obo Metadata Ontology schema &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>How to Validate an OBO ontology using Obo Metadata Ontology schema</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/howtos/validate-an-obo-ontology.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-validate-an-obo-ontology-using-obo-metadata-ontology-schema">
+<h1>How to Validate an OBO ontology using Obo Metadata Ontology schema<a class="headerlink" href="#how-to-validate-an-obo-ontology-using-obo-metadata-ontology-schema" title="Permalink to this headline"></a></h1>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline"></a></h2>
+<section id="step-1-obtain-the-sqlite-version-of-the-ontology">
+<h3>Step 1: Obtain the sqlite version of the ontology<a class="headerlink" href="#step-1-obtain-the-sqlite-version-of-the-ontology" title="Permalink to this headline"></a></h3>
+<p>Currently the sqlite version of ontologies are not distributed alongside them in OBO</p>
+<p>You can either</p>
+<ul class="simple">
+<li><p>(a) make the sqlite file yourself, see <a class="reference external" href="https://github.com/INCATools/semantic-sql">INCATools/semantic-sql</a></p></li>
+<li><p>(b) get a ready-made download from the <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/">s3 bucket</a></p></li>
+</ul>
+<p>The second option is likely easiest.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://s3.amazonaws.com/bbop-sqlite/uberon.db
+</pre></div>
+</div>
+</section>
+<section id="step-2-install-oaklib">
+<h3>Step 2: Install oaklib<a class="headerlink" href="#step-2-install-oaklib" title="Permalink to this headline"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install oaklib
+</pre></div>
+</div>
+<p>Check your install works:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak --help
+</pre></div>
+</div>
+</section>
+<section id="step-3-validate-an-individual-ontology">
+<h3>Step 3: Validate an individual ontology<a class="headerlink" href="#step-3-validate-an-individual-ontology" title="Permalink to this headline"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:uberon.db validate
+</pre></div>
+</div>
+<p>This will stream yaml output. The output is linkml objects using the SHACL Validation vocabulary</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">w3id</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">shacl</span><span class="o">/</span><span class="n">MinCountConstraintComponent</span>
+<span class="n">severity</span><span class="p">:</span> <span class="n">ERROR</span>
+<span class="n">subject</span><span class="p">:</span> <span class="n">CARO</span><span class="p">:</span><span class="mi">0000003</span>
+<span class="n">predicate</span><span class="p">:</span> <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span>
+<span class="n">info</span><span class="p">:</span> <span class="n">Missing</span> <span class="n">slot</span> <span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">CARO</span><span class="p">:</span><span class="mi">0000003</span>
+
+<span class="nb">type</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">w3id</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">shacl</span><span class="o">/</span><span class="n">MinCountConstraintComponent</span>
+<span class="n">severity</span><span class="p">:</span> <span class="n">ERROR</span>
+<span class="n">subject</span><span class="p">:</span> <span class="n">CARO</span><span class="p">:</span><span class="mi">0000006</span>
+<span class="n">predicate</span><span class="p">:</span> <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span>
+<span class="n">info</span><span class="p">:</span> <span class="n">Missing</span> <span class="n">slot</span> <span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">CARO</span><span class="p">:</span><span class="mi">0000006</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-alternative-validate-multiple-ontologies">
+<h3>Step 3 (alternative): Validate multiple ontologies<a class="headerlink" href="#step-3-alternative-validate-multiple-ontologies" title="Permalink to this headline"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak validate-multiple db/*.db -o obo-validation.tsv
+</pre></div>
+</div>
+</section>
+</section>
+<section id="caveats">
+<h2>Caveats<a class="headerlink" href="#caveats" title="Permalink to this headline"></a></h2>
+<p>Currently only the following are implemented:</p>
+<ul class="simple">
+<li><p>MinCountConstraintComponent checks (required or recommended)</p></li>
+<li><p>MaxCountConstraintComponent checks</p></li>
+<li><p>DeprecatedPropertyComponent</p></li>
+<li><p>DatatypeConstraintComponent: basic type checks (literal vs object) DOES NOT YET CHECK SPECIFIC LITERAL TYPE</p></li>
+<li><p>ClosedConstraintComponent</p></li>
+</ul>
+</section>
+<section id="using-your-own-schema">
+<h2>Using your own schema<a class="headerlink" href="#using-your-own-schema" title="Permalink to this headline"></a></h2>
+<p>TODO: add an option to pass in your own yaml file</p>
+</section>
+<section id="how-this-works">
+<h2>How this works<a class="headerlink" href="#how-this-works" title="Permalink to this headline"></a></h2>
+<p>The Python API is described here:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/validator.html">ValidatorInterface</a></p></li>
+</ul>
+<p>Currently there is only one implementation, the SqlDatabase implementation</p>
+<p>The validation is driven entirely by a <a class="reference external" href="https://linkml.io">LinkML</a> schema</p>
+<p>Currently this schema lives within this repo, but the goal is to have it live outside and be imported</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/ontology-metadata/index.html">linkml generated docs</a></p></li>
+<li><p>source: <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/src/oaklib/datamodels/ontology_metadata.yaml">src/oaklib/datamodels/ontology_metadata.yaml</a></p></li>
+</ul>
+<p>Different implementations are free to use this in different ways</p>
+<p>The SqlDatabase implementation attempts to do this in a performant way doing whole-database predicate-based queries</p>
+<p>Validation results use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/validation">Validator Datamodel</a>, which reuses many URIs from SHACL</p>
+</section>
+<section id="analysis">
+<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline"></a></h2>
+<p>See notebooks folder in <a class="reference external" href="https://github.com/cmungall/obo-metadata">https://github.com/cmungall/obo-metadata</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chris Mungall.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
