@@ -155,7 +155,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             rmap[row.predicate].append(row.subject)
         return rmap
 
-    def get_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_simple_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         m = defaultdict(list)
         for row in self.session.query(HasMappingStatement).filter(HasMappingStatement.subject == curie):
             m[row.predicate].append(row.value)
