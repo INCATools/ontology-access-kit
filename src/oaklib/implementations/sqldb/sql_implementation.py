@@ -211,8 +211,12 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # Implements: ValidatorInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def validate(self) -> Iterable[vdm.ValidationResult]:
-        sv = self.ontology_metadata_model
+    def validate(self, configuration: vdm.ValidationConfiguration = None) -> Iterable[vdm.ValidationResult]:
+        if configuration and configuration.schema_path:
+            sv = SchemaView(configuration.schema_path)
+            self._ontology_metadata_model = sv
+        else:
+            sv = self.ontology_metadata_model
         for slot_name in sv.all_slots():
             for r in self._check_slot(slot_name):
                 yield r

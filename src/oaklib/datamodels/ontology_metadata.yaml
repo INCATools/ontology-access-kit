@@ -950,6 +950,7 @@ slots:
     multivalued: true
     todos:
     - restrict range
+    range: ClassExpression
   sameAs:
     is_a: logical_predicate
     mixins:
@@ -958,31 +959,36 @@ slots:
     multivalued: true
     todos:
     - restrict range
+    range: Thing
   equivalentProperty:
     is_a: logical_predicate
     mixins:
       - match_aspect
     slot_uri: owl:equivalentProperty
     multivalued: true
-    range: Thing
+    range: Property
   hasValue:
     is_a: logical_predicate
     slot_uri: owl:hasValue
     todos:
     - restrict range
+    range: Any
   intersectionOf:
     is_a: logical_predicate
     slot_uri: owl:intersectionOf
     todos:
     - restrict range
+    range: ClassExpression
   inverseOf:
     is_a: logical_predicate
     slot_uri: owl:inverseOf
     todos:
     - restrict range
+    range: Property
   maxQualifiedCardinality:
     is_a: logical_predicate
     slot_uri: owl:maxQualifiedCardinality
+    range: integer
   members:
     is_a: logical_predicate
     slot_uri: owl:members

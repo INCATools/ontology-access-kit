@@ -1,12 +1,7 @@
 import logging
 import unittest
 
-import yaml
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.resource import OntologyResource
-from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.cli import search, main
-from pronto import Ontology
 
 from tests import OUTPUT_DIR, INPUT_DIR
 from click.testing import CliRunner

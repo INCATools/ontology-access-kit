@@ -1,5 +1,5 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-09T19:14:46
+# Generation date: 2022-04-11T17:33:29
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -37,7 +37,7 @@ OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 PAV = CurieNamespace('pav', 'http://purl.org/pav/')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
-REPORTING = CurieNamespace('reporting', 'https://w3id.org/linkml/report')
+REPORTING = CurieNamespace('reporting', 'https://w3id.org/linkml/validation-model/')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
 SH = CurieNamespace('sh', 'http://www.w3.org/ns/shacl#')
 SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
@@ -48,7 +48,57 @@ DEFAULT_ = REPORTING
 # Types
 
 # Class references
+class TypeSeverityKeyValueType(NodeIdentifier):
+    pass
 
+
+@dataclass
+class ValidationConfiguration(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.ValidationConfiguration
+    class_class_curie: ClassVar[str] = "reporting:ValidationConfiguration"
+    class_name: ClassVar[str] = "ValidationConfiguration"
+    class_model_uri: ClassVar[URIRef] = REPORTING.ValidationConfiguration
+
+    max_number_results_per_type: Optional[int] = None
+    type_severity_map: Optional[Union[Dict[Union[str, TypeSeverityKeyValueType], Union[dict, "TypeSeverityKeyValue"]], List[Union[dict, "TypeSeverityKeyValue"]]]] = empty_dict()
+    schema_path: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.max_number_results_per_type is not None and not isinstance(self.max_number_results_per_type, int):
+            self.max_number_results_per_type = int(self.max_number_results_per_type)
+
+        self._normalize_inlined_as_dict(slot_name="type_severity_map", slot_type=TypeSeverityKeyValue, key_name="type", keyed=True)
+
+        if self.schema_path is not None and not isinstance(self.schema_path, str):
+            self.schema_path = str(self.schema_path)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class TypeSeverityKeyValue(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.TypeSeverityKeyValue
+    class_class_curie: ClassVar[str] = "reporting:TypeSeverityKeyValue"
+    class_name: ClassVar[str] = "TypeSeverityKeyValue"
+    class_model_uri: ClassVar[URIRef] = REPORTING.TypeSeverityKeyValue
+
+    type: Union[str, TypeSeverityKeyValueType] = None
+    severity: Optional[Union[str, "SeverityOptions"]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.type):
+            self.MissingRequiredField("type")
+        if not isinstance(self.type, TypeSeverityKeyValueType):
+            self.type = TypeSeverityKeyValueType(self.type)
+
+        if self.severity is not None and not isinstance(self.severity, SeverityOptions):
+            self.severity = SeverityOptions(self.severity)
+
+        super().__post_init__(**kwargs)
 
 
 @dataclass
@@ -225,8 +275,23 @@ slots.source = Slot(uri=REPORTING.source, name="source", curie=REPORTING.curie('
 slots.severity = Slot(uri=SH.resultSeverity, name="severity", curie=SH.curie('resultSeverity'),
                    model_uri=REPORTING.severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
 
-slots.info = Slot(uri=SH.message, name="info", curie=SH.curie('message'),
+slots.info = Slot(uri=SH.resultMessage, name="info", curie=SH.curie('resultMessage'),
                    model_uri=REPORTING.info, domain=None, range=Optional[str])
+
+slots.validationConfiguration__max_number_results_per_type = Slot(uri=REPORTING.max_number_results_per_type, name="validationConfiguration__max_number_results_per_type", curie=REPORTING.curie('max_number_results_per_type'),
+                   model_uri=REPORTING.validationConfiguration__max_number_results_per_type, domain=None, range=Optional[int])
+
+slots.validationConfiguration__type_severity_map = Slot(uri=REPORTING.type_severity_map, name="validationConfiguration__type_severity_map", curie=REPORTING.curie('type_severity_map'),
+                   model_uri=REPORTING.validationConfiguration__type_severity_map, domain=None, range=Optional[Union[Dict[Union[str, TypeSeverityKeyValueType], Union[dict, TypeSeverityKeyValue]], List[Union[dict, TypeSeverityKeyValue]]]])
+
+slots.validationConfiguration__schema_path = Slot(uri=REPORTING.schema_path, name="validationConfiguration__schema_path", curie=REPORTING.curie('schema_path'),
+                   model_uri=REPORTING.validationConfiguration__schema_path, domain=None, range=Optional[str])
+
+slots.typeSeverityKeyValue__type = Slot(uri=REPORTING.type, name="typeSeverityKeyValue__type", curie=REPORTING.curie('type'),
+                   model_uri=REPORTING.typeSeverityKeyValue__type, domain=None, range=URIRef)
+
+slots.typeSeverityKeyValue__severity = Slot(uri=REPORTING.severity, name="typeSeverityKeyValue__severity", curie=REPORTING.curie('severity'),
+                   model_uri=REPORTING.typeSeverityKeyValue__severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
 
 slots.validationReport__results = Slot(uri=SH.result, name="validationReport__results", curie=SH.curie('result'),
                    model_uri=REPORTING.validationReport__results, domain=None, range=Optional[Union[Union[dict, ValidationResult], List[Union[dict, ValidationResult]]]])

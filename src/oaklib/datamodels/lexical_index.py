@@ -1,9 +1,10 @@
 # Auto generated from lexical_index.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-31T09:17:44
-# Schema: lexican-index
+# Generation date: 2022-04-11T17:33:31
+# Schema: lexical-index
 #
 # id: https://w3id.org/linkml/lexical_index
-# description: A datamodel for representing a lexical index of an ontology
+# description: A datamodel for representing a lexical index of an ontology. A lexical index is keyed by optionally
+#              normalized terms.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
