@@ -1,0 +1,51 @@
+{
+   "$defs": {
+      "SearchResult": {
+         "additionalProperties": false,
+         "description": "An individual text annotation",
+         "properties": {
+            "matches_full_search_term": {
+               "type": "boolean"
+            },
+            "object_id": {
+               "type": "string"
+            },
+            "object_label": {
+               "type": "string"
+            },
+            "object_source": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "SearchResult",
+         "type": "object"
+      },
+      "SearchResultSet": {
+         "additionalProperties": false,
+         "description": "A collection of annotation results",
+         "properties": {
+            "results": {
+               "description": "all annotations",
+               "items": {
+                  "$ref": "#/$defs/SearchResult"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "SearchResultSet",
+         "type": "object"
+      }
+   },
+   "$id": "https://w3id.org/linkml/search_results",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "search-results",
+   "type": "object",
+   "version": null
+}
+

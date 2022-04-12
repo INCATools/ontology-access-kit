@@ -1,0 +1,2098 @@
+{
+   "$defs": {
+      "AnnotationProperty": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "IEDB_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ISA_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "OBO_foundry_unique_label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "broadMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "category": {
+               "type": "string"
+            },
+            "closeMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "conformsTo": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "consider": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "contributor": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "creation_date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "curator_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "database_cross_reference": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition_source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "depicted_by": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "domain": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_preferred_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "exactMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "example_of_usage": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_from_QC_check": {
+               "$ref": "#/$defs/Thing"
+            },
+            "excluded_subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_alternative_id": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_broad_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_curation_status": {
+               "type": "string"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_narrow_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obo_namespace": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obsolescence_reason": {
+               "type": "string"
+            },
+            "has_related_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "image": {
+               "$ref": "#/$defs/Thing"
+            },
+            "imported_from": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "in_subset": {
+               "description": "Maps an ontology element to a subset it belongs to",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "isDefinedBy": {
+               "type": "string"
+            },
+            "is_class_level": {
+               "type": "boolean"
+            },
+            "is_metadata_tag": {
+               "type": "boolean"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "narrowMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ontology_term_requester": {
+               "type": "string"
+            },
+            "page": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "range": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "shorthand": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "should_conform_to": {
+               "$ref": "#/$defs/Thing"
+            },
+            "subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_editor": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_replaced_by": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_tracker_item": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "AnnotationProperty",
+         "type": "object"
+      },
+      "AnonymousClassExpression": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "AnonymousClassExpression",
+         "type": "object"
+      },
+      "Axiom": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "annotatedProperty": {
+               "type": "string"
+            },
+            "annotatedSource": {
+               "type": "string"
+            },
+            "annotatedTarget": {
+               "type": "string"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "database_cross_reference": {
+               "description": "Uses to indicate the source of an axiom",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date_retrieved": {
+               "type": "string"
+            },
+            "evidence": {
+               "type": "string"
+            },
+            "external_ontology": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_axiom_label": {
+               "$ref": "#/$defs/Thing"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_synonym_type": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "is_a_defining_property_chain_axiom": {
+               "type": "string"
+            },
+            "is_a_defining_property_chain_axiom_where_second_argument_is_reflexive": {
+               "type": "string"
+            },
+            "is_inferred": {
+               "type": "boolean"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "notes": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "onProperty": {
+               "items": {
+                  "$ref": "#/$defs/PropertyExpression"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "someValuesFrom": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "url": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "Axiom",
+         "type": "object"
+      },
+      "Class": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "IEDB_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ISA_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "OBO_foundry_unique_label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "broadMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "cardinality": {
+               "type": "string"
+            },
+            "category": {
+               "type": "string"
+            },
+            "closeMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "complementOf": {
+               "type": "string"
+            },
+            "conformsTo": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "consider": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "contributor": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "creation_date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "curator_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "database_cross_reference": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition_source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "depicted_by": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "disconnected_from": {
+               "type": "string"
+            },
+            "disjointWith": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_preferred_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "equivalentClass": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "exactMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "example_of_usage": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_from_QC_check": {
+               "$ref": "#/$defs/Thing"
+            },
+            "excluded_subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_alternative_id": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_broad_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_curation_status": {
+               "type": "string"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_narrow_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obo_namespace": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obsolescence_reason": {
+               "type": "string"
+            },
+            "has_rank": {
+               "$ref": "#/$defs/Thing"
+            },
+            "has_related_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "image": {
+               "$ref": "#/$defs/Thing"
+            },
+            "imported_from": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "in_subset": {
+               "description": "Maps an ontology element to a subset it belongs to",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "intersectionOf": {
+               "type": "string"
+            },
+            "isDefinedBy": {
+               "type": "string"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "narrowMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "never_in_taxon": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "oneOf": {
+               "$ref": "#/$defs/ClassExpression"
+            },
+            "ontology_term_requester": {
+               "type": "string"
+            },
+            "page": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "should_conform_to": {
+               "$ref": "#/$defs/Thing"
+            },
+            "subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_editor": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_replaced_by": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_tracker_item": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "unionOf": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id",
+            "label"
+         ],
+         "title": "Class",
+         "type": "object"
+      },
+      "NamedIndividual": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "IEDB_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ISA_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "OBO_foundry_unique_label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "broadMatch": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "category": {
+               "type": "string"
+            },
+            "closeMatch": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "conformsTo": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "consider": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "contributor": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "creation_date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "curator_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "database_cross_reference": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition_source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "depicted_by": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "editor_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_preferred_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "exactMatch": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "example_of_usage": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_from_QC_check": {
+               "$ref": "#/$defs/Thing"
+            },
+            "excluded_subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_alternative_id": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_broad_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_curation_status": {
+               "type": "string"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_narrow_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obo_namespace": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obsolescence_reason": {
+               "type": "string"
+            },
+            "has_related_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "image": {
+               "$ref": "#/$defs/Thing"
+            },
+            "imported_from": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "in_subset": {
+               "description": "Maps an ontology element to a subset it belongs to",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "isDefinedBy": {
+               "type": "string"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "narrowMatch": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "ontology_term_requester": {
+               "type": "string"
+            },
+            "page": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "should_conform_to": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_editor": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_replaced_by": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_tracker_item": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "type": {
+               "items": {
+                  "$ref": "#/$defs/ClassExpression"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "NamedIndividual",
+         "type": "object"
+      },
+      "NamedObject": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "NamedObject",
+         "type": "object"
+      },
+      "ObjectProperty": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "IEDB_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ISA_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "OBO_foundry_unique_label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "broadMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "category": {
+               "type": "string"
+            },
+            "closeMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "conformsTo": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "consider": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "contributor": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "creation_date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "curator_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "database_cross_reference": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition_source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "depicted_by": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "disjointWith": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "domain": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_preferred_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "equivalentProperty": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "exactMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "example_of_usage": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_from_QC_check": {
+               "$ref": "#/$defs/Thing"
+            },
+            "excluded_subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_alternative_id": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_broad_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_curation_status": {
+               "type": "string"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_narrow_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obo_namespace": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obsolescence_reason": {
+               "type": "string"
+            },
+            "has_related_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "image": {
+               "$ref": "#/$defs/Thing"
+            },
+            "imported_from": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "in_subset": {
+               "description": "Maps an ontology element to a subset it belongs to",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "inverseOf": {
+               "type": "string"
+            },
+            "isDefinedBy": {
+               "type": "string"
+            },
+            "is_class_level": {
+               "type": "boolean"
+            },
+            "is_cyclic": {
+               "type": "boolean"
+            },
+            "is_metadata_tag": {
+               "type": "boolean"
+            },
+            "is_transitive": {
+               "type": "boolean"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "narrowMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ontology_term_requester": {
+               "type": "string"
+            },
+            "page": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "propertyChainAxiom": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "range": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "shorthand": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "should_conform_to": {
+               "$ref": "#/$defs/Thing"
+            },
+            "subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "temporal_interpretation": {
+               "type": "string"
+            },
+            "term_editor": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_replaced_by": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_tracker_item": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "ObjectProperty",
+         "type": "object"
+      },
+      "Ontology": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_ontology_root_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "imports": {
+               "type": "string"
+            },
+            "license": {
+               "$ref": "#/$defs/Thing"
+            },
+            "source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "title": {
+               "type": "string"
+            },
+            "versionIRI": {
+               "type": "string"
+            },
+            "versionInfo": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id",
+            "license",
+            "versionIRI",
+            "versionInfo",
+            "title"
+         ],
+         "title": "Ontology",
+         "type": "object"
+      },
+      "Subset": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "IEDB_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ISA_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "OBO_foundry_unique_label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "broadMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "category": {
+               "type": "string"
+            },
+            "closeMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "conformsTo": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "consider": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "contributor": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "creation_date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "curator_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "database_cross_reference": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition_source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "depicted_by": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "domain": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_preferred_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "exactMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "example_of_usage": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_from_QC_check": {
+               "$ref": "#/$defs/Thing"
+            },
+            "excluded_subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_alternative_id": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_broad_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_curation_status": {
+               "type": "string"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_narrow_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obo_namespace": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obsolescence_reason": {
+               "type": "string"
+            },
+            "has_related_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "image": {
+               "$ref": "#/$defs/Thing"
+            },
+            "imported_from": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "in_subset": {
+               "description": "Maps an ontology element to a subset it belongs to",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "isDefinedBy": {
+               "type": "string"
+            },
+            "is_class_level": {
+               "type": "boolean"
+            },
+            "is_metadata_tag": {
+               "type": "boolean"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "narrowMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ontology_term_requester": {
+               "type": "string"
+            },
+            "page": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "range": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "shorthand": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "should_conform_to": {
+               "$ref": "#/$defs/Thing"
+            },
+            "subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_editor": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_replaced_by": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_tracker_item": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "Subset",
+         "type": "object"
+      },
+      "TransitiveProperty": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "IEDB_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ISA_alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "OBO_foundry_unique_label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "alternative_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "broadMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "category": {
+               "type": "string"
+            },
+            "closeMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "comment": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "conformsTo": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "consider": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "contributor": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "created_by": {
+               "type": "string"
+            },
+            "creation_date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "creator": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "curator_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "database_cross_reference": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "date": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition_source": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "depicted_by": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "disjointWith": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "domain": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_note": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "editor_preferred_term": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "equivalentProperty": {
+               "items": {
+                  "$ref": "#/$defs/Thing"
+               },
+               "type": "array"
+            },
+            "exactMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "example_of_usage": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_from_QC_check": {
+               "$ref": "#/$defs/Thing"
+            },
+            "excluded_subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "excluded_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_alternative_id": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_broad_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_curation_status": {
+               "type": "string"
+            },
+            "has_exact_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_narrow_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obo_namespace": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "has_obsolescence_reason": {
+               "type": "string"
+            },
+            "has_related_synonym": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "id": {
+               "description": "this maps to the URI in RDF",
+               "type": "string"
+            },
+            "image": {
+               "$ref": "#/$defs/Thing"
+            },
+            "imported_from": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "in_subset": {
+               "description": "Maps an ontology element to a subset it belongs to",
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "inverseOf": {
+               "type": "string"
+            },
+            "isDefinedBy": {
+               "type": "string"
+            },
+            "is_class_level": {
+               "type": "boolean"
+            },
+            "is_cyclic": {
+               "type": "boolean"
+            },
+            "is_metadata_tag": {
+               "type": "boolean"
+            },
+            "is_transitive": {
+               "type": "boolean"
+            },
+            "label": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "narrowMatch": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "ontology_term_requester": {
+               "type": "string"
+            },
+            "page": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "propertyChainAxiom": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "range": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "seeAlso": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "shorthand": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "should_conform_to": {
+               "$ref": "#/$defs/Thing"
+            },
+            "subClassOf": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "temporal_interpretation": {
+               "type": "string"
+            },
+            "term_editor": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "term_replaced_by": {
+               "$ref": "#/$defs/Thing"
+            },
+            "term_tracker_item": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "TransitiveProperty",
+         "type": "object"
+      }
+   },
+   "$id": "http://purl.obolibrary.org/obo/omo/schema",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "Ontology-Metadata",
+   "type": "object",
+   "version": "0.0.1"
+}
+

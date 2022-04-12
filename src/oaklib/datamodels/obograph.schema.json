@@ -1,0 +1,358 @@
+{
+   "$defs": {
+      "BasicPropertyValue": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "pred": {
+               "type": "string"
+            },
+            "val": {
+               "type": "string"
+            },
+            "xrefs": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "BasicPropertyValue",
+         "type": "object"
+      },
+      "DefinitionPropertyValue": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "pred": {
+               "type": "string"
+            },
+            "val": {
+               "type": "string"
+            },
+            "xrefs": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "DefinitionPropertyValue",
+         "type": "object"
+      },
+      "DomainRangeAxiom": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            }
+         },
+         "required": [],
+         "title": "DomainRangeAxiom",
+         "type": "object"
+      },
+      "Edge": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "obj": {
+               "type": "string"
+            },
+            "pred": {
+               "type": "string"
+            },
+            "sub": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "Edge",
+         "type": "object"
+      },
+      "EquivalentNodesSet": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "nodeIds": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "representitiveNodeId": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EquivalentNodesSet",
+         "type": "object"
+      },
+      "ExistentialRestrictionExpression": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "fillerId": {
+               "type": "string"
+            },
+            "propertyId": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "ExistentialRestrictionExpression",
+         "type": "object"
+      },
+      "Graph": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "domainRangeAxioms": {
+               "items": {
+                  "$ref": "#/$defs/DomainRangeAxiom"
+               },
+               "type": "array"
+            },
+            "edges": {
+               "items": {
+                  "$ref": "#/$defs/Edge"
+               },
+               "type": "array"
+            },
+            "equivalentNodesSets": {
+               "items": {
+                  "$ref": "#/$defs/EquivalentNodesSet"
+               },
+               "type": "array"
+            },
+            "id": {
+               "type": "string"
+            },
+            "lbl": {
+               "type": "string"
+            },
+            "logicalDefinitionAxioms": {
+               "items": {
+                  "$ref": "#/$defs/LogicalDefinitionAxiom"
+               },
+               "type": "array"
+            },
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "nodes": {
+               "items": {
+                  "$ref": "#/$defs/Node"
+               },
+               "type": "array"
+            },
+            "propertyChainAxioms": {
+               "items": {
+                  "$ref": "#/$defs/PropertyChainAxiom"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "Graph",
+         "type": "object"
+      },
+      "LogicalDefinitionAxiom": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            }
+         },
+         "required": [],
+         "title": "LogicalDefinitionAxiom",
+         "type": "object"
+      },
+      "Meta": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "basicPropertyValues": {
+               "items": {
+                  "$ref": "#/$defs/BasicPropertyValue"
+               },
+               "type": "array"
+            },
+            "comments": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "definition": {
+               "$ref": "#/$defs/DefinitionPropertyValue"
+            },
+            "deprecated": {
+               "type": "boolean"
+            },
+            "subsets": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "synonyms": {
+               "items": {
+                  "$ref": "#/$defs/SynonymPropertyValue"
+               },
+               "type": "array"
+            },
+            "version": {
+               "type": "string"
+            },
+            "xrefs": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "Meta",
+         "type": "object"
+      },
+      "Node": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "id": {
+               "type": "string"
+            },
+            "label": {
+               "type": "string"
+            },
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "type": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "Node",
+         "type": "object"
+      },
+      "PredsEnum": {
+         "description": "",
+         "enum": [
+            "hasExactSynonym",
+            "hasNarrowSynonym",
+            "hasBroadSynonym",
+            "hasRelatedSynonym"
+         ],
+         "title": "PredsEnum",
+         "type": "string"
+      },
+      "PropertyChainAxiom": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            }
+         },
+         "required": [],
+         "title": "PropertyChainAxiom",
+         "type": "object"
+      },
+      "ScopesEnum": {
+         "description": "",
+         "enum": [
+            "exact",
+            "narrow",
+            "broad",
+            "related"
+         ],
+         "title": "ScopesEnum",
+         "type": "string"
+      },
+      "SynonymPropertyValue": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "isExact": {
+               "type": "boolean"
+            },
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "pred": {
+               "type": "string"
+            },
+            "scope": {
+               "$ref": "#/$defs/ScopesEnum"
+            },
+            "synonymType": {
+               "type": "string"
+            },
+            "val": {
+               "type": "string"
+            },
+            "xrefs": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "SynonymPropertyValue",
+         "type": "object"
+      },
+      "XrefPropertyValue": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "meta": {
+               "$ref": "#/$defs/Meta"
+            },
+            "pred": {
+               "type": "string"
+            },
+            "val": {
+               "type": "string"
+            },
+            "xrefs": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "XrefPropertyValue",
+         "type": "object"
+      }
+   },
+   "$id": "https://github.com/geneontology/obographs",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "obographs_datamodel",
+   "type": "object",
+   "version": "0.0.1"
+}
+

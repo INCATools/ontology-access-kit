@@ -47,8 +47,11 @@ def create_lexical_index(oi: BasicOntologyInterface,
     """
     Generates a LexicalIndex keyed by normalized terms
 
+    If the pipelines parameter is not specified, then default pipelines will be applied
+    (currently CaseNormalization and WhitespaceNormalization)
+
     :param oi:
-    :param pipelines:
+    :param pipelines: list of transformation pipelines to apply
     :return:
     """
     if pipelines is None:

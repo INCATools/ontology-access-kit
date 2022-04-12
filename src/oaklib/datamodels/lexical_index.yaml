@@ -1,7 +1,9 @@
 id: https://w3id.org/linkml/lexical_index
 title: Lexical Index
-name: lexican-index
-description: A datamodel for representing a lexical index of an ontology
+name: lexical-index
+description: >-
+  A datamodel for representing a lexical index of an ontology.
+  A lexical index is keyed by optionally normalized terms.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:

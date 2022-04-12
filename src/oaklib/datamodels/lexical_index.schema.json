@@ -1,0 +1,174 @@
+{
+   "$defs": {
+      "LexicalGrouping": {
+         "additionalProperties": false,
+         "description": "A grouping of ontology elements by a shared lexical term",
+         "properties": {
+            "relationships": {
+               "description": "All ontology elements grouped and their relationship to the normalized term",
+               "items": {
+                  "$ref": "#/$defs/RelationshipToTerm"
+               },
+               "type": "array"
+            },
+            "term": {
+               "description": "A normalized term that groups ontology elements",
+               "type": "string"
+            }
+         },
+         "required": [
+            "term"
+         ],
+         "title": "LexicalGrouping",
+         "type": "object"
+      },
+      "LexicalGrouping__identifier_optional": {
+         "additionalProperties": false,
+         "description": "A grouping of ontology elements by a shared lexical term",
+         "properties": {
+            "relationships": {
+               "description": "All ontology elements grouped and their relationship to the normalized term",
+               "items": {
+                  "$ref": "#/$defs/RelationshipToTerm"
+               },
+               "type": "array"
+            },
+            "term": {
+               "description": "A normalized term that groups ontology elements",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "LexicalGrouping",
+         "type": "object"
+      },
+      "LexicalIndex": {
+         "additionalProperties": false,
+         "description": "An index over an ontology keyed by lexical unit",
+         "properties": {
+            "groupings": {
+               "additionalProperties": {
+                  "$ref": "#/$defs/LexicalGrouping__identifier_optional"
+               },
+               "description": "all groupings"
+            },
+            "pipelines": {
+               "additionalProperties": {
+                  "$ref": "#/$defs/LexicalTransformationPipeline__identifier_optional"
+               },
+               "description": "all pipelines used to build the index"
+            }
+         },
+         "required": [],
+         "title": "LexicalIndex",
+         "type": "object"
+      },
+      "LexicalTransformation": {
+         "additionalProperties": false,
+         "description": "An atomic lexical transformation applied on a term (string) yielding a transformed string",
+         "properties": {
+            "params": {
+               "description": "Any parameters to be applied to the transformation algorithm",
+               "type": "string"
+            },
+            "type": {
+               "$ref": "#/$defs/TransformationType",
+               "description": "The type of transformation"
+            }
+         },
+         "required": [],
+         "title": "LexicalTransformation",
+         "type": "object"
+      },
+      "LexicalTransformationPipeline": {
+         "additionalProperties": false,
+         "description": "A collection of atomic lexical transformations that are applied in serial fashion",
+         "properties": {
+            "name": {
+               "type": "string"
+            },
+            "transformations": {
+               "items": {
+                  "$ref": "#/$defs/LexicalTransformation"
+               },
+               "type": "array"
+            }
+         },
+         "required": [
+            "name"
+         ],
+         "title": "LexicalTransformationPipeline",
+         "type": "object"
+      },
+      "LexicalTransformationPipeline__identifier_optional": {
+         "additionalProperties": false,
+         "description": "A collection of atomic lexical transformations that are applied in serial fashion",
+         "properties": {
+            "name": {
+               "type": "string"
+            },
+            "transformations": {
+               "items": {
+                  "$ref": "#/$defs/LexicalTransformation"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "LexicalTransformationPipeline",
+         "type": "object"
+      },
+      "RelationshipToTerm": {
+         "additionalProperties": false,
+         "description": "A relationship of an ontology element to a lexical term",
+         "properties": {
+            "element": {
+               "type": "string"
+            },
+            "element_term": {
+               "description": "the original term used in the element",
+               "type": "string"
+            },
+            "pipeline": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "predicate": {
+               "type": "string"
+            },
+            "source": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "RelationshipToTerm",
+         "type": "object"
+      },
+      "TransformationType": {
+         "description": "A controlled datamodels of the types of transformation that can be applied to",
+         "enum": [
+            "Stemming",
+            "Lemmatization",
+            "WordOrderNormalization",
+            "Depluralization",
+            "CaseNormalization",
+            "WhitespaceNormalization",
+            "TermExpanson"
+         ],
+         "title": "TransformationType",
+         "type": "string"
+      }
+   },
+   "$id": "https://w3id.org/linkml/lexical_index",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "lexican-index",
+   "type": "object",
+   "version": null
+}
+

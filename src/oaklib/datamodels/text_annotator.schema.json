@@ -1,0 +1,119 @@
+{
+   "$defs": {
+      "TextAnnotation": {
+         "additionalProperties": false,
+         "description": "An individual text annotation",
+         "properties": {
+            "confidence": {
+               "type": "number"
+            },
+            "info": {
+               "type": "string"
+            },
+            "is_longest_match": {
+               "type": "boolean"
+            },
+            "match_string": {
+               "type": "string"
+            },
+            "match_type": {
+               "type": "string"
+            },
+            "object_id": {
+               "type": "string"
+            },
+            "object_label": {
+               "type": "string"
+            },
+            "object_source": {
+               "type": "string"
+            },
+            "predicate_id": {
+               "type": "string"
+            },
+            "subject_end": {
+               "type": "integer"
+            },
+            "subject_label": {
+               "description": "The portion of the subject text that is matched, ranging from subject_start to subject_end",
+               "type": "string"
+            },
+            "subject_source": {
+               "type": "string"
+            },
+            "subject_start": {
+               "type": "integer"
+            },
+            "subject_text_id": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "TextAnnotation",
+         "type": "object"
+      },
+      "TextAnnotationResultSet": {
+         "additionalProperties": false,
+         "description": "A collection of annotation results",
+         "properties": {
+            "annotations": {
+               "description": "all annotations",
+               "items": {
+                  "$ref": "#/$defs/TextAnnotation"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "TextAnnotationResultSet",
+         "type": "object"
+      },
+      "TextualElement": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "id": {
+               "type": "string"
+            },
+            "parent_document": {
+               "type": "string"
+            },
+            "source_text": {
+               "type": "string"
+            },
+            "text": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "TextualElement",
+         "type": "object"
+      },
+      "TransformationType": {
+         "description": "A controlled datamodels of the types of transformation that can be applied to",
+         "enum": [
+            "Stemming",
+            "Lemmatization",
+            "WordOrderNormalization",
+            "Depluralization",
+            "CaseNormalization",
+            "WhitespaceNormalization",
+            "TermExpanson"
+         ],
+         "title": "TransformationType",
+         "type": "string"
+      }
+   },
+   "$id": "https://w3id.org/linkml/text_annotator",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "text-annotator",
+   "type": "object",
+   "version": null
+}
+
