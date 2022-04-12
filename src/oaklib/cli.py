@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 
 import click
-from linkml_runtime.dumpers import yaml_dumper
+from linkml_runtime.dumpers import yaml_dumper, json_dumper
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
@@ -64,7 +64,7 @@ output_option = click.option(
 output_type_option = click.option(
     "-O",
     "--output-type",
-    help=f'Desired output type, e.g. {",".join([])}',
+    help=f'Desired output type',
 )
 predicates_option = click.option(
     "-p",
@@ -237,8 +237,12 @@ def annotate(words, output: str):
               help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `')
 @click.argument("terms", nargs=-1)
 @predicates_option
-@output_option
-def viz(terms, predicates, down, view, stylemap, configure, output: str):
+@output_type_option
+# TODO: the main output option uses a filelike object
+@click.option('-o', '--output',
+              help="Path to output file")
+#@output_option
+def viz(terms, predicates, down, view, stylemap, configure, output_type: str, output: str):
     """
     Visualizing an ancestor graph using obographviz
 
@@ -273,9 +277,20 @@ def viz(terms, predicates, down, view, stylemap, configure, output: str):
         else:
             graph = impl.ancestor_graph(curies, predicates=actual_predicates)
         logging.info(f'Drawing graph seeded from {curies}')
-        imgfile = graph_to_image(graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output)
-        if view:
-            subprocess.run(['open', imgfile])
+        if output_type == 'json':
+            if output:
+                json_dumper.dump(graph, to_file=output)
+            else:
+                print(json_dumper.dumps(graph))
+        elif output_type == 'yaml':
+            if output:
+                yaml_dumper.dump(graph, to_file=output)
+            else:
+                print(yaml_dumper.dumps(graph))
+        else:
+            imgfile = graph_to_image(graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output)
+            if view:
+                subprocess.run(['open', imgfile])
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

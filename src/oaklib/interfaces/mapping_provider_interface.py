@@ -16,12 +16,9 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
     def all_mappings(self) -> Iterable[sssom.Mapping]:
         raise NotImplementedError
 
-    def as_mapping_set_dataframe(self) -> sssom.MappingSetDataFrame:
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
         raise NotImplementedError
 
-    def mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
-        raise NotImplementedError
-
-    def transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
         raise NotImplementedError
 

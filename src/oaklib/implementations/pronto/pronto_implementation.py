@@ -238,7 +238,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             m[pred].append(s.description)
         return m
 
-    def get_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_simple_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         t = self._entity(curie)
         m = defaultdict(list)
         for s in t.xrefs:

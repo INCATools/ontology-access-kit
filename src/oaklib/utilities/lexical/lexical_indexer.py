@@ -8,7 +8,7 @@ Various utilities for working with lexical aspects of ontologies plus mappings
 import logging
 import re
 from collections import defaultdict
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
@@ -16,9 +16,10 @@ from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import PRED_CURIE
 from oaklib.datamodels.lexical_index import LexicalIndex, LexicalTransformation, TransformationType, RelationshipToTerm, \
     LexicalGrouping, LexicalTransformationPipeline
-from oaklib.datamodels.mapping_rules_datamodel import MappingRule, Precondition, MappingRuleCollection
+from oaklib.datamodels.mapping_rules_datamodel import Precondition, MappingRuleCollection
 from oaklib.datamodels.vocabulary import SKOS_EXACT_MATCH, SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, \
     SKOS_CLOSE_MATCH
+from oaklib.utilities.basic_utils import pairs_as_dict
 from sssom import Mapping
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
@@ -42,6 +43,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
             label = curie.split(sep)[-1]
             oi.set_label_for_curie(curie, label)
 
+
 def create_lexical_index(oi: BasicOntologyInterface,
                          pipelines: List[LexicalTransformationPipeline] = None) -> LexicalIndex:
     """
@@ -62,7 +64,7 @@ def create_lexical_index(oi: BasicOntologyInterface,
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
     for curie in oi.all_entity_curies():
         alias_map = oi.alias_map_by_curie(curie)
-        mapping_map = oi.get_mappings_by_curie(curie)
+        mapping_map = pairs_as_dict(oi.get_simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:

@@ -1,0 +1,247 @@
+id: https://w3id.org/sssom/oxo
+name: oxo-schema
+description: Schema for OLS OXO payloads
+imports:
+  - linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  oxo: https://w3id.org/sssom/oxo/
+default_prefix: oxo
+types:
+  https identifier:
+    typeof: string
+  OntologyIdentifier:
+    typeof: uriorcurie
+  http identifier:
+    typeof: string
+  identifier:
+    typeof: string
+classes:
+  Datasource:
+    slots:
+      - prefix
+      - preferredPrefix
+      - idorgNamespace
+      - alternatePrefix
+      - alternateIris
+      - name
+      - orcid
+      - description
+      - source
+      - licence
+      - versionInfo
+    slot_usage: {}
+  Term:
+    slots:
+      - curie
+      - identifier
+      - uri
+      - label
+      - datasource
+      - href
+  Link:
+    slots:
+      - href
+    slot_usage: {}
+  LinkSet:
+    slots:
+      - link_to_self
+      - fromTerm
+      - toTerm
+      - first
+      - next
+      - last
+    slot_usage:
+      fromTerm:
+        range: Link
+      toTerm:
+        range: Link
+      first:
+        range: Link
+      next:
+        range: Link
+      last:
+        range: Link
+  Mapping:
+    slots:
+      - mappingId
+      - datasource
+      - sourcePrefix
+      - sourceType
+      - predicate
+      - fromTerm
+      - toTerm
+      - scope
+      - date
+      - _links
+    slot_usage:
+      fromTerm:
+        range: Term
+        inlined: true
+      toTerm:
+        range: Term
+        inlined: true
+  Embedded:
+    slots:
+      - mappings
+    slot_usage: {}
+  Page:
+    slots:
+      - size
+      - totalElements
+      - totalPages
+      - number
+    slot_usage: {}
+  Container:
+    slots:
+      - _embedded
+      - _links
+      - page
+    slot_usage: {}
+    tree_root: true
+slots:
+  prefix:
+    range: string
+    examples:
+      - value: EMAPA
+  preferredPrefix:
+    range: string
+    examples:
+      - value: EMAPA
+  idorgNamespace:
+    range: string
+  alternatePrefix:
+    range: string
+    examples:
+      - value:
+          - emapa
+          - EMAPA
+    multivalued: true
+  alternateIris:
+    range: string
+    examples:
+      - value: []
+    multivalued: true
+  name:
+    range: string
+    examples:
+      - value: Mouse Developmental Anatomy Ontology
+  orcid:
+    range: string
+  description:
+    range: string
+    examples:
+      - value: An ontology for mouse anatomy covering embryonic development and postnatal
+          stages.
+  source:
+    range: source_enum
+    examples:
+      - value: ONTOLOGY
+  licence:
+    range: https identifier
+    examples:
+      - value: https://creativecommons.org/licenses/by/4.0/
+  versionInfo:
+    range: string
+    examples:
+      - value: Last updated in the ontology lookup service on 2021-04-02T00:26:26.986+0000
+  curie:
+    range: string
+    identifier: true
+    examples:
+      - value: UBERON:0013141
+  identifier:
+    range: string
+  uri:
+    range: http identifier
+    examples:
+      - value: http://purl.obolibrary.org/obo/UBERON_0013141
+  label:
+    range: string
+    examples:
+      - value: capillary bed
+  datasource:
+    range: Datasource
+  href:
+    range: https identifier
+    examples:
+      - value: https://www.ebi.ac.uk/spot/oxo/api/terms/UBERON:0013141
+  first:
+    range: Link
+    inlined: true
+  next:
+    range: Link
+    inlined: true
+  last:
+    range: Link
+    inlined: true
+  link_to_self:
+    range: Link
+    inlined: true
+  fromTerm:
+    range: Term
+  toTerm:
+    range: Term
+  mappingId:
+    range: integer
+    examples:
+      - value: 60379160
+  sourcePrefix:
+    range: string
+    examples:
+      - value: UBERON
+  sourceType:
+    range: source_enum
+    examples:
+      - value: ONTOLOGY
+  predicate:
+    range: string
+  scope:
+    range: scope_enum
+    examples:
+      - value: RELATED
+  date:
+    #range: datetime
+    range: string
+    examples:
+      - value: 2021-05-08T00:00:00.000+0000
+  _links:
+    range: LinkSet
+    multivalued: false
+  mappings:
+    range: Mapping
+    multivalued: true
+  size:
+    range: integer
+    examples:
+      - value: 0
+  totalElements:
+    range: integer
+    examples:
+      - value: 12
+  totalPages:
+    range: integer
+    examples:
+      - value: 1
+  number:
+    range: integer
+    examples:
+      - value: 0
+  _embedded:
+    range: Embedded
+  page:
+    range: string
+enums:
+  source_enum:
+    permissible_values:
+      ONTOLOGY:
+      DATABASE:
+  scope_enum:
+    permissible_values:
+      RELATED:
+      EXACT:
+      BROADER:
+      NARROWER:
+      LABEL:
+
+

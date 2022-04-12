@@ -94,7 +94,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             return f'{pm[pfx]}{local_id}'
         else:
             # TODO: not hardcode
-            return f'{OBO_PURL}/{pfx}_{local_id}'
+            return f'{OBO_PURL}{pfx}_{local_id}'
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         """
@@ -167,7 +167,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         """
         fetches the unique label for a CURIE
@@ -213,9 +212,6 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError()
-
-
-
 
     def get_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
@@ -267,7 +263,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
 
         :param curie:
