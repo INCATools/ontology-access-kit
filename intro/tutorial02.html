@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; oaklib  documentation</title>
+  <title>Part 2: Basic Python &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -64,8 +65,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Overview: module code</li>
+      <li>Part 2: Basic Python</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/intro/tutorial02.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -73,26 +75,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="oaklib/datamodels/summary_statistics_datamodel.html">oaklib.datamodels.summary_statistics_datamodel</a></li>
-<li><a href="oaklib/datamodels/text_annotator.html">oaklib.datamodels.text_annotator</a></li>
-<li><a href="oaklib/implementations/bioportal/bioportal_implementation.html">oaklib.implementations.bioportal.bioportal_implementation</a></li>
-<li><a href="oaklib/implementations/ols/ols_implementation.html">oaklib.implementations.ols.ols_implementation</a></li>
-<li><a href="oaklib/implementations/ontobee/ontobee_implementation.html">oaklib.implementations.ontobee.ontobee_implementation</a></li>
-<li><a href="oaklib/implementations/pronto/pronto_implementation.html">oaklib.implementations.pronto.pronto_implementation</a></li>
-<li><a href="oaklib/implementations/sparql/sparql_implementation.html">oaklib.implementations.sparql.sparql_implementation</a></li>
-<li><a href="oaklib/implementations/sqldb/model.html">oaklib.implementations.sqldb.model</a></li>
-<li><a href="oaklib/implementations/sqldb/sql_implementation.html">oaklib.implementations.sqldb.sql_implementation</a></li>
-<li><a href="oaklib/implementations/ubergraph/ubergraph_implementation.html">oaklib.implementations.ubergraph.ubergraph_implementation</a></li>
-<li><a href="oaklib/interfaces/basic_ontology_interface.html">oaklib.interfaces.basic_ontology_interface</a></li>
-<li><a href="oaklib/interfaces/obograph_interface.html">oaklib.interfaces.obograph_interface</a></li>
-<li><a href="oaklib/interfaces/relation_graph_interface.html">oaklib.interfaces.relation_graph_interface</a></li>
-<li><a href="oaklib/interfaces/search_interface.html">oaklib.interfaces.search_interface</a></li>
-<li><a href="oaklib/interfaces/subsetter_interface.html">oaklib.interfaces.subsetter_interface</a></li>
-<li><a href="oaklib/interfaces/summary_statistics_interface.html">oaklib.interfaces.summary_statistics_interface</a></li>
-<li><a href="oaklib/interfaces/text_annotator_interface.html">oaklib.interfaces.text_annotator_interface</a></li>
-<li><a href="oaklib/interfaces/validator_interface.html">oaklib.interfaces.validator_interface</a></li>
-</ul>
+  <section id="part-2-basic-python">
+<h1>Part 2: Basic Python<a class="headerlink" href="#part-2-basic-python" title="Permalink to this headline"></a></h1>
+<p>Some basic Python knowledge is assumed</p>
+<section id="install-poetry">
+<h2>Install Poetry<a class="headerlink" href="#install-poetry" title="Permalink to this headline"></a></h2>
+<p>For this section we are going to use <a class="reference external" href="https://python-poetry.org/">Poetry</a> to set up a project. If you are an experienced
+developer feel free to adapt these instructions to your favored package manager, otherwise we advise sticking closely to
+the instructions.</p>
+</section>
+<section id="create-a-new-project">
+<h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">new</span> <span class="o">--</span><span class="n">src</span> <span class="o">-</span><span class="n">n</span> <span class="n">my</span><span class="o">-</span><span class="n">oak</span><span class="o">-</span><span class="n">demo</span>
+<span class="n">cd</span> <span class="n">my</span><span class="o">-</span><span class="n">oak</span><span class="o">-</span><span class="n">demo</span>
+<span class="n">poetry</span> <span class="n">add</span> <span class="n">oaklib</span>
+</pre></div>
+</div>
+</section>
+<section id="code-the-first-example">
+<h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
+<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <span class="xref std std-ref">ProntoImplementation</span></p>
+<p>Edit a file using your favorite IDE</p>
+<p><code class="docutils literal notranslate"><span class="pre">src/my_oak_demo/demo.py</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TODO</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>this is still to be filled in. For now consult test_pronto.py in tests/test_implementations</p>
+</div>
+</section>
+</section>
+
 
            </div>
           </div>

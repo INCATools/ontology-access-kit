@@ -121,6 +121,8 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-validate-cutoff">runoak-validate command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-cutoff">runoak-validate-multiple command line option</a>
+</li>
       </ul></li>
       <li>
     --down
@@ -208,7 +210,16 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-o">runoak-validate command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-o">runoak-viz command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-o">runoak-validate-multiple command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-viz-0">runoak-viz command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --output-type
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-viz-O">runoak-viz command line option</a>
 </li>
       </ul></li>
       <li>
@@ -243,6 +254,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-R">runoak-lexmatch command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --schema
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-s">runoak-validate-multiple command line option</a>
 </li>
       </ul></li>
       <li>
@@ -295,6 +313,13 @@
 </li>
       </ul></li>
       <li>
+    -O
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-viz-O">runoak-viz command line option</a>
+</li>
+      </ul></li>
+      <li>
     -o
 
       <ul>
@@ -324,7 +349,9 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-o">runoak-validate command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-o">runoak-viz command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-o">runoak-validate-multiple command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-viz-0">runoak-viz command line option</a>
 </li>
       </ul></li>
       <li>
@@ -357,6 +384,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-viz-S">runoak-viz command line option</a>
+</li>
+      </ul></li>
+      <li>
+    -s
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-s">runoak-validate-multiple command line option</a>
 </li>
       </ul></li>
       <li>
@@ -421,6 +455,8 @@
       <li><a href="implementations/bioportal.html#oaklib.implementations.bioportal.bioportal_implementation.BioportalImplementation.create">create() (oaklib.implementations.bioportal.bioportal_implementation.BioportalImplementation class method)</a>
 
       <ul>
+        <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation.create">(oaklib.implementations.ols.ols_implementation.OlsImplementation class method)</a>
+</li>
         <li><a href="implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create">(oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation class method)</a>
 </li>
         <li><a href="implementations/obofiles.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation.create">(oaklib.implementations.pronto.pronto_implementation.ProntoImplementation class method)</a>
@@ -457,10 +493,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Datamodel"><strong>Datamodel</strong></a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+      <li>
+    DBS
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-arg-DBS">runoak-validate-multiple command line option</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">descendants() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">disable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -507,8 +550,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_mappings_by_curie">get_mappings_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
       <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_metric_description">get_metric_description() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships_by_curie">get_outgoing_relationships_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -518,6 +559,8 @@
       <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_partitioned_summary_statistics">get_partitioned_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">get_prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_simple_mappings_by_curie">get_simple_mappings_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Graph"><strong>Graph</strong></a>
 </li>
@@ -637,6 +680,8 @@
       <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
+</li>
+      <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">OlsImplementation (class in oaklib.implementations.ols.ols_implementation)</a>
 </li>
       <li><a href="implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in oaklib.implementations.ontobee.ontobee_implementation)</a>
 </li>
@@ -864,6 +909,23 @@
 </li>
       </ul></li>
       <li>
+    runoak-validate-multiple command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-cutoff">--cutoff</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-s">--schema</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-s">-s</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-validate-multiple-arg-DBS">DBS</a>
+</li>
+      </ul></li>
+      <li>
     runoak-viz command line option
 
       <ul>
@@ -875,7 +937,9 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-view">--no-view</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-o">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-viz-0">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-viz-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-p">--predicates</a>
 </li>
@@ -885,7 +949,9 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-C">-C</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-viz-o">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-viz-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-viz-0">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-p">-p</a>
 </li>

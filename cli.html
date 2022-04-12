@@ -61,6 +61,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#runoak-subset">subset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-terms">terms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate">validate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-viz">viz</a></li>
 </ul>
 </li>
@@ -515,6 +516,44 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+<section id="runoak-validate-multiple">
+<h3>validate-multiple<a class="headerlink" href="#runoak-validate-multiple" title="Permalink to this headline"></a></h3>
+<p>Validate an ontology against ontology metadata</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-multiple <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>DBS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-multiple-cutoff">
+<span class="sig-name descname"><span class="pre">--cutoff</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cutoff&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-multiple-cutoff" title="Permalink to this definition"></a></dt>
+<dd><p>maximum results to report for any (type, predicate) pair</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>50</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-multiple-s">
+<span id="cmdoption-runoak-validate-multiple-schema"></span><span class="sig-name descname"><span class="pre">-s</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--schema</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;schema&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-multiple-s" title="Permalink to this definition"></a></dt>
+<dd><p>Path to schema (if you want to override the bundled OMO schema)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-multiple-o">
+<span id="cmdoption-runoak-validate-multiple-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-multiple-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-multiple-arg-DBS">
+<span id="cmdoption-runoak-validate-multiple-arg-dbs"></span><span class="sig-name descname"><span class="pre">DBS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-multiple-arg-DBS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-viz">
 <h3>viz<a class="headerlink" href="#runoak-viz" title="Permalink to this headline"></a></h3>
 <p>Visualizing an ancestor graph using obographviz</p>
@@ -581,9 +620,15 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-viz-o">
-<span id="cmdoption-runoak-viz-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
+<dt class="sig sig-object std" id="cmdoption-runoak-viz-O">
+<span id="cmdoption-runoak-viz-o"></span><span id="cmdoption-runoak-viz-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-viz-0">
+<span id="cmdoption-runoak-viz-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-0" title="Permalink to this definition"></a></dt>
+<dd><p>Path to output file</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>

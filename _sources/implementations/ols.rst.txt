@@ -3,7 +3,7 @@ Ontology Lookup Service (OLS) Endpoint
 
 .. warning ::
 
-   not yet implemented!
+   very partially implemented!
 
 When implemented this will also provide implementation of the mapping interface via OxO
 

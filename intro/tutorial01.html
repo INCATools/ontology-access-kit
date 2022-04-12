@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; oaklib  documentation</title>
+  <title>Part 1 &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -65,7 +65,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Installation</li>
+      <li>Part 1</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/intro/tutorial01.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -75,8 +75,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+  <section id="part-1">
+<h1>Part 1<a class="headerlink" href="#part-1" title="Permalink to this headline"></a></h1>
+<p>First we will install the package and then we will try some command line examples querying the fruitfly anatomy ontology.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
 <p>Create a directory</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~</span>
 <span class="n">mkdir</span> <span class="n">oak</span><span class="o">-</span><span class="n">tutorial</span>
@@ -97,12 +100,73 @@ export PYTHONPATH=.:$PYTHONPATH
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
-</section>
-<section id="download-files">
-<h1>Download files<a class="headerlink" href="#download-files" title="Permalink to this headline"></a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span>
+<p>You should see a list of all commands.</p>
+<p>You can get help on a specific command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="n">search</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
+<p>See also the <span class="xref std std-ref">cli</span> section of this documentation</p>
+</section>
+<section id="query-the-obo-library">
+<h2>Query the OBO Library<a class="headerlink" href="#query-the-obo-library" title="Permalink to this headline"></a></h2>
+<p>Next try using the “search” command to search for a term in the Drosophila anatomy ontology (<a class="reference external" href="http://obofoundry.org/ontology/fbbt">fbbt</a>).</p>
+<p>The base command takes an “–input” (or just “-i”) option that specifies the input implementation. We will return to the full syntax later,
+but one pattern that is useful to know is “obolibrary:&lt;ontology-file&gt;”.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+</pre></div>
+</div>
+<p>The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. This is using the Pronto
+library under the hood.</p>
+<p>After the lag you will get results like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FBbt:00004751 ! wing vein
+FBbt:00004754 ! axillary vein
+FBbt:00004759 ! wing vein L1
+FBbt:00004760 ! wing vein L2
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">purl</span><span class="o">.</span><span class="n">obolibrary</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">obo</span><span class="o">/</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span>
+<span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="fetching-ancestors">
+<h2>Fetching ancestors<a class="headerlink" href="#fetching-ancestors" title="Permalink to this headline"></a></h2>
+<p>Next we will try a different command, plugging in an ID we got from the previous search.</p>
+<p>We will use the “ancestors” command to find all rdfs:subClassOf and part-of (BFO:0000050) ancestors of ‘wing vein’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">ancestors</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
+</pre></div>
+</div>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>Here we are using built-in shorthands, but you can get the same effect with the full :ref:<a href="#id3"><span class="problematic" id="id4">`</span></a>CURIE`s, rdfs:subClassOf and BFO:0000050)</p>
+<p>You should see body parts such as cuticle, wing, etc, alongside their ID</p>
+<p>Later on we will see how we can make images like:</p>
+<img alt="../_images/wing-vein.png" src="../_images/wing-vein.png" />
+</section>
+<section id="using-other-backends">
+<h2>Using other backends<a class="headerlink" href="#using-other-backends" title="Permalink to this headline"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+</pre></div>
+</div>
+<p>This searches the ubergraph backend using the blazegraph search interface. Note that in addition to searching over a wider range
+of ontologies, this returns a ranked list that might include matches only to “wing” or “vein”. Currently each backend implements
+search a little differently, but this will be more unified and controllable in the future.</p>
+</section>
+<section id="using-bioportal">
+<h2>Using BioPortal<a class="headerlink" href="#using-bioportal" title="Permalink to this headline"></a></h2>
+<p>First you will need to go to <a class="reference external" href="https://bioportal.bioontology.org/">BioPortal</a> and get an API key, if you don’t already have one.</p>
+<p>You will then need to set it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="nb">set</span><span class="o">-</span><span class="n">apikey</span> <span class="n">bioportal</span> <span class="n">YOUR</span><span class="o">-</span><span class="n">API</span><span class="o">-</span><span class="n">KEY</span>
+</pre></div>
+</div>
+<p>This stores it in an OS-dependent folder</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+</pre></div>
+</div>
+<p>Again the results are relevance ranked, and there are a lot of them, as this includes multiple ontologies, you may want to ctrl-C to kill before the end</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline"></a></h2>
+<p>You can play around with some of the other commands, or go right into the next section on programmatic usage!</p>
+</section>
 </section>
 
 

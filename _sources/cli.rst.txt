@@ -1,3 +1,5 @@
+.. cli:
+
 Command Line
 ============
 

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; oaklib  documentation</title>
+  <title>Part 4: OboGraphs &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -64,8 +65,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Overview: module code</li>
+      <li>Part 4: OboGraphs</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/intro/tutorial04.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -73,26 +75,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="oaklib/datamodels/summary_statistics_datamodel.html">oaklib.datamodels.summary_statistics_datamodel</a></li>
-<li><a href="oaklib/datamodels/text_annotator.html">oaklib.datamodels.text_annotator</a></li>
-<li><a href="oaklib/implementations/bioportal/bioportal_implementation.html">oaklib.implementations.bioportal.bioportal_implementation</a></li>
-<li><a href="oaklib/implementations/ols/ols_implementation.html">oaklib.implementations.ols.ols_implementation</a></li>
-<li><a href="oaklib/implementations/ontobee/ontobee_implementation.html">oaklib.implementations.ontobee.ontobee_implementation</a></li>
-<li><a href="oaklib/implementations/pronto/pronto_implementation.html">oaklib.implementations.pronto.pronto_implementation</a></li>
-<li><a href="oaklib/implementations/sparql/sparql_implementation.html">oaklib.implementations.sparql.sparql_implementation</a></li>
-<li><a href="oaklib/implementations/sqldb/model.html">oaklib.implementations.sqldb.model</a></li>
-<li><a href="oaklib/implementations/sqldb/sql_implementation.html">oaklib.implementations.sqldb.sql_implementation</a></li>
-<li><a href="oaklib/implementations/ubergraph/ubergraph_implementation.html">oaklib.implementations.ubergraph.ubergraph_implementation</a></li>
-<li><a href="oaklib/interfaces/basic_ontology_interface.html">oaklib.interfaces.basic_ontology_interface</a></li>
-<li><a href="oaklib/interfaces/obograph_interface.html">oaklib.interfaces.obograph_interface</a></li>
-<li><a href="oaklib/interfaces/relation_graph_interface.html">oaklib.interfaces.relation_graph_interface</a></li>
-<li><a href="oaklib/interfaces/search_interface.html">oaklib.interfaces.search_interface</a></li>
-<li><a href="oaklib/interfaces/subsetter_interface.html">oaklib.interfaces.subsetter_interface</a></li>
-<li><a href="oaklib/interfaces/summary_statistics_interface.html">oaklib.interfaces.summary_statistics_interface</a></li>
-<li><a href="oaklib/interfaces/text_annotator_interface.html">oaklib.interfaces.text_annotator_interface</a></li>
-<li><a href="oaklib/interfaces/validator_interface.html">oaklib.interfaces.validator_interface</a></li>
+  <section id="part-4-obographs">
+<h1>Part 4: OboGraphs<a class="headerlink" href="#part-4-obographs" title="Permalink to this headline"></a></h1>
+<p>So far we have been using the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a> which provides basic lookup operations. All methods in this interface
+return ‘simple’ python objects, such as strings, lists of strings, or dictionaries or <a class="reference internal" href="../best-practice.html#iterators"><span class="std std-ref">Iterators</span></a> composing these elements.</p>
+<p>Sometimes more powerful abstractions are required. For example, many bioinformatics applications work with a graph-abstraction
+of an ontology which allows for graph-theoretic operations and visualizations. In contrast, many ontology management and QC
+applications require an OWL “axiom-oriented” view of an ontology.</p>
+<p>OAK does not favor any one view or abstraction or datamodel. The general philosophy is:</p>
+<ul class="simple">
+<li><p>be pluralistic - provide different interfaces with different abstractions, and allow the application developer or user to choose</p></li>
+<li><p>ensure each interface follows a well-documented datamodel, adhering to standards if they exist</p></li>
 </ul>
+<p>To illustrate this we will first introduce the <span class="xref std std-ref">OboGraphInterface</span> which uses the <span class="xref std std-ref">OboGraph</span> datamodel</p>
+<section id="obographs">
+<h2>OboGraphs<a class="headerlink" href="#obographs" title="Permalink to this headline"></a></h2>
+<p>In this datamodel, an ontology is conceived of as a Graph, with a graph consisting of</p>
+<ul class="simple">
+<li><p>nodes</p></li>
+<li><p>edges</p></li>
+</ul>
+<p>Nodes are typically ontology :ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>Class`es but are not restricted to this.</p>
+<p>Edges are typed relationships between nodes - for example, finger part-of hand.</p>
+</section>
+<section id="obograph-interface">
+<h2>OboGraph Interface<a class="headerlink" href="#obograph-interface" title="Permalink to this headline"></a></h2>
+<p>Like most datamodels in OAK, the OboGraph datamodel follows a Data Access Object (DAO) pattern - the objects are intentionally limited
+in their behavior. For example, you cannot ask a node what edges come out or go in; these is stored at the top level graph object.</p>
+<p>“Smarter” operations are provided by the interface</p>
+<p>TODO: see tests for examples for now</p>
+</section>
+</section>
+
 
            </div>
           </div>
