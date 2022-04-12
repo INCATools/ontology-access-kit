@@ -9,7 +9,7 @@ from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
-    ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode
+    ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
@@ -80,7 +80,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         return self._ontology_metadata_model
 
     def all_entity_curies(self) -> Iterable[CURIE]:
-        s = text('SELECT id FROM class_node WHERE id NOT LIKE "_:%"')
+        s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')
         for row in self.engine.execute(s):
             yield row['id']
 
@@ -154,6 +154,12 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for row in self.session.query(Edge).filter(Edge.object == curie):
             rmap[row.predicate].append(row.subject)
         return rmap
+
+    def get_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        m = defaultdict(list)
+        for row in self.session.query(HasMappingStatement).filter(HasMappingStatement.subject == curie):
+            m[row.predicate].append(row.value)
+        return m
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

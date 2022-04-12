@@ -117,8 +117,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     ## LEXICAL
 
-    def test_lexmatch(self):
-        outfile = f'{OUTPUT_DIR}/matcher-test-cli.sssom.tsv'
+    def test_lexmatch_owl(self):
+        outfile = f'{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv'
         result = self.runner.invoke(main, ['-i', f'{INPUT_DIR}/matcher-test.owl', 'lexmatch', '-R', f'{INPUT_DIR}/matcher_rules.yaml',
                                            '-o', outfile])
         out = result.stdout
@@ -128,4 +128,19 @@ class TestCommandLineInterface(unittest.TestCase):
             contents = "\n".join(stream.readlines())
             self.assertIn('skos:closeMatch', contents)
             self.assertIn('skos:exactMatch', contents)
+        # TODO: currently pronto produces various warnings when parsing OWL
         #self.assertEqual("", err)
+
+    def test_lexmatch_sqlite(self):
+        outfile = f'{OUTPUT_DIR}/matcher-test-cli.db.sssom.tsv'
+        result = self.runner.invoke(main, ['-i', f'sqlite:{INPUT_DIR}/matcher-test.db', 'lexmatch', '-R', f'{INPUT_DIR}/matcher_rules.yaml',
+                                           '-o', outfile])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as stream:
+            contents = "\n".join(stream.readlines())
+            self.assertIn('skos:closeMatch', contents)
+            self.assertIn('skos:exactMatch', contents)
+            self.assertIn('x:bone_element', contents)
+            self.assertIn('bone tissue', contents)

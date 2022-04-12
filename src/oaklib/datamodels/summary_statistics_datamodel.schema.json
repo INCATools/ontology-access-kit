@@ -1,0 +1,346 @@
+{
+   "$defs": {
+      "FacetStatistics": {
+         "additionalProperties": false,
+         "description": "summary statistics for a data facet",
+         "properties": {
+            "annotation_property_count": {
+               "type": "integer"
+            },
+            "anonymous_class_expression_count": {
+               "type": "integer"
+            },
+            "anonymous_individual_count": {
+               "type": "integer"
+            },
+            "class_count": {
+               "type": "integer"
+            },
+            "class_count_excluding_deprecated": {
+               "type": "integer"
+            },
+            "class_count_with_definitions": {
+               "type": "integer"
+            },
+            "datatype_property_count": {
+               "type": "integer"
+            },
+            "description_logic_profile": {
+               "type": "string"
+            },
+            "distinct_synonym_count": {
+               "type": "integer"
+            },
+            "equivalentclasses_axiom_count": {
+               "type": "integer"
+            },
+            "facet": {
+               "type": "string"
+            },
+            "individual_count": {
+               "type": "integer"
+            },
+            "mapping_count": {
+               "type": "integer"
+            },
+            "named_individual_count": {
+               "type": "integer"
+            },
+            "object_property_count": {
+               "type": "integer"
+            },
+            "ontology_count": {
+               "type": "integer"
+            },
+            "owl_axiom_count": {
+               "type": "integer"
+            },
+            "property_count": {
+               "type": "integer"
+            },
+            "rdf_triple_count": {
+               "type": "integer"
+            },
+            "subclass_of_axiom_count": {
+               "type": "integer"
+            },
+            "synonym_statement_count": {
+               "type": "integer"
+            },
+            "unsatisfiable_class_count": {
+               "type": "integer"
+            },
+            "untyped_entity_count": {
+               "type": "integer"
+            }
+         },
+         "required": [
+            "facet"
+         ],
+         "title": "FacetStatistics",
+         "type": "object"
+      },
+      "FacetStatistics__identifier_optional": {
+         "additionalProperties": false,
+         "description": "summary statistics for a data facet",
+         "properties": {
+            "annotation_property_count": {
+               "type": "integer"
+            },
+            "anonymous_class_expression_count": {
+               "type": "integer"
+            },
+            "anonymous_individual_count": {
+               "type": "integer"
+            },
+            "class_count": {
+               "type": "integer"
+            },
+            "class_count_excluding_deprecated": {
+               "type": "integer"
+            },
+            "class_count_with_definitions": {
+               "type": "integer"
+            },
+            "datatype_property_count": {
+               "type": "integer"
+            },
+            "description_logic_profile": {
+               "type": "string"
+            },
+            "distinct_synonym_count": {
+               "type": "integer"
+            },
+            "equivalentclasses_axiom_count": {
+               "type": "integer"
+            },
+            "facet": {
+               "type": "string"
+            },
+            "individual_count": {
+               "type": "integer"
+            },
+            "mapping_count": {
+               "type": "integer"
+            },
+            "named_individual_count": {
+               "type": "integer"
+            },
+            "object_property_count": {
+               "type": "integer"
+            },
+            "ontology_count": {
+               "type": "integer"
+            },
+            "owl_axiom_count": {
+               "type": "integer"
+            },
+            "property_count": {
+               "type": "integer"
+            },
+            "rdf_triple_count": {
+               "type": "integer"
+            },
+            "subclass_of_axiom_count": {
+               "type": "integer"
+            },
+            "synonym_statement_count": {
+               "type": "integer"
+            },
+            "unsatisfiable_class_count": {
+               "type": "integer"
+            },
+            "untyped_entity_count": {
+               "type": "integer"
+            }
+         },
+         "required": [],
+         "title": "FacetStatistics",
+         "type": "object"
+      },
+      "GlobalStatistics": {
+         "additionalProperties": false,
+         "description": "summary statistics for the entire resource",
+         "properties": {
+            "annotation_property_count": {
+               "type": "integer"
+            },
+            "anonymous_class_expression_count": {
+               "type": "integer"
+            },
+            "anonymous_individual_count": {
+               "type": "integer"
+            },
+            "by_category": {
+               "additionalProperties": {
+                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
+               },
+               "description": "statistics keyed by category"
+            },
+            "by_ontology": {
+               "additionalProperties": {
+                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
+               },
+               "description": "statistics keyed by ontology"
+            },
+            "by_subset": {
+               "additionalProperties": {
+                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
+               },
+               "description": "statistics keyed by ontology subset"
+            },
+            "by_taxon": {
+               "additionalProperties": {
+                  "$ref": "#/$defs/FacetStatistics__identifier_optional"
+               },
+               "description": "statistics keyed by organism taxon"
+            },
+            "class_count": {
+               "type": "integer"
+            },
+            "class_count_excluding_deprecated": {
+               "type": "integer"
+            },
+            "class_count_with_definitions": {
+               "type": "integer"
+            },
+            "datatype_property_count": {
+               "type": "integer"
+            },
+            "description_logic_profile": {
+               "type": "string"
+            },
+            "distinct_synonym_count": {
+               "type": "integer"
+            },
+            "equivalentclasses_axiom_count": {
+               "type": "integer"
+            },
+            "individual_count": {
+               "type": "integer"
+            },
+            "mapping_count": {
+               "type": "integer"
+            },
+            "named_individual_count": {
+               "type": "integer"
+            },
+            "object_property_count": {
+               "type": "integer"
+            },
+            "ontology_count": {
+               "type": "integer"
+            },
+            "owl_axiom_count": {
+               "type": "integer"
+            },
+            "property_count": {
+               "type": "integer"
+            },
+            "rdf_triple_count": {
+               "type": "integer"
+            },
+            "subclass_of_axiom_count": {
+               "type": "integer"
+            },
+            "synonym_statement_count": {
+               "type": "integer"
+            },
+            "unsatisfiable_class_count": {
+               "type": "integer"
+            },
+            "untyped_entity_count": {
+               "type": "integer"
+            }
+         },
+         "required": [],
+         "title": "GlobalStatistics",
+         "type": "object"
+      },
+      "SummaryStatisticCollection": {
+         "additionalProperties": false,
+         "description": "A summary statistics report object",
+         "properties": {
+            "annotation_property_count": {
+               "type": "integer"
+            },
+            "anonymous_class_expression_count": {
+               "type": "integer"
+            },
+            "anonymous_individual_count": {
+               "type": "integer"
+            },
+            "class_count": {
+               "type": "integer"
+            },
+            "class_count_excluding_deprecated": {
+               "type": "integer"
+            },
+            "class_count_with_definitions": {
+               "type": "integer"
+            },
+            "datatype_property_count": {
+               "type": "integer"
+            },
+            "description_logic_profile": {
+               "type": "string"
+            },
+            "distinct_synonym_count": {
+               "type": "integer"
+            },
+            "equivalentclasses_axiom_count": {
+               "type": "integer"
+            },
+            "individual_count": {
+               "type": "integer"
+            },
+            "mapping_count": {
+               "type": "integer"
+            },
+            "named_individual_count": {
+               "type": "integer"
+            },
+            "object_property_count": {
+               "type": "integer"
+            },
+            "ontology_count": {
+               "type": "integer"
+            },
+            "owl_axiom_count": {
+               "type": "integer"
+            },
+            "property_count": {
+               "type": "integer"
+            },
+            "rdf_triple_count": {
+               "type": "integer"
+            },
+            "subclass_of_axiom_count": {
+               "type": "integer"
+            },
+            "synonym_statement_count": {
+               "type": "integer"
+            },
+            "unsatisfiable_class_count": {
+               "type": "integer"
+            },
+            "untyped_entity_count": {
+               "type": "integer"
+            }
+         },
+         "required": [],
+         "title": "SummaryStatisticCollection",
+         "type": "object"
+      }
+   },
+   "$id": "https://w3id.org/linkml/summary_statistics",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "summary-statistics",
+   "type": "object",
+   "version": null
+}
+
