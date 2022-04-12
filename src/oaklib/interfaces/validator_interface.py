@@ -4,7 +4,7 @@ from typing import Dict, List, Iterable
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
-from oaklib.datamodels.validation_datamodel import ValidationResult
+from oaklib.datamodels.validation_datamodel import ValidationResult, ValidationConfiguration
 
 
 class ValidatorInterface(BasicOntologyInterface, ABC):
@@ -40,7 +40,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
             if self.get_definition_by_curie(curie) is None:
                 yield curie
 
-    def validate(self) -> Iterable[ValidationResult]:
+    def validate(self, configuration: ValidationConfiguration = None) -> Iterable[ValidationResult]:
         """
         Validate entire ontology or wrapped ontologies
 

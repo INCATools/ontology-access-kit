@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-10T13:59:10
+# Generation date: 2022-04-11T17:33:26
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -373,8 +373,8 @@ class HasLifeCycle(AnnotationPropertyMixin):
 
     deprecated: Optional[Union[bool, Bool]] = None
     has_obsolescence_reason: Optional[str] = None
-    term_replaced_by: Optional[Union[dict, "Thing"]] = None
-    consider: Optional[Union[str, List[str]]] = empty_list()
+    term_replaced_by: Optional[Union[dict, Any]] = None
+    consider: Optional[Union[Union[dict, Any], List[Union[dict, Any]]]] = empty_list()
     has_alternative_id: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     excluded_from_QC_check: Optional[Union[dict, "Thing"]] = None
     excluded_subClassOf: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
@@ -387,13 +387,6 @@ class HasLifeCycle(AnnotationPropertyMixin):
 
         if self.has_obsolescence_reason is not None and not isinstance(self.has_obsolescence_reason, str):
             self.has_obsolescence_reason = str(self.has_obsolescence_reason)
-
-        if self.term_replaced_by is not None and not isinstance(self.term_replaced_by, Thing):
-            self.term_replaced_by = Thing(**as_dict(self.term_replaced_by))
-
-        if not isinstance(self.consider, list):
-            self.consider = [self.consider] if self.consider is not None else []
-        self.consider = [v if isinstance(v, str) else str(v) for v in self.consider]
 
         if not isinstance(self.has_alternative_id, list):
             self.has_alternative_id = [self.has_alternative_id] if self.has_alternative_id is not None else []
@@ -642,8 +635,8 @@ class Term(NamedObject):
     OBO_foundry_unique_label: Optional[Union[str, List[str]]] = empty_list()
     deprecated: Optional[Union[bool, Bool]] = None
     has_obsolescence_reason: Optional[str] = None
-    term_replaced_by: Optional[Union[dict, Thing]] = None
-    consider: Optional[Union[str, List[str]]] = empty_list()
+    term_replaced_by: Optional[Union[dict, Any]] = None
+    consider: Optional[Union[Union[dict, Any], List[Union[dict, Any]]]] = empty_list()
     has_alternative_id: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
     excluded_from_QC_check: Optional[Union[dict, Thing]] = None
     excluded_subClassOf: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
@@ -724,13 +717,6 @@ class Term(NamedObject):
 
         if self.has_obsolescence_reason is not None and not isinstance(self.has_obsolescence_reason, str):
             self.has_obsolescence_reason = str(self.has_obsolescence_reason)
-
-        if self.term_replaced_by is not None and not isinstance(self.term_replaced_by, Thing):
-            self.term_replaced_by = Thing(**as_dict(self.term_replaced_by))
-
-        if not isinstance(self.consider, list):
-            self.consider = [self.consider] if self.consider is not None else []
-        self.consider = [v if isinstance(v, str) else str(v) for v in self.consider]
 
         if not isinstance(self.has_alternative_id, list):
             self.has_alternative_id = [self.has_alternative_id] if self.has_alternative_id is not None else []
@@ -894,8 +880,8 @@ class Class(Term):
     closeMatch: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     subClassOf: Optional[Union[Union[str, ClassId], List[Union[str, ClassId]]]] = empty_list()
     disjointWith: Optional[Union[str, List[str]]] = empty_list()
-    equivalentClass: Optional[Union[str, List[str]]] = empty_list()
-    intersectionOf: Optional[str] = None
+    equivalentClass: Optional[Union[Union[dict, "ClassExpression"], List[Union[dict, "ClassExpression"]]]] = empty_list()
+    intersectionOf: Optional[Union[dict, "ClassExpression"]] = None
     cardinality: Optional[str] = None
     complementOf: Optional[str] = None
     oneOf: Optional[Union[dict, "ClassExpression"]] = None
@@ -952,10 +938,10 @@ class Class(Term):
 
         if not isinstance(self.equivalentClass, list):
             self.equivalentClass = [self.equivalentClass] if self.equivalentClass is not None else []
-        self.equivalentClass = [v if isinstance(v, str) else str(v) for v in self.equivalentClass]
+        self.equivalentClass = [v if isinstance(v, ClassExpression) else ClassExpression(**as_dict(v)) for v in self.equivalentClass]
 
-        if self.intersectionOf is not None and not isinstance(self.intersectionOf, str):
-            self.intersectionOf = str(self.intersectionOf)
+        if self.intersectionOf is not None and not isinstance(self.intersectionOf, ClassExpression):
+            self.intersectionOf = ClassExpression(**as_dict(self.intersectionOf))
 
         if self.cardinality is not None and not isinstance(self.cardinality, str):
             self.cardinality = str(self.cardinality)
@@ -1078,8 +1064,8 @@ class ObjectProperty(Property):
     is_cyclic: Optional[Union[bool, Bool]] = None
     is_transitive: Optional[Union[bool, Bool]] = None
     shorthand: Optional[Union[str, List[str]]] = empty_list()
-    equivalentProperty: Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]] = empty_list()
-    inverseOf: Optional[str] = None
+    equivalentProperty: Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]] = empty_list()
+    inverseOf: Optional[Union[str, PropertyId]] = None
     propertyChainAxiom: Optional[Union[str, List[str]]] = empty_list()
     disjointWith: Optional[Union[str, List[str]]] = empty_list()
 
@@ -1104,10 +1090,10 @@ class ObjectProperty(Property):
 
         if not isinstance(self.equivalentProperty, list):
             self.equivalentProperty = [self.equivalentProperty] if self.equivalentProperty is not None else []
-        self.equivalentProperty = [v if isinstance(v, Thing) else Thing(**as_dict(v)) for v in self.equivalentProperty]
+        self.equivalentProperty = [v if isinstance(v, PropertyId) else PropertyId(v) for v in self.equivalentProperty]
 
-        if self.inverseOf is not None and not isinstance(self.inverseOf, str):
-            self.inverseOf = str(self.inverseOf)
+        if self.inverseOf is not None and not isinstance(self.inverseOf, PropertyId):
+            self.inverseOf = PropertyId(self.inverseOf)
 
         if not isinstance(self.propertyChainAxiom, list):
             self.propertyChainAxiom = [self.propertyChainAxiom] if self.propertyChainAxiom is not None else []
@@ -1316,8 +1302,8 @@ class Restriction(AnonymousClassExpression):
     someValuesFrom: Optional[Union[str, List[str]]] = empty_list()
     allValuesFrom: Optional[str] = None
     disjointWith: Optional[Union[str, List[str]]] = empty_list()
-    equivalentClass: Optional[Union[str, List[str]]] = empty_list()
-    intersectionOf: Optional[str] = None
+    equivalentClass: Optional[Union[Union[dict, "ClassExpression"], List[Union[dict, "ClassExpression"]]]] = empty_list()
+    intersectionOf: Optional[Union[dict, "ClassExpression"]] = None
     subClassOf: Optional[Union[Union[dict, "ClassExpression"], List[Union[dict, "ClassExpression"]]]] = empty_list()
     cardinality: Optional[str] = None
     complementOf: Optional[str] = None
@@ -1342,10 +1328,10 @@ class Restriction(AnonymousClassExpression):
 
         if not isinstance(self.equivalentClass, list):
             self.equivalentClass = [self.equivalentClass] if self.equivalentClass is not None else []
-        self.equivalentClass = [v if isinstance(v, str) else str(v) for v in self.equivalentClass]
+        self.equivalentClass = [v if isinstance(v, ClassExpression) else ClassExpression(**as_dict(v)) for v in self.equivalentClass]
 
-        if self.intersectionOf is not None and not isinstance(self.intersectionOf, str):
-            self.intersectionOf = str(self.intersectionOf)
+        if self.intersectionOf is not None and not isinstance(self.intersectionOf, ClassExpression):
+            self.intersectionOf = ClassExpression(**as_dict(self.intersectionOf))
 
         if not isinstance(self.subClassOf, list):
             self.subClassOf = [self.subClassOf] if self.subClassOf is not None else []
@@ -1385,8 +1371,8 @@ class ClassExpression(Expression):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.ClassExpression
 
     disjointWith: Optional[Union[str, List[str]]] = empty_list()
-    equivalentClass: Optional[Union[str, List[str]]] = empty_list()
-    intersectionOf: Optional[str] = None
+    equivalentClass: Optional[Union[Union[dict, "ClassExpression"], List[Union[dict, "ClassExpression"]]]] = empty_list()
+    intersectionOf: Optional[Union[dict, "ClassExpression"]] = None
     subClassOf: Optional[Union[Union[dict, "ClassExpression"], List[Union[dict, "ClassExpression"]]]] = empty_list()
     cardinality: Optional[str] = None
     complementOf: Optional[str] = None
@@ -1400,10 +1386,10 @@ class ClassExpression(Expression):
 
         if not isinstance(self.equivalentClass, list):
             self.equivalentClass = [self.equivalentClass] if self.equivalentClass is not None else []
-        self.equivalentClass = [v if isinstance(v, str) else str(v) for v in self.equivalentClass]
+        self.equivalentClass = [v if isinstance(v, ClassExpression) else ClassExpression(**as_dict(v)) for v in self.equivalentClass]
 
-        if self.intersectionOf is not None and not isinstance(self.intersectionOf, str):
-            self.intersectionOf = str(self.intersectionOf)
+        if self.intersectionOf is not None and not isinstance(self.intersectionOf, ClassExpression):
+            self.intersectionOf = ClassExpression(**as_dict(self.intersectionOf))
 
         if not isinstance(self.subClassOf, list):
             self.subClassOf = [self.subClassOf] if self.subClassOf is not None else []
@@ -1445,6 +1431,9 @@ class PropertyExpression(Expression):
 
 @dataclass
 class ObsoleteAspect(YAMLRoot):
+    """
+    Auto-classifies anything that is obsolete
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.ObsoleteAspect
@@ -1462,6 +1451,9 @@ class ObsoleteAspect(YAMLRoot):
 
 
 class NotObsoleteAspect(YAMLRoot):
+    """
+    Auto-classifies anything that is not obsolete
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.NotObsoleteAspect
@@ -1568,13 +1560,13 @@ slots.deprecated = Slot(uri=OWL.deprecated, name="deprecated", curie=OWL.curie('
                    model_uri=OMOSCHEMA.deprecated, domain=None, range=Optional[Union[bool, Bool]])
 
 slots.term_replaced_by = Slot(uri=IAO['0100001'], name="term_replaced_by", curie=IAO.curie('0100001'),
-                   model_uri=OMOSCHEMA.term_replaced_by, domain=None, range=Optional[Union[dict, Thing]])
+                   model_uri=OMOSCHEMA.term_replaced_by, domain=None, range=Optional[Union[dict, Any]])
 
 slots.has_obsolescence_reason = Slot(uri=IAO['0000231'], name="has_obsolescence_reason", curie=IAO.curie('0000231'),
                    model_uri=OMOSCHEMA.has_obsolescence_reason, domain=None, range=Optional[str])
 
 slots.consider = Slot(uri=OIO.consider, name="consider", curie=OIO.curie('consider'),
-                   model_uri=OMOSCHEMA.consider, domain=None, range=Optional[Union[str, List[str]]])
+                   model_uri=OMOSCHEMA.consider, domain=None, range=Optional[Union[Union[dict, Any], List[Union[dict, Any]]]])
 
 slots.has_alternative_id = Slot(uri=OIO.hasAlternativeId, name="has_alternative_id", curie=OIO.curie('hasAlternativeId'),
                    model_uri=OMOSCHEMA.has_alternative_id, domain=None, range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]])
@@ -1736,25 +1728,25 @@ slots.distinctMembers = Slot(uri=OWL.distinctMembers, name="distinctMembers", cu
                    model_uri=OMOSCHEMA.distinctMembers, domain=None, range=Optional[Union[dict, Thing]])
 
 slots.equivalentClass = Slot(uri=OWL.equivalentClass, name="equivalentClass", curie=OWL.curie('equivalentClass'),
-                   model_uri=OMOSCHEMA.equivalentClass, domain=None, range=Optional[Union[str, List[str]]])
+                   model_uri=OMOSCHEMA.equivalentClass, domain=None, range=Optional[Union[Union[dict, ClassExpression], List[Union[dict, ClassExpression]]]])
 
 slots.sameAs = Slot(uri=OWL.sameAs, name="sameAs", curie=OWL.curie('sameAs'),
-                   model_uri=OMOSCHEMA.sameAs, domain=None, range=Optional[Union[str, List[str]]])
+                   model_uri=OMOSCHEMA.sameAs, domain=None, range=Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]])
 
 slots.equivalentProperty = Slot(uri=OWL.equivalentProperty, name="equivalentProperty", curie=OWL.curie('equivalentProperty'),
-                   model_uri=OMOSCHEMA.equivalentProperty, domain=None, range=Optional[Union[Union[dict, Thing], List[Union[dict, Thing]]]])
+                   model_uri=OMOSCHEMA.equivalentProperty, domain=None, range=Optional[Union[Union[str, PropertyId], List[Union[str, PropertyId]]]])
 
 slots.hasValue = Slot(uri=OWL.hasValue, name="hasValue", curie=OWL.curie('hasValue'),
-                   model_uri=OMOSCHEMA.hasValue, domain=None, range=Optional[str])
+                   model_uri=OMOSCHEMA.hasValue, domain=None, range=Optional[Union[dict, Any]])
 
 slots.intersectionOf = Slot(uri=OWL.intersectionOf, name="intersectionOf", curie=OWL.curie('intersectionOf'),
-                   model_uri=OMOSCHEMA.intersectionOf, domain=None, range=Optional[str])
+                   model_uri=OMOSCHEMA.intersectionOf, domain=None, range=Optional[Union[dict, ClassExpression]])
 
 slots.inverseOf = Slot(uri=OWL.inverseOf, name="inverseOf", curie=OWL.curie('inverseOf'),
-                   model_uri=OMOSCHEMA.inverseOf, domain=None, range=Optional[str])
+                   model_uri=OMOSCHEMA.inverseOf, domain=None, range=Optional[Union[str, PropertyId]])
 
 slots.maxQualifiedCardinality = Slot(uri=OWL.maxQualifiedCardinality, name="maxQualifiedCardinality", curie=OWL.curie('maxQualifiedCardinality'),
-                   model_uri=OMOSCHEMA.maxQualifiedCardinality, domain=None, range=Optional[str])
+                   model_uri=OMOSCHEMA.maxQualifiedCardinality, domain=None, range=Optional[int])
 
 slots.members = Slot(uri=OWL.members, name="members", curie=OWL.curie('members'),
                    model_uri=OMOSCHEMA.members, domain=None, range=Optional[Union[dict, Thing]])

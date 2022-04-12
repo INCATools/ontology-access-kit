@@ -34,6 +34,28 @@ imports:
 # Classes                         #
 #==================================
 classes:
+  ValidationConfiguration:
+    attributes:
+      max_number_results_per_type:
+        range: integer
+        description: if set then truncate results such that no more than this number of results are reported per type
+      type_severity_map:
+        description: Allows overriding of severity of a particular type
+        range: TypeSeverityKeyValue
+        inlined: true
+        multivalued: true
+      schema_path:
+        range: string
+        description: allows overriding the default OMO schema
+
+  TypeSeverityKeyValue:
+    attributes:
+      type:
+        key: true
+        range: nodeidentifier
+      severity:
+        range: severity_options
+
   ValidationReport:
     class_uri: sh:ValidationReport
     description: A report object

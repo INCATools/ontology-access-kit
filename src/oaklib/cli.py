@@ -15,6 +15,7 @@ from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 
 import click
 from linkml_runtime.dumpers import yaml_dumper
+from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -446,13 +447,18 @@ def validate(output: str, cutoff: int):
               default=50,
               show_default=True,
               help="maximum results to report for any (type, predicate) pair")
+@click.option('-s', '--schema',
+              help="Path to schema (if you want to override the bundled OMO schema)")
 @click.argument("dbs", nargs=-1)
 @output_option
-def validate_multiple(dbs, output, cutoff: int):
+def validate_multiple(dbs, output, schema, cutoff: int):
     """
     Validate an ontology against ontology metadata
     """
     writer = StreamingCsvWriter(output)
+    config = ValidationConfiguration()
+    if schema:
+        config.schema_path = schema
     for db in dbs:
         try:
             path = Path(db).absolute()
@@ -460,7 +466,7 @@ def validate_multiple(dbs, output, cutoff: int):
             resource = OntologyResource(slug=f'sqlite:///{str(path)}')
             impl = SqlImplementation(resource)
             counts = defaultdict(int)
-            for result in impl.validate():
+            for result in impl.validate(configuration=config):
                 result.source = f'sqlite:{db}'
                 key = (result.type, result.predicate)
                 n = counts[key]
