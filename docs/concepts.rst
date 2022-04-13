@@ -4,7 +4,7 @@ Ontology Concepts
 =================
 
 Here we describe some of the over-arching concepts in this library. Note that distinct :ref:`datamodels` may impose
-their own specific views of the world, but the concepts here are intended as a kind of lingua-franca
+their own specific views of the world, but the concepts here are intended as a kind of lingua-franca.
 
 Ontology
 --------
@@ -16,15 +16,15 @@ paper from 2000, a collection of thousands of inter-related terms. However, the 
 very flexible and malleable, and might include things like:
 
 * things that are more "schema-like", such as schema.org or PROV
-* formal logical artefacts like BFO
+* formal logical artifacts like BFO
 * an "instance graph" for example of countries and their connections
 * a knowledge base encoded in RDF
 * the entirety of wikidata
 * in OWL, an ontology is just a collection of axioms
 
 We try to be as pluralistic as possible and provide a way to access all of the above using
-the appropriate abstractions. However, the main community served in "classic" ontologies such
-as those found in the OBO library or those encoded in OWL
+the appropriate abstractions. However, the main community served is "classic" ontologies such
+as those found in the OBO library or those encoded in OWL.
 
 Ontology Element
 ----------------
@@ -55,7 +55,7 @@ When working with a specific datamodel these may be partitioned more strictly. F
 - AnnotationProperties
 - DatatypeProperties
 
-The BasicOntologyInterface does not discriminate between different kinds of element. This can be confusing,
+The BasicOntologyInterface does not discriminate between different kinds of elements. This can be confusing,
 if you ask for all elements thinking you might get back only the "terms" but you would also get elements for
 relationship types, subsets, etc.
 
@@ -70,7 +70,7 @@ what appears to be one ontology has pieces of other ontologies incorporated in.
 
 This library is designed to handle all of these scenarios. In the BasicOntologyInterface, you don't have to worry about imports,
 you just get a view where everything appears as if it were in a single ontologies (even this ontologies actually a combination of
-ontologies). Other interfaces let you explore the compositional structure in more detail
+ontologies). Other interfaces let you explore the compositional structure in more detail.
 
 URIs and CURIEs and identifiers
 -------------------------------
@@ -86,14 +86,14 @@ Most methods in the interfaces in this library accept CURIEs, but these can alwa
 Prefix Maps
 -----------
 
-A prefix map maps between prefixes and their URI base expansions
+A prefix map maps between prefixes and their URI base expansions.
 
 Relationships / Edges
 ---------------------
 
 .. note ::
 
-   It may seem surprising but the Owl standard has no construct that directly corresponds to what we call
+   It may seem surprising but the OWL standard has no construct that directly corresponds to what we call
    a relationship here.
 
 Mappings
@@ -107,7 +107,7 @@ Statements and Axioms
 
 .. note ::
 
-   You only need to understand this if you are working with the OwlInterface or the RdfInterface
+   You only need to understand this if you are working with the OwlInterface or the RdfInterface.
 
 Subsets
 -------
