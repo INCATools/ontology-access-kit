@@ -1,22 +1,36 @@
-import requests
 import logging
 from dataclasses import dataclass, field
-from typing import Any, List, Dict, Union, Iterator, Iterable, Tuple
+from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
+from urllib.parse import quote
 
+import requests
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.search_interface import SearchConfiguration, SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE
 from oaklib.utilities.apikey_manager import get_apikey_value
+from sssom import Mapping
+from sssom.sssom_datamodel import MatchTypeEnum
 
 REST_URL = "http://data.bioontology.org"
 
 ANNOTATION = Dict[str, Any]
 
+# See: 
+#   https://www.bioontology.org/wiki/BioPortal_Mappings 
+#   https://github.com/agroportal/project-management/wiki/Mappings
+SOURCE_TO_PREDICATE = {
+    'CUI': 'skos:closeMatch',
+    'LOOM': 'skos:closeMatch',
+    'REST': 'skos:relatedMatch', # maybe??
+    'SAME_URI': 'skos:exactMatch',
+}
+
 
 @dataclass
-class BioportalImplementation(TextAnnotatorInterface, SearchInterface):
+class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingProviderInterface):
     """
     Implementation over bioportal endpoint
 
@@ -115,4 +129,28 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface):
                     collection = obj['collection']
 
 
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: MappingProviderInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
+        [prefix, _] = curie.split(':', 2)
+        class_uri = quote(self.curie_to_uri(curie), safe='')
+        # This may return lots of duplicate mappings
+        # See: https://github.com/ncbo/ontologies_linked_data/issues/117
+        req_url = f'{REST_URL}/ontologies/{prefix}/classes/{class_uri}/mappings'
+        response = requests.get(req_url, headers=self._headers(), params={'display_links': 'false', 'display_context': 'false'})
+        body = response.json()
+        for result in body:
+            yield self.result_to_mapping(result)
+
+
+    def result_to_mapping(self, result: dict) -> Mapping:
+        mapping = Mapping(
+            subject_id=result['classes'][0]['@id'],
+            predicate_id=SOURCE_TO_PREDICATE[result['source']],
+            match_type=MatchTypeEnum.Unspecified,
+            object_id=result['classes'][1]['@id'],
+            mapping_provider=result['@type']
+        )
+        return mapping
