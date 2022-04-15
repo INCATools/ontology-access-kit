@@ -34,6 +34,9 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     """
     Implementation over OLS and OxO APIs
 
+    .. note::
+
+
     """
     ols_api_key: str = None
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})

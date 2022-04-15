@@ -21,7 +21,6 @@ Code
 .. currentmodule:: oaklib.implementations.ubergraph.ubergraph_implementation
                    
 .. autoclass:: UbergraphImplementation
-    :members: create
 
 .. autoclass:: RelationGraphEnum
 

@@ -13,10 +13,23 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
     TODO: move code from mapping-walker
     """
 
-    def all_mappings(self) -> Iterable[sssom.Mapping]:
-        raise NotImplementedError
+    def all_sssom_mappings(self) -> Iterable[sssom.Mapping]:
+        """
+        All SSSOM mappings in the ontology
+
+        :return:
+        """
+        for curie in self.all_entity_curies():
+            for m in self.get_sssom_mappings_by_curie(curie):
+                yield m
 
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+        """
+        All SSSOM mappings about a curie
+
+        :param curie:
+        :return:
+        """
         raise NotImplementedError
 
     def get_transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:

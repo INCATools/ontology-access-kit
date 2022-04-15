@@ -11,6 +11,7 @@ from oaklib.interfaces.search_interface import SearchConfiguration, SearchInterf
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE
 from oaklib.utilities.apikey_manager import get_apikey_value
+from oaklib.utilities.rate_limiter import check_limit
 from sssom import Mapping
 from sssom.sssom_datamodel import MatchTypeEnum
 
@@ -72,6 +73,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
                   'text': text}
         if self.bioportal_api_key is  None:
             self.load_bioportal_api_key()
+        check_limit()
         r = requests.get(REST_URL + '/annotator',
                          headers=self._headers(),
                          params=params)
@@ -107,6 +109,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         if self.bioportal_api_key is  None:
             self.load_bioportal_api_key()
+        check_limit()
         r = requests.get(REST_URL + '/search',
                          headers=self._headers(),
                          params={'q': search_term, 'include': ['prefLabel']})
@@ -124,6 +127,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
                 next_page = obj['links']['nextPage']
                 #print(f'NEXT={next_page}')
                 if next_page:
+                    check_limit()
                     r = requests.get(next_page, headers=self._headers())
                     obj = r.json()
                     collection = obj['collection']

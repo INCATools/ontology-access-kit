@@ -1,5 +1,7 @@
+import logging
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Type, Union
 
 
 @dataclass
@@ -18,6 +20,7 @@ class OntologyResource:
     local: bool = False
     in_memory: bool = False
     data: str = None
+    implementation_class: Union[Type] = None
 
     @property
     def local_path(self) -> Path:

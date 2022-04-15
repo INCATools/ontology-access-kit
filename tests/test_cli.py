@@ -12,6 +12,7 @@ BAD_ONTOLOGY_DB = INPUT_DIR / 'bad-ontology.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 NUCLEUS = 'GO:0005634'
 ATOM = 'CHEBI:33250'
+INTERNEURON = 'CL:0000099'
 
 class TestCommandLineInterface(unittest.TestCase):
 

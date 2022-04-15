@@ -2,12 +2,14 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Type
+from typing import List, Iterable, Type, Iterator, Union
 
 import pronto
+import sssom
 from deprecated import deprecated
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, PREFIX_MAP
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
@@ -17,12 +19,13 @@ from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph
-from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP
+from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP, SKOS_CLOSE_MATCH
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
+from sssom.sssom_datamodel import MatchTypeEnum
 
 
 @dataclass
-class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface, SearchInterface):
+class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -139,7 +142,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             if subset in t.subsets:
                 yield t.id
 
-    def get_label_by_curie(self, curie: CURIE):
+    def get_label_by_curie(self, curie: CURIE) -> str:
         t = self._entity(curie)
         if t:
             return t.name
@@ -227,6 +230,8 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         t = self._entity(curie)
+        if t is None:
+            return {}
         m = defaultdict(list)
         m[LABEL_PREDICATE] = [t.name]
         for s in t.synonyms:
@@ -279,10 +284,23 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return ProntoImplementation(wrapped_ontology=subontology)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: MappingsInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+        t = self._entity(curie)
+        for x in t.xrefs:
+            yield sssom.Mapping(subject_id=curie,
+                                predicate_id=SKOS_CLOSE_MATCH,
+                                object_id=x.id,
+                                match_type=MatchTypeEnum.Lexical)
+
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False) -> obograph.Node:
         t = self._entity(curie)
         if t is None:
             return obograph.Node(id=curie)
