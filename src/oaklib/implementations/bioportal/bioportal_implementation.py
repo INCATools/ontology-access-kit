@@ -138,6 +138,8 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
+        if self.bioportal_api_key is  None:
+            self.load_bioportal_api_key()
         [prefix, _] = curie.split(':', 2)
         class_uri = quote(self.curie_to_uri(curie), safe='')
         # This may return lots of duplicate mappings

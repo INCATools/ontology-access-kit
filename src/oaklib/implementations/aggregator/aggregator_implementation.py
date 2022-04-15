@@ -4,6 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Iterable, Type, Iterator, Union, Tuple, Callable, Optional, Any, Dict
 
+import sssom
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration, ValidationResult
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
@@ -45,14 +46,20 @@ class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphIn
         if strict:
             raise ValueError(f'No value for {func}')
 
+    def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
+        return self._delegate_iterator(lambda i: i.basic_search(search_term, config=config))
+
     def validate(self, configuration: ValidationConfiguration = None) -> Iterable[ValidationResult]:
-        pass
+        return self._delegate_iterator(lambda i: i.validate())
 
     def all_entity_curies(self) -> Iterable[CURIE]:
         return self._delegate_iterator(lambda i: i.all_entity_curies())
 
     def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self._delegate_iterator(lambda i: i.get_simple_mappings_by_curie(curie))
+
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+        return self._delegate_iterator(lambda i: i.get_sssom_mappings_by_curie(curie))
 
     def get_label_by_curie(self, curie: CURIE) -> str:
         return self._delegate_first(lambda i: i.get_label_by_curie(curie))
@@ -67,7 +74,25 @@ class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphIn
         return self._delegate_iterator(lambda i: i.curies_by_subset(subset))
 
     def node(self, curie: CURIE, strict=False) -> Node:
-        return self._delegate_first(lambda i: i.node(curie, strict=False), strict=strict)
+        # TODO: this implementation is ad-hoc
+        # return the first node that has a label populated
+        node: Node = None
+        for i in self.implementations:
+            if isinstance(i, OboGraphInterface):
+                node = i.node(curie)
+                if node.label:
+                    return node
+        return node
+
+    def get_outgoing_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.get_outgoing_relationships_by_curie(curie))
+
+    def get_incoming_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.get_incoming_relationships_by_curie(curie))
+
+
+
+
 
 
 

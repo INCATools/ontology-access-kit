@@ -29,6 +29,8 @@ def get_implementation_from_shorthand(descriptor: str, format: str = None) -> On
     :param format:
     :return:
     """
+    res = get_resource_from_shorthand(descriptor, format)
+    return res.implementation_class(res)
 
 def get_resource_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
     """

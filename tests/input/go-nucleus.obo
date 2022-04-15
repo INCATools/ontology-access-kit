@@ -410,6 +410,7 @@ is_a: GO:0043231 ! intracellular membrane-bounded organelle
 disjoint_from: GO:0005737 ! cytoplasm
 relationship: in_taxon NCBITaxon:2759 ! Eukaryota
 relationship: only_in_taxon NCBITaxon:2759 ! Eukaryota
+relationship: never_in_taxon NCBITaxon:2 ! Bacteria <prokaryote>
 
 [Term]
 id: GO:0005635
@@ -2467,6 +2468,15 @@ xref: RO:0002212
 is_a: causally_upstream_of,_negative_effect ! causally upstream of, negative effect
 is_a: regulates ! regulates
 inverse_of: negatively_regulated_by ! negatively regulated by
+
+[Typedef]
+id: never_in_taxon
+name: never_in_taxon
+def: "S never_in_taxon T iff: S SubClassOf in_taxon only not T." [PMID:20973947]
+xref: RO:0002161
+expand_assertion_to: "Class: <http://www.w3.org/2002/07/owl#Nothing> EquivalentTo: ?X and (RO_0002162 some ?Y)" []
+is_metadata_tag: true
+is_class_level: true
 
 [Typedef]
 id: occurs_in
