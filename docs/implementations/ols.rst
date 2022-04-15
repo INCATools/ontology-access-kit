@@ -3,9 +3,9 @@ Ontology Lookup Service (OLS) Endpoint
 
 .. warning ::
 
-   not yet implemented!
+   very partially implemented!
 
-When implemented this will also provide implementation of the mapping interface via OxO
+Also provides interface to OxO
 
 Code
 ----
@@ -13,4 +13,3 @@ Code
 .. currentmodule:: oaklib.implementations.ols.ols_implementation
                    
 .. autoclass:: OlsImplementation
-    :members: create

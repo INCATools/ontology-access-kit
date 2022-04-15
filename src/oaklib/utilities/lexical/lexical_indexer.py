@@ -143,8 +143,8 @@ def create_mapping(term: str, r1: RelationshipToTerm, r2: RelationshipToTerm,
                    predicate_id=pred,
                    confidence=confidence,
                    match_string=term,
-                   subject_match_field=r1.predicate,
-                   object_match_field=r2.predicate,
+                   subject_match_field=[r1.predicate],
+                   object_match_field=[r2.predicate],
                    match_type=MatchTypeEnum.Lexical,
                    mapping_tool='oaklib'
                    )

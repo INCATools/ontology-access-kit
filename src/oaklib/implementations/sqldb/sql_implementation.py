@@ -192,6 +192,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             q = q.filter(EntailedEdge.subject == start_curies)
         if predicates is not None:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        logging.debug(f'Ancestors query: {q}')
         for row in q:
             yield row.object
 

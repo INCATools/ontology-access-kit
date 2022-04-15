@@ -16,4 +16,3 @@ Code
 .. currentmodule:: oaklib.implementations.bioportal.bioportal_implementation
                    
 .. autoclass:: BioportalImplementation
-    :members: create

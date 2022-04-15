@@ -11,4 +11,3 @@ Code
 .. currentmodule:: oaklib.implementations.owlery.owlery_implementation
                    
 .. autoclass:: OwleryImplementation
-    :members: create

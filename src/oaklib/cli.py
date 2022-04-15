@@ -22,11 +22,14 @@ from oaklib.implementations.pronto.pronto_implementation import ProntoImplementa
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
+from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
+from oaklib.selector import get_resource_from_shorthand
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
@@ -35,6 +38,7 @@ from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_
 from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
+from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 
 
 @dataclass
@@ -117,36 +121,11 @@ def main(verbose: int, quiet: bool, input: str):
         logging.basicConfig(level=logging.ERROR)
     resource = OntologyResource()
     resource.slug = input
-    impl_class: Type[OntologyInterface]
-    # TODO: move to a separate module
+
     if input:
-        if ':' in input:
-            toks = input.split(':')
-            scheme = toks[0]
-            rest = ':'.join(toks[1:])
-            if scheme == 'sqlite':
-                impl_class = SqlImplementation
-                resource.slug = f'sqlite:///{Path(rest).absolute()}'
-            elif scheme == 'ubergraph':
-                impl_class = UbergraphImplementation
-                resource = None
-            elif scheme == 'ontobee':
-                impl_class = OntobeeImplementation
-                resource = None
-            elif scheme == 'bioportal':
-                impl_class = BioportalImplementation
-                resource = None
-            elif scheme == 'obolibrary':
-                impl_class = ProntoImplementation
-                if resource.slug.endswith('.obo'):
-                    resource.format = 'obo'
-                resource.local = False
-                resource.slug = resource.slug.replace('obolibrary:', '')
-            else:
-                raise ValueError(f'Scheme {scheme} not known')
-        else:
-            resource.local = True
-            impl_class = ProntoImplementation
+        impl_class: Type[OntologyInterface]
+        resource = get_resource_from_shorthand(input)
+        impl_class = resource.implementation_class
         logging.info(f'RESOURCE={resource}')
         settings.impl = impl_class(resource)
 
@@ -268,10 +247,21 @@ def viz(terms, predicates, down, view, stylemap, configure, output_type: str, ou
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
+        terms_expanded = []
+        for term in terms:
+            if term.startswith('in_subset='):
+                term = term.replace('in_subset=', '')
+                terms_expanded += list(impl.curies_by_subset(term))
+            else:
+                terms_expanded.append(term)
         if stylemap is None:
             stylemap = default_stylemap_path()
         actual_predicates = _process_predicates_arg(predicates)
-        curies = list(impl.multiterm_search(terms))
+        if isinstance(impl, SearchInterface):
+            curies = list(impl.multiterm_search(terms_expanded))
+        else:
+            logging.warning(f'Search not implemented: using direct inputs')
+            curies = terms_expanded
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         else:
@@ -408,6 +398,63 @@ def terms(output: str):
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@output_option
+def mappings(output):
+    """
+    List all SSSOM mappings in the ontology
+    """
+    impl = settings.impl
+    writer = StreamingYamlWriter(output)
+    if isinstance(impl, MappingProviderInterface):
+        for mapping in impl.all_sssom_mappings():
+            writer.emit(mapping)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@output_option
+def aliases(output):
+    """
+    List all aliases in the ontology
+    """
+    impl = settings.impl
+    writer = StreamingCsvWriter(output)
+    if isinstance(impl, BasicOntologyInterface):
+        for curie in impl.all_entity_curies():
+            for pred, aliases in impl.alias_map_by_curie(curie).items():
+                for alias in aliases:
+                    writer.emit(dict(curie=curie, pred=pred, alias=alias))
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@output_option
+@click.argument('subsets', nargs=-1)
+def subset_rollups(subsets: list, output):
+    """
+    For each subset provide a mapping of each term in the ontology to a subset
+    """
+    impl = settings.impl
+    #writer = StreamingCsvWriter(output)
+    if isinstance(impl, OboGraphInterface):
+        impl.enable_transitive_query_cache()
+        term_curies = list(impl.all_entity_curies())
+        output.write("\t".join(['subset', 'term', 'subset_term']))
+        if len(subsets) == 0:
+            subsets = list(impl.all_subset_curies())
+        for subset in subsets:
+            logging.info(f'Subset={subset}')
+            m = roll_up_to_named_subset(impl, subset, term_curies, predicates=[IS_A, PART_OF])
+            for term, mapped_to in m.items():
+                for tgt in mapped_to:
+                    output.write("\t".join([subset, term, tgt]))
+                    output.write("\n")
+                    #writer.emit(dict(subset=subset, term=term, subset_term=tgt))
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 
 @main.command()
