@@ -1,7 +1,7 @@
-﻿obolib.utilities.lexical.lexical\_indexer
+﻿oaklib.utilities.lexical.lexical\_indexer
 =========================================
 
-.. automodule:: obolib.utilities.lexical.lexical_indexer
+.. automodule:: oaklib.utilities.lexical.lexical_indexer
 
    
    

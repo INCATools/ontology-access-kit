@@ -1,0 +1,31 @@
+﻿oaklib.utilities.subsets.slimmer\_utils
+=======================================
+
+.. automodule:: oaklib.utilities.subsets.slimmer_utils
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      filter_redundant
+      is_redundant
+      roll_up_to_named_subset
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

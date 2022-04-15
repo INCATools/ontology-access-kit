@@ -1,7 +1,7 @@
-﻿obolib.utilities.graph.relationship\_walker
+﻿oaklib.utilities.graph.relationship\_walker
 ===========================================
 
-.. automodule:: obolib.utilities.graph.relationship_walker
+.. automodule:: oaklib.utilities.graph.relationship_walker
 
    
    

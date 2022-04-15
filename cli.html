@@ -42,11 +42,13 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#runoak">runoak</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-aliases">aliases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-ancestors">ancestors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-annotate">annotate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
@@ -55,10 +57,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#runoak-info">info</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-lexmatch">lexmatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-list-subset">list-subset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-relationships">relationships</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-search">search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-subset">subset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-subset-rollups">subset-rollups</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-terms">terms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate">validate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
@@ -103,7 +107,8 @@
 <section id="runoak">
 <h2>runoak<a class="headerlink" href="#runoak" title="Permalink to this headline"></a></h2>
 <p>Run the oaklib Command Line.</p>
-<p>A subcommand must be passed - for example: ancestors, terms, …</p>
+<blockquote>
+<div><p>A subcommand must be passed - for example: ancestors, terms, …</p>
 <p>Most commands require an input ontology to be specified:</p>
 <blockquote>
 <div><p>runoak -i &lt;INPUT SPECIFICATION&gt; SUBCOMMAND &lt;SUBCOMMAND OPTIONS AND ARGUMENTS&gt;</p>
@@ -111,6 +116,7 @@
 <p>Get help on any command, e.g:</p>
 <blockquote>
 <div><p>runoak viz -h</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
@@ -132,9 +138,26 @@
 <dd><p>path to input implementation specification.</p>
 </dd></dl>
 
+<section id="runoak-aliases">
+<h3>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>List all aliases in the ontology</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak aliases <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-aliases-o">
+<span id="cmdoption-runoak-aliases-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-aliases-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+</section>
 <section id="runoak-ancestors">
 <h3>ancestors<a class="headerlink" href="#runoak-ancestors" title="Permalink to this headline"></a></h3>
-<p>List all ancestors</p>
+<blockquote>
+<div><p>List all ancestors</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i cl.owl ancestors CL:4023094</p>
@@ -155,6 +178,7 @@
 <p>Multiple terms can be passed:</p>
 <blockquote>
 <div><p>runoak -i sqlite:go.db ancestors GO:0005773 GO:0005737 -p i,p</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ancestors <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -182,11 +206,13 @@
 </section>
 <section id="runoak-annotate">
 <h3>annotate<a class="headerlink" href="#runoak-annotate" title="Permalink to this headline"></a></h3>
-<p>Annotate a piece of text using a Named Entity Recognition annotation</p>
+<blockquote>
+<div><p>Annotate a piece of text using a Named Entity Recognition annotation</p>
 <dl class="simple">
 <dt>Example:</dt><dd><p>runoak -i bioportal: annotate “enlarged nucleus in T-cells from peripheral blood”</p>
 </dd>
 </dl>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak annotate <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>WORDS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -207,8 +233,10 @@
 </section>
 <section id="runoak-axioms">
 <h3>axioms<a class="headerlink" href="#runoak-axioms" title="Permalink to this headline"></a></h3>
-<p>List all axioms</p>
+<blockquote>
+<div><p>List all axioms</p>
 <p>TODO: this is a placeholder – will be added when we add funowl</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak axioms <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -222,7 +250,9 @@
 </section>
 <section id="runoak-check-definitions">
 <h3>check-definitions<a class="headerlink" href="#runoak-check-definitions" title="Permalink to this headline"></a></h3>
-<p>Check definitions</p>
+<blockquote>
+<div><p>Check definitions</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak check-definitions <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -236,8 +266,10 @@
 </section>
 <section id="runoak-descendants">
 <h3>descendants<a class="headerlink" href="#runoak-descendants" title="Permalink to this headline"></a></h3>
-<p>List all descendants of a term</p>
+<blockquote>
+<div><p>List all descendants of a term</p>
 <p>See examples for ‘ancestors’ command</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak descendants <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -264,12 +296,14 @@
 </section>
 <section id="runoak-info">
 <h3>info<a class="headerlink" href="#runoak-info" title="Permalink to this headline"></a></h3>
-<p>Show info on terms</p>
+<blockquote>
+<div><p>Show info on terms</p>
 <p>TODO: currenly this only shows the label</p>
 <dl class="simple">
 <dt>Example:</dt><dd><p>runoak -i cl.owl info CL:4023094</p>
 </dd>
 </dl>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak info <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -290,7 +324,8 @@
 </section>
 <section id="runoak-lexmatch">
 <h3>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this headline"></a></h3>
-<p>Generates lexical index and mappings</p>
+<blockquote>
+<div><p>Generates lexical index and mappings</p>
 <p>See <span class="xref std std-ref">.lexical_index_to_sssom</span></p>
 <dl class="simple">
 <dt>Examples:</dt><dd><p>lexmatch -i foo.obo -o foo.sssom.tsv</p>
@@ -300,6 +335,7 @@
 <dt>Using custom rules:</dt><dd><p>lexmatch -i foo.obo -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv</p>
 </dd>
 </dl>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lexmatch <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -347,13 +383,15 @@
 </section>
 <section id="runoak-list-subset">
 <h3>list-subset<a class="headerlink" href="#runoak-list-subset" title="Permalink to this headline"></a></h3>
-<p>Shows IDs in a given subset</p>
+<blockquote>
+<div><p>Shows IDs in a given subset</p>
 <dl class="simple">
 <dt>Example:</dt><dd><p>runoak -i obolibrary:go.obo list-subset goslim_generic</p>
 </dd>
 <dt>Example:</dt><dd><p>oak -i sqlite:notebooks/input/go.db list-subset goslim_agr</p>
 </dd>
 </dl>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak list-subset <span class="o">[</span>OPTIONS<span class="o">]</span> SUBSET
 </pre></div>
 </div>
@@ -372,13 +410,31 @@
 </dd></dl>
 
 </section>
+<section id="runoak-mappings">
+<h3>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>List all SSSOM mappings in the ontology</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak mappings <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-mappings-o">
+<span id="cmdoption-runoak-mappings-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-mappings-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+</section>
 <section id="runoak-relationships">
 <h3>relationships<a class="headerlink" href="#runoak-relationships" title="Permalink to this headline"></a></h3>
-<p>Show relationships for terms</p>
+<blockquote>
+<div><p>Show relationships for terms</p>
 <dl class="simple">
 <dt>Example:</dt><dd><p>runoak -i cl.owl relationships CL:4023094</p>
 </dd>
 </dl>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak relationships <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -399,7 +455,8 @@
 </section>
 <section id="runoak-search">
 <h3>search<a class="headerlink" href="#runoak-search" title="Permalink to this headline"></a></h3>
-<p>Searches ontology for entities that have a label, alias, or other property matching a search term.</p>
+<blockquote>
+<div><p>Searches ontology for entities that have a label, alias, or other property matching a search term.</p>
 <dl class="simple">
 <dt>Example:</dt><dd><p>runoak -i uberon.obo search limb</p>
 </dd>
@@ -413,6 +470,7 @@ search over the labels and synonyms - results are not ranked</p>
 <p>(You need to set your API key first)</p>
 <p>This uses the Bioportal API to search over a broad set of ontologies, returning a ranked list
 ranked by relevance. There may be many results, the results are streamed, do ctrl^C to stop</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak search <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -433,11 +491,13 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </section>
 <section id="runoak-set-apikey">
 <h3>set-apikey<a class="headerlink" href="#runoak-set-apikey" title="Permalink to this headline"></a></h3>
-<p>Sets an API key</p>
+<blockquote>
+<div><p>Sets an API key</p>
 <dl class="simple">
 <dt>Example:</dt><dd><p>oak set-apikey -e bioportal MY-KEY-VALUE</p>
 </dd>
 </dl>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak set-apikey <span class="o">[</span>OPTIONS<span class="o">]</span> KEYVAL
 </pre></div>
 </div>
@@ -457,8 +517,10 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </section>
 <section id="runoak-subset">
 <h3>subset<a class="headerlink" href="#runoak-subset" title="Permalink to this headline"></a></h3>
-<p>Extracts a subset</p>
+<blockquote>
+<div><p>Extracts a subset</p>
 <p>TODO: INCOMPLETE</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak subset <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CURIES<span class="o">]</span>...
 </pre></div>
 </div>
@@ -477,9 +539,34 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+<section id="runoak-subset-rollups">
+<h3>subset-rollups<a class="headerlink" href="#runoak-subset-rollups" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>For each subset provide a mapping of each term in the ontology to a subset</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak subset-rollups <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>SUBSETS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-subset-rollups-o">
+<span id="cmdoption-runoak-subset-rollups-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-subset-rollups-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-subset-rollups-arg-SUBSETS">
+<span id="cmdoption-runoak-subset-rollups-arg-subsets"></span><span class="sig-name descname"><span class="pre">SUBSETS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-subset-rollups-arg-SUBSETS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-terms">
 <h3>terms<a class="headerlink" href="#runoak-terms" title="Permalink to this headline"></a></h3>
-<p>List all terms in the ontology</p>
+<blockquote>
+<div><p>List all terms in the ontology</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak terms <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -493,7 +580,9 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </section>
 <section id="runoak-validate">
 <h3>validate<a class="headerlink" href="#runoak-validate" title="Permalink to this headline"></a></h3>
-<p>Validate an ontology against ontology metadata</p>
+<blockquote>
+<div><p>Validate an ontology against ontology metadata</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
@@ -518,7 +607,9 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </section>
 <section id="runoak-validate-multiple">
 <h3>validate-multiple<a class="headerlink" href="#runoak-validate-multiple" title="Permalink to this headline"></a></h3>
-<p>Validate an ontology against ontology metadata</p>
+<blockquote>
+<div><p>Validate an ontology against ontology metadata</p>
+</div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-multiple <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>DBS<span class="o">]</span>...
 </pre></div>
 </div>
@@ -556,7 +647,8 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </section>
 <section id="runoak-viz">
 <h3>viz<a class="headerlink" href="#runoak-viz" title="Permalink to this headline"></a></h3>
-<p>Visualizing an ancestor graph using obographviz</p>
+<blockquote>
+<div><p>Visualizing an ancestor graph using obographviz</p>
 <p>Note the implementation must implement <a class="reference internal" href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface" title="oaklib.interfaces.obograph_interface.OboGraphInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OboGraphInterface</span></code></a></p>
 <p>This requires that <a class="reference external" href="https://github.com/cmungall/obographviz">obographviz</a> is installed.</p>
 <p>Example:</p>
@@ -574,6 +666,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <p>As above, including develops-from:</p>
 <blockquote>
 <div><p>runoak -i sqlite:cl.db viz CL:4023094 -p i,p,RO:0002202</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak viz <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>

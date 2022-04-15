@@ -15,4 +15,3 @@ Code
 .. currentmodule:: oaklib.implementations.pronto.pronto_implementation
                    
 .. autoclass:: ProntoImplementation
-    :members: create

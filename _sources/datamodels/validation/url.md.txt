@@ -1,0 +1,21 @@
+# Slot: url
+
+URI: [https://w3id.org/linkml/reporturl](https://w3id.org/linkml/reporturl)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Properties
+
+ * Range: None
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+

@@ -1,7 +1,7 @@
-﻿obolib.utilities.obograph\_utils
+﻿oaklib.utilities.obograph\_utils
 ================================
 
-.. automodule:: obolib.utilities.obograph_utils
+.. automodule:: oaklib.utilities.obograph_utils
 
    
    
@@ -14,6 +14,7 @@
    .. autosummary::
    
       as_multi_digraph
+      default_stylemap_path
       draw_graph
       filter_by_predicates
       graph_as_dict

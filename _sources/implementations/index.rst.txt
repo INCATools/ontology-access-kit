@@ -22,6 +22,7 @@ The most mature implementations are:
    obofiles
    sqldb
    robot
+   funowl
    skos
    ols
    bioportal
@@ -30,4 +31,6 @@ The most mature implementations are:
    ontobee
    ols
    bioportal
+   kgx
+   aggregator
    

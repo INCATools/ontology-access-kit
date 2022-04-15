@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
@@ -185,6 +186,8 @@
     --output
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
@@ -201,11 +204,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-list-subset-o">runoak-list-subset command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-o">runoak-mappings command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subset-o">runoak-subset command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-subset-rollups-o">runoak-subset-rollups command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-terms-o">runoak-terms command line option</a>
 </li>
@@ -324,6 +331,8 @@
     -o
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
@@ -340,11 +349,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-list-subset-o">runoak-list-subset command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-o">runoak-mappings command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subset-o">runoak-subset command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-subset-rollups-o">runoak-subset-rollups command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-terms-o">runoak-terms command line option</a>
 </li>
@@ -407,6 +420,8 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/aggregator.html#oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation">AggregatorImplementation (class in oaklib.implementations.aggregator.aggregator_implementation)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">alias_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">aliases_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -419,6 +434,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">all_sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">all_subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">ancestor_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -453,26 +470,12 @@
 </li>
       <li><a href="glossary.html#term-Concept"><strong>Concept</strong></a>
 </li>
-      <li><a href="implementations/bioportal.html#oaklib.implementations.bioportal.bioportal_implementation.BioportalImplementation.create">create() (oaklib.implementations.bioportal.bioportal_implementation.BioportalImplementation class method)</a>
-
-      <ul>
-        <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation.create">(oaklib.implementations.ols.ols_implementation.OlsImplementation class method)</a>
+      <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">create() (oaklib.implementations.sqldb.sql_implementation.SqlImplementation class method)</a>
 </li>
-        <li><a href="implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation.create">(oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation class method)</a>
-</li>
-        <li><a href="implementations/obofiles.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation.create">(oaklib.implementations.pronto.pronto_implementation.ProntoImplementation class method)</a>
-</li>
-        <li><a href="implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation.create">(oaklib.implementations.sparql.sparql_implementation.SparqlImplementation class method)</a>
-</li>
-        <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">(oaklib.implementations.sqldb.sql_implementation.SqlImplementation class method)</a>
-</li>
-        <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation.create">(oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation class method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity">create_entity() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-CURIE"><strong>CURIE</strong></a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">curie_to_uri() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -543,6 +546,8 @@
 </li>
       <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_global_summary_statistics">get_global_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
+      <li><a href="selectors.html#oaklib.selector.get_implementation_from_shorthand">get_implementation_from_shorthand() (in module oaklib.selector)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships_by_curie">get_incoming_relationships_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">get_label_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -561,7 +566,11 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">get_prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="selectors.html#oaklib.selector.get_resource_from_shorthand">get_resource_from_shorthand() (in module oaklib.selector)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_simple_mappings_by_curie">get_simple_mappings_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">get_sssom_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Graph"><strong>Graph</strong></a>
 </li>
@@ -600,21 +609,25 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Mapping"><strong>Mapping</strong></a>
 </li>
+      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">MappingProviderInterface (class in oaklib.interfaces.mapping_provider_interface)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie">metadata_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li>
     module
 
       <ul>
-        <li><a href="DIRNAME/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">oaklib.utilities.graph.networkx_bridge</a>
+        <li><a href="selectors.html#module-oaklib.selector">oaklib.selector</a>
 </li>
-        <li><a href="DIRNAME/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">oaklib.utilities.graph.relationship_walker</a>
+        <li><a href="DIRNAME/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">oaklib.utilities.graph.networkx_bridge</a>, <a href="src/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">[1]</a>
 </li>
-        <li><a href="DIRNAME/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">oaklib.utilities.lexical.lexical_indexer</a>
+        <li><a href="DIRNAME/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">oaklib.utilities.graph.relationship_walker</a>, <a href="src/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">[1]</a>
 </li>
-        <li><a href="DIRNAME/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">oaklib.utilities.obograph_utils</a>
+        <li><a href="DIRNAME/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">oaklib.utilities.lexical.lexical_indexer</a>, <a href="src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">[1]</a>
 </li>
-        <li><a href="DIRNAME/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">oaklib.utilities.subsets.slimmer_utils</a>
+        <li><a href="DIRNAME/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">oaklib.utilities.obograph_utils</a>, <a href="src/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">[1]</a>
+</li>
+        <li><a href="DIRNAME/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">oaklib.utilities.subsets.slimmer_utils</a>, <a href="src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -642,31 +655,38 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
+    oaklib.selector
+
+      <ul>
+        <li><a href="selectors.html#module-oaklib.selector">module</a>
+</li>
+      </ul></li>
+      <li>
     oaklib.utilities.graph.networkx_bridge
 
       <ul>
-        <li><a href="DIRNAME/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">module</a>
+        <li><a href="DIRNAME/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">module</a>, <a href="src/oaklib.utilities.graph.networkx_bridge.html#module-oaklib.utilities.graph.networkx_bridge">[1]</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.graph.relationship_walker
 
       <ul>
-        <li><a href="DIRNAME/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">module</a>
+        <li><a href="DIRNAME/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">module</a>, <a href="src/oaklib.utilities.graph.relationship_walker.html#module-oaklib.utilities.graph.relationship_walker">[1]</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.lexical.lexical_indexer
 
       <ul>
-        <li><a href="DIRNAME/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">module</a>
+        <li><a href="DIRNAME/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">module</a>, <a href="src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer">[1]</a>
 </li>
       </ul></li>
       <li>
     oaklib.utilities.obograph_utils
 
       <ul>
-        <li><a href="DIRNAME/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">module</a>
+        <li><a href="DIRNAME/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">module</a>, <a href="src/oaklib.utilities.obograph_utils.html#module-oaklib.utilities.obograph_utils">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -675,7 +695,7 @@
     oaklib.utilities.subsets.slimmer_utils
 
       <ul>
-        <li><a href="DIRNAME/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">module</a>
+        <li><a href="DIRNAME/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">module</a>, <a href="src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">[1]</a>
 </li>
       </ul></li>
       <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
@@ -735,6 +755,15 @@
         <li><a href="cli.html#cmdoption-runoak-q">-q</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-v">-v</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-aliases command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-aliases-o">-o</a>
 </li>
       </ul></li>
       <li>
@@ -832,8 +861,6 @@
         <li><a href="cli.html#cmdoption-runoak-lexmatch-R">-R</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-list-subset command line option
 
@@ -843,6 +870,17 @@
         <li><a href="cli.html#cmdoption-runoak-list-subset-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-list-subset-arg-SUBSET">SUBSET</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    runoak-mappings command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-mappings-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-o">-o</a>
 </li>
       </ul></li>
       <li>
@@ -887,6 +925,17 @@
         <li><a href="cli.html#cmdoption-runoak-subset-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subset-arg-CURIES">CURIES</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-subset-rollups command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-subset-rollups-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-subset-rollups-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-subset-rollups-arg-SUBSETS">SUBSETS</a>
 </li>
       </ul></li>
       <li>
@@ -979,10 +1028,10 @@
 </li>
       <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.model.Statements">Statements (class in oaklib.implementations.sqldb.model)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     SUBSET
 
@@ -992,6 +1041,13 @@
       </ul></li>
       <li><a href="glossary.html#term-Subset"><strong>Subset</strong></a>
 </li>
+      <li>
+    SUBSETS
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-subset-rollups-arg-SUBSETS">runoak-subset-rollups command line option</a>
+</li>
+      </ul></li>
       <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface">SubsetterInterface (class in oaklib.interfaces.subsetter_interface)</a>
 </li>
       <li><a href="interfaces/summary-statistics.html#oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection">SummaryStatisticCollection (class in oaklib.datamodels.summary_statistics_datamodel)</a>
