@@ -29,7 +29,13 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
 
-
+    @unittest.skip('https://github.com/althonos/pronto/issues/163')
+    def test_gci_relationships(self):
+        oi = self.oi
+        rels = oi.get_outgoing_relationships_by_curie(CELL)
+        self.assertCountEqual(rels[IS_A], ['CARO:0000003'])
+        self.assertCountEqual(rels[ONLY_IN_TAXON], [CELLULAR_ORGANISMS])
+        self.assertNotIn(NUCLEUS, rels[PART_OF])
 
     def test_incoming_relationships(self):
         oi = self.oi
