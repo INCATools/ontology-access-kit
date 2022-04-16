@@ -3,16 +3,15 @@ import unittest
 
 from oaklib.cli import search, main
 
-from tests import OUTPUT_DIR, INPUT_DIR
+from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
+TEST_DB = INPUT_DIR / 'go-nucleus.db'
 BAD_ONTOLOGY_DB = INPUT_DIR / 'bad-ontology.db'
-TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
-NUCLEUS = 'GO:0005634'
-ATOM = 'CHEBI:33250'
-INTERNEURON = 'CL:0000099'
+TEST_OUT = OUTPUT_DIR / 'tmp'
+
 
 class TestCommandLineInterface(unittest.TestCase):
 
@@ -46,6 +45,27 @@ class TestCommandLineInterface(unittest.TestCase):
             # TODO:
             #assert 'GO:0016020 ! membrane' not in out
             assert 'GO:0043226 ! organelle' not in out
+
+    ## MAPPINGS
+
+    def test_mappings_local(self):
+        result = self.runner.invoke(main, ['-i', str(TEST_ONT), 'term-mappings', 'GO:0016740'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        #self.assertIn('EC:2', out)
+
+    ## TAXON
+
+    def test_taxon_constraints_local(self):
+        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}']:
+            result = self.runner.invoke(main, ['-i', str(input_arg), 'taxon-constraints', NUCLEUS, '-o', str(TEST_OUT)])
+            out = result.stdout
+            err = result.stderr
+            self.assertEqual(0, result.exit_code)
+            with open(TEST_OUT) as file:
+                contents = "\n".join(file.readlines())
+                self.assertIn('Eukaryota', contents)
 
     ## SEARCH
 

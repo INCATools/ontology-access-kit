@@ -23,6 +23,9 @@ IS_A = omd.slots.subClassOf.curie
 EQUIVALENT_CLASS = 'owl:equivalentClass'
 PART_OF = 'BFO:0000050'
 HAS_PART = 'BFO:0000051'
+ONLY_IN_TAXON = 'RO:0002160'
+NEVER_IN_TAXON = 'RO:0002161'
+IN_TAXON = 'RO:0002162'
 
 OBO_PURL = 'http://purl.obolibrary.org/obo/'
 BIOPORTAL_PURL = 'http://purl.bioontology.org/ontology/'

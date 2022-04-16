@@ -5,9 +5,9 @@ import yaml
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART, ONLY_IN_TAXON, IN_TAXON
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM
+from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM, CELL, CELLULAR_ORGANISMS, NUCLEUS
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -28,6 +28,14 @@ class TestProntoImplementation(unittest.TestCase):
             print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
+
+    @unittest.skip('https://github.com/althonos/pronto/issues/163')
+    def test_gci_relationships(self):
+        oi = self.oi
+        rels = oi.get_outgoing_relationships_by_curie(CELL)
+        self.assertCountEqual(rels[IS_A], ['CARO:0000003'])
+        self.assertCountEqual(rels[ONLY_IN_TAXON], [CELLULAR_ORGANISMS])
+        self.assertNotIn(NUCLEUS, rels[PART_OF])
 
     def test_incoming_relationships(self):
         oi = self.oi

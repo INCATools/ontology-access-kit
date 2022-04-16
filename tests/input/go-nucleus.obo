@@ -291,8 +291,6 @@ name: cell
 def: "A material entity of anatomical origin (part of or deriving from an organism) that has as its parts a maximally connected cell compartment surrounded by a plasma membrane." []
 is_a: CARO:0000003 ! connected anatomical structure
 disjoint_from: GO:0043226 ! organelle
-relationship: has_part GO:0005634 {gci_filler="PATO:0001407", gci_relation="bearer_of"} ! nucleus
-relationship: has_part GO:0005634 {gci_filler="PATO:0001908", gci_relation="bearer_of"} ! nucleus
 relationship: only_in_taxon NCBITaxon:131567 ! cellular organisms
 
 [Term]
@@ -410,6 +408,7 @@ is_a: GO:0043231 ! intracellular membrane-bounded organelle
 disjoint_from: GO:0005737 ! cytoplasm
 relationship: in_taxon NCBITaxon:2759 ! Eukaryota
 relationship: only_in_taxon NCBITaxon:2759 ! Eukaryota
+relationship: never_in_taxon NCBITaxon:2 ! Bacteria <prokaryote>
 
 [Term]
 id: GO:0005635
@@ -440,6 +439,22 @@ subset: goslim_yeast
 xref: Wikipedia:Cytoplasm
 is_a: GO:0110165 ! cellular anatomical entity
 relationship: part_of GO:0005622 ! intracellular anatomical structure
+
+[Term]
+id: GO:0009579
+name: thylakoid
+namespace: cellular_component
+def: "A membranous cellular structure that bears the photosynthetic pigments in plants, algae, and cyanobacteria. In cyanobacteria thylakoids are of various shapes and are attached to, or continuous with, the plasma membrane. In eukaryotes they are flattened, membrane-bounded disk-like structures located in the chloroplasts; in the chloroplasts of higher plants the thylakoids form dense stacks called grana. Isolated thylakoid preparations can carry out photosynthetic electron transport and the associated phosphorylation." [GOC:ds, GOC:mtg_sensu, ISBN:0198506732]
+comment: A thylakoid is not considered an organelle, but some thylakoids are part of organelles.
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+synonym: "photosynthetic membrane" RELATED []
+xref: Wikipedia:Thylakoid
+is_a: GO:0005622 ! intracellular anatomical structure
+relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
 
 [Term]
 id: GO:0005773
@@ -518,6 +533,20 @@ is_a: GO:0044237 ! cellular metabolic process
 intersection_of: GO:0008152 ! metabolic process
 intersection_of: has_primary_input_or_output CHEBI:26082 ! phosphorus molecular entity
 relationship: has_primary_input_or_output CHEBI:26082 ! phosphorus molecular entity
+
+[Term]
+id: GO:0015979
+name: photosynthesis
+namespace: biological_process
+def: "The synthesis by organisms of organic chemical compounds, especially carbohydrates, from carbon dioxide (CO2) using energy obtained from light rather than from the oxidation of chemical compounds." [ISBN:0198547684]
+subset: goslim_chembl
+subset: goslim_generic
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+xref: Wikipedia:Photosynthesis
+is_a: GO:0044237 ! cellular metabolic process
+relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
 
 [Term]
 id: GO:0006796
@@ -1065,6 +1094,7 @@ is_a: GO:0043226 ! organelle
 intersection_of: GO:0043226 ! organelle
 intersection_of: has_part GO:0016020 ! membrane
 relationship: has_part GO:0016020 ! membrane
+relationship: never_in_taxon NCBITaxon:2 ! Bacteria <prokaryote>
 
 [Term]
 id: GO:0043229
@@ -1135,6 +1165,17 @@ synonym: "cellular metabolism" EXACT []
 synonym: "intermediary metabolism" RELATED [GOC:mah]
 is_a: GO:0008152 ! metabolic process
 is_a: GO:0009987 ! cellular process
+relationship: only_in_taxon NCBITaxon:131567 ! cellular organisms
+
+[Term]
+id: GO:0034357
+name: photosynthetic membrane
+namespace: cellular_component
+def: "A membrane enriched in complexes formed of reaction centers, accessory pigments and electron carriers, in which photosynthetic reactions take place." [GOC:ds, GOC:mah]
+is_a: GO:0016020 ! membrane
+relationship: capable_of_part_of GO:0015979 ! photosynthesis
+relationship: part_of GO:0009579 ! thylakoid
+relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
 
 [Term]
 id: GO:0045936
@@ -2467,6 +2508,15 @@ xref: RO:0002212
 is_a: causally_upstream_of,_negative_effect ! causally upstream of, negative effect
 is_a: regulates ! regulates
 inverse_of: negatively_regulated_by ! negatively regulated by
+
+[Typedef]
+id: never_in_taxon
+name: never_in_taxon
+def: "S never_in_taxon T iff: S SubClassOf in_taxon only not T." [PMID:20973947]
+xref: RO:0002161
+expand_assertion_to: "Class: <http://www.w3.org/2002/07/owl#Nothing> EquivalentTo: ?X and (RO_0002162 some ?Y)" []
+is_metadata_tag: true
+is_class_level: true
 
 [Typedef]
 id: occurs_in

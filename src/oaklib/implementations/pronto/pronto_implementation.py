@@ -244,8 +244,10 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return m
 
     def get_simple_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        t = self._entity(curie)
         m = defaultdict(list)
+        t = self._entity(curie)
+        if t is None:
+            return m
         for s in t.xrefs:
             m[HAS_DBXREF].append(s.id)
         for s in t.annotations:
@@ -289,6 +291,9 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
         t = self._entity(curie)
+        if not t:
+            return
+            #raise ValueError(f'No such entity: {curie}')
         for x in t.xrefs:
             yield sssom.Mapping(subject_id=curie,
                                 predicate_id=SKOS_CLOSE_MATCH,
@@ -333,7 +338,9 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+    def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
+        if config == None:
+            config = SearchConfiguration()
         matches = []
         for t in self.wrapped_ontology.terms():
             if t.name and search_term in t.name:

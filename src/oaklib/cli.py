@@ -16,11 +16,8 @@ from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 import click
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
-from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
-from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -29,7 +26,7 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
-from oaklib.selector import get_resource_from_shorthand
+from oaklib.selector import get_resource_from_shorthand, get_implementation_from_shorthand
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
@@ -39,6 +36,8 @@ from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
+from oaklib.utilities.taxon.taxon_constraint_utils import nr_term_taxon_constraints_simple, \
+    get_term_with_taxon_constraints
 
 
 @dataclass
@@ -52,6 +51,12 @@ input_option = click.option(
     "-i",
     "--input",
     help="path to input implementation specification."
+)
+add_option = click.option(
+    "-a",
+    "--add",
+    multiple=True,
+    help="additional implementation specification."
 )
 input_type_option = click.option(
     "-I",
@@ -98,7 +103,8 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @input_option
-def main(verbose: int, quiet: bool, input: str):
+@add_option
+def main(verbose: int, quiet: bool, input: str, add: List):
     """Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
@@ -128,6 +134,11 @@ def main(verbose: int, quiet: bool, input: str):
         impl_class = resource.implementation_class
         logging.info(f'RESOURCE={resource}')
         settings.impl = impl_class(resource)
+    if add:
+        impls = [get_implementation_from_shorthand(d) for d in add]
+        if settings.impl:
+            impls = [settings.impl] + impls
+        settings.impl = AggregatorImplementation(implementations=impls)
 
 
 @main.command()
@@ -161,6 +172,22 @@ def search(terms, output: str):
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
+@main.command()
+@output_option
+def all_subsets(output: str):
+    """
+    Shows all subsets
+
+    Example:
+        runoak -i obolibrary:go.obo all-subsets
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        for subset in impl.all_subset_curies():
+            print(f'{subset} ! {impl.get_label_by_curie(subset)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 @main.command()
 @click.argument("subset")
@@ -379,7 +406,7 @@ def relationships(terms, output: str):
         curies = list(impl.multiterm_search(terms))
         for curie in curies:
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
-            for pred, fillers in impl.get_outgoing_relationships_by_curie(curie):
+            for pred, fillers in impl.get_outgoing_relationships_by_curie(curie).items():
                 print(f'  PRED: {pred} ! {impl.get_label_by_curie(pred)}')
                 for filler in fillers:
                     print(f'    * {filler} ! {impl.get_label_by_curie(filler)}')
@@ -410,6 +437,34 @@ def mappings(output):
     if isinstance(impl, MappingProviderInterface):
         for mapping in impl.all_sssom_mappings():
             writer.emit(mapping)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@output_option
+@click.argument('curies', nargs=-1)
+def term_mappings(curies, output):
+    """
+    List all SSSOM mappings for a term or terms
+
+    Example:
+
+        runoak -i bioportal: term-mappings  UBERON:0002101
+
+    Example:
+
+        runoak -i ols: term-mappings  UBERON:0002101
+
+    Example:
+
+        runoak -i db/uberon.db term-mappings  UBERON:0002101
+    """
+    impl = settings.impl
+    writer = StreamingYamlWriter(output)
+    if isinstance(impl, MappingProviderInterface):
+        for curie in curies:
+            for mapping in impl.get_sssom_mappings_by_curie(curie):
+                writer.emit(mapping)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -472,6 +527,37 @@ def axioms(output: str):
     #else:
     #    raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
     raise NotImplementedError
+
+@main.command()
+@output_option
+@predicates_option
+@click.option('-A/--no-A',
+              '--all/--no-all',
+              default=False,
+              show_default=True,
+              help="if specified then perform for all terms")
+@click.option('--include-redundant/--no-include-redundant',
+              default=False,
+              show_default=True,
+              help="if specified then include redundant taxon constraints from ancestral subjects")
+@click.argument('curies', nargs=-1)
+def taxon_constraints(curies: list, all: bool, include_redundant: bool, predicates: List, output):
+    """
+    List all taxon constraints for a term
+    """
+    impl = settings.impl
+    writer = StreamingYamlWriter(output)
+    if all:
+        if curies:
+            raise ValueError(f'Do not specify explicit curies with --all option')
+        curies = impl.all_entity_curies()
+    if isinstance(impl, OboGraphInterface):
+        impl.enable_transitive_query_cache()
+        for curie in curies:
+            st = get_term_with_taxon_constraints(impl, curie, include_redundant=include_redundant, predicates=predicates)
+            writer.emit(st)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 
 @main.command()

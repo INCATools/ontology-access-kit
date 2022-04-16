@@ -11,6 +11,7 @@ from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymState
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
@@ -37,7 +38,7 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 
 @dataclass
-class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface, ABC):
+class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface, MappingProviderInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
