@@ -291,8 +291,6 @@ name: cell
 def: "A material entity of anatomical origin (part of or deriving from an organism) that has as its parts a maximally connected cell compartment surrounded by a plasma membrane." []
 is_a: CARO:0000003 ! connected anatomical structure
 disjoint_from: GO:0043226 ! organelle
-relationship: has_part GO:0005634 {gci_filler="PATO:0001407", gci_relation="bearer_of"} ! nucleus
-relationship: has_part GO:0005634 {gci_filler="PATO:0001908", gci_relation="bearer_of"} ! nucleus
 relationship: only_in_taxon NCBITaxon:131567 ! cellular organisms
 
 [Term]
