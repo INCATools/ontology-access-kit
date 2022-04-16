@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+from copy import deepcopy
 from typing import List, Iterator, Tuple, Collection
 
 from oaklib.datamodels.taxon_constraints import SubjectTerm, TaxonConstraint, Taxon
@@ -57,8 +58,36 @@ def nr_term_taxon_constraints_simple(oi: OboGraphInterface, curie: CURIE, predic
     never, only = filter_nr_never(oi, never), filter_nr_only(oi, only)
     return never, only
 
+def test_candidate_taxon_constraint(oi: OboGraphInterface, candidate: SubjectTerm,
+                                    predicates: List[PRED_CURIE] = None):
+    candidate = deepcopy(candidate)
+    curr_st = get_term_with_taxon_constraints(oi, candidate.id, predicates)
+    curr_only = [tc.taxon.id for tc in curr_st.only_in]
+    curr_never = [tc.taxon.id for tc in curr_st.never_in]
+    candidate_only = [tc.taxon.id for tc in candidate.only_in]
+    candidate_never = [tc.taxon.id for tc in candidate.never_in]
+    msgs = []
+    for tc in candidate.never_in:
+        for anc in oi.ancestors(tc.taxon.id, predicates):
+            if anc in curr_only:
+                tc.redundant_with_only_in = True
+
+
+
 def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predicates: List[PRED_CURIE] = None,
                                     include_redundant=False, add_labels=True) -> SubjectTerm:
+    """
+    Generate :ref:`TaxonConstraint`s for a given subject term ID
+
+    This implements taxon constraints using a graph walking strategy rather than a reasoning strategy
+
+    :param oi:
+    :param curie: subject identifier
+    :param predicates: predicates to traverse from subject term to term with constraint
+    :param include_redundant:
+    :param add_labels:
+    :return:
+    """
     st = SubjectTerm(curie, label=oi.get_label_by_curie(curie))
     never = defaultdict(list)
     only = defaultdict(list)
@@ -68,10 +97,8 @@ def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predica
             continue
         for predicate, taxon in get_direct_taxon_constraints(oi, anc):
             if predicate == NEVER_IN_TAXON:
-                #never.add(taxon)
                 never[taxon].append(anc)
             elif predicate == IN_TAXON:
-                #only.add(taxon)
                 only[taxon].append(anc)
             else:
                 raise ValueError(f'Unexpected taxon pred: {predicate}')
@@ -81,6 +108,8 @@ def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predica
         else:
             return Taxon(t)
     never_nr, only_nr = filter_nr_never(oi, never), filter_nr_only(oi, only)
+    if len(only_nr) > 1:
+        raise ValueError(f'INCONSISTENT: {curie} only in: {only_nr}')
     st.never_in = [TaxonConstraint(redundant=False, taxon=make_taxon(t)) for t in never_nr]
     st.only_in = [TaxonConstraint(redundant=False, taxon=make_taxon(t)) for t in only_nr]
     if include_redundant:
@@ -90,9 +119,11 @@ def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predica
         tc.via_terms += [SubjectTerm(t) for t in only[tc.taxon.id]]
     for tc in st.never_in:
         tc.via_terms += [SubjectTerm(t) for t in never[tc.taxon.id]]
-        for anc in oi.ancestors(curie, predicates):
+        tc.redundant_with_only_in = True
+        for anc in oi.ancestors(tc.taxon.id, predicates):
             if anc in only_nr:
-                tc.redundant_with_only_in = True
+                tc.redundant_with_only_in = False
+                break
     return st
 
 

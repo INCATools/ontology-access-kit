@@ -101,3 +101,6 @@ classes:
       sources:
         range: uriorcurie
         multivalued: true
+      comments:
+        range: string
+        multivalued: true

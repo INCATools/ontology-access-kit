@@ -11,18 +11,12 @@ from oaklib.utilities.subsets.subset_analysis import all_subsets_overlap, compar
 from oaklib.utilities.taxon.taxon_constraint_utils import nr_term_taxon_constraints_simple, all_term_taxon_constraints, \
     get_term_with_taxon_constraints
 
-from tests import OUTPUT_DIR, INPUT_DIR
+from tests import OUTPUT_DIR, INPUT_DIR, INTRACELLULAR, CELLULAR_ORGANISMS
 from tests.test_cli import NUCLEUS, NUCLEAR_ENVELOPE, BACTERIA, EUKARYOTA
 
 DB = INPUT_DIR / 'go-nucleus.db'
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
-
-BIOLOGICAL_PROCESS = 'GO:0008150'
-NEGEG_PHOSPH = 'GO:0042326'
-DICTYOSTELIUM = 'NCBITaxon:5782'
-NUCLEAR_MEMBRANE = 'GO:0031965'
-
 
 PREDS = [IS_A, PART_OF]
 
@@ -37,16 +31,16 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         t = 'GO:0005622'
         never, only = all_term_taxon_constraints(oi, t)
         never_nr, only_nr = nr_term_taxon_constraints_simple(oi, t)
-        self.assertCountEqual(['NCBITaxon:2759', 'NCBITaxon:131567'], only)
-        self.assertCountEqual(['NCBITaxon:2759'], only_nr)
+        self.assertCountEqual([EUKARYOTA, 'NCBITaxon:131567'], only)
+        self.assertCountEqual([EUKARYOTA], only_nr)
         self.assertIn('NCBITaxon:131567', list(oi.ancestors('NCBITaxon:2759', predicates=[IS_A])))
 
     def test_never_in(self):
         oi = self.oi
         never, only = all_term_taxon_constraints(oi, NUCLEUS)
-        self.assertCountEqual(['NCBITaxon:2'], never)
+        self.assertCountEqual([BACTERIA], never)
         never, only = all_term_taxon_constraints(oi, NUCLEAR_ENVELOPE)
-        self.assertCountEqual(['NCBITaxon:2'], never)
+        self.assertCountEqual([BACTERIA], never)
         never, only = all_term_taxon_constraints(oi, NUCLEAR_ENVELOPE, predicates=[IS_A])
         self.assertCountEqual([], never)
         st = get_term_with_taxon_constraints(oi, NUCLEAR_ENVELOPE, include_redundant=True)
@@ -60,7 +54,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
 
     def test_with_datamodel(self):
         oi = self.oi
-        t = 'GO:0005622'
+        t = INTRACELLULAR
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
         #print(f'T: {yaml_dumper.dumps(st)}')
         never = [tc.taxon.id for tc in st.never_in]
@@ -69,10 +63,12 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         only_nr = [tc.taxon.id for tc in st.only_in if not tc.redundant]
         never_r = [tc.taxon.id for tc in st.never_in if tc.redundant]
         only_r = [tc.taxon.id for tc in st.only_in if tc.redundant]
-        self.assertCountEqual(['NCBITaxon:2759', 'NCBITaxon:131567'], only)
-        self.assertCountEqual(['NCBITaxon:2759'], only_nr)
-        self.assertCountEqual(['NCBITaxon:131567'], only_r)
-        self.assertIn('NCBITaxon:131567', list(oi.ancestors('NCBITaxon:2759', predicates=[IS_A])))
+        self.assertCountEqual([EUKARYOTA, CELLULAR_ORGANISMS], only)
+        self.assertCountEqual([EUKARYOTA], only_nr)
+        self.assertCountEqual([CELLULAR_ORGANISMS], only_r)
+
+    def test_taxon_subclass(self):
+        self.assertIn(CELLULAR_ORGANISMS, list(self.oi.ancestors(BACTERIA, predicates=[IS_A])))
 
     def test_all(self):
         oi = self.oi

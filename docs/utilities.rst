@@ -21,3 +21,5 @@ being turned into :ref:`interfaces`.
    graph.networkx_bridge
    lexical.lexical_indexer
    subsets.slimmer_utils
+   apikey_manager
+   taxon/taxon_constraint_utils

@@ -1,5 +1,5 @@
 # Auto generated from taxon_constraints.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-15T11:25:58
+# Generation date: 2022-04-15T16:28:28
 # Schema: taxon-constraints
 #
 # id: https://w3id.org/linkml/taxon_constraints
@@ -151,6 +151,7 @@ class TaxonConstraint(YAMLRoot):
     via_terms: Optional[Union[Union[dict, SubjectTerm], List[Union[dict, SubjectTerm]]]] = empty_list()
     predicates: Optional[Union[Union[dict, PredicateTerm], List[Union[dict, PredicateTerm]]]] = empty_list()
     sources: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
+    comments: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.asserted is not None and not isinstance(self.asserted, Bool):
@@ -180,6 +181,10 @@ class TaxonConstraint(YAMLRoot):
         if not isinstance(self.sources, list):
             self.sources = [self.sources] if self.sources is not None else []
         self.sources = [v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.sources]
+
+        if not isinstance(self.comments, list):
+            self.comments = [self.comments] if self.comments is not None else []
+        self.comments = [v if isinstance(v, str) else str(v) for v in self.comments]
 
         super().__post_init__(**kwargs)
 
@@ -226,3 +231,6 @@ slots.taxonConstraint__predicates = Slot(uri=TC.predicates, name="taxonConstrain
 
 slots.taxonConstraint__sources = Slot(uri=TC.sources, name="taxonConstraint__sources", curie=TC.curie('sources'),
                    model_uri=TC.taxonConstraint__sources, domain=None, range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]])
+
+slots.taxonConstraint__comments = Slot(uri=TC.comments, name="taxonConstraint__comments", curie=TC.curie('comments'),
+                   model_uri=TC.taxonConstraint__comments, domain=None, range=Optional[Union[str, List[str]]])
