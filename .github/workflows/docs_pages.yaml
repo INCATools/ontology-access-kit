@@ -32,7 +32,7 @@ jobs:
         cp -r _build/* ../gh-pages/
 
     - name: Deploy documentation.
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'pull_request' }}
       uses: JamesIves/github-pages-deploy-action@v4.3.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
