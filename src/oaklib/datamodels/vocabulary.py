@@ -1,6 +1,9 @@
 from oaklib.datamodels.ontology_metadata import slots as omd_slots
 import oaklib.datamodels.ontology_metadata as omd
 
+NAMESPACES = [omd.SKOS, omd.RDF, omd.RDFS, omd.OIO]
+DEFAULT_PREFIX_MAP = {ns.prefix: str(ns) for ns in NAMESPACES}
+
 APP_NAME = 'ontology-access-kit'
 
 # TODO: replace with oio vocab
@@ -21,6 +24,7 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 EQUIVALENT_CLASS = 'owl:equivalentClass'
+OWL_SAME_AS = 'owl:sameAs'
 PART_OF = 'BFO:0000050'
 HAS_PART = 'BFO:0000051'
 ONLY_IN_TAXON = 'RO:0002160'
@@ -37,5 +41,9 @@ SKOS_EXACT_MATCH = omd.slots.exactMatch.curie
 SKOS_CLOSE_MATCH = omd.slots.closeMatch.curie
 SKOS_NARROW_MATCH = omd.slots.narrowMatch.curie
 SKOS_BROAD_MATCH = omd.slots.broadMatch.curie
+#SKOS_RELATED_MATCH = omd.slots.relatedMatch.curie
+SKOS_RELATED_MATCH = 'skos:relatedMatch'
+SKOS_MATCH_PREDICATES = [SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH, SKOS_RELATED_MATCH]
 HAS_DBXREF = omd.slots.database_cross_reference.curie
+ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri

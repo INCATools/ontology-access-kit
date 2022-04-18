@@ -32,6 +32,7 @@ from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
+from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
@@ -441,8 +442,9 @@ def mappings(output):
 
 @main.command()
 @output_option
+@output_type_option
 @click.argument('curies', nargs=-1)
-def term_mappings(curies, output):
+def term_mappings(curies, output, output_type):
     """
     List all SSSOM mappings for a term or terms
 
@@ -459,11 +461,19 @@ def term_mappings(curies, output):
         runoak -i db/uberon.db term-mappings  UBERON:0002101
     """
     impl = settings.impl
-    writer = StreamingYamlWriter(output)
+    if output_type is None or output_type == 'yaml':
+        writer = StreamingYamlWriter(output)
+    elif output_type == 'csv':
+        writer = StreamingCsvWriter(output)
+    elif output_type == 'sssom':
+        writer = StreamingSssomWriter(output)
+    else:
+        raise ValueError(f'No such format: {output_type}')
     if isinstance(impl, MappingProviderInterface):
         for curie in curies:
             for mapping in impl.get_sssom_mappings_by_curie(curie):
                 writer.emit(mapping)
+        writer.close()
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

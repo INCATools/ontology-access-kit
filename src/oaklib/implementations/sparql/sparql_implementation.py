@@ -5,16 +5,20 @@ from typing import List, Iterable, Tuple, Optional
 
 import SPARQLWrapper
 import rdflib
+import sssom
 from SPARQLWrapper import JSON
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
-from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL
+from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL, ALL_MATCH_PREDICATES, \
+    DEFAULT_PREFIX_MAP
 from oaklib.utilities.rate_limiter import check_limit
 from rdflib import URIRef, RDFS
+from sssom.sssom_datamodel import MatchTypeEnum
 
 VAL_VAR = 'v'
 
@@ -38,7 +42,9 @@ class SparqlImplementation(BasicOntologyInterface):
         if self.sparql_wrapper is None:
             resource = self.resource
             if resource is None:
-                resource = OntologyResource(url=self._default_url())
+                resource = OntologyResource()
+            if resource.url is None:
+                resource.url = self._default_url()
             if resource.local:
                 self.graph = rdflib.Graph()
                 self.graph.parse(resource.local_path)
@@ -54,7 +60,8 @@ class SparqlImplementation(BasicOntologyInterface):
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
-        return {'rdfs': str(RDFS)}
+        #return {'rdfs': str(RDFS)}
+        return DEFAULT_PREFIX_MAP
 
     #def store(self, resource: OntologyResource) -> None:
     #    SparqlBasicImpl.dump(self.engine, resource)
@@ -91,7 +98,7 @@ class SparqlImplementation(BasicOntologyInterface):
         sw = self.sparql_wrapper
         for k, v in prefixes.items():
             query = f'PREFIX {k}: <{v}>\n' + query
-        logging.info(f'QUERY={query}')
+        logging.info(f'QUERY={query} // sw={sw}')
         sw.setQuery(query)
         sw.setReturnFormat(JSON)
         check_limit()
@@ -245,6 +252,23 @@ class SparqlImplementation(BasicOntologyInterface):
             yield self.uri_to_curie(row['s']['value'])
 
 
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: MappingProviderInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+        pred_uris = [self.curie_to_sparql(pred) for pred in ALL_MATCH_PREDICATES]
+        query = SparqlQuery(select=['?p', '?o'],
+                            where=[f'{self.curie_to_sparql(curie)} ?p ?o',
+                                   f'VALUES ?p {{ {" ".join(pred_uris)} }}'
+                                   ])
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            yield sssom.Mapping(subject_id=curie,
+                                predicate_id=self.uri_to_curie(row['p']['value']),
+                                object_id=self.uri_to_curie(row['o']['value']),
+                                match_type=MatchTypeEnum.Unspecified,
+                                )
 
 
 

@@ -4,6 +4,7 @@ import unittest
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.resource import OntologyResource
 
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CELLULAR_COMPONENT
 
@@ -15,7 +16,7 @@ TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 class TestOntobeeImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
-        oi = OntobeeImplementation()
+        oi = OntobeeImplementation(OntologyResource())
         self.oi = oi
 
     def test_relationships(self):

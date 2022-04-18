@@ -4,6 +4,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
 import requests
+import yaml
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -151,12 +152,13 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
             yield self.result_to_mapping(result)
 
 
-    def result_to_mapping(self, result: dict) -> Mapping:
+    def result_to_mapping(self, result: Dict[str, Any]) -> Mapping:
         mapping = Mapping(
             subject_id=result['classes'][0]['@id'],
             predicate_id=SOURCE_TO_PREDICATE[result['source']],
             match_type=MatchTypeEnum.Unspecified,
             object_id=result['classes'][1]['@id'],
-            mapping_provider=result['@type']
+            mapping_provider=result['@type'],
+            mapping_tool=result['source'],
         )
         return mapping
