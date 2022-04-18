@@ -42,6 +42,7 @@ classes:
     attributes:
       id:
         range: uriorcurie
+        identifier: true
       label:
         slot_uri: rdfs:label
         range: string
@@ -49,14 +50,27 @@ classes:
     description: A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ...
     is_a: Term
     attributes:
-      never_in:
-        range: TaxonConstraint
-        multivalued: true
-        slot_uri: RO:0002161
+      description:
+        description: A description of the taxon constraints and events
+      unsatisfiable:
+        range: boolean
+        description: If true then some combination of taxon constraints lead to contradictions
       only_in:
         range: TaxonConstraint
         multivalued: true
         slot_uri: RO:0002160
+      never_in:
+        range: TaxonConstraint
+        multivalued: true
+        slot_uri: RO:0002161
+      present_in:
+        range: TaxonConstraint
+        multivalued: true
+        slot_uri: RO:0002175
+      present_in_ancestor_of:
+        range: TaxonConstraint
+        multivalued: true
+        #slot_uri:
   Taxon:
     description: A term that represents a taxonomic group
     is_a: Term
@@ -71,8 +85,17 @@ classes:
 
   TaxonConstraint:
     description: An individual taxon constraint
+    class_uri: rdf:Statement
     attributes:
+      subject:
+        slot_uri: rdf:subject
+        range: SubjectTerm
+      predicate:
+        slot_uri: rdf:predicate
+        range: PredicateTerm
       asserted:
+        range: boolean
+      evolutionary:
         range: boolean
       redundant:
         range: boolean
@@ -83,9 +106,14 @@ classes:
         description: >-
           True for never in constraints that are subsumed by an only in
       taxon:
+        slot_uri: rdf:object
         description: The taxon that the subject is constrained to be included or excluded from
         range: Taxon
+        inlined: true
       redundant_with:
+        range: TaxonConstraint
+        multivalued: true
+      contradicted_by:
         range: TaxonConstraint
         multivalued: true
       via_terms:

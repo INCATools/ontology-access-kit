@@ -36,9 +36,8 @@ from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-from oaklib.utilities.taxon.taxon_constraint_utils import nr_term_taxon_constraints_simple, \
-    get_term_with_taxon_constraints
-
+from oaklib.utilities.taxon.taxon_constraint_utils import get_term_with_taxon_constraints, test_candidate_taxon_constraint, parse_gain_loss_file
+import oaklib.datamodels.taxon_constraints as tcdm
 
 @dataclass
 class Settings:
@@ -550,7 +549,7 @@ def taxon_constraints(curies: list, all: bool, include_redundant: bool, predicat
     if all:
         if curies:
             raise ValueError(f'Do not specify explicit curies with --all option')
-        curies = impl.all_entity_curies()
+        curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
         for curie in curies:
@@ -559,6 +558,58 @@ def taxon_constraints(curies: list, all: bool, include_redundant: bool, predicat
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
+@main.command()
+@click.option('-E', '--evolution-file',
+              help="path to file containing gains and losses")
+@output_option
+@predicates_option
+@click.argument('constraints', nargs=-1)
+def add_taxon_constraints(constraints, evolution_file, predicates: List, output):
+    """
+    Try candidate taxon constraint
+    """
+    impl = settings.impl
+    writer = StreamingYamlWriter(output)
+    curr = None
+    sts = []
+    st = None
+    while len(constraints) > 0:
+        nxt = constraints[0]
+        constraints = constraints[1:]
+        if nxt == '.':
+            st = None
+            curr = None
+            continue
+        if st is None:
+            st = tcdm.SubjectTerm(nxt, label=impl.get_label_by_curie(nxt))
+            curr = st.only_in
+            sts.append(st)
+        else:
+            if nxt.lower().startswith('only'):
+                curr = st.only_in
+            elif nxt.lower().startswith('never'):
+                curr = st.never_in
+            elif nxt.lower().startswith('present'):
+                curr = st.present_in
+            else:
+                tc = tcdm.TaxonConstraint(taxon=tcdm.Taxon(nxt))
+                curr.append(tc)
+    if evolution_file is not None:
+        with open(evolution_file) as file:
+            sts += list(parse_gain_loss_file(file))
+    if isinstance(impl, OboGraphInterface):
+        impl.enable_transitive_query_cache()
+        for st in sts:
+            try:
+                st = test_candidate_taxon_constraint(impl, st, predicates=predicates)
+                writer.emit(st)
+            except ValueError as e:
+                logging.error(f'Error with TC: {e}')
+                st.description = 'PROBLEM'
+                writer.emit(st)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 @main.command()
 @click.option('--cutoff',

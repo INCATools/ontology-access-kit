@@ -26,6 +26,7 @@ HAS_PART = 'BFO:0000051'
 ONLY_IN_TAXON = 'RO:0002160'
 NEVER_IN_TAXON = 'RO:0002161'
 IN_TAXON = 'RO:0002162'
+PRESENT_IN_TAXON = 'RO:0002175'
 
 OBO_PURL = 'http://purl.obolibrary.org/obo/'
 BIOPORTAL_PURL = 'http://purl.bioontology.org/ontology/'
