@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
@@ -89,6 +90,7 @@
     <span class="n">HasTextDefinitionStatement</span><span class="p">,</span> <span class="n">ClassNode</span><span class="p">,</span> <span class="n">IriNode</span><span class="p">,</span> <span class="n">RdfsLabelStatement</span><span class="p">,</span> <span class="n">DeprecatedNode</span><span class="p">,</span> <span class="n">EntailedEdge</span><span class="p">,</span> \
     <span class="n">ObjectPropertyNode</span><span class="p">,</span> <span class="n">AnnotationPropertyNode</span><span class="p">,</span> <span class="n">NamedIndividualNode</span><span class="p">,</span> <span class="n">HasMappingStatement</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">SearchConfiguration</span>
@@ -115,7 +117,7 @@
 
 
 <div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database</span>
 

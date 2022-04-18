@@ -83,6 +83,7 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
 
+<span class="kn">import</span> <span class="nn">sssom</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.validation_datamodel</span> <span class="kn">import</span> <span class="n">ValidationConfiguration</span><span class="p">,</span> <span class="n">ValidationResult</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
@@ -124,14 +125,20 @@
         <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No value for </span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SearchConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">search_term</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">))</span>
+
     <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">ValidationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ValidationResult</span><span class="p">]:</span>
-        <span class="k">pass</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">validate</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">get_simple_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">get_simple_mappings_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">get_label_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_first</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
@@ -146,7 +153,25 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_iterator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">curies_by_subset</span><span class="p">(</span><span class="n">subset</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_first</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span></div>
+        <span class="c1"># TODO: this implementation is ad-hoc</span>
+        <span class="c1"># return the first node that has a label populated</span>
+        <span class="n">node</span><span class="p">:</span> <span class="n">Node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">implementations</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">node</span>
+        <span class="k">return</span> <span class="n">node</span>
+
+    <span class="k">def</span> <span class="nf">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_simple_tuple_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">get_incoming_relationships_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delegate_simple_tuple_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">get_incoming_relationships_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">))</span></div>
+
+
+
+
 
 
 

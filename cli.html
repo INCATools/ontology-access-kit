@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Datamodels" href="datamodels/index.html" />
-    <link rel="prev" title="Ontobee Endpoint" href="implementations/ontobee.html" /> 
+    <link rel="next" title="Ontology Implementation Selectors" href="selectors.html" />
+    <link rel="prev" title="Aggregator Implementation" href="implementations/aggregator.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,7 +48,9 @@
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#runoak">runoak</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-add-taxon-constraints">add-taxon-constraints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-aliases">aliases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-all-subsets">all-subsets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-ancestors">ancestors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-annotate">annotate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
@@ -63,6 +65,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-subset">subset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-subset-rollups">subset-rollups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-term-mappings">term-mappings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-terms">terms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate">validate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
@@ -71,6 +75,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
@@ -138,6 +143,47 @@
 <dd><p>path to input implementation specification.</p>
 </dd></dl>
 
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-a">
+<span id="cmdoption-runoak-add"></span><span class="sig-name descname"><span class="pre">-a</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--add</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;add&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-a" title="Permalink to this definition"></a></dt>
+<dd><p>additional implementation specification.</p>
+</dd></dl>
+
+<section id="runoak-add-taxon-constraints">
+<h3>add-taxon-constraints<a class="headerlink" href="#runoak-add-taxon-constraints" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>Try candidate taxon constraint</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak add-taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-E">
+<span id="cmdoption-runoak-add-taxon-constraints-e"></span><span id="cmdoption-runoak-add-taxon-constraints-evolution-file"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--evolution-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;evolution_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-E" title="Permalink to this definition"></a></dt>
+<dd><p>path to file containing gains and losses</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-o">
+<span id="cmdoption-runoak-add-taxon-constraints-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-p">
+<span id="cmdoption-runoak-add-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-arg-CONSTRAINTS">
+<span id="cmdoption-runoak-add-taxon-constraints-arg-constraints"></span><span class="sig-name descname"><span class="pre">CONSTRAINTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-arg-CONSTRAINTS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-aliases">
 <h3>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h3>
 <blockquote>
@@ -150,6 +196,26 @@
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-aliases-o">
 <span id="cmdoption-runoak-aliases-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-aliases-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+</section>
+<section id="runoak-all-subsets">
+<h3>all-subsets<a class="headerlink" href="#runoak-all-subsets" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>Shows all subsets</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>runoak -i obolibrary:go.obo all-subsets</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak all-subsets <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-all-subsets-o">
+<span id="cmdoption-runoak-all-subsets-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-subsets-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
@@ -562,6 +628,92 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+<section id="runoak-taxon-constraints">
+<h3>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>List all taxon constraints for a term</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CURIES<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-o">
+<span id="cmdoption-runoak-taxon-constraints-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-p">
+<span id="cmdoption-runoak-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-A">
+<span id="cmdoption-runoak-taxon-constraints-a"></span><span id="cmdoption-runoak-taxon-constraints-all"></span><span id="cmdoption-runoak-taxon-constraints-no-A"></span><span id="cmdoption-runoak-taxon-constraints-no-a"></span><span id="cmdoption-runoak-taxon-constraints-no-all"></span><span class="sig-name descname"><span class="pre">-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-A</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-A" title="Permalink to this definition"></a></dt>
+<dd><p>if specified then perform for all terms</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-include-redundant">
+<span id="cmdoption-runoak-taxon-constraints-no-include-redundant"></span><span class="sig-name descname"><span class="pre">--include-redundant</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-redundant</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-include-redundant" title="Permalink to this definition"></a></dt>
+<dd><p>if specified then include redundant taxon constraints from ancestral subjects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-taxon-constraints-arg-CURIES">
+<span id="cmdoption-runoak-taxon-constraints-arg-curies"></span><span class="sig-name descname"><span class="pre">CURIES</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-taxon-constraints-arg-CURIES" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-term-mappings">
+<h3>term-mappings<a class="headerlink" href="#runoak-term-mappings" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>List all SSSOM mappings for a term or terms</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i bioportal: term-mappings  UBERON:0002101</p>
+</div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ols: term-mappings  UBERON:0002101</p>
+</div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i db/uberon.db term-mappings  UBERON:0002101</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-mappings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CURIES<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-term-mappings-o">
+<span id="cmdoption-runoak-term-mappings-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-term-mappings-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-term-mappings-arg-CURIES">
+<span id="cmdoption-runoak-term-mappings-arg-curies"></span><span class="sig-name descname"><span class="pre">CURIES</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-term-mappings-arg-CURIES" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-terms">
 <h3>terms<a class="headerlink" href="#runoak-terms" title="Permalink to this headline"></a></h3>
 <blockquote>
@@ -739,8 +891,8 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="implementations/ontobee.html" class="btn btn-neutral float-left" title="Ontobee Endpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="datamodels/index.html" class="btn btn-neutral float-right" title="Datamodels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="implementations/aggregator.html" class="btn btn-neutral float-left" title="Aggregator Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="selectors.html" class="btn btn-neutral float-right" title="Ontology Implementation Selectors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

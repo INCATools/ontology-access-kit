@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
@@ -94,7 +95,7 @@
   <section id="ontology-concepts">
 <span id="concepts"></span><h1>Ontology Concepts<a class="headerlink" href="#ontology-concepts" title="Permalink to this headline"></a></h1>
 <p>Here we describe some of the over-arching concepts in this library. Note that distinct <a class="reference internal" href="datamodels/index.html#datamodels"><span class="std std-ref">Datamodels</span></a> may impose
-their own specific views of the world, but the concepts here are intended as a kind of lingua-franca</p>
+their own specific views of the world, but the concepts here are intended as a kind of lingua-franca.</p>
 <section id="ontology">
 <h2>Ontology<a class="headerlink" href="#ontology" title="Permalink to this headline"></a></h2>
 <p>This library has a very broad concept of what an Ontology is, in keeping with the broad range of use cases addressed.</p>
@@ -103,15 +104,15 @@ paper from 2000, a collection of thousands of inter-related terms. However, the 
 very flexible and malleable, and might include things like:</p>
 <ul class="simple">
 <li><p>things that are more “schema-like”, such as schema.org or PROV</p></li>
-<li><p>formal logical artefacts like BFO</p></li>
+<li><p>formal logical artifacts like BFO</p></li>
 <li><p>an “instance graph” for example of countries and their connections</p></li>
 <li><p>a knowledge base encoded in RDF</p></li>
 <li><p>the entirety of wikidata</p></li>
 <li><p>in OWL, an ontology is just a collection of axioms</p></li>
 </ul>
 <p>We try to be as pluralistic as possible and provide a way to access all of the above using
-the appropriate abstractions. However, the main community served in “classic” ontologies such
-as those found in the OBO library or those encoded in OWL</p>
+the appropriate abstractions. However, the main community served is “classic” ontologies such
+as those found in the OBO library or those encoded in OWL.</p>
 </section>
 <section id="ontology-element">
 <h2>Ontology Element<a class="headerlink" href="#ontology-element" title="Permalink to this headline"></a></h2>
@@ -139,7 +140,7 @@ it is used to refer to the string by which the element is denoted!</p>
 <li><p>AnnotationProperties</p></li>
 <li><p>DatatypeProperties</p></li>
 </ul>
-<p>The BasicOntologyInterface does not discriminate between different kinds of element. This can be confusing,
+<p>The BasicOntologyInterface does not discriminate between different kinds of elements. This can be confusing,
 if you ask for all elements thinking you might get back only the “terms” but you would also get elements for
 relationship types, subsets, etc.</p>
 </section>
@@ -151,7 +152,7 @@ software has evolved from monolithic programs to modular systems. Sometimes for 
 what appears to be one ontology has pieces of other ontologies incorporated in.</p>
 <p>This library is designed to handle all of these scenarios. In the BasicOntologyInterface, you don’t have to worry about imports,
 you just get a view where everything appears as if it were in a single ontologies (even this ontologies actually a combination of
-ontologies). Other interfaces let you explore the compositional structure in more detail</p>
+ontologies). Other interfaces let you explore the compositional structure in more detail.</p>
 </section>
 <section id="uris-and-curies-and-identifiers">
 <h2>URIs and CURIEs and identifiers<a class="headerlink" href="#uris-and-curies-and-identifiers" title="Permalink to this headline"></a></h2>
@@ -163,13 +164,13 @@ using identifiers.</p>
 </section>
 <section id="prefix-maps">
 <h2>Prefix Maps<a class="headerlink" href="#prefix-maps" title="Permalink to this headline"></a></h2>
-<p>A prefix map maps between prefixes and their URI base expansions</p>
+<p>A prefix map maps between prefixes and their URI base expansions.</p>
 </section>
 <section id="relationships-edges">
 <h2>Relationships / Edges<a class="headerlink" href="#relationships-edges" title="Permalink to this headline"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It may seem surprising but the Owl standard has no construct that directly corresponds to what we call
+<p>It may seem surprising but the OWL standard has no construct that directly corresponds to what we call
 a relationship here.</p>
 </div>
 </section>
@@ -183,7 +184,7 @@ a relationship here.</p>
 <h2>Statements and Axioms<a class="headerlink" href="#statements-and-axioms" title="Permalink to this headline"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You only need to understand this if you are working with the OwlInterface or the RdfInterface</p>
+<p>You only need to understand this if you are working with the OwlInterface or the RdfInterface.</p>
 </div>
 </section>
 <section id="subsets">

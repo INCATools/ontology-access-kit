@@ -1,6 +1,0 @@
-
-# Architecture
-
-TODO
-
-
