@@ -35,7 +35,6 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
       uses: JamesIves/github-pages-deploy-action@v4.3.0
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
         force: true
-        directory: ./docs/_build/html
+        folder: ./docs/_build/html
