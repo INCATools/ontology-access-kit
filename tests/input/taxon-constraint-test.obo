@@ -423,6 +423,7 @@ xref: Wikipedia:Nuclear_envelope
 is_a: GO:0031967 ! organelle envelope
 relationship: part_of GO:0005634 ! nucleus
 relationship: part_of GO:0012505 ! endomembrane system
+relationship: present_in_taxon NCBITaxon:2 ! Bacteria <prokaryote>  !!! deliberate error
 
 [Term]
 id: GO:0005737
@@ -738,6 +739,7 @@ synonym: "region of membrane" NARROW []
 synonym: "whole membrane" NARROW []
 xref: Wikipedia:Biological_membrane
 is_a: GO:0110165 ! cellular anatomical entity
+relationship: never_in_taxon NCBITaxon:33090 ! Viridiplantae
 creation_date: 2014-03-06T11:37:54Z
 
 [Term]
@@ -1177,7 +1179,8 @@ def: "A membrane enriched in complexes formed of reaction centers, accessory pig
 is_a: GO:0016020 ! membrane
 relationship: capable_of_part_of GO:0015979 ! photosynthesis
 relationship: part_of GO:0009579 ! thylakoid
-relationship: only_in_taxon NCBITaxon_Union:0000002 ! Viridiplantae or Cyanobacteria
+relationship: only_in_taxon NCBITaxon:40674 ! Mammalia !!! deliberate error
+
 
 [Term]
 id: GO:0045936
@@ -1281,6 +1284,7 @@ is_a: GO:0050794 ! regulation of cellular process
 intersection_of: GO:0065007 ! biological regulation
 intersection_of: negatively_regulates GO:0009987 ! cellular process
 relationship: negatively_regulates GO:0009987 ! cellular process
+relationship: only_in_taxon NCBITaxon:5782 ! Dictyostelium !!!! deliberate error
 
 [Term]
 id: GO:0050789
@@ -1297,6 +1301,7 @@ is_a: GO:0065007 ! biological regulation
 intersection_of: GO:0065007 ! biological regulation
 intersection_of: regulates GO:0008150 ! biological_process
 relationship: regulates GO:0008150 ! biological_process
+relationship: only_in_taxon NCBITaxon_Union:0000020 ! Fungi or Bacteria  !!! deliberate error
 
 [Term]
 id: GO:0050790
