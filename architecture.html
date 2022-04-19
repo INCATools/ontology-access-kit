@@ -114,7 +114,7 @@ you can do on an ontology, mostly simple lookup operations. Here is a simplified
         </div></section>
 <section id="implementations">
 <h2>Implementations<a class="headerlink" href="#implementations" title="Permalink to this headline"></a></h2>
-<p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
+<p>Interfaces don’t do much by themselves. Client code never instantiates these directly. Instead, <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> do all the work.</p>
 <p>Here is an example of code that uses an Ubergraph implementation to do a simple lookup:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph.ubergraph_implementation</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
 <span class="o">&gt;&gt;</span> <span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
@@ -242,7 +242,7 @@ for this level of abstraction!</p>
 <h2>Partial and Complete Implementation<a class="headerlink" href="#partial-and-complete-implementation" title="Permalink to this headline"></a></h2>
 <p>Not all implementations work with all interfaces. Even if an implementation implements an
 interface, it may not implement all operations.</p>
-<p>See <a class="reference internal" href="implementations/index.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but
+<p>See <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> for full documentation on each implementation (more coming soon), but
 to give you a sense:</p>
 <ul class="simple">
 <li><p>the Pronto based implementation will not support all of OWL (which is fine for most purposes)</p></li>

@@ -50,6 +50,11 @@
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bioportal Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-examples">Command Line Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mappings">Mappings</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -58,6 +63,11 @@
 <li class="toctree-l2"><a class="reference internal" href="ontobee.html">Ontobee Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bioportal Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-examples">Command Line Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mappings">Mappings</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -108,7 +118,31 @@
 <ul class="simple">
 <li><p><span class="xref std std-ref">SearchInterface</span></p></li>
 <li><p><span class="xref std std-ref">TextAnnotatorInterface</span></p></li>
+<li><p><span class="xref std std-ref">MappingProviderInterface</span></p></li>
 </ul>
+<section id="command-line-examples">
+<h2>Command Line Examples<a class="headerlink" href="#command-line-examples" title="Permalink to this headline"></a></h2>
+<p>Use the <code class="code docutils literal notranslate"><span class="pre">bioportal</span></code> selector:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span><span class="o">-</span><span class="n">ARGUMENTS</span><span class="o">-</span><span class="n">AND</span><span class="o">-</span><span class="n">OPTIONS</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Currently ontology sub-selectors are not supported</p>
+<section id="search">
+<h3>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">search</span> <span class="n">tentacle</span>
+</pre></div>
+</div>
+<p>Note that bioportal implements relevance-ranked search, so if you search with a multiword term like “octopus brain”,
+after first returning any exact matches it will return matches to “octopus” and “brain”.</p>
+</section>
+<section id="mappings">
+<h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0002101</span>  <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span> <span class="o">-</span><span class="n">o</span> <span class="n">my</span><span class="o">-</span><span class="n">mappings</span><span class="o">.</span><span class="n">sssom</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Currently mappings may be missing some crucial metadata</p>
+</section>
+</section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">

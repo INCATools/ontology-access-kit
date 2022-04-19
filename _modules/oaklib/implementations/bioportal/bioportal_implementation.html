@@ -83,6 +83,7 @@
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">PREFIX_MAP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
@@ -230,13 +231,14 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_to_mapping</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
 
-    <span class="k">def</span> <span class="nf">result_to_mapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">result_to_mapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
         <span class="n">mapping</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
             <span class="n">subject_id</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;@id&#39;</span><span class="p">],</span>
             <span class="n">predicate_id</span><span class="o">=</span><span class="n">SOURCE_TO_PREDICATE</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]],</span>
             <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Unspecified</span><span class="p">,</span>
             <span class="n">object_id</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;@id&#39;</span><span class="p">],</span>
-            <span class="n">mapping_provider</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;@type&#39;</span><span class="p">]</span>
+            <span class="n">mapping_provider</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;@type&#39;</span><span class="p">],</span>
+            <span class="n">mapping_tool</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">mapping</span></div>
 </pre></div>
