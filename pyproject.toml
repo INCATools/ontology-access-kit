@@ -35,3 +35,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 runoak = "oaklib.cli:main"
+
+[tool.poetry.extras]
+docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
