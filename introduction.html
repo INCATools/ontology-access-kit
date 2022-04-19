@@ -83,17 +83,17 @@
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h1>
 <p>This library provides a collection of different interfaces for different kinds of ontology operations, including:</p>
 <ul class="simple">
-<li><p>lookup of basic features of an ontology element, such as it’s label, definition, relationships, or aliases</p></li>
-<li><p>search an ontology for a term</p></li>
-<li><p>updating, deleting, or modifying terms</p></li>
-<li><p>provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation</p></li>
+<li><p>lookup of basic features of an ontology element, such as it’s label, definition, relationships, or aliases.</p></li>
+<li><p>search an ontology for a term.</p></li>
+<li><p>updating, deleting, or modifying terms.</p></li>
+<li><p>provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation.</p></li>
 </ul>
 <p>These interfaces are <em>separated</em> from any particular backend. This means the same API can be used regardless of whether the ontology:</p>
 <ul class="simple">
-<li><p>is served by a remote API such as OLS or BioPortal</p></li>
-<li><p>is present locally on the filesystem in owl, obo, obojson, or sqlite formats</p></li>
-<li><p>is to be downloaded from a remote repository such as the OBO library</p></li>
-<li><p>is queried from a remote database, including SPARQL endpoints, A SQL database, a Solr/ES endpoint</p></li>
+<li><p>is served by a remote API such as OLS or BioPortal.</p></li>
+<li><p>is present locally on the filesystem in owl, obo, obojson, or sqlite formats.</p></li>
+<li><p>is to be downloaded from a remote repository such as the OBO library.</p></li>
+<li><p>is queried from a remote database, including SPARQL endpoints, A SQL database, a Solr/ES endpoint.</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># alternate implementations commented out</span>
 <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;tests/input/go-nucleus.obo&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
