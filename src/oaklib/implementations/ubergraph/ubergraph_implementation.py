@@ -8,6 +8,7 @@ from oaklib.datamodels import obograph
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -25,7 +26,7 @@ class RelationGraphEnum(Enum):
 
 
 @dataclass
-class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface):
+class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface, MappingProviderInterface):
     """
     Wraps the Ubergraph sparql endpoint
 
@@ -57,7 +58,6 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraph
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
     def _get_outgoing_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum,
                                      predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:

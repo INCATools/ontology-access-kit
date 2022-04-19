@@ -2,11 +2,12 @@ from abc import ABC
 from dataclasses import dataclass
 
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 
 
 @dataclass
-class OntobeeImplementation(SparqlImplementation, SearchInterface):
+class OntobeeImplementation(SparqlImplementation, SearchInterface, MappingProviderInterface):
     """
     Wraps the Ontobee sparql endpoint
 
