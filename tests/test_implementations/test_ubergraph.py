@@ -6,7 +6,7 @@ from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphI
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL
+from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -114,3 +114,8 @@ class TestUbergraphImplementation(unittest.TestCase):
                 assert CELL not in node_ids
             else:
                 assert CELL in node_ids
+
+    def test_extract_triples(self):
+        oi = self.oi
+        for t in oi.extract_triples([SHAPE]):
+            print(t)

@@ -55,6 +55,16 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
         """
         return True
 
+    @property
+    def named_graph(self) -> Optional[str]:
+        if not self.resource or self.resource.slug is None:
+            return None
+        else:
+            ont = self.resource.slug
+            for g in self.list_of_named_graphs():
+                if f'/{ont}.' in g or f'/{ont}-base' in g:
+                    return g
+
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraph
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

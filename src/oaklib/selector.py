@@ -43,7 +43,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
     :param format:
     :return:
     """
-    resource = OntologyResource()
+    resource = OntologyResource(format=format)
     resource.slug = descriptor
     impl_class: Type[OntologyInterface]
     if descriptor:
@@ -59,8 +59,6 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 resource.slug = f'sqlite:///{Path(rest).absolute()}'
             elif scheme == 'ubergraph':
                 impl_class = UbergraphImplementation
-                if rest:
-                    raise NotImplementedError(f'Ontologies within ubergraph not supported yet')
             elif scheme == 'ontobee':
                 impl_class = OntobeeImplementation
             elif scheme == 'bioportal':

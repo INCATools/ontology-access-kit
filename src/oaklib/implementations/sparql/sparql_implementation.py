@@ -1,7 +1,8 @@
 import logging
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Tuple, Optional
+from functools import lru_cache
+from typing import List, Iterable, Tuple, Optional, Union, Iterator
 
 import SPARQLWrapper
 import rdflib
@@ -11,20 +12,32 @@ from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL, ALL_MATCH_PREDICATES, \
     DEFAULT_PREFIX_MAP
 from oaklib.utilities.rate_limiter import check_limit
-from rdflib import URIRef, RDFS
+from rdflib import URIRef, RDFS, Literal, BNode
 from sssom.sssom_datamodel import MatchTypeEnum
 
 VAL_VAR = 'v'
 
+def _sparql_values(var_name: str, vals: List[str]):
+    return f'VALUES ?{var_name} {{ {" ".join(vals)} }}'
+
+def _as_rdf_obj(v) -> URIRef:
+    val = v['value']
+    if v['type'] == 'uri':
+        return URIRef(val)
+    elif v['type'] == 'bnode':
+        return BNode(val)
+    else:
+        return Literal(val, lang=v.get('lang', None), datatype=v.get('datatype', None))
 
 @dataclass
-class SparqlImplementation(BasicOntologyInterface):
+class SparqlImplementation(RdfInterface):
     """
     An OntologyInterface implementation that wraps a (typically remote) SPARQL endpoint.
 
@@ -37,6 +50,7 @@ class SparqlImplementation(BasicOntologyInterface):
     """
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
+    _list_of_named_graphs: List[str] = None
 
     def __post_init__(self):
         if self.sparql_wrapper is None:
@@ -51,11 +65,16 @@ class SparqlImplementation(BasicOntologyInterface):
             else:
                 self.sparql_wrapper = SPARQLWrapper.SPARQLWrapper(resource.url)
 
+    @property
+    def named_graph(self) -> Optional[str]:
+        return None
+
     def _default_url(self) -> str:
         raise NotImplementedError
 
     def _is_blazegraph(self) -> bool:
         return False
+
 
 
     def get_prefix_map(self) -> PREFIX_MAP:
@@ -94,7 +113,25 @@ class SparqlImplementation(BasicOntologyInterface):
             return uri.replace('_', ':')
         return uri
 
-    def _query(self, query: str, prefixes: PREFIX_MAP = {}):
+    def list_of_named_graphs(self) -> List[URI]:
+        if self._list_of_named_graphs:
+            return self._list_of_named_graphs
+        query = "select DISTINCT ?g WHERE { GRAPH ?g { ?s ?p ?o }}"
+        sw = self.sparql_wrapper
+        sw.setQuery(query)
+        sw.setReturnFormat(JSON)
+        check_limit()
+        ret = sw.queryAndConvert()
+        logging.info(f'RET={ret}')
+        self._list_of_named_graphs = [row['g']['value'] for row in ret["results"]["bindings"]]
+        return self._list_of_named_graphs
+
+    def _query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = {}):
+        ng = self.named_graph
+        if isinstance(query, SparqlQuery) and ng:
+            query.graph = ng
+        if isinstance(query, SparqlQuery):
+            query = query.query_str()
         sw = self.sparql_wrapper
         for k, v in prefixes.items():
             query = f'PREFIX {k}: <{v}>\n' + query
@@ -132,7 +169,7 @@ class SparqlImplementation(BasicOntologyInterface):
         query = SparqlQuery(select=['?o'],
                             where=[f'<{uri}> <{RDFS.subClassOf}> ?o',
                                    'FILTER (isIRI(?o))'])
-        bindings = self._query(query.query_str())
+        bindings = self._query(query)
         return list(set([self.uri_to_curie(row['o']['value']) for row in bindings]))
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
@@ -142,7 +179,7 @@ class SparqlImplementation(BasicOntologyInterface):
         query = SparqlQuery(select=['?p', '?o'],
                             where=[f'<{uri}> <{RDFS.subClassOf}> [owl:onProperty ?p ; owl:someValuesFrom ?o]',
                                    'FILTER (isIRI(?o))'])
-        bindings = self._query(query.query_str())
+        bindings = self._query(query)
         for row in bindings:
             pred = self.uri_to_curie(row['p']['value'])
             obj = self.uri_to_curie(row['o']['value'])
@@ -152,8 +189,11 @@ class SparqlImplementation(BasicOntologyInterface):
 
 
     def _get_anns(self, curie: CURIE, pred: URIRef):
-        uri = self.curie_to_uri(curie)
-        bindings = self._query(f"SELECT ?{VAL_VAR} WHERE {{ <{uri}> <{pred}> ?v }}")
+        uri = self.curie_to_sparql(curie)
+        query = SparqlQuery(select=['?v'],
+                            where=[f'{uri} <{pred}> ?v'])
+        #bindings = self._query(f"SELECT ?{VAL_VAR} WHERE {{ <{uri}> <{pred}> ?v }}")
+        bindings = self._query(query)
         return list(set([row[VAL_VAR]['value'] for row in bindings]))
 
     def get_label_by_curie(self, curie: CURIE):
@@ -171,7 +211,7 @@ class SparqlImplementation(BasicOntologyInterface):
         query = SparqlQuery(select=['?s ?label'],
                             where=[f'?s <{RDFS.label}> ?label',
                                    f'VALUES ?s {{ {" ".join(uris)} }}'])
-        bindings = self._query(query.query_str())
+        bindings = self._query(query)
         label_map = {}
         for row in bindings:
             curie, label = self.uri_to_curie(row['s']['value']), row['label']['value']
@@ -199,7 +239,7 @@ class SparqlImplementation(BasicOntologyInterface):
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         query = SparqlQuery(select=['?s'],
                             where=[f'{{ {{ ?s rdfs:label "{label}" }} UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
-        bindings = self._query(query.query_str())
+        bindings = self._query(query)
         return [self.uri_to_curie(row['s']['value']) for row in bindings]
 
 
@@ -247,7 +287,7 @@ class SparqlImplementation(BasicOntologyInterface):
                      f'VALUES ?p {{ {" ".join(preds)} }}']
         query = SparqlQuery(select=['?s'],
                             where=where + [filter_clause])
-        bindings = self._query(query.query_str())
+        bindings = self._query(query)
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])
 
@@ -262,13 +302,35 @@ class SparqlImplementation(BasicOntologyInterface):
                             where=[f'{self.curie_to_sparql(curie)} ?p ?o',
                                    f'VALUES ?p {{ {" ".join(pred_uris)} }}'
                                    ])
-        bindings = self._query(query.query_str())
+        bindings = self._query(query)
         for row in bindings:
             yield sssom.Mapping(subject_id=curie,
                                 predicate_id=self.uri_to_curie(row['p']['value']),
                                 object_id=self.uri_to_curie(row['o']['value']),
                                 match_type=MatchTypeEnum.Unspecified,
                                 )
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: RdfInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def extract_triples(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None, strategy=None,
+                        map_to_curies=True) -> Iterator[TRIPLE]:
+        seed_uris = [self.curie_to_sparql(c) for c in seed_curies]
+        query = SparqlQuery(select=['?s', '?p', '?o'],
+                            where=['?s ?p ?o .'
+                                   '?seed (rdfs:subClassOf|owl:onProperty|owl:someValuesFrom|^owl:annotatedSource)* ?s',
+                                    _sparql_values('seed', seed_uris)])
+        bindings = self._query(query)
+        for row in bindings:
+            triple = (row['s'], row['p'], row['o'])
+            if map_to_curies:
+                yield tuple([self.uri_to_curie(v['value']) for v in list(triple)])
+            else:
+                yield tuple([_as_rdf_obj(v) for v in list(triple)])
+
+
+
 
 
 

@@ -13,13 +13,24 @@ TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 
-
 class TestProntoImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
+
+    def test_obo_json(self) -> None:
+        resource = OntologyResource(slug='go-nucleus.json', directory=INPUT_DIR, local=True)
+        json_oi = ProntoImplementation(resource)
+        oi_src = self.oi
+        #for e in json_oi.all_entity_curies():
+        #    print(e)
+        #    assert e in list(oi_src.all_entity_curies())
+        # TODO: pronto obo parsing excludes alt_ids
+        #self.assertCountEqual(list(json_oi.all_entity_curies()), list(oi_src.all_entity_curies()))
+        # TODO: workaround for https://github.com/althonos/pronto/issues/164
+        #json_oi.store(OntologyResource(slug='go-nucleus.from-json.obo', directory=OUTPUT_DIR, local=True, format='obo'))
 
     def test_relationships(self):
         oi = self.oi
