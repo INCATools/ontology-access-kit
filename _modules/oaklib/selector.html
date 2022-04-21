@@ -122,7 +122,7 @@
 <span class="sd">    :param format:</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">()</span>
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">)</span>
     <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
     <span class="n">impl_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">descriptor</span><span class="p">:</span>
@@ -138,8 +138,6 @@
                 <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;sqlite:///</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ubergraph&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span>
-                <span class="k">if</span> <span class="n">rest</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ontologies within ubergraph not supported yet&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ontobee&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;bioportal&#39;</span><span class="p">:</span>
