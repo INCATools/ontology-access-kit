@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 
 import click
+import rdflib
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
@@ -21,6 +22,7 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
@@ -149,18 +151,29 @@ def search(terms, output: str):
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
     Example:
+
         runoak -i uberon.obo search limb
 
     This uses the Pronto implementation to load uberon from disk, and does a basic substring
     search over the labels and synonyms - results are not ranked
 
-    Bioportal:
-        runoak -i uberon.obo search limb
+    Bioportal (all ontologies):
+
+        runoak -i bioportal: search limb
 
     (You need to set your API key first)
 
     This uses the Bioportal API to search over a broad set of ontologies, returning a ranked list
     ranked by relevance. There may be many results, the results are streamed, do ctrl^C to stop
+
+    Ubergraph (all ontologies):
+
+        runoak -i ubergraph: search limb
+
+    Ubergraph (one ontology):
+
+        runoak -i ubergraph:uberon search limb
+
     """
     impl = settings.impl
     if isinstance(impl, SearchInterface):
@@ -259,6 +272,10 @@ def viz(terms, predicates, down, view, stylemap, configure, output_type: str, ou
     Example:
 
         runoak -i sqlite:cl.db viz CL:4023094
+
+    Same query on ubergraph:
+
+        runoak -i ubergraph: viz CL:4023094
 
     Example, showing only is-a:
 
@@ -373,6 +390,36 @@ def descendants(terms, predicates, output: str):
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@predicates_option
+@output_option
+@output_type_option
+def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
+    """
+    Extracts a subontology as triples
+
+    Currently the only endpoint to implement this is ubergraph. Ontobee seems
+    to have performance issues with the query
+
+    This will be supported in the SqlDatabase/Sqlite endpoint soon
+
+    Example:
+
+        runoak -v -i ubergraph: extract-triples GO:0005635 CL:0000099 -o test.ttl -O ttl
+
+    """
+    impl = settings.impl
+    if isinstance(impl, RdfInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        g = rdflib.Graph()
+        for t in impl.extract_triples(terms, map_to_curies=False):
+            logging.info(f'Triple: {t}')
+            g.add(t)
+        output.write(g.serialize())
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@click.argument("terms", nargs=-1)
 @output_option
 def info(terms, output: str):
     """
@@ -388,6 +435,22 @@ def info(terms, output: str):
         curies = list(impl.multiterm_search(terms))
         for curie in curies:
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+#@output_option
+@click.option('-o', '--output',
+              help="output file")
+@output_type_option
+def convert(output: str, output_type):
+    """
+    TODO
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        resource = get_resource_from_shorthand(output, format=output_type)
+        curies = impl.store(resource)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -631,6 +694,7 @@ def validate(output: str, cutoff: int):
     """
     Validate an ontology against ontology metadata
     """
+    writer = StreamingCsvWriter(output)
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
         counts = defaultdict(int)
@@ -644,6 +708,7 @@ def validate(output: str, cutoff: int):
             if n == cutoff:
                 print(f'**TRUNCATING RESULTS FOR {key} at {cutoff}')
             elif n < cutoff:
+                writer.emit(result)
                 print(yaml_dumper.dumps(result))
         for k, v in counts.items():
             print(f'{k}:: {v}')

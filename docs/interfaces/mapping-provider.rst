@@ -37,13 +37,19 @@ Implementations
     - implements a small subset of SSSOM fields
     - match types are unspecified
 
-- :ref:`OlsImplementation` currently implements a subset of SSSOM fields
+- :ref:.OlsImplementation` currently implements a subset of SSSOM fields
 
     - uses the OLS OxO API endpoint, which serves mappings that are provided by source ontologies
     - implements a subset of SSSOM fields
     - the original source is provided
 
-- Most other implementations provide this but only serve up limited SSSOM metadata, as only the base triple is stored
+- Others
+
+     - Most other implementations provide this but only serve up limited SSSOM metadata, as only the base triple is stored
+     - :ref:`.ProntoImplementation`
+     - :ref:`.SqlImplementation`
+     - :ref:`.UbergraphImplementation`
+     - :ref:`.OntobeeImplementation`
 
 Command Line Use
 ----------------
