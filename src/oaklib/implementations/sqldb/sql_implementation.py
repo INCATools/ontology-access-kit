@@ -10,6 +10,7 @@ from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
+from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -39,7 +40,8 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 
 @dataclass
-class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface, MappingProviderInterface, ABC):
+class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface,
+                        SubsetterInterface, MappingProviderInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -389,9 +391,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         if predicates:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         rels = []
-        print(q)
         for row in q:
-            print(f'ROW={row}')
             if row.subject != row.object:
                 rels.append((row.subject, row.predicate, row.object))
         for rel in transitive_reduction_by_predicate(rels):
