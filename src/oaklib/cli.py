@@ -373,6 +373,26 @@ def ancestors(terms, predicates, output: str):
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_option
+def spanners(terms, predicates, output: str):
+    """
+    List all spanning relationships
+    """
+    impl = settings.impl
+    if isinstance(impl, SubsetterInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        curies = list(terms)
+        logging.info(f'Ancestor seed: {curies}')
+        rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+        for rel in rels:
+            # TODO: turn to graph
+            print(rel)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@output_option
 def descendants(terms, predicates, output: str):
     """
     List all descendants of a term

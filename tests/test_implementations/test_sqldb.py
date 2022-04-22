@@ -180,7 +180,13 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_gap_fill(self):
         oi = self.oi
-        rels = list(oi.gap_fill_relationships([NUCLEUS, PHOTOSYNTHETIC_MEMBRANE, CELLULAR_COMPONENT, HUMAN],
+        rels = list(oi.gap_fill_relationships([NUCLEUS, VACUOLE, CELLULAR_COMPONENT, HUMAN],
                                               predicates=[IS_A, PART_OF]))
-        for rel in rels:
-            print(rel)
+        #for rel in rels:
+        #    print(rel)
+        self.assertEqual(len(rels), 4)
+        self.assertCountEqual(rels,
+                              [('GO:0005773', 'rdfs:subClassOf', 'GO:0005575'),
+                               ('GO:0005634', 'rdfs:subClassOf', 'GO:0005575'),
+                               ('GO:0005773', 'BFO:0000050', 'GO:0005575'),
+                               ('GO:0005634', 'BFO:0000050', 'GO:0005575')])

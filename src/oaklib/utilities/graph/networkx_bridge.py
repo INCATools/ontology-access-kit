@@ -50,7 +50,6 @@ def transitive_reduction_by_predicate(relationships: Iterable[RELATIONSHIP]) -> 
             tuples_dict[p].append((o, s))
         rels_dict[p].append((s, p, o))
     for p, tuples in tuples_dict.items():
-        print(f'p={p} tuples={tuples}')
         g = nx.DiGraph(tuples)
         reduced = nx.transitive_reduction(g)
         for r in rels_dict[p]:
