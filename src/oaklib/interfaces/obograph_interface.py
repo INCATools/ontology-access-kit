@@ -190,6 +190,21 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         g = self._merge_graphs([up_graph, down_graph])
         return g
 
+    def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:
+        """
+        Generates an OboGraph from a list of relationships
+
+        :param relationships:
+        :return:
+        """
+        relationships = list(relationships)
+        node_ids = set()
+        for rel in relationships:
+            node_ids.update(list(rel))
+        edges = [Edge(sub=s, pred=p, obj=o) for s, p, o in relationships]
+        nodes = [self.node(id) for id in node_ids]
+        return Graph(id='query',
+                     nodes=list(nodes), edges=edges)
 
     def as_obograph(self) -> Graph:
         """

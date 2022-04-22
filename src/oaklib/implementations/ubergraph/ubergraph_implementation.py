@@ -7,6 +7,7 @@ from typing import Iterable, Tuple, List, Union, Optional, Iterator
 from oaklib.datamodels import obograph
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation, _sparql_values
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
+from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -27,7 +28,8 @@ class RelationGraphEnum(Enum):
 
 
 @dataclass
-class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface, MappingProviderInterface):
+class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
+                              MappingProviderInterface, SubsetterInterface):
     """
     Wraps the Ubergraph sparql endpoint
 
@@ -184,6 +186,19 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
             id = rel[0]
             nodes[id] = obograph.Node(id=id, label=rel[2])
         logging.info(f'NUM NODES: {len(nodes)}')
+        return obograph.Graph(id='query',
+                              nodes=list(nodes.values()), edges=edges)
+
+    def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> obograph.Graph:
+        relationships = list(relationships)
+        edges = [obograph.Edge(sub=s, pred=p, obj=o) for s, p, o in relationships]
+        node_ids = set()
+        for rel in relationships:
+            node_ids.update(list(rel))
+        nodes = {}
+        for s, p, o in self._from_subjects_chunked(list(node_ids), [RDFS.label], object_is_literal=True):
+            nodes[s] = obograph.Node(id=s, label=o)
+        logging.info(f'NUM EDGES: {len(edges)}')
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)
 
