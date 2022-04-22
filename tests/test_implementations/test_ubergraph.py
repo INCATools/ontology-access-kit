@@ -1,12 +1,12 @@
 import logging
 import unittest
 
-from linkml_runtime.dumpers import yaml_dumper
 from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE
+from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE, NEURON, \
+    PHOTORECEPTOR_OUTER_SEGMENT
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -30,8 +30,6 @@ class TestUbergraphImplementation(unittest.TestCase):
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships_by_curie(VACUOLE))
-        for rel in rels:
-            print(rel)
         self.assertIn((IS_A, VACUOLE), rels)
         self.assertIn((IS_A, ICMBO), rels)
         self.assertIn((IS_A, CELLULAR_COMPONENT), rels)
@@ -115,7 +113,18 @@ class TestUbergraphImplementation(unittest.TestCase):
             else:
                 assert CELL in node_ids
 
+    def test_gap_fill(self):
+        oi = self.oi
+        rels = list(oi.gap_fill_relationships([NEURON, PHOTORECEPTOR_OUTER_SEGMENT, CELLULAR_COMPONENT], predicates=[IS_A, PART_OF]))
+        for rel in rels:
+            logging.info(rel)
+        self.assertEqual(rels,
+                         [('GO:0001750', 'BFO:0000050', 'CL:0000540'),
+                          ('GO:0001750', 'BFO:0000050', 'GO:0005575'),
+                          ('GO:0001750', 'rdfs:subClassOf', 'GO:0005575')])
+
+
     def test_extract_triples(self):
         oi = self.oi
         for t in oi.extract_triples([SHAPE]):
-            print(t)
+            logging.info(t)

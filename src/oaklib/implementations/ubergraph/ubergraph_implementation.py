@@ -2,17 +2,19 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
-from typing import Iterable, Tuple, List, Union, Optional
+from typing import Iterable, Tuple, List, Union, Optional, Iterator
 
 from oaklib.datamodels import obograph
-from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
+from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation, _sparql_values
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP
+from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from rdflib import RDFS, RDF, OWL
 
 
@@ -26,7 +28,8 @@ class RelationGraphEnum(Enum):
 
 
 @dataclass
-class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface, MappingProviderInterface):
+class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
+                              MappingProviderInterface, SubsetterInterface):
     """
     Wraps the Ubergraph sparql endpoint
 
@@ -186,6 +189,19 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)
 
+    def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> obograph.Graph:
+        relationships = list(relationships)
+        edges = [obograph.Edge(sub=s, pred=p, obj=o) for s, p, o in relationships]
+        node_ids = set()
+        for rel in relationships:
+            node_ids.update(list(rel))
+        nodes = {}
+        for s, p, o in self._from_subjects_chunked(list(node_ids), [RDFS.label], object_is_literal=True):
+            nodes[s] = obograph.Node(id=s, label=o)
+        logging.info(f'NUM EDGES: {len(edges)}')
+        return obograph.Graph(id='query',
+                              nodes=list(nodes.values()), edges=edges)
+
     def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
         # TODO: DRY
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
@@ -218,6 +234,27 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])
+
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
+        # TODO: compare with https://api.triplydb.com/s/_mZ9q_-rg
+        query_uris = [self.curie_to_sparql(curie) for curie in seed_curies]
+        where = [f'?s ?p ?o',
+                 _sparql_values('s', query_uris),
+                 _sparql_values('o', query_uris)]
+        if predicates:
+            pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
+            where.append(_sparql_values('p', pred_uris))
+        query = SparqlQuery(select=['?s ?p ?o'],
+                            where=where)
+        bindings = self._query(query.query_str())
+        # TODO: remove redundancy
+        rels = []
+        for row in bindings:
+            rels.append( (self.uri_to_curie(row['s']['value']),
+                          self.uri_to_curie(row['p']['value']),
+                          self.uri_to_curie(row['o']['value'])))
+        for rel in transitive_reduction_by_predicate(rels):
+            yield rel
 
 
 

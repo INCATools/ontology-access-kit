@@ -250,6 +250,10 @@ def annotate(words, output: str):
               default=False,
               show_default=True,
               help="traverse down")
+@click.option("--gap-fill/--no-gap-fill",
+              default=False,
+              show_default=True,
+              help="If set then find the minimal graph that spans all input curies")
 @click.option('-S', '--stylemap',
               help='a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/')
 @click.option('-C', '--configure',
@@ -261,7 +265,7 @@ def annotate(words, output: str):
 @click.option('-o', '--output',
               help="Path to output file")
 #@output_option
-def viz(terms, predicates, down, view, stylemap, configure, output_type: str, output: str):
+def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: str):
     """
     Visualizing an ancestor graph using obographviz
 
@@ -308,17 +312,27 @@ def viz(terms, predicates, down, view, stylemap, configure, output_type: str, ou
             curies = terms_expanded
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
+        elif gap_fill:
+            logging.info(f'Using gap-fill strategy')
+            if isinstance(impl, SubsetterInterface):
+                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+                if isinstance(impl, OboGraphInterface):
+                    graph = impl.relationships_to_graph(rels)
+                else:
+                    assert False
+            else:
+                raise NotImplementedError(f'{impl} needs to implement Subsetter for --gap-fill')
         else:
             graph = impl.ancestor_graph(curies, predicates=actual_predicates)
         logging.info(f'Drawing graph seeded from {curies}')
         if output_type == 'json':
             if output:
-                json_dumper.dump(graph, to_file=output)
+                json_dumper.dump(graph, to_file=output, inject_type=False)
             else:
                 print(json_dumper.dumps(graph))
         elif output_type == 'yaml':
             if output:
-                yaml_dumper.dump(graph, to_file=output)
+                yaml_dumper.dump(graph, to_file=output, inject_type=False)
             else:
                 print(yaml_dumper.dumps(graph))
         else:
@@ -368,6 +382,7 @@ def ancestors(terms, predicates, output: str):
             print(f'{n.id} ! {n.label}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @click.argument("terms", nargs=-1)

@@ -1,9 +1,15 @@
 import logging
 import unittest
 
+from linkml_runtime.loaders import yaml_loader, json_loader
 from oaklib.cli import search, main
+from oaklib.datamodels import obograph
+from oaklib.datamodels.vocabulary import IN_TAXON
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.resource import OntologyResource
 
-from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA
+from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA, VACUOLE, \
+    CELLULAR_COMPONENT, HUMAN, MAMMALIA
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
@@ -45,6 +51,24 @@ class TestCommandLineInterface(unittest.TestCase):
             # TODO:
             #assert 'GO:0016020 ! membrane' not in out
             assert 'GO:0043226 ! organelle' not in out
+
+    def test_gap_fill(self):
+        result = self.runner.invoke(main, ['-i', str(TEST_DB), 'viz', '--gap-fill',
+                                           '-p', f'i,p,{IN_TAXON}',
+                                           NUCLEUS, VACUOLE, CELLULAR_COMPONENT,
+                                           '-O', 'json', '-o', str(TEST_OUT)])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        with open(TEST_OUT) as file:
+            contents = "\n".join(file.readlines())
+            self.assertIn(NUCLEUS, contents)
+            self.assertIn(VACUOLE, contents)
+            self.assertIn(CELLULAR_COMPONENT, contents)
+            # TODO: parse json to check it conforms
+            #g = json_loader.loads(contents, target_class=obograph.Graph)
+
+
 
     ## MAPPINGS
 

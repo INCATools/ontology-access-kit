@@ -1,6 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Iterator
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
@@ -43,10 +43,20 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def gap_fill_relationships(self, seed_curies: List[CURIE]) -> List[RELATIONSHIP]:
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
         """
+        Given a term subset as a list of curies, find all non-redundant relationships connecting them
+
+        This assumes relation-graph entailed edges, so currently only implemented for ubergraph and sqlite
+
+        First the subset of all entailed edges conforming to the predicate profile connecting any pair of terms in the
+        subset is selected
+
+        Then naive transitive reduction on a per predicate basis is performed. This may yield edges that are formally
+        redundant, but these are still assumed to be useful for the user
 
         :param seed_curies:
+        :param predicates: if specified, only consider relationships using these predicates
         :return:
         """
         raise NotImplementedError

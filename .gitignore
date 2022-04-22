@@ -5,3 +5,12 @@ __pycache__
 docs/_build/
 docs/datamodels/*/*.md
 tests/output/
+
+dist/
+db/
+
+notebooks/output/*json
+notebooks/output/*tsv
+notebooks/input/go.db
+
+
