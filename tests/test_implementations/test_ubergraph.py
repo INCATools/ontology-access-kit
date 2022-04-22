@@ -1,7 +1,6 @@
 import logging
 import unittest
 
-from linkml_runtime.dumpers import yaml_dumper
 from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
@@ -14,7 +13,6 @@ TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 ICMBO = 'GO:0043231'
 
-@unittest.skip('Server down')
 class TestUbergraphImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -117,11 +115,16 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     def test_gap_fill(self):
         oi = self.oi
-        rels = list(oi.gap_fill_relationships([NEURON, PHOTORECEPTOR_OUTER_SEGMENT], predicates=[IS_A, PART_OF]))
+        rels = list(oi.gap_fill_relationships([NEURON, PHOTORECEPTOR_OUTER_SEGMENT, CELLULAR_COMPONENT], predicates=[IS_A, PART_OF]))
         for rel in rels:
-            print(rel)
+            logging.info(rel)
+        self.assertEqual(rels,
+                         [('GO:0001750', 'BFO:0000050', 'CL:0000540'),
+                          ('GO:0001750', 'BFO:0000050', 'GO:0005575'),
+                          ('GO:0001750', 'rdfs:subClassOf', 'GO:0005575')])
+
 
     def test_extract_triples(self):
         oi = self.oi
         for t in oi.extract_triples([SHAPE]):
-            print(t)
+            logging.info(t)
