@@ -51,7 +51,7 @@ class TestNetworkxBridge(unittest.TestCase):
         reduced = list(transitive_reduction([rel for rel in rels if rel[1] == IS_A]))
         for r in reduced:
             logging.info(r)
-        reduced = list(transitive_reduction([rel for rel in rels if rel[1] == PART_OF]))
+        #reduced = list(transitive_reduction([rel for rel in rels if rel[1] == PART_OF]))
 
     def test_reduction_by_predicate(self):
         rels = [('a', IS_A, 'b'), ('b', IS_A, 'c'), ('a', IS_A, 'c')]

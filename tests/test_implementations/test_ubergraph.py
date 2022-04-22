@@ -14,6 +14,7 @@ TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 ICMBO = 'GO:0043231'
 
+@unittest.skip('Server down')
 class TestUbergraphImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
