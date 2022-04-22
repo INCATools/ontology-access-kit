@@ -79,7 +79,7 @@
   <h1>Source code for oaklib.interfaces.subsetter_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterator</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">RELATIONSHIP</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">LABEL</span><span class="p">,</span> <span class="n">URI</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
@@ -122,10 +122,20 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="SubsetterInterface.gap_fill_relationships"><a class="viewcode-back" href="../../../interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.gap_fill_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">gap_fill_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+<div class="viewcode-block" id="SubsetterInterface.gap_fill_relationships"><a class="viewcode-back" href="../../../interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.gap_fill_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">gap_fill_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a term subset as a list of curies, find all non-redundant relationships connecting them</span>
+
+<span class="sd">        This assumes relation-graph entailed edges, so currently only implemented for ubergraph and sqlite</span>
+
+<span class="sd">        First the subset of all entailed edges conforming to the predicate profile connecting any pair of terms in the</span>
+<span class="sd">        subset is selected</span>
+
+<span class="sd">        Then naive transitive reduction on a per predicate basis is performed. This may yield edges that are formally</span>
+<span class="sd">        redundant, but these are still assumed to be useful for the user</span>
 
 <span class="sd">        :param seed_curies:</span>
+<span class="sd">        :param predicates: if specified, only consider relationships using these predicates</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>

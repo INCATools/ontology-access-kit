@@ -81,7 +81,7 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterator</span>
 
 <span class="kn">from</span> <span class="nn">linkml_runtime</span> <span class="kn">import</span> <span class="n">SchemaView</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.introspection</span> <span class="kn">import</span> <span class="n">package_schemaview</span>
@@ -89,7 +89,8 @@
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.model</span> <span class="kn">import</span> <span class="n">Statements</span><span class="p">,</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">HasSynonymStatement</span><span class="p">,</span> \
     <span class="n">HasTextDefinitionStatement</span><span class="p">,</span> <span class="n">ClassNode</span><span class="p">,</span> <span class="n">IriNode</span><span class="p">,</span> <span class="n">RdfsLabelStatement</span><span class="p">,</span> <span class="n">DeprecatedNode</span><span class="p">,</span> <span class="n">EntailedEdge</span><span class="p">,</span> \
     <span class="n">ObjectPropertyNode</span><span class="p">,</span> <span class="n">AnnotationPropertyNode</span><span class="p">,</span> <span class="n">NamedIndividualNode</span><span class="p">,</span> <span class="n">HasMappingStatement</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">SubsetterInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> <span class="n">RELATIONSHIP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
@@ -99,6 +100,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span><span class="p">,</span> <span class="n">ontology_metadata</span>
 <span class="kn">import</span> <span class="nn">oaklib.datamodels.validation_datamodel</span> <span class="k">as</span> <span class="nn">vdm</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span> <span class="n">omd_slots</span><span class="p">,</span> <span class="n">LABEL_PREDICATE</span><span class="p">,</span> <span class="n">IN_SUBSET</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.graph.networkx_bridge</span> <span class="kn">import</span> <span class="n">transitive_reduction_by_predicate</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">exists</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span><span class="p">,</span> <span class="n">aliased</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
@@ -117,7 +119,8 @@
 
 
 <div class="viewcode-block" id="SqlImplementation"><a class="viewcode-back" href="../../../../implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SqlImplementation</span><span class="p">(</span><span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">ValidatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span>
+                        <span class="n">SubsetterInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database</span>
 
@@ -458,10 +461,20 @@
                                                       <span class="nb">type</span><span class="o">=</span><span class="n">vdm</span><span class="o">.</span><span class="n">ValidationResultType</span><span class="o">.</span><span class="n">DatatypeConstraintComponent</span><span class="o">.</span><span class="n">meaning</span><span class="p">,</span>
                                                       <span class="n">info</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Incorrect datatype for </span><span class="si">{</span><span class="n">slot_name</span><span class="si">}</span><span class="s1"> expected: </span><span class="si">{</span><span class="n">uri</span><span class="si">}</span><span class="s1"> for </span><span class="si">{</span><span class="n">rng</span><span class="si">}</span><span class="s1">&#39;</span>
                                                       <span class="p">)</span>
-                        <span class="k">yield</span> <span class="n">result</span></div>
+                        <span class="k">yield</span> <span class="n">result</span>
 
-
-
+    <span class="k">def</span> <span class="nf">gap_fill_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+        <span class="n">seed_curies</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">seed_curies</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">seed_curies</span><span class="p">))</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">seed_curies</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">predicates</span><span class="p">)))</span>
+        <span class="n">rels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span> <span class="o">!=</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+                <span class="n">rels</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">transitive_reduction_by_predicate</span><span class="p">(</span><span class="n">rels</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">rel</span></div>
 </pre></div>
 
            </div>
