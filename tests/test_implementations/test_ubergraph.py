@@ -32,8 +32,6 @@ class TestUbergraphImplementation(unittest.TestCase):
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships_by_curie(VACUOLE))
-        for rel in rels:
-            print(rel)
         self.assertIn((IS_A, VACUOLE), rels)
         self.assertIn((IS_A, ICMBO), rels)
         self.assertIn((IS_A, CELLULAR_COMPONENT), rels)
