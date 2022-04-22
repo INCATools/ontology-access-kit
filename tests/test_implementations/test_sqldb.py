@@ -11,7 +11,7 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE
 
-from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM
+from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, PHOTOSYNTHETIC_MEMBRANE, HUMAN
 
 DB = INPUT_DIR / 'go-nucleus.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -177,3 +177,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertIn('GO:0005622', oi.basic_search('intracellular'))
         self.assertEqual(list(oi.basic_search('protoplasm')), ['GO:0005622'])
         self.assertEqual(list(oi.basic_search('protoplasm', SearchConfiguration(include_aliases=False))), [])
+
+    def test_gap_fill(self):
+        oi = self.oi
+        rels = list(oi.gap_fill_relationships([NUCLEUS, PHOTOSYNTHETIC_MEMBRANE, CELLULAR_COMPONENT, HUMAN],
+                                              predicates=[IS_A, PART_OF]))
+        for rel in rels:
+            print(rel)

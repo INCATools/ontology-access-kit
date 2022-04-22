@@ -6,7 +6,8 @@ from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphI
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE
+from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE, NEURON, \
+    PHOTORECEPTOR_OUTER_SEGMENT
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -114,6 +115,12 @@ class TestUbergraphImplementation(unittest.TestCase):
                 assert CELL not in node_ids
             else:
                 assert CELL in node_ids
+
+    def test_gap_fill(self):
+        oi = self.oi
+        rels = list(oi.gap_fill_relationships([NEURON, PHOTORECEPTOR_OUTER_SEGMENT], predicates=[IS_A, PART_OF]))
+        for rel in rels:
+            print(rel)
 
     def test_extract_triples(self):
         oi = self.oi

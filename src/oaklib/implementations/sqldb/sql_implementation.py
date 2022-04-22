@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple
+from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -10,7 +10,7 @@ from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
@@ -20,6 +20,7 @@ from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET
+from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from sqlalchemy import select, text, exists
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
@@ -381,5 +382,17 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                                                       )
                         yield result
 
-
-
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
+        seed_curies = tuple(seed_curies)
+        q = self.session.query(EntailedEdge).filter(EntailedEdge.subject.in_(seed_curies))
+        q = q.filter(EntailedEdge.object.in_(seed_curies))
+        if predicates:
+            q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        rels = []
+        print(q)
+        for row in q:
+            print(f'ROW={row}')
+            if row.subject != row.object:
+                rels.append((row.subject, row.predicate, row.object))
+        for rel in transitive_reduction_by_predicate(rels):
+            yield rel
