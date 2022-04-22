@@ -1,6 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Iterator
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
@@ -43,10 +43,11 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def gap_fill_relationships(self, seed_curies: List[CURIE]) -> List[RELATIONSHIP]:
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
         """
 
         :param seed_curies:
+        :param predicates:
         :return:
         """
         raise NotImplementedError
