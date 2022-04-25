@@ -1274,7 +1274,7 @@ wcwidth = "*"
 
 [[package]]
 name = "pronto"
-version = "2.4.4"
+version = "2.4.5"
 description = "Python frontend to ontologies."
 category = "main"
 optional = false
@@ -2130,7 +2130,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "5cbc1cc2551fae9144e7015ea6d5180dc1c8118952503766be019614c27f31f7"
+content-hash = "d670aa41e86bda815b776432af573ef0e8ecb9e1f5d416adb062cc4b430aae38"
 
 [metadata.files]
 aiohttp = [
@@ -2982,8 +2982,8 @@ prompt-toolkit = [
     {file = "prompt_toolkit-3.0.29.tar.gz", hash = "sha256:bd640f60e8cecd74f0dc249713d433ace2ddc62b65ee07f96d358e0b152b6ea7"},
 ]
 pronto = [
-    {file = "pronto-2.4.4-py2.py3-none-any.whl", hash = "sha256:100acbb557d795efafbc83d3d1eca692489446b8b99b069aa30c432e64afe934"},
-    {file = "pronto-2.4.4.tar.gz", hash = "sha256:17285b99ac374162aee29a6631cbb32e8b3969db55befa1bb2e01aedc8872e70"},
+    {file = "pronto-2.4.5-py2.py3-none-any.whl", hash = "sha256:b87e6be7d6bb55a89e3d9c857ba987335f91db10e62b351d49c6265f0fdc212d"},
+    {file = "pronto-2.4.5.tar.gz", hash = "sha256:2bed414a0721c7155a258e802122cafb2ec08f827098c1b59aa0323af242bcaf"},
 ]
 psutil = [
     {file = "psutil-5.9.0-cp27-cp27m-manylinux2010_i686.whl", hash = "sha256:55ce319452e3d139e25d6c3f85a1acf12d1607ddedea5e35fb47a552c051161b"},

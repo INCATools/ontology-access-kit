@@ -1,6 +1,6 @@
 import logging
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import List, Iterable, Tuple, Optional, Union, Iterator
 
@@ -17,12 +17,13 @@ from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL, ALL_MATCH_PREDICATES, \
-    DEFAULT_PREFIX_MAP
+    DEFAULT_PREFIX_MAP, SYNONYM_PREDICATES
 from oaklib.utilities.rate_limiter import check_limit
 from rdflib import URIRef, RDFS, Literal, BNode
 from sssom.sssom_datamodel import MatchTypeEnum
 
 VAL_VAR = 'v'
+LANGUAGE_TAG = str
 
 def _sparql_values(var_name: str, vals: List[str]):
     return f'VALUES ?{var_name} {{ {" ".join(vals)} }}'
@@ -50,6 +51,8 @@ class SparqlImplementation(RdfInterface):
     """
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
+    multilingual: bool = None
+    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
     _list_of_named_graphs: List[str] = None
 
     def __post_init__(self):
@@ -74,8 +77,6 @@ class SparqlImplementation(RdfInterface):
 
     def _is_blazegraph(self) -> bool:
         return False
-
-
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
@@ -187,12 +188,15 @@ class SparqlImplementation(RdfInterface):
                 rels[pred].append(obj)
         return rels
 
-
-    def _get_anns(self, curie: CURIE, pred: URIRef):
+    def _get_anns(self, curie: CURIE, pred: Union[URIRef, CURIE]):
         uri = self.curie_to_sparql(curie)
+        pred = self.curie_to_sparql(pred)
         query = SparqlQuery(select=['?v'],
-                            where=[f'{uri} <{pred}> ?v'])
+                            where=[f'{uri} {pred} ?v'])
+        if self.multilingual:
+            query.where.append(f'FILTER (LANG(?v) = "{self.preferred_language}")')
         #bindings = self._query(f"SELECT ?{VAL_VAR} WHERE {{ <{uri}> <{pred}> ?v }}")
+        #print(query.query_str())
         bindings = self._query(query)
         return list(set([row[VAL_VAR]['value'] for row in bindings]))
 
@@ -205,12 +209,15 @@ class SparqlImplementation(RdfInterface):
         else:
             return None
 
+
     def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         uri_map = {self.curie_to_uri(curie): curie for curie in curies}
         uris = [f'<{uri}>' for uri in uri_map.keys()]
         query = SparqlQuery(select=['?s ?label'],
                             where=[f'?s <{RDFS.label}> ?label',
-                                   f'VALUES ?s {{ {" ".join(uris)} }}'])
+                                   _sparql_values('s', uris)])
+        if self.multilingual:
+            query.where.append(f'FILTER (LANG(?label) = "{self.preferred_language}")')
         bindings = self._query(query)
         label_map = {}
         for row in bindings:
@@ -219,26 +226,41 @@ class SparqlImplementation(RdfInterface):
                 if label_map[curie] != label:
                     logging.warning(f'Multiple labels for {curie} = {label_map[curie]} != {label}')
             else:
+                label_map[curie] = label
                 yield curie, label
         for curie in curies:
             if curie not in label_map:
                 yield curie, None
 
+    def _alias_predicates(self) -> List[PRED_CURIE]:
+        # different implementations can override this; e.g Wikidata uses skos:altLabel
+        return SYNONYM_PREDICATES
+
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
-        uri = self.curie_to_uri(curie)
-        valstr = "VALUES ?pred {oboInOwl:hasExactSynonym}"
-        bindings = self._query(f"SELECT ?pred ?{VAL_VAR} WHERE {{ <{uri}> ?pred ?v . {valstr} }}",
+        uri = self.curie_to_sparql(curie)
+        alias_pred_uris = [self.curie_to_sparql(p) for p in self._alias_predicates()]
+        query = SparqlQuery(select=['?p', '?o'],
+                            where=[f'{uri} ?p ?o',
+                                   _sparql_values('p', alias_pred_uris)])
+        if self.multilingual:
+            query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
+        bindings = self._query(query.query_str(),
                                {'oboInOwl': 'http://www.geneontology.org/formats/oboInOwl#'})
         m = defaultdict(list)
         for row in bindings:
-            #print(f'BINDINGS={row}')
-            m[row['pred']['value']].append(row[VAL_VAR]['value'])
+            m[row['p']['value']].append(row['o']['value'])
         return m
 
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
+        clauses = [f'?s rdfs:label "{label}"',
+                   f'?s rdfs:label "{label}"^^xsd:string']
+        if self.multilingual:
+            clauses.append(f'?s rdfs:label "{label}"@{self.preferred_language}')
+        clauses_j = " UNION ".join([f'{{ {c} }}' for c in clauses])
         query = SparqlQuery(select=['?s'],
-                            where=[f'{{ {{ ?s rdfs:label "{label}" }} UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
+                            where=[f'{{ {clauses_j} }}'])
+#                            where=[f'{{ {{ ?s rdfs:label "{label}" }} UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
         bindings = self._query(query)
         return [self.uri_to_curie(row['s']['value']) for row in bindings]
 
@@ -288,6 +310,22 @@ class SparqlImplementation(RdfInterface):
         query = SparqlQuery(select=['?s'],
                             where=where + [filter_clause])
         bindings = self._query(query)
+        for row in bindings:
+            yield self.uri_to_curie(row['s']['value'])
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OboGraphInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        if not predicates or predicates != [IS_A]:
+            raise ValueError(f'Generic SPARQL only supports relational queries over IS_a')
+        query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
+        where = [f'?s rdfs:subClassOf* ?o',
+                 _sparql_values('o', query_uris)]
+        query = SparqlQuery(select=['?s'],
+                            distinct=True,
+                            where=where)
+        bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])
 

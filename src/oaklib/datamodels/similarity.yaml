@@ -1,0 +1,128 @@
+id: https://w3id.org/linkml/similarity
+title: Semantic Similarity
+name: similarity
+description: >-
+  A datamodel for representing similarity between terms or lists of terms.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  sim: https://w3id.org/linkml/similarity/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+
+default_prefix: sim
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  PairwiseSimilarity:
+    abstract: true
+    slots:
+      - subject_id
+      - subject_label
+      - subject_source
+      - object_id
+      - object_label
+      - object_source
+      - ancestor_id
+      - ancestor_label
+      - ancestor_source
+      - object_information_content
+      - subject_information_content
+      - ancestor_information_content
+      - jaccard_similarity
+      - dice_similarity
+
+  TermPairwiseSimilarity:
+    is_a: PairwiseSimilarity
+
+  TermSetPairwiseSimilarity:
+    is_a: PairwiseSimilarity
+
+
+types:
+  ZeroToOne:
+    typeof: float
+    minimum_value: 0
+    maximum_value: 0
+  NegativeLogValue:
+    typeof: float
+    minimum_value: 0
+  ItemCount:
+    typeof: integer
+    minimum_value: 0
+
+slots:
+  subject_id:
+    slot_uri: sssom:subject_id
+    range: uriorcurie
+  subject_label:
+    slot_uri: sssom:subject_label
+  subject_source:
+    slot_uri: sssom:subject_source
+  object_id:
+    slot_uri: sssom:object_id
+    range: uriorcurie
+  object_label:
+    slot_uri: sssom:object_label
+  object_source:
+    slot_uri: sssom:object_source
+  ancestor_id:
+    range: uriorcurie
+  ancestor_label:
+  ancestor_source:
+  score:
+    abstract: true
+  information_content:
+    is_a: score
+    range: NegativeLogValue
+  subject_information_content:
+    is_a: information_content
+  object_information_content:
+    is_a: information_content
+  ancestor_information_content:
+    is_a: information_content
+  jaccard_similarity:
+    is_a: score
+    range: ZeroToOne
+  dice_similarity:
+    is_a: score
+    range: ZeroToOne
+  overlap_coefficient:
+    is_a: score
+    range: ZeroToOne
+  subsumes_score:
+    is_a: score
+    range: ZeroToOne
+  subsumed_by_score:
+    is_a: score
+    range: ZeroToOne
+  intersection_count:
+    is_a: score
+    range: ItemCount
+  union_count:
+    is_a: score
+    range: ItemCount
+

@@ -9,6 +9,7 @@ from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImpleme
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
+from oaklib.implementations.wikidata.wikidata_implementation import WikidataImplementation
 from oaklib.interfaces import OntologyInterface
 from oaklib.resource import OntologyResource
 
@@ -63,6 +64,8 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 impl_class = OntobeeImplementation
             elif scheme == 'bioportal':
                 impl_class = BioportalImplementation
+            elif scheme == 'wikidata':
+                impl_class = WikidataImplementation
             elif scheme == 'ols':
                 impl_class = OlsImplementation
             elif scheme == 'pronto':

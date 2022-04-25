@@ -49,15 +49,15 @@ Query the OBO Library
 
 Next try using the "search" command to search for a term in the Drosophila anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
 
-The base command takes an "--input" (or just "-i") option that specifies the input implementation. We will return to the full syntax later,
-but one pattern that is useful to know is "obolibrary:<ontology-file>".
+The base command takes an :code:`--input` (or just :code:`-i`) option that specifies the input implementation. We will return to the full syntax later,
+but one pattern that is useful to know is :code:`obolibrary:<ontology-file>`.
 
 .. code-block::
 
     runoak -i obolibrary:fbbt.obo search 'wing vein'
 
-The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. This is using the Pronto
-library under the hood.
+The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
+library under the hood)
 
 After the lag you will get results like:
 
@@ -67,6 +67,9 @@ After the lag you will get results like:
     FBbt:00004754 ! axillary vein
     FBbt:00004759 ! wing vein L1
     FBbt:00004760 ! wing vein L2
+
+Working with local files
+------------------------
 
 .. code-block::
 
@@ -78,7 +81,7 @@ Fetching ancestors
 
 Next we will try a different command, plugging in an ID we got from the previous search.
 
-We will use the "ancestors" command to find all rdfs:subClassOf and part-of (BFO:0000050) ancestors of 'wing vein'.
+We will use the :code:`ancestors` command to find all rdfs:subClassOf and part-of (BFO:0000050) ancestors of 'wing vein'.
 
 .. code-block::
 
@@ -99,7 +102,7 @@ Using other backends
 
     runoak -i ubergraph: search 'wing vein'
 
-This searches the ubergraph backend using the blazegraph search interface. Note that in addition to searching over a wider range
+This searches the :ref:`ubergraph` backend using the blazegraph search interface. Note that in addition to searching over a wider range
 of ontologies, this returns a ranked list that might include matches only to "wing" or "vein". Currently each backend implements
 search a little differently, but this will be more unified and controllable in the future.
 

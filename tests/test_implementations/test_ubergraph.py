@@ -1,12 +1,13 @@
 import logging
 import unittest
 
+from linkml_runtime.dumpers import yaml_dumper
 from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.interfaces.search_interface import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE, NEURON, \
-    PHOTORECEPTOR_OUTER_SEGMENT
+    PHOTORECEPTOR_OUTER_SEGMENT, NUCLEUS, THYLAKOID, NUCLEAR_ENVELOPE, CELLULAR_ANATOMICAL_ENTITY
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -79,10 +80,15 @@ class TestUbergraphImplementation(unittest.TestCase):
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A, PART_OF]))
         #for a in ancs:
         #    print(a)
-        self.assertIn(VACUOLE, ancs)
+        self.assertIn(VACUOLE, ancs) # reflexive
         self.assertIn(CYTOPLASM, ancs)
         self.assertIn(CELL, ancs)
         self.assertIn(CELLULAR_COMPONENT, ancs)
+        ancs = list(oi.ancestors([VACUOLE], predicates=[PART_OF]))
+        # NOT reflexive
+        #self.assertIn(VACUOLE, ancs)
+        self.assertIn(CELL, ancs)
+
 
     def test_descendants(self):
         oi = self.oi
@@ -122,6 +128,57 @@ class TestUbergraphImplementation(unittest.TestCase):
                          [('GO:0001750', 'BFO:0000050', 'CL:0000540'),
                           ('GO:0001750', 'BFO:0000050', 'GO:0005575'),
                           ('GO:0001750', 'rdfs:subClassOf', 'GO:0005575')])
+
+    def test_common_ancestors(self):
+        oi = self.oi
+        for preds in [None, [IS_A], [PART_OF], [IS_A, PART_OF]]:
+            ancs = list(oi.common_ancestors(NUCLEUS, THYLAKOID, preds))
+            print(f'{preds} ==> {ancs}')
+            if preds == [PART_OF]:
+                self.assertEqual(ancs, [CELL])
+            elif preds == [IS_A]:
+                self.assertNotIn(CELL, ancs)
+                self.assertIn(CELLULAR_COMPONENT, ancs)
+            else:
+                self.assertIn(CELL, ancs)
+                self.assertIn(CELLULAR_COMPONENT, ancs)
+
+    @unittest.skip('Too slow')
+    def test_most_recent_common_ancestors(self):
+        oi = self.oi
+        for preds in [[IS_A], [PART_OF], [IS_A, PART_OF]]:
+            ancs = list(oi.most_recent_common_ancestors(NUCLEUS, THYLAKOID, preds))
+            print(f'{preds} ==> {ancs}')
+            if preds == [PART_OF]:
+                self.assertEqual(ancs, [CELL])
+            elif preds == [IS_A]:
+                self.assertNotIn(CELL, ancs)
+                self.assertIn(CELLULAR_COMPONENT, ancs)
+            else:
+                self.assertIn(CELL, ancs)
+                self.assertIn(CELLULAR_COMPONENT, ancs)
+
+    def test_semsim(self):
+        oi = self.oi
+        ic = oi.get_information_content(NEURON)
+        self.assertGreater(ic, 2.0)
+        pairs = [(NUCLEUS, THYLAKOID), (NUCLEAR_ENVELOPE, THYLAKOID), (NUCLEAR_ENVELOPE, NUCLEUS), (NUCLEUS, NUCLEUS)]
+        for s, o in pairs:
+            for preds in [[IS_A], [IS_A, PART_OF], [PART_OF]]:
+                sim = oi.pairwise_similarity(s, o, predicates=preds)
+                #print(preds)
+                #print(yaml_dumper.dumps(sim))
+                if (s, o) == (NUCLEUS, THYLAKOID):
+                    if preds == [IS_A]:
+                        self.assertEqual(sim.ancestor_id, CELLULAR_ANATOMICAL_ENTITY)
+                    elif preds == [PART_OF]:
+                        self.assertEqual(sim.ancestor_id, CELL)
+                elif (s, o) == (NUCLEAR_ENVELOPE, NUCLEUS):
+                    if preds == [IS_A, PART_OF]:
+                        self.assertEqual(sim.ancestor_id, NUCLEUS)
+                elif (s, o) == (NUCLEUS, NUCLEUS):
+                    if IS_A in preds:
+                        self.assertEqual(sim.ancestor_id, NUCLEUS)
 
 
     def test_extract_triples(self):
