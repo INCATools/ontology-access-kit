@@ -1,11 +1,12 @@
 import logging
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Iterable, Tuple, List, Union, Optional, Iterator
+from typing import Iterable, Tuple, List, Union, Optional, Iterator, Dict
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_DEFINITION_URI, SKOS_ALT_LABEL, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation, _sparql_values
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces import SubsetterInterface
@@ -13,127 +14,137 @@ from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIO
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.types import CURIE, PRED_CURIE
+from oaklib.types import CURIE, PRED_CURIE, URI
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from rdflib import RDFS, RDF, OWL, URIRef
 
-
-class RelationGraphEnum(Enum):
-    """
-    triples in UG are organized into different graphs
-    """
-    ontology = "http://reasoner.renci.org/ontology"
-    redundant = "http://reasoner.renci.org/redundant"
-    nonredundant = "http://reasoner.renci.org/nonredundant"
-    normalizedInformationContent = "http://reasoner.renci.org/vocab/normalizedInformationContent"
+DEFAULT_CURIE_MAP = {
+    IS_A: 'http://www.wikidata.org/prop/direct/P279',
+    RDF_TYPE: 'http://www.wikidata.org/prop/direct/P31',
+    PART_OF: 'http://www.wikidata.org/prop/direct/P361',
+    HAS_DEFINITION_URI: 'http://schema.org/description',
+}
 
 
 @dataclass
-class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
+class WikidataImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
                               MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface):
     """
-    Wraps the Ubergraph sparql endpoint
+    Wraps the wikidata sparql endpoint
 
-    See: `<https://github.com/INCATools/ubergraph>`_
+    See: `<https://github.com/INCATools/wikidata>`_
 
     This is a specialization of the more generic :class:`.SparqlImplementation`, which
-    has knowledge of some of the specialized patterns found in Ubergraph
+    has knowledge of some of the specialized patterns found in wikidata
 
-    An UbergraphImplementation can be initialed by:
+    An wikidataImplementation can be initialed by:
 
         .. code:: python
 
-           >>>  oi = UbergraphImplementation.create()
+           >>>  oi = WikidataImplementation.create()
 
-        The default ubergraph endpoint will be assumed
+        The default wikidata endpoint will be assumed
 
     """
+    wikidata_curie_map: Dict[str, str] = field(default_factory=lambda: DEFAULT_CURIE_MAP)
+
+    def __post_init__(self):
+        super().__post_init__()
+        self.multilingual = True
 
     def _default_url(self) -> str:
-        return "https://ubergraph.apps.renci.org/sparql"
+        return "http://query.wikidata.org/sparql"
+
+    def _alias_predicates(self) -> List[PRED_CURIE]:
+        return [SKOS_ALT_LABEL]
 
     def _is_blazegraph(self) -> bool:
         """
-        Currently Ubergraph uses blazegraph
+        Currently wikidata uses blazegraph
         """
         return True
 
-    @property
-    def named_graph(self) -> Optional[str]:
-        if not self.resource or self.resource.slug is None:
-            return None
-        else:
-            ont = self.resource.slug
-            for g in self.list_of_named_graphs():
-                if f'/{ont}.' in g or f'/{ont}-base' in g:
-                    return g
+    def curie_to_uri(self, curie: CURIE, strict: bool = False) -> URI:
+        if curie in self.wikidata_curie_map:
+            return self.wikidata_curie_map[curie]
+        return super().curie_to_uri(curie, strict=strict)
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SearchInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+        if ':' in search_term and ' ' not in search_term:
+            logging.debug(f'Not performing search on what looks like a CURIE: {search_term}')
+            return
+        query = SparqlQuery(select=['?s'],
+                            where=[f"""
+                            SERVICE wikibase:mwapi {{
+                              bd:serviceParam wikibase:endpoint "www.wikidata.org";
+                                wikibase:api "EntitySearch";
+                                mwapi:search "{search_term}";
+                                mwapi:language "en".
+                                ?s wikibase:apiOutputItem mwapi:item.
+                                ?num wikibase:apiOrdinal true.
+                            }}
+                            """])
+        if config.limit is not None:
+            query.limit = config.limit
+        bindings = self._query(query)
+        for row in bindings:
+            yield self.uri_to_curie(row['s']['value'])
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraph
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def _get_outgoing_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum,
+    def _get_outgoing_edges_by_curie(self, curie: CURIE,
                                      predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
         query_uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=['?p', '?o'],
-                            where=[f'GRAPH <{graph.value}> {{ {query_uri} ?p ?o }}',
-                                   f'?o a owl:Class'])
+                            where=[f'{query_uri} ?p ?o',
+                                   f'FILTER (isIRI(?o))'])
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
-            query.where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
+            query.where.append(_sparql_values('p', pred_uris))
         bindings = self._query(query.query_str())
         for row in bindings:
-            pred = self.uri_to_curie(row['p']['value'])
             obj = self.uri_to_curie(row['o']['value'])
+            if obj.startswith('wikidata:statement/'):
+                # TODO: filter ahead of time
+                continue
+            pred = self.uri_to_curie(row['p']['value'])
             yield pred, obj
 
-    def _get_incoming_edges_by_curie(self, curie: CURIE, graph: RelationGraphEnum,
-                                     predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
+    def _get_incoming_edges_by_curie(self, curie: CURIE, predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
         query_uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=['?s', '?p'],
-                            where=[f'GRAPH <{graph.value}> {{ ?s ?p {query_uri}  }}',
-                                   f'?s a owl:Class'])
+                            where=[f'?s ?p {query_uri}'])
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
-            query.where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
+            query.where.append(_sparql_values('p', pred_uris))
         bindings = self._query(query.query_str())
         for row in bindings:
             pred = self.uri_to_curie(row['p']['value'])
             subj = self.uri_to_curie(row['s']['value'])
             yield pred, subj
 
-
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
-        for pred, obj in self._get_outgoing_edges_by_curie(curie, graph=RelationGraphEnum.nonredundant):
+        for pred, obj in self._get_outgoing_edges_by_curie(curie):
             rmap[pred].append(obj)
         return rmap
 
     def get_incoming_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
-        for pred, s in self._get_incoming_edges_by_curie(curie, graph=RelationGraphEnum.nonredundant):
+        for pred, s in self._get_incoming_edges_by_curie(curie):
             rmap[pred].append(s)
         return rmap
-
-    def entailed_outgoing_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        return self._get_outgoing_edges_by_curie(curie, graph=RelationGraphEnum.redundant, predicates=predicates)
-
-    def entailed_incoming_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        return self._get_incoming_edges_by_curie(curie, graph=RelationGraphEnum.redundant, predicates=predicates)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraph
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    def _values(self, var: str, in_list: Optional[List[str]]) -> str:
-        if in_list is None:
-            return ""
-        else:
-            return f'VALUES ?{var} {{ {" ".join(in_list)} }}'
 
     def _from_subjects_chunked(self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, **kwargs):
         SIZE = 10
@@ -143,9 +154,9 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
             for r in self._from_subjects(next_subjects, predicates, **kwargs):
                 yield r
 
-
     def _from_subjects(self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None,
-                       graph: str = None, object_is_literal=False, where=[]) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+                       graph: str = None, object_is_literal=False, object_is_language_tagged=False,
+                       where=[]) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
             predicate_uris = [self.curie_to_sparql(curie) for curie in predicates]
@@ -155,10 +166,11 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
                             distinct=True,
                             graph=graph,
                             where=['?s ?p ?o',
-                                   self._values('s', subject_uris),
-                                   self._values('p', predicate_uris),
+                                   _sparql_values('s', subject_uris),
+                                   _sparql_values('p', predicate_uris),
                                    ] + where)
-        #print(f'G={graph} Q={query.query_str()}')
+        if self.multilingual and object_is_literal:
+            query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
         bindings = self._query(query.query_str())
         for row in bindings:
             v = row['o']['value']
@@ -181,7 +193,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
         logging.info(f'NUM ANCS: {len(ancs)}')
         edges = []
         nodes = {}
-        for rel in self._from_subjects_chunked(ancs, predicates, graph=RelationGraphEnum.nonredundant.value, where=[]):
+        for rel in self._from_subjects_chunked(ancs, predicates, where=[]):
             edges.append(obograph.Edge(sub=rel[0], pred=rel[1], obj=rel[2]))
         logging.info(f'NUM EDGES: {len(edges)}')
         for rel in self._from_subjects_chunked(ancs, [RDFS.label], object_is_literal=True):
@@ -205,36 +217,37 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
                               nodes=list(nodes.values()), edges=edges)
 
     def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
-        # TODO: DRY
+        if predicates is None:
+            raise NotImplementedError(f'Unbound predicates not supported for Wikidata')
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
-        where = [f'?s ?p ?o',
-                 f'?o a owl:Class',
-                 #f'?p a owl:ObjectProperty',
-                 _sparql_values('s', query_uris)]
-        if predicates:
-            pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
-            where.append(_sparql_values('p', pred_uris))
+        where = [_sparql_values('s', query_uris)]
+        pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
+        pred_uris_j = "|".join(pred_uris)
+        where.append(f'?s ({pred_uris_j})* ?o')
         query = SparqlQuery(select=['?o'],
                             distinct=True,
                             where=where)
+        print(query.query_str())
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row['o']['value'])
 
     def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
-        # TODO: DRY
+        if predicates is None:
+            raise NotImplementedError(f'Unbound predicates not supported for Wikidata')
+        if not isinstance(start_curies, list):
+            start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
-        where = [f'?s ?p ?o',
-                 f'?s a owl:Class',
-                 f'VALUES ?o {{ {" ".join(query_uris)} }}']
-        if predicates:
-            pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
-            where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
+        where = [_sparql_values('o', query_uris)]
+        pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
+        pred_uris_j = "|".join(pred_uris)
+        where.append(f'?s ({pred_uris_j})* ?o')
         query = SparqlQuery(select=['?s'],
                             distinct=True,
                             where=where)
+        print(query.query_str())
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])

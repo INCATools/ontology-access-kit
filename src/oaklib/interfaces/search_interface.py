@@ -22,6 +22,7 @@ class SearchConfiguration:
     include_definition: bool = False
     complete: bool = False
     is_regex: bool = False
+    limit: int = None
 
     def use_label_only(self) -> "SearchConfiguration":
         self.include_label = False

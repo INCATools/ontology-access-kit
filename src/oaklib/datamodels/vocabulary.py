@@ -1,7 +1,10 @@
+from linkml_runtime import CurieNamespace
 from oaklib.datamodels.ontology_metadata import slots as omd_slots
 import oaklib.datamodels.ontology_metadata as omd
 
-NAMESPACES = [omd.SKOS, omd.RDF, omd.RDFS, omd.OIO]
+WIKIDATA = CurieNamespace('wikidata', 'http://www.wikidata.org/entity/')
+WDP = CurieNamespace('wdp', 'http://www.wikidata.org/prop/direct/')
+NAMESPACES = [omd.SKOS, omd.RDF, omd.RDFS, omd.OIO, WIKIDATA, WDP]
 DEFAULT_PREFIX_MAP = {ns.prefix: str(ns) for ns in NAMESPACES}
 
 APP_NAME = 'ontology-access-kit'
@@ -13,6 +16,7 @@ HAS_BROAD_SYNONYM = omd.slots.has_broad_synonym.curie
 HAS_NARROW_SYNONYM = omd.slots.has_narrow_synonym.curie
 HAS_RELATED_SYNONYM = omd.slots.has_related_synonym.curie
 SYNONYM_PREDICATES = [HAS_RELATED_SYNONYM, HAS_NARROW_SYNONYM, HAS_EXACT_SYNONYM, HAS_BROAD_SYNONYM]
+SKOS_ALT_LABEL = 'skos:altLabel'
 
 SCOPE_TO_SYNONYM_PRED_MAP = {
     'EXACT': HAS_EXACT_SYNONYM,
@@ -23,6 +27,7 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
+RDF_TYPE = 'rdf:type'
 EQUIVALENT_CLASS = 'owl:equivalentClass'
 OWL_SAME_AS = 'owl:sameAs'
 PART_OF = 'BFO:0000050'

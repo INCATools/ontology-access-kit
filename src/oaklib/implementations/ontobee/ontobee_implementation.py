@@ -4,12 +4,13 @@ from typing import Optional
 
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 
 ONTOBEE_MERGED_GRAPH_PREFIX = 'http://purl.obolibrary.org/obo/merged/'
 
 @dataclass
-class OntobeeImplementation(SparqlImplementation, SearchInterface, MappingProviderInterface):
+class OntobeeImplementation(SparqlImplementation, SearchInterface, MappingProviderInterface, OboGraphInterface):
     """
     Wraps the Ontobee sparql endpoint
 

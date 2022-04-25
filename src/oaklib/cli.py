@@ -24,6 +24,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
@@ -35,7 +36,7 @@ from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
-from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path
+from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path, graph_to_tree
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
@@ -342,6 +343,72 @@ def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_typ
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
+@main.command()
+@click.option("--view/--no-view",
+              default=True,
+              show_default=True,
+              help="if view is set then open the image after rendering")
+@click.option("--down/--no-down",
+              default=False,
+              show_default=True,
+              help="traverse down")
+@click.option("--gap-fill/--no-gap-fill",
+              default=False,
+              show_default=True,
+              help="If set then find the minimal graph that spans all input curies")
+@click.option('-S', '--stylemap',
+              help='a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/')
+@click.option('-C', '--configure',
+              help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `')
+@click.argument("terms", nargs=-1)
+@predicates_option
+@output_type_option
+@output_option
+def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: TextIO):
+    """
+    Visualize an ancestor graph as an ascii/markdown tree
+
+    For general instructions, see the viz command, which this is analogous too
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        terms_expanded = []
+        for term in terms:
+            # TODO: DRY
+            if term.startswith('in_subset='):
+                term = term.replace('in_subset=', '')
+                terms_expanded += list(impl.curies_by_subset(term))
+            else:
+                terms_expanded.append(term)
+        if stylemap is None:
+            stylemap = default_stylemap_path()
+        actual_predicates = _process_predicates_arg(predicates)
+        if isinstance(impl, SearchInterface):
+            curies = list(impl.multiterm_search(terms_expanded))
+        else:
+            logging.warning(f'Search not implemented: using direct inputs')
+            curies = terms_expanded
+        if down:
+            graph = impl.subgraph(curies, predicates=actual_predicates)
+        elif gap_fill:
+            logging.info(f'Using gap-fill strategy')
+            if isinstance(impl, SubsetterInterface):
+                rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
+                if isinstance(impl, OboGraphInterface):
+                    graph = impl.relationships_to_graph(rels)
+                else:
+                    assert False
+            else:
+                raise NotImplementedError(f'{impl} needs to implement Subsetter for --gap-fill')
+        else:
+            graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+        logging.info(f'Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}')
+        graph_to_tree(graph, seeds=curies, predicates=actual_predicates,
+                      format=output_type, stylemap=stylemap, output=output)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
@@ -397,9 +464,12 @@ def descendants(terms, predicates, output: str):
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        graph = impl.descendant_graph(list(impl.multiterm_search(terms)), predicates=actual_predicates)
-        for n in graph.nodes:
-            print(f'{n.id} ! {n.label}')
+        curies = list(impl.multiterm_search(terms))
+        result_it = impl.descendants(curies, predicates=actual_predicates)
+        for curie_it in chunk(result_it):
+            logging.info('** Next chunk:')
+            for curie, label in impl.get_labels_for_curies(curie_it):
+                print(f'{curie} ! {label}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -432,6 +502,45 @@ def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
         output.write(g.serialize())
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@predicates_option
+@output_option
+@click.argument("terms", nargs=-1)
+def similarity(terms, predicates, output: TextIO):
+    """
+    Pairwise similarity
+
+    We recommend always specifying explicit predicate lists
+
+    Example:
+
+        runoak -i ubergraph: similarity -p i,p CL:0000540 CL:0000000
+
+    You can omit predicates if you like but be warned this may yield
+    hard to interpret results.
+
+    E.g.
+
+        runoak -i ubergraph: similarity CL:0000540 GO:0001750
+
+    yields "fully formed stage" (i.e these are both found in the adult) as
+    the MRCA
+
+    """
+    if len(terms) != 2:
+        raise ValueError(f'Need exactly 2 terms: {terms}')
+    subject = terms[0]
+    object = terms[1]
+    impl = settings.impl
+    if isinstance(impl, SemanticSimilarityInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
+        output.write(yaml_dumper.dumps(sim))
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @click.argument("terms", nargs=-1)
