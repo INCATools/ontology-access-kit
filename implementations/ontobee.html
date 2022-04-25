@@ -53,8 +53,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Ontobee Endpoint</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#about">About</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#interfaces-implemented">Interfaces Implemented</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initialization">Initialization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -99,17 +98,21 @@
              
   <section id="ontobee-endpoint">
 <h1>Ontobee Endpoint<a class="headerlink" href="#ontobee-endpoint" title="Permalink to this headline"></a></h1>
-<section id="about">
-<h2>About<a class="headerlink" href="#about" title="Permalink to this headline"></a></h2>
-</section>
-<section id="interfaces-implemented">
-<h2>Interfaces Implemented<a class="headerlink" href="#interfaces-implemented" title="Permalink to this headline"></a></h2>
+<p>Specializes the <span class="xref std std-ref">sparql</span> implementation to allow access for ontologies on the <a class="reference external" href="https://www.ontobee.org/">Ontobee</a> linked data server.</p>
+<p>ntobee is the default linked data server for most OBO Foundry library ontologies. Ontobee has also been used for many non-OBO ontologies.</p>
+<section id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline"></a></h2>
+<p>Access to all ontologies on Ontobee is via a selector with syntax <code class="code docutils literal notranslate"><span class="pre">ontobee:</span></code> (i.e. specify the ontobee scheme with no slug)</p>
+<p>To access a specific ontology on ontobee follow the scheme with the ontology ID (all in lowercase). E.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ontobee</span><span class="p">:</span><span class="n">mp</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span><span class="o">-</span><span class="n">OPTIONS</span><span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.ontobee.ontobee_implementation.</span></span><span class="sig-name descname"><span class="pre">OntobeeImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_list_of_named_graphs:</span> <span class="pre">typing.List[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.ontobee.ontobee_implementation.</span></span><span class="sig-name descname"><span class="pre">OntobeeImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_list_of_named_graphs:</span> <span class="pre">typing.List[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="Permalink to this definition"></a></dt>
 <dd><p>Wraps the Ontobee sparql endpoint</p>
 <p>An OntobeeImplementation can be initialed by:</p>
 <blockquote>

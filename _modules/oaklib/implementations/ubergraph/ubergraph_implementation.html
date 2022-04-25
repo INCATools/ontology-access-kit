@@ -84,6 +84,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="n">TermPairwiseSimilarity</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span><span class="p">,</span> <span class="n">_sparql_values</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_query</span> <span class="kn">import</span> <span class="n">SparqlQuery</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">SubsetterInterface</span>
@@ -92,9 +93,10 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.semsim_interface</span> <span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.graph.networkx_bridge</span> <span class="kn">import</span> <span class="n">transitive_reduction_by_predicate</span>
-<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">RDFS</span><span class="p">,</span> <span class="n">RDF</span><span class="p">,</span> <span class="n">OWL</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">RDFS</span><span class="p">,</span> <span class="n">RDF</span><span class="p">,</span> <span class="n">OWL</span><span class="p">,</span> <span class="n">URIRef</span>
 
 
 <div class="viewcode-block" id="RelationGraphEnum"><a class="viewcode-back" href="../../../../implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">[docs]</a><span class="k">class</span> <span class="nc">RelationGraphEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -103,12 +105,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ontology</span> <span class="o">=</span> <span class="s2">&quot;http://reasoner.renci.org/ontology&quot;</span>
     <span class="n">redundant</span> <span class="o">=</span> <span class="s2">&quot;http://reasoner.renci.org/redundant&quot;</span>
-    <span class="n">nonredundant</span> <span class="o">=</span> <span class="s2">&quot;http://reasoner.renci.org/nonredundant&quot;</span></div>
+    <span class="n">nonredundant</span> <span class="o">=</span> <span class="s2">&quot;http://reasoner.renci.org/nonredundant&quot;</span>
+    <span class="n">normalizedInformationContent</span> <span class="o">=</span> <span class="s2">&quot;http://reasoner.renci.org/vocab/normalizedInformationContent&quot;</span></div>
 
 
 <div class="viewcode-block" id="UbergraphImplementation"><a class="viewcode-back" href="../../../../implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">UbergraphImplementation</span><span class="p">(</span><span class="n">SparqlImplementation</span><span class="p">,</span> <span class="n">RelationGraphInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span>
-                              <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">SubsetterInterface</span><span class="p">):</span>
+                              <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">SemanticSimilarityInterface</span><span class="p">,</span> <span class="n">SubsetterInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wraps the Ubergraph sparql endpoint</span>
 
@@ -126,7 +129,6 @@
 <span class="sd">        The default ubergraph endpoint will be assumed</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#sparql_wrapper: SPARQLWrapper</span>
 
     <span class="k">def</span> <span class="nf">_default_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;https://ubergraph.apps.renci.org/sparql&quot;</span>
@@ -283,14 +285,16 @@
 
     <span class="k">def</span> <span class="nf">ancestors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="c1"># TODO: DRY</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">start_curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_curies</span><span class="p">]</span>
         <span class="n">query_uris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">start_curies</span><span class="p">]</span>
         <span class="n">where</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;?s ?p ?o&#39;</span><span class="p">,</span>
                  <span class="sa">f</span><span class="s1">&#39;?o a owl:Class&#39;</span><span class="p">,</span>
                  <span class="c1">#f&#39;?p a owl:ObjectProperty&#39;,</span>
-                 <span class="sa">f</span><span class="s1">&#39;VALUES ?s </span><span class="se">{{</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query_uris</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">]</span>
+                 <span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">query_uris</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
             <span class="n">pred_uris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">]</span>
-            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;VALUES ?p </span><span class="se">{{</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pred_uris</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">SparqlQuery</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;?o&#39;</span><span class="p">],</span>
                             <span class="n">distinct</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                             <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
@@ -314,6 +318,10 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
 
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: Subsetter</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
     <span class="k">def</span> <span class="nf">gap_fill_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed_curies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="c1"># TODO: compare with https://api.triplydb.com/s/_mZ9q_-rg</span>
         <span class="n">query_uris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">seed_curies</span><span class="p">]</span>
@@ -333,9 +341,101 @@
                           <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]),</span>
                           <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;o&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])))</span>
         <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">transitive_reduction_by_predicate</span><span class="p">(</span><span class="n">rels</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">rel</span></div>
+            <span class="k">yield</span> <span class="n">rel</span>
 
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: SemSim</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
+    <span class="k">def</span> <span class="nf">common_ancestors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="n">s_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+        <span class="n">o_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s_uri</span><span class="si">}</span><span class="s1"> ?sp ?a&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">o_uri</span><span class="si">}</span><span class="s1"> ?op ?a&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;?a a owl:Class&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
+            <span class="n">pred_uris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">]</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;sp&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;op&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">SparqlQuery</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;?a&#39;</span><span class="p">],</span>
+                            <span class="n">distinct</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="n">bindings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">query_str</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">most_recent_common_ancestors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span>
+                                     <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="n">s_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+        <span class="n">o_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s_uri</span><span class="si">}</span><span class="s1"> ?sp ?a&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">o_uri</span><span class="si">}</span><span class="s1"> ?op ?a&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;?a a owl:Class&#39;</span><span class="p">]</span>
+        <span class="n">where2</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s_uri</span><span class="si">}</span><span class="s1"> ?sp2 ?a2&#39;</span><span class="p">,</span>
+                  <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">o_uri</span><span class="si">}</span><span class="s1"> ?op2 ?a2&#39;</span><span class="p">,</span>
+                  <span class="sa">f</span><span class="s1">&#39;?a2 ?ap2 ?a&#39;</span><span class="p">,</span>
+                  <span class="sa">f</span><span class="s1">&#39;FILTER( ?a != ?a2)&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
+            <span class="n">pred_uris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">]</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;sp&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;op&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+            <span class="n">where2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;sp2&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+            <span class="n">where2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;op2&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+            <span class="n">where2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;ap2&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">SparqlQuery</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;?a&#39;</span><span class="p">],</span>
+                            <span class="n">distinct</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="n">subq</span> <span class="o">=</span> <span class="n">SparqlQuery</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;?a2&#39;</span><span class="p">],</span>
+                           <span class="n">where</span><span class="o">=</span><span class="n">where2</span><span class="p">)</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">add_not_in</span><span class="p">(</span><span class="n">subq</span><span class="p">)</span>
+        <span class="n">bindings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">query_str</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_information_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">background</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Only predetermined predicates allowed&#39;</span><span class="p">)</span>
+        <span class="n">ics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_anns</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">URIRef</span><span class="p">(</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">normalizedInformationContent</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ics</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Multiple ICs for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">ics</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ics</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">pairwise_similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermPairwiseSimilarity</span><span class="p">:</span>
+        <span class="n">s_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+        <span class="n">o_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s_uri</span><span class="si">}</span><span class="s1"> ?sp ?a&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">o_uri</span><span class="si">}</span><span class="s1"> ?op ?a&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;?a a owl:Class&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;?a &lt;</span><span class="si">{</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">normalizedInformationContent</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&gt; ?ic&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
+            <span class="n">pred_uris</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_sparql</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">]</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;sp&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_sparql_values</span><span class="p">(</span><span class="s1">&#39;op&#39;</span><span class="p">,</span> <span class="n">pred_uris</span><span class="p">))</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">SparqlQuery</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;?a&#39;</span><span class="p">,</span> <span class="s1">&#39;?ic&#39;</span><span class="p">],</span>
+                            <span class="n">distinct</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="n">bindings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">query_str</span><span class="p">())</span>
+        <span class="n">ics</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]):</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;ic&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]))</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">}</span>
+        <span class="n">max_ic</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ics</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">best_mrcas</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ics</span> <span class="k">if</span> <span class="n">ics</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_ic</span><span class="p">]</span>
+        <span class="n">mrca</span> <span class="o">=</span> <span class="n">best_mrcas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">TermPairwiseSimilarity</span><span class="p">(</span><span class="n">subject_id</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span>
+                                     <span class="n">object_id</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span>
+                                     <span class="n">ancestor_id</span><span class="o">=</span><span class="n">mrca</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_labels_for_curies</span><span class="p">([</span><span class="n">subject</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">mrca</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1">#print(f&#39;C={curie} L={label}&#39;)</span>
+            <span class="k">if</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">subject</span><span class="p">:</span>
+                <span class="n">sim</span><span class="o">.</span><span class="n">subject_label</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="k">if</span> <span class="n">curie</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+                <span class="n">sim</span><span class="o">.</span><span class="n">object_label</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="k">if</span> <span class="n">curie</span> <span class="o">==</span> <span class="n">mrca</span><span class="p">:</span>
+                <span class="n">sim</span><span class="o">.</span><span class="n">ancestor_label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">ancestor_information_content</span> <span class="o">=</span> <span class="n">max_ic</span>
+        <span class="k">return</span> <span class="n">sim</span></div>
 
 
 </pre></div>

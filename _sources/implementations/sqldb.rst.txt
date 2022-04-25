@@ -1,3 +1,5 @@
+.. sql:
+
 SQL Database Implementation
 ===========================
 
@@ -9,6 +11,14 @@ The schema is assumed to follow:
 
 This uses the rdftab library to build an RDF-level `statements` table, on which numerous SQL Views
 are layered, providing higher level access
+
+Iniialization
+-------------
+
+If you omit a scheme and specify a filesystem path ending with :code:`.db` then the SqlDatabase implementation is selected, with
+sqlite as a sub-scheme.
+
+You can explicitly specify a sqlite database via a selector :code:`sqlite:path/to/sqlitefile.db`
 
 Code
 ----

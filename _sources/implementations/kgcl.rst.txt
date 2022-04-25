@@ -1,3 +1,5 @@
+.. kgcl:
+
 Knowledge Graph Change Endpoint
 ==================
 

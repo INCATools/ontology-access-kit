@@ -1,11 +1,15 @@
+.. ols:
+
 Ontology Lookup Service (OLS) Endpoint
 ==================
+
+Provides access to ontologies provided via the EMBL-EBI `Ontology Lookup Service <https://www.ebi.ac.uk/ols/>`_ (OLS)
+
+Also provides interface to `OxO <https://www.ebi.ac.uk/spot/oxo/>`_ mapping endpoint
 
 .. warning ::
 
    very partially implemented!
-
-Also provides interface to OxO
 
 Code
 ----

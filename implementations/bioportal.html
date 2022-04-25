@@ -50,6 +50,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bioportal Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-keys">API Keys</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-examples">Command Line Examples</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#mappings">Mappings</a></li>
@@ -63,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ontobee.html">Ontobee Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Bioportal Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-keys">API Keys</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-examples">Command Line Examples</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#mappings">Mappings</a></li>
@@ -120,6 +122,15 @@
 <li><p><span class="xref std std-ref">TextAnnotatorInterface</span></p></li>
 <li><p><span class="xref std std-ref">MappingProviderInterface</span></p></li>
 </ul>
+<section id="api-keys">
+<h2>API Keys<a class="headerlink" href="#api-keys" title="Permalink to this headline"></a></h2>
+<p>First you will need to go to <a class="reference external" href="https://bioportal.bioontology.org/">BioPortal</a> and get an API key, if you don’t already have one.</p>
+<p>You will then need to set it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="nb">set</span><span class="o">-</span><span class="n">apikey</span> <span class="n">bioportal</span> <span class="n">YOUR</span><span class="o">-</span><span class="n">API</span><span class="o">-</span><span class="n">KEY</span>
+</pre></div>
+</div>
+<p>This stores it in an OS-dependent folder</p>
+</section>
 <section id="command-line-examples">
 <h2>Command Line Examples<a class="headerlink" href="#command-line-examples" title="Permalink to this headline"></a></h2>
 <p>Use the <code class="code docutils literal notranslate"><span class="pre">bioportal</span></code> selector:</p>

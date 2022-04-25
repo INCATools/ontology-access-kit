@@ -1,3 +1,5 @@
+.. owlery:
+
 Owlery Endpoint
 ==================
 

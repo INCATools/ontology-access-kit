@@ -83,12 +83,13 @@
 
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 
 <span class="n">ONTOBEE_MERGED_GRAPH_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;http://purl.obolibrary.org/obo/merged/&#39;</span>
 
 <div class="viewcode-block" id="OntobeeImplementation"><a class="viewcode-back" href="../../../../implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">OntobeeImplementation</span><span class="p">(</span><span class="n">SparqlImplementation</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">OntobeeImplementation</span><span class="p">(</span><span class="n">SparqlImplementation</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wraps the Ontobee sparql endpoint</span>
 

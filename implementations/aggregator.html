@@ -56,6 +56,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Aggregator Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-usage">Command Line Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -103,6 +104,14 @@
 </div>
 <p>This wraps any number of other implementations, multiplexing queries and aggregating results, treating
 as if it were a single unified endpoints</p>
+<section id="command-line-usage">
+<h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this headline"></a></h2>
+<p>Use the <code class="code docutils literal notranslate"><span class="pre">--add</span></code> (<code class="code docutils literal notranslate"><span class="pre">-a</span></code>) option before the main command to add additional implementations.</p>
+<p>E.g</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">db</span><span class="o">/</span><span class="n">mp</span><span class="o">.</span><span class="n">db</span> <span class="o">-</span><span class="n">a</span> <span class="n">db</span><span class="o">/</span><span class="n">hp</span><span class="o">.</span><span class="n">db</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span> <span class="n">OPTIONS</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">

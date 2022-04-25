@@ -50,7 +50,10 @@
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Sparql Endpoint</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sparql Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ontobee.html">Ontobee Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
@@ -94,9 +97,17 @@
              
   <section id="sparql-endpoint">
 <h1>Sparql Endpoint<a class="headerlink" href="#sparql-endpoint" title="Permalink to this headline"></a></h1>
+<p>This is an abstract base class for any SPARQL endpoint, whether they are remote or local.</p>
+<p>Currently there are two main implementations:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../selectors.html#ontobee"><span class="std std-ref">ontobee</span></a></p></li>
+<li><p><span class="xref std std-ref">ubergraph</span></p></li>
+</ul>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.sparql.sparql_implementation.</span></span><span class="sig-name descname"><span class="pre">SparqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_list_of_named_graphs:</span> <span class="pre">typing.List[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/sparql/sparql_implementation.html#SparqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.sparql.sparql_implementation.</span></span><span class="sig-name descname"><span class="pre">SparqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_list_of_named_graphs:</span> <span class="pre">typing.List[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/sparql/sparql_implementation.html#SparqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation" title="Permalink to this definition"></a></dt>
 <dd><p>An OntologyInterface implementation that wraps a (typically remote) SPARQL endpoint.</p>
 <p>Note: Each sparql endpoint typically implements its own bespoke transformations, leading
 to lack of interoperability. For some purposes it may be better to use a more specific
@@ -107,6 +118,7 @@ implementation:</p>
 </ul>
 </dd></dl>
 
+</section>
 </section>
 
 

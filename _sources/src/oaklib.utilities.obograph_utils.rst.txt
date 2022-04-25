@@ -18,11 +18,23 @@
       draw_graph
       filter_by_predicates
       graph_as_dict
+      graph_info
       graph_to_image
+      graph_to_tree
+      index_graph_edges_by_object
+      index_graph_nodes
+      reflexive
+      topological_sort
    
    
 
    
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      TreeFormatEnum
    
    
 

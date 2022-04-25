@@ -46,6 +46,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 1</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#query-the-obo-library">Query the OBO Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-local-files">Working with local files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fetching-ancestors">Fetching ancestors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-other-backends">Using other backends</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-bioportal">Using BioPortal</a></li>
@@ -130,13 +131,13 @@ export PYTHONPATH=.:$PYTHONPATH
 <section id="query-the-obo-library">
 <h2>Query the OBO Library<a class="headerlink" href="#query-the-obo-library" title="Permalink to this headline"></a></h2>
 <p>Next try using the “search” command to search for a term in the Drosophila anatomy ontology (<a class="reference external" href="http://obofoundry.org/ontology/fbbt">fbbt</a>).</p>
-<p>The base command takes an “–input” (or just “-i”) option that specifies the input implementation. We will return to the full syntax later,
-but one pattern that is useful to know is “obolibrary:&lt;ontology-file&gt;”.</p>
+<p>The base command takes an <code class="code docutils literal notranslate"><span class="pre">--input</span></code> (or just <code class="code docutils literal notranslate"><span class="pre">-i</span></code>) option that specifies the input implementation. We will return to the full syntax later,
+but one pattern that is useful to know is <code class="code docutils literal notranslate"><span class="pre">obolibrary:&lt;ontology-file&gt;</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
-<p>The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. This is using the Pronto
-library under the hood.</p>
+<p>The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
+library under the hood)</p>
 <p>After the lag you will get results like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FBbt:00004751 ! wing vein
 FBbt:00004754 ! axillary vein
@@ -144,6 +145,9 @@ FBbt:00004759 ! wing vein L1
 FBbt:00004760 ! wing vein L2
 </pre></div>
 </div>
+</section>
+<section id="working-with-local-files">
+<h2>Working with local files<a class="headerlink" href="#working-with-local-files" title="Permalink to this headline"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">purl</span><span class="o">.</span><span class="n">obolibrary</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">obo</span><span class="o">/</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span>
 <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
@@ -152,7 +156,7 @@ FBbt:00004760 ! wing vein L2
 <section id="fetching-ancestors">
 <h2>Fetching ancestors<a class="headerlink" href="#fetching-ancestors" title="Permalink to this headline"></a></h2>
 <p>Next we will try a different command, plugging in an ID we got from the previous search.</p>
-<p>We will use the “ancestors” command to find all rdfs:subClassOf and part-of (BFO:0000050) ancestors of ‘wing vein’.</p>
+<p>We will use the <code class="code docutils literal notranslate"><span class="pre">ancestors</span></code> command to find all rdfs:subClassOf and part-of (BFO:0000050) ancestors of ‘wing vein’.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">ancestors</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
 </pre></div>
 </div>
@@ -166,7 +170,7 @@ FBbt:00004760 ! wing vein L2
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
-<p>This searches the ubergraph backend using the blazegraph search interface. Note that in addition to searching over a wider range
+<p>This searches the <span class="xref std std-ref">ubergraph</span> backend using the blazegraph search interface. Note that in addition to searching over a wider range
 of ontologies, this returns a ranked list that might include matches only to “wing” or “vein”. Currently each backend implements
 search a little differently, but this will be more unified and controllable in the future.</p>
 </section>

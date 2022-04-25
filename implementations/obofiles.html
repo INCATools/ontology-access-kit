@@ -101,10 +101,17 @@
 <h1>Pronto / OBO Files Implementation<a class="headerlink" href="#pronto-obo-files-implementation" title="Permalink to this headline"></a></h1>
 <section id="about">
 <h2>About<a class="headerlink" href="#about" title="Permalink to this headline"></a></h2>
-<p>We use the pronto library</p>
+<p>We use the <a class="reference external" href="https://github.com/althonos/pronto/">Pronto</a> library which implements an API conforming
+to the OBO Format 1.4 specification.</p>
 </section>
 <section id="initialization">
 <h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline"></a></h2>
+<p>Pronto will automatically be used for obo format files and obo json files. Currently it will also be
+used for RDF/XML files but this is not guaranteed in future.</p>
+<p>To ensure use of pronto when specifying a <span class="xref std std-ref">selector</span>, use the <code class="code docutils literal notranslate"><span class="pre">pronto</span></code> schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">pronto</span><span class="p">:</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">file</span><span class="o">.</span><span class="n">obo</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span><span class="o">-</span><span class="n">OPTIONS</span><span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>

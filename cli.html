@@ -65,11 +65,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#runoak-relationships">relationships</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-search">search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-similarity">similarity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-subset">subset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-subset-rollups">subset-rollups</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-term-mappings">term-mappings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-terms">terms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runoak-tree">tree</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate">validate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#runoak-viz">viz</a></li>
@@ -655,6 +657,48 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+<section id="runoak-similarity">
+<h3>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>Pairwise similarity</p>
+<p>We recommend always specifying explicit predicate lists</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ubergraph: similarity -p i,p CL:0000540 CL:0000000</p>
+</div></blockquote>
+<p>You can omit predicates if you like but be warned this may yield
+hard to interpret results.</p>
+<p>E.g.</p>
+<blockquote>
+<div><p>runoak -i ubergraph: similarity CL:0000540 GO:0001750</p>
+</div></blockquote>
+<p>yields “fully formed stage” (i.e these are both found in the adult) as
+the MRCA</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-p">
+<span id="cmdoption-runoak-similarity-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-o">
+<span id="cmdoption-runoak-similarity-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-arg-TERMS">
+<span id="cmdoption-runoak-similarity-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-subset">
 <h3>subset<a class="headerlink" href="#runoak-subset" title="Permalink to this headline"></a></h3>
 <blockquote>
@@ -810,6 +854,87 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dd></dl>
 
 </section>
+<section id="runoak-tree">
+<h3>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>Visualize an ancestor graph as an ascii/markdown tree</p>
+<p>For general instructions, see the viz command, which this is analogous too</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak tree <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-view">
+<span id="cmdoption-runoak-tree-no-view"></span><span class="sig-name descname"><span class="pre">--view</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-view</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-view" title="Permalink to this definition"></a></dt>
+<dd><p>if view is set then open the image after rendering</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-down">
+<span id="cmdoption-runoak-tree-no-down"></span><span class="sig-name descname"><span class="pre">--down</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-down</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-down" title="Permalink to this definition"></a></dt>
+<dd><p>traverse down</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-gap-fill">
+<span id="cmdoption-runoak-tree-no-gap-fill"></span><span class="sig-name descname"><span class="pre">--gap-fill</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-gap-fill</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-gap-fill" title="Permalink to this definition"></a></dt>
+<dd><p>If set then find the minimal graph that spans all input curies</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-S">
+<span id="cmdoption-runoak-tree-s"></span><span id="cmdoption-runoak-tree-stylemap"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--stylemap</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;stylemap&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-S" title="Permalink to this definition"></a></dt>
+<dd><p>a json file to configure visualization. See <a class="reference external" href="https://berkeleybop.github.io/kgviz-model/">https://berkeleybop.github.io/kgviz-model/</a></p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-C">
+<span id="cmdoption-runoak-tree-c"></span><span id="cmdoption-runoak-tree-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-C" title="Permalink to this definition"></a></dt>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-p">
+<span id="cmdoption-runoak-tree-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-O">
+<span id="cmdoption-runoak-tree-o"></span><span id="cmdoption-runoak-tree-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-0">
+<span id="cmdoption-runoak-tree-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-0" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-arg-TERMS">
+<span id="cmdoption-runoak-tree-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-validate">
 <h3>validate<a class="headerlink" href="#runoak-validate" title="Permalink to this headline"></a></h3>
 <blockquote>
@@ -950,7 +1075,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-C">
 <span id="cmdoption-runoak-viz-c"></span><span id="cmdoption-runoak-viz-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-C" title="Permalink to this definition"></a></dt>
-<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+<dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
 </dd></dl>
 
 <dl class="std option">
