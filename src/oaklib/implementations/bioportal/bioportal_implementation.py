@@ -137,17 +137,12 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, id: Union[CURIE, URI]) -> Iterable[Mapping]:
-        if id in self.ontology_cache:
-            ontology = self.ontology_cache[id]
-            class_uri = id
-        else:
-            ontology = id.split(':', 1)[0]
-            class_uri = self.curie_to_uri(id)
+        ontology, class_uri = self._get_ontology_and_uri_from_id(id)
         # This may return lots of duplicate mappings
         # See: https://github.com/ncbo/ontologies_linked_data/issues/117
         quoted_class_uri = quote(class_uri, safe='')
         req_url = f'{REST_URL}/ontologies/{ontology}/classes/{quoted_class_uri}/mappings'
-        print(req_url)
+        logging.debug(req_url)
         response = self._bioportal_get(req_url, params={'display_context': 'false'})
         body = response.json()
         for result in body:
@@ -174,4 +169,29 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         ontology_url = ont_class['links']['ontology']
         acronym = ontology_url.rsplit('/', 1)[-1]
         self.ontology_cache[ont_class['@id']] = acronym
+
+    
+    def ancestors(self, uri: URI) -> Iterable[URI]:
+        ontology, uri = self._get_ontology_and_uri_from_id(uri)
+        quoted_uri = quote(uri, safe='')
+        request_url = f'{REST_URL}/ontologies/{ontology}/classes/{quoted_uri}/ancestors'
+        logging.debug(request_url)
+        response = self._bioportal_get(request_url, params={'display_context': 'false'})
+        if (response.status_code != requests.codes.ok):
+            logging.warn(f'Could not fetch ancestors for {uri}')
+            return []
+        body = response.json()
+        for ancestor in body:
+            self.add_uri_to_ontology_mapping(ancestor)
+            yield ancestor['@id']
+
+
+    def _get_ontology_and_uri_from_id(self, id: Union[CURIE, URI]) -> Tuple[str, URI]:
+        if id in self.ontology_cache:
+            ontology = self.ontology_cache[id]
+            uri = id
+        else:
+            ontology = id.split(':', 1)[0]
+            uri = self.curie_to_uri(id)
+        return ontology, uri
     
