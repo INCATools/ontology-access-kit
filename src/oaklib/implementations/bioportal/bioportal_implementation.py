@@ -1,3 +1,4 @@
+from distutils.command import check
 import logging
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
@@ -51,6 +52,12 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     def _headers(self) -> dict:
         return {'Authorization': 'apikey token=' + self.bioportal_api_key}
 
+    def _bioportal_get(self, *args, **kwargs):
+        if self.bioportal_api_key is  None:
+            self.load_bioportal_api_key()
+        check_limit()
+        return requests.get(*args, **kwargs)
+
     def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         label_cache = self.label_cache
         for curie in curies:
@@ -72,12 +79,9 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         params = {'include':  include_str,
                   'require_exact_match': require_exact_match,
                   'text': text}
-        if self.bioportal_api_key is  None:
-            self.load_bioportal_api_key()
-        check_limit()
-        r = requests.get(REST_URL + '/annotator',
-                         headers=self._headers(),
-                         params=params)
+        r = self._bioportal_get(REST_URL + '/annotator',
+                                headers=self._headers(),
+                                params=params)
         return self.json_to_results(r.json(), text)
 
     def json_to_results(self, json_list: List[Any], text: str) -> Iterator[TextAnnotation]:
@@ -108,12 +112,9 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
 
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
-        if self.bioportal_api_key is  None:
-            self.load_bioportal_api_key()
-        check_limit()
-        r = requests.get(REST_URL + '/search',
-                         headers=self._headers(),
-                         params={'q': search_term, 'include': ['prefLabel']})
+        r = self._bioportal_get(REST_URL + '/search',
+                                headers=self._headers(),
+                                params={'q': search_term, 'include': ['prefLabel']})
         obj = r.json()
         collection = obj['collection']
         while len(collection) > 0:
@@ -139,14 +140,14 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
-        if self.bioportal_api_key is  None:
-            self.load_bioportal_api_key()
         [prefix, _] = curie.split(':', 2)
         class_uri = quote(self.curie_to_uri(curie), safe='')
         # This may return lots of duplicate mappings
         # See: https://github.com/ncbo/ontologies_linked_data/issues/117
         req_url = f'{REST_URL}/ontologies/{prefix}/classes/{class_uri}/mappings'
-        response = requests.get(req_url, headers=self._headers(), params={'display_links': 'false', 'display_context': 'false'})
+        response = self._bioportal_get(req_url, 
+                                       headers=self._headers(),
+                                       params={'display_links': 'false', 'display_context': 'false'})
         body = response.json()
         for result in body:
             yield self.result_to_mapping(result)
