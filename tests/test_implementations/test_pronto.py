@@ -1,11 +1,13 @@
 import logging
 import unittest
 
+from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.implementations import ProntoImplementation
 from oaklib.resource import OntologyResource
-from oaklib.utilities.obograph_utils import graph_as_dict
+from oaklib.utilities.obograph_utils import graph_as_dict, index_graph_nodes, index_graph_edges_by_subject, \
+    index_graph_edges_by_object, index_graph_edges_by_predicate
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART, ONLY_IN_TAXON, IN_TAXON
 
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM, CELL, CELLULAR_ORGANISMS, NUCLEUS
@@ -166,6 +168,18 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
+        nix = index_graph_nodes(g)
+        self.assertEqual(nix[VACUOLE].lbl, 'vacuole')
+        v2c = obograph.Edge(sub=VACUOLE, pred=PART_OF, obj=CYTOPLASM)
+        six = index_graph_edges_by_subject(g)
+        self.assertIn(v2c, six[VACUOLE])
+        self.assertNotIn(v2c, six[CYTOPLASM])
+        oix = index_graph_edges_by_object(g)
+        self.assertIn(v2c, oix[CYTOPLASM])
+        self.assertNotIn(v2c, oix[VACUOLE])
+        pix = index_graph_edges_by_predicate(g)
+        self.assertIn(v2c, pix[PART_OF])
+        self.assertNotIn(v2c, pix[IS_A])
         obj = graph_as_dict(g)
         assert 'nodes' in g
         assert 'edges' in g
