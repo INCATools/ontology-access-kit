@@ -59,7 +59,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_obograph_node(self):
         n = self.oi.node(CELLULAR_COMPONENT)
         assert n.id == CELLULAR_COMPONENT
-        assert n.label == 'cellular_component'
+        assert n.lbl == 'cellular_component'
         assert n.meta.definition.val.startswith('A location, ')
 
     def test_obograph(self):

@@ -13,7 +13,7 @@ class TestOboGraphDatamodel(unittest.TestCase):
         """
         Tests the creation of an example instance of the OboGraph datamodel
         """
-        nodes = [obograph.Node(id=f'EXAMPLE:{n}', label=f'node {n}') for n in range(1, 100)]
+        nodes = [obograph.Node(id=f'EXAMPLE:{n}', lbl=f'node {n}') for n in range(1, 100)]
         edges = []
         for i in range(0, len(nodes) - 1):
             edges.append(obograph.Edge(sub=nodes[i].id, pred=IS_A, obj=nodes[i+1].id))
@@ -28,7 +28,7 @@ class TestOboGraphDatamodel(unittest.TestCase):
         """
         sv = package_schemaview(obograph.__name__)
         assert 'id' in sv.all_slots()
-        assert 'label' in sv.all_slots()  ## TODO: consider changing
+        assert 'lbl' in sv.all_slots()  ## TODO: consider changing
         assert 'Node' in sv.all_classes()
         assert 'Edge' in sv.all_classes()
 

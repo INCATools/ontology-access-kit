@@ -78,7 +78,7 @@ class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphIn
         for i in self.implementations:
             if isinstance(i, OboGraphInterface):
                 node = i.node(curie)
-                if node.label:
+                if node.lbl:
                     return node
         return node
 
