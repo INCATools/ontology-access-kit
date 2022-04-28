@@ -1,14 +1,14 @@
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Tuple
 from urllib.parse import quote
 
 import requests
-import yaml
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
-from oaklib.interfaces.search_interface import SearchConfiguration, SearchInterface
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE
 from oaklib.utilities.apikey_manager import get_apikey_value

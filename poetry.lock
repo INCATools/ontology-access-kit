@@ -2130,7 +2130,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "d670aa41e86bda815b776432af573ef0e8ecb9e1f5d416adb062cc4b430aae38"
+content-hash = "38c935c40a2c71c3d5cd8e2736ec87e0f0f9a0427bdb589b64ddd1bdb03d77ec"
 
 [metadata.files]
 aiohttp = [

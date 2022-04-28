@@ -1,17 +1,15 @@
-import logging
-from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Type, Iterator, Union, Tuple, Callable, Optional, Any, Dict
+from typing import List, Iterable, Tuple, Callable, Optional, Any, Dict
 
 import sssom
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration, ValidationResult
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
-    METADATA_MAP, PREFIX_MAP
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface

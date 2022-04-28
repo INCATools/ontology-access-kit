@@ -1,9 +1,8 @@
 import logging
 import unittest
 
-from linkml_runtime.dumpers import yaml_dumper
 from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
-from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE, NEURON, \
@@ -54,7 +53,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     #@unittest.skip('Too slow')
     def test_search(self):
-        config = SearchConfiguration(complete=True).use_label_only()
+        config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search('limb', config=config))
         print(curies)
         assert 'UBERON:0002101' in curies
