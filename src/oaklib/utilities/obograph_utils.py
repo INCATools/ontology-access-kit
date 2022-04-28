@@ -158,13 +158,60 @@ def as_multi_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool 
     return mdg
 
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
+    """
+    Returns an index of all nodes key by node id
+    :param graph:
+    :return:
+    """
     return {n.id: n for n in graph.nodes}
 
 
+def index_graph_edges_by_subject(graph: Graph) -> Dict[CURIE, List[Edge]]:
+    """
+    Returns an index of lists of edges keyed by predicate id
+
+    :param graph:
+    :return:
+    """
+    d = defaultdict(list)
+    for e in graph.edges:
+        d[e.sub].append(e)
+    return d
+
+def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
+    """
+    Returns an index of lists of edges keyed by predicate id
+
+    :param graph:
+    :return:
+    """
+    d = defaultdict(list)
+    for e in graph.edges:
+        d[e.pred].append(e)
+    return d
+
 def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
+    """
+    Returns an index of lists of edges keyed by object id
+
+    :param graph:
+    :return:
+    """
     d = defaultdict(list)
     for e in graph.edges:
         d[e.obj].append(e)
+    return d
+
+def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
+    """
+    Returns an index of lists of edges keyed by predicate id
+
+    :param graph:
+    :return:
+    """
+    d = defaultdict(list)
+    for e in graph.edges:
+        d[e.pred].append(e)
     return d
 
 
