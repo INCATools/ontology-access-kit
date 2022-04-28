@@ -1,17 +1,18 @@
 import logging
-from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Type, Iterator, Union
+from typing import List, Iterable, Iterator, Union
 
 import pronto
 import sssom
 from deprecated import deprecated
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
@@ -342,14 +343,25 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         if config == None:
             config = SearchConfiguration()
         matches = []
+        mfunc = None
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            mfunc = lambda label: str(label).startswith(search_term)
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            import re
+            prog = re.compile(search_term)
+            mfunc = lambda label: prog.match(label)
+        elif config.is_partial:
+            mfunc = lambda label: search_term in str(label)
+        else:
+            mfunc = lambda label: label == search_term
         for t in self.wrapped_ontology.terms():
-            if t.name and search_term in t.name:
+            if t.name and mfunc(t.name):
                 matches.append(t.id)
                 logging.info(f'Name match to {t.id}')
                 continue
-            if config.include_aliases:
+            if SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in t.synonyms:
-                    if search_term in syn.description:
+                    if mfunc(syn.description):
                         logging.info(f'Syn match to {t.id}')
                         matches.append(t.id)
                         continue

@@ -16,6 +16,7 @@ from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 import click
 import rdflib
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
+from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
@@ -179,7 +180,8 @@ def search(terms, output: str):
     impl = settings.impl
     if isinstance(impl, SearchInterface):
         for t in terms:
-            for curie_it in chunk(impl.basic_search(t)):
+            cfg = create_search_configuration(t)
+            for curie_it in chunk(impl.basic_search(cfg.search_terms[0], config=cfg)):
                 logging.info('** Next chunk:')
                 for curie, label in impl.get_labels_for_curies(curie_it):
                     print(f'{curie} ! {label}')

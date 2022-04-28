@@ -1,15 +1,11 @@
 import logging
 import unittest
 
-from linkml_runtime.loaders import yaml_loader, json_loader
 from oaklib.cli import search, main
-from oaklib.datamodels import obograph
 from oaklib.datamodels.vocabulary import IN_TAXON
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.resource import OntologyResource
 
 from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA, VACUOLE, \
-    CELLULAR_COMPONENT, HUMAN, MAMMALIA
+    CELLULAR_COMPONENT, HUMAN, MAMMALIA, SHAPE
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
@@ -39,7 +35,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_obograph_local(self):
         for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
             logging.info(f'INPUT={input_arg}')
-            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', 'nucl'])
+            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', NUCLEUS])
             out = result.stdout
             assert 'GO:0043226 ! organelle' in out
             result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', '-p', 'i', 'plasma membrane'])
@@ -102,7 +98,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_local(self):
         for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
             logging.info(f'INPUT={input_arg}')
-            result = self.runner.invoke(main, ['-i', input_arg, 'search', 'nucl'])
+            result = self.runner.invoke(main, ['-i', input_arg, 'search', 'l~nucl'])
             out = result.stdout
             err = result.stderr
             if result.exit_code != 0:
@@ -117,11 +113,26 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual("", err)
 
     def test_search_pronto_obolibrary(self):
+        result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 't~shape'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        self.assertIn(SHAPE, out)
+        self.assertIn('PATO:0002021', out)   # conical - matches a synonym
+        self.assertEqual("", err)
+        result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 'l=shape'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        self.assertIn(SHAPE, out)
+        self.assertNotIn('PATO:0002021', out)   # conical - matches a synonym
+        self.assertEqual("", err)
         result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 'shape'])
         out = result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
-        self.assertIn('PATO:0002021', out)
+        self.assertIn(SHAPE, out)
+        self.assertNotIn('PATO:0002021', out)   # conical - matches a synonym
         self.assertEqual("", err)
 
     ## VALIDATE

@@ -1,8 +1,9 @@
 import logging
 import unittest
 
-import yaml
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
+from oaklib.implementations import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART, ONLY_IN_TAXON, IN_TAXON
@@ -180,6 +181,40 @@ class TestProntoImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_search_aliases(self):
+        config = SearchConfiguration(properties=[SearchProperty.ALIAS])
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, ['GO:0003824'])
+        config = SearchConfiguration()
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, [])
+
+    def test_search_exact(self):
+        config = SearchConfiguration(is_partial=False)
+        curies = list(self.oi.basic_search("cytoplasm", config=config))
+        #print(curies)
+        assert CYTOPLASM in curies
+
+    def test_search_partial(self):
+        config = SearchConfiguration(is_partial=True)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_search_starts_with(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_search_regex(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        curies = list(self.oi.basic_search("^nucl", config=config))
+        print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
 
 
 

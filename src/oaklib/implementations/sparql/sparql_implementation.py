@@ -1,19 +1,18 @@
 import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
-from functools import lru_cache
 from typing import List, Iterable, Tuple, Optional, Union, Iterator
 
 import SPARQLWrapper
 import rdflib
 import sssom
 from SPARQLWrapper import JSON
+from oaklib.datamodels.search_datamodel import SearchTermSyntax
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
-from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
-from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration, search_properties_to_predicates
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL, ALL_MATCH_PREDICATES, \
@@ -296,12 +295,21 @@ class SparqlImplementation(RdfInterface):
         if self._is_blazegraph():
             filter_clause = f'?v bds:search "{search_term}"'
         else:
-            if config.complete:
-                filter_clause = f'?v = "{search_term}"'
-            else:
+            if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
                 filter_clause = f'strStarts(str(?v), "{search_term}")'
+            elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+                filter_clause = f'regex(str(?v), "{search_term}", "i")'
+            elif config.syntax == SearchTermSyntax(SearchTermSyntax.LUCENE):
+                raise NotImplementedError(f'Lucene not implemented')
+            elif config.is_partial:
+                filter_clause = f'contains(str(?v), "{search_term}")'
+            else:
+                filter_clause = f'?v = "{search_term}"'
             filter_clause = f'FILTER({filter_clause})'
-        preds = [LABEL_PREDICATE]
+        if config.properties:
+            preds = search_properties_to_predicates(config.properties)
+        else:
+            preds = [LABEL_PREDICATE]
         if len(preds) == 1:
             where = [f'?s {preds[0]} ?v ']
         else:
@@ -309,7 +317,7 @@ class SparqlImplementation(RdfInterface):
                      f'VALUES ?p {{ {" ".join(preds)} }}']
         query = SparqlQuery(select=['?s'],
                             where=where + [filter_clause])
-        bindings = self._query(query)
+        bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])
 
