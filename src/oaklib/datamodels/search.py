@@ -9,6 +9,14 @@ from oaklib.types import PRED_CURIE
 DEFAULT_SEARCH_PROPERTIES = [SearchProperty.LABEL, SearchProperty.ALIAS]
 
 def create_search_configuration(term: str) -> "SearchConfiguration":
+    """
+    Generates a search configuration based on search syntax
+
+
+
+    :param term:
+    :return:
+    """
 
     if len(term) > 1:
         prop = term[0]
