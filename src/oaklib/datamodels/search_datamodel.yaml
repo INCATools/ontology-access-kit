@@ -1,0 +1,118 @@
+id: https://w3id.org/linkml/search_datamodel
+title: search datamodel
+name: search-datamodel
+description: >-
+  A datamodel for representing a search configuration and results
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  search: https://w3id.org/linkml/search_datamodel/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+
+default_prefix: search
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+types:
+  SearchTerm:
+    typeof: string
+
+classes:
+  SearchBaseConfiguration:
+    description: A configuration for search
+    attributes:
+      search_terms:
+        range: SearchTerm
+        multivalued: true
+      syntax:
+        range: SearchTermSyntax
+      properties:
+        range: SearchProperty
+        multivalued: true
+      limit:
+        range: integer
+      cursor:
+        range: integer
+      is_regular_expression:
+        range: boolean
+      is_partial:
+        range: boolean
+        deprecated: true
+      is_complete:
+        range: boolean
+      include_id:
+        range: boolean
+      include_label:
+        range: boolean
+      include_aliases:
+        range: boolean
+      include_definition:
+        range: boolean
+
+  SearchResult:
+    description: An individual search result
+    attributes:
+      rank:
+        range: integer
+      object_id:
+        slot_uri: sssom:object_id
+      object_label:
+        slot_uri: sssom:object_label
+      object_source:
+        slot_uri: sssom:object_source
+      matches_full_search_term:
+        range: boolean
+
+  SearchResultSet:
+    attributes:
+      configuration:
+        range: SearchBaseConfiguration
+      results:
+        range: SearchResult
+        multivalued: true
+      result_count:
+        range: integer
+      cursor:
+        range: integer
+
+enums:
+  SearchTermSyntax:
+    permissible_values:
+      PLAINTEXT:
+      REGULAR_EXPRESSION:
+      SQL:
+      LUCENE:
+      STARTS_WITH:
+  SearchProperty:
+    description: A property that can be searched on
+    permissible_values:
+      IDENTIFIER:
+        meaning: schema:identifier
+      LABEL:
+        meaning: rdfs:label
+      ALIAS:
+        meaning: skos:altLabel
+      COMMENT:
+        meaning: rdfs:comment
+      DEFINITION:
+        meaning: skos:definition
+      ANYTHING:
+        meaning: rdf:Property

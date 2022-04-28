@@ -1,8 +1,7 @@
 import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Iterable, Tuple, List, Union, Optional, Iterator, Dict
+from typing import Iterable, Tuple, List, Union, Iterator, Dict
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
@@ -14,7 +13,8 @@ from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIO
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE, URI
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
