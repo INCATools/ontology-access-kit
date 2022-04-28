@@ -173,7 +173,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
 
     def node(self, curie: CURIE) -> obograph.Node:
         params = dict(id=curie,
-                      label=self.get_label_by_curie(curie))
+                      lbl=self.get_label_by_curie(curie))
         return obograph.Node(**params)
 
     def ancestor_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> obograph.Graph:
@@ -186,7 +186,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
         logging.info(f'NUM EDGES: {len(edges)}')
         for rel in self._from_subjects_chunked(ancs, [RDFS.label], object_is_literal=True):
             id = rel[0]
-            nodes[id] = obograph.Node(id=id, label=rel[2])
+            nodes[id] = obograph.Node(id=id, lbl=rel[2])
         logging.info(f'NUM NODES: {len(nodes)}')
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)
@@ -199,7 +199,7 @@ class UbergraphImplementation(SparqlImplementation, RelationGraphInterface, Sear
             node_ids.update(list(rel))
         nodes = {}
         for s, p, o in self._from_subjects_chunked(list(node_ids), [RDFS.label], object_is_literal=True):
-            nodes[s] = obograph.Node(id=s, label=o)
+            nodes[s] = obograph.Node(id=s, lbl=o)
         logging.info(f'NUM EDGES: {len(edges)}')
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)

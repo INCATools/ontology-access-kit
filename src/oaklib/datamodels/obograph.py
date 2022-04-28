@@ -119,7 +119,7 @@ class Node(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = OG.Node
 
     id: Union[str, NodeId] = None
-    label: Optional[str] = None
+    lbl: Optional[str] = None
     type: Optional[str] = None
     meta: Optional[Union[dict, "Meta"]] = None
 
@@ -129,8 +129,8 @@ class Node(YAMLRoot):
         if not isinstance(self.id, NodeId):
             self.id = NodeId(self.id)
 
-        if self.label is not None and not isinstance(self.label, str):
-            self.label = str(self.label)
+        if self.lbl is not None and not isinstance(self.lbl, str):
+            self.lbl = str(self.lbl)
 
         if self.type is not None and not isinstance(self.type, str):
             self.type = str(self.type)
