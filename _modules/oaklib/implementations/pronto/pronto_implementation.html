@@ -78,19 +78,20 @@
              
   <h1>Source code for oaklib.implementations.pronto.pronto_implementation</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">pronto</span>
 <span class="kn">import</span> <span class="nn">sssom</span>
 <span class="kn">from</span> <span class="nn">deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">METADATA_MAP</span><span class="p">,</span> <span class="n">PREFIX_MAP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">SearchConfiguration</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.rdf_interface</span> <span class="kn">import</span> <span class="n">RdfInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
@@ -421,14 +422,25 @@
         <span class="k">if</span> <span class="n">config</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">config</span> <span class="o">=</span> <span class="n">SearchConfiguration</span><span class="p">()</span>
         <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mfunc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">syntax</span> <span class="o">==</span> <span class="n">SearchTermSyntax</span><span class="p">(</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">STARTS_WITH</span><span class="p">):</span>
+            <span class="n">mfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">search_term</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">syntax</span> <span class="o">==</span> <span class="n">SearchTermSyntax</span><span class="p">(</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">REGULAR_EXPRESSION</span><span class="p">):</span>
+            <span class="kn">import</span> <span class="nn">re</span>
+            <span class="n">prog</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">search_term</span><span class="p">)</span>
+            <span class="n">mfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">prog</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">is_partial</span><span class="p">:</span>
+            <span class="n">mfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">label</span> <span class="o">==</span> <span class="n">search_term</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">terms</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="n">mfunc</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
                 <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Name match to </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">include_aliases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">SearchProperty</span><span class="p">(</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">ALIAS</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">synonyms</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">syn</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mfunc</span><span class="p">(</span><span class="n">syn</span><span class="o">.</span><span class="n">description</span><span class="p">):</span>
                         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Syn match to </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                         <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
                         <span class="k">continue</span>

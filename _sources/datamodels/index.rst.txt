@@ -20,6 +20,7 @@ not need this.
    :caption: Contents:
 
    ontology-metadata/index
+   search/index
    obograph/index
    sssom/index
    funowl/index
@@ -29,5 +30,6 @@ not need this.
    lexical-index/index
    mapping-rules/index
    text-annotator/index
+
 
 

@@ -106,7 +106,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">viz</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">-</span><span class="n">o</span> <span class="n">wing</span><span class="o">-</span><span class="n">vein</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
-<p>Then open wing-vein.png</p>
+<p>Then open the file wing-vein.png using a tool such as Preview, or in a web browser.</p>
 <p>If you omit the –output option then the png will be written to a temp file and immediately opened:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">viz</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
 </pre></div>
@@ -116,7 +116,9 @@
 <h2>How this works<a class="headerlink" href="#how-this-works" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>First,</p></li>
+<li><p>First, the <span class="xref std std-ref">OboGraphInterface</span> is invoked to query all ancestors of the term</p></li>
+<li><p>in this case the implementation is <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> plus graph walking code</p></li>
+<li><p>after an obograph is generated this is passed to the obographviz library</p></li>
 </ul>
 </div></blockquote>
 </section>
