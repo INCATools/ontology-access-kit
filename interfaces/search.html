@@ -46,7 +46,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basic.html">Basic Ontology Interface</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Search Interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Search Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line">Command Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datamodels">Datamodels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="subsetting.html">Subsetting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="validator.html">Validator Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="relation-graph.html">Relation Graph</a></li>
@@ -92,14 +97,46 @@
            <div itemprop="articleBody">
              
   <section id="search-interface">
-<h1>Search Interface<a class="headerlink" href="#search-interface" title="Permalink to this headline"></a></h1>
+<span id="search"></span><h1>Search Interface<a class="headerlink" href="#search-interface" title="Permalink to this headline"></a></h1>
+<p>The search interface provides a largely implementation-neutral way to query an ontology. It allows for</p>
+<ul class="simple">
+<li><p>exact or partial matches</p></li>
+<li><p>matching the beginning of a term</p></li>
+<li><p>regular expression search</p></li>
+</ul>
+<p>It also allows you to control which metadata elements are searched over (typically labels and aliases)</p>
+<p>Implementations may differ in their behavior. Some implementations may not be able to honor specific requests.
+For example, the <span class="xref std std-ref">SqlDatabase</span> implementation may not be able to fulfil regular expression queries.</p>
+<p>Some endpoints may return results that are ranked by relevance, others may be arbitrary</p>
+<section id="command-line">
+<h2>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline"></a></h2>
+<p>A good way to explore this interface is via the search subcommand:</p>
+<p>Ubergraph uses relevancy ranking:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span><span class="n">uberon</span> <span class="n">search</span> <span class="n">limb</span>
+</pre></div>
+</div>
+<p>Exact match for a label using sqlite:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">db</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">search</span> <span class="n">l</span><span class="o">=</span><span class="n">neuron</span>
+</pre></div>
+</div>
+<p>Inexact match for a label or synonym using sqlite:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">db</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">search</span> <span class="o">.~</span><span class="n">neuron</span>
+</pre></div>
+</div>
+</section>
+<section id="datamodels">
+<h2>Datamodels<a class="headerlink" href="#datamodels" title="Permalink to this headline"></a></h2>
+<p>Search uses the <span class="xref std std-ref">SearchDatamodel</span> to specify both an input query and search results, see <a class="reference internal" href="#datamodels"><span class="std std-ref">Datamodels</span></a></p>
+</section>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.search_interface.</span></span><span class="sig-name descname"><span class="pre">SearchInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/search_interface.html#SearchInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface" title="Permalink to this definition"></a></dt>
 <dd><p>An Ontology Interface that supports text-based search</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface.basic_search">
-<span class="sig-name descname"><span class="pre">basic_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.interfaces.search_interface.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">oaklib.datamodels.search.SearchConfiguration</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/search_interface.html#SearchInterface.basic_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">basic_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../search-syntax.html#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">oaklib.datamodels.search.SearchConfiguration</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/search_interface.html#SearchInterface.basic_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface.basic_search" title="Permalink to this definition"></a></dt>
 <dd><p>Search over ontology using the specified search term.</p>
 <p>The search term may be a CURIE, label, or alias</p>
 <dl class="field-list simple">
@@ -117,7 +154,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.search_interface.SearchInterface.multiterm_search">
-<span class="sig-name descname"><span class="pre">multiterm_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.interfaces.search_interface.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">oaklib.datamodels.search.SearchConfiguration</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/search_interface.html#SearchInterface.multiterm_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface.multiterm_search" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">multiterm_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../search-syntax.html#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">oaklib.datamodels.search.SearchConfiguration</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/search_interface.html#SearchInterface.multiterm_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.search_interface.SearchInterface.multiterm_search" title="Permalink to this definition"></a></dt>
 <dd><p>As basic_search, using multiple terms</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -144,6 +181,7 @@
 </div>
 </dd></dl>
 
+</section>
 </section>
 
 

@@ -47,34 +47,39 @@
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#runoak">runoak</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-add-taxon-constraints">add-taxon-constraints</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-aliases">aliases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-all-subsets">all-subsets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-ancestors">ancestors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-annotate">annotate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-check-definitions">check-definitions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-convert">convert</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-descendants">descendants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-info">info</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-lexmatch">lexmatch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-list-subset">list-subset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-relationships">relationships</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-search">search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-similarity">similarity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-subset">subset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-subset-rollups">subset-rollups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-term-mappings">term-mappings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-terms">terms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-tree">tree</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-validate">validate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#runoak-viz">viz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-guidelines">General Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-docs">Command Line Docs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#runoak">runoak</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-add-taxon-constraints">add-taxon-constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-aliases">aliases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-all-subsets">all-subsets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-ancestors">ancestors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-annotate">annotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-check-definitions">check-definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-convert">convert</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-descendants">descendants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-lexmatch">lexmatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-list-subset">list-subset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-relationships">relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-search">search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-similarity">similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-subset">subset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-subset-rollups">subset-rollups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-term-mappings">term-mappings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-terms">terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-tree">tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-validate">validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-viz">viz</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -113,8 +118,50 @@
              
   <section id="command-line">
 <h1>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline"></a></h1>
+<p>Preamble
+—</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>currently things are set up such that there is a single main command <code class="code docutils literal notranslate"><span class="pre">runoak</span></code>, which has
+a growing number of subcommands. In the future we may decide to split the subcommands
+into other commands.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>we follow the <a class="reference external" href="https://clig.dev/">CLIG</a> guidelines as far as possible</p>
+</div>
+<section id="general-guidelines">
+<h2>General Guidelines<a class="headerlink" href="#general-guidelines" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if you are running this as an internal OAK developer you need to precede the command with <code class="code docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code></p>
+</div>
+<p>The general structure is:</p>
+<p>The value for <code class="code docutils literal notranslate"><span class="pre">--input</span></code> (which can be shorted to <code class="code docutils literal notranslate"><span class="pre">-i</span></code>) is specified in the <a class="reference internal" href="selectors.html#selectors"><span class="std std-ref">Ontology Implementation Selectors</span></a> documentation</p>
+<p>You can specify further implementations with <code class="code docutils literal notranslate"><span class="pre">-a</span></code> which will create an <span class="xref std std-ref">aggregator</span> implementation that wraps
+multiple implementations. For example, you can multiplex queries over different endpoints.</p>
+</section>
+<section id="common-patterns">
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Permalink to this headline"></a></h2>
+<p>Many commands take a <em>term</em> or a <em>list of terms</em> as their primary argument. These are typically one of:</p>
+<ul>
+<li><p>a <span class="xref std std-ref">CURIE</span> such as <code class="code docutils literal notranslate"><span class="pre">UBERON:0000955</span></code></p></li>
+<li><p>a <a class="reference internal" href="search-syntax.html#search-syntax"><span class="std std-ref">Search Syntax</span></a> term, which is either:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>an exact match to a label; for example “limb” or “plasma membrane”</p></li>
+<li><p>a compound search term such as <code class="code docutils literal notranslate"><span class="pre">t~limb</span></code> which finds terms with partial matches to limb</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Search terms are <em>expanded</em> to matching CURIEs, and then fed into the command</p>
+<p>Be warned that use of search terms can make some commands “explode”</p>
+</section>
+<section id="command-line-docs">
+<h2>Command Line Docs<a class="headerlink" href="#command-line-docs" title="Permalink to this headline"></a></h2>
 <section id="runoak">
-<h2>runoak<a class="headerlink" href="#runoak" title="Permalink to this headline"></a></h2>
+<h3>runoak<a class="headerlink" href="#runoak" title="Permalink to this headline"></a></h3>
 <p>Run the oaklib Command Line.</p>
 <blockquote>
 <div><p>A subcommand must be passed - for example: ancestors, terms, …</p>
@@ -154,7 +201,7 @@
 </dd></dl>
 
 <section id="runoak-add-taxon-constraints">
-<h3>add-taxon-constraints<a class="headerlink" href="#runoak-add-taxon-constraints" title="Permalink to this headline"></a></h3>
+<h4>add-taxon-constraints<a class="headerlink" href="#runoak-add-taxon-constraints" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Try candidate taxon constraint</p>
 </div></blockquote>
@@ -189,7 +236,7 @@
 
 </section>
 <section id="runoak-aliases">
-<h3>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h3>
+<h4>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all aliases in the ontology</p>
 </div></blockquote>
@@ -205,7 +252,7 @@
 
 </section>
 <section id="runoak-all-subsets">
-<h3>all-subsets<a class="headerlink" href="#runoak-all-subsets" title="Permalink to this headline"></a></h3>
+<h4>all-subsets<a class="headerlink" href="#runoak-all-subsets" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Shows all subsets</p>
 <dl class="simple">
@@ -225,7 +272,7 @@
 
 </section>
 <section id="runoak-ancestors">
-<h3>ancestors<a class="headerlink" href="#runoak-ancestors" title="Permalink to this headline"></a></h3>
+<h4>ancestors<a class="headerlink" href="#runoak-ancestors" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all ancestors</p>
 <p>Example:</p>
@@ -275,7 +322,7 @@
 
 </section>
 <section id="runoak-annotate">
-<h3>annotate<a class="headerlink" href="#runoak-annotate" title="Permalink to this headline"></a></h3>
+<h4>annotate<a class="headerlink" href="#runoak-annotate" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Annotate a piece of text using a Named Entity Recognition annotation</p>
 <dl class="simple">
@@ -302,7 +349,7 @@
 
 </section>
 <section id="runoak-axioms">
-<h3>axioms<a class="headerlink" href="#runoak-axioms" title="Permalink to this headline"></a></h3>
+<h4>axioms<a class="headerlink" href="#runoak-axioms" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all axioms</p>
 <p>TODO: this is a placeholder – will be added when we add funowl</p>
@@ -319,7 +366,7 @@
 
 </section>
 <section id="runoak-check-definitions">
-<h3>check-definitions<a class="headerlink" href="#runoak-check-definitions" title="Permalink to this headline"></a></h3>
+<h4>check-definitions<a class="headerlink" href="#runoak-check-definitions" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Check definitions</p>
 </div></blockquote>
@@ -335,7 +382,7 @@
 
 </section>
 <section id="runoak-convert">
-<h3>convert<a class="headerlink" href="#runoak-convert" title="Permalink to this headline"></a></h3>
+<h4>convert<a class="headerlink" href="#runoak-convert" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>TODO</p>
 </div></blockquote>
@@ -357,7 +404,7 @@
 
 </section>
 <section id="runoak-descendants">
-<h3>descendants<a class="headerlink" href="#runoak-descendants" title="Permalink to this headline"></a></h3>
+<h4>descendants<a class="headerlink" href="#runoak-descendants" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all descendants of a term</p>
 <p>See examples for ‘ancestors’ command</p>
@@ -387,7 +434,7 @@
 
 </section>
 <section id="runoak-extract-triples">
-<h3>extract-triples<a class="headerlink" href="#runoak-extract-triples" title="Permalink to this headline"></a></h3>
+<h4>extract-triples<a class="headerlink" href="#runoak-extract-triples" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Extracts a subontology as triples</p>
 <p>Currently the only endpoint to implement this is ubergraph. Ontobee seems
@@ -429,7 +476,7 @@ to have performance issues with the query</p>
 
 </section>
 <section id="runoak-info">
-<h3>info<a class="headerlink" href="#runoak-info" title="Permalink to this headline"></a></h3>
+<h4>info<a class="headerlink" href="#runoak-info" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Show info on terms</p>
 <p>TODO: currenly this only shows the label</p>
@@ -457,7 +504,7 @@ to have performance issues with the query</p>
 
 </section>
 <section id="runoak-lexmatch">
-<h3>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this headline"></a></h3>
+<h4>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Generates lexical index and mappings</p>
 <p>See <span class="xref std std-ref">.lexical_index_to_sssom</span></p>
@@ -516,7 +563,7 @@ to have performance issues with the query</p>
 
 </section>
 <section id="runoak-list-subset">
-<h3>list-subset<a class="headerlink" href="#runoak-list-subset" title="Permalink to this headline"></a></h3>
+<h4>list-subset<a class="headerlink" href="#runoak-list-subset" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Shows IDs in a given subset</p>
 <dl class="simple">
@@ -545,7 +592,7 @@ to have performance issues with the query</p>
 
 </section>
 <section id="runoak-mappings">
-<h3>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this headline"></a></h3>
+<h4>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all SSSOM mappings in the ontology</p>
 </div></blockquote>
@@ -561,7 +608,7 @@ to have performance issues with the query</p>
 
 </section>
 <section id="runoak-relationships">
-<h3>relationships<a class="headerlink" href="#runoak-relationships" title="Permalink to this headline"></a></h3>
+<h4>relationships<a class="headerlink" href="#runoak-relationships" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Show relationships for terms</p>
 <dl class="simple">
@@ -588,7 +635,7 @@ to have performance issues with the query</p>
 
 </section>
 <section id="runoak-search">
-<h3>search<a class="headerlink" href="#runoak-search" title="Permalink to this headline"></a></h3>
+<h4>search<a class="headerlink" href="#runoak-search" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Searches ontology for entities that have a label, alias, or other property matching a search term.</p>
 <p>Example:</p>
@@ -632,7 +679,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 
 </section>
 <section id="runoak-set-apikey">
-<h3>set-apikey<a class="headerlink" href="#runoak-set-apikey" title="Permalink to this headline"></a></h3>
+<h4>set-apikey<a class="headerlink" href="#runoak-set-apikey" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Sets an API key</p>
 <dl class="simple">
@@ -658,7 +705,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 
 </section>
 <section id="runoak-similarity">
-<h3>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this headline"></a></h3>
+<h4>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Pairwise similarity</p>
 <p>We recommend always specifying explicit predicate lists</p>
@@ -700,7 +747,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-subset">
-<h3>subset<a class="headerlink" href="#runoak-subset" title="Permalink to this headline"></a></h3>
+<h4>subset<a class="headerlink" href="#runoak-subset" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Extracts a subset</p>
 <p>TODO: INCOMPLETE</p>
@@ -724,7 +771,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-subset-rollups">
-<h3>subset-rollups<a class="headerlink" href="#runoak-subset-rollups" title="Permalink to this headline"></a></h3>
+<h4>subset-rollups<a class="headerlink" href="#runoak-subset-rollups" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>For each subset provide a mapping of each term in the ontology to a subset</p>
 </div></blockquote>
@@ -747,7 +794,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-taxon-constraints">
-<h3>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this headline"></a></h3>
+<h4>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all taxon constraints for a term</p>
 </div></blockquote>
@@ -798,7 +845,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-term-mappings">
-<h3>term-mappings<a class="headerlink" href="#runoak-term-mappings" title="Permalink to this headline"></a></h3>
+<h4>term-mappings<a class="headerlink" href="#runoak-term-mappings" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all SSSOM mappings for a term or terms</p>
 <p>Example:</p>
@@ -839,7 +886,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-terms">
-<h3>terms<a class="headerlink" href="#runoak-terms" title="Permalink to this headline"></a></h3>
+<h4>terms<a class="headerlink" href="#runoak-terms" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all terms in the ontology</p>
 </div></blockquote>
@@ -855,7 +902,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-tree">
-<h3>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this headline"></a></h3>
+<h4>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Visualize an ancestor graph as an ascii/markdown tree</p>
 <p>For general instructions, see the viz command, which this is analogous too</p>
@@ -936,7 +983,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-validate">
-<h3>validate<a class="headerlink" href="#runoak-validate" title="Permalink to this headline"></a></h3>
+<h4>validate<a class="headerlink" href="#runoak-validate" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Validate an ontology against ontology metadata</p>
 </div></blockquote>
@@ -963,7 +1010,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-validate-multiple">
-<h3>validate-multiple<a class="headerlink" href="#runoak-validate-multiple" title="Permalink to this headline"></a></h3>
+<h4>validate-multiple<a class="headerlink" href="#runoak-validate-multiple" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Validate an ontology against ontology metadata</p>
 </div></blockquote>
@@ -1003,7 +1050,7 @@ the MRCA</p>
 
 </section>
 <section id="runoak-viz">
-<h3>viz<a class="headerlink" href="#runoak-viz" title="Permalink to this headline"></a></h3>
+<h4>viz<a class="headerlink" href="#runoak-viz" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Visualizing an ancestor graph using obographviz</p>
 <p>Note the implementation must implement <a class="reference internal" href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface" title="oaklib.interfaces.obograph_interface.OboGraphInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">OboGraphInterface</span></code></a></p>
@@ -1103,6 +1150,7 @@ the MRCA</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
 </section>
 </section>
 </section>
