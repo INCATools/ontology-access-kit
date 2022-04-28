@@ -11,6 +11,8 @@ WD_ER = 'wikidata:Q79927'
 WD_SLY_SYNDROME = 'wikidata:Q1750471'
 WD_MPS = 'wikidata:Q1479681'
 
+
+@unittest.skip('Causes timeouts. See https://stackoverflow.com/questions/61803586/wikidata-forbidden-access')
 class TestWikidataImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
