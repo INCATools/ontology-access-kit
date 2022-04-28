@@ -327,7 +327,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             #                                                       scope=s.scope.lower(),
             #                                                      xrefs=[x.id for x in s.xrefs]))
             return obograph.Node(id=t_id,
-                                 label=t.name,
+                                 lbl=t.name,
                                  meta=meta)
 
     def as_obograph(self) -> Graph:

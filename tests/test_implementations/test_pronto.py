@@ -66,7 +66,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert label.startswith('part')
         t = self.oi.node(PART_OF)
         assert t.id == PART_OF
-        assert t.label.startswith('part')
+        assert t.lbl.startswith('part')
 
     def test_metadata(self):
         for curie in self.oi.all_entity_curies():

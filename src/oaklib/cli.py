@@ -448,7 +448,7 @@ def ancestors(terms, predicates, output: str):
         logging.info(f'Ancestor seed: {curies}')
         graph = impl.ancestor_graph(curies, predicates=actual_predicates)
         for n in graph.nodes:
-            print(f'{n.id} ! {n.label}')
+            print(f'{n.id} ! {n.lbl}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

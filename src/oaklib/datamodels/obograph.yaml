@@ -53,7 +53,7 @@ slots:
     range: string
   val:
     range: string
-  label:
+  lbl:
     range: string
   type:
     # TODO: rdf:type not working - import problem?
@@ -77,8 +77,6 @@ slots:
     range: string
   xrefs:
     multivalued: true
-    range: string
-  lbl:
     range: string
   nodes:
     multivalued: true

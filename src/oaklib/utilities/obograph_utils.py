@@ -221,14 +221,14 @@ def graph_to_tree(graph: Graph, predicates: List[PRED_CURIE] = None, output: Tex
         if rel in predicate_code_map:
             code = predicate_code_map[rel]
         elif rel in nix:
-            code = nix[rel].label
+            code = nix[rel].lbl
             if code is None:
                 code = rel
         else:
             code = rel
         output.write(depth * indent)
         output.write(f'* [{code}] ')
-        node_info = f'{n} ! {nix[n].label}'
+        node_info = f'{n} ! {nix[n].lbl}'
         if n in seeds:
             node_info = f'**{node_info}**'
         output.write(node_info)

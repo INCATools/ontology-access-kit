@@ -188,7 +188,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 continue
             pred = row.predicate
             if pred == omd_slots.label.curie:
-                n.label = v
+                n.lbl = v
             else:
                 if pred == omd_slots.definition.curie:
                     meta.definition = obograph.DefinitionPropertyValue(val=v)
