@@ -9,6 +9,7 @@ from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERN
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
+TEST_OWL_RDF = INPUT_DIR / 'go-nucleus.owl.ttl'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
 BAD_ONTOLOGY_DB = INPUT_DIR / 'bad-ontology.db'
@@ -33,7 +34,7 @@ class TestCommandLineInterface(unittest.TestCase):
     ## OBOGRAPH
 
     def test_obograph_local(self):
-        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', str(TEST_OWL_RDF)]:
             logging.info(f'INPUT={input_arg}')
             result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', NUCLEUS])
             out = result.stdout
@@ -78,7 +79,7 @@ class TestCommandLineInterface(unittest.TestCase):
     ## TAXON
 
     def test_taxon_constraints_local(self):
-        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}']:
+        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
             result = self.runner.invoke(main, ['-i', str(input_arg), 'taxon-constraints', NUCLEUS, '-o', str(TEST_OUT)])
             out = result.stdout
             err = result.stderr
@@ -96,7 +97,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(0, result.exit_code)
 
     def test_search_local(self):
-        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
             logging.info(f'INPUT={input_arg}')
             result = self.runner.invoke(main, ['-i', input_arg, 'search', 'l~nucl'])
             out = result.stdout
@@ -170,7 +171,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_lexmatch_owl(self):
         outfile = f'{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv'
-        result = self.runner.invoke(main, ['-i', f'{INPUT_DIR}/matcher-test.owl', 'lexmatch', '-R', f'{INPUT_DIR}/matcher_rules.yaml',
+        result = self.runner.invoke(main, ['-i', f'pronto:{INPUT_DIR}/matcher-test.owl', 'lexmatch',
+                                           '-R', f'{INPUT_DIR}/matcher_rules.yaml',
                                            '-o', outfile])
         out = result.stdout
         err = result.stderr

@@ -5,10 +5,10 @@ from oaklib.implementations.bioportal.bioportal_implementation import BioportalI
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
 from oaklib.selector import get_resource_from_shorthand
-
 
 
 class TestResource(unittest.TestCase):
@@ -21,6 +21,11 @@ class TestResource(unittest.TestCase):
         self.assertEqual('foo.obo', resource.slug)
         resource = get_resource_from_shorthand('foo.owl')
         # this may change:
+        assert resource.implementation_class == SparqlImplementation
+        resource = get_resource_from_shorthand('foo.ttl')
+        # this may change:
+        assert resource.implementation_class == SparqlImplementation
+        resource = get_resource_from_shorthand('pronto:foo.owl')
         assert resource.implementation_class == ProntoImplementation
         resource = get_resource_from_shorthand('foo.db')
         assert resource.implementation_class == SqlImplementation

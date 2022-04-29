@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
+from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation
 from oaklib.interfaces.owl_interface import OwlInterface
 
 
 @dataclass
-class OwleryImplementation(OwlInterface, SparqlImplementation):
+class OwleryImplementation(OwlInterface, AbstractSparqlImplementation):
     """
     Wraps an owlery endpoint
 
