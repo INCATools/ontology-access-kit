@@ -115,7 +115,7 @@ You will then need to set it:
 
 .. code-block::
 
-    runoak set-apikey bioportal YOUR-API-KEY
+    runoak set-apikey -e bioportal YOUR-API-KEY
 
 This stores it in an OS-dependent folder
 
