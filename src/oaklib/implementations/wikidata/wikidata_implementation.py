@@ -6,7 +6,7 @@ from typing import Iterable, Tuple, List, Union, Iterator, Dict
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_DEFINITION_URI, SKOS_ALT_LABEL, RDF_TYPE
-from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation, _sparql_values
+from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation, _sparql_values
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIONSHIP
@@ -29,8 +29,8 @@ DEFAULT_CURIE_MAP = {
 
 
 @dataclass
-class WikidataImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
-                              MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface):
+class WikidataImplementation(AbstractSparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
+                             MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface):
     """
     Wraps the wikidata sparql endpoint
 
