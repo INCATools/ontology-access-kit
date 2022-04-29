@@ -107,8 +107,9 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @input_option
+@input_type_option
 @add_option
-def main(verbose: int, quiet: bool, input: str, add: List):
+def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
     """Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
@@ -134,7 +135,7 @@ def main(verbose: int, quiet: bool, input: str, add: List):
 
     if input:
         impl_class: Type[OntologyInterface]
-        resource = get_resource_from_shorthand(input)
+        resource = get_resource_from_shorthand(input, format=input_type)
         impl_class = resource.implementation_class
         logging.info(f'RESOURCE={resource}')
         settings.impl = impl_class(resource)
