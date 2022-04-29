@@ -17,6 +17,8 @@ networkx = "^2.7.1"
 sssom = "^0.3.8"
 ratelimit = "^2.2.1"
 appdirs = "^1.4.4"
+uvicorn = "^0.17.6"
+fastapi = "^0.75.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
