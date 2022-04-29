@@ -171,7 +171,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_lexmatch_owl(self):
         outfile = f'{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv'
-        result = self.runner.invoke(main, ['-i', f'{INPUT_DIR}/matcher-test.owl', 'lexmatch', '-R', f'{INPUT_DIR}/matcher_rules.yaml',
+        result = self.runner.invoke(main, ['-i', f'pronto:{INPUT_DIR}/matcher-test.owl', 'lexmatch',
+                                           '-R', f'{INPUT_DIR}/matcher_rules.yaml',
                                            '-o', outfile])
         out = result.stdout
         err = result.stderr
