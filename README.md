@@ -6,6 +6,7 @@ Python lib for common ontology operations over a variety of backends.
 ![](https://github.com/incatools/ontology-access-kit/workflows/Build/badge.svg)
 [![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/incatools/ontology-access-kit/main?filepath=notebooks)
 [![Downloads](https://pepy.tech/badge/oaklib/week)](https://pepy.tech/project/oaklib)
+[![DOI](https://zenodo.org/badge/6456239/linkml/linkml.svg)](https://zenodo.org/badge/latestdoi/6456239/linkml/linkml)
 
 This library provides a collection of different [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for different kinds of ontology operations, including:
 
