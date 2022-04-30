@@ -46,6 +46,17 @@ class TestUbergraphImplementation(unittest.TestCase):
         logging.info(syns)
         assert 'cellular component' in syns
 
+    @unittest.skip('This test is too rigid as synonyms are liable to change')
+    def test_synonyms_granular(self):
+        syns = self.oi.aliases_by_curie(NUCLEUS)
+        logging.info(syns)
+        self.assertCountEqual(syns, ['nucleus', 'cell nucleus', 'horsetail nucleus'])
+        syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
+        self.assertCountEqual(syn_pairs,
+                              [('oio:hasExactSynonym', ['cell nucleus']),
+                               ('oio:hasNarrowSynonym', ['horsetail nucleus']),
+                               ('rdfs:label', ['nucleus'])])
+
     def test_definition(self):
         defn = self.oi.get_definition_by_curie('GO:0005575')
         logging.info(defn)

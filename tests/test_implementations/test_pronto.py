@@ -100,6 +100,14 @@ class TestProntoImplementation(unittest.TestCase):
                                     'cellular component',
                                     'cell or subcellular entity',
                                     'subcellular entity'])
+        syns = self.oi.aliases_by_curie(NUCLEUS)
+        logging.info(syns)
+        self.assertCountEqual(syns, ['nucleus', 'cell nucleus', 'horsetail nucleus'])
+        syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
+        self.assertCountEqual(syn_pairs,
+                              [('oio:hasExactSynonym', ['cell nucleus']),
+                               ('oio:hasNarrowSynonym', ['horsetail nucleus']),
+                               ('rdfs:label', ['nucleus'])])
 
     def test_subsets(self):
         oi = self.oi
