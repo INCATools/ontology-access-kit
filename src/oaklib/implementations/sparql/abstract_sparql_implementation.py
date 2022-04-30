@@ -284,7 +284,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         uri = self.curie_to_sparql(curie)
-        alias_pred_uris = [self.curie_to_sparql(p) for p in self._alias_predicates()]
+        alias_pred_uris = [self.curie_to_sparql(p) for p in self._alias_predicates() + [LABEL_PREDICATE]]
         query = SparqlQuery(select=['?p', '?o'],
                             where=[f'{uri} ?p ?o',
                                    _sparql_values('p', alias_pred_uris)])
@@ -294,7 +294,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                                {'oboInOwl': 'http://www.geneontology.org/formats/oboInOwl#'})
         m = defaultdict(list)
         for row in bindings:
-            m[row['p']['value']].append(row['o']['value'])
+            m[self.uri_to_curie(row['p']['value'])].append(row['o']['value'])
         return m
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
