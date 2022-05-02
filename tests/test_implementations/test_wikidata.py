@@ -3,16 +3,16 @@ import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 from oaklib.implementations.wikidata.wikidata_implementation import WikidataImplementation
-from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-
-from tests import OUTPUT_DIR, INPUT_DIR
 
 WD_PECTORAL_FIN_MORPHOGENESIS = 'wikidata:Q22298706'
 WD_ER = 'wikidata:Q79927'
 WD_SLY_SYNDROME = 'wikidata:Q1750471'
 WD_MPS = 'wikidata:Q1479681'
 
+
+@unittest.skip('Causes timeouts. See https://stackoverflow.com/questions/61803586/wikidata-forbidden-access')
 class TestWikidataImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -53,7 +53,7 @@ class TestWikidataImplementation(unittest.TestCase):
 
     def test_search(self):
         oi = self.oi
-        config = SearchConfiguration(complete=True, limit=3).use_label_only()
+        config = SearchConfiguration(is_partial=False, limit=3)
         curies = list(oi.basic_search('endoplasmic reticulum', config=config))
         tups = list(oi.get_labels_for_curies(curies))
         #print(tups)

@@ -1,10 +1,13 @@
 import logging
 import unittest
 
-import yaml
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.datamodels import obograph
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
+from oaklib.implementations import ProntoImplementation
 from oaklib.resource import OntologyResource
-from oaklib.utilities.obograph_utils import graph_as_dict
+from oaklib.utilities.obograph_utils import graph_as_dict, index_graph_nodes, index_graph_edges_by_subject, \
+    index_graph_edges_by_object, index_graph_edges_by_predicate
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART, ONLY_IN_TAXON, IN_TAXON
 
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM, CELL, CELLULAR_ORGANISMS, NUCLEUS
@@ -65,7 +68,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert label.startswith('part')
         t = self.oi.node(PART_OF)
         assert t.id == PART_OF
-        assert t.label.startswith('part')
+        assert t.lbl.startswith('part')
 
     def test_metadata(self):
         for curie in self.oi.all_entity_curies():
@@ -97,6 +100,14 @@ class TestProntoImplementation(unittest.TestCase):
                                     'cellular component',
                                     'cell or subcellular entity',
                                     'subcellular entity'])
+        syns = self.oi.aliases_by_curie(NUCLEUS)
+        logging.info(syns)
+        self.assertCountEqual(syns, ['nucleus', 'cell nucleus', 'horsetail nucleus'])
+        syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
+        self.assertCountEqual(syn_pairs,
+                              [('oio:hasExactSynonym', ['cell nucleus']),
+                               ('oio:hasNarrowSynonym', ['horsetail nucleus']),
+                               ('rdfs:label', ['nucleus'])])
 
     def test_subsets(self):
         oi = self.oi
@@ -165,6 +176,18 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
+        nix = index_graph_nodes(g)
+        self.assertEqual(nix[VACUOLE].lbl, 'vacuole')
+        v2c = obograph.Edge(sub=VACUOLE, pred=PART_OF, obj=CYTOPLASM)
+        six = index_graph_edges_by_subject(g)
+        self.assertIn(v2c, six[VACUOLE])
+        self.assertNotIn(v2c, six[CYTOPLASM])
+        oix = index_graph_edges_by_object(g)
+        self.assertIn(v2c, oix[CYTOPLASM])
+        self.assertNotIn(v2c, oix[VACUOLE])
+        pix = index_graph_edges_by_predicate(g)
+        self.assertIn(v2c, pix[PART_OF])
+        self.assertNotIn(v2c, pix[IS_A])
         obj = graph_as_dict(g)
         assert 'nodes' in g
         assert 'edges' in g
@@ -180,6 +203,40 @@ class TestProntoImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_search_aliases(self):
+        config = SearchConfiguration(properties=[SearchProperty.ALIAS])
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, ['GO:0003824'])
+        config = SearchConfiguration()
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, [])
+
+    def test_search_exact(self):
+        config = SearchConfiguration(is_partial=False)
+        curies = list(self.oi.basic_search("cytoplasm", config=config))
+        #print(curies)
+        assert CYTOPLASM in curies
+
+    def test_search_partial(self):
+        config = SearchConfiguration(is_partial=True)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_search_starts_with(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_search_regex(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        curies = list(self.oi.basic_search("^nucl", config=config))
+        print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
 
 
 

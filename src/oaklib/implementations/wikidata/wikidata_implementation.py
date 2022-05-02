@@ -1,20 +1,20 @@
 import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Iterable, Tuple, List, Union, Optional, Iterator, Dict
+from typing import Iterable, Tuple, List, Union, Iterator, Dict
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_DEFINITION_URI, SKOS_ALT_LABEL, RDF_TYPE
-from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation, _sparql_values
+from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation, _sparql_values
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE, URI
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
@@ -29,8 +29,8 @@ DEFAULT_CURIE_MAP = {
 
 
 @dataclass
-class WikidataImplementation(SparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
-                              MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface):
+class WikidataImplementation(AbstractSparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
+                             MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface):
     """
     Wraps the wikidata sparql endpoint
 
@@ -185,7 +185,7 @@ class WikidataImplementation(SparqlImplementation, RelationGraphInterface, Searc
 
     def node(self, curie: CURIE) -> obograph.Node:
         params = dict(id=curie,
-                      label=self.get_label_by_curie(curie))
+                      lbl=self.get_label_by_curie(curie))
         return obograph.Node(**params)
 
     def ancestor_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> obograph.Graph:
@@ -198,7 +198,7 @@ class WikidataImplementation(SparqlImplementation, RelationGraphInterface, Searc
         logging.info(f'NUM EDGES: {len(edges)}')
         for rel in self._from_subjects_chunked(ancs, [RDFS.label], object_is_literal=True):
             id = rel[0]
-            nodes[id] = obograph.Node(id=id, label=rel[2])
+            nodes[id] = obograph.Node(id=id, lbl=rel[2])
         logging.info(f'NUM NODES: {len(nodes)}')
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)
@@ -211,7 +211,7 @@ class WikidataImplementation(SparqlImplementation, RelationGraphInterface, Searc
             node_ids.update(list(rel))
         nodes = {}
         for s, p, o in self._from_subjects_chunked(list(node_ids), [RDFS.label], object_is_literal=True):
-            nodes[s] = obograph.Node(id=s, label=o)
+            nodes[s] = obograph.Node(id=s, lbl=o)
         logging.info(f'NUM EDGES: {len(edges)}')
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)

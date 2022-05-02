@@ -52,7 +52,7 @@ class TestAggregator(unittest.TestCase):
         assert label.startswith('part')
         t = self.oi.node(PART_OF)
         assert t.id == PART_OF
-        assert t.label.startswith('part')
+        assert t.lbl.startswith('part')
 
     @unittest.skip('TODO')
     def test_metadata(self):
@@ -135,7 +135,7 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
         g = self.oi.ancestor_graph(TISSUE)
         print(yaml_dumper.dumps(g))
-        assert self.oi.node(TISSUE).label == 'tissue'
+        assert self.oi.node(TISSUE).lbl == 'tissue'
 
 
 

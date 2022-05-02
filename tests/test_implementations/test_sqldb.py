@@ -1,17 +1,16 @@
 import logging
 import unittest
 
-import yaml
-from linkml_runtime.dumpers import yaml_dumper
+from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE
 
-from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, PHOTOSYNTHETIC_MEMBRANE, HUMAN
+from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, HUMAN, CHEBI_NUCLEUS
 
 DB = INPUT_DIR / 'go-nucleus.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -60,7 +59,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_obograph_node(self):
         n = self.oi.node(CELLULAR_COMPONENT)
         assert n.id == CELLULAR_COMPONENT
-        assert n.label == 'cellular_component'
+        assert n.lbl == 'cellular_component'
         assert n.meta.definition.val.startswith('A location, ')
 
     def test_obograph(self):
@@ -170,13 +169,40 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert 'CHEBI:36357' in missing
         assert CELLULAR_COMPONENT not in missing
 
-    def test_search(self):
-        oi = self.oi
-        for curie in oi.basic_search('intracellular'):
-            print(curie)
-        self.assertIn('GO:0005622', oi.basic_search('intracellular'))
-        self.assertEqual(list(oi.basic_search('protoplasm')), ['GO:0005622'])
-        self.assertEqual(list(oi.basic_search('protoplasm', SearchConfiguration(include_aliases=False))), [])
+    def test_search_aliases(self):
+        config = SearchConfiguration(properties=[SearchProperty.ALIAS])
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, ['GO:0003824'])
+        config = SearchConfiguration()
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, [])
+
+    def test_search_exact(self):
+        config = SearchConfiguration(is_partial=False)
+        curies = list(self.oi.basic_search("cytoplasm", config=config))
+        #print(curies)
+        self.assertCountEqual([CYTOPLASM], curies)
+
+    def test_search_partial(self):
+        config = SearchConfiguration(is_partial=True)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_search_sql(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.SQL)
+        curies = list(self.oi.basic_search("%nucl%s", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertCountEqual([NUCLEUS, CHEBI_NUCLEUS], curies)
+
+    def test_search_starts_with(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
 
     def test_gap_fill(self):
         oi = self.oi

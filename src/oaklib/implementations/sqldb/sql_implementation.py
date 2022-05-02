@@ -7,6 +7,7 @@ from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iter
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
@@ -15,14 +16,15 @@ from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CU
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
-from sqlalchemy import select, text, exists
+from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
 
@@ -135,15 +137,20 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             yield self._get_subset_curie(row.subject)
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
-        search_term = f'%{search_term}%'
         preds = []
-        if config.include_label:
-            preds.append(omd_slots.label.curie)
-        if config.include_aliases:
+        preds.append(omd_slots.label.curie)
+        if SearchProperty(SearchProperty.ALIAS) in config.properties:
             preds += SYNONYM_PREDICATES
         view = Statements
-        q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds))).filter(
-            view.value.like(search_term))
+        q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds)))
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            q = q.filter(view.value.like(f'{search_term}%'))
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.SQL):
+            q = q.filter(view.value.like(search_term))
+        elif config.is_partial:
+            q = q.filter(view.value.like(f'%{search_term}%'))
+        else:
+            q = q.filter(view.value == search_term)
         for row in q.distinct():
             yield str(row.subject)
 
@@ -181,7 +188,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 continue
             pred = row.predicate
             if pred == omd_slots.label.curie:
-                n.label = v
+                n.lbl = v
             else:
                 if pred == omd_slots.definition.curie:
                     meta.definition = obograph.DefinitionPropertyValue(val=v)

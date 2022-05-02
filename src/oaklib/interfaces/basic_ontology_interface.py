@@ -289,6 +289,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Returns aliases keyed by alias type (scope in OBO terms)
 
+        - The alias map MUST include rdfs:label annotations
+        - The alias map MAY include other properties the implementation deems to serve an alias role
+        
         :param curie:
         :return:
         """

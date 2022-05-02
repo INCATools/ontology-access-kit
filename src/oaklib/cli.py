@@ -16,6 +16,7 @@ from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
 import click
 import rdflib
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
+from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
@@ -106,8 +107,9 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @input_option
+@input_type_option
 @add_option
-def main(verbose: int, quiet: bool, input: str, add: List):
+def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
     """Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
@@ -133,7 +135,7 @@ def main(verbose: int, quiet: bool, input: str, add: List):
 
     if input:
         impl_class: Type[OntologyInterface]
-        resource = get_resource_from_shorthand(input)
+        resource = get_resource_from_shorthand(input, format=input_type)
         impl_class = resource.implementation_class
         logging.info(f'RESOURCE={resource}')
         settings.impl = impl_class(resource)
@@ -179,7 +181,8 @@ def search(terms, output: str):
     impl = settings.impl
     if isinstance(impl, SearchInterface):
         for t in terms:
-            for curie_it in chunk(impl.basic_search(t)):
+            cfg = create_search_configuration(t)
+            for curie_it in chunk(impl.basic_search(cfg.search_terms[0], config=cfg)):
                 logging.info('** Next chunk:')
                 for curie, label in impl.get_labels_for_curies(curie_it):
                     print(f'{curie} ! {label}')
@@ -446,7 +449,7 @@ def ancestors(terms, predicates, output: str):
         logging.info(f'Ancestor seed: {curies}')
         graph = impl.ancestor_graph(curies, predicates=actual_predicates)
         for n in graph.nodes:
-            print(f'{n.id} ! {n.label}')
+            print(f'{n.id} ! {n.lbl}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 

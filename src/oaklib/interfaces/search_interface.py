@@ -1,35 +1,9 @@
 from abc import ABC
-from dataclasses import dataclass
 from typing import List, Iterable
 
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
-
-
-@dataclass
-class SearchConfiguration:
-    """
-    Parameters for altering behavior of search
-
-    .. note ::
-
-        many of these parameters are not yet implemented
-    """
-    search_terms: List[str] = None
-    include_id: bool = True
-    include_label: bool = True
-    include_aliases: bool = True
-    include_definition: bool = False
-    complete: bool = False
-    is_regex: bool = False
-    limit: int = None
-
-    def use_label_only(self) -> "SearchConfiguration":
-        self.include_label = False
-        self.include_id = False
-        self.include_definition = False
-        self.include_aliases = False
-        return self
+from oaklib.types import CURIE
 
 
 class SearchInterface(BasicOntologyInterface, ABC):

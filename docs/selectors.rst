@@ -22,7 +22,8 @@ Examples of scheme-less descriptors, implicit implementation:
 
 - :code:`tests/input/go-nucleus.obo` - local obo format file loaded with pronto
 - :code:`tests/input/go-nucleus.json` - local obojson format file loaded with pronto
-- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with pronto at the moment may change)
+- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with rdflib at the moment may change)
+- :code:`tests/input/go-nucleus.owl.ttl` - local OWL turtle format file (loaded with rdflib at the moment may change)
 - :code:`tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`http://purl.obolibrary.org/obo/pato.obo` - NOT IMPLEMENTED; download locally for now
 - :code:`http://purl.obolibrary.org/obo/pato.owl` - NOT IMPLEMENTED; download locally for now

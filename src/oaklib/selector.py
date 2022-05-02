@@ -7,12 +7,20 @@ from oaklib.implementations.bioportal.bioportal_implementation import BioportalI
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
 from oaklib.implementations.wikidata.wikidata_implementation import WikidataImplementation
 from oaklib.interfaces import OntologyInterface
 from oaklib.resource import OntologyResource
 
+
+RDF_SUFFIX_TO_FORMAT = {
+    'ttl': 'turtle',
+    'rdf': 'turtle',
+    'jsonld': 'json-ld',
+    'json-ld': 'json-ld',
+}
 
 def get_implementation_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
     """
@@ -62,6 +70,8 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 impl_class = UbergraphImplementation
             elif scheme == 'ontobee':
                 impl_class = OntobeeImplementation
+            elif scheme == 'sparql':
+                impl_class = SparqlImplementation
             elif scheme == 'bioportal':
                 impl_class = BioportalImplementation
             elif scheme == 'wikidata':
@@ -86,9 +96,19 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 raise ValueError(f'Scheme {scheme} not known')
         else:
             logging.info(f'No schema: assuming file path {descriptor}')
-            if descriptor.endswith('.db') or (format and format == 'sqlite'):
+            suffix = descriptor.split('.')[-1]
+            if suffix == 'db' or (format and format == 'sqlite'):
                 impl_class = SqlImplementation
                 resource.slug = f'sqlite:///{Path(descriptor).absolute()}'
+            elif format and format in RDF_SUFFIX_TO_FORMAT.values():
+                impl_class = SparqlImplementation
+            elif suffix in RDF_SUFFIX_TO_FORMAT:
+                impl_class = SparqlImplementation
+                resource.format = RDF_SUFFIX_TO_FORMAT[suffix]
+            elif suffix == 'owl':
+                impl_class = SparqlImplementation
+                resource.format = 'xml'
+                logging.warning(f'Using rdflib rdf/xml parser; this behavior may change in future')
             else:
                 resource.local = True
                 impl_class = ProntoImplementation
