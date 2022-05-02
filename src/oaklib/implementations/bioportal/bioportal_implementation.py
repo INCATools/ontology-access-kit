@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, Iterator, List, Tuple
+from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
 import requests
