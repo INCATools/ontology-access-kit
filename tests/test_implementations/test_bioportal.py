@@ -36,6 +36,11 @@ class TestBioportal(unittest.TestCase):
             print(yaml_dumper.dumps(m))
         assert any(m for m in mappings if m.object_id == 'http://purl.obolibrary.org/obo/NCIT_C73791')
 
+        # FMA:24879 cannot be converted to the IRI recognized by BioPortal automatically,
+        # but this tests that the call to get_sssom_mappings_by_curie does not error out
+        mappings = list(self.impl.get_sssom_mappings_by_curie('FMA:24879'))
+        assert mappings == []
+
     
     def test_ancestors(self):
         ancestors = list(self.impl.ancestors(VACUOLE))

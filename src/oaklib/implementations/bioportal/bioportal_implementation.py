@@ -144,6 +144,9 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         req_url = f'{REST_URL}/ontologies/{ontology}/classes/{quoted_class_uri}/mappings'
         logging.debug(req_url)
         response = self._bioportal_get(req_url, params={'display_context': 'false'})
+        if (response.status_code != requests.codes.ok):
+            logging.warn(f'Could not fetch mappings for {id}')
+            return []
         body = response.json()
         for result in body:
             yield self.result_to_mapping(result)
