@@ -1,4 +1,3 @@
-from distutils.command import check
 import logging
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
