@@ -18,6 +18,7 @@ import rdflib
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
+from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
@@ -339,6 +340,10 @@ def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_typ
                 yaml_dumper.dump(graph, to_file=output, inject_type=False)
             else:
                 print(yaml_dumper.dumps(graph))
+        elif output_type == 'obo':
+            output_oi = ProntoImplementation()
+            output_oi.load_graph(graph, replace=True)
+            output_oi.store(OntologyResource(slug=output, local=True, format='obo'))
         else:
             imgfile = graph_to_image(graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output)
             if view:
@@ -499,7 +504,7 @@ def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
     if isinstance(impl, RdfInterface):
         actual_predicates = _process_predicates_arg(predicates)
         g = rdflib.Graph()
-        for t in impl.extract_triples(terms, map_to_curies=False):
+        for t in impl.extract_triples(terms, predicates=actual_predicates, map_to_curies=False):
             logging.info(f'Triple: {t}')
             g.add(t)
         output.write(g.serialize())

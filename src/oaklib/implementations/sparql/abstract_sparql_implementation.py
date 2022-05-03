@@ -161,7 +161,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def _query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = {}):
         ng = self.named_graph
         if isinstance(query, SparqlQuery) and ng:
-            query.graph = ng
+            if query.graph is not None:
+                if isinstance(query.graph, list):
+                    query.graph.append(ng)
+                else:
+                    query.graph = [query.graph, ng]
+            else:
+                query.graph = ng
         if isinstance(query, SparqlQuery):
             query = query.query_str()
         sw = self.sparql_wrapper
@@ -414,14 +420,29 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def extract_triples(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None, strategy=None,
                         map_to_curies=True) -> Iterator[TRIPLE]:
         seed_uris = [self.curie_to_sparql(c) for c in seed_curies]
+        # Note that some triplestores will have performance issues with this query
+        traverse_preds = [
+            'rdfs:subClassOf',
+            'owl:onProperty',
+            'owl:someValuesFrom',
+            'owl:annotatedSource',
+            'owl:equivalentClass'
+        ]
+        if predicates:
+            # note that predicates are only used in the ABox - for a RelationGraph-implementing
+            # triplestore this will also include TBox existentials
+            traverse_preds = list(set(traverse_preds + predicates))
         query = SparqlQuery(select=['?s', '?p', '?o'],
                             where=['?s ?p ?o .'
-                                   '?seed (rdfs:subClassOf|owl:onProperty|owl:someValuesFrom|^owl:annotatedSource)* ?s',
+                                   f'?seed ({"|".join(traverse_preds)})* ?s',
                                    _sparql_values('seed', seed_uris)])
         bindings = self._query(query)
+        n = 0
         for row in bindings:
+            n += 1
             triple = (row['s'], row['p'], row['o'])
             if map_to_curies:
                 yield tuple([self.uri_to_curie(v['value']) for v in list(triple)])
             else:
                 yield tuple([_as_rdf_obj(v) for v in list(triple)])
+        logging.info(f'Total triples: {n}')

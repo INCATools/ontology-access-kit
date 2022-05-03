@@ -1,12 +1,24 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Iterator, Tuple, Iterable
 
 from linkml_runtime.dumpers import yaml_dumper
 from oaklib.io.streaming_writer import StreamingWriter
 import sssom.sssom_datamodel as sssom_dm
+from oaklib.types import CURIE
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import to_mapping_set_dataframe
 from sssom.writers import write_table
+
+
+def mappings_to_pairs(mappings: Iterable[sssom_dm.Mapping]) -> List[Tuple[CURIE, CURIE]]:
+    """
+    Convert a list of mappings to subject-object pairs
+
+    :param mappings:
+    :return:
+    """
+    return [(m.subject_id, m.object_id) for m in mappings]
+
 
 
 @dataclass
