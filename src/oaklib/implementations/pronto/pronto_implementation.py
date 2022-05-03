@@ -327,19 +327,17 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
                 yield sssom.Mapping(subject_id=curie,
                                     predicate_id=SKOS_CLOSE_MATCH,
                                     object_id=x.id,
-                                    match_type=MatchTypeEnum.Lexical)
+                                    match_type=MatchTypeEnum.Unspecified)
         # TODO: use a cache to avoid re-calculating
         for e in self.all_entity_curies():
-            t = self._entity(curie)
+            t = self._entity(e)
             if t:
                 for x in t.xrefs:
                     if x.id == curie:
                         yield sssom.Mapping(subject_id=e,
                                             predicate_id=SKOS_CLOSE_MATCH,
                                             object_id=curie,
-                                            match_type=MatchTypeEnum.Lexical)
-
-
+                                            match_type=MatchTypeEnum.Unspecified)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

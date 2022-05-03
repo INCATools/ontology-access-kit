@@ -18,7 +18,7 @@ from oaklib.implementations.aggregator.aggregator_implementation import Aggregat
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
-from oaklib.omk.omk_mapping_utils import caclulate_pairwise_relational_diff
+from oaklib.omk.omk_mapping_utils import calculate_pairwise_relational_diff
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_resource_from_shorthand, get_implementation_from_shorthand
 from oaklib.cli import input_option, output_option, output_type_option, add_option, input_type_option, Settings
@@ -87,7 +87,7 @@ def mdiff(source, other_input, other_input_type):
         other_oi = get_implementation_from_shorthand(other_input, format=other_input_type)
     else:
         other_oi = oi
-    for r in caclulate_pairwise_relational_diff(oi, other_oi, sources=list(source)):
+    for r in calculate_pairwise_relational_diff(oi, other_oi, sources=list(source)):
         print(r)
 
 

@@ -44,3 +44,6 @@ stage-docs:
 	cp -pr docs/_build/html/* ../gh-pages/oaklib-gh-pages/
 
 #gh-deploy
+
+tests/input/%.db: tests/input/%.owl
+	$(RUN) semsql make $@

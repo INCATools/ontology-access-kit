@@ -1,6 +1,7 @@
 import logging
 import unittest
 
+from linkml_runtime.dumpers import yaml_dumper
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
@@ -113,6 +114,19 @@ class TestProntoImplementation(unittest.TestCase):
                               [('oio:hasExactSynonym', ['cell nucleus']),
                                ('oio:hasNarrowSynonym', ['horsetail nucleus']),
                                ('rdfs:label', ['nucleus'])])
+
+    def test_mappings(self):
+        oi = self.oi
+        mappings = list(oi.get_sssom_mappings_by_curie(NUCLEUS))
+        #for m in mappings:
+        #    print(yaml_dumper.dumps(m))
+        assert any(m for m in mappings if m.object_id == 'Wikipedia:Cell_nucleus')
+        self.assertEqual(len(mappings), 2)
+        for m in mappings:
+            print(f'GETTING {m.object_id}')
+            reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
+            reverse_subject_ids = [m.subject_id for m in reverse_mappings]
+            self.assertEqual(reverse_subject_ids, [NUCLEUS])
 
     def test_subsets(self):
         oi = self.oi

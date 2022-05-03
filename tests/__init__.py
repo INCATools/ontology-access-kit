@@ -6,6 +6,7 @@ ROOT = os.path.abspath(os.path.dirname(__file__))
 INPUT_DIR = Path(ROOT) / 'input'
 OUTPUT_DIR = Path(ROOT) / 'output'
 SCHEMA_DIR = Path(ROOT) / '../src/linkml'
+EXTERNAL_DB_DIR = Path(ROOT) / '../db'   ## for integration tests: optional
 
 def output_path(fn: str) -> str:
     return str(Path(OUTPUT_DIR) / fn)

@@ -51,6 +51,13 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def entailed_relationships_between(self, subject: CURIE, object: CURIE) -> Iterable[PRED_CURIE]:
+        """
+        Yield the predicates of all valid relationships connecting subject and object, both direct and indirect
+
+        :param subject:
+        :param object:
+        :return:
+        """
         raise NotImplementedError
 
 

@@ -1,3 +1,4 @@
+import logging
 from collections import Iterator, defaultdict
 from typing import Dict, List, Tuple
 
@@ -10,6 +11,8 @@ from oaklib.utilities.graph.networkx_bridge import mappings_to_graph
 from sssom import Mapping
 
 DIFF_CATEGORY = CURIE
+ANALOGOUS_RELATION = Tuple[DIFF_CATEGORY, CURIE, PRED_CURIE, CURIE, List[CURIE]]
+
 
 def get_mappings_between(oi: MappingProviderInterface, external_source: str) -> Iterator[Mapping]:
     prefix = f'{external_source}:'
@@ -58,6 +61,7 @@ def unreciprocated_mappings(subject_oi: MappingProviderInterface, object_oi: Map
     :return:
     """
     groups = group_mappings_by_source_pairs(subject_oi, object_oi)
+    cache = {}
     for m in subject_oi.all_sssom_mappings():
         subject_src = subject_source(m)
         object_src = object_source(m)
@@ -92,21 +96,35 @@ def get_mappings_in(g: nx.Graph, curie: CURIE, sources: List[str]):
     else:
         return []
 
-def caclulate_pairwise_relational_diff(subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface,
-                                       sources: List[str]) -> Iterator[DIFF_CATEGORY, CURIE, PRED_CURIE, CURIE, List[CURIE]]:
+
+def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface,
+                                       sources: List[str]) -> Iterator[ANALOGOUS_RELATION]:
+    """
+
+    :param subject_oi:
+    :param object_oi:
+    :param sources:
+    :return:
+    """
+    logging.info('Converting all mappings to networkx')
     g = mappings_to_graph(list(subject_oi.all_sssom_mappings()) + list(object_oi.all_sssom_mappings()))
     if isinstance(subject_oi, OboGraphInterface) and isinstance(object_oi, OboGraphInterface):
         for subject_child in subject_oi.all_entity_curies():
             for pred, subject_parent in relation_dict_as_tuples(subject_oi.get_outgoing_relationships_by_curie(subject_child)):
+                logging.debug(f'Checking for analog of {subject_child} {pred} {subject_parent}')
+                has_child_mapping = False
+                has_parent_mapping = False
                 has_edge = False
                 has_predicate = False
                 has_direct_predicate = False
                 object_child_list = get_mappings_in(g, subject_child, sources)
                 object_parent_list = get_mappings_in(g, subject_parent, sources)
                 for object_child in object_child_list:
+                    has_child_mapping = True
                     object_child_ancs = list(object_oi.ancestors(object_child))
                     object_child_direct_outgoing = object_oi.get_outgoing_relationships_by_curie(object_child)
                     for object_parent in object_parent_list:
+                        has_parent_mapping = True
                         #print(f'CHECKING: {object_child} -> {object_parent} // {object_child_ancs}')
                         if object_parent in object_child_ancs:
                             has_edge = True
@@ -127,7 +145,10 @@ def caclulate_pairwise_relational_diff(subject_oi: MappingProviderInterface, obj
                     else:
                         category = 'OTHER'
                 else:
-                    category = 'MISSING_EDGE'
+                    if has_child_mapping and has_parent_mapping:
+                        category = 'MISSING_EDGE'
+                    else:
+                        category = 'MISSING_MAPPING'
                 yield category, subject_child, pred, subject_parent, []
 
 
