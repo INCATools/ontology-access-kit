@@ -58,3 +58,8 @@ Command Line Docs
     :prog: runoak
     :show-nested:
 
+.. currentmodule:: oaklib.omk.omk_cli
+
+.. click:: aklib.omk.omk_cli:main
+    :prog: omk
+    :show-nested:
