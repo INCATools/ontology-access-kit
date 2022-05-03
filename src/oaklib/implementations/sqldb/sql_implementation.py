@@ -4,6 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
+import sssom
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
@@ -22,7 +23,8 @@ from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.validation_datamodel as vdm
-from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET
+from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
+    ALL_MATCH_PREDICATES
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker, aliased
@@ -30,6 +32,9 @@ from sqlalchemy import create_engine
 
 
 # TODO: move to schemaview
+from sssom.sssom_datamodel import MatchTypeEnum
+
+
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
     t = sv.get_type(rng)
     if t.uri:
@@ -218,6 +223,56 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         for row in q:
             yield row.subject
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: RelationGraphInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def entailed_relationships_between(self, subject: CURIE, object: CURIE) -> Iterable[PRED_CURIE]:
+        preds = []
+        for row in self.session.query(EntailedEdge.predicate).filter(EntailedEdge.subject==subject).filter(EntailedEdge.object==object):
+            p = row.predicate
+            if p not in preds:
+                yield p
+            preds.append(p)
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: MappingsInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def all_sssom_mappings(self) -> Iterable[sssom.Mapping]:
+        predicates = tuple(ALL_MATCH_PREDICATES)
+        base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
+        for row in base_query:
+            v = row.value if row.value is not None else row.object
+            if URIorCURIE.is_valid(v):
+                yield sssom.Mapping(subject_id=row.subject,
+                                    object_id=v,
+                                    predicate_id=row.predicate,
+                                    match_type=MatchTypeEnum.Unspecified)
+            else:
+                if self.strict:
+                    raise ValueError(f'not a CURIE: {V}')
+
+    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+        predicates = tuple(ALL_MATCH_PREDICATES)
+        base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
+        for row in base_query.filter(Statements.subject == curie):
+            yield sssom.Mapping(subject_id=curie,
+                                object_id=row.value if row.value is not None else row.object,
+                                predicate_id=row.predicate,
+                                match_type=MatchTypeEnum.Unspecified)
+        # xrefs are stored as literals
+        for row in base_query.filter(Statements.value == curie):
+            yield sssom.Mapping(subject_id=row.subject,
+                                object_id=curie,
+                                predicate_id=row.predicate,
+                                match_type=MatchTypeEnum.Unspecified)
+        # skos mappings are stored as objects
+        for row in base_query.filter(Statements.object == curie):
+            yield sssom.Mapping(subject_id=row.subject,
+                                object_id=curie,
+                                predicate_id=row.predicate,
+                                match_type=MatchTypeEnum.Unspecified)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface

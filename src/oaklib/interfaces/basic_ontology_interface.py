@@ -68,6 +68,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     in which case URIs may be used
 
     """
+    strict: bool = False
 
 
     def get_prefix_map(self) -> PREFIX_MAP:

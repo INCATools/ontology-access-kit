@@ -19,6 +19,7 @@ from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL, ALL_MATCH_PREDICATES, \
     DEFAULT_PREFIX_MAP, SYNONYM_PREDICATES, SKOS_EXACT_MATCH
+from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
 from oaklib.utilities.rate_limiter import check_limit
 from rdflib import URIRef, RDFS, Literal, BNode
 from rdflib.term import Identifier
@@ -403,15 +404,26 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         pred_uris = [self.curie_to_sparql(pred) for pred in ALL_MATCH_PREDICATES]
         query = SparqlQuery(select=['?p', '?o'],
                             where=[f'{self.curie_to_sparql(curie)} ?p ?o',
-                                   f'VALUES ?p {{ {" ".join(pred_uris)} }}'
-                                   ])
+                                   _sparql_values('p', pred_uris)])
         bindings = self._query(query)
         for row in bindings:
-            yield sssom.Mapping(subject_id=curie,
-                                predicate_id=self.uri_to_curie(row['p']['value']),
-                                object_id=self.uri_to_curie(row['o']['value']),
-                                match_type=MatchTypeEnum.Unspecified,
-                                )
+            m = create_sssom_mapping(subject_id=curie,
+                                     predicate_id=self.uri_to_curie(row['p']['value']),
+                                     object_id=self.uri_to_curie(row['o']['value']),
+                                     match_type=MatchTypeEnum.Unspecified)
+            if m is not None:
+                yield m
+        query = SparqlQuery(select=['?s', '?p'],
+                            where=[f'?s ?p {self.curie_to_sparql(curie)}',
+                                   _sparql_values('p', pred_uris)])
+        bindings = self._query(query)
+        for row in bindings:
+            m = create_sssom_mapping(subject_id=self.uri_to_curie(row['s']['value']),
+                                     predicate_id=self.uri_to_curie(row['p']['value']),
+                                     object_id=curie,
+                                     match_type=MatchTypeEnum.Unspecified)
+            if m is not None:
+                yield m
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RdfInterface
