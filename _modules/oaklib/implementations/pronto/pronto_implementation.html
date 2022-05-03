@@ -406,19 +406,17 @@
                 <span class="k">yield</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span><span class="n">subject_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
                                     <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                                     <span class="n">object_id</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-                                    <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Lexical</span><span class="p">)</span>
+                                    <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Unspecified</span><span class="p">)</span>
         <span class="c1"># TODO: use a cache to avoid re-calculating</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">():</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">curie</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">(</span><span class="n">subject_id</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
                                             <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                                             <span class="n">object_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
-                                            <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Lexical</span><span class="p">)</span>
-
-
+                                            <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Unspecified</span><span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: OboGraphInterface</span>

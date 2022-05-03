@@ -77,7 +77,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.mapping_provider_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
@@ -96,9 +97,13 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All SSSOM mappings in the ontology</span>
 
+<span class="sd">        The subject_id MUST be a CURIE in the ontology</span>
+
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting all mappings&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">():</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Getting mappings for </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">m</span></div>
 
