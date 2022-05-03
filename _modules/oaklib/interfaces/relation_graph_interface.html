@@ -129,23 +129,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="RelationGraphInterface.walk_up_relationship_graph"><a class="viewcode-back" href="../../../interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.walk_up_relationship_graph">[docs]</a>    <span class="k">def</span> <span class="nf">walk_up_relationship_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph</span>
+    <span class="k">def</span> <span class="nf">entailed_relationships_between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<span class="sd">        Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this</span>
 
-<span class="sd">        :param start_curies:</span>
-<span class="sd">        :param predicates:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">walk_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">xxxancestors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="c1"># TODO: make reflexivity a parameters</span>
-        <span class="n">ancs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">walk_up_relationship_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">start_curies</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">a</span></div>
 
 
 </pre></div>

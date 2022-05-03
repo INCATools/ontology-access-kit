@@ -101,6 +101,15 @@
 <p>In the command line interface and in Python code, <em>descriptors</em> can be used as a shorthand way to refer to either a local or remote ontology, plus
 a method for parsing/querying it. The OntologyResource that is returned can be used
 to instantiate an implementation. The descriptors can also be used in the <span class="xref std std-ref">cli</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ontologies are available in a sometimes bewildering range of formats. One thing that constantly
+trips people up is the distinction between ontology <em>language</em> and <em>serialization</em>. OWL is an ontology
+language, <em>not</em> a syntax. OWL has its own syntaxes such as Manchester, OWL-XML and Functional – additionally
+it can be <em>mapped</em> to RDF, which is its <em>own</em> datamodel/language, with its <em>own</em> serializations (Turtle,
+RDF/XML (NOT the same as OWL-XML), JSON-LD, …). Confusing, huh? We are doing our best in this library
+to simplify things for you the user, please be patient!</p>
+</div>
 <section id="syntax">
 <h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline"></a></h2>
 <p>A descriptor is EITHER:</p>
@@ -125,6 +134,8 @@ to instantiate an implementation. The descriptors can also be used in the <span 
 </ul>
 <p>Examples of explicit schemes:</p>
 <ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">sparql:tests/input/go-nucleus.owl.ttl</span></code> - local OWL file in turtle serialization</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">sparql:tests/input/go-nucleus.owl</span></code> - local OWL file (RDF/XML assumed unless explicit format option passed)</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.obo</span></code> - local obo format file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.json</span></code> - local obojson format file loaded with pronto</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">pronto:tests/input/go-nucleus.owl</span></code> - local OWL rdf/xml format file (loaded with pronto at the moment may change)</p></li>

@@ -13,6 +13,7 @@
 
    .. autosummary::
    
+      mappings_to_graph
       relationships_to_multi_digraph
       transitive_reduction
       transitive_reduction_by_predicate
