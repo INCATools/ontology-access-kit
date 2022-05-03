@@ -50,22 +50,10 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def walk_up_relationship_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
-        """
-        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
+    def entailed_relationships_between(self, subject: CURIE, object: CURIE) -> Iterable[PRED_CURIE]:
+        raise NotImplementedError
 
-        Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
 
-        :param start_curies:
-        :param predicates:
-        :return:
-        """
-        return walk_up(self, start_curies, predicates=predicates)
 
-    def xxxancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
-        # TODO: make reflexivity a parameters
-        ancs = set([x[2] for x in self.walk_up_relationship_graph(start_curies, predicates)] + [start_curies])
-        for a in ancs:
-            yield a
 
 

@@ -1,0 +1,71 @@
+[Term]
+id: X:1
+xref: Y:1
+name: x1
+
+[Term]
+id: X:2
+xref: Y:2
+name: x2
+is_a: X:1
+
+[Term]
+id: X:3
+xref: Y:3
+name: x3
+is_a: X:2
+
+[Term]
+id: X:4
+name: x4
+comment: missing a mapping to X
+is_a: X:3
+
+[Term]
+id: X:5
+name: x5
+xref: Y:5
+comment: reciprocated is missing
+is_a: X:4
+
+[Term]
+id: Y:1
+xref: X:1
+name: y1
+
+[Term]
+id: Y:1b
+is_a: Y:1
+comment: intermediate node not in X
+
+[Term]
+id: Y:2
+xref: X:2
+xref: X:1
+name: y2
+comment: has additional mapping to X
+is_a: Y:1b
+
+[Term]
+id: Y:3
+xref: X:3
+name: y3
+is_a: Y:2
+
+[Term]
+id: Y:4
+xref: X:4
+name: y4
+xref: Z:4
+comment: missing edge
+
+[Term]
+id: Y:5
+name: y5
+relationship: BFO:0000050 Y:4
+
+[Typedef]
+id: BFO:0000050
+name: part of
+
+

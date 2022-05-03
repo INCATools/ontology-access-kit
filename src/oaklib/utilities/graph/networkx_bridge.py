@@ -4,6 +4,8 @@ Utilities for working with networkx
 
 NetworkX is a popular python package for working with graphs
 """
+import sssom
+
 try:
     # Python <= 3.9
     from collections import Iterable, defaultdict
@@ -13,6 +15,13 @@ except ImportError:
 
 import networkx as nx
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
+
+def mappings_to_graph(mappings: Iterable[sssom.Mapping]) -> nx.Graph:
+    g = nx.Graph()
+    for m in mappings:
+        g.add_edge(m.subject_id, m.object_id)
+    return g
+
 
 
 def relationships_to_multi_digraph(relationships: Iterable[RELATIONSHIP], reverse: bool = True) -> nx.MultiDiGraph:

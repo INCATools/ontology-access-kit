@@ -27,6 +27,8 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         """
         All SSSOM mappings about a curie
 
+        MUST yield mappings where EITHER subject OR object equals the CURIE
+
         :param curie:
         :return:
         """

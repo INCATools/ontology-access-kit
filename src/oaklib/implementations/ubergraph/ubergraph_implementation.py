@@ -6,12 +6,14 @@ from typing import Iterable, Tuple, List, Union, Optional, Iterator
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
-from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation, _sparql_values
+from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation, _sparql_values, \
+    _as_rdf_obj
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.rdf_interface import TRIPLE
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
@@ -354,4 +356,38 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         sim.ancestor_information_content = max_ic
         return sim
 
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: RdfInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def extract_triples(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None, strategy=None,
+                        map_to_curies=True) -> Iterator[TRIPLE]:
+        seed_uris = [self.curie_to_sparql(c) for c in seed_curies]
+        # Note that some triplestores will have performance issues with this query
+        traverse_preds = [
+            'rdfs:subClassOf',
+            'owl:onProperty',
+            'owl:someValuesFrom',
+            'owl:annotatedSource',
+            'owl:equivalentClass'
+        ]
+        if predicates:
+            # note that predicates are only used in the ABox - for a RelationGraph-implementing
+            # triplestore this will also include TBox existentials
+            traverse_preds = list(set(traverse_preds + predicates))
+        query = SparqlQuery(select=['?s', '?p', '?o'],
+                            graph=[RelationGraphEnum.ontology.value],
+                            where=['?s ?p ?o .'
+                                   f'?seed ({"|".join(traverse_preds)})* ?s',
+                                   _sparql_values('seed', seed_uris)])
+        bindings = self._query(query)
+        n = 0
+        for row in bindings:
+            n += 1
+            triple = (row['s'], row['p'], row['o'])
+            if map_to_curies:
+                yield tuple([self.uri_to_curie(v['value']) for v in list(triple)])
+            else:
+                yield tuple([_as_rdf_obj(v) for v in list(triple)])
+        logging.info(f'Total triples: {n}')
 

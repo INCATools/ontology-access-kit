@@ -14,6 +14,7 @@ from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM, CELL, CELLULAR_ORGA
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
+TEST_SUBGRAPH_OUT = OUTPUT_DIR / 'vacuole.obo'
 
 
 class TestProntoImplementation(unittest.TestCase):
@@ -27,8 +28,12 @@ class TestProntoImplementation(unittest.TestCase):
         resource = OntologyResource(slug='go-nucleus.json', directory=INPUT_DIR, local=True)
         json_oi = ProntoImplementation(resource)
         oi_src = self.oi
-        #for e in json_oi.all_entity_curies():
+        curies = list(json_oi.all_entity_curies())
+        #for e in curies:
         #    print(e)
+        self.assertIn(NUCLEUS, curies)
+        #for e in oi_src.all_entity_curies():
+        #    self.assertIn(e, curies)
         #    assert e in list(oi_src.all_entity_curies())
         # TODO: pronto obo parsing excludes alt_ids
         #self.assertCountEqual(list(json_oi.all_entity_curies()), list(oi_src.all_entity_curies()))
@@ -202,6 +207,13 @@ class TestProntoImplementation(unittest.TestCase):
         g = self.oi.ancestor_graph(CYTOPLASM)
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
+
+    def test_save_extract(self):
+        g = self.oi.ancestor_graph(VACUOLE)
+        oi = ProntoImplementation()
+        oi.load_graph(g, replace=True)
+        r = OntologyResource(slug=str(TEST_SUBGRAPH_OUT), format='obo', local=True)
+        oi.store(r)
 
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])

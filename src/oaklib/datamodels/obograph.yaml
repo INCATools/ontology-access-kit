@@ -118,9 +118,18 @@ slots:
     range: scopes_enum
   isExact:
     range: boolean
+  graphs:
+    range: Graph
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
 
 
 classes:
+  GraphDocument:
+    slots:
+      - meta
+      - graphs
   Graph:
     slots:
       - id
@@ -136,7 +145,7 @@ classes:
   Node:
     slots:
       - id
-      - label
+      - lbl
       - type
       - meta
 

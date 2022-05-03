@@ -1,4 +1,5 @@
 import logging
+import tempfile
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Iterable, Iterator, Union
@@ -6,6 +7,7 @@ from typing import List, Iterable, Iterator, Union
 import pronto
 import sssom
 from deprecated import deprecated
+from linkml_runtime.dumpers import json_dumper
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, PREFIX_MAP
@@ -19,14 +21,14 @@ from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph
-from oaklib.datamodels.obograph import Edge, Graph
+from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP, SKOS_CLOSE_MATCH
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
 from sssom.sssom_datamodel import MatchTypeEnum
 
 
 @dataclass
-class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
+class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -87,6 +89,35 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
                 ontology.dump(f, format=resource.format)
         else:
             raise NotImplementedError(f'Cannot dump to {resource}')
+
+    def load_graph(self, graph: Graph, replace: True) -> None:
+        if replace:
+            ont = self.wrapped_ontology
+        else:
+            ont = Ontology()
+            self.wrapped_ontology = ont
+        for n in graph.nodes:
+            if n == IS_A:
+                pass
+            else:
+                self.create_entity(n.id, n.lbl)
+        for e in graph.edges:
+            self.add_relationship(e.sub, e.pred, e.obj)
+
+    @deprecated('Use this when we fix https://github.com/fastobo/fastobo/issues/42')
+    def load_graph_using_jsondoc(self, graph: Graph, replace: True) -> None:
+        tf = tempfile.NamedTemporaryFile()
+        tf_name = '/tmp/tf.json'
+        gd = GraphDocument(graphs=[graph])
+        json_dumper.dump(gd, to_file=tf_name)
+        tf.flush()
+        print(f'{tf_name}')
+        ont = Ontology(tf_name)
+        if replace:
+            self.wrapped_ontology = ont
+        else:
+            raise NotImplementedError
+
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
@@ -204,15 +235,14 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return rels
 
 
-
-
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
         ont = self.wrapped_ontology
         t = ont.create_term(curie)
         t.name = label
-        for pred, fillers in relationships.items():
-            for filler in fillers:
-                self.add_relationship(curie, pred, filler)
+        if relationships:
+            for pred, fillers in relationships.items():
+                for filler in fillers:
+                    self.add_relationship(curie, pred, filler)
         return curie
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
@@ -292,14 +322,23 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
         t = self._entity(curie)
-        if not t:
-            return
-            #raise ValueError(f'No such entity: {curie}')
-        for x in t.xrefs:
-            yield sssom.Mapping(subject_id=curie,
-                                predicate_id=SKOS_CLOSE_MATCH,
-                                object_id=x.id,
-                                match_type=MatchTypeEnum.Lexical)
+        if t:
+            for x in t.xrefs:
+                yield sssom.Mapping(subject_id=curie,
+                                    predicate_id=SKOS_CLOSE_MATCH,
+                                    object_id=x.id,
+                                    match_type=MatchTypeEnum.Lexical)
+        # TODO: use a cache to avoid re-calculating
+        for e in self.all_entity_curies():
+            t = self._entity(curie)
+            if t:
+                for x in t.xrefs:
+                    if x.id == curie:
+                        yield sssom.Mapping(subject_id=e,
+                                            predicate_id=SKOS_CLOSE_MATCH,
+                                            object_id=curie,
+                                            match_type=MatchTypeEnum.Lexical)
+
 
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
