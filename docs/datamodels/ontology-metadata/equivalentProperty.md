@@ -14,7 +14,7 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 
 ## Properties
 
- * Range: Thing
+ * Range: Property
 
 
 

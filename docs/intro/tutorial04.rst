@@ -18,6 +18,8 @@ To illustrate this we will first introduce the :ref:`OboGraphInterface` which us
 OboGraphs
 ---------
 
+See `OboGraph Datamodel <https://incatools.github.io/ontology-access-kit/datamodels/obograph/index.html>`_
+
 In this datamodel, an ontology is conceived of as a Graph, with a graph consisting of
 
 - nodes

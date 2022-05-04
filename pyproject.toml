@@ -9,14 +9,15 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 nxontology = "^0.4.0"
-pronto = "^2.4.4"
-SPARQLWrapper = "^2.0.0"
+pronto = "^2.4.5"
+SPARQLWrapper = "*"
 SQLAlchemy = "^1.4.32"
-linkml-runtime = "^1.2.3"
+linkml-runtime = "^1.1.9"
 networkx = "^2.7.1"
-sssom = "^0.3.7"
+sssom = "^0.3.8"
 ratelimit = "^2.2.1"
 appdirs = "^1.4.4"
+semsql = "^0.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -25,7 +26,7 @@ jupyter = "^1.0.0"
 sphinx-rtd-theme = "^1.0.0"
 sphinx-click = "^3.1.0"
 myst-parser = "^0.17.0"
-linkml = "^1.2.4"
+linkml = "^1.2.10"
 sphinxcontrib-mermaid = "^0.7.1"
 coverage = "^6.3.2"
 
@@ -35,3 +36,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 runoak = "oaklib.cli:main"
+omk = "oaklib.omk.omk_cli:main"
+
+[tool.poetry.extras]
+docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]

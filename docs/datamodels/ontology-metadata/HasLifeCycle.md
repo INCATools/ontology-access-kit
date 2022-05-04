@@ -24,8 +24,8 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 | ---  | --- | --- | --- | --- |
 | [deprecated](deprecated.md) | [boolean](boolean.md) | 0..1 | None  | . |
 | [has_obsolescence_reason](has_obsolescence_reason.md) | [string](string.md) | 0..1 | None  | . |
-| [term_replaced_by](term_replaced_by.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [consider](consider.md) | [string](string.md) | 0..* | None  | . |
+| [term_replaced_by](term_replaced_by.md) | [Any](Any.md) | 0..1 | None  | . |
+| [consider](consider.md) | [Any](Any.md) | 0..* | None  | . |
 | [has_alternative_id](has_alternative_id.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [excluded_subClassOf](excluded_subClassOf.md) | [Class](Class.md) | 0..* | None  | . |
@@ -44,6 +44,10 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 
 
+
+
+
+## Rules
 
 
 
@@ -69,6 +73,53 @@ slots:
 - excluded_subClassOf
 - excluded_synonym
 - should_conform_to
+rules:
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: 'true'
+  postconditions:
+    any_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is deprecated it should have either consider or replaced
+    by
+- preconditions:
+    none_of:
+    - slot_conditions:
+        deprecated:
+          name: deprecated
+          equals_expression: 'true'
+  postconditions:
+    none_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is not deprecated it should have neither consider nor replaced
+    by
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: 'true'
+  postconditions:
+    slot_conditions:
+      label:
+        name: label
+        pattern: '^obsolete '
+  description: if a term is deprecated its label should start with the string obsolete
 
 ```
 </details>
@@ -123,7 +174,7 @@ attributes:
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: HasLifeCycle
-    range: Thing
+    range: Any
   consider:
     name: consider
     comments:
@@ -136,7 +187,7 @@ attributes:
     multivalued: true
     alias: consider
     owner: HasLifeCycle
-    range: string
+    range: Any
   has_alternative_id:
     name: has_alternative_id
     comments:
@@ -182,6 +233,53 @@ attributes:
     alias: should_conform_to
     owner: HasLifeCycle
     range: Thing
+rules:
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: 'true'
+  postconditions:
+    any_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is deprecated it should have either consider or replaced
+    by
+- preconditions:
+    none_of:
+    - slot_conditions:
+        deprecated:
+          name: deprecated
+          equals_expression: 'true'
+  postconditions:
+    none_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is not deprecated it should have neither consider nor replaced
+    by
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: 'true'
+  postconditions:
+    slot_conditions:
+      label:
+        name: label
+        pattern: '^obsolete '
+  description: if a term is deprecated its label should start with the string obsolete
 
 ```
 </details>

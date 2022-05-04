@@ -2,17 +2,19 @@ import logging
 import unittest
 
 from oaklib.cli import search, main
+from oaklib.datamodels.vocabulary import IN_TAXON
 
-from tests import OUTPUT_DIR, INPUT_DIR
+from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA, VACUOLE, \
+    CELLULAR_COMPONENT, HUMAN, MAMMALIA, SHAPE
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
+TEST_OWL_RDF = INPUT_DIR / 'go-nucleus.owl.ttl'
+TEST_DB = INPUT_DIR / 'go-nucleus.db'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
 BAD_ONTOLOGY_DB = INPUT_DIR / 'bad-ontology.db'
-TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
-NUCLEUS = 'GO:0005634'
-ATOM = 'CHEBI:33250'
-INTERNEURON = 'CL:0000099'
+TEST_OUT = OUTPUT_DIR / 'tmp'
+
 
 class TestCommandLineInterface(unittest.TestCase):
 
@@ -32,9 +34,9 @@ class TestCommandLineInterface(unittest.TestCase):
     ## OBOGRAPH
 
     def test_obograph_local(self):
-        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', str(TEST_OWL_RDF)]:
             logging.info(f'INPUT={input_arg}')
-            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', 'nucl'])
+            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', NUCLEUS])
             out = result.stdout
             assert 'GO:0043226 ! organelle' in out
             result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', '-p', 'i', 'plasma membrane'])
@@ -47,6 +49,45 @@ class TestCommandLineInterface(unittest.TestCase):
             #assert 'GO:0016020 ! membrane' not in out
             assert 'GO:0043226 ! organelle' not in out
 
+    def test_gap_fill(self):
+        result = self.runner.invoke(main, ['-i', str(TEST_DB), 'viz', '--gap-fill',
+                                           '-p', f'i,p,{IN_TAXON}',
+                                           NUCLEUS, VACUOLE, CELLULAR_COMPONENT,
+                                           '-O', 'json', '-o', str(TEST_OUT)])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        with open(TEST_OUT) as file:
+            contents = "\n".join(file.readlines())
+            self.assertIn(NUCLEUS, contents)
+            self.assertIn(VACUOLE, contents)
+            self.assertIn(CELLULAR_COMPONENT, contents)
+            # TODO: parse json to check it conforms
+            #g = json_loader.loads(contents, target_class=obograph.Graph)
+
+
+
+    ## MAPPINGS
+
+    def test_mappings_local(self):
+        result = self.runner.invoke(main, ['-i', str(TEST_ONT), 'term-mappings', 'GO:0016740'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        #self.assertIn('EC:2', out)
+
+    ## TAXON
+
+    def test_taxon_constraints_local(self):
+        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
+            result = self.runner.invoke(main, ['-i', str(input_arg), 'taxon-constraints', NUCLEUS, '-o', str(TEST_OUT)])
+            out = result.stdout
+            err = result.stderr
+            self.assertEqual(0, result.exit_code)
+            with open(TEST_OUT) as file:
+                contents = "\n".join(file.readlines())
+                self.assertIn('Eukaryota', contents)
+
     ## SEARCH
 
     def test_search_help(self):
@@ -56,9 +97,9 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(0, result.exit_code)
 
     def test_search_local(self):
-        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}']:
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
             logging.info(f'INPUT={input_arg}')
-            result = self.runner.invoke(main, ['-i', input_arg, 'search', 'nucl'])
+            result = self.runner.invoke(main, ['-i', input_arg, 'search', 'l~nucl'])
             out = result.stdout
             err = result.stderr
             if result.exit_code != 0:
@@ -73,11 +114,26 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual("", err)
 
     def test_search_pronto_obolibrary(self):
+        result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 't~shape'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        self.assertIn(SHAPE, out)
+        self.assertIn('PATO:0002021', out)   # conical - matches a synonym
+        self.assertEqual("", err)
+        result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 'l=shape'])
+        out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        self.assertIn(SHAPE, out)
+        self.assertNotIn('PATO:0002021', out)   # conical - matches a synonym
+        self.assertEqual("", err)
         result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 'shape'])
         out = result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
-        self.assertIn('PATO:0002021', out)
+        self.assertIn(SHAPE, out)
+        self.assertNotIn('PATO:0002021', out)   # conical - matches a synonym
         self.assertEqual("", err)
 
     ## VALIDATE
@@ -115,7 +171,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_lexmatch_owl(self):
         outfile = f'{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv'
-        result = self.runner.invoke(main, ['-i', f'{INPUT_DIR}/matcher-test.owl', 'lexmatch', '-R', f'{INPUT_DIR}/matcher_rules.yaml',
+        result = self.runner.invoke(main, ['-i', f'pronto:{INPUT_DIR}/matcher-test.owl', 'lexmatch',
+                                           '-R', f'{INPUT_DIR}/matcher_rules.yaml',
                                            '-o', outfile])
         out = result.stdout
         err = result.stderr

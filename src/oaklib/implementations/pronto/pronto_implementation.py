@@ -1,31 +1,34 @@
 import logging
-from abc import ABC
+import tempfile
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Type, Iterator, Union
+from typing import List, Iterable, Iterator, Union
 
 import pronto
 import sssom
 from deprecated import deprecated
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
+from linkml_runtime.dumpers import json_dumper
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph
-from oaklib.datamodels.obograph import Edge, Graph
+from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP, SKOS_CLOSE_MATCH
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
 from sssom.sssom_datamodel import MatchTypeEnum
 
 
 @dataclass
-class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
+class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -86,6 +89,35 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
                 ontology.dump(f, format=resource.format)
         else:
             raise NotImplementedError(f'Cannot dump to {resource}')
+
+    def load_graph(self, graph: Graph, replace: True) -> None:
+        if replace:
+            ont = self.wrapped_ontology
+        else:
+            ont = Ontology()
+            self.wrapped_ontology = ont
+        for n in graph.nodes:
+            if n == IS_A:
+                pass
+            else:
+                self.create_entity(n.id, n.lbl)
+        for e in graph.edges:
+            self.add_relationship(e.sub, e.pred, e.obj)
+
+    @deprecated('Use this when we fix https://github.com/fastobo/fastobo/issues/42')
+    def load_graph_using_jsondoc(self, graph: Graph, replace: True) -> None:
+        tf = tempfile.NamedTemporaryFile()
+        tf_name = '/tmp/tf.json'
+        gd = GraphDocument(graphs=[graph])
+        json_dumper.dump(gd, to_file=tf_name)
+        tf.flush()
+        print(f'{tf_name}')
+        ont = Ontology(tf_name)
+        if replace:
+            self.wrapped_ontology = ont
+        else:
+            raise NotImplementedError
+
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
@@ -203,15 +235,14 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return rels
 
 
-
-
     def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
         ont = self.wrapped_ontology
         t = ont.create_term(curie)
         t.name = label
-        for pred, fillers in relationships.items():
-            for filler in fillers:
-                self.add_relationship(curie, pred, filler)
+        if relationships:
+            for pred, fillers in relationships.items():
+                for filler in fillers:
+                    self.add_relationship(curie, pred, filler)
         return curie
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
@@ -244,8 +275,10 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
         return m
 
     def get_simple_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        t = self._entity(curie)
         m = defaultdict(list)
+        t = self._entity(curie)
+        if t is None:
+            return m
         for s in t.xrefs:
             m[HAS_DBXREF].append(s.id)
         for s in t.annotations:
@@ -289,12 +322,22 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
         t = self._entity(curie)
-        for x in t.xrefs:
-            yield sssom.Mapping(subject_id=curie,
-                                predicate_id=SKOS_CLOSE_MATCH,
-                                object_id=x.id,
-                                match_type=MatchTypeEnum.Lexical)
-
+        if t:
+            for x in t.xrefs:
+                yield sssom.Mapping(subject_id=curie,
+                                    predicate_id=SKOS_CLOSE_MATCH,
+                                    object_id=x.id,
+                                    match_type=MatchTypeEnum.Unspecified)
+        # TODO: use a cache to avoid re-calculating
+        for e in self.all_entity_curies():
+            t = self._entity(e)
+            if t:
+                for x in t.xrefs:
+                    if x.id == curie:
+                        yield sssom.Mapping(subject_id=e,
+                                            predicate_id=SKOS_CLOSE_MATCH,
+                                            object_id=curie,
+                                            match_type=MatchTypeEnum.Unspecified)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
@@ -321,7 +364,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
             #                                                       scope=s.scope.lower(),
             #                                                      xrefs=[x.id for x in s.xrefs]))
             return obograph.Node(id=t_id,
-                                 label=t.name,
+                                 lbl=t.name,
                                  meta=meta)
 
     def as_obograph(self) -> Graph:
@@ -333,16 +376,29 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, RelationGraphInterf
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
+    def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
+        if config == None:
+            config = SearchConfiguration()
         matches = []
+        mfunc = None
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            mfunc = lambda label: str(label).startswith(search_term)
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            import re
+            prog = re.compile(search_term)
+            mfunc = lambda label: prog.match(label)
+        elif config.is_partial:
+            mfunc = lambda label: search_term in str(label)
+        else:
+            mfunc = lambda label: label == search_term
         for t in self.wrapped_ontology.terms():
-            if t.name and search_term in t.name:
+            if t.name and mfunc(t.name):
                 matches.append(t.id)
                 logging.info(f'Name match to {t.id}')
                 continue
-            if config.include_aliases:
+            if SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in t.synonyms:
-                    if search_term in syn.description:
+                    if mfunc(syn.description):
                         logging.info(f'Syn match to {t.id}')
                         matches.append(t.id)
                         continue

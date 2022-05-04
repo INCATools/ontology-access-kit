@@ -1,5 +1,6 @@
+from copy import deepcopy
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from oaklib.types import URI
 
@@ -14,8 +15,18 @@ class SparqlQuery:
     """
     distinct: bool = None
     select: List[VAR_NAME] = None
-    graph: Optional[URI] = None
+    graph: Optional[Union[URI, List[URI]]] = None
     where: List[WHERE_CLAUSE] = None
+    limit: int = None
+
+    def add_not_in(self, subquery: "SparqlQuery"):
+        self.where.append(f'FILTER NOT EXISTS {{ {subquery.where_str()} }}')
+
+    def add_filter(self, cond: str):
+        self.where.append(f'FILTER ( {cond} )')
+
+    def add_values(self, var: str, vals: List[str]):
+        self.where.append(f'VALUES ?{var} {{ {" ".join(vals)} }}')
 
     def select_str(self):
         distinct = 'DISTINCT ' if self.distinct else ''
@@ -31,5 +42,15 @@ class SparqlQuery:
         """
         w = self.where_str()
         if self.graph:
-            w = f'GRAPH <{self.graph}> {{ {w} }}'
-        return f'SELECT {self.select_str()} WHERE {{ {w} }}'
+            if isinstance(self.graph, list):
+                # clone to avoid mutation
+                q = deepcopy(self)
+                q.add_values('g', [f'<{g}>' for g in self.graph])
+                w = q.where_str()
+                w = f'GRAPH ?g {{ {w} }}'
+            else:
+                w = f'GRAPH <{self.graph}> {{ {w} }}'
+        q = f'SELECT {self.select_str()} WHERE {{ {w} }}'
+        if self.limit is not None:
+            q += f' LIMIT {self.limit}'
+        return q

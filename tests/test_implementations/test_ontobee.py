@@ -1,22 +1,27 @@
 import logging
 import unittest
 
+from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.resource import OntologyResource
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CELLULAR_COMPONENT
+from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CELLULAR_COMPONENT, SHAPE
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 
-#@unittest.skip('Endpoint may not be up')
 class TestOntobeeImplementation(unittest.TestCase):
 
     def setUp(self) -> None:
-        oi = OntobeeImplementation()
+        oi = OntobeeImplementation(OntologyResource())
         self.oi = oi
+        cl_graph_oi = OntobeeImplementation(OntologyResource('cl'))
+        self.cl_graph_oi = cl_graph_oi
+        pato_graph_oi = OntobeeImplementation(OntologyResource('pato'))
+        self.pato_graph_oi = pato_graph_oi
 
     def test_relationships(self):
         ont = self.oi
@@ -36,6 +41,15 @@ class TestOntobeeImplementation(unittest.TestCase):
         logging.info(label)
         self.assertEqual(label, 'digit')
 
+    def test_subontology(self):
+        oi = self.pato_graph_oi
+        self.assertIsNotNone(oi.named_graph)
+        label = oi.get_label_by_curie(DIGIT)
+        self.assertIsNone(label)
+        #logging.info(label)
+        #self.assertEqual(label, 'digit')
+        self.assertEqual('shape', oi.get_label_by_curie(SHAPE))
+
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         logging.info(syns)
@@ -46,9 +60,39 @@ class TestOntobeeImplementation(unittest.TestCase):
         logging.info(defn)
         assert defn
 
-    #@unittest.skip('Too slow')
-    def test_search(self):
-        config = SearchConfiguration(complete=True).use_label_only()
+    def test_search_exact(self):
+        config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search('limb', config=config))
-        print(curies)
+        #print(curies)
         assert 'UBERON:0002101' in curies
+        config = SearchConfiguration(is_partial=False, properties=[SearchProperty.LABEL])
+        curies = list(self.oi.basic_search('limb', config=config))
+        #print(curies)
+        assert 'UBERON:0002101' in curies
+        config = SearchConfiguration(is_partial=False, properties=[SearchProperty.ALIAS])
+        curies = list(self.oi.basic_search('limb', config=config))
+        #print(curies)
+        assert 'UBERON:0002101' in curies
+        assert len(curies) > 1
+
+    def test_search_partial(self):
+        config = SearchConfiguration(is_partial=True)
+        # non-exact matches across all ontobee are slow: restrict to pato
+        curies = list(self.pato_graph_oi.basic_search('diameter', config=config))
+        #print(curies)
+        self.assertGreater(len(curies), 1)
+        assert 'PATO:0001334' in curies
+
+    def test_search_starts_with(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
+        curies = list(self.pato_graph_oi.basic_search('diamet', config=config))
+        #print(curies)
+        #self.assertGreater(len(curie), 1)
+        assert 'PATO:0001334' in curies
+
+    def test_search_regex(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        curies = list(self.pato_graph_oi.basic_search('ed diameter$', config=config))
+        print(curies)
+        #self.assertGreater(len(curie), 1)
+        assert 'PATO:0001714' in curies

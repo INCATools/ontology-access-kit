@@ -1,17 +1,18 @@
 import logging
 import unittest
 
-import yaml
 from linkml_runtime.dumpers import yaml_dumper
+from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.interfaces.search_interface import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE
 
-from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM
+from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, HUMAN, CHEBI_NUCLEUS, \
+    NUCLEAR_ENVELOPE
 
 DB = INPUT_DIR / 'go-nucleus.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
@@ -56,11 +57,33 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         print(syns)
         assert 'cellular component' in syns
 
+    def test_mappings(self):
+        mappings = list(self.oi.get_sssom_mappings_by_curie(NUCLEUS))
+        #for m in mappings:
+        #    print(yaml_dumper.dumps(m))
+        assert any(m for m in mappings if m.object_id == 'Wikipedia:Cell_nucleus')
+        self.assertEqual(len(mappings), 2)
+        for m in mappings:
+            reverse_mappings = list(self.oi.get_sssom_mappings_by_curie(m.object_id))
+            reverse_subject_ids = [m.subject_id for m in reverse_mappings]
+            self.assertEqual(reverse_subject_ids, [NUCLEUS])
+
+    def test_relation_graph(self):
+        oi = self.oi
+        self.assertEqual(['RO:0002131', 'RO:0002323', 'BFO:0000051', 'rdfs:subClassOf', 'BFO:0000050'],
+                         list(oi.entailed_relationships_between(VACUOLE, CELLULAR_COMPONENT)))
+        self.assertEqual([IS_A],
+                         list(oi.entailed_relationships_between(VACUOLE, VACUOLE)))
+        self.assertEqual([],
+                         list(oi.entailed_relationships_between(VACUOLE, NUCLEUS)))
+        self.assertEqual(['RO:0002323', 'RO:0002131', 'BFO:0000050'],
+                         list(oi.entailed_relationships_between(NUCLEAR_ENVELOPE, NUCLEUS)))
+
     # OboGraphs tests
     def test_obograph_node(self):
         n = self.oi.node(CELLULAR_COMPONENT)
         assert n.id == CELLULAR_COMPONENT
-        assert n.label == 'cellular_component'
+        assert n.lbl == 'cellular_component'
         assert n.meta.definition.val.startswith('A location, ')
 
     def test_obograph(self):
@@ -170,10 +193,50 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert 'CHEBI:36357' in missing
         assert CELLULAR_COMPONENT not in missing
 
-    def test_search(self):
+    def test_search_aliases(self):
+        config = SearchConfiguration(properties=[SearchProperty.ALIAS])
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, ['GO:0003824'])
+        config = SearchConfiguration()
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, [])
+
+    def test_search_exact(self):
+        config = SearchConfiguration(is_partial=False)
+        curies = list(self.oi.basic_search("cytoplasm", config=config))
+        #print(curies)
+        self.assertCountEqual([CYTOPLASM], curies)
+
+    def test_search_partial(self):
+        config = SearchConfiguration(is_partial=True)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_search_sql(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.SQL)
+        curies = list(self.oi.basic_search("%nucl%s", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertCountEqual([NUCLEUS, CHEBI_NUCLEUS], curies)
+
+    def test_search_starts_with(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
+        curies = list(self.oi.basic_search("nucl", config=config))
+        #print(curies)
+        assert NUCLEUS in curies
+        self.assertGreater(len(curies), 5)
+
+    def test_gap_fill(self):
         oi = self.oi
-        for curie in oi.basic_search('intracellular'):
-            print(curie)
-        self.assertIn('GO:0005622', oi.basic_search('intracellular'))
-        self.assertEqual(list(oi.basic_search('protoplasm')), ['GO:0005622'])
-        self.assertEqual(list(oi.basic_search('protoplasm', SearchConfiguration(include_aliases=False))), [])
+        rels = list(oi.gap_fill_relationships([NUCLEUS, VACUOLE, CELLULAR_COMPONENT, HUMAN],
+                                              predicates=[IS_A, PART_OF]))
+        #for rel in rels:
+        #    print(rel)
+        self.assertEqual(len(rels), 4)
+        self.assertCountEqual(rels,
+                              [('GO:0005773', 'rdfs:subClassOf', 'GO:0005575'),
+                               ('GO:0005634', 'rdfs:subClassOf', 'GO:0005575'),
+                               ('GO:0005773', 'BFO:0000050', 'GO:0005575'),
+                               ('GO:0005634', 'BFO:0000050', 'GO:0005575')])

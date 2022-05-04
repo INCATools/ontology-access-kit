@@ -53,7 +53,7 @@ slots:
     range: string
   val:
     range: string
-  label:
+  lbl:
     range: string
   type:
     # TODO: rdf:type not working - import problem?
@@ -77,8 +77,6 @@ slots:
     range: string
   xrefs:
     multivalued: true
-    range: string
-  lbl:
     range: string
   nodes:
     multivalued: true
@@ -120,9 +118,18 @@ slots:
     range: scopes_enum
   isExact:
     range: boolean
+  graphs:
+    range: Graph
+    inlined: true
+    inlined_as_list: true
+    multivalued: true
 
 
 classes:
+  GraphDocument:
+    slots:
+      - meta
+      - graphs
   Graph:
     slots:
       - id
@@ -138,7 +145,7 @@ classes:
   Node:
     slots:
       - id
-      - label
+      - lbl
       - type
       - meta
 

@@ -1,4 +1,6 @@
 # Class: Ontology
+_An OWL ontology_
+
 
 
 
@@ -21,6 +23,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
+| [title](title.md) | [narrative_text](narrative_text.md) | 1..1 | None  | . |
 | [has_ontology_root_term](has_ontology_root_term.md) | [Class](Class.md) | 0..* | None  | . |
 | [license](license.md) | [Thing](Thing.md) | 1..1 | None  | . |
 | [source](source.md) | [string](string.md) | 0..* | None  | . |
@@ -28,8 +31,10 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [versionInfo](versionInfo.md) | [string](string.md) | 1..1 | None  | . |
 | [comment](comment.md) | [string](string.md) | 0..* | None  | . |
 | [creator](creator.md) | [string](string.md) | 0..* | None  | . |
+| [created](created.md) | [string](string.md) | 0..1 | when the term came into being  | . |
 | [imports](imports.md) | [string](string.md) | 0..1 | None  | . |
 | [id](id.md) | [uriorcurie](uriorcurie.md) | 1..1 | this maps to the URI in RDF  | . |
+| [type](type.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
 
 
 ## Usages
@@ -68,9 +73,11 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 <details>
 ```yaml
 name: Ontology
+description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: NamedObject
 slots:
+- title
 - has_ontology_root_term
 - license
 - source
@@ -78,6 +85,7 @@ slots:
 - versionInfo
 - comment
 - creator
+- created
 - imports
 slot_usage:
   title:
@@ -102,6 +110,7 @@ class_uri: owl:Ontology
 <details>
 ```yaml
 name: Ontology
+description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: NamedObject
 slot_usage:
@@ -118,6 +127,14 @@ slot_usage:
     name: versionInfo
     required: true
 attributes:
+  title:
+    name: title
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: dcterms:title
+    alias: title
+    owner: Ontology
+    range: narrative text
+    required: true
   has_ontology_root_term:
     name: has_ontology_root_term
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -179,11 +196,25 @@ attributes:
     range: string
   creator:
     name: creator
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
     alias: creator
+    owner: Ontology
+    range: string
+  created:
+    name: created
+    close_mappings:
+    - pav:createdOn
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
     owner: Ontology
     range: string
   imports:
@@ -203,6 +234,16 @@ attributes:
     owner: Ontology
     range: uriorcurie
     required: true
+  type:
+    name: type
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdf:type
+    multivalued: true
+    designates_type: true
+    alias: type
+    owner: Ontology
+    range: uriorcurie
 class_uri: owl:Ontology
 
 ```

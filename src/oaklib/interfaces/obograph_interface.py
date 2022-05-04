@@ -190,6 +190,33 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         g = self._merge_graphs([up_graph, down_graph])
         return g
 
+    def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:
+        """
+        Generates an OboGraph from a list of relationships
+
+        :param relationships:
+        :return:
+        """
+        relationships = list(relationships)
+        node_ids = set()
+        for rel in relationships:
+            node_ids.update(list(rel))
+        edges = [Edge(sub=s, pred=p, obj=o) for s, p, o in relationships]
+        nodes = [self.node(id) for id in node_ids]
+        return Graph(id='query',
+                     nodes=list(nodes), edges=edges)
+
+    def walk_up_relationship_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
+        """
+        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
+
+        Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
+
+        :param start_curies:
+        :param predicates:
+        :return:
+        """
+        return walk_up(self, start_curies, predicates=predicates)
 
     def as_obograph(self) -> Graph:
         """
@@ -199,6 +226,16 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
            some remote resources may choose to throw a NotImplementedError if it is impractical
            to download the entire ontology as a graph
+        :return:
+        """
+        raise NotImplementedError
+
+    def load_graph(self, graph: Graph, replace: True) -> None:
+        """
+        Loads a graph into the repository
+
+        :param graph:
+        :param replace:
         :return:
         """
         raise NotImplementedError

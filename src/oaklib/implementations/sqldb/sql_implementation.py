@@ -2,29 +2,39 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple
+from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
+import sssom
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
+from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface, SearchConfiguration
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.validation_datamodel as vdm
-from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET
-from sqlalchemy import select, text, exists
+from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
+    ALL_MATCH_PREDICATES
+from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
+from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
 
 
 # TODO: move to schemaview
+from sssom.sssom_datamodel import MatchTypeEnum
+
+
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
     t = sv.get_type(rng)
     if t.uri:
@@ -37,7 +47,8 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 
 @dataclass
-class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface, ABC):
+class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface,
+                        SubsetterInterface, MappingProviderInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -131,15 +142,20 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             yield self._get_subset_curie(row.subject)
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
-        search_term = f'%{search_term}%'
         preds = []
-        if config.include_label:
-            preds.append(omd_slots.label.curie)
-        if config.include_aliases:
+        preds.append(omd_slots.label.curie)
+        if SearchProperty(SearchProperty.ALIAS) in config.properties:
             preds += SYNONYM_PREDICATES
         view = Statements
-        q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds))).filter(
-            view.value.like(search_term))
+        q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds)))
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            q = q.filter(view.value.like(f'{search_term}%'))
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.SQL):
+            q = q.filter(view.value.like(search_term))
+        elif config.is_partial:
+            q = q.filter(view.value.like(f'%{search_term}%'))
+        else:
+            q = q.filter(view.value == search_term)
         for row in q.distinct():
             yield str(row.subject)
 
@@ -177,7 +193,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 continue
             pred = row.predicate
             if pred == omd_slots.label.curie:
-                n.label = v
+                n.lbl = v
             else:
                 if pred == omd_slots.definition.curie:
                     meta.definition = obograph.DefinitionPropertyValue(val=v)
@@ -207,6 +223,56 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         for row in q:
             yield row.subject
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: RelationGraphInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def entailed_relationships_between(self, subject: CURIE, object: CURIE) -> Iterable[PRED_CURIE]:
+        preds = []
+        for row in self.session.query(EntailedEdge.predicate).filter(EntailedEdge.subject==subject).filter(EntailedEdge.object==object):
+            p = row.predicate
+            if p not in preds:
+                yield p
+            preds.append(p)
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: MappingsInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def all_sssom_mappings(self) -> Iterable[sssom.Mapping]:
+        predicates = tuple(ALL_MATCH_PREDICATES)
+        base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
+        for row in base_query:
+            v = row.value if row.value is not None else row.object
+            if URIorCURIE.is_valid(v):
+                yield sssom.Mapping(subject_id=row.subject,
+                                    object_id=v,
+                                    predicate_id=row.predicate,
+                                    match_type=MatchTypeEnum.Unspecified)
+            else:
+                if self.strict:
+                    raise ValueError(f'not a CURIE: {V}')
+
+    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+        predicates = tuple(ALL_MATCH_PREDICATES)
+        base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
+        for row in base_query.filter(Statements.subject == curie):
+            yield sssom.Mapping(subject_id=curie,
+                                object_id=row.value if row.value is not None else row.object,
+                                predicate_id=row.predicate,
+                                match_type=MatchTypeEnum.Unspecified)
+        # xrefs are stored as literals
+        for row in base_query.filter(Statements.value == curie):
+            yield sssom.Mapping(subject_id=row.subject,
+                                object_id=curie,
+                                predicate_id=row.predicate,
+                                match_type=MatchTypeEnum.Unspecified)
+        # skos mappings are stored as objects
+        for row in base_query.filter(Statements.object == curie):
+            yield sssom.Mapping(subject_id=row.subject,
+                                object_id=curie,
+                                predicate_id=row.predicate,
+                                match_type=MatchTypeEnum.Unspecified)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface
@@ -380,5 +446,15 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                                                       )
                         yield result
 
-
-
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
+        seed_curies = tuple(seed_curies)
+        q = self.session.query(EntailedEdge).filter(EntailedEdge.subject.in_(seed_curies))
+        q = q.filter(EntailedEdge.object.in_(seed_curies))
+        if predicates:
+            q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        rels = []
+        for row in q:
+            if row.subject != row.object:
+                rels.append((row.subject, row.predicate, row.object))
+        for rel in transitive_reduction_by_predicate(rels):
+            yield rel

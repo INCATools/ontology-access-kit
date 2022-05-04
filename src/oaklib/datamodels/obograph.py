@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-31T11:02:39
+# Generation date: 2022-05-02T15:30:42
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -51,6 +51,27 @@ class GraphId(extended_str):
 
 class NodeId(extended_str):
     pass
+
+
+@dataclass
+class GraphDocument(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OG.GraphDocument
+    class_class_curie: ClassVar[str] = "og:GraphDocument"
+    class_name: ClassVar[str] = "GraphDocument"
+    class_model_uri: ClassVar[URIRef] = OG.GraphDocument
+
+    meta: Optional[Union[dict, "Meta"]] = None
+    graphs: Optional[Union[Dict[Union[str, GraphId], Union[dict, "Graph"]], List[Union[dict, "Graph"]]]] = empty_dict()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.meta is not None and not isinstance(self.meta, Meta):
+            self.meta = Meta(**as_dict(self.meta))
+
+        self._normalize_inlined_as_list(slot_name="graphs", slot_type=Graph, key_name="id", keyed=True)
+
+        super().__post_init__(**kwargs)
 
 
 @dataclass
@@ -119,7 +140,7 @@ class Node(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = OG.Node
 
     id: Union[str, NodeId] = None
-    label: Optional[str] = None
+    lbl: Optional[str] = None
     type: Optional[str] = None
     meta: Optional[Union[dict, "Meta"]] = None
 
@@ -129,8 +150,8 @@ class Node(YAMLRoot):
         if not isinstance(self.id, NodeId):
             self.id = NodeId(self.id)
 
-        if self.label is not None and not isinstance(self.label, str):
-            self.label = str(self.label)
+        if self.lbl is not None and not isinstance(self.lbl, str):
+            self.lbl = str(self.lbl)
 
         if self.type is not None and not isinstance(self.type, str):
             self.type = str(self.type)
@@ -434,8 +455,8 @@ slots.obj = Slot(uri=OG.obj, name="obj", curie=OG.curie('obj'),
 slots.val = Slot(uri=OG.val, name="val", curie=OG.curie('val'),
                    model_uri=OG.val, domain=None, range=Optional[str])
 
-slots.label = Slot(uri=OG.label, name="label", curie=OG.curie('label'),
-                   model_uri=OG.label, domain=None, range=Optional[str])
+slots.lbl = Slot(uri=OG.lbl, name="lbl", curie=OG.curie('lbl'),
+                   model_uri=OG.lbl, domain=None, range=Optional[str])
 
 slots.type = Slot(uri=OG.type, name="type", curie=OG.curie('type'),
                    model_uri=OG.type, domain=None, range=Optional[str])
@@ -463,9 +484,6 @@ slots.subsets = Slot(uri=OG.subsets, name="subsets", curie=OG.curie('subsets'),
 
 slots.xrefs = Slot(uri=OG.xrefs, name="xrefs", curie=OG.curie('xrefs'),
                    model_uri=OG.xrefs, domain=None, range=Optional[Union[str, List[str]]])
-
-slots.lbl = Slot(uri=OG.lbl, name="lbl", curie=OG.curie('lbl'),
-                   model_uri=OG.lbl, domain=None, range=Optional[str])
 
 slots.nodes = Slot(uri=OG.nodes, name="nodes", curie=OG.curie('nodes'),
                    model_uri=OG.nodes, domain=None, range=Optional[Union[Dict[Union[str, NodeId], Union[dict, Node]], List[Union[dict, Node]]]])
@@ -508,3 +526,6 @@ slots.scope = Slot(uri=OG.scope, name="scope", curie=OG.curie('scope'),
 
 slots.isExact = Slot(uri=OG.isExact, name="isExact", curie=OG.curie('isExact'),
                    model_uri=OG.isExact, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.graphs = Slot(uri=OG.graphs, name="graphs", curie=OG.curie('graphs'),
+                   model_uri=OG.graphs, domain=None, range=Optional[Union[Dict[Union[str, GraphId], Union[dict, Graph]], List[Union[dict, Graph]]]])

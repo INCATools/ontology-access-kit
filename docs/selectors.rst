@@ -7,6 +7,15 @@ In the command line interface and in Python code, *descriptors* can be used as a
 a method for parsing/querying it. The OntologyResource that is returned can be used
 to instantiate an implementation. The descriptors can also be used in the :ref:`cli`
 
+.. note::
+
+    Ontologies are available in a sometimes bewildering range of formats. One thing that constantly
+    trips people up is the distinction between ontology *language* and *serialization*. OWL is an ontology
+    language, *not* a syntax. OWL has its own syntaxes such as Manchester, OWL-XML and Functional -- additionally
+    it can be *mapped* to RDF, which is its *own* datamodel/language, with its *own* serializations (Turtle,
+    RDF/XML (NOT the same as OWL-XML), JSON-LD, ...). Confusing, huh? We are doing our best in this library
+    to simplify things for you the user, please be patient!
+
 Syntax
 -----
 
@@ -22,13 +31,16 @@ Examples of scheme-less descriptors, implicit implementation:
 
 - :code:`tests/input/go-nucleus.obo` - local obo format file loaded with pronto
 - :code:`tests/input/go-nucleus.json` - local obojson format file loaded with pronto
-- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with pronto at the moment may change)
+- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with rdflib at the moment may change)
+- :code:`tests/input/go-nucleus.owl.ttl` - local OWL turtle format file (loaded with rdflib at the moment may change)
 - :code:`tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`http://purl.obolibrary.org/obo/pato.obo` - NOT IMPLEMENTED; download locally for now
 - :code:`http://purl.obolibrary.org/obo/pato.owl` - NOT IMPLEMENTED; download locally for now
 
 Examples of explicit schemes:
 
+- :code:`sparql:tests/input/go-nucleus.owl.ttl` - local OWL file in turtle serialization
+- :code:`sparql:tests/input/go-nucleus.owl` - local OWL file (RDF/XML assumed unless explicit format option passed)
 - :code:`pronto:tests/input/go-nucleus.obo` - local obo format file loaded with pronto
 - :code:`pronto:tests/input/go-nucleus.json` - local obojson format file loaded with pronto
 - :code:`pronto:tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with pronto at the moment may change)

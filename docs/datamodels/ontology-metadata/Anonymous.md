@@ -1,4 +1,6 @@
 # Class: Anonymous
+_Abstract root class for all anonymous (non-named; lacking an identifier) expressions_
+
 
 
 * __NOTE__: this is an abstract class and should not be instantiated directly
@@ -47,6 +49,8 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 <details>
 ```yaml
 name: Anonymous
+description: Abstract root class for all anonymous (non-named; lacking an identifier)
+  expressions
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 abstract: true
 
@@ -58,6 +62,8 @@ abstract: true
 <details>
 ```yaml
 name: Anonymous
+description: Abstract root class for all anonymous (non-named; lacking an identifier)
+  expressions
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 abstract: true
 

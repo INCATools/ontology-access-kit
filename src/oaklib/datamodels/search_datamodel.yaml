@@ -1,0 +1,171 @@
+id: https://w3id.org/linkml/search_datamodel
+title: search datamodel
+name: search-datamodel
+description: >-
+  A datamodel for representing a search configuration and results. This is intended to provide a unified layer over
+  both (a) how searches are *parameterized* (b) the structure of search *results*. The scope is any kind of service
+  that provides search over *named entities*, including ontology concepts. It is not intended to cover generic
+  search results, e.g. google search, although parts could be generalized for this purpose.
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  search: https://w3id.org/linkml/search_datamodel/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+
+default_prefix: search
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+types:
+  SearchTerm:
+    typeof: string
+
+classes:
+  SearchBaseConfiguration:
+    description: A user-specified configuration that determines how a particular search operation works
+    attributes:
+      search_terms:
+        range: SearchTerm
+        multivalued: true
+        description: >-
+          An individual search term. The syntax is determined by the syntax slot
+        comments:
+          - This slot is optional when the configuration is used to paramterize multiple searches
+          - If multiple terms are provided this is treated as a union query
+      syntax:
+        range: SearchTermSyntax
+        description: Determines how the search term is interpreted
+      properties:
+        range: SearchProperty
+        multivalued: true
+        description: >-
+          determines which properties are searched over
+      limit:
+        range: integer
+        description: >-
+          the maximum number of search results to be returned in one batch
+      cursor:
+        range: integer
+        description: >-
+          when the number of search results exceed the limit this can be used to iterate through results
+      is_regular_expression:
+        range: boolean
+        deprecated: use the syntax slot
+      is_partial:
+        range: boolean
+        deprecated: use is_complete
+      is_complete:
+        range: boolean
+        description: restricts search results to matches of the full span of the string
+      include_id:
+        range: boolean
+        deprecated: use properties to explicitly list properties
+      include_label:
+        range: boolean
+        deprecated: use properties to explicitly list properties
+      include_aliases:
+        range: boolean
+        deprecated: use properties to explicitly list properties
+      include_definition:
+        range: boolean
+        deprecated: use properties to explicitly list properties
+      include_obsoletes_in_results:
+        range: boolean
+        deprecated: use properties to explicitly list properties
+      categories:
+        multivalued: true
+
+  SearchResult:
+    description: An individual search result
+    attributes:
+      rank:
+        range: integer
+        description: For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant
+      object_id:
+        slot_uri: sssom:object_id
+        description: The CURIE of the matched term
+        required: true
+      object_label:
+        slot_uri: sssom:object_label
+        description: The label/name of the matched term
+        recommended: true
+      object_source:
+        slot_uri: sssom:object_source
+        description: The ontology or other source that contains the matched term
+      object_source_version:
+        slot_uri: sssom:object_source_version
+        description: Version IRI or version string of the source of the object term.
+      object_match_field:
+        slot_uri: sssom:object_match_field
+        description: The field/property in which the match was found
+      matches_full_search_term:
+        range: boolean
+        description: Does the matched field match the full string
+      snippet:
+        description: shows how the field was matched
+
+  SearchResultSet:
+    attributes:
+      configuration:
+        range: SearchBaseConfiguration
+      results:
+        range: SearchResult
+        multivalued: true
+      result_count:
+        range: integer
+      cursor:
+        range: integer
+
+enums:
+  SearchTermSyntax:
+    permissible_values:
+      PLAINTEXT:
+        description: The search term is plain text with no special syntax
+      REGULAR_EXPRESSION:
+        description: The search term is a regular expression, ECMAscript style assumed
+      SQL:
+        description: The search term is SQL LIKE syntax, with percent symbols acting as wildcards
+      LUCENE:
+        description: The search term is in Lucene/Solr syntax
+      STARTS_WITH:
+        description: The search term is plain text but the matched field must start with the search term
+  SearchProperty:
+    description: A property that can be searched on
+    permissible_values:
+      IDENTIFIER:
+        meaning: schema:identifier
+        description: The identifier or URI of the entity
+      LABEL:
+        meaning: rdfs:label
+        description: The preferred label / human readable name of the entity
+      ALIAS:
+        meaning: skos:altLabel
+        description: An alias or synonym of the entity
+      COMMENT:
+        meaning: rdfs:comment
+        description: A comment on the entity
+      DEFINITION:
+        meaning: skos:definition
+        description: The definition of the entity
+      INFORMATIVE_TEXT:
+        description: Any informative text attached to the entity including comments, definitions, descriptions, examples
+      ANYTHING:
+        meaning: rdf:Property

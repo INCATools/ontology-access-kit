@@ -19,7 +19,7 @@ Glossary
     A |CURIE| is a compact :term:`URI`
 
    URI
-    A Uniform Resource Indicator, a generalization of URL. Most people think of URLs as being solely for
+    A Uniform Resource Indicator, a generalization of URL. Most people think of URLs as being solely for addresses for web pages (or APIs) but in semantic web technologies, URLs can serve as actual identifiers for entities like ontology terms.
 
    Class
     An |Ontology element| that formally represents something that can be instantiated. For example, the class "heart"

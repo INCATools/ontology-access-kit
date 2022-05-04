@@ -1,0 +1,134 @@
+id: https://w3id.org/linkml/taxon_constraints
+title: Taxon Constraints Reporting Datamodel
+name: taxon-constraints
+description: >-
+  A datamodel for representing inferred and asserted taxon constraints
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  tc: https://w3id.org/linkml/taxon_constraints/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  RO: http://purl.obolibrary.org/obo/RO_
+
+default_prefix: tc
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  Term:
+    description: An ontology term. In this model this is either the SubjectTerm of a taxon constraint, or an actual taxon
+    abstract: true
+    class_uri: owl:Class
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+      label:
+        slot_uri: rdfs:label
+        range: string
+  SubjectTerm:
+    description: A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ...
+    is_a: Term
+    attributes:
+      description:
+        description: A description of the taxon constraints and events
+      unsatisfiable:
+        range: boolean
+        description: If true then some combination of taxon constraints lead to contradictions
+      only_in:
+        range: TaxonConstraint
+        multivalued: true
+        slot_uri: RO:0002160
+      never_in:
+        range: TaxonConstraint
+        multivalued: true
+        slot_uri: RO:0002161
+      present_in:
+        range: TaxonConstraint
+        multivalued: true
+        slot_uri: RO:0002175
+      present_in_ancestor_of:
+        range: TaxonConstraint
+        multivalued: true
+        #slot_uri:
+  Taxon:
+    description: A term that represents a taxonomic group
+    is_a: Term
+    exact_mappings:
+      - NCBITaxon:1
+    id_prefixes:
+      - NCBITaxon
+      - NCBITaxon_Union
+  PredicateTerm:
+    description: A term that represents a relationship type
+    is_a: Term
+
+  TaxonConstraint:
+    description: An individual taxon constraint
+    class_uri: rdf:Statement
+    attributes:
+      subject:
+        slot_uri: rdf:subject
+        range: SubjectTerm
+      predicate:
+        slot_uri: rdf:predicate
+        range: PredicateTerm
+      asserted:
+        range: boolean
+      evolutionary:
+        range: boolean
+      redundant:
+        range: boolean
+        description: >-
+          True if this is redundant within the set of constraints of the same type (never vs only)
+      redundant_with_only_in:
+        range: boolean
+        description: >-
+          True for never in constraints that are subsumed by an only in
+      taxon:
+        slot_uri: rdf:object
+        description: The taxon that the subject is constrained to be included or excluded from
+        range: Taxon
+        inlined: true
+      redundant_with:
+        range: TaxonConstraint
+        multivalued: true
+      contradicted_by:
+        range: TaxonConstraint
+        multivalued: true
+      via_terms:
+        description: The term that has the taxon constraint asserted
+        range: SubjectTerm
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+      predicates:
+        description: The predicates that connect the subject term to the via_term
+        range: PredicateTerm
+        multivalued: true
+      sources:
+        range: uriorcurie
+        multivalued: true
+      comments:
+        range: string
+        multivalued: true

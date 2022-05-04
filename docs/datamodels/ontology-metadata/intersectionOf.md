@@ -14,7 +14,7 @@ URI: [http://www.w3.org/2002/07/owl#intersectionOf](http://www.w3.org/2002/07/ow
 
 ## Properties
 
- * Range: None
+ * Range: ClassExpression
 
 
 

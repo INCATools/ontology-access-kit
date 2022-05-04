@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
@@ -27,20 +28,23 @@ class TestLexicalIndex(unittest.TestCase):
 
     def setUp(self) -> None:
         resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
-        oi = ProntoImplementation(resource)
-        self.oi = oi
+        self.oi = ProntoImplementation(resource)
+        self.sparql_oi = SparqlImplementation(OntologyResource(slug='go-nucleus.owl.ttl',
+                                                               directory=INPUT_DIR, local=True))
+        self.ois = [self.oi, self.sparql_oi]
 
     def test_sssom(self):
-        lexical_index = create_lexical_index(self.oi)
-        rule0 = MappingRule(postconditions=Postcondition(weight=1.0))
-        rule1 = MappingRule(preconditions=Precondition(subject_match_field_one_of=[HAS_EXACT_SYNONYM],
-                                                       object_match_field_one_of=[HAS_EXACT_SYNONYM]),
-                            postconditions=Postcondition(predicate_id=SKOS_EXACT_MATCH,
-                                                         weight=2.0))
-        ruleset = MappingRuleCollection(rules=[rule0, rule1])
-        msdf = lexical_index_to_sssom(self.oi, lexical_index, ruleset=ruleset)
-        with open(TEST_SSSOM_OUT, 'w', encoding='utf-8') as file:
-            write_table(msdf, file)
+        for oi in self.ois:
+            lexical_index = create_lexical_index(oi)
+            rule0 = MappingRule(postconditions=Postcondition(weight=1.0))
+            rule1 = MappingRule(preconditions=Precondition(subject_match_field_one_of=[HAS_EXACT_SYNONYM],
+                                                           object_match_field_one_of=[HAS_EXACT_SYNONYM]),
+                                postconditions=Postcondition(predicate_id=SKOS_EXACT_MATCH,
+                                                             weight=2.0))
+            ruleset = MappingRuleCollection(rules=[rule0, rule1])
+            msdf = lexical_index_to_sssom(oi, lexical_index, ruleset=ruleset)
+            with open(TEST_SSSOM_OUT, 'w', encoding='utf-8') as file:
+                write_table(msdf, file)
 
     def test_sssom_with_rules_file(self):
         resource = OntologyResource(slug=MATCHER_TEST_ONT, local=True)

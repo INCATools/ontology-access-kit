@@ -8,6 +8,7 @@ URI: https://github.com/geneontology/obographs
 
 | Class | Description |
 | --- | --- |
+| [GraphDocument](GraphDocument.md) | None | 
 | [Graph](Graph.md) | None | 
 | [Node](Node.md) | None | 
 | [Edge](Edge.md) | None | 
@@ -34,7 +35,7 @@ URI: https://github.com/geneontology/obographs
 | [pred](pred.md) | None | 
 | [obj](obj.md) | None | 
 | [val](val.md) | None | 
-| [label](label.md) | None | 
+| [lbl](lbl.md) | None | 
 | [type](type.md) | None | 
 | [meta](meta.md) | None | 
 | [definition](definition.md) | None | 
@@ -44,7 +45,6 @@ URI: https://github.com/geneontology/obographs
 | [deprecated](deprecated.md) | None | 
 | [subsets](subsets.md) | None | 
 | [xrefs](xrefs.md) | None | 
-| [lbl](lbl.md) | None | 
 | [nodes](nodes.md) | None | 
 | [edges](edges.md) | None | 
 | [equivalentNodesSets](equivalentNodesSets.md) | None | 
@@ -59,6 +59,7 @@ URI: https://github.com/geneontology/obographs
 | [synonymType](synonymType.md) | None | 
 | [scope](scope.md) | None | 
 | [isExact](isExact.md) | None | 
+| [graphs](graphs.md) | None | 
 
 
 ## Enums
