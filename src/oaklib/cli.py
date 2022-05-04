@@ -962,13 +962,13 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     See :ref:`.lexical_index_to_sssom`
 
     Examples:
-        lexmatch -i foo.obo -o foo.sssom.tsv
+        runoak -i foo.obo lexmatch -o foo.sssom.tsv
 
     Outputting intermediate index:
-        lexmatch -i foo.obo -L foo.index.yaml -o foo.sssom.tsv
+        runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv
 
     Using custom rules:
-        lexmatch -i foo.obo -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
+        runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
     """
     impl = settings.impl
     if rules_file:
