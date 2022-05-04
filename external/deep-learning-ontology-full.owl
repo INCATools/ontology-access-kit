@@ -1,0 +1,1734 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://purl.obolibrary.org/obo/deep-learning-ontology/deep-learning-ontology-full.owl#"
+     xml:base="http://purl.obolibrary.org/obo/deep-learning-ontology/deep-learning-ontology-full.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:efo="http://www.ebi.ac.uk/efo/"
+     xmlns:obo="http://purl.obolibrary.org/obo/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:swo="http://www.ebi.ac.uk/swo/"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:terms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="http://purl.obolibrary.org/obo/deep-learning-ontology/deep-learning-ontology-full.owl">
+        <owl:versionIRI rdf:resource="http://purl.obolibrary.org/obo/deep-learning-ontology/releases/2021-07-07/deep-learning-ontology-full.owl"/>
+        <dc:description>None</dc:description>
+        <dc:title>Deep Learning Ontology</dc:title>
+        <terms:license rdf:resource="https://creativecommons.org/licenses/unspecified"/>
+        <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-07-07</owl:versionInfo>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000179 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000179"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000180 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000180"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000111 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000111"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000112 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000112"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000114 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000114"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000115 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000115"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000116 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000116"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000117 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000117"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000118 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000118"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000119 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000119"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000412 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000412"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000600 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000600"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000601 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000601"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000602 -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000602"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/obsoleted_in_version -->
+
+    <owl:AnnotationProperty rdf:about="http://www.ebi.ac.uk/efo/obsoleted_in_version"/>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/reason_for_obsolescence -->
+
+    <owl:AnnotationProperty rdf:about="http://www.ebi.ac.uk/efo/reason_for_obsolescence"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000060 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000060">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000063"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <dc:creator>OBO Foundry</dc:creator>
+        <rdfs:comment>Please note that, as stated on one of the RO documentation pages (https://code.google.com/p/obo-relations/wiki/ROAndBFO), some of the relations RO makes use are either uncontroversial (non-temporalized) parts of BFO2, or will be incorporated in the future. In the case of BFO_0000063, it is not currently in BFO2, but may be in the future. The RO ontologists assume this is the transitive form. For a full definition, refer to the inverse of this property, BFO_0000060. (Allyson Lister)</rdfs:comment>
+        <rdfs:label>preceded by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000063 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000063">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <obo:IAO_0000115>The assertion P &apos;followed by&apos; P1 tells us something about Ps in general: that is, it tells us something about what happened later, given what we know about what happened earlier. Thus it does not provide information pointing in the opposite direction, concerning instances of P1 in general; that is, that each is such as to be preceded by some instance of P. Note that assertions using this property only are rather weak. Typically we will be interested in stronger relations, for example in the relation &apos;directly followed by&apos;.</obo:IAO_0000115>
+        <obo:IAO_0000119>Modified by Allyson Lister from the preceded_by (which is the inverse of precedes / &apos;followed by&apos;) definition within RO: http://www.obofoundry.org/ro/ro.owl</obo:IAO_0000119>
+        <dc:creator>OBO Foundry</dc:creator>
+        <rdfs:comment>Please note that, as stated on one of the RO documentation pages (https://code.google.com/p/obo-relations/wiki/ROAndBFO), some of the relations RO makes use are either uncontroversial (non-temporalized) parts of BFO2, or will be incorporated in the future. In the case of BFO_0000060, it is not currently in BFO2, but may be in the future. The RO ontologists assume this is the transitive form. (Allyson Lister)</rdfs:comment>
+        <rdfs:label>followed by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/RO_0000087 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0000087">
+        <rdfs:label>has_role</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/SWO_0000131 -->
+
+    <owl:ObjectProperty rdf:about="http://www.ebi.ac.uk/swo/SWO_0000131">
+        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000060"/>
+        <owl:inverseOf rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000132"/>
+        <obo:IAO_0000112>Microsoft version 2007 is directly preceded by Microsoft version 2003.</obo:IAO_0000112>
+        <obo:IAO_0000115>Entity A is &apos;directly preceded by&apos; entity B if there are no intermediate entities temporally between the two entities. WIthin SWO this property is mainly used to describe versions of entities such as software.</obo:IAO_0000115>
+        <obo:IAO_0000119>Allyson Lister</obo:IAO_0000119>
+        <dc:creator>OBO Foundry</dc:creator>
+        <rdfs:label>directly preceded by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/SWO_0000132 -->
+
+    <owl:ObjectProperty rdf:about="http://www.ebi.ac.uk/swo/SWO_0000132">
+        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000063"/>
+        <obo:IAO_0000115>&apos;directly followed by&apos; is an object property which further specializes the parent &apos;followed by&apos; property. In the assertion &apos;C directly followed by C1&apos;, says that Cs generally are immediately followed by C1s.</obo:IAO_0000115>
+        <obo:IAO_0000119>Allyson Lister</obo:IAO_0000119>
+        <rdfs:label xml:lang="en">directly followed by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000001 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000001">
+        <obo:BFO_0000179>entity</obo:BFO_0000179>
+        <obo:BFO_0000180>Entity</obo:BFO_0000180>
+        <obo:IAO_0000112 xml:lang="en">Julius Caesar</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">Verdi’s Requiem</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the Second World War</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">your body mass index</obo:IAO_0000112>
+        <obo:IAO_0000116 xml:lang="en">BFO 2 Reference: In all areas of empirical inquiry we encounter general terms of two sorts. First are general terms which refer to universals or types:animaltuberculosissurgical procedurediseaseSecond, are general terms used to refer to groups of entities which instantiate a given universal but do not correspond to the extension of any subuniversal of that universal because there is nothing intrinsic to the entities in question by virtue of which they – and only they – are counted as belonging to the given group. Examples are: animal purchased by the Emperortuberculosis diagnosed on a Wednesdaysurgical procedure performed on a patient from Stockholmperson identified as candidate for clinical trial #2056-555person who is signatory of Form 656-PPVpainting by Leonardo da VinciSuch terms, which represent what are called ‘specializations’ in [81</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">Entity doesn&apos;t have a closure axiom because the subclasses don&apos;t necessarily exhaust all possibilites. For example Werner Ceusters &apos;portions of reality&apos; include 4 sorts, entities (as BFO construes them), universals, configurations, and relations. It is an open question as to whether entities as construed in BFO will at some point also include these other portions of reality. See, for example, &apos;How to track absolutely everything&apos; at http://www.referent-tracking.com/_RTU/papers/CeustersICbookRevised.pdf</obo:IAO_0000116>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/iao.owl"/>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/obi.owl"/>
+        <obo:IAO_0000600 xml:lang="en">An entity is anything that exists or has existed or will exist. (axiom label in BFO2 Reference: [001-001])</obo:IAO_0000600>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">entity</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000002 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000002">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000001"/>
+        <obo:BFO_0000179>continuant</obo:BFO_0000179>
+        <obo:BFO_0000180>Continuant</obo:BFO_0000180>
+        <obo:IAO_0000115 xml:lang="en">An entity that exists in full at any time in which it exists at all, persists through time while maintaining its identity and has no temporal parts.</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">BFO 2 Reference: Continuant entities are entities which can be sliced to yield parts only along the spatial dimension, yielding for example the parts of your table which we call its legs, its top, its nails. ‘My desk stretches from the window to the door. It has spatial parts, and can be sliced (in space) in two. With respect to time, however, a thing is a continuant.’ [60, p. 240</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">Continuant doesn&apos;t have a closure axiom because the subclasses don&apos;t necessarily exhaust all possibilites. For example, in an expansion involving bringing in some of Ceuster&apos;s other portions of reality, questions are raised as to whether universals are continuants</obo:IAO_0000116>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/iao.owl"/>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/obi.owl"/>
+        <obo:IAO_0000600 xml:lang="en">A continuant is an entity that persists, endures, or continues to exist through time while maintaining its identity. (axiom label in BFO2 Reference: [008-002])</obo:IAO_0000600>
+        <obo:IAO_0000601 xml:lang="en">if b is a continuant and if, for some t, c has_continuant_part b at t, then c is a continuant. (axiom label in BFO2 Reference: [126-001])</obo:IAO_0000601>
+        <obo:IAO_0000601 xml:lang="en">if b is a continuant and if, for some t, cis continuant_part of b at t, then c is a continuant. (axiom label in BFO2 Reference: [009-002])</obo:IAO_0000601>
+        <obo:IAO_0000601 xml:lang="en">if b is a material entity, then there is some temporal interval (referred to below as a one-dimensional temporal region) during which b exists. (axiom label in BFO2 Reference: [011-002])</obo:IAO_0000601>
+        <obo:IAO_0000602>(forall (x y) (if (and (Continuant x) (exists (t) (continuantPartOfAt y x t))) (Continuant y))) // axiom label in BFO2 CLIF: [009-002] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x y) (if (and (Continuant x) (exists (t) (hasContinuantPartOfAt y x t))) (Continuant y))) // axiom label in BFO2 CLIF: [126-001] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x) (if (Continuant x) (Entity x))) // axiom label in BFO2 CLIF: [008-002] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x) (if (Material Entity x) (exists (t) (and (TemporalRegion t) (existsAt x t))))) // axiom label in BFO2 CLIF: [011-002] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">continuant</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000004 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000004">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000002"/>
+        <obo:BFO_0000179>ic</obo:BFO_0000179>
+        <obo:BFO_0000180>IndependentContinuant</obo:BFO_0000180>
+        <obo:IAO_0000112 xml:lang="en">a chair</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a heart</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a leg</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a molecule</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a spatial region</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">an atom</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">an orchestra.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">an organism</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the bottom right portion of a human torso</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the interior of your mouth</obo:IAO_0000112>
+        <obo:IAO_0000115 xml:lang="en">A continuant that is a bearer of quality and realizable entity entities, in which other entities inhere and which itself cannot inhere in anything.</obo:IAO_0000115>
+        <obo:IAO_0000115 xml:lang="en">b is an independent continuant = Def. b is a continuant which is such that there is no c and no t such that b s-depends_on c at t. (axiom label in BFO2 Reference: [017-002])</obo:IAO_0000115>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/obi.owl"/>
+        <obo:IAO_0000601 xml:lang="en">For any independent continuant b and any time t there is some spatial region r such that b is located_in r at t. (axiom label in BFO2 Reference: [134-001])</obo:IAO_0000601>
+        <obo:IAO_0000601 xml:lang="en">For every independent continuant b and time t during the region of time spanned by its life, there are entities which s-depends_on b during t. (axiom label in BFO2 Reference: [018-002])</obo:IAO_0000601>
+        <obo:IAO_0000602>(forall (x t) (if (IndependentContinuant x) (exists (r) (and (SpatialRegion r) (locatedInAt x r t))))) // axiom label in BFO2 CLIF: [134-001] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x t) (if (and (IndependentContinuant x) (existsAt x t)) (exists (y) (and (Entity y) (specificallyDependsOnAt y x t))))) // axiom label in BFO2 CLIF: [018-002] </obo:IAO_0000602>
+        <obo:IAO_0000602>(iff (IndependentContinuant a) (and (Continuant a) (not (exists (b t) (specificallyDependsOnAt a b t))))) // axiom label in BFO2 CLIF: [017-002] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">independent continuant</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000017 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000017">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000020"/>
+        <obo:BFO_0000179>realizable</obo:BFO_0000179>
+        <obo:BFO_0000180>RealizableEntity</obo:BFO_0000180>
+        <obo:IAO_0000112 xml:lang="en">the disposition of this piece of metal to conduct electricity.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the disposition of your blood to coagulate</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the function of your reproductive organs</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of being a doctor</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of this boundary to delineate where Utah and Colorado meet</obo:IAO_0000112>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <obo:IAO_0000600 xml:lang="en">To say that b is a realizable entity is to say that b is a specifically dependent continuant that inheres in some independent continuant which is not a spatial region and is of a type instances of which are realized in processes of a correlated type. (axiom label in BFO2 Reference: [058-002])</obo:IAO_0000600>
+        <obo:IAO_0000601 xml:lang="en">All realizable dependent continuants have independent continuants that are not spatial regions as their bearers. (axiom label in BFO2 Reference: [060-002])</obo:IAO_0000601>
+        <obo:IAO_0000602>(forall (x t) (if (RealizableEntity x) (exists (y) (and (IndependentContinuant y) (not (SpatialRegion y)) (bearerOfAt y x t))))) // axiom label in BFO2 CLIF: [060-002] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x) (if (RealizableEntity x) (and (SpecificallyDependentContinuant x) (exists (y) (and (IndependentContinuant y) (not (SpatialRegion y)) (inheresIn x y)))))) // axiom label in BFO2 CLIF: [058-002] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">realizable entity</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000020 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000020">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000002"/>
+        <obo:BFO_0000179>sdc</obo:BFO_0000179>
+        <obo:BFO_0000180>SpecificallyDependentContinuant</obo:BFO_0000180>
+        <obo:IAO_0000112 xml:lang="en">Reciprocal specifically dependent continuants: the function of this key to open this lock and the mutually dependent disposition of this lock: to be opened by this key</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">of one-sided specifically dependent continuants: the mass of this tomato</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">of relational dependent continuants (multiple bearers): John’s love for Mary, the ownership relation between John and this statue, the relation of authority between John and his subordinates.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the disposition of this fish to decay</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the function of this heart: to pump blood</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the mutual dependence of proton donors and acceptors in chemical reactions [79</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the mutual dependence of the role predator and the role prey as played by two organisms in a given interaction</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the pink color of a medium rare piece of grilled filet mignon at its center</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of being a doctor</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the shape of this hole.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the smell of this portion of mozzarella</obo:IAO_0000112>
+        <obo:IAO_0000115 xml:lang="en">b is a specifically dependent continuant = Def. b is a continuant &amp; there is some independent continuant c which is not a spatial region and which is such that b s-depends_on c at every time t during the course of b’s existence. (axiom label in BFO2 Reference: [050-003])</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">Specifically dependent continuant doesn&apos;t have a closure axiom because the subclasses don&apos;t necessarily exhaust all possibilites. We&apos;re not sure what else will develop here, but for example there are questions such as what are promises, obligation, etc.</obo:IAO_0000116>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <obo:IAO_0000602>(iff (SpecificallyDependentContinuant a) (and (Continuant a) (forall (t) (if (existsAt a t) (exists (b) (and (IndependentContinuant b) (not (SpatialRegion b)) (specificallyDependsOnAt a b t))))))) // axiom label in BFO2 CLIF: [050-003] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">specifically dependent continuant</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000023 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000023">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000017"/>
+        <obo:BFO_0000179>role</obo:BFO_0000179>
+        <obo:BFO_0000180>Role</obo:BFO_0000180>
+        <obo:IAO_0000112 xml:lang="en">John’s role of husband to Mary is dependent on Mary’s role of wife to John, and both are dependent on the object aggregate comprising John and Mary as member parts joined together through the relational quality of being married.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the priest role</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of a boundary to demarcate two neighboring administrative territories</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of a building in serving as a military target</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of a stone in marking a property boundary</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the role of subject in a clinical trial</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the student role</obo:IAO_0000112>
+        <obo:IAO_0000116 xml:lang="en">BFO 2 Reference: One major family of examples of non-rigid universals involves roles, and ontologies developed for corresponding administrative purposes may consist entirely of representatives of entities of this sort. Thus ‘professor’, defined as follows,b instance_of professor at t =Def. there is some c, c instance_of professor role &amp; c inheres_in b at t.denotes a non-rigid universal and so also do ‘nurse’, ‘student’, ‘colonel’, ‘taxpayer’, and so forth. (These terms are all, in the jargon of philosophy, phase sortals.) By using role terms in definitions, we can create a BFO conformant treatment of such entities drawing on the fact that, while an instance of professor may be simultaneously an instance of trade union member, no instance of the type professor role is also (at any time) an instance of the type trade union member role (any more than any instance of the type color is at any time an instance of the type length).If an ontology of employment positions should be defined in terms of roles following the above pattern, this enables the ontology to do justice to the fact that individuals instantiate the corresponding universals –  professor, sergeant, nurse – only during certain phases in their lives.</obo:IAO_0000116>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <obo:IAO_0000600 xml:lang="en">b is a role means: b is a realizable entity &amp; b exists because there is some single bearer that is in some special physical, social, or institutional set of circumstances in which this bearer does not have to be&amp; b is not such that, if it ceases to exist, then the physical make-up of the bearer is thereby changed. (axiom label in BFO2 Reference: [061-001])</obo:IAO_0000600>
+        <obo:IAO_0000602>(forall (x) (if (Role x) (RealizableEntity x))) // axiom label in BFO2 CLIF: [061-001] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">role</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000031 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000031">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000002"/>
+        <obo:BFO_0000179>gdc</obo:BFO_0000179>
+        <obo:BFO_0000180>GenericallyDependentContinuant</obo:BFO_0000180>
+        <obo:IAO_0000112 xml:lang="en">The entries in your database are patterns instantiated as quality instances in your hard drive. The database itself is an aggregate of such patterns. When you create the database you create a particular instance of the generically dependent continuant type database. Each entry in the database is an instance of the generically dependent continuant type IAO: information content entity.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the pdf file on your laptop, the pdf file that is a copy thereof on my laptop</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the sequence of this protein molecule; the sequence that is a copy thereof in that protein molecule.</obo:IAO_0000112>
+        <obo:IAO_0000115 xml:lang="en">A continuant that is dependent on one or other independent continuant bearers. For every instance of A requires some instance of (an independent continuant type) B but which instance of B serves can change from time to time.</obo:IAO_0000115>
+        <obo:IAO_0000115 xml:lang="en">b is a generically dependent continuant = Def. b is a continuant that g-depends_on one or more other entities. (axiom label in BFO2 Reference: [074-001])</obo:IAO_0000115>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/iao.owl"/>
+        <obo:IAO_0000602>(iff (GenericallyDependentContinuant a) (and (Continuant a) (exists (b t) (genericallyDependsOnAt a b t)))) // axiom label in BFO2 CLIF: [074-001] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label xml:lang="en">generically dependent continuant</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000040 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/BFO_0000040">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
+        <obo:BFO_0000179>material</obo:BFO_0000179>
+        <obo:BFO_0000180>MaterialEntity</obo:BFO_0000180>
+        <obo:IAO_0000112>Collection of random bacteria, a chair, dorsal surface of the body.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a flame</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a forest fire</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a human being</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a hurricane</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a photon</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a puff of smoke</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a sea wave</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a tornado</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">an aggregate of human beings.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">an energy wave</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">an epidemic</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">the undetached arm of a human being</obo:IAO_0000112>
+        <obo:IAO_0000115>An independent continuant [snap:IndependentContinuant] that is spatially extended whose identity is independent of that of other entities and can be maintained through time. Note: Material entity [snap:MaterialEntity] subsumes object [snap:Object], fiat object part [snap:FiatObjectPart], and object aggregate [snap:ObjectAggregate], which assume a three level theory of granularity, which is inadequate for some domains, such as biology.</obo:IAO_0000115>
+        <obo:IAO_0000115 xml:lang="en">An independent continuant that is spatially extended whose identity is independent of that of other entities and can be maintained through time.</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">BFO 2 Reference: Material entities (continuants) can preserve their identity even while gaining and losing material parts. Continuants are contrasted with occurrents, which unfold themselves in successive temporal parts or phases [60</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">BFO 2 Reference: Object, Fiat Object Part and Object Aggregate are not intended to be exhaustive of Material Entity. Users are invited to propose new subcategories of Material Entity.</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">BFO 2 Reference: ‘Matter’ is intended to encompass both mass and energy (we will address the ontological treatment of portions of energy in a later version of BFO). A portion of matter is anything that includes elementary particles among its proper or improper parts: quarks and leptons, including electrons, as the smallest particles thus far discovered; baryons (including protons and neutrons) at a higher level of granularity; atoms and molecules at still higher levels, forming the cells, organs, organisms and other material entities studied by biologists, the portions of rock studied by geologists, the fossils studied by paleontologists, and so on.Material entities are three-dimensional entities (entities extended in three spatial dimensions), as contrasted with the processes in which they participate, which are four-dimensional entities (entities extended also along the dimension of time).According to the FMA, material entities may have immaterial entities as parts – including the entities identified below as sites; for example the interior (or ‘lumen’) of your small intestine is a part of your body. BFO 2.0 embodies a decision to follow the FMA here.</obo:IAO_0000116>
+        <obo:IAO_0000119>BFO</obo:IAO_0000119>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/obi.owl"/>
+        <obo:IAO_0000600 xml:lang="en">A material entity is an independent continuant that has some portion of matter as proper or improper continuant part. (axiom label in BFO2 Reference: [019-002])</obo:IAO_0000600>
+        <obo:IAO_0000601 xml:lang="en">Every entity which has a material entity as continuant part is a material entity. (axiom label in BFO2 Reference: [020-002])</obo:IAO_0000601>
+        <obo:IAO_0000601 xml:lang="en">every entity of which a material entity is continuant part is also a material entity. (axiom label in BFO2 Reference: [021-002])</obo:IAO_0000601>
+        <obo:IAO_0000602>(forall (x) (if (MaterialEntity x) (IndependentContinuant x))) // axiom label in BFO2 CLIF: [019-002] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x) (if (and (Entity x) (exists (y t) (and (MaterialEntity y) (continuantPartOfAt x y t)))) (MaterialEntity x))) // axiom label in BFO2 CLIF: [021-002] </obo:IAO_0000602>
+        <obo:IAO_0000602>(forall (x) (if (and (Entity x) (exists (y t) (and (MaterialEntity y) (continuantPartOfAt y x t)))) (MaterialEntity x))) // axiom label in BFO2 CLIF: [020-002] </obo:IAO_0000602>
+        <rdfs:isDefinedBy rdf:resource="http://purl.obolibrary.org/obo/bfo.owl"/>
+        <rdfs:label>material entity</rdfs:label>
+        <rdfs:label xml:lang="en">material entity</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/DEEP-LEARNING-ONTOLOGY_00000000 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/DEEP-LEARNING-ONTOLOGY_00000000">
+        <rdfs:label xml:lang="en">root node</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000028 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000028">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/IAO_0000030"/>
+        <obo:IAO_0000111 xml:lang="en">symbol</obo:IAO_0000111>
+        <obo:IAO_0000112 xml:lang="en">a serial number such as &quot;12324X&quot;</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a stop sign</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">a written proper name such as &quot;OBI&quot;</obo:IAO_0000112>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000125"/>
+        <obo:IAO_0000115 xml:lang="en">An information content entity that is a mark(s) or character(s) used as a conventional representation of another entity.</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">20091104, MC: this needs work and will most probably change</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">2014-03-31: We would like to have a deeper analysis of &apos;mark&apos; and &apos;sign&apos; in the future (see https://github.com/information-artifact-ontology/IAO/issues/154).</obo:IAO_0000116>
+        <obo:IAO_0000117 xml:lang="en">PERSON: James A. Overton</obo:IAO_0000117>
+        <obo:IAO_0000117 xml:lang="en">PERSON: Jonathan Rees</obo:IAO_0000117>
+        <obo:IAO_0000119 xml:lang="en">based on Oxford English Dictionary</obo:IAO_0000119>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/iao.owl"/>
+        <rdfs:label xml:lang="en">symbol</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000030 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000030">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000031"/>
+        <obo:IAO_0000111 xml:lang="en">information content entity</obo:IAO_0000111>
+        <obo:IAO_0000112>Examples of information content entites include journal articles, data, graphical layouts, and graphs.</obo:IAO_0000112>
+        <obo:IAO_0000112 xml:lang="en">Examples of information content entites include journal articles, data, graphical layouts, and graphs.</obo:IAO_0000112>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000115 xml:lang="en">A generically dependent continuant that is about some thing.</obo:IAO_0000115>
+        <obo:IAO_0000115>An information content entity is an entity that is generically dependent on some artifact and stands in relation of aboutness to some entity.</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">2014-03-10: The use of &quot;thing&quot; is intended to be general enough to include universals and configurations (see https://groups.google.com/d/msg/information-ontology/GBxvYZCk1oc/-L6B5fSBBTQJ).</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">information_content_entity &apos;is_encoded_in&apos; some digital_entity in obi before split (040907). information_content_entity &apos;is_encoded_in&apos; some physical_document in obi before split (040907).
+
+Previous. An information content entity is a non-realizable information entity that &apos;is encoded in&apos; some digital or physical entity.</obo:IAO_0000116>
+        <obo:IAO_0000117 xml:lang="en">PERSON: Chris Stoeckert</obo:IAO_0000117>
+        <obo:IAO_0000119>IAO</obo:IAO_0000119>
+        <obo:IAO_0000119 xml:lang="en">OBI_0000142</obo:IAO_0000119>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/iao.owl"/>
+        <rdfs:label>information content entity</rdfs:label>
+        <rdfs:label xml:lang="en">information content entity</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/IAO_0000129 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/IAO_0000129">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/IAO_0000028"/>
+        <obo:IAO_0000111 xml:lang="en">version number</obo:IAO_0000111>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000123"/>
+        <obo:IAO_0000115 xml:lang="en">A version number is an information content entity which is a sequence of characters borne by part of each of a class of manufactured products or its packaging and indicates its order within a set of other products having the same name.</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">Note: we feel that at the moment we are happy with a general version number, and that we will subclass as needed in the future. For example, see 7. genome sequence version</obo:IAO_0000116>
+        <obo:IAO_0000117 xml:lang="en">GROUP: IAO</obo:IAO_0000117>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/iao.owl"/>
+        <rdfs:label>version name</rdfs:label>
+        <rdfs:label xml:lang="en">version number</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/OBI_0000245 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/OBI_0000245">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000040"/>
+        <obo:IAO_0000111 xml:lang="en">organization</obo:IAO_0000111>
+        <obo:IAO_0000112 xml:lang="en">PMID: 16353909.AAPS J. 2005 Sep 22;7(2):E274-80. Review. The joint food and agriculture organization of the United Nations/World Health Organization Expert Committee on Food Additives and its role in the evaluation of the safety of veterinary drug residues in foods.</obo:IAO_0000112>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000115 xml:lang="en">An entity that can bear roles, has members, and has a set of organization rules. Members of organizations are either organizations themselves or individual people. Members can bear specific organization member roles that are determined in the organization rules. The organization rules also determine how decisions are made on behalf of the organization by the organization members.</obo:IAO_0000115>
+        <obo:IAO_0000116 xml:lang="en">BP: The definition summarizes long email discussions on the OBI developer, roles, biomaterial and denrie branches. It leaves open if an organization is a material entity or a dependent continuant, as no consensus was reached on that.  The current placement as material is therefore temporary, in order to move forward with development. Here is the entire email summary, on which the definition is based:
+
+1) there are organization_member_roles (president, treasurer, branch
+editor), with individual persons as bearers
+
+2) there are organization_roles (employer, owner, vendor, patent holder)
+
+3) an organization has a charter / rules / bylaws, which specify what roles
+there are, how they should be realized, and how to modify the
+charter/rules/bylaws themselves.
+
+It is debatable what the organization itself is (some kind of dependent
+continuant or an aggregate of people). This also determines who/what the
+bearer of organization_roles&apos; are. My personal favorite is still to define
+organization as a kind of &apos;legal entity&apos;, but thinking it through leads to
+all kinds of questions that are clearly outside the scope of OBI.
+
+Interestingly enough, it does not seem to matter much where we place
+organization itself, as long as we can subclass it (University, Corporation,
+Government Agency, Hospital), instantiate it (Affymetrix, NCBI, NIH, ISO,
+W3C, University of Oklahoma), and have it play roles.
+
+This leads to my proposal: We define organization through the statements 1 -
+3 above, but without an &apos;is a&apos; statement for now. We can leave it in its
+current place in the is_a hierarchy (material entity) or move it up to
+&apos;continuant&apos;. We leave further clarifications to BFO, and close this issue
+for now.</obo:IAO_0000116>
+        <obo:IAO_0000117>PERSON: Alan Ruttenberg</obo:IAO_0000117>
+        <obo:IAO_0000117>PERSON: Bjoern Peters</obo:IAO_0000117>
+        <obo:IAO_0000117>PERSON: Philippe Rocca-Serra</obo:IAO_0000117>
+        <obo:IAO_0000117>PERSON: Susanna Sansone</obo:IAO_0000117>
+        <obo:IAO_0000119>GROUP: OBI</obo:IAO_0000119>
+        <obo:IAO_0000412 rdf:resource="http://purl.obolibrary.org/obo/obi.owl"/>
+        <rdfs:label>organization</rdfs:label>
+        <rdfs:label xml:lang="en">organization</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/SWO_0000260 -->
+
+    <owl:Class rdf:about="http://www.ebi.ac.uk/swo/SWO_0000260">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000023"/>
+        <obo:IAO_0000115>A publisher role is a role borne by an organization or individual in which they are responsible for making software available to a particular consumer group. Such organizations or individuals do need to be involved in the development of the software.</obo:IAO_0000115>
+        <obo:IAO_0000119>James Malone</obo:IAO_0000119>
+        <rdfs:label>publisher role</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/SWO_0000392 -->
+
+    <owl:Class rdf:about="http://www.ebi.ac.uk/swo/SWO_0000392">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000023"/>
+        <obo:IAO_0000115>Software developer role is a role borne by an organization or individual in which they are responsible for authoring software.</obo:IAO_0000115>
+        <obo:IAO_0000119>James Malone</obo:IAO_0000119>
+        <rdfs:label>software developer role</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/SWO_0000396 -->
+
+    <owl:Class rdf:about="http://www.ebi.ac.uk/swo/SWO_0000396">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000392"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000392"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000115>An organization or legal entity (including single person) that is responsible for developing software. Developing includes aspects of design, coding and testing.</obo:IAO_0000115>
+        <rdfs:label>software developer organization</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/SWO_0000397 -->
+
+    <owl:Class rdf:about="http://www.ebi.ac.uk/swo/SWO_0000397">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000260"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000260"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000115>An organization or legal entity (including single person) that is responsible for publishing software. Publishing here includes tasks such as designing and producing physical products, technical customer support, licensing arrangements and marketing.</obo:IAO_0000115>
+        <rdfs:label>software publisher organization</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#ObsoleteClass -->
+
+    <owl:Class rdf:about="http://www.geneontology.org/formats/oboInOwl#ObsoleteClass">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#DeprecatedClass"/>
+        <rdfs:label>obsolete SWO class</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#DeprecatedClass -->
+
+    <owl:Class rdf:about="http://www.w3.org/2002/07/owl#DeprecatedClass"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/OBI_0000245_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/OBI_0000245_1">
+        <rdf:type rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000260"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000023 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000023">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000260"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000392"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdfs:label>Affymetrix</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000033 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000033">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Agilent Technologies</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000036 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000036">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Applied Biosystems</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000038 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000038">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Applied Precision Life Science</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000061 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000061">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Bahler Lab</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000067 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000067">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Bio-Rad Laboratories, Inc.</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000069 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000069">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Bio Discovery</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000073 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000073">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Bioconductor</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000074 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000074">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:comment></rdfs:comment>
+        <rdfs:label>Biometric Research Branch</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000093 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000093">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>COSE, France</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000119 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000119">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Clontech Laboratories, Inc</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000131 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000131">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Dana-Farber Cancer Institute and Harvard School of Public Health</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000136 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000136">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <obo:IAO_0000118>European Molecular Biology Laboratory</obo:IAO_0000118>
+        <rdfs:label>EMBL</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000151 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000151">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Fujifilm</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000160 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000160">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>GE Healthcare Life Sciences</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000198 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000198">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Genedata</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000204 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000204">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Genicon Sciences</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000211 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000211">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Grid grinder</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000223 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000223">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Havard School of Public Health</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000232 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000232">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Illumina</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000240 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000240">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Incyte Genomics</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000242 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000242">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Institute for Genomics and Bioinformatics Graz University of Technology</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000244 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000244">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>J. Craig Venter Institute</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000286 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000286">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>MWG Biotech</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000290 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000290">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                <owl:someValuesFrom rdf:resource="http://www.ebi.ac.uk/swo/SWO_0000260"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdfs:label>Matforsk</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000291 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000291">
+        <rdf:type rdf:resource="http://www.geneontology.org/formats/oboInOwl#ObsoleteClass"/>
+        <dc:contributor>Marked as obsolete by Allyson Lister.</dc:contributor>
+        <efo:obsoleted_in_version>0.3</efo:obsoleted_in_version>
+        <efo:reason_for_obsolescence>MathWorks (SWO_0000291 and SWO_9000002), SWO_9000002 was retained, whileSWO_0000291 became an instance of obsolete class. Please use  SWO_9000002 instead.</efo:reason_for_obsolescence>
+        <rdfs:label>obsolete_MathWorks</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000299 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000299">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Molecular Devices</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000300 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000300">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Molecular Neuroscience Core, Center for Behavioral Neuroscience, Atlanta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000301 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000301">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Molecular Dynamics</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000302 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000302">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Motorola Life Sciences</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000303 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000303">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>NIH</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000325 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000325">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>PerkinElmer</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000351 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000351">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Raytest</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000357 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000357">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Research Genetics</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000366 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000366">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Rosetta Biosoftware</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000376 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000376">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>SAS Institute Inc.</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000427 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000427">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Speed Berkeley Research Group</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000431 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000431">
+        <rdf:type rdf:resource="http://www.geneontology.org/formats/oboInOwl#ObsoleteClass"/>
+        <dc:contributor>Marked as obsolete by Allyson Lister.</dc:contributor>
+        <efo:obsoleted_in_version>0.3</efo:obsoleted_in_version>
+        <efo:reason_for_obsolescence>Stanford University (SWO_0000431 and SWO_9000003). SWO_9000003 was retained, while SWO_0000431 became an instance of obsolete class. Please use SWO_9000003 instead.</efo:reason_for_obsolescence>
+        <rdfs:label>obsolete_Stanford University</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000433 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000433">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>TIBCO Software Inc</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000436 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000436">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Technological Advances for Genomics and Clinics, France</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000439 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000439">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>UC Irvine</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000440 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000440">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>University Of California, Berkeley</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000443 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000443">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Walter and Eliza Hall Institute</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000492 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000492">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Cambridge Bluegnome</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/efo/swo/SWO_0000743 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/efo/swo/SWO_0000743">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Strand Life Sciences</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/data/SWO_3000063 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/data/SWO_3000063">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label xml:lang="en">FCS Data Standard Version 3.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000001 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000001">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Microsoft</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000002 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000002">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>MathWorks</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000003 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000003">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Stanford University</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000004 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000004">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Omni</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000005 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000005">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>PLT Scheme Inc</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000006 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000006">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>MicroPro International</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000007 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000007">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>JetBrains</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000008 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000008">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Free Software Foundation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000009 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000009">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Adobe Systems</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000010 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000010">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <dc:contributor>Andy Brown</dc:contributor>
+        <rdfs:comment>An undefined, or ill-defined, group of people.  May be used, for example, to denote software development as being done by &apos;the community&apos;, with contributions by many individuals, but no over-arching organisation.</rdfs:comment>
+        <rdfs:label>The Community</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000011 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000011">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>University of New Hampshire</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000012 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000012">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>The National Archives</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000013 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000013">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Eclipse Foundation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000014 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000014">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Dropbox</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000015 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000015">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Thompson Reuters</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000016 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000016">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>OMII-UK</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000017 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000017">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Apple Inc.</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000018 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000018">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>The University of Manchester</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000019 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000019">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>European Bioinformatics Institute</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000020 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000020">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>EPCC</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000021 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000021">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>The National Archives, Tessella</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000022 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000022">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Spotify Ltd.</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000023 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000023">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Mozilla Foundation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000024 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000024">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Altova</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000025 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000025">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>The GIMP Development Team</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000026 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000026">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Canonical Ltd</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000027 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000027">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>Apache Software Foundation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000028 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000028">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>European Patent Office</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000029 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000029">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label>National Cancer Institute</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000060 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000060">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label xml:lang="en">Drive5</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000061 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000061">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label xml:lang="en">Conway Institute UCD Dublin</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000062 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000062">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label xml:lang="en">Centre for Genomic Regulation (CRG) of Barcelona</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000063 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000063">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label xml:lang="en">IBM</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000064 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000064">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <dc:contributor xml:lang="en">Allyson Lister</dc:contributor>
+        <rdfs:comment xml:lang="en">AL 8.10.2019: References https://github.com/allysonlister/swo/issues/19</rdfs:comment>
+        <rdfs:label xml:lang="en">Uppsala Molekylmekaniska HB</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/organization/SWO_9000065 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/organization/SWO_9000065">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0000245"/>
+        <rdfs:label xml:lang="en">UC Santa Cruz Computational Biology Group </rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000001 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000001">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>beta</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000002 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000002">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>alpha</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000003 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000003">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000006"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000004"/>
+        <rdfs:label>Microsoft 98 version</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000004 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000004">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000003"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000005"/>
+        <rdfs:label>Microsoft 2002 version</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000005 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000005">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000004"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000007"/>
+        <rdfs:label>Microsoft 2003 version</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000006 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000006">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000003"/>
+        <rdfs:label>Microsoft 95 version</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000007 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000007">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000005"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000008"/>
+        <rdfs:label>Microsoft 2007 version</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000008 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000008">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000007"/>
+        <rdfs:label>Microsoft 2010 version</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000009 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000009">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>version 3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000010 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000010">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>version 4</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000011 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000011">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000012"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000013"/>
+        <rdfs:label>Matlab R14</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000012 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000012">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000132 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000011"/>
+        <rdfs:label>Matlab R12</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000013 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000013">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <swo:SWO_0000131 rdf:resource="http://www.ebi.ac.uk/swo/version/SWO_2000011"/>
+        <rdfs:label>R2011a</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000014 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000014">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>Microsoft XP</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000015 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000015">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>Excel 14</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000016 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000016">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>Windows 5.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000017 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000017">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>3.5.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000018 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000018">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>Adobe Acrobat 10.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000019 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000019">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000020 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000020">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>3.0.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000021 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000021">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>1.6.9</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000022 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000022">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>6.02</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000023 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000023">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>Helios Service Release 2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000024 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000024">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>6.3.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000025 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000025">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>2.0.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000027 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000027">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <dc:creator>Allyson Lister</dc:creator>
+        <rdfs:label xml:lang="en">BLAST+ version 2.2.26</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000028 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000028">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <dc:creator>Allyson Lister</dc:creator>
+        <rdfs:label xml:lang="en">ClustalW version 2.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000029 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000029">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <dc:creator>Allyson Lister</dc:creator>
+        <rdfs:label xml:lang="en">ClustalX version 2.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000030 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000030">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <dc:creator>Allyson Lister</dc:creator>
+        <rdfs:label xml:lang="en">Clustal Omega version 1.1</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000031 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000031">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <dc:creator>Allyson Lister</dc:creator>
+        <rdfs:label xml:lang="en">MUSCLE version 3.8.31</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000032 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000032">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label xml:lang="en">CRG TCoffee version 9.02.r1228</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000035 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000035">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label xml:lang="en">4.2.2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/SWO_2000036 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/SWO_2000036">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label xml:lang="en">7.2.0</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.ebi.ac.uk/swo/version/6.0 -->
+
+    <owl:NamedIndividual rdf:about="http://www.ebi.ac.uk/swo/version/6.0">
+        <rdf:type rdf:resource="http://purl.obolibrary.org/obo/IAO_0000129"/>
+        <rdfs:label>Windows 6.0</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.6) https://github.com/owlcs/owlapi -->
+
