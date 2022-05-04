@@ -16,7 +16,7 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [id](id.md) | [string](string.md) | 0..1 | None  | . |
-| [label](label.md) | [string](string.md) | 0..1 | None  | . |
+| [lbl](lbl.md) | [string](string.md) | 0..1 | None  | . |
 | [type](type.md) | [string](string.md) | 0..1 | None  | . |
 | [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
 
@@ -52,7 +52,7 @@ name: Node
 from_schema: https://github.com/geneontology/obographs
 slots:
 - id
-- label
+- lbl
 - type
 - meta
 
@@ -73,10 +73,10 @@ attributes:
     alias: id
     owner: Node
     range: string
-  label:
-    name: label
+  lbl:
+    name: lbl
     from_schema: https://github.com/geneontology/obographs
-    alias: label
+    alias: lbl
     owner: Node
     range: string
   type:

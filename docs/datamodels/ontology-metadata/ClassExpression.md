@@ -23,8 +23,8 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [disjointWith](disjointWith.md) | [string](string.md) | 0..* | None  | . |
-| [equivalentClass](equivalentClass.md) | [string](string.md) | 0..* | None  | . |
-| [intersectionOf](intersectionOf.md) | [string](string.md) | 0..1 | None  | . |
+| [equivalentClass](equivalentClass.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
+| [intersectionOf](intersectionOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
 | [subClassOf](subClassOf.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
 | [cardinality](cardinality.md) | [string](string.md) | 0..1 | None  | . |
 | [complementOf](complementOf.md) | [string](string.md) | 0..1 | None  | . |
@@ -37,10 +37,15 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
+| [Class](Class.md) | [equivalentClass](equivalentClass.md) | range | ClassExpression |
+| [Class](Class.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
 | [Class](Class.md) | [oneOf](oneOf.md) | range | ClassExpression |
-| [NamedIndividual](NamedIndividual.md) | [type](type.md) | range | ClassExpression |
+| [Restriction](Restriction.md) | [equivalentClass](equivalentClass.md) | range | ClassExpression |
+| [Restriction](Restriction.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
 | [Restriction](Restriction.md) | [subClassOf](subClassOf.md) | range | ClassExpression |
 | [Restriction](Restriction.md) | [oneOf](oneOf.md) | range | ClassExpression |
+| [ClassExpression](ClassExpression.md) | [equivalentClass](equivalentClass.md) | range | ClassExpression |
+| [ClassExpression](ClassExpression.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
 | [ClassExpression](ClassExpression.md) | [subClassOf](subClassOf.md) | range | ClassExpression |
 | [ClassExpression](ClassExpression.md) | [oneOf](oneOf.md) | range | ClassExpression |
 
@@ -113,7 +118,7 @@ attributes:
     multivalued: true
     alias: equivalentClass
     owner: ClassExpression
-    range: string
+    range: ClassExpression
   intersectionOf:
     name: intersectionOf
     todos:
@@ -123,7 +128,7 @@ attributes:
     slot_uri: owl:intersectionOf
     alias: intersectionOf
     owner: ClassExpression
-    range: string
+    range: ClassExpression
   subClassOf:
     name: subClassOf
     from_schema: http://purl.obolibrary.org/obo/omo/schema

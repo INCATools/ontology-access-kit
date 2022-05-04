@@ -27,8 +27,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | [someValuesFrom](someValuesFrom.md) | [string](string.md) | 0..* | None  | . |
 | [allValuesFrom](allValuesFrom.md) | [string](string.md) | 0..1 | None  | . |
 | [disjointWith](disjointWith.md) | [string](string.md) | 0..* | None  | . |
-| [equivalentClass](equivalentClass.md) | [string](string.md) | 0..* | None  | . |
-| [intersectionOf](intersectionOf.md) | [string](string.md) | 0..1 | None  | . |
+| [equivalentClass](equivalentClass.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
+| [intersectionOf](intersectionOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
 | [subClassOf](subClassOf.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
 | [cardinality](cardinality.md) | [string](string.md) | 0..1 | None  | . |
 | [complementOf](complementOf.md) | [string](string.md) | 0..1 | None  | . |
@@ -137,7 +137,7 @@ attributes:
     multivalued: true
     alias: equivalentClass
     owner: Restriction
-    range: string
+    range: ClassExpression
   intersectionOf:
     name: intersectionOf
     todos:
@@ -147,7 +147,7 @@ attributes:
     slot_uri: owl:intersectionOf
     alias: intersectionOf
     owner: Restriction
-    range: string
+    range: ClassExpression
   subClassOf:
     name: subClassOf
     from_schema: http://purl.obolibrary.org/obo/omo/schema

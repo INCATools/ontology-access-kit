@@ -8,8 +8,9 @@ URI: http://purl.obolibrary.org/obo/omo/schema
 
 | Class | Description |
 | --- | --- |
-| [AnnotationPropertyMixin](AnnotationPropertyMixin.md) | None | 
-| [HasMinimalMetadata](HasMinimalMetadata.md) | None | 
+| [Any](Any.md) | None | 
+| [AnnotationPropertyMixin](AnnotationPropertyMixin.md) | Groups all annotation property bundles | 
+| [HasMinimalMetadata](HasMinimalMetadata.md) | Absolute minimum metadata model | 
 | [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms | 
 | [HasMappings](HasMappings.md) | None | 
 | [HasProvenance](HasProvenance.md) | None | 
@@ -17,9 +18,9 @@ URI: http://purl.obolibrary.org/obo/omo/schema
 | [HasCategory](HasCategory.md) | None | 
 | [HasUserInformation](HasUserInformation.md) | None | 
 | [Thing](Thing.md) | None | 
-| [NamedObject](NamedObject.md) | None | 
-| [Ontology](Ontology.md) | None | 
-| [Term](Term.md) | None | 
+| [NamedObject](NamedObject.md) | Anything with an IRI | 
+| [Ontology](Ontology.md) | An OWL ontology | 
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies | 
 | [Class](Class.md) | None | 
 | [Property](Property.md) | None | 
 | [AnnotationProperty](AnnotationProperty.md) | None | 
@@ -27,13 +28,15 @@ URI: http://purl.obolibrary.org/obo/omo/schema
 | [TransitiveProperty](TransitiveProperty.md) | None | 
 | [NamedIndividual](NamedIndividual.md) | None | 
 | [Axiom](Axiom.md) | None | 
-| [Subset](Subset.md) | None | 
-| [Anonymous](Anonymous.md) | None | 
+| [Subset](Subset.md) | A collection of terms grouped for some purpose | 
+| [Anonymous](Anonymous.md) | Abstract root class for all anonymous (non-named; lacking an identifier) expressions | 
 | [AnonymousClassExpression](AnonymousClassExpression.md) | None | 
 | [Restriction](Restriction.md) | None | 
 | [Expression](Expression.md) | None | 
 | [ClassExpression](ClassExpression.md) | None | 
 | [PropertyExpression](PropertyExpression.md) | None | 
+| [ObsoleteAspect](ObsoleteAspect.md) | Auto-classifies anything that is obsolete | 
+| [NotObsoleteAspect](NotObsoleteAspect.md) | Auto-classifies anything that is not obsolete | 
 
 
 ## Slots
@@ -44,6 +47,7 @@ URI: http://purl.obolibrary.org/obo/omo/schema
 | [id](id.md) | this maps to the URI in RDF | 
 | [label](label.md) | None | 
 | [definition](definition.md) | None | 
+| [title](title.md) | None | 
 | [match_aspect](match_aspect.md) | None | 
 | [match](match.md) | None | 
 | [broadMatch](broadMatch.md) | None | 
@@ -67,7 +71,7 @@ URI: http://purl.obolibrary.org/obo/omo/schema
 | [version_property](version_property.md) | None | 
 | [versionIRI](versionIRI.md) | None | 
 | [versionInfo](versionInfo.md) | None | 
-| [obsoletion_related_property](obsoletion_related_property.md) | None | 
+| [obsoletion_related_property](obsoletion_related_property.md) | Grouping class for all properties related to lifecycle | 
 | [deprecated](deprecated.md) | None | 
 | [term_replaced_by](term_replaced_by.md) | None | 
 | [has_obsolescence_reason](has_obsolescence_reason.md) | None | 
@@ -80,7 +84,8 @@ URI: http://purl.obolibrary.org/obo/omo/schema
 | [provenance_property](provenance_property.md) | None | 
 | [contributor](contributor.md) | None | 
 | [creator](creator.md) | None | 
-| [date](date.md) | None | 
+| [created](created.md) | when the term came into being | 
+| [date](date.md) | when the term was updated | 
 | [source](source.md) | None | 
 | [created_by](created_by.md) | None | 
 | [creation_date](creation_date.md) | None | 
