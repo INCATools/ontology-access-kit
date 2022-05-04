@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>search-datamodel &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="obographs_datamodel" href="../obograph/index.html" />
+    <link rel="prev" title="Ontology-Metadata" href="../ontology-metadata/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology-Metadata</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">search-datamodel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enums">Enums</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">obographs_datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sssom/index.html">SSSOM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funowl/index.html">FunOwl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../summary-statistics/index.html">summary-statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validation/index.html">validaton-results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lexical-index/index.html">lexical-index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mapping-rules/index.html">mapping-rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">text-annotator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cross-ontology-diff/index.html">cross-ontology-diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Datamodels</a> &raquo;</li>
+      <li>search-datamodel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/search/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="search-datamodel">
+<h1>search-datamodel<a class="headerlink" href="#search-datamodel" title="Permalink to this headline"></a></h1>
+<p>A datamodel for representing a search configuration and results. This is intended to provide a unified layer over both (a) how searches are <em>parameterized</em> (b) the structure of search <em>results</em>. The scope is any kind of service that provides search over <em>named entities</em>, including ontology concepts. It is not intended to cover generic search results, e.g. google search, although parts could be generalized for this purpose.</p>
+<p>URI: https://w3id.org/linkml/search_datamodel</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="SearchBaseConfiguration.html"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
+<td><p>A user-specified configuration that determines how a particular search operation works</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="SearchResult.html"><span class="doc std std-doc">SearchResult</span></a></p></td>
+<td><p>An individual search result</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="SearchResultSet.html"><span class="doc std std-doc">SearchResultSet</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Slot</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="search_terms.html"><span class="doc std std-doc">search_terms</span></a></p></td>
+<td><p>An individual search term. The syntax is determined by the syntax slot</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="syntax.html"><span class="doc std std-doc">syntax</span></a></p></td>
+<td><p>Determines how the search term is interpreted</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="properties.html"><span class="doc std std-doc">properties</span></a></p></td>
+<td><p>determines which properties are searched over</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="limit.html"><span class="doc std std-doc">limit</span></a></p></td>
+<td><p>the maximum number of search results to be returned in one batch</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="cursor.html"><span class="doc std std-doc">cursor</span></a></p></td>
+<td><p>when the number of search results exceed the limit this can be used to iterate through results</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="is_regular_expression.html"><span class="doc std std-doc">is_regular_expression</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
+<td><p>restricts search results to matches of the full span of the string</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="include_id.html"><span class="doc std std-doc">include_id</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="include_label.html"><span class="doc std std-doc">include_label</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="include_aliases.html"><span class="doc std std-doc">include_aliases</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="include_definition.html"><span class="doc std std-doc">include_definition</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rank.html"><span class="doc std std-doc">rank</span></a></p></td>
+<td><p>For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
+<td><p>The CURIE of the matched term</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="doc std std-doc">object_label</span></a></p></td>
+<td><p>The label/name of the matched term</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
+<td><p>The ontology or other source that contains the matched term</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_source_version.html"><span class="doc std std-doc">object_source_version</span></a></p></td>
+<td><p>Version IRI or version string of the source of the object term.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_match_field.html"><span class="doc std std-doc">object_match_field</span></a></p></td>
+<td><p>The field/property in which the match was found</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="matches_full_search_term.html"><span class="doc std std-doc">matches_full_search_term</span></a></p></td>
+<td><p>Does the matched field match the full string</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="snippet.html"><span class="doc std std-doc">snippet</span></a></p></td>
+<td><p>shows how the field was matched</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="configuration.html"><span class="doc std std-doc">configuration</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="result_count.html"><span class="doc std std-doc">result_count</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="enums">
+<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Enums</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="SearchTermSyntax.html"><span class="doc std std-doc">SearchTermSyntax</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="SearchProperty.html"><span class="doc std std-doc">SearchProperty</span></a></p></td>
+<td><p>A property that can be searched on</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../ontology-metadata/index.html" class="btn btn-neutral float-left" title="Ontology-Metadata" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../obograph/index.html" class="btn btn-neutral float-right" title="obographs_datamodel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chris Mungall.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -79,6 +79,7 @@
              
   <section id="class-namedobject">
 <h1>Class: NamedObject<a class="headerlink" href="#class-namedobject" title="Permalink to this headline"></a></h1>
+<p><em>Anything with an IRI</em></p>
 <p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/schema/NamedObject">omoschema:NamedObject</a></p>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -113,6 +114,12 @@
 <td><p>this maps to the URI in RDF</p></td>
 <td><p>.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
+<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -130,6 +137,11 @@
 <details>
 ```yaml
 name: NamedObject
+aliases:
+- named entity
+- identified object
+- IRI
+description: Anything with an IRI
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: Thing
 slots:
@@ -141,6 +153,11 @@ slots:
 &lt;details&gt;
 ```yaml
 name: NamedObject
+aliases:
+- named entity
+- identified object
+- IRI
+description: Anything with an IRI
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: Thing
 attributes:
@@ -154,6 +171,16 @@ attributes:
     owner: NamedObject
     range: uriorcurie
     required: true
+  type:
+    name: type
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdf:type
+    multivalued: true
+    designates_type: true
+    alias: type
+    owner: NamedObject
+    range: uriorcurie
 
 </pre></div>
 </div>

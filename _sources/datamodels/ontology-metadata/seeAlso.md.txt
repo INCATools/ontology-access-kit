@@ -9,7 +9,7 @@ URI: [http://www.w3.org/2000/01/rdf-schema#seeAlso](http://www.w3.org/2000/01/rd
 
 ## Properties
 
- * Range: None
+ * Range: Thing
 
 
 

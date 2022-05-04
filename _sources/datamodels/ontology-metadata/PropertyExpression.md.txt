@@ -30,7 +30,6 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Axiom](Axiom.md) | [onProperty](onProperty.md) | range | PropertyExpression |
 | [Restriction](Restriction.md) | [onProperty](onProperty.md) | range | PropertyExpression |
 
 

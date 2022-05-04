@@ -28,12 +28,15 @@ URI: https://w3id.org/linkml/text_annotator
 | [subject_label](subject_label.md) | The portion of the subject text that is matched, ranging from subject_start to subject_end | 
 | [subject_source](subject_source.md) | None | 
 | [subject_text_id](subject_text_id.md) | None | 
+| [predicate_id](predicate_id.md) | None | 
 | [object_id](object_id.md) | None | 
 | [object_label](object_label.md) | None | 
 | [object_source](object_source.md) | None | 
 | [confidence](confidence.md) | None | 
 | [match_string](match_string.md) | None | 
 | [is_longest_match](is_longest_match.md) | None | 
+| [match_type](match_type.md) | None | 
+| [info](info.md) | None | 
 
 
 ## Enums

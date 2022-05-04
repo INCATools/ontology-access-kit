@@ -23,7 +23,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [comment](comment.md) | [string](string.md) | 0..* | None  | . |
-| [seeAlso](seeAlso.md) | [string](string.md) | 0..* | None  | . |
+| [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [image](image.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [example_of_usage](example_of_usage.md) | [string](string.md) | 0..* | None  | . |
 | [curator_note](curator_note.md) | [string](string.md) | 0..* | None  | . |
@@ -100,7 +100,7 @@ attributes:
     multivalued: true
     alias: seeAlso
     owner: HasUserInformation
-    range: string
+    range: Thing
   image:
     name: image
     from_schema: http://purl.obolibrary.org/obo/omo/schema

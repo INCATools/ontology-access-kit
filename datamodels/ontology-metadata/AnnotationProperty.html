@@ -215,13 +215,13 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_replaced_by.html"><span class="doc std std-doc">term_replaced_by</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p><a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="consider.html"><span class="doc std std-doc">consider</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -280,172 +280,184 @@
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="editor_note.html"><span class="doc std std-doc">editor_note</span></a></p></td>
-<td><p><span class="xref myst">narrative_text</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
-<td><p>None</p></td>
+<td><p>when the term came into being</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
-<td><p>None</p></td>
+<td><p>when the term was updated</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
 <td><p><a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="imported_from.html"><span class="doc std std-doc">imported_from</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="editor_note.html"><span class="doc std std-doc">editor_note</span></a></p></td>
+<td><p><span class="xref myst">narrative_text</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="imported_from.html"><span class="doc std std-doc">imported_from</span></a></p></td>
 <td><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="broadMatch.html"><span class="doc std std-doc">broadMatch</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="broadMatch.html"><span class="doc std std-doc">broadMatch</span></a></p></td>
 <td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="closeMatch.html"><span class="doc std std-doc">closeMatch</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="closeMatch.html"><span class="doc std std-doc">closeMatch</span></a></p></td>
 <td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="exactMatch.html"><span class="doc std std-doc">exactMatch</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="exactMatch.html"><span class="doc std std-doc">exactMatch</span></a></p></td>
 <td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="narrowMatch.html"><span class="doc std std-doc">narrowMatch</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="narrowMatch.html"><span class="doc std std-doc">narrowMatch</span></a></p></td>
 <td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="doc std std-doc">database_cross_reference</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="doc std std-doc">database_cross_reference</span></a></p></td>
 <td><p><a class="reference internal" href="CURIELiteral.html"><span class="doc std std-doc">CURIELiteral</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a></p></td>
 <td><p><a class="reference internal" href="Subset.html"><span class="doc std std-doc">Subset</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>Maps an ontology element to a subset it belongs to</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="conformsTo.html"><span class="doc std std-doc">conformsTo</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="conformsTo.html"><span class="doc std std-doc">conformsTo</span></a></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="seeAlso.html"><span class="doc std std-doc">seeAlso</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="seeAlso.html"><span class="doc std std-doc">seeAlso</span></a></p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="image.html"><span class="doc std std-doc">image</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="image.html"><span class="doc std std-doc">image</span></a></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="example_of_usage.html"><span class="doc std std-doc">example_of_usage</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="example_of_usage.html"><span class="doc std std-doc">example_of_usage</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="curator_note.html"><span class="doc std std-doc">curator_note</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="curator_note.html"><span class="doc std std-doc">curator_note</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="has_curation_status.html"><span class="doc std std-doc">has_curation_status</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="has_curation_status.html"><span class="doc std std-doc">has_curation_status</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="page.html"><span class="doc std std-doc">page</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="page.html"><span class="doc std std-doc">page</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
 <td><p><span class="xref myst">label_type</span></p></td>
-<td><p>0..* <em>recommended</em></p></td>
+<td><p>0..1 <em>recommended</em></p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="definition.html"><span class="doc std std-doc">definition</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="definition.html"><span class="doc std std-doc">definition</span></a></p></td>
 <td><p><span class="xref myst">narrative_text</span></p></td>
 <td><p>0..* <em>recommended</em></p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
 <td><p><span class="xref myst">uriorcurie</span></p></td>
 <td><p>1..1</p></td>
 <td><p>this maps to the URI in RDF</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
+<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 </tbody>
@@ -463,12 +475,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
-<td><p><a class="reference internal" href="has_synonym_type.html"><span class="doc std std-doc">has_synonym_type</span></a></p></td>
+<td><p><a class="reference internal" href="annotatedProperty.html"><span class="doc std std-doc">annotatedProperty</span></a></p></td>
 <td><p>range</p></td>
 <td><p>AnnotationProperty</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
-<td><p><a class="reference internal" href="annotatedProperty.html"><span class="doc std std-doc">annotatedProperty</span></a></p></td>
+<td><p><a class="reference internal" href="has_synonym_type.html"><span class="doc std std-doc">has_synonym_type</span></a></p></td>
 <td><p>range</p></td>
 <td><p>AnnotationProperty</p></td>
 </tr>
@@ -556,6 +568,8 @@ attributes:
     multivalued: true
     alias: has_exact_synonym
     owner: AnnotationProperty
+    disjoint_with:
+    - label
     range: label type
   has_narrow_synonym:
     name: has_narrow_synonym
@@ -676,7 +690,7 @@ attributes:
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: AnnotationProperty
-    range: Thing
+    range: Any
   consider:
     name: consider
     comments:
@@ -689,7 +703,7 @@ attributes:
     multivalued: true
     alias: consider
     owner: AnnotationProperty
-    range: string
+    range: Any
   has_alternative_id:
     name: has_alternative_id
     comments:
@@ -737,7 +751,9 @@ attributes:
     range: Thing
   created_by:
     name: created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: creator
     is_a: provenance_property
     slot_uri: oio:created_by
     alias: created_by
@@ -745,9 +761,11 @@ attributes:
     range: string
   creation_date:
     name: creation_date
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: created
     is_a: provenance_property
     slot_uri: oio:creation_date
     multivalued: true
@@ -756,6 +774,8 @@ attributes:
     range: string
   contributor:
     name: contributor
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
@@ -765,6 +785,8 @@ attributes:
     range: Thing
   creator:
     name: creator
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
@@ -772,6 +794,40 @@ attributes:
     alias: creator
     owner: AnnotationProperty
     range: string
+  created:
+    name: created
+    close_mappings:
+    - pav:createdOn
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
+    owner: AnnotationProperty
+    range: string
+  date:
+    name: date
+    close_mappings:
+    - pav:authoredOn
+    description: when the term was updated
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:date
+    multivalued: true
+    alias: date
+    owner: AnnotationProperty
+    range: string
+  isDefinedBy:
+    name: isDefinedBy
+    close_mappings:
+    - pav:importedFrom
+    - dcterms:publisher
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: rdfs:isDefinedBy
+    alias: isDefinedBy
+    owner: AnnotationProperty
+    range: Ontology
   editor_note:
     name: editor_note
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -811,22 +867,6 @@ attributes:
     alias: ontology_term_requester
     owner: AnnotationProperty
     range: string
-  date:
-    name: date
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: provenance_property
-    slot_uri: dcterms:date
-    multivalued: true
-    alias: date
-    owner: AnnotationProperty
-    range: string
-  isDefinedBy:
-    name: isDefinedBy
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: rdfs:isDefinedBy
-    alias: isDefinedBy
-    owner: AnnotationProperty
-    range: Ontology
   imported_from:
     name: imported_from
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -946,7 +986,7 @@ attributes:
     multivalued: true
     alias: seeAlso
     owner: AnnotationProperty
-    range: string
+    range: Thing
   image:
     name: image
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -1018,7 +1058,7 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: true
+    multivalued: false
     alias: label
     owner: AnnotationProperty
     range: label type
@@ -1051,6 +1091,16 @@ attributes:
     owner: AnnotationProperty
     range: uriorcurie
     required: true
+  type:
+    name: type
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdf:type
+    multivalued: true
+    designates_type: true
+    alias: type
+    owner: AnnotationProperty
+    range: uriorcurie
 class_uri: owl:AnnotationProperty
 
 </pre></div>

@@ -129,49 +129,55 @@
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="editor_note.html"><span class="doc std std-doc">editor_note</span></a></p></td>
-<td><p><span class="xref myst">narrative_text</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
-<td><p>None</p></td>
+<td><p>when the term came into being</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
-<td><p>None</p></td>
+<td><p>when the term was updated</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
 <td><p><a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="imported_from.html"><span class="doc std std-doc">imported_from</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="editor_note.html"><span class="doc std std-doc">editor_note</span></a></p></td>
+<td><p><span class="xref myst">narrative_text</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="imported_from.html"><span class="doc std std-doc">imported_from</span></a></p></td>
 <td><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
@@ -202,12 +208,13 @@ slots:
 - creation_date
 - contributor
 - creator
+- created
+- date
+- isDefinedBy
 - editor_note
 - term_editor
 - definition_source
 - ontology_term_requester
-- date
-- isDefinedBy
 - imported_from
 - term_tracker_item
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -223,7 +230,9 @@ mixin: true
 attributes:
   created_by:
     name: created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: creator
     is_a: provenance_property
     slot_uri: oio:created_by
     alias: created_by
@@ -231,9 +240,11 @@ attributes:
     range: string
   creation_date:
     name: creation_date
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: created
     is_a: provenance_property
     slot_uri: oio:creation_date
     multivalued: true
@@ -242,6 +253,8 @@ attributes:
     range: string
   contributor:
     name: contributor
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
@@ -251,6 +264,8 @@ attributes:
     range: Thing
   creator:
     name: creator
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
@@ -258,6 +273,40 @@ attributes:
     alias: creator
     owner: HasProvenance
     range: string
+  created:
+    name: created
+    close_mappings:
+    - pav:createdOn
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
+    owner: HasProvenance
+    range: string
+  date:
+    name: date
+    close_mappings:
+    - pav:authoredOn
+    description: when the term was updated
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:date
+    multivalued: true
+    alias: date
+    owner: HasProvenance
+    range: string
+  isDefinedBy:
+    name: isDefinedBy
+    close_mappings:
+    - pav:importedFrom
+    - dcterms:publisher
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: rdfs:isDefinedBy
+    alias: isDefinedBy
+    owner: HasProvenance
+    range: Ontology
   editor_note:
     name: editor_note
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -297,22 +346,6 @@ attributes:
     alias: ontology_term_requester
     owner: HasProvenance
     range: string
-  date:
-    name: date
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: provenance_property
-    slot_uri: dcterms:date
-    multivalued: true
-    alias: date
-    owner: HasProvenance
-    range: string
-  isDefinedBy:
-    name: isDefinedBy
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: rdfs:isDefinedBy
-    alias: isDefinedBy
-    owner: HasProvenance
-    range: Ontology
   imported_from:
     name: imported_from
     from_schema: http://purl.obolibrary.org/obo/omo/schema

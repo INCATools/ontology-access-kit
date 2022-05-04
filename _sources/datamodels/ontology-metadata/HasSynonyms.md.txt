@@ -102,6 +102,8 @@ attributes:
     multivalued: true
     alias: has_exact_synonym
     owner: HasSynonyms
+    disjoint_with:
+    - label
     range: label type
   has_narrow_synonym:
     name: has_narrow_synonym

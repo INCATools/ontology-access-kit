@@ -79,6 +79,7 @@
              
   <section id="class-hasminimalmetadata">
 <h1>Class: HasMinimalMetadata<a class="headerlink" href="#class-hasminimalmetadata" title="Permalink to this headline"></a></h1>
+<p><em>Absolute minimum metadata model</em></p>
 <ul class="simple">
 <li><p><strong>NOTE</strong>: this is a mixin class intended to be used in combination with other classes, and not used directly</p></li>
 </ul>
@@ -107,7 +108,7 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
 <td><p><span class="xref myst">label_type</span></p></td>
-<td><p>0..*</p></td>
+<td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
@@ -134,6 +135,7 @@
 <details>
 ```yaml
 name: HasMinimalMetadata
+description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: AnnotationPropertyMixin
 mixin: true
@@ -147,6 +149,7 @@ slots:
 &lt;details&gt;
 ```yaml
 name: HasMinimalMetadata
+description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: AnnotationPropertyMixin
 mixin: true
@@ -166,7 +169,7 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: true
+    multivalued: false
     alias: label
     owner: HasMinimalMetadata
     range: label type

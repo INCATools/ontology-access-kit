@@ -79,6 +79,7 @@
              
   <section id="class-ontology">
 <h1>Class: Ontology<a class="headerlink" href="#class-ontology" title="Permalink to this headline"></a></h1>
+<p><em>An OWL ontology</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#Ontology">owl:Ontology</a></p>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -106,46 +107,58 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="has_ontology_root_term.html"><span class="doc std std-doc">has_ontology_root_term</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="title.html"><span class="doc std std-doc">title</span></a></p></td>
+<td><p><span class="xref myst">narrative_text</span></p></td>
+<td><p>1..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="has_ontology_root_term.html"><span class="doc std std-doc">has_ontology_root_term</span></a></p></td>
 <td><p><a class="reference internal" href="Class.html"><span class="doc std std-doc">Class</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="license.html"><span class="doc std std-doc">license</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="license.html"><span class="doc std std-doc">license</span></a></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 <td><p>1..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="versionIRI.html"><span class="doc std std-doc">versionIRI</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="versionIRI.html"><span class="doc std std-doc">versionIRI</span></a></p></td>
 <td><p><span class="xref myst">uriorcurie</span></p></td>
 <td><p>1..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="versionInfo.html"><span class="doc std std-doc">versionInfo</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="versionInfo.html"><span class="doc std std-doc">versionInfo</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>1..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
+<td><p><span class="xref myst">string</span></p></td>
+<td><p>0..1</p></td>
+<td><p>when the term came into being</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="imports.html"><span class="doc std std-doc">imports</span></a></p></td>
@@ -158,6 +171,12 @@
 <td><p><span class="xref myst">uriorcurie</span></p></td>
 <td><p>1..1</p></td>
 <td><p>this maps to the URI in RDF</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
+<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p>0..*</p></td>
+<td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 </tbody>
@@ -233,9 +252,11 @@
 <details>
 ```yaml
 name: Ontology
+description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: NamedObject
 slots:
+- title
 - has_ontology_root_term
 - license
 - source
@@ -243,6 +264,7 @@ slots:
 - versionInfo
 - comment
 - creator
+- created
 - imports
 slot_usage:
   title:
@@ -265,6 +287,7 @@ class_uri: owl:Ontology
 &lt;details&gt;
 ```yaml
 name: Ontology
+description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: NamedObject
 slot_usage:
@@ -281,6 +304,14 @@ slot_usage:
     name: versionInfo
     required: true
 attributes:
+  title:
+    name: title
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: dcterms:title
+    alias: title
+    owner: Ontology
+    range: narrative text
+    required: true
   has_ontology_root_term:
     name: has_ontology_root_term
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -342,11 +373,25 @@ attributes:
     range: string
   creator:
     name: creator
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
     alias: creator
+    owner: Ontology
+    range: string
+  created:
+    name: created
+    close_mappings:
+    - pav:createdOn
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
     owner: Ontology
     range: string
   imports:
@@ -366,6 +411,16 @@ attributes:
     owner: Ontology
     range: uriorcurie
     required: true
+  type:
+    name: type
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdf:type
+    multivalued: true
+    designates_type: true
+    alias: type
+    owner: Ontology
+    range: uriorcurie
 class_uri: owl:Ontology
 
 </pre></div>

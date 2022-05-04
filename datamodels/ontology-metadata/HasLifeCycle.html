@@ -118,13 +118,13 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_replaced_by.html"><span class="doc std std-doc">term_replaced_by</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p><a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="consider.html"><span class="doc std std-doc">consider</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -168,6 +168,9 @@
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
 </section>
+<section id="rules">
+<h2>Rules<a class="headerlink" href="#rules" title="Permalink to this headline"></a></h2>
+</section>
 <section id="linkml-specification">
 <h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -189,6 +192,53 @@ slots:
 - excluded_subClassOf
 - excluded_synonym
 - should_conform_to
+rules:
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: 'true'
+  postconditions:
+    any_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is deprecated it should have either consider or replaced
+    by
+- preconditions:
+    none_of:
+    - slot_conditions:
+        deprecated:
+          name: deprecated
+          equals_expression: 'true'
+  postconditions:
+    none_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is not deprecated it should have neither consider nor replaced
+    by
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: 'true'
+  postconditions:
+    slot_conditions:
+      label:
+        name: label
+        pattern: '^obsolete '
+  description: if a term is deprecated its label should start with the string obsolete
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -241,7 +291,7 @@ attributes:
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: HasLifeCycle
-    range: Thing
+    range: Any
   consider:
     name: consider
     comments:
@@ -254,7 +304,7 @@ attributes:
     multivalued: true
     alias: consider
     owner: HasLifeCycle
-    range: string
+    range: Any
   has_alternative_id:
     name: has_alternative_id
     comments:
@@ -300,6 +350,53 @@ attributes:
     alias: should_conform_to
     owner: HasLifeCycle
     range: Thing
+rules:
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: &#39;true&#39;
+  postconditions:
+    any_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is deprecated it should have either consider or replaced
+    by
+- preconditions:
+    none_of:
+    - slot_conditions:
+        deprecated:
+          name: deprecated
+          equals_expression: &#39;true&#39;
+  postconditions:
+    none_of:
+    - slot_conditions:
+        term_replaced_by:
+          name: term_replaced_by
+          required: true
+    - slot_conditions:
+        consider:
+          name: consider
+          required: true
+  description: if a term is not deprecated it should have neither consider nor replaced
+    by
+- preconditions:
+    slot_conditions:
+      deprecated:
+        name: deprecated
+        equals_expression: &#39;true&#39;
+  postconditions:
+    slot_conditions:
+      label:
+        name: label
+        pattern: &#39;^obsolete &#39;
+  description: if a term is deprecated its label should start with the string obsolete
 
 </pre></div>
 </div>

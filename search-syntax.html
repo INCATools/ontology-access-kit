@@ -96,6 +96,18 @@
 <dt class="sig sig-object py" id="oaklib.datamodels.search.create_search_configuration">
 <span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.search.</span></span><span class="sig-name descname"><span class="pre">create_search_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oaklib.datamodels.search.SearchConfiguration" title="oaklib.datamodels.search.SearchConfiguration"><span class="pre">oaklib.datamodels.search.SearchConfiguration</span></a></span></span><a class="reference internal" href="_modules/oaklib/datamodels/search.html#create_search_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.search.create_search_configuration" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a search configuration based on search syntax</p>
+<p>term is either a plaintext search term, or a search term prefixed by</p>
+<ul class="simple">
+<li><ol class="arabic simple">
+<li><p>a property code, one of t, ., l (for term, anything, label)</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>a match type indicator, one of “~”,”/”,”=”,”^”</p></li>
+</ol>
+</li>
+</ul>
+<p>For more documentation, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/search.html">Search docs</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>term</strong> – </p>
