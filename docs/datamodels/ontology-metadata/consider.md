@@ -14,7 +14,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#consider](http://www.geneonto
 
 ## Properties
 
- * Range: None
+ * Range: Any
 
 
 

@@ -29,6 +29,11 @@ URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
 ## Usages
 
 
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [GraphDocument](GraphDocument.md) | [graphs](graphs.md) | range | Graph |
+
+
 
 ## Identifier and Mapping Information
 

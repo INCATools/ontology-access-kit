@@ -41,8 +41,8 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 | [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | [string](string.md) | 0..* | None  | . |
 | [deprecated](deprecated.md) | [boolean](boolean.md) | 0..1 | None  | . |
 | [has_obsolescence_reason](has_obsolescence_reason.md) | [string](string.md) | 0..1 | None  | . |
-| [term_replaced_by](term_replaced_by.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [consider](consider.md) | [string](string.md) | 0..* | None  | . |
+| [term_replaced_by](term_replaced_by.md) | [Any](Any.md) | 0..1 | None  | . |
+| [consider](consider.md) | [Any](Any.md) | 0..* | None  | . |
 | [has_alternative_id](has_alternative_id.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [excluded_subClassOf](excluded_subClassOf.md) | [Class](Class.md) | 0..* | None  | . |
@@ -52,12 +52,13 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 | [creation_date](creation_date.md) | [string](string.md) | 0..* | None  | . |
 | [contributor](contributor.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [creator](creator.md) | [string](string.md) | 0..* | None  | . |
+| [created](created.md) | [string](string.md) | 0..1 | when the term came into being  | . |
+| [date](date.md) | [string](string.md) | 0..* | when the term was updated  | . |
+| [isDefinedBy](isDefinedBy.md) | [Ontology](Ontology.md) | 0..1 | None  | . |
 | [editor_note](editor_note.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
 | [term_editor](term_editor.md) | [string](string.md) | 0..* | None  | . |
 | [definition_source](definition_source.md) | [string](string.md) | 0..* | None  | . |
 | [ontology_term_requester](ontology_term_requester.md) | [string](string.md) | 0..1 | None  | . |
-| [date](date.md) | [string](string.md) | 0..* | None  | . |
-| [isDefinedBy](isDefinedBy.md) | [Ontology](Ontology.md) | 0..1 | None  | . |
 | [imported_from](imported_from.md) | [NamedIndividual](NamedIndividual.md) | 0..* | None  | . |
 | [term_tracker_item](term_tracker_item.md) | [string](string.md) | 0..* | None  | . |
 | [broadMatch](broadMatch.md) | [Property](Property.md) | 0..* | None  | . |
@@ -70,16 +71,17 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 | [in_subset](in_subset.md) | [Subset](Subset.md) | 0..* | Maps an ontology element to a subset it belongs to  | . |
 | [conformsTo](conformsTo.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [comment](comment.md) | [string](string.md) | 0..* | None  | . |
-| [seeAlso](seeAlso.md) | [string](string.md) | 0..* | None  | . |
+| [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [image](image.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [example_of_usage](example_of_usage.md) | [string](string.md) | 0..* | None  | . |
 | [curator_note](curator_note.md) | [string](string.md) | 0..* | None  | . |
 | [has_curation_status](has_curation_status.md) | [string](string.md) | 0..1 | None  | . |
 | [depicted_by](depicted_by.md) | [string](string.md) | 0..* | None  | . |
 | [page](page.md) | [string](string.md) | 0..* | None  | . |
-| [label](label.md) | [label_type](label_type.md) | 0..* _recommended_ | None  | . |
+| [label](label.md) | [label_type](label_type.md) | 0..1 _recommended_ | None  | . |
 | [definition](definition.md) | [narrative_text](narrative_text.md) | 0..* _recommended_ | None  | . |
 | [id](id.md) | [uriorcurie](uriorcurie.md) | 1..1 | this maps to the URI in RDF  | . |
+| [type](type.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
 
 
 ## Usages
@@ -95,10 +97,14 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 | [AnnotationProperty](AnnotationProperty.md) | [closeMatch](closeMatch.md) | range | Property |
 | [AnnotationProperty](AnnotationProperty.md) | [exactMatch](exactMatch.md) | range | Property |
 | [AnnotationProperty](AnnotationProperty.md) | [narrowMatch](narrowMatch.md) | range | Property |
+| [ObjectProperty](ObjectProperty.md) | [equivalentProperty](equivalentProperty.md) | range | Property |
+| [ObjectProperty](ObjectProperty.md) | [inverseOf](inverseOf.md) | range | Property |
 | [ObjectProperty](ObjectProperty.md) | [broadMatch](broadMatch.md) | range | Property |
 | [ObjectProperty](ObjectProperty.md) | [closeMatch](closeMatch.md) | range | Property |
 | [ObjectProperty](ObjectProperty.md) | [exactMatch](exactMatch.md) | range | Property |
 | [ObjectProperty](ObjectProperty.md) | [narrowMatch](narrowMatch.md) | range | Property |
+| [TransitiveProperty](TransitiveProperty.md) | [equivalentProperty](equivalentProperty.md) | range | Property |
+| [TransitiveProperty](TransitiveProperty.md) | [inverseOf](inverseOf.md) | range | Property |
 | [TransitiveProperty](TransitiveProperty.md) | [broadMatch](broadMatch.md) | range | Property |
 | [TransitiveProperty](TransitiveProperty.md) | [closeMatch](closeMatch.md) | range | Property |
 | [TransitiveProperty](TransitiveProperty.md) | [exactMatch](exactMatch.md) | range | Property |
@@ -241,6 +247,8 @@ attributes:
     multivalued: true
     alias: has_exact_synonym
     owner: Property
+    disjoint_with:
+    - label
     range: label type
   has_narrow_synonym:
     name: has_narrow_synonym
@@ -361,7 +369,7 @@ attributes:
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: Property
-    range: Thing
+    range: Any
   consider:
     name: consider
     comments:
@@ -374,7 +382,7 @@ attributes:
     multivalued: true
     alias: consider
     owner: Property
-    range: string
+    range: Any
   has_alternative_id:
     name: has_alternative_id
     comments:
@@ -422,7 +430,9 @@ attributes:
     range: Thing
   created_by:
     name: created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: creator
     is_a: provenance_property
     slot_uri: oio:created_by
     alias: created_by
@@ -430,9 +440,11 @@ attributes:
     range: string
   creation_date:
     name: creation_date
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: created
     is_a: provenance_property
     slot_uri: oio:creation_date
     multivalued: true
@@ -441,6 +453,8 @@ attributes:
     range: string
   contributor:
     name: contributor
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
@@ -450,6 +464,8 @@ attributes:
     range: Thing
   creator:
     name: creator
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
@@ -457,6 +473,40 @@ attributes:
     alias: creator
     owner: Property
     range: string
+  created:
+    name: created
+    close_mappings:
+    - pav:createdOn
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
+    owner: Property
+    range: string
+  date:
+    name: date
+    close_mappings:
+    - pav:authoredOn
+    description: when the term was updated
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:date
+    multivalued: true
+    alias: date
+    owner: Property
+    range: string
+  isDefinedBy:
+    name: isDefinedBy
+    close_mappings:
+    - pav:importedFrom
+    - dcterms:publisher
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: rdfs:isDefinedBy
+    alias: isDefinedBy
+    owner: Property
+    range: Ontology
   editor_note:
     name: editor_note
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -496,22 +546,6 @@ attributes:
     alias: ontology_term_requester
     owner: Property
     range: string
-  date:
-    name: date
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: provenance_property
-    slot_uri: dcterms:date
-    multivalued: true
-    alias: date
-    owner: Property
-    range: string
-  isDefinedBy:
-    name: isDefinedBy
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: rdfs:isDefinedBy
-    alias: isDefinedBy
-    owner: Property
-    range: Ontology
   imported_from:
     name: imported_from
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -631,7 +665,7 @@ attributes:
     multivalued: true
     alias: seeAlso
     owner: Property
-    range: string
+    range: Thing
   image:
     name: image
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -693,7 +727,7 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: true
+    multivalued: false
     alias: label
     owner: Property
     range: label type
@@ -718,6 +752,16 @@ attributes:
     owner: Property
     range: uriorcurie
     required: true
+  type:
+    name: type
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: logical_predicate
+    slot_uri: rdf:type
+    multivalued: true
+    designates_type: true
+    alias: type
+    owner: Property
+    range: uriorcurie
 class_uri: rdf:Property
 
 ```

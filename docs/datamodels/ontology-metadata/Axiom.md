@@ -15,6 +15,13 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
+| [annotatedProperty](annotatedProperty.md) | [AnnotationProperty](AnnotationProperty.md) | 0..1 | None  | . |
+| [annotatedSource](annotatedSource.md) | [Thing](Thing.md) | 0..1 | None  | . |
+| [annotatedTarget](annotatedTarget.md) | [Any](Any.md) | 0..1 | None  | . |
+| [source](source.md) | [string](string.md) | 0..* | None  | . |
+| [is_inferred](is_inferred.md) | [boolean](boolean.md) | 0..1 | None  | . |
+| [notes](notes.md) | [string](string.md) | 0..* | None  | . |
+| [url](url.md) | [string](string.md) | 0..1 | None  | . |
 | [has_axiom_label](has_axiom_label.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | [string](string.md) | 0..1 | None  | . |
 | [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | [string](string.md) | 0..1 | None  | . |
@@ -25,18 +32,9 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 | [database_cross_reference](database_cross_reference.md) | [CURIELiteral](CURIELiteral.md) | 0..* | Uses to indicate the source of an axiom  | . |
 | [has_exact_synonym](has_exact_synonym.md) | [label_type](label_type.md) | 0..* | None  | . |
 | [has_synonym_type](has_synonym_type.md) | [AnnotationProperty](AnnotationProperty.md) | 0..* | None  | . |
-| [source](source.md) | [string](string.md) | 0..* | None  | . |
-| [is_inferred](is_inferred.md) | [boolean](boolean.md) | 0..1 | None  | . |
-| [notes](notes.md) | [string](string.md) | 0..* | None  | . |
-| [url](url.md) | [string](string.md) | 0..1 | None  | . |
-| [annotatedProperty](annotatedProperty.md) | [AnnotationProperty](AnnotationProperty.md) | 0..1 | None  | . |
-| [annotatedSource](annotatedSource.md) | [string](string.md) | 0..1 | None  | . |
-| [annotatedTarget](annotatedTarget.md) | [string](string.md) | 0..1 | None  | . |
-| [onProperty](onProperty.md) | [PropertyExpression](PropertyExpression.md) | 0..* | None  | . |
-| [someValuesFrom](someValuesFrom.md) | [string](string.md) | 0..* | None  | . |
 | [comment](comment.md) | [string](string.md) | 0..* | None  | . |
-| [label](label.md) | [label_type](label_type.md) | 0..* | None  | . |
-| [seeAlso](seeAlso.md) | [string](string.md) | 0..* | None  | . |
+| [label](label.md) | [label_type](label_type.md) | 0..1 | None  | . |
+| [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
 
 
 ## Usages
@@ -66,6 +64,13 @@ exact_mappings:
 - rdf:Statement
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 slots:
+- annotatedProperty
+- annotatedSource
+- annotatedTarget
+- source
+- is_inferred
+- notes
+- url
 - has_axiom_label
 - is_a_defining_property_chain_axiom
 - is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
@@ -76,15 +81,6 @@ slots:
 - database_cross_reference
 - has_exact_synonym
 - has_synonym_type
-- source
-- is_inferred
-- notes
-- url
-- annotatedProperty
-- annotatedSource
-- annotatedTarget
-- onProperty
-- someValuesFrom
 - comment
 - label
 - seeAlso
@@ -118,6 +114,77 @@ slot_usage:
     in_subset:
     - go permitted profile
 attributes:
+  annotatedProperty:
+    name: annotatedProperty
+    exact_mappings:
+    - rdf:predicate
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: reification_predicate
+    slot_uri: owl:annotatedProperty
+    alias: annotatedProperty
+    owner: Axiom
+    range: AnnotationProperty
+  annotatedSource:
+    name: annotatedSource
+    exact_mappings:
+    - rdf:subject
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: reification_predicate
+    slot_uri: owl:annotatedSource
+    alias: annotatedSource
+    owner: Axiom
+    range: Thing
+  annotatedTarget:
+    name: annotatedTarget
+    exact_mappings:
+    - rdf:object
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: reification_predicate
+    slot_uri: owl:annotatedTarget
+    alias: annotatedTarget
+    owner: Axiom
+    range: Any
+  source:
+    name: source
+    exact_mappings:
+    - http://purl.org/dc/terms/source
+    - oio:source
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:source
+    multivalued: true
+    alias: source
+    owner: Axiom
+    range: string
+  is_inferred:
+    name: is_inferred
+    deprecated: deprecated oboInOwl property
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:is_inferred
+    alias: is_inferred
+    owner: Axiom
+    range: boolean
+  notes:
+    name: notes
+    deprecated: deprecated oboInOwl property
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:notes
+    multivalued: true
+    alias: notes
+    owner: Axiom
+    range: string
+  url:
+    name: url
+    deprecated: deprecated oboInOwl property
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: oio:url
+    alias: url
+    owner: Axiom
+    range: string
   has_axiom_label:
     name: has_axiom_label
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -142,7 +209,9 @@ attributes:
     range: string
   created_by:
     name: created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: creator
     is_a: provenance_property
     slot_uri: oio:created_by
     alias: created_by
@@ -195,6 +264,8 @@ attributes:
     multivalued: true
     alias: has_exact_synonym
     owner: Axiom
+    disjoint_with:
+    - label
     range: label type
   has_synonym_type:
     name: has_synonym_type
@@ -204,97 +275,6 @@ attributes:
     alias: has_synonym_type
     owner: Axiom
     range: AnnotationProperty
-  source:
-    name: source
-    exact_mappings:
-    - http://purl.org/dc/terms/source
-    - oio:source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: provenance_property
-    slot_uri: dcterms:source
-    multivalued: true
-    alias: source
-    owner: Axiom
-    range: string
-  is_inferred:
-    name: is_inferred
-    deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: oio:is_inferred
-    alias: is_inferred
-    owner: Axiom
-    range: boolean
-  notes:
-    name: notes
-    deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: oio:notes
-    multivalued: true
-    alias: notes
-    owner: Axiom
-    range: string
-  url:
-    name: url
-    deprecated: deprecated oboInOwl property
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: oio:url
-    alias: url
-    owner: Axiom
-    range: string
-  annotatedProperty:
-    name: annotatedProperty
-    exact_mappings:
-    - rdf:predicate
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: reification_predicate
-    slot_uri: owl:annotatedProperty
-    alias: annotatedProperty
-    owner: Axiom
-    range: AnnotationProperty
-  annotatedSource:
-    name: annotatedSource
-    exact_mappings:
-    - rdf:subject
-    todos:
-    - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: reification_predicate
-    slot_uri: owl:annotatedSource
-    alias: annotatedSource
-    owner: Axiom
-    range: string
-  annotatedTarget:
-    name: annotatedTarget
-    exact_mappings:
-    - rdf:object
-    todos:
-    - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: reification_predicate
-    slot_uri: owl:annotatedTarget
-    alias: annotatedTarget
-    owner: Axiom
-    range: string
-  onProperty:
-    name: onProperty
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: logical_predicate
-    slot_uri: owl:onProperty
-    multivalued: true
-    alias: onProperty
-    owner: Axiom
-    range: PropertyExpression
-  someValuesFrom:
-    name: someValuesFrom
-    todos:
-    - restrict range
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: logical_predicate
-    slot_uri: owl:someValuesFrom
-    multivalued: true
-    alias: someValuesFrom
-    owner: Axiom
-    range: string
   comment:
     name: comment
     comments:
@@ -321,7 +301,7 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: true
+    multivalued: false
     alias: label
     owner: Axiom
     range: label type
@@ -334,7 +314,7 @@ attributes:
     multivalued: true
     alias: seeAlso
     owner: Axiom
-    range: string
+    range: Thing
 class_uri: owl:Axiom
 
 ```

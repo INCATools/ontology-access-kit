@@ -14,7 +14,7 @@ URI: [http://www.w3.org/2002/07/owl#equivalentClass](http://www.w3.org/2002/07/o
 
 ## Properties
 
- * Range: None
+ * Range: ClassExpression
 
 
 

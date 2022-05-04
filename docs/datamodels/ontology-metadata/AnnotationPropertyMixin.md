@@ -1,4 +1,6 @@
 # Class: AnnotationPropertyMixin
+_Groups all annotation property bundles_
+
 
 
 
@@ -53,6 +55,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 <details>
 ```yaml
 name: AnnotationPropertyMixin
+description: Groups all annotation property bundles
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 mixin: true
 
@@ -64,6 +67,7 @@ mixin: true
 <details>
 ```yaml
 name: AnnotationPropertyMixin
+description: Groups all annotation property bundles
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 mixin: true
 

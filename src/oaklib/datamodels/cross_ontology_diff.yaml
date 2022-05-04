@@ -1,0 +1,124 @@
+id: https://w3id.org/linkml/cross_ontology_diff
+title: Cross-Ontology Diff
+name: cross-ontology-diff
+description: A datamodel for representing the results of relational diffs across a pair of ontologies connected by mappings
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  ann: https://w3id.org/linkml/text_annotator/
+  skos: http://www.w3.org/2004/02/skos/core#
+  pav: http://purl.org/pav/
+  schema: http://schema.org/
+  sh: https://w3id.org/shacl/
+  prov: http://www.w3.org/ns/prov#
+  sssom: http://w3id.org/sssom/
+  bpa: https://bioportal.bioontology.org/annotator/
+
+default_prefix: ann
+default_range: string
+
+default_curi_maps:
+  - semweb_context
+
+emit_prefixes:
+  - linkml
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+imports:
+  - linkml:types
+
+types:
+  Position:
+    typeof: integer
+
+#==================================
+# Classes                         #
+#==================================
+classes:
+  StructureDiffResultSet:
+    description: A collection of results
+    attributes:
+      results:
+        description: all annotations
+        range: RelationalDiff
+        multivalued: true
+        inlined: true
+
+  RelationalDiff:
+    description: >-
+      A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in
+      another ontology (or a different version of the same ontology). The diff is from the perspective of one
+      ontology (the one on the "left" side).
+      For every edge in the left ontology, the subject and object are mapped to the right ontology.
+      If mappings cannot be found then the diff is categorized as missing mappings.
+      The predicate is also mapped, with the reflexivity assumption.
+      for every mapped subject and object pair (the "right" subject and object), the entailed relationship
+      is examined to determine if it consistent with the left predicate.
+    attributes:
+      category:
+        range: DiffCategory
+        description: Each match (or lack of match) is placed into exactly one category
+      left_subject_id:
+        range: uriorcurie
+        description: The subject (child) of the source/left edge
+        required: true
+      left_object_id:
+        range: uriorcurie
+        description: The object (parent) of the source/left edge
+        required: true
+      left_predicate_id:
+        range: uriorcurie
+        description: The predicate (relation) of the source/left edge
+        required: true
+      left_subject_name:
+        description: The name of the subject (child) of the source/left edge
+      left_object_name:
+        description: The name of the object (parent) of the source/left edge
+      left_predicate_name:
+        description: The name of the predicate of the source/left edge
+      right_subject_id:
+        range: uriorcurie
+        description: The subject (child) of the matched/right edge, if matchable
+      right_object_id:
+        range: uriorcurie
+        description: The object (parent) of the matched/right edge, if matchable
+      right_predicate_ids:
+        range: uriorcurie
+        multivalued: true
+        description: >-
+          If the match type is consistent, then all consistent predicates.
+          If the match type is identical, then the identical predicate.
+          If the match type is OtherRelationship, then all predicates that form a path between right subject and object
+      right_subject_name:
+        description: The name of the subject (child) of the matched/right edge, if matchable
+      right_object_name:
+        description: The name of the object (parent) of the matched/right edge, if matchable
+      right_predicate_names:
+        multivalued: true
+        description: The names corresponding to the right_predicate_ids
+      left_subject_is_functional:
+        range: boolean
+        description: True if a subject mapping is present, and maps uniquely within the same ontology
+      left_object_is_functional:
+        range: boolean
+        description: True if an object mapping is present, and maps uniquely within the same ontology
+enums:
+  DiffCategory:
+    description: Category of the cross-ontology diff, from the perspective of the left-hand edge
+    permissible_values:
+      Identical:
+        description: there is a direct analogous direct asserted edge with the same predicate
+      Consistent:
+        description: there is an entailed analogous edge with the same predicate or more specific predicate
+      OtherRelationship:
+        description: there is an analogous edge with a different predicate that is not entailed
+      MissingMapping:
+        description: one or both mappings are missing
+      MissingSubjectMapping:
+        description: there is no mapping for the subject
+      MissingObjectMapping:
+        description: there is no mapping for the object

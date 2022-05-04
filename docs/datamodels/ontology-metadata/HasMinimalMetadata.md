@@ -1,4 +1,6 @@
 # Class: HasMinimalMetadata
+_Absolute minimum metadata model_
+
 
 
 
@@ -22,7 +24,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [label](label.md) | [label_type](label_type.md) | 0..* | None  | . |
+| [label](label.md) | [label_type](label_type.md) | 0..1 | None  | . |
 | [definition](definition.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
 
 
@@ -49,6 +51,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 <details>
 ```yaml
 name: HasMinimalMetadata
+description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: AnnotationPropertyMixin
 mixin: true
@@ -64,6 +67,7 @@ slots:
 <details>
 ```yaml
 name: HasMinimalMetadata
+description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: AnnotationPropertyMixin
 mixin: true
@@ -83,7 +87,7 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: core_property
     slot_uri: rdfs:label
-    multivalued: true
+    multivalued: false
     alias: label
     owner: HasMinimalMetadata
     range: label type

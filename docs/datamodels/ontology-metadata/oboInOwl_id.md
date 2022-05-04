@@ -9,7 +9,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#id](http://www.geneontology.o
 
 ## Properties
 
- * Range: uriorcurie
+ * Range: string
 
 
 

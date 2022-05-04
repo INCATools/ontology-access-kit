@@ -26,12 +26,13 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 | [creation_date](creation_date.md) | [string](string.md) | 0..* | None  | . |
 | [contributor](contributor.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [creator](creator.md) | [string](string.md) | 0..* | None  | . |
+| [created](created.md) | [string](string.md) | 0..1 | when the term came into being  | . |
+| [date](date.md) | [string](string.md) | 0..* | when the term was updated  | . |
+| [isDefinedBy](isDefinedBy.md) | [Ontology](Ontology.md) | 0..1 | None  | . |
 | [editor_note](editor_note.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
 | [term_editor](term_editor.md) | [string](string.md) | 0..* | None  | . |
 | [definition_source](definition_source.md) | [string](string.md) | 0..* | None  | . |
 | [ontology_term_requester](ontology_term_requester.md) | [string](string.md) | 0..1 | None  | . |
-| [date](date.md) | [string](string.md) | 0..* | None  | . |
-| [isDefinedBy](isDefinedBy.md) | [Ontology](Ontology.md) | 0..1 | None  | . |
 | [imported_from](imported_from.md) | [NamedIndividual](NamedIndividual.md) | 0..* | None  | . |
 | [term_tracker_item](term_tracker_item.md) | [string](string.md) | 0..* | None  | . |
 
@@ -67,12 +68,13 @@ slots:
 - creation_date
 - contributor
 - creator
+- created
+- date
+- isDefinedBy
 - editor_note
 - term_editor
 - definition_source
 - ontology_term_requester
-- date
-- isDefinedBy
 - imported_from
 - term_tracker_item
 
@@ -90,7 +92,9 @@ mixin: true
 attributes:
   created_by:
     name: created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: creator
     is_a: provenance_property
     slot_uri: oio:created_by
     alias: created_by
@@ -98,9 +102,11 @@ attributes:
     range: string
   creation_date:
     name: creation_date
+    deprecated: proposed obsoleted by OMO group 2022-04-12
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: created
     is_a: provenance_property
     slot_uri: oio:creation_date
     multivalued: true
@@ -109,6 +115,8 @@ attributes:
     range: string
   contributor:
     name: contributor
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
@@ -118,6 +126,8 @@ attributes:
     range: Thing
   creator:
     name: creator
+    close_mappings:
+    - prov:wasAttributedTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
@@ -125,6 +135,40 @@ attributes:
     alias: creator
     owner: HasProvenance
     range: string
+  created:
+    name: created
+    close_mappings:
+    - pav:createdOn
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
+    owner: HasProvenance
+    range: string
+  date:
+    name: date
+    close_mappings:
+    - pav:authoredOn
+    description: when the term was updated
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    is_a: provenance_property
+    slot_uri: dcterms:date
+    multivalued: true
+    alias: date
+    owner: HasProvenance
+    range: string
+  isDefinedBy:
+    name: isDefinedBy
+    close_mappings:
+    - pav:importedFrom
+    - dcterms:publisher
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    slot_uri: rdfs:isDefinedBy
+    alias: isDefinedBy
+    owner: HasProvenance
+    range: Ontology
   editor_note:
     name: editor_note
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -164,22 +208,6 @@ attributes:
     alias: ontology_term_requester
     owner: HasProvenance
     range: string
-  date:
-    name: date
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    is_a: provenance_property
-    slot_uri: dcterms:date
-    multivalued: true
-    alias: date
-    owner: HasProvenance
-    range: string
-  isDefinedBy:
-    name: isDefinedBy
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
-    slot_uri: rdfs:isDefinedBy
-    alias: isDefinedBy
-    owner: HasProvenance
-    range: Ontology
   imported_from:
     name: imported_from
     from_schema: http://purl.obolibrary.org/obo/omo/schema

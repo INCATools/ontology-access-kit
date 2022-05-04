@@ -100,6 +100,8 @@ def get_mappings_in(g: nx.Graph, curie: CURIE, sources: List[str]):
 def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface,
                                        sources: List[str]) -> Iterator[ANALOGOUS_RELATION]:
     """
+    Calculates a relational diff between ontologies in two sources using the combined mappings
+    from both
 
     :param subject_oi:
     :param object_oi:

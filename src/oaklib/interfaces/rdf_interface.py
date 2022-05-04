@@ -28,7 +28,11 @@ class RdfInterface(BasicOntologyInterface, ABC):
             yield self._triple_as_curies(t)
 
     def objects(self, subject, predicate) -> Iterator[Any]:
-        return self.graph().objects(subject, predicate)
+        for obj in self.graph().objects(subject, predicate):
+            if isinstance(obj, URIRef):
+                yield self.uri_to_curie(obj)
+            else:
+                yield obj
 
     def extract_triples(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None, strategy: str = None,
                         map_to_curies=True) -> Iterator[TRIPLE]:
