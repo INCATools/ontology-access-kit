@@ -104,6 +104,15 @@ suggest new entries!</p>
 </dd>
 </dl>
 </section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt>… Why do I get a “Error: No such option: -i” message</dt><dd><p>The <code class="code docutils literal notranslate"><span class="pre">--input</span></code> or <code class="code docutils literal notranslate"><span class="pre">-i</span></code> option must come <em>before</em> the subcommand name. This is because
+the input option is one of the few options that are shared across <em>all</em> subcommands.
+For example, you should write <code class="code docutils literal notranslate"><span class="pre">runoak</span> <span class="pre">-i</span> <span class="pre">my-ont.owl</span> <span class="pre">lexmatch</span> <span class="pre">-o</span> <span class="pre">results.sssom.tsv</span></code></p>
+</dd>
+</dl>
+</section>
 </section>
 
 

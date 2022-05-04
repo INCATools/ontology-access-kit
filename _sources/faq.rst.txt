@@ -31,3 +31,11 @@ Using OAK with...
 
 Bioportal
     todo
+
+Troubleshooting
+---------------
+
+... Why do I get a "Error: No such option: -i" message
+    The :code:`--input` or :code:`-i` option must come *before* the subcommand name. This is because
+    the input option is one of the few options that are shared across *all* subcommands.
+    For example, you should write :code:`runoak -i my-ont.owl lexmatch -o results.sssom.tsv`
