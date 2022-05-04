@@ -12,7 +12,12 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
     """
     Generates a search configuration based on search syntax
 
+    term is either a plaintext search term, or a search term prefixed by
 
+    - 1. a property code, one of t, ., l (for term, anything, label)
+    - 2. a match type indicator, one of "~","/","=","^"
+
+    For more documentation, see `Search docs <https://incatools.github.io/ontology-access-kit/interfaces/search.html>`_
 
     :param term:
     :return:

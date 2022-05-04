@@ -12,7 +12,7 @@ The search interface provides a largely implementation-neutral way to query an o
 It also allows you to control which metadata elements are searched over (typically labels and aliases)
 
 Implementations may differ in their behavior. Some implementations may not be able to honor specific requests.
-For example, the :ref:`SqlDatabase` implementation may not be able to fulfil regular expression queries.
+For example, the :ref:`SqlDatabaseImplementation` implementation may not be able to fulfil regular expression queries.
 
 Some endpoints may return results that are ranked by relevance, others may be arbitrary
 
@@ -55,3 +55,13 @@ Code
 
 .. autoclass:: SearchConfiguration
     :members:
+
+.. currentmodule:: oaklib.datamodels.search_datamodel
+    :members:
+
+.. autosummary::
+   :toctree: src
+
+   search
+
+
