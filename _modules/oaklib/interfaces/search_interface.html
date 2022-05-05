@@ -114,11 +114,12 @@
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">search_terms</span><span class="p">:</span>
             <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">t</span>
-            <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-                <span class="k">yield</span> <span class="n">curie</span></div></div>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">curie</span></div></div>
 
 
 
