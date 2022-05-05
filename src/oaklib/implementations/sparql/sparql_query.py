@@ -6,6 +6,8 @@ from oaklib.types import URI
 
 VAR_NAME = str
 WHERE_CLAUSE = str
+DELETE_CLAUSE = str
+INSERTCLAUSE = str
 
 
 @dataclass
@@ -53,4 +55,31 @@ class SparqlQuery:
         q = f'SELECT {self.select_str()} WHERE {{ {w} }}'
         if self.limit is not None:
             q += f' LIMIT {self.limit}'
+        return q
+
+
+@dataclass
+class SparqlUpdate(SparqlQuery):
+    insert: List[WHERE_CLAUSE] = None
+    delete: List[WHERE_CLAUSE] = None
+
+    def insert_str(self):
+        return ". ".join([w for w in self.insert if w])
+
+    def delete_str(self):
+        return ". ".join([w for w in self.delete if w])
+
+    def query_str(self):
+        """
+        Generate the SPARQL update string
+        :return:
+        """
+        w = self.where_str()
+        q = f"""
+        DELETE {{ {self.delete_str()} }}
+        INSERT {{ {self.insert_str()} }}
+        WHERE {{ {self.where_str()} }}
+        """
+        if self.graph:
+            q = f'WITH <{self.graph}> {q}'
         return q

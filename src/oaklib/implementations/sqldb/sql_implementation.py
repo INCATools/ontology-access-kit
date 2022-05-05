@@ -16,6 +16,7 @@ from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.datamodels.search import SearchConfiguration
@@ -26,7 +27,7 @@ import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
     ALL_MATCH_PREDICATES
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
-from sqlalchemy import text
+from sqlalchemy import text, update, delete
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
 
@@ -48,7 +49,7 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 @dataclass
 class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface,
-                        SubsetterInterface, MappingProviderInterface, ABC):
+                        SubsetterInterface, MappingProviderInterface, PatcherInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -69,7 +70,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
 
     def __post_init__(self):
         if self.engine is None:
-            self.engine = create_engine(self.resource.slug)  ## TODO
+            self.engine = create_engine(str(self.resource.slug))
 
     @property
     def session(self):
@@ -130,9 +131,12 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
 
     def _subset_curie_to_uri_map(self) -> Dict[CURIE, str]:
         m = {}
-        for row in self.session.query(Statements.object).filter(Statements.predicate == IN_SUBSET):
+        for row in self.session.query(Statements.object, Statements.value).filter(Statements.predicate == IN_SUBSET):
             uri = row.object
-            m[self._get_subset_curie(row.object)] = uri
+            if row.object is None:
+                logging.warning(f'Subset may be incorrectly encoded as value for {row.value}')
+            else:
+                m[self._get_subset_curie(row.object)] = uri
         return m
 
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
@@ -461,3 +465,21 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 rels.append((row.subject, row.predicate, row.object))
         for rel in transitive_reduction_by_predicate(rels):
             yield rel
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: PatcherInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
+        for k, v in curie_map.items():
+            for cls in [Statements, EntailedEdge]:
+                cmd = update(cls).where(cls.subject == k).values(subject=v)
+                r = self.session.execute(cmd)
+                cmd = update(cls).where(cls.predicate == k).values(predicate=v)
+                r = self.session.execute(cmd)
+                cmd = update(cls).where(cls.object == k).values(object=v)
+                r = self.session.execute(cmd)
+
+    def save(self):
+        self.session.commit()
+        self.session.flush()

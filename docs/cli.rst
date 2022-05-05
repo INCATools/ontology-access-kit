@@ -37,6 +37,9 @@ multiple implementations. For example, you can multiplex queries over different 
 Common Patterns
 ---------------
 
+Term Lists
+^^^^^^^^^^^
+
 Many commands take a *term* or a *list of terms* as their primary argument. These are typically one of:
 
 - a :ref:`CURIE` such as :code:`UBERON:0000955`
@@ -48,6 +51,21 @@ Many commands take a *term* or a *list of terms* as their primary argument. Thes
 Search terms are *expanded* to matching CURIEs, and then fed into the command
 
 Be warned that use of search terms can make some commands "explode"
+
+Predicates
+^^^^^^^^^^
+
+Many commands take a :code:`--predicates` option (shortened to :code:`-p`). This specifies a list of predicates
+(aka *relationship types*, see :ref:`Predicates`) to be used in filtering. The list is specified as a comma-delimited
+list (no spaces) of CURIEs.
+
+For many biological ontologies, it can be useful to filter on is_a (rdfs:subClassOf) and part_of (BFO:0000050) so
+the command line interface understands shortcuts for these:
+
+- :code:`i`: is-a (i.e rdfs:subClassOf between two named classes)
+- :code:`p`: part-of
+
+However, this library is not restricted to biological ontologies, and in future we may allow customizable shortcuts.
 
 Command Line Docs
 -----------------

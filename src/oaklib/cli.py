@@ -24,6 +24,7 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
@@ -187,6 +188,8 @@ def search(terms, output: str):
 
         runoak -i ubergraph:uberon search limb
 
+    For more on search, see https://incatools.github.io/ontology-access-kit/interfaces/search.html
+
     """
     impl = settings.impl
     if isinstance(impl, SearchInterface):
@@ -208,6 +211,11 @@ def all_subsets(output: str):
 
     Example:
         runoak -i obolibrary:go.obo all-subsets
+
+    Example:
+        runoak -i cl.owl all-subsets
+
+    For background on subsets, see https://incatools.github.io/ontology-access-kit/concepts.html#subsets
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -228,6 +236,8 @@ def list_subset(subset, output: str):
 
     Example:
         oak -i sqlite:notebooks/input/go.db list-subset goslim_agr
+
+    https://incatools.github.io/ontology-access-kit/concepts.html#subsets
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -235,6 +245,7 @@ def list_subset(subset, output: str):
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @click.argument("words", nargs=-1)
@@ -245,6 +256,12 @@ def annotate(words, output: str):
 
     Example:
         runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
+
+    Currently BioPortal is the only implementation. Volunteers sought to implement for OLS.
+
+    See the ontorunner framework for plugins for SciSpacy and OGER
+
+    For more on text annotation, see https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html
     """
     impl = settings.impl
     text = ' '.join(words)
@@ -283,9 +300,11 @@ def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_typ
     """
     Visualizing an ancestor graph using obographviz
 
-    Note the implementation must implement :class:`.OboGraphInterface`
+    For general background on what is meant by a graph in OAK,
+    see https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
 
-    This requires that `obographviz <https://github.com/cmungall/obographviz>`_ is installed.
+    :: note:
+       This requires that `obographviz <https://github.com/INCATools/obographviz>`_ is installed.
 
     Example:
 
@@ -384,9 +403,17 @@ def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_typ
 @output_option
 def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: TextIO):
     """
-    Visualize an ancestor graph as an ascii/markdown tree
+    Display an ancestor graph as an ascii/markdown tree
 
     For general instructions, see the viz command, which this is analogous too
+
+    Example:
+
+        runoak -i db/envo.db tree ENVO:00000372 -p i,p
+
+    Note: for many ontologies the tree view will explode, especially if no predicates are specified.
+    To avoid this,
+
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -455,6 +482,10 @@ def ancestors(terms, predicates, output: str):
     Multiple terms can be passed:
 
         runoak -i sqlite:go.db ancestors GO:0005773 GO:0005737 -p i,p
+
+    More background:
+
+        https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
@@ -479,6 +510,10 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
     List all descendants of a term
 
     See examples for 'ancestors' command
+
+    More background:
+
+        https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
     if output_type == 'obo':
@@ -510,7 +545,7 @@ def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
     Currently the only endpoint to implement this is ubergraph. Ontobee seems
     to have performance issues with the query
 
-    This will be supported in the SqlDatabase/Sqlite endpoint soon
+    This will soon be supported in the SqlDatabase/Sqlite endpoint
 
     Example:
 
@@ -535,9 +570,9 @@ def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
 @click.argument("terms", nargs=-1)
 def similarity(terms, predicates, output: TextIO):
     """
-    Pairwise similarity
+    Determin pairwise similarity between two terms using a variety of metrics
 
-    We recommend always specifying explicit predicate lists
+    Note: We recommend always specifying explicit predicate lists
 
     Example:
 
@@ -553,6 +588,7 @@ def similarity(terms, predicates, output: TextIO):
     yields "fully formed stage" (i.e these are both found in the adult) as
     the MRCA
 
+    Background: https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html
     """
     if len(terms) != 2:
         raise ValueError(f'Need exactly 2 terms: {terms}')
@@ -576,10 +612,17 @@ def info(terms, output: TextIO, display: str, output_type: str):
     """
     Show info on terms
 
-    TODO: currently this only shows the label
-
     Example:
+
         runoak -i cl.owl info CL:4023094
+
+    In OBO format:
+
+        runoak -i cl.owl info CL:4023094 -O obo
+
+    With xrefs and definitions:
+
+        runoak -i cl.owl info CL:4023094 -D x,d
     """
     impl = settings.impl
     if output_type == 'obo':
@@ -616,10 +659,12 @@ def convert(output: str, output_type):
 @output_option
 def relationships(terms, output: str):
     """
-    Show relationships for terms
+    Show all relationships for a term or terms
 
     Example:
         runoak -i cl.owl relationships CL:4023094
+
+    Note: this subcommand will become redundant with other commands like info
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -638,6 +683,10 @@ def relationships(terms, output: str):
 def terms(output: str):
     """
     List all terms in the ontology
+
+    Example:
+
+        runoak -i db/cob.db terms
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -648,12 +697,26 @@ def terms(output: str):
 
 @main.command()
 @output_option
-def mappings(output):
+@output_type_option
+def mappings(output, output_type):
     """
     List all SSSOM mappings in the ontology
+
+    Example (YAML):
+
+        runoak -i db/envo.db mappings
+
+    TODO: TSV
     """
     impl = settings.impl
-    writer = StreamingYamlWriter(output)
+    if output_type is None or output_type == 'yaml':
+        writer = StreamingYamlWriter(output)
+    elif output_type == 'csv':
+        writer = StreamingCsvWriter(output)
+    elif output_type == 'sssom':
+        writer = StreamingSssomWriter(output)
+    else:
+        raise ValueError(f'No such format: {output_type}')
     if isinstance(impl, MappingProviderInterface):
         for mapping in impl.all_sssom_mappings():
             writer.emit(mapping)
@@ -670,11 +733,11 @@ def term_mappings(curies, output, output_type):
 
     Example:
 
-        runoak -i bioportal: term-mappings  UBERON:0002101
+        runoak -i bioportal: term-mappings  UBERON:0002101 -O sssom
 
     Example:
 
-        runoak -i ols: term-mappings  UBERON:0002101
+        runoak -i ols: term-mappings  UBERON:0002101 -O yaml
 
     Example:
 
@@ -702,6 +765,10 @@ def term_mappings(curies, output, output_type):
 def aliases(output):
     """
     List all aliases in the ontology
+
+    Example:
+
+        runoak -i db/envo.db aliases
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
@@ -719,6 +786,10 @@ def aliases(output):
 def subset_rollups(subsets: list, output):
     """
     For each subset provide a mapping of each term in the ontology to a subset
+
+    Example:
+
+        runoak -i db/pato.db subset-rollups attribute_slim value_slim
     """
     impl = settings.impl
     #writer = StreamingCsvWriter(output)
@@ -728,6 +799,7 @@ def subset_rollups(subsets: list, output):
         output.write("\t".join(['subset', 'term', 'subset_term']))
         if len(subsets) == 0:
             subsets = list(impl.all_subset_curies())
+            logging.info(f'SUBSETS={subsets}')
         for subset in subsets:
             logging.info(f'Subset={subset}')
             m = roll_up_to_named_subset(impl, subset, term_curies, predicates=[IS_A, PART_OF])
@@ -738,7 +810,6 @@ def subset_rollups(subsets: list, output):
                     #writer.emit(dict(subset=subset, term=term, subset_term=tgt))
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
-
 
 
 @main.command()
@@ -772,7 +843,15 @@ def axioms(output: str):
 @click.argument('curies', nargs=-1)
 def taxon_constraints(curies: list, all: bool, include_redundant: bool, predicates: List, output):
     """
-    List all taxon constraints for a term
+    List all taxon constraints for a term or terms
+
+    Example:
+
+        runoak -i db/go.db taxon-constraints GO:0034357 --include-redundant -p i,p
+
+    Example:
+
+        runoak -i db/uberon.db taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p
     """
     impl = settings.impl
     writer = StreamingYamlWriter(output)
@@ -782,8 +861,11 @@ def taxon_constraints(curies: list, all: bool, include_redundant: bool, predicat
         curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
+        actual_predicates = _process_predicates_arg(predicates)
         for curie in curies:
-            st = get_term_with_taxon_constraints(impl, curie, include_redundant=include_redundant, predicates=predicates)
+            st = get_term_with_taxon_constraints(impl, curie,
+                                                 include_redundant=include_redundant, predicates=actual_predicates,
+                                                 add_labels=True)
             writer.emit(st)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
@@ -797,8 +879,24 @@ def taxon_constraints(curies: list, all: bool, include_redundant: bool, predicat
 @click.argument('constraints', nargs=-1)
 def add_taxon_constraints(constraints, evolution_file, predicates: List, output):
     """
-    Try candidate taxon constraint
+    Test candidate taxon constraints
+
+    For the -E option, accepts the format used in https://arxiv.org/abs/1802.06004
+
+    E.g.
+
+        GO:0000229,Gain|NCBITaxon:1(root);>Loss|NCBITaxon:2759(Eukaryota);
+
+    Example:
+
+        runoak  -i db/go.db add-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv
+
+    Example:
+
+        runoak  -i db/go.db add-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759 never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
+
     """
+    actual_predicates = _process_predicates_arg(predicates)
     impl = settings.impl
     writer = StreamingYamlWriter(output)
     curr = None
@@ -832,7 +930,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
         impl.enable_transitive_query_cache()
         for st in sts:
             try:
-                st = test_candidate_taxon_constraint(impl, st, predicates=predicates)
+                st = test_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
                 writer.emit(st)
             except ValueError as e:
                 logging.error(f'Error with TC: {e}')
@@ -840,6 +938,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
                 writer.emit(st)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @click.option('--cutoff',
@@ -850,6 +949,12 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
 def validate(output: str, cutoff: int):
     """
     Validate an ontology against ontology metadata
+
+    Currently only works on SQLite
+
+    Example:
+
+        runoak  -i db/ecto.db validate -o results.tsv
     """
     writer = StreamingCsvWriter(output)
     impl = settings.impl
@@ -884,7 +989,9 @@ def validate(output: str, cutoff: int):
 @output_option
 def validate_multiple(dbs, output, schema, cutoff: int):
     """
-    Validate an ontology against ontology metadata
+    Validate multiple ontologies against ontology metadata
+
+    See the validate command - this is the same except you can pass a list of databases
     """
     writer = StreamingCsvWriter(output)
     config = ValidationConfiguration()
@@ -926,6 +1033,8 @@ def validate_multiple(dbs, output, schema, cutoff: int):
 def check_definitions(output: str):
     """
     Check definitions
+
+    REDUNDANT WITH VALIDATE - may be obsoleted
     """
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
@@ -939,7 +1048,7 @@ def check_definitions(output: str):
 @main.command()
 @click.argument("curies", nargs=-1)
 @output_option
-def subset(curies, output: str):
+def extract_subset(curies, output: str):
     """
     Extracts a subset
 
@@ -952,9 +1061,40 @@ def subset(curies, output: str):
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
+@main.command()
+@click.argument("curie_pairs", nargs=-1)
+@click.option("--replace/--no-replace",
+              default=False,
+              show_default=True,
+              help="If true, will update in place")
+@output_type_option
+@output_option
+def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
+    """
+    Rewires an ontology replacing all instances of an ID or IDs
+
+    runoak -i db/uberon.db migrate-curies --replace SRC1=TGT1 SRC2=TGT2
+    """
+    impl = settings.impl
+    curie_map = {}
+    for p in curie_pairs:
+        k, v = p.split("=")
+        curie_map[k] = v
+    if not replace:
+        raise NotImplementedError(f'Must pass --replace as non-in-place updates not yet supported')
+    if isinstance(impl, PatcherInterface):
+        impl.migrate_curies(curie_map)
+        if replace:
+            impl.save()
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 @main.command()
 @click.option('--endpoint',
-              '-e')
+              '-e',
+              required=True,
+              help="Name of endpoint, e.g. bioportal")
 @click.argument("keyval")
 def set_apikey(endpoint, keyval):
     """
@@ -962,6 +1102,8 @@ def set_apikey(endpoint, keyval):
 
     Example:
         oak set-apikey -e bioportal MY-KEY-VALUE
+
+    This is stored in an OS-dependent path
     """
     set_apikey_value(endpoint, keyval)
 
@@ -991,6 +1133,9 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     Outputting intermediate index:
         runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv
+
+    Note: if you run the above command a second time it will be faster as the index
+    will be reused
 
     Using custom rules:
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv

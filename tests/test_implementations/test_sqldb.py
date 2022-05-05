@@ -1,4 +1,5 @@
 import logging
+import shutil
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -12,9 +13,10 @@ from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE
 
 from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, HUMAN, CHEBI_NUCLEUS, \
-    NUCLEAR_ENVELOPE
+    NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID
 
 DB = INPUT_DIR / 'go-nucleus.db'
+MUTABLE_DB = OUTPUT_DIR / 'go-nucleus.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 VALIDATION_REPORT_OUT = OUTPUT_DIR / 'validation-results.tsv'
 
@@ -240,3 +242,30 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                                ('GO:0005634', 'rdfs:subClassOf', 'GO:0005575'),
                                ('GO:0005773', 'BFO:0000050', 'GO:0005575'),
                                ('GO:0005634', 'BFO:0000050', 'GO:0005575')])
+
+    def test_mutable(self):
+        """
+        Tests the SQL store can be modified
+
+        Currently only tests
+        """
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        label = oi.get_label_by_curie(NUCLEUS)
+        preds = [IS_A, PART_OF]
+        preds2 = [IS_A, FAKE_PREDICATE]
+        ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
+        descendants = list(oi.descendants(NUCLEUS, predicates=preds))
+        def non_reflexive(l):
+            return [a for a in ancestors if a != NUCLEUS and a != PART_OF and a != FAKE_PREDICATE]
+        expected_ancs = non_reflexive(ancestors)
+        descendants_ancs = non_reflexive(descendants)
+        oi.migrate_curies({NUCLEUS: FAKE_ID,
+                           PART_OF: FAKE_PREDICATE})
+        oi.save()
+        self.assertEqual(label, oi.get_label_by_curie(FAKE_ID))
+        self.assertIsNone(oi.get_label_by_curie(NUCLEUS))
+        self.assertCountEqual(expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2)))
+        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds)))
+        self.assertCountEqual(descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2)))
+        self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds)))
