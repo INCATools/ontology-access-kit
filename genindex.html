@@ -266,6 +266,13 @@
 </li>
       </ul></li>
       <li>
+    --no-replace
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-replace">runoak-migrate-curies command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-view
 
       <ul>
@@ -296,6 +303,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-0">runoak-descendants command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-extract-subset-o">runoak-extract-subset command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-o">runoak-extract-triples command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-o">runoak-info command line option</a>
@@ -306,13 +315,13 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-mappings-o">runoak-mappings command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">runoak-migrate-curies command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">runoak-similarity command line option</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-subset-o">runoak-subset command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subset-rollups-o">runoak-subset-rollups command line option</a>
 </li>
@@ -342,6 +351,10 @@
         <li><a href="cli.html#cmdoption-runoak-extract-triples-O">runoak-extract-triples command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-O">runoak-info command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-O">runoak-mappings command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-O">runoak-migrate-curies command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-mappings-O">runoak-term-mappings command line option</a>
 </li>
@@ -385,6 +398,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-recreate">runoak-lexmatch command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --replace
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-replace">runoak-migrate-curies command line option</a>
 </li>
       </ul></li>
       <li>
@@ -505,6 +525,10 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-O">runoak-info command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-O">runoak-mappings command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-O">runoak-migrate-curies command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-term-mappings-O">runoak-term-mappings command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-O">runoak-tree command line option</a>
@@ -534,6 +558,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-0">runoak-descendants command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-extract-subset-o">runoak-extract-subset command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-o">runoak-extract-triples command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-o">runoak-info command line option</a>
@@ -544,13 +570,13 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-mappings-o">runoak-mappings command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">runoak-migrate-curies command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">runoak-similarity command line option</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-subset-o">runoak-subset command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subset-rollups-o">runoak-subset-rollups command line option</a>
 </li>
@@ -657,6 +683,8 @@
 </li>
       <li><a href="interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">annotate_text() (oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface method)</a>
 </li>
+      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">apply_patch() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">as_obograph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
   </ul></td>
@@ -696,17 +724,24 @@
 </li>
       <li><a href="search-syntax.html#oaklib.datamodels.search.create_search_configuration">create_search_configuration() (in module oaklib.datamodels.search)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-CURIE"><strong>CURIE</strong></a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    CURIE_PAIRS
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-arg-CURIE_PAIRS">runoak-migrate-curies command line option</a>
+</li>
+      </ul></li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">curie_to_uri() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li>
     CURIES
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-subset-arg-CURIES">runoak-subset command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-extract-subset-arg-CURIES">runoak-extract-subset command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-arg-CURIES">runoak-taxon-constraints command line option</a>
 </li>
@@ -849,6 +884,8 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie">metadata_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies">migrate_curies() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+</li>
       <li>
     module
 
@@ -981,10 +1018,12 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="implementations/obofiles.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">ProntoImplementation (class in oaklib.implementations.pronto.pronto_implementation)</a>
+      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/obofiles.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">ProntoImplementation (class in oaklib.implementations.pronto.pronto_implementation)</a>
+</li>
       <li><a href="glossary.html#term-Property"><strong>Property</strong></a>
 </li>
   </ul></td>
@@ -1148,6 +1187,17 @@
 </li>
       </ul></li>
       <li>
+    runoak-extract-subset command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-extract-subset-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-extract-subset-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-extract-subset-arg-CURIES">CURIES</a>
+</li>
+      </ul></li>
+      <li>
     runoak-extract-triples command line option
 
       <ul>
@@ -1227,11 +1277,34 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-mappings-o">--output</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-O">--output-type</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-mappings-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-mappings-O">-O</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    runoak-migrate-curies command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-replace">--no-replace</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-replace">--replace</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-migrate-curies-arg-CURIE_PAIRS">CURIE_PAIRS</a>
+</li>
+      </ul></li>
       <li>
     runoak-relationships command line option
 
@@ -1278,17 +1351,6 @@
         <li><a href="cli.html#cmdoption-runoak-similarity-p">-p</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-arg-TERMS">TERMS</a>
-</li>
-      </ul></li>
-      <li>
-    runoak-subset command line option
-
-      <ul>
-        <li><a href="cli.html#cmdoption-runoak-subset-o">--output</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-subset-o">-o</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-subset-arg-CURIES">CURIES</a>
 </li>
       </ul></li>
       <li>
@@ -1473,6 +1535,8 @@
       </ul></li>
       <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">SearchInterface (class in oaklib.interfaces.search_interface)</a>
 </li>
+      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface">SemanticSimilarityInterface (class in oaklib.interfaces.semsim_interface)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label_for_curie">set_label_for_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">SparqlImplementation (class in oaklib.implementations.sparql.sparql_implementation)</a>
@@ -1481,10 +1545,10 @@
 </li>
       <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.model.Statements">Statements (class in oaklib.implementations.sqldb.model)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
       <li>
     SUBSET
 
