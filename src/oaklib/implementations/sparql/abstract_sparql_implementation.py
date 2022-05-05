@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import List, Iterable, Tuple, Optional, Union, Iterator
+from typing import List, Iterable, Tuple, Optional, Union, Iterator, Dict
 
 import SPARQLWrapper
 import rdflib
@@ -10,7 +10,7 @@ import sssom
 from SPARQLWrapper import JSON
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search_datamodel import SearchTermSyntax
-from oaklib.implementations.sparql.sparql_query import SparqlQuery
+from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
@@ -31,6 +31,8 @@ LANGUAGE_TAG = str
 
 def _sparql_values(var_name: str, vals: List[str]):
     return f'VALUES ?{var_name} {{ {" ".join(vals)} }}'
+
+
 
 
 def _as_rdf_obj(v) -> URIRef:
@@ -68,11 +70,24 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 resource = OntologyResource()
             if resource.url is None:
                 resource.url = self._default_url()
+            if resource.format is None:
+                resource.format = 'turtle'
             if resource.local:
                 self.graph = rdflib.Graph()
-                self.graph.parse(resource.local_path)
+                self.graph.parse(resource.local_path, format=resource.format)
             else:
                 self.sparql_wrapper = SPARQLWrapper.SPARQLWrapper(resource.url)
+
+    def _curie_dict_to_values(self, key_var: str, val_var: str, d: Dict[CURIE, CURIE]):
+        d = {self.curie_to_sparql(k): self.curie_to_sparql(v) for k, v in d.items()}
+        return self._tuples_to_values((key_var, val_var), d.items())
+
+    def _tuples_to_values(self, var_names: Tuple, tuples: List[Tuple]):
+        def t2s(t):
+            return f'({" ".join(t)})'
+        var_tuple = [f'?{n}' for n in var_names]
+        vals = [f'{t2s(t)}' for t in tuples]
+        return f'VALUES {t2s(var_tuple)} {{ {" ".join(vals)} }}'
 
     @property
     def named_graph(self) -> Optional[str]:
@@ -385,7 +400,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[
         CURIE]:
         if not predicates or predicates != [IS_A]:
-            raise ValueError(f'Generic SPARQL only supports relational queries over IS_A ({IS_A})')
+            return super().descendants(start_curies, predicates)
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = [f'?s rdfs:subClassOf* ?o',
                  _sparql_values('o', query_uris)]
@@ -458,3 +473,59 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             else:
                 yield tuple([_as_rdf_obj(v) for v in list(triple)])
         logging.info(f'Total triples: {n}')
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: PatcherInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def _sparql_update(self, query: SparqlUpdate, prefixes: PREFIX_MAP = {}):
+        ng = self.named_graph
+        if ng:
+            if query.graph is not None:
+                if isinstance(query.graph, list):
+                    query.graph.append(ng)
+                else:
+                    query.graph = [query.graph, ng]
+            else:
+                query.graph = ng
+        query = query.query_str()
+        sw = self.sparql_wrapper
+        for k, v in prefixes.items():
+            query = f'PREFIX {k}: <{v}>\n' + query
+        if self.graph:
+            self.graph.update(query)
+        else:
+            logging.info(f'QUERY={query} // sw={sw}')
+            sw.setQuery(query)
+            sw.setReturnFormat(JSON)
+            check_limit()
+            ret = sw.query()
+            logging.info(f'RET={ret}')
+
+    def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
+        q = SparqlUpdate(delete=['?s ?p ?o'],
+                         insert=['?s_new ?p ?o'],
+                         where=['?s ?p ?o',
+                                self._curie_dict_to_values('s', 's_new', curie_map)])
+        self._sparql_update(q)
+        q = SparqlUpdate(delete=['?s ?p ?o'],
+                         insert=['?s ?p ?o_new'],
+                         where=['?s ?p ?o',
+                                self._curie_dict_to_values('o', 'o_new', curie_map)])
+        self._sparql_update(q)
+        q = SparqlUpdate(delete=['?s ?p ?o'],
+                         insert=['?s ?p_new ?o'],
+                         where=['?s ?p ?o',
+                                self._curie_dict_to_values('p', 'p_new', curie_map)])
+        self._sparql_update(q)
+
+    def save(self):
+        if self.graph:
+            if self.resource.format:
+                format = self.resource.format
+            else:
+                format = 'turtle'
+            self.graph.serialize(destination=self.resource.local_path, format=format)
+        else:
+            logging.debug(f'Save has no effect on remote triplestore')
+

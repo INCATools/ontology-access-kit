@@ -157,16 +157,29 @@ def create_mapping(term: str, r1: RelationshipToTerm, r2: RelationshipToTerm,
 
 def inferred_mapping(oi: BasicOntologyInterface, term: str, r1: RelationshipToTerm, r2: RelationshipToTerm,
                      ruleset: MappingRuleCollection = None) -> Mapping:
+    """
+    Create a mapping from a pair of relationships, applying rules to filter or assign confidence
+
+    :param oi:
+    :param term:
+    :param r1:
+    :param r2:
+    :param ruleset:
+    :return:
+    """
+    # create two mappings, one in each direction
     m1 = create_mapping(term, r1, r2)
     m2 = create_mapping(term, r2, r1)
-    weightmap: Dict[PRED_CURIE, float] = {}
-    best: Tuple[float, Mapping, PRED_CURIE] = None, m1, m1.predicate_id
+    # confidence in a particular predicate (eg sameAs)
+    weightmap: Dict[PRED_CURIE, float] = defaultdict(float)
+    best: Tuple[Optional[float], Mapping, PRED_CURIE] = None, m1, m1.predicate_id
     if ruleset is not None:
         rules = ruleset.rules
     else:
         rules = []
     for rule in rules:
         inverted = False
+        # determine if preconditions hold for the mapping or its inverse
         if precondition_holds(rule.preconditions, m1):
             m = m1
         elif not rule.oneway and precondition_holds(rule.preconditions, m2):
@@ -175,26 +188,27 @@ def inferred_mapping(oi: BasicOntologyInterface, term: str, r1: RelationshipToTe
         else:
             m = None
         if m:
+            # preconditions hold: assign weight
+            # weight is a float, with 0 indicating 0.5 probability,
+            # higher is increased confidence, lower is decreased confidence
             weight = 0.0
             if rule.postconditions.predicate_id:
                 m.predicate_id = rule.postconditions.predicate_id
             if rule.postconditions.weight:
                 weight = rule.postconditions.weight
             if inverted:
+                # TODO: consider moving this logic up
                 inv_pred = invert_mapping_predicate(m.predicate_id)
                 if inv_pred:
                     m.predicate_id = inv_pred
                 else:
+                    # cannot invert this mapping; ignore it
                     m = None
             if m:
-                if m.predicate_id not in weightmap:
-                    weightmap[m.predicate_id] = weight
-                else:
-                    weightmap[m.predicate_id] += weight
+                weightmap[m.predicate_id] += weight
                 weight = weightmap[m.predicate_id]
                 if best[0] is None or weight > best[0]:
                     best = weight, m, m.predicate_id
-                    #print(f' ** BEST {best} ==> {m}')
     best_weight, best_mapping, _ = best
     if best_weight is not None:
         best_mapping.confidence = inverse_logit(best_weight)

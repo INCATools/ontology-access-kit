@@ -1,4 +1,5 @@
 import logging
+import shutil
 import unittest
 
 from oaklib.datamodels import obograph
@@ -12,9 +13,10 @@ from oaklib.utilities.obograph_utils import index_graph_nodes, index_graph_edges
     index_graph_edges_by_object, index_graph_edges_by_predicate, graph_as_dict
 
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CELLULAR_COMPONENT, SHAPE, NUCLEUS, CATALYTIC_ACTIVITY, \
-    NUCLEAR_ENVELOPE, CYTOPLASM
+    NUCLEAR_ENVELOPE, CYTOPLASM, FAKE_ID, FAKE_PREDICATE
 
 TEST_RDF = INPUT_DIR / 'go-nucleus.owl.ttl'
+TEST_MUTABLE_RDF = OUTPUT_DIR / 'go-nucleus.owl.ttl'
 
 
 class TestSparqlImplementation(unittest.TestCase):
@@ -143,3 +145,31 @@ class TestSparqlImplementation(unittest.TestCase):
         print(curies)
         #self.assertGreater(len(curie), 1)
         assert NUCLEAR_ENVELOPE in curies
+
+    def test_mutable(self):
+        """
+        Tests the SPARQL store can be modified
+
+        Currently only tests
+        """
+        shutil.copyfile(TEST_RDF, TEST_MUTABLE_RDF)
+        oi = SparqlImplementation(OntologyResource(slug=str(TEST_MUTABLE_RDF)))
+        label = oi.get_label_by_curie(NUCLEUS)
+        preds = [IS_A, PART_OF]
+        preds2 = [IS_A, FAKE_PREDICATE]
+        ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
+        descendants = list(oi.descendants(NUCLEUS, predicates=preds))
+        def non_reflexive(l):
+            return [a for a in ancestors if a != NUCLEUS and a != PART_OF and a != FAKE_PREDICATE]
+        expected_ancs = non_reflexive(ancestors)
+        descendants_ancs = non_reflexive(descendants)
+        oi.migrate_curies({NUCLEUS: FAKE_ID,
+                           PART_OF: FAKE_PREDICATE})
+        self.assertEqual(label, oi.get_label_by_curie(FAKE_ID))
+        self.assertIsNone(oi.get_label_by_curie(NUCLEUS))
+        self.assertCountEqual(expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2)))
+        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds)))
+        self.assertCountEqual(descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2)))
+        self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds)))
+        oi.save()
+

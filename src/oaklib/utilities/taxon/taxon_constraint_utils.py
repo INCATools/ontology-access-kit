@@ -54,8 +54,19 @@ def _fill_missing(st: SubjectTerm):
             tc.subject = st.id
         tc.predicate = NEVER_IN_TAXON
 
+def inject_labels(oi: OboGraphInterface, st: SubjectTerm):
+    if st.label is None:
+        st.label = oi.get_label_by_curie(st.id)
+    for r in st.only_in + st.never_in + st.present_in + st.present_in_ancestor_of:
+        if r.taxon.label is None:
+            r.taxon.label = oi.get_label_by_curie(r.taxon.id)
+        for t in r.via_terms:
+            if t.label is None:
+                t.label = oi.get_label_by_curie(t.id)
+
 def test_candidate_taxon_constraint(oi: OboGraphInterface, candidate_st: SubjectTerm,
-                                    predicates: List[PRED_CURIE] = None):
+                                    predicates: List[PRED_CURIE] = None,
+                                    add_labels=True):
     """
     Evaluate a proposed SubjectTerm plus its taxon constraints against the existing database
 
@@ -127,7 +138,8 @@ def test_candidate_taxon_constraint(oi: OboGraphInterface, candidate_st: Subject
                     #print(f'{candidate_tc.taxon.id} anc: {anc} / {only_tc.taxon.id}')
                     if not only_tc.redundant and anc == only_tc.taxon.id:
                         candidate_tc.redundant_with_only_in = False
-
+    if add_labels:
+        inject_labels(oi, candidate_st)
     return candidate_st
 
 def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predicates: List[PRED_CURIE] = None,
@@ -156,6 +168,7 @@ def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predica
         if anc.startswith('NCBITaxon:'):
             continue
         for predicate, taxon in get_direct_taxon_constraints(oi, anc):
+            logging.debug(f'Direct constraint: {predicate} to {taxon}')
             tc = TaxonConstraint(taxon=Taxon(taxon), subject=anc, predicate=predicate,
                                  redundant=False,
                                  via_terms=[SubjectTerm(anc)],
@@ -216,6 +229,8 @@ def get_term_with_taxon_constraints(oi: OboGraphInterface, curie: CURIE, predica
                     st.unsatisfiable = True
                     other_tc.contradicted_by.append(tc)
     _fill_missing(st)
+    if add_labels:
+        inject_labels(oi, st)
     st.description = get_taxon_constraints_description(oi, st)
     return st
 

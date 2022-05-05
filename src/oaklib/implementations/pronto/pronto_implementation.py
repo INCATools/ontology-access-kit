@@ -28,7 +28,8 @@ from sssom.sssom_datamodel import MatchTypeEnum
 
 
 @dataclass
-class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
+class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface,
+                           MappingProviderInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 

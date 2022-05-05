@@ -42,6 +42,7 @@ The most common operations are found in the :ref:`BasicOntologyInterface`
    semsim
    differ
    patcher
+   semantic-similarity
    
 .. note::
 
