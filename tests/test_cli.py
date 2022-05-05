@@ -31,6 +31,27 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn('validate', out)
         self.assertEqual(0, result.exit_code)
 
+    def test_info(self):
+        for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
+            result = self.runner.invoke(main, ['-i', str(input_arg), 'info', NUCLEUS, '-o', TEST_OUT, '-D', 'x,d'])
+            out = result.stdout
+            err = result.stderr
+            self.assertEqual(0, result.exit_code)
+            with open(TEST_OUT) as file:
+                contents = "\n".join(file.readlines())
+                self.assertIn(NUCLEUS, contents)
+                self.assertIn("Wikipedia:Cell_nucleus", contents)
+                self.assertIn("A membrane-bounded organelle", contents)
+            result = self.runner.invoke(main, ['-i', str(input_arg), 'info', NUCLEUS, '-o', TEST_OUT, '-D', 'x'])
+            out = result.stdout
+            err = result.stderr
+            self.assertEqual(0, result.exit_code)
+            with open(TEST_OUT) as file:
+                contents = "\n".join(file.readlines())
+                self.assertIn(NUCLEUS, contents)
+                self.assertIn("Wikipedia:Cell_nucleus", contents)
+                self.assertNotIn("A membrane-bounded organelle", contents)
+
     ## OBOGRAPH
 
     def test_obograph_local(self):

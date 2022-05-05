@@ -35,11 +35,12 @@ class SearchInterface(BasicOntologyInterface, ABC):
         for t in search_terms:
             if ':' in t:
                 yield t
-            for curie in self.basic_search(t):
-                if curie in seen:
-                    continue
-                seen.add(curie)
-                yield curie
+            else:
+                for curie in self.basic_search(t):
+                    if curie in seen:
+                        continue
+                    seen.add(curie)
+                    yield curie
 
 
 
