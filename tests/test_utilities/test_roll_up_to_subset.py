@@ -20,7 +20,6 @@ NUCLEUS = 'GO:0005634'
 DICTYOSTELIUM = 'NCBITaxon:5782'
 NUCLEAR_MEMBRANE = 'GO:0031965'
 
-
 PREDS = [IS_A, PART_OF]
 
 class TestSubsetUtils(unittest.TestCase):

@@ -12,6 +12,7 @@ from typing import List, Dict, Optional, Tuple
 
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
+from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import PRED_CURIE
 from oaklib.datamodels.lexical_index import LexicalIndex, LexicalTransformation, TransformationType, RelationshipToTerm, \
@@ -32,6 +33,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
     :param oi:
     :return:
     """
+    logging.info(f'Adding labels from URIs')
     for curie in oi.all_entity_curies():
         if not oi.get_label_by_curie(curie):
             if '#' in curie:
@@ -63,12 +65,16 @@ def create_lexical_index(oi: BasicOntologyInterface,
                                                    transformations=[step1, step2])]
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
     for curie in oi.all_entity_curies():
+        logging.debug(f'Indexing {curie}')
+        if not URIorCURIE.is_valid(curie):
+            logging.warning(f'Skipping {curie} as it is not a valid CURIE')
+            continue
         alias_map = oi.alias_map_by_curie(curie)
         mapping_map = pairs_as_dict(oi.get_simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:
-                    logging.warning(f'No term for {curie}.{pred}')
+                    logging.debug(f'No term for {curie}.{pred} (expected for aggregator interface)')
                     continue
                 for pipeline in pipelines:
                     term2 = term

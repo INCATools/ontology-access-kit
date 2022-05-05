@@ -111,6 +111,10 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             m[row.predicate].append(row.value)
         return m
 
+    def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
+        for row in self.session.query(HasTextDefinitionStatement).filter(HasTextDefinitionStatement.subject == curie):
+            return row.value
+
     def _get_subset_curie(self, curie: str) -> str:
         if '#' in curie:
             return curie.split('#')[-1]
@@ -171,11 +175,10 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             rmap[row.predicate].append(row.subject)
         return rmap
 
-    def get_simple_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         m = defaultdict(list)
         for row in self.session.query(HasMappingStatement).filter(HasMappingStatement.subject == curie):
-            m[row.predicate].append(row.value)
-        return m
+            yield row.predicate, row.value
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

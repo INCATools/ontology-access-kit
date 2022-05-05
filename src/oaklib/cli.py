@@ -29,6 +29,8 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
+from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
 from oaklib.selector import get_resource_from_shorthand, get_implementation_from_shorthand
@@ -85,6 +87,13 @@ predicates_option = click.option(
     "--predicates",
     help="A comma-separated list of predicates"
 )
+display_option = click.option(
+    "-D",
+    "--display",
+    default='',
+    help="A comma-separated list of display options"
+)
+
 
 def _process_predicates_arg(preds_str: str) -> List[PRED_CURIE]:
     if preds_str is None:
@@ -462,14 +471,22 @@ def ancestors(terms, predicates, output: str):
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
+@display_option
+@output_type_option
 @output_option
-def descendants(terms, predicates, output: str):
+def descendants(terms, predicates, display: str, output_type: str, output: TextIO):
     """
     List all descendants of a term
 
     See examples for 'ancestors' command
     """
     impl = settings.impl
+    if output_type == 'obo':
+        writer = StreamingOboWriter(ontology_interface=impl)
+    else:
+        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer.display_options = display.split(',')
+    writer.file = output
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(impl.multiterm_search(terms))
@@ -477,7 +494,7 @@ def descendants(terms, predicates, output: str):
         for curie_it in chunk(result_it):
             logging.info('** Next chunk:')
             for curie, label in impl.get_labels_for_curies(curie_it):
-                print(f'{curie} ! {label}')
+                writer.emit(curie, label)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -553,20 +570,28 @@ def similarity(terms, predicates, output: TextIO):
 @main.command()
 @click.argument("terms", nargs=-1)
 @output_option
-def info(terms, output: str):
+@display_option
+@output_type_option
+def info(terms, output: TextIO, display: str, output_type: str):
     """
     Show info on terms
 
-    TODO: currenly this only shows the label
+    TODO: currently this only shows the label
 
     Example:
         runoak -i cl.owl info CL:4023094
     """
     impl = settings.impl
+    if output_type == 'obo':
+        writer = StreamingOboWriter(ontology_interface=impl)
+    else:
+        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer.display_options = display.split(',')
+    writer.file = output
     if isinstance(impl, BasicOntologyInterface):
         curies = list(impl.multiterm_search(terms))
         for curie in curies:
-            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            writer.emit(curie)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -979,12 +1004,16 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
         if add_labels:
             add_labels_from_uris(impl)
         if not recreate and Path(lexical_index_file).exists():
+            logging.info('Reusing previous index')
             ix = load_lexical_index(lexical_index_file)
         else:
+            logging.info('Creating index')
             ix = create_lexical_index(impl)
         if lexical_index_file:
             if recreate:
+                logging.info('Saving index')
                 save_lexical_index(ix, lexical_index_file)
+        logging.info(f'Generating mappings from {len(ix.groupings)} groupings')
         msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset)
         sssom_writers.write_table(msdf, output)
     else:

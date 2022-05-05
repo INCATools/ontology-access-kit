@@ -2,7 +2,7 @@ import logging
 import tempfile
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Iterator, Union
+from typing import List, Iterable, Iterator, Union, Tuple
 
 import pronto
 import sssom
@@ -274,26 +274,23 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             m[pred].append(s.description)
         return m
 
-    def get_simple_mappings_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        m = defaultdict(list)
+    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        #m = defaultdict(list)
         t = self._entity(curie)
         if t is None:
             return m
         for s in t.xrefs:
-            m[HAS_DBXREF].append(s.id)
+            #m[HAS_DBXREF].append(s.id)
+            yield HAS_DBXREF, s.id
         for s in t.annotations:
             # TODO: less hacky
             if s.property.startswith('skos'):
                 if isinstance(s, LiteralPropertyValue):
                     v = s.literal
-                    m[s.property].append(v)
+                    #m[s.property].append(v)
+                    yield s.property, v
                 elif isinstance(s, ResourcePropertyValue):
-                    v = self.uri_to_curie(s.resource)
-                else:
-                    v = None
-                if v:
-                    m[s.property].append(v)
-        return m
+                    yield s.property, self.uri_to_curie(s.resource)
 
     def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
