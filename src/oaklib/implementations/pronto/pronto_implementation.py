@@ -276,7 +276,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         return m
 
     def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        #m = defaultdict(list)
+        m = defaultdict(list)
         t = self._entity(curie)
         if t is None:
             return m
