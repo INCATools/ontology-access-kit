@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from typing import List
+from lark import Lark, Transformer
+
 
 from deprecated.classic import deprecated
 from oaklib.datamodels.search_datamodel import SearchBaseConfiguration, SearchProperty, SearchTermSyntax
@@ -86,3 +88,7 @@ class SearchConfiguration(SearchBaseConfiguration):
         self.include_aliases = False
         self.properties = [SearchProperty.LABEL]
         return self
+
+query_grammar = r"""
+query: disj | conj
+"""

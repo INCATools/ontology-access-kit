@@ -1,14 +1,11 @@
 """
-Datamodels
-----------
-
-..note ::
-
-    this package includes multiple alternative overlapping datamodels;
-    in general a maximum of one datamodel is required for any one use case.
-
+Oaklib
+------
 """
 __version__ = '0.1.0'
 
 from oaklib.interfaces import BasicOntologyInterface
 
+from oaklib.resource import OntologyResource
+
+schemes = {}

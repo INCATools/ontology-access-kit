@@ -1,5 +1,5 @@
 # Auto generated from search_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-04T09:54:15
+# Generation date: 2022-05-07T21:49:17
 # Schema: search-datamodel
 #
 # id: https://w3id.org/linkml/search_datamodel
@@ -26,8 +26,8 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.linkml_model.types import Boolean, Integer, String
-from linkml_runtime.utils.metamodelcore import Bool
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
+from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE
 
 metamodel_version = "1.7.0"
 version = None
@@ -135,6 +135,60 @@ class SearchBaseConfiguration(YAMLRoot):
         if not isinstance(self.categories, list):
             self.categories = [self.categories] if self.categories is not None else []
         self.categories = [v if isinstance(v, str) else str(v) for v in self.categories]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class BooleanQuery(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SEARCH.BooleanQuery
+    class_class_curie: ClassVar[str] = "search:BooleanQuery"
+    class_name: ClassVar[str] = "BooleanQuery"
+    class_model_uri: ClassVar[URIRef] = SEARCH.BooleanQuery
+
+    operator: Optional[Union[str, "BooleanOperator"]] = None
+    operands: Optional[Union[Union[dict, "BooleanQuery"], List[Union[dict, "BooleanQuery"]]]] = empty_list()
+    atom: Optional[Union[dict, "AtomicQuery"]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.operator is not None and not isinstance(self.operator, BooleanOperator):
+            self.operator = BooleanOperator(self.operator)
+
+        if not isinstance(self.operands, list):
+            self.operands = [self.operands] if self.operands is not None else []
+        self.operands = [v if isinstance(v, BooleanQuery) else BooleanQuery(**as_dict(v)) for v in self.operands]
+
+        if self.atom is not None and not isinstance(self.atom, AtomicQuery):
+            self.atom = AtomicQuery(**as_dict(self.atom))
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class AtomicQuery(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SEARCH.AtomicQuery
+    class_class_curie: ClassVar[str] = "search:AtomicQuery"
+    class_name: ClassVar[str] = "AtomicQuery"
+    class_model_uri: ClassVar[URIRef] = SEARCH.AtomicQuery
+
+    graph_function: Optional[Union[str, "GraphFunction"]] = None
+    graph_predicates: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
+    search_term: Optional[Union[dict, SearchBaseConfiguration]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.graph_function is not None and not isinstance(self.graph_function, GraphFunction):
+            self.graph_function = GraphFunction(self.graph_function)
+
+        if not isinstance(self.graph_predicates, list):
+            self.graph_predicates = [self.graph_predicates] if self.graph_predicates is not None else []
+        self.graph_predicates = [v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.graph_predicates]
+
+        if self.search_term is not None and not isinstance(self.search_term, SearchBaseConfiguration):
+            self.search_term = SearchBaseConfiguration(**as_dict(self.search_term))
 
         super().__post_init__(**kwargs)
 
@@ -266,6 +320,30 @@ class SearchProperty(EnumDefinitionImpl):
         description="A property that can be searched on",
     )
 
+class BooleanOperator(EnumDefinitionImpl):
+
+    AND = PermissibleValue(text="AND")
+    OR = PermissibleValue(text="OR")
+    NOT = PermissibleValue(text="NOT")
+    XOR = PermissibleValue(text="XOR")
+
+    _defn = EnumDefinition(
+        name="BooleanOperator",
+    )
+
+class GraphFunction(EnumDefinitionImpl):
+
+    DESCENDANT_OF = PermissibleValue(text="DESCENDANT_OF")
+    ANCESTOR_OF = PermissibleValue(text="ANCESTOR_OF")
+    PROPER_DESCENDANT_OF = PermissibleValue(text="PROPER_DESCENDANT_OF")
+    PROPER_ANCESTOR_OF = PermissibleValue(text="PROPER_ANCESTOR_OF")
+    PARENT_OF = PermissibleValue(text="PARENT_OF")
+    CHILD_OF = PermissibleValue(text="CHILD_OF")
+
+    _defn = EnumDefinition(
+        name="GraphFunction",
+    )
+
 # Slots
 class slots:
     pass
@@ -311,6 +389,24 @@ slots.searchBaseConfiguration__include_obsoletes_in_results = Slot(uri=SEARCH.in
 
 slots.searchBaseConfiguration__categories = Slot(uri=SEARCH.categories, name="searchBaseConfiguration__categories", curie=SEARCH.curie('categories'),
                    model_uri=SEARCH.searchBaseConfiguration__categories, domain=None, range=Optional[Union[str, List[str]]])
+
+slots.booleanQuery__operator = Slot(uri=SEARCH.operator, name="booleanQuery__operator", curie=SEARCH.curie('operator'),
+                   model_uri=SEARCH.booleanQuery__operator, domain=None, range=Optional[Union[str, "BooleanOperator"]])
+
+slots.booleanQuery__operands = Slot(uri=SEARCH.operands, name="booleanQuery__operands", curie=SEARCH.curie('operands'),
+                   model_uri=SEARCH.booleanQuery__operands, domain=None, range=Optional[Union[Union[dict, BooleanQuery], List[Union[dict, BooleanQuery]]]])
+
+slots.booleanQuery__atom = Slot(uri=SEARCH.atom, name="booleanQuery__atom", curie=SEARCH.curie('atom'),
+                   model_uri=SEARCH.booleanQuery__atom, domain=None, range=Optional[Union[dict, AtomicQuery]])
+
+slots.atomicQuery__graph_function = Slot(uri=SEARCH.graph_function, name="atomicQuery__graph_function", curie=SEARCH.curie('graph_function'),
+                   model_uri=SEARCH.atomicQuery__graph_function, domain=None, range=Optional[Union[str, "GraphFunction"]])
+
+slots.atomicQuery__graph_predicates = Slot(uri=SEARCH.graph_predicates, name="atomicQuery__graph_predicates", curie=SEARCH.curie('graph_predicates'),
+                   model_uri=SEARCH.atomicQuery__graph_predicates, domain=None, range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]])
+
+slots.atomicQuery__search_term = Slot(uri=SEARCH.search_term, name="atomicQuery__search_term", curie=SEARCH.curie('search_term'),
+                   model_uri=SEARCH.atomicQuery__search_term, domain=None, range=Optional[Union[dict, SearchBaseConfiguration]])
 
 slots.searchResult__rank = Slot(uri=SEARCH.rank, name="searchResult__rank", curie=SEARCH.curie('rank'),
                    model_uri=SEARCH.searchResult__rank, domain=None, range=Optional[int])

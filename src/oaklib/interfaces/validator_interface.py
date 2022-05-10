@@ -4,7 +4,8 @@ from typing import Dict, List, Iterable
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
-from oaklib.datamodels.validation_datamodel import ValidationResult, ValidationConfiguration
+from oaklib.datamodels.validation_datamodel import ValidationResult, ValidationConfiguration, RepairOperation, \
+    RepairConfiguration
 
 
 class ValidatorInterface(BasicOntologyInterface, ABC):
@@ -51,6 +52,9 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         - specialized implementations may yield lexical or other kinds of problems
         :return:
         """
+        raise NotImplementedError
+
+    def repair(self, configuration: RepairConfiguration = None) -> Iterable[RepairOperation]:
         raise NotImplementedError
 
     def check_external_references(self):

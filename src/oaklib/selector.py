@@ -1,12 +1,16 @@
+import importlib
 import logging
+import pkgutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Type, Union
+from typing import Type, Union, Optional
 
+from oaklib.implementations.bioportal.agroportal_implementation import AgroportalImplementation
 from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.sparql.lov_implementation import LovImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
@@ -14,6 +18,12 @@ from oaklib.implementations.wikidata.wikidata_implementation import WikidataImpl
 from oaklib.interfaces import OntologyInterface
 from oaklib.resource import OntologyResource
 
+discovered_plugins = {
+    name: importlib.import_module(name)
+    for finder, name, ispkg
+    in pkgutil.iter_modules()
+    if name.startswith('oakext_')
+}
 
 RDF_SUFFIX_TO_FORMAT = {
     'ttl': 'turtle',
@@ -54,7 +64,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
     """
     resource = OntologyResource(format=format)
     resource.slug = descriptor
-    impl_class: Type[OntologyInterface]
+    impl_class: Optional[Type[OntologyInterface]] = None
     if descriptor:
         if ':' in descriptor:
             toks = descriptor.split(':')
@@ -70,10 +80,14 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 impl_class = UbergraphImplementation
             elif scheme == 'ontobee':
                 impl_class = OntobeeImplementation
+            elif scheme == 'lov':
+                impl_class = LovImplementation
             elif scheme == 'sparql':
                 impl_class = SparqlImplementation
             elif scheme == 'bioportal':
                 impl_class = BioportalImplementation
+            elif scheme == 'agroportal':
+                impl_class = AgroportalImplementation
             elif scheme == 'wikidata':
                 impl_class = WikidataImplementation
             elif scheme == 'ols':
@@ -93,7 +107,15 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             elif scheme == 'http' or scheme == 'https':
                 raise NotImplementedError(f'Web requests not implemented yet')
             else:
-                raise ValueError(f'Scheme {scheme} not known')
+                for ext_name, ext_module in discovered_plugins.items():
+                    try:
+                        if scheme in ext_module.schemes:
+                            impl_class = ext_module.schemes[scheme]
+                            break
+                    except AttributeError:
+                        logging.info(f'Plugin {ext_name} does not declare schemes')
+                if not impl_class:
+                    raise ValueError(f'Scheme {scheme} not known')
         else:
             logging.info(f'No schema: assuming file path {descriptor}')
             suffix = descriptor.split('.')[-1]

@@ -35,6 +35,7 @@ imports:
 #==================================
 classes:
   ValidationConfiguration:
+    description: Configuration parameters for execution of a validation report
     attributes:
       max_number_results_per_type:
         range: integer
@@ -48,6 +49,15 @@ classes:
         range: string
         description: allows overriding the default OMO schema
 
+  RepairConfiguration:
+    description: Configuration parameters for execution of validation repairs
+    attributes:
+      validation_configuration:
+        range: ValidationConfiguration
+      dry_run:
+        range: boolean
+
+
   TypeSeverityKeyValue:
     attributes:
       type:
@@ -56,18 +66,34 @@ classes:
       severity:
         range: severity_options
 
+  Report:
+    abstract: true
+    description: A report object that is a holder to multiple report results
+    slots:
+      - results
+
   ValidationReport:
+    is_a: Report
     class_uri: sh:ValidationReport
-    description: A report object
-    attributes:
+    description: A holder for multiple validation results
+    slot_usage:
       results:
-        slot_uri: sh:result
         range: ValidationResult
-        multivalued: true
     todos:
       - add prov object
 
+  RepairReport:
+    is_a: Report
+    description: A repair object
+    slot_usage:
+      results:
+        range: RepairOperation
+
+  Result:
+    abstract: true
+
   ValidationResult:
+    is_a: Result
     class_uri: sh:ValidationResult
     description: An individual result arising from validation of a data instance using a particular rule
     slots:
@@ -80,6 +106,18 @@ classes:
       - object_str
       - source
       - info
+
+  RepairOperation:
+    is_a: Result
+    todos:
+      - integrate with kgcl data model, to be able to describe changes
+    attributes:
+      repairs:
+        range: ValidationResult
+      modified:
+        range: boolean
+      successful:
+        range: boolean
 
   ExternalReferenceValidationResult:
     is_a: ValidationResult
@@ -126,6 +164,10 @@ slots:
   info:
     range: string
     slot_uri: sh:resultMessage
+  results:
+    slot_uri: sh:result
+    range: Result
+    multivalued: true
 
 
 #==================================

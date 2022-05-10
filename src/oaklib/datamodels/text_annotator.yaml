@@ -1,8 +1,12 @@
 id: https://w3id.org/linkml/text_annotator
 title: Text Annotator Datamodel
 name: text-annotator
-description: A datamodel for representing the results of textual named entity recognition annotation results
+description: >-
+  A datamodel for representing the results of textual named entity recognition annotation results.
+  This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 license: https://creativecommons.org/publicdomain/zero/1.0/
+see_also:
+  - https://github.com/mapping-commons/sssom/issues/155
 
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -14,6 +18,7 @@ prefixes:
   prov: http://www.w3.org/ns/prov#
   sssom: http://w3id.org/sssom/
   bpa: https://bioportal.bioontology.org/annotator/
+  oa: http://www.w3.org/ns/oa#
 
 default_prefix: ann
 default_range: string
@@ -77,11 +82,14 @@ classes:
           - bpa:text
       subject_source:
         slot_uri: sssom:subject_source
+        exact_mappings:
+          - oa:hasBody
       subject_text_id:
         range: TextualElement
 
   TextAnnotation:
     description: An individual text annotation
+    class_uri: oa:Annotation
     mixins:
       - HasSpan
     attributes:
@@ -103,6 +111,8 @@ classes:
       match_string:
         slot_uri: sssom:match_string
       is_longest_match:
+        range: boolean
+      matches_whole_text:
         range: boolean
       match_type:
       info:

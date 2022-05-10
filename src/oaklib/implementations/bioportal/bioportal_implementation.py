@@ -52,6 +52,10 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         # TODO
         return {}
 
+    @property
+    def _base_url(self) -> str:
+        return REST_URL
+
     def load_bioportal_api_key(self, path: str = None) -> None:
         self.bioportal_api_key = get_apikey_value('bioportal')
 
@@ -85,7 +89,9 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         params = {'include':  include_str,
                   'require_exact_match': require_exact_match,
                   'text': text}
-        r = self._bioportal_get(REST_URL + '/annotator', params=params)
+        if self.resource and self.resource.slug:
+            params['ontologies'] = self.resource.slug.upper()
+        r = self._bioportal_get(self._base_url + '/annotator', params=params)
         return self.json_to_results(r.json(), text)
 
     def json_to_results(self, json_list: List[Any], text: str) -> Iterator[TextAnnotation]:
@@ -94,21 +100,29 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         for obj in json_list:
             ac_obj = obj['annotatedClass']
             for x in obj['annotations']:
-                ann = TextAnnotation(subject_start=x['from'],
-                                     subject_end=x['to'],
-                                     subject_label=x['text'],
-                                     object_id=self.uri_to_curie(ac_obj['@id']),
-                                     object_label=ac_obj['prefLabel'],
-                                     object_source=ac_obj['links']['ontology'],
-                                     match_type=x['matchType'],
-                                     #info=str(obj)
-                                     )
-                uid = ann.subject_start, ann.subject_end, ann.object_id
-                if uid in seen:
-                    logging.debug(f'Skipping duplicative annotation to {ann.object_source}')
-                    continue
-                seen[uid] = True
-                yield ann
+                try:
+                    ann = TextAnnotation(subject_start=x['from'],
+                                         subject_end=x['to'],
+                                         subject_label=x['text'],
+                                         object_id=self.uri_to_curie(ac_obj['@id']),
+                                         object_label=ac_obj['prefLabel'],
+                                         object_source=ac_obj['links']['ontology'],
+                                         match_type=x['matchType'],
+                                         #info=str(obj)
+                                         )
+                    if len(text) == ann.subject_end:
+                        ann.matches_whole_text = True
+                    uid = ann.subject_start, ann.subject_end, ann.object_id
+                    if uid in seen:
+                        logging.debug(f'Skipping duplicative annotation to {ann.object_source}')
+                        continue
+                    seen[uid] = True
+                    yield ann
+                except KeyError:
+                    # TODO: we should never catch exceptions in this way;
+                    # this is temporary until we figure out why sometimes BP payloads
+                    # lack some keys such as prefLabel
+                    logging.error(f'Missing keys in annotation: {x} in {obj} when parsing {text}')
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface
@@ -120,8 +134,9 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         if self.focus_ontology:
             # Ontology acronyms in BioPortal are always uppercase
             params['ontologies'] = self.focus_ontology.upper()
-        r = self._bioportal_get(REST_URL + '/search', params)
+        r = self._bioportal_get(self._base_url + '/search', params)
         obj = r.json()
+        logging.debug(f'Search obj={obj}')
         collection = obj['collection']
         while len(collection) > 0:
             result = collection[0]
@@ -133,7 +148,6 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
             collection = collection[1:]
             if len(collection) == 0:
                 next_page = obj['links']['nextPage']
-                #print(f'NEXT={next_page}')
                 if next_page:
                     check_limit()
                     r = requests.get(next_page, headers=self._headers())
@@ -150,7 +164,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         # This may return lots of duplicate mappings
         # See: https://github.com/ncbo/ontologies_linked_data/issues/117
         quoted_class_uri = quote(class_uri, safe='')
-        req_url = f'{REST_URL}/ontologies/{ontology}/classes/{quoted_class_uri}/mappings'
+        req_url = f'{self._base_url}/ontologies/{ontology}/classes/{quoted_class_uri}/mappings'
         logging.debug(req_url)
         response = self._bioportal_get(req_url, params={'display_context': 'false'})
         if (response.status_code != requests.codes.ok):
@@ -186,7 +200,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     def ancestors(self, uri: URI) -> Iterable[URI]:
         ontology, uri = self._get_ontology_and_uri_from_id(uri)
         quoted_uri = quote(uri, safe='')
-        request_url = f'{REST_URL}/ontologies/{ontology}/classes/{quoted_uri}/ancestors'
+        request_url = f'{self._base_url}/ontologies/{ontology}/classes/{quoted_uri}/ancestors'
         logging.debug(request_url)
         response = self._bioportal_get(request_url, params={'display_context': 'false'})
         if (response.status_code != requests.codes.ok):

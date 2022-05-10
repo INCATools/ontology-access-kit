@@ -70,3 +70,12 @@ The :ref:`.chunk` utility function will chunk iterator calls into sizeable amoun
 This is slightly more boilerplate code, and may not be necessary for an in-memory implementation like Pronto. However, this
 pattern could have considerable advantages for result sets that are potentially large. Even if the external server is
 slow to return results, users will see batches or results rather than waiting on the external server to produce *all* results.
+
+Command Line
+------------
+
+If you are extending the CLI module or writing a Python application that uses OAK:
+
+- Use click
+- Follow CLIG guidelines
+- Ensure that there are tests for the command line using test_click

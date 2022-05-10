@@ -174,7 +174,9 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         self._list_of_named_graphs = [row['g']['value'] for row in ret["results"]["bindings"]]
         return self._list_of_named_graphs
 
-    def _query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = {}):
+    def _query(self, query: Union[str, SparqlQuery], prefixes: PREFIX_MAP = None):
+        if prefixes is None:
+            prefixes = DEFAULT_PREFIX_MAP
         ng = self.named_graph
         if isinstance(query, SparqlQuery) and ng:
             if query.graph is not None:

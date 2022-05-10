@@ -190,6 +190,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         g = self._merge_graphs([up_graph, down_graph])
         return g
 
+
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:
         """
         Generates an OboGraph from a list of relationships

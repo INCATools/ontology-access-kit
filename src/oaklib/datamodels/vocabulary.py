@@ -4,7 +4,7 @@ import oaklib.datamodels.ontology_metadata as omd
 
 WIKIDATA = CurieNamespace('wikidata', 'http://www.wikidata.org/entity/')
 WDP = CurieNamespace('wdp', 'http://www.wikidata.org/prop/direct/')
-NAMESPACES = [omd.SKOS, omd.RDF, omd.RDFS, omd.OIO, WIKIDATA, WDP]
+NAMESPACES = [omd.OWL, omd.SKOS, omd.RDF, omd.RDFS, omd.OIO, WIKIDATA, WDP]
 DEFAULT_PREFIX_MAP = {ns.prefix: str(ns) for ns in NAMESPACES}
 
 APP_NAME = 'ontology-access-kit'

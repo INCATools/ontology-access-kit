@@ -249,8 +249,12 @@ def list_subset(subset, output: str):
 
 @main.command()
 @click.argument("words", nargs=-1)
+@click.option('--text-file',
+              type=click.File(mode="r"),
+              help="Text file to annotate")
 @output_option
-def annotate(words, output: str):
+@output_type_option
+def annotate(words, output: str, text_file: TextIO, output_type: str):
     """
     Annotate a piece of text using a Named Entity Recognition annotation
 
@@ -264,10 +268,26 @@ def annotate(words, output: str):
     For more on text annotation, see https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html
     """
     impl = settings.impl
-    text = ' '.join(words)
     if isinstance(impl, TextAnnotatorInterface):
-        for ann in impl.annotate_text(text):
-            print(yaml_dumper.dumps(ann))
+        if output_type is None or output_type == 'yaml':
+            writer = StreamingYamlWriter(output)
+        elif output_type == 'csv':
+            writer = StreamingCsvWriter(output)
+        else:
+            raise ValueError(f'unknown writer: {output_type}')
+        if words and text_file:
+            raise ValueError(f'Specify EITHER text-file OR a list of words as arguments')
+        if text_file:
+            for line in text_file.readlines():
+                line = line.strip()
+                for ann in impl.annotate_text(line):
+                    # TODO: better way to represent this
+                    ann.subject_source = line
+                    writer.emit(ann)
+        else:
+            text = ' '.join(words)
+            for ann in impl.annotate_text(text):
+                writer.emit(ann)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -678,6 +698,32 @@ def relationships(terms, output: str):
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
+@main.command()
+@output_type_option
+@output_option
+def all_relationships(output: TextIO, output_type: str):
+    """
+    Show all relationships for all terms
+
+    Example:
+        runoak -i hp.db all-relationships
+
+    """
+    impl = settings.impl
+    if output_type is None or output_type == 'yaml':
+        writer = StreamingYamlWriter(output)
+    elif output_type == 'csv':
+        writer = StreamingCsvWriter(output)
+    else:
+        raise ValueError(f'No such format: {output_type}')
+    if isinstance(impl, OboGraphInterface):
+        for s, p, o in impl.all_relationships():
+            writer.emit(dict(subject=s, predicate=p, object=o))
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
 @main.command()
 @output_option
 def terms(output: str):
@@ -694,6 +740,27 @@ def terms(output: str):
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@output_option
+@predicates_option
+def roots(output: str, predicates: str):
+    """
+    List all root in the ontology
+
+    Example:
+
+        runoak -i db/cob.db terms
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        for curie in impl.roots(actual_predicates):
+            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @output_option

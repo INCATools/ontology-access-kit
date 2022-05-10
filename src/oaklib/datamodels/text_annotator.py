@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-05T17:21:12
+# Generation date: 2022-05-06T18:20:18
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -168,6 +168,7 @@ class TextAnnotation(YAMLRoot):
     confidence: Optional[float] = None
     match_string: Optional[str] = None
     is_longest_match: Optional[Union[bool, Bool]] = None
+    matches_whole_text: Optional[Union[bool, Bool]] = None
     match_type: Optional[str] = None
     info: Optional[str] = None
     subject_start: Optional[Union[int, Position]] = None
@@ -197,6 +198,9 @@ class TextAnnotation(YAMLRoot):
 
         if self.is_longest_match is not None and not isinstance(self.is_longest_match, Bool):
             self.is_longest_match = Bool(self.is_longest_match)
+
+        if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
+            self.matches_whole_text = Bool(self.matches_whole_text)
 
         if self.match_type is not None and not isinstance(self.match_type, str):
             self.match_type = str(self.match_type)
@@ -301,6 +305,9 @@ slots.textAnnotation__match_string = Slot(uri=SSSOM.match_string, name="textAnno
 
 slots.textAnnotation__is_longest_match = Slot(uri=ANN.is_longest_match, name="textAnnotation__is_longest_match", curie=ANN.curie('is_longest_match'),
                    model_uri=ANN.textAnnotation__is_longest_match, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.textAnnotation__matches_whole_text = Slot(uri=ANN.matches_whole_text, name="textAnnotation__matches_whole_text", curie=ANN.curie('matches_whole_text'),
+                   model_uri=ANN.textAnnotation__matches_whole_text, domain=None, range=Optional[Union[bool, Bool]])
 
 slots.textAnnotation__match_type = Slot(uri=ANN.match_type, name="textAnnotation__match_type", curie=ANN.curie('match_type'),
                    model_uri=ANN.textAnnotation__match_type, domain=None, range=Optional[str])
