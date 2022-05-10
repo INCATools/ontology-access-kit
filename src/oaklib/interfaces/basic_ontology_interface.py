@@ -152,6 +152,23 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 for filler in fillers:
                     yield curie, pred, filler
 
+
+    def roots(self, predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+        """
+        All root nodes, where root is defined as any node that is not the subject of
+        a relationship with one of the specified predicates
+
+        :param predicates:
+        :return:
+        """
+        candidates = set(list(self.all_entity_curies()))
+        for subject, pred, _ in self.all_relationships():
+            if subject in candidates:
+                if predicates is None or pred in predicates:
+                    candidates.remove(subject)
+        for term in candidates:
+            yield term
+
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
         """
         returns iterator over all known subset CURIEs

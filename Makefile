@@ -51,3 +51,6 @@ stage-docs:
 
 tests/input/%.db: tests/input/%.owl
 	$(RUN) semsql make $@
+
+bin/runoak:
+	echo `poetry run which runoak` '"$$0"' > $@ && chmod +x $@

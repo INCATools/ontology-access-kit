@@ -25,7 +25,7 @@ Glossary
     An |Ontology element| that formally represents something that can be instantiated. For example, the class "heart"
 
    Mapping
-    See SSSOM
+    See :ref:`SSSOM`
 
    Graph
     Formally...

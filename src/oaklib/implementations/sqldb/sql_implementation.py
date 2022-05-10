@@ -4,6 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
+import semsql.builder.builder as semsql_builder
 import sssom
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -70,7 +71,18 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
 
     def __post_init__(self):
         if self.engine is None:
-            self.engine = create_engine(str(self.resource.slug))
+            locator = str(self.resource.slug)
+            if locator.endswith('.owl'):
+                # this is currently an "Easter Egg" feature. It allows you to specify a locator
+                # such as sqlite:/path/to/my.owl
+                # then semsql will be invoked to build a sqlite db from this.
+                # the same sqlite db will be reused until the timestamp of the owl file changes.
+                # the catch is that EITHER the user must have BOTH rdftab and relation-graph installed, OR
+                # they should be running through ODK docker
+                locator = locator.replace('.owl', '.db').replace('sqlite:', '')
+                semsql_builder.make(locator)
+                locator = f'sqlite:///{locator}'
+            self.engine = create_engine(locator)
 
     @property
     def session(self):
@@ -95,6 +107,10 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')
         for row in self.engine.execute(s):
             yield row['id']
+
+    def all_relationships(self) -> Iterable[RELATIONSHIP]:
+        for row in self.session.query(Edge):
+            yield row.subject, row.predicate, row.object
 
     def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
         s = text('SELECT value FROM rdfs_label_statement WHERE subject = :curie')

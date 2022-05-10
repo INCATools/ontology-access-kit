@@ -93,6 +93,26 @@ classes:
       categories:
         multivalued: true
 
+  BooleanQuery:
+    attributes:
+      operator:
+        range: BooleanOperator
+      operands:
+        range: BooleanQuery
+        multivalued: true
+      atom:
+        range: AtomicQuery
+
+  AtomicQuery:
+    attributes:
+      graph_function:
+        range: GraphFunction
+      graph_predicates:
+        range: uriorcurie
+        multivalued: true
+      search_term:
+        range: SearchBaseConfiguration
+
   SearchResult:
     description: An individual search result
     attributes:
@@ -169,3 +189,20 @@ enums:
         description: Any informative text attached to the entity including comments, definitions, descriptions, examples
       ANYTHING:
         meaning: rdf:Property
+
+  BooleanOperator:
+    permissible_values:
+      AND:
+      OR:
+      NOT:
+      XOR:
+
+  GraphFunction:
+    permissible_values:
+      DESCENDANT_OF:
+      ANCESTOR_OF:
+      PROPER_DESCENDANT_OF:
+      PROPER_ANCESTOR_OF:
+      PARENT_OF:
+      CHILD_OF:
+

@@ -1,5 +1,5 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-11T17:33:29
+# Generation date: 2022-05-07T21:26:12
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
@@ -22,8 +22,8 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.linkml_model.types import Integer, Nodeidentifier, String
-from linkml_runtime.utils.metamodelcore import NodeIdentifier
+from linkml_runtime.linkml_model.types import Boolean, Integer, Nodeidentifier, String
+from linkml_runtime.utils.metamodelcore import Bool, NodeIdentifier
 
 metamodel_version = "1.7.0"
 version = None
@@ -54,6 +54,9 @@ class TypeSeverityKeyValueType(NodeIdentifier):
 
 @dataclass
 class ValidationConfiguration(YAMLRoot):
+    """
+    Configuration parameters for execution of a validation report
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = REPORTING.ValidationConfiguration
@@ -73,6 +76,31 @@ class ValidationConfiguration(YAMLRoot):
 
         if self.schema_path is not None and not isinstance(self.schema_path, str):
             self.schema_path = str(self.schema_path)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class RepairConfiguration(YAMLRoot):
+    """
+    Configuration parameters for execution of validation repairs
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.RepairConfiguration
+    class_class_curie: ClassVar[str] = "reporting:RepairConfiguration"
+    class_name: ClassVar[str] = "RepairConfiguration"
+    class_model_uri: ClassVar[URIRef] = REPORTING.RepairConfiguration
+
+    validation_configuration: Optional[Union[dict, ValidationConfiguration]] = None
+    dry_run: Optional[Union[bool, Bool]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.validation_configuration is not None and not isinstance(self.validation_configuration, ValidationConfiguration):
+            self.validation_configuration = ValidationConfiguration(**as_dict(self.validation_configuration))
+
+        if self.dry_run is not None and not isinstance(self.dry_run, Bool):
+            self.dry_run = Bool(self.dry_run)
 
         super().__post_init__(**kwargs)
 
@@ -102,9 +130,31 @@ class TypeSeverityKeyValue(YAMLRoot):
 
 
 @dataclass
-class ValidationReport(YAMLRoot):
+class Report(YAMLRoot):
     """
-    A report object
+    A report object that is a holder to multiple report results
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.Report
+    class_class_curie: ClassVar[str] = "reporting:Report"
+    class_name: ClassVar[str] = "Report"
+    class_model_uri: ClassVar[URIRef] = REPORTING.Report
+
+    results: Optional[Union[Union[dict, "Result"], List[Union[dict, "Result"]]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if not isinstance(self.results, list):
+            self.results = [self.results] if self.results is not None else []
+        self.results = [v if isinstance(v, Result) else Result(**as_dict(v)) for v in self.results]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class ValidationReport(Report):
+    """
+    A holder for multiple validation results
     """
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -124,7 +174,38 @@ class ValidationReport(YAMLRoot):
 
 
 @dataclass
-class ValidationResult(YAMLRoot):
+class RepairReport(Report):
+    """
+    A repair object
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.RepairReport
+    class_class_curie: ClassVar[str] = "reporting:RepairReport"
+    class_name: ClassVar[str] = "RepairReport"
+    class_model_uri: ClassVar[URIRef] = REPORTING.RepairReport
+
+    results: Optional[Union[Union[dict, "RepairOperation"], List[Union[dict, "RepairOperation"]]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if not isinstance(self.results, list):
+            self.results = [self.results] if self.results is not None else []
+        self.results = [v if isinstance(v, RepairOperation) else RepairOperation(**as_dict(v)) for v in self.results]
+
+        super().__post_init__(**kwargs)
+
+
+class Result(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.Result
+    class_class_curie: ClassVar[str] = "reporting:Result"
+    class_name: ClassVar[str] = "Result"
+    class_model_uri: ClassVar[URIRef] = REPORTING.Result
+
+
+@dataclass
+class ValidationResult(Result):
     """
     An individual result arising from validation of a data instance using a particular rule
     """
@@ -172,6 +253,32 @@ class ValidationResult(YAMLRoot):
 
         if self.info is not None and not isinstance(self.info, str):
             self.info = str(self.info)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class RepairOperation(Result):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.RepairOperation
+    class_class_curie: ClassVar[str] = "reporting:RepairOperation"
+    class_name: ClassVar[str] = "RepairOperation"
+    class_model_uri: ClassVar[URIRef] = REPORTING.RepairOperation
+
+    repairs: Optional[Union[dict, ValidationResult]] = None
+    modified: Optional[Union[bool, Bool]] = None
+    successful: Optional[Union[bool, Bool]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.repairs is not None and not isinstance(self.repairs, ValidationResult):
+            self.repairs = ValidationResult(**as_dict(self.repairs))
+
+        if self.modified is not None and not isinstance(self.modified, Bool):
+            self.modified = Bool(self.modified)
+
+        if self.successful is not None and not isinstance(self.successful, Bool):
+            self.successful = Bool(self.successful)
 
         super().__post_init__(**kwargs)
 
@@ -278,6 +385,9 @@ slots.severity = Slot(uri=SH.resultSeverity, name="severity", curie=SH.curie('re
 slots.info = Slot(uri=SH.resultMessage, name="info", curie=SH.curie('resultMessage'),
                    model_uri=REPORTING.info, domain=None, range=Optional[str])
 
+slots.results = Slot(uri=SH.result, name="results", curie=SH.curie('result'),
+                   model_uri=REPORTING.results, domain=None, range=Optional[Union[Union[dict, Result], List[Union[dict, Result]]]])
+
 slots.validationConfiguration__max_number_results_per_type = Slot(uri=REPORTING.max_number_results_per_type, name="validationConfiguration__max_number_results_per_type", curie=REPORTING.curie('max_number_results_per_type'),
                    model_uri=REPORTING.validationConfiguration__max_number_results_per_type, domain=None, range=Optional[int])
 
@@ -287,14 +397,26 @@ slots.validationConfiguration__type_severity_map = Slot(uri=REPORTING.type_sever
 slots.validationConfiguration__schema_path = Slot(uri=REPORTING.schema_path, name="validationConfiguration__schema_path", curie=REPORTING.curie('schema_path'),
                    model_uri=REPORTING.validationConfiguration__schema_path, domain=None, range=Optional[str])
 
+slots.repairConfiguration__validation_configuration = Slot(uri=REPORTING.validation_configuration, name="repairConfiguration__validation_configuration", curie=REPORTING.curie('validation_configuration'),
+                   model_uri=REPORTING.repairConfiguration__validation_configuration, domain=None, range=Optional[Union[dict, ValidationConfiguration]])
+
+slots.repairConfiguration__dry_run = Slot(uri=REPORTING.dry_run, name="repairConfiguration__dry_run", curie=REPORTING.curie('dry_run'),
+                   model_uri=REPORTING.repairConfiguration__dry_run, domain=None, range=Optional[Union[bool, Bool]])
+
 slots.typeSeverityKeyValue__type = Slot(uri=REPORTING.type, name="typeSeverityKeyValue__type", curie=REPORTING.curie('type'),
                    model_uri=REPORTING.typeSeverityKeyValue__type, domain=None, range=URIRef)
 
 slots.typeSeverityKeyValue__severity = Slot(uri=REPORTING.severity, name="typeSeverityKeyValue__severity", curie=REPORTING.curie('severity'),
                    model_uri=REPORTING.typeSeverityKeyValue__severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
 
-slots.validationReport__results = Slot(uri=SH.result, name="validationReport__results", curie=SH.curie('result'),
-                   model_uri=REPORTING.validationReport__results, domain=None, range=Optional[Union[Union[dict, ValidationResult], List[Union[dict, ValidationResult]]]])
+slots.repairOperation__repairs = Slot(uri=REPORTING.repairs, name="repairOperation__repairs", curie=REPORTING.curie('repairs'),
+                   model_uri=REPORTING.repairOperation__repairs, domain=None, range=Optional[Union[dict, ValidationResult]])
+
+slots.repairOperation__modified = Slot(uri=REPORTING.modified, name="repairOperation__modified", curie=REPORTING.curie('modified'),
+                   model_uri=REPORTING.repairOperation__modified, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.repairOperation__successful = Slot(uri=REPORTING.successful, name="repairOperation__successful", curie=REPORTING.curie('successful'),
+                   model_uri=REPORTING.repairOperation__successful, domain=None, range=Optional[Union[bool, Bool]])
 
 slots.externalReferenceValidationResult__url = Slot(uri=REPORTING.url, name="externalReferenceValidationResult__url", curie=REPORTING.curie('url'),
                    model_uri=REPORTING.externalReferenceValidationResult__url, domain=None, range=Optional[str])
@@ -307,3 +429,9 @@ slots.externalReferenceValidationResult__number_of_attempts = Slot(uri=REPORTING
 
 slots.externalReferenceValidationResult__http_response_code = Slot(uri=REPORTING.http_response_code, name="externalReferenceValidationResult__http_response_code", curie=REPORTING.curie('http_response_code'),
                    model_uri=REPORTING.externalReferenceValidationResult__http_response_code, domain=None, range=Optional[int])
+
+slots.ValidationReport_results = Slot(uri=SH.result, name="ValidationReport_results", curie=SH.curie('result'),
+                   model_uri=REPORTING.ValidationReport_results, domain=ValidationReport, range=Optional[Union[Union[dict, "ValidationResult"], List[Union[dict, "ValidationResult"]]]])
+
+slots.RepairReport_results = Slot(uri=SH.result, name="RepairReport_results", curie=SH.curie('result'),
+                   model_uri=REPORTING.RepairReport_results, domain=RepairReport, range=Optional[Union[Union[dict, "RepairOperation"], List[Union[dict, "RepairOperation"]]]])
