@@ -41,6 +41,12 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     bioportal_api_key: str = None
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     ontology_cache: Dict[URI, str] = field(default_factory=lambda: {})
+    focus_ontology: str = None
+
+    def __post_init__(self):
+        if self.focus_ontology is None:
+            if self.resource:
+                self.focus_ontology = self.resource.slug
 
     def get_prefix_map(self) -> PREFIX_MAP:
         # TODO
@@ -110,7 +116,11 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
 
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
-        r = self._bioportal_get(REST_URL + '/search', params={'q': search_term, 'include': ['prefLabel']})
+        params={'q': search_term, 'include': ['prefLabel']}
+        if self.focus_ontology:
+            # Ontology acronyms in BioPortal are always uppercase
+            params['ontologies'] = self.focus_ontology.upper()
+        r = self._bioportal_get(REST_URL + '/search', params)
         obj = r.json()
         collection = obj['collection']
         while len(collection) > 0:
