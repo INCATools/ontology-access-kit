@@ -231,6 +231,23 @@
                 <span class="k">for</span> <span class="n">filler</span> <span class="ow">in</span> <span class="n">fillers</span><span class="p">:</span>
                     <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">filler</span></div>
 
+
+<div class="viewcode-block" id="BasicOntologyInterface.roots"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">[docs]</a>    <span class="k">def</span> <span class="nf">roots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All root nodes, where root is defined as any node that is not the subject of</span>
+<span class="sd">        a relationship with one of the specified predicates</span>
+
+<span class="sd">        :param predicates:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">()))</span>
+        <span class="k">for</span> <span class="n">subject</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_relationships</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
+                    <span class="n">candidates</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">term</span></div>
+
 <div class="viewcode-block" id="BasicOntologyInterface.all_subset_curies"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">[docs]</a>    <span class="k">def</span> <span class="nf">all_subset_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SUBSET_CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        returns iterator over all known subset CURIEs</span>

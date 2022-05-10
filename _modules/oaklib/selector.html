@@ -77,15 +77,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.selector</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pkgutil</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.agroportal_implementation</span> <span class="kn">import</span> <span class="n">AgroportalImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.bioportal_implementation</span> <span class="kn">import</span> <span class="n">BioportalImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ols.ols_implementation</span> <span class="kn">import</span> <span class="n">OlsImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.lov_implementation</span> <span class="kn">import</span> <span class="n">LovImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ubergraph</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
@@ -93,6 +97,12 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 
+<span class="n">discovered_plugins</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">finder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ispkg</span>
+    <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;oakext_&#39;</span><span class="p">)</span>
+<span class="p">}</span>
 
 <span class="n">RDF_SUFFIX_TO_FORMAT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;ttl&#39;</span><span class="p">:</span> <span class="s1">&#39;turtle&#39;</span><span class="p">,</span>
@@ -133,7 +143,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">)</span>
     <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
-    <span class="n">impl_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]</span>
+    <span class="n">impl_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">descriptor</span><span class="p">:</span>
         <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="p">:</span>
             <span class="n">toks</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
@@ -149,10 +159,14 @@
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ontobee&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span>
+            <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;lov&#39;</span><span class="p">:</span>
+                <span class="n">impl_class</span> <span class="o">=</span> <span class="n">LovImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;sparql&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">SparqlImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;bioportal&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">BioportalImplementation</span>
+            <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;agroportal&#39;</span><span class="p">:</span>
+                <span class="n">impl_class</span> <span class="o">=</span> <span class="n">AgroportalImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;wikidata&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">WikidataImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ols&#39;</span><span class="p">:</span>
@@ -172,7 +186,15 @@
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;http&#39;</span> <span class="ow">or</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;https&#39;</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Web requests not implemented yet&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scheme </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s1"> not known&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">ext_name</span><span class="p">,</span> <span class="n">ext_module</span> <span class="ow">in</span> <span class="n">discovered_plugins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="n">ext_module</span><span class="o">.</span><span class="n">schemes</span><span class="p">:</span>
+                            <span class="n">impl_class</span> <span class="o">=</span> <span class="n">ext_module</span><span class="o">.</span><span class="n">schemes</span><span class="p">[</span><span class="n">scheme</span><span class="p">]</span>
+                            <span class="k">break</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Plugin </span><span class="si">{</span><span class="n">ext_name</span><span class="si">}</span><span class="s1"> does not declare schemes&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">impl_class</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Scheme </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s1"> not known&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No schema: assuming file path </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">suffix</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>

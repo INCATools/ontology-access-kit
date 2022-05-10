@@ -95,6 +95,19 @@
              
   <section id="validator-interface">
 <h1>Validator Interface<a class="headerlink" href="#validator-interface" title="Permalink to this headline"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently the main validator methods are only implemented for <span class="xref std std-ref">SqlDatabaseImplementation</span></p>
+</div>
+<p>The validate method is configured using a <em>metadata schema</em>. The default one used is:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/ontology-metadata/index.html">Ontology Metadata</a></p></li>
+</ul>
+<p>This is specified using LinkML which provides an expressive way to state constraints on metadata elements,
+such as <span class="xref std std-ref">AnnotationProperty</span> assertions in ontologies. For example, this schema states that definition
+is <em>recommended</em> (not required), and that it is single-valued.</p>
+<p>Different projects may wish to configure this - it is possible to pass in a different or modified schema</p>
+<p>For more details see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology">this howto guide</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.validator_interface.</span></span><span class="sig-name descname"><span class="pre">ValidatorInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface" title="Permalink to this definition"></a></dt>

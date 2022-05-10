@@ -289,6 +289,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-0">runoak-all-relationships command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-all-subsets-o">runoak-all-subsets command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
@@ -319,6 +321,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-roots-o">runoak-roots command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">runoak-similarity command line option</a>
@@ -344,6 +348,10 @@
     --output-type
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-O">runoak-all-relationships command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-convert-O">runoak-convert command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-O">runoak-descendants command line option</a>
@@ -374,6 +382,8 @@
         <li><a href="cli.html#cmdoption-runoak-descendants-p">runoak-descendants command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-p">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-roots-p">runoak-roots command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-p">runoak-similarity command line option</a>
 </li>
@@ -428,6 +438,13 @@
         <li><a href="cli.html#cmdoption-runoak-tree-S">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-S">runoak-viz command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --text-file
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-annotate-text-file">runoak-annotate command line option</a>
 </li>
       </ul></li>
       <li>
@@ -517,6 +534,10 @@
     -O
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-O">runoak-all-relationships command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-convert-O">runoak-convert command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-O">runoak-descendants command line option</a>
@@ -543,6 +564,8 @@
         <li><a href="cli.html#cmdoption-runoak-add-taxon-constraints-o">runoak-add-taxon-constraints command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-0">runoak-all-relationships command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-all-subsets-o">runoak-all-subsets command line option</a>
 </li>
@@ -573,6 +596,8 @@
         <li><a href="cli.html#cmdoption-runoak-migrate-curies-0">runoak-migrate-curies command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-o">runoak-relationships command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-roots-o">runoak-roots command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-search-o">runoak-search command line option</a>
 </li>
@@ -606,6 +631,8 @@
         <li><a href="cli.html#cmdoption-runoak-descendants-p">runoak-descendants command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-p">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-roots-p">runoak-roots command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-p">runoak-similarity command line option</a>
 </li>
@@ -1044,6 +1071,8 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">relationships_to_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">roots() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
       <li>
     runoak command line option
 
@@ -1098,6 +1127,19 @@
 </li>
       </ul></li>
       <li>
+    runoak-all-relationships command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-0">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-all-relationships-0">-o</a>
+</li>
+      </ul></li>
+      <li>
     runoak-all-subsets command line option
 
       <ul>
@@ -1127,7 +1169,13 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">--output</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-text-file">--text-file</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-O">-O</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-arg-WORDS">WORDS</a>
 </li>
@@ -1314,6 +1362,19 @@
         <li><a href="cli.html#cmdoption-runoak-relationships-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-arg-TERMS">TERMS</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-roots command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-roots-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-roots-p">--predicates</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-roots-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-roots-p">-p</a>
 </li>
       </ul></li>
       <li>

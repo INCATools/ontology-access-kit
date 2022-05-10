@@ -83,6 +83,7 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterator</span>
 
+<span class="kn">import</span> <span class="nn">semsql.builder.builder</span> <span class="k">as</span> <span class="nn">semsql_builder</span>
 <span class="kn">import</span> <span class="nn">sssom</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime</span> <span class="kn">import</span> <span class="n">SchemaView</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.introspection</span> <span class="kn">import</span> <span class="n">package_schemaview</span>
@@ -149,7 +150,18 @@
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="p">))</span>
+            <span class="n">locator</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">locator</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.owl&#39;</span><span class="p">):</span>
+                <span class="c1"># this is currently an &quot;Easter Egg&quot; feature. It allows you to specify a locator</span>
+                <span class="c1"># such as sqlite:/path/to/my.owl</span>
+                <span class="c1"># then semsql will be invoked to build a sqlite db from this.</span>
+                <span class="c1"># the same sqlite db will be reused until the timestamp of the owl file changes.</span>
+                <span class="c1"># the catch is that EITHER the user must have BOTH rdftab and relation-graph installed, OR</span>
+                <span class="c1"># they should be running through ODK docker</span>
+                <span class="n">locator</span> <span class="o">=</span> <span class="n">locator</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.owl&#39;</span><span class="p">,</span> <span class="s1">&#39;.db&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;sqlite:&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">semsql_builder</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span>
+                <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;sqlite:///</span><span class="si">{</span><span class="n">locator</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -174,6 +186,10 @@
         <span class="n">s</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s1">&#39;SELECT id FROM class_node WHERE id NOT LIKE &quot;\_:%&quot; ESCAPE &quot;</span><span class="se">\\</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">all_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Edge</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
 
     <span class="k">def</span> <span class="nf">get_label_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s1">&#39;SELECT value FROM rdfs_label_statement WHERE subject = :curie&#39;</span><span class="p">)</span>

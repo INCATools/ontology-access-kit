@@ -79,6 +79,8 @@
   <h1>Source code for oaklib.datamodels.search</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">lark</span> <span class="kn">import</span> <span class="n">Lark</span><span class="p">,</span> <span class="n">Transformer</span>
+
 
 <span class="kn">from</span> <span class="nn">deprecated.classic</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchBaseConfiguration</span><span class="p">,</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>
@@ -165,6 +167,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">include_aliases</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">LABEL</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
+
+<span class="n">query_grammar</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">query: disj | conj</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 
            </div>
