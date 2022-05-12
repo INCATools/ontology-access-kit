@@ -79,9 +79,18 @@
              
   <section id="class-validationreport">
 <h1>Class: ValidationReport<a class="headerlink" href="#class-validationreport" title="Permalink to this headline"></a></h1>
-<p><em>A report object</em></p>
+<p><em>A holder for multiple validation results</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/ns/shacl#ValidationReport">sh:ValidationReport</a></p>
-<!-- no inheritance hierarchy -->
+<section id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="Report.html"><span class="doc std std-doc">Report</span></a></p>
+<ul>
+<li><p><strong>ValidationReport</strong></p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -117,16 +126,14 @@
 <details>
 ```yaml
 name: ValidationReport
-description: A report object
+description: A holder for multiple validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
-attributes:
+is_a: Report
+slot_usage:
   results:
     name: results
-    from_schema: https://w3id.org/linkml/validation_results
-    slot_uri: sh:result
-    multivalued: true
     range: ValidationResult
 class_uri: sh:ValidationReport
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -136,10 +143,15 @@ class_uri: sh:ValidationReport
 &lt;details&gt;
 ```yaml
 name: ValidationReport
-description: A report object
+description: A holder for multiple validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+is_a: Report
+slot_usage:
+  results:
+    name: results
+    range: ValidationResult
 attributes:
   results:
     name: results

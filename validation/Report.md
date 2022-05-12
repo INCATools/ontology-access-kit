@@ -1,0 +1,82 @@
+# Class: Report
+_A report object that is a holder to multiple report results_
+
+
+
+* __NOTE__: this is an abstract class and should not be instantiated directly
+
+
+
+URI: [reporting:Report](https://w3id.org/linkml/validation-model/Report)
+
+
+
+
+## Inheritance
+
+* **Report**
+    * [ValidationReport](ValidationReport.md)
+    * [RepairReport](RepairReport.md)
+
+
+
+
+## Slots
+
+| Name | Range | Cardinality | Description  | Info |
+| ---  | --- | --- | --- | --- |
+| [results](results.md) | [Result](Result.md) | 0..* | None  | . |
+
+
+## Usages
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+
+
+## LinkML Specification
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: Report
+description: A report object that is a holder to multiple report results
+from_schema: https://w3id.org/linkml/validation_results
+abstract: true
+slots:
+- results
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: Report
+description: A report object that is a holder to multiple report results
+from_schema: https://w3id.org/linkml/validation_results
+abstract: true
+attributes:
+  results:
+    name: results
+    from_schema: https://w3id.org/linkml/validation_results
+    slot_uri: sh:result
+    multivalued: true
+    alias: results
+    owner: Report
+    range: Result
+
+```
+</details>
