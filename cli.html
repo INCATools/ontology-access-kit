@@ -662,18 +662,20 @@ to have performance issues with the query</p>
 <blockquote>
 <div><p>Generates lexical index and mappings</p>
 <p>See <span class="xref std std-ref">.lexical_index_to_sssom</span></p>
-<dl class="simple">
-<dt>Examples:</dt><dd><p>runoak -i foo.obo lexmatch -o foo.sssom.tsv</p>
-</dd>
-<dt>Outputting intermediate index:</dt><dd><p>runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv</p>
-</dd>
-</dl>
+<p>Examples:</p>
+<blockquote>
+<div><p>runoak -i foo.obo lexmatch -o foo.sssom.tsv</p>
+</div></blockquote>
+<p>Outputting intermediate index:</p>
+<blockquote>
+<div><p>runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv</p>
+</div></blockquote>
 <p>Note: if you run the above command a second time it will be faster as the index
 will be reused</p>
-<dl class="simple">
-<dt>Using custom rules:</dt><dd><p>runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv</p>
-</dd>
-</dl>
+<p>Using custom rules:</p>
+<blockquote>
+<div><p>runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lexmatch <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>

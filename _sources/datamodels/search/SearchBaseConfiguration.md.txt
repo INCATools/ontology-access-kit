@@ -38,7 +38,6 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [AtomicQuery](AtomicQuery.md) | [search_term](search_term.md) | range | SearchBaseConfiguration |
 | [SearchResultSet](SearchResultSet.md) | [configuration](configuration.md) | range | SearchBaseConfiguration |
 
 

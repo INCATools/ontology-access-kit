@@ -12,9 +12,8 @@ URI: [reporting:ExternalReferenceValidationResult](https://w3id.org/linkml/valid
 
 ## Inheritance
 
-* [Result](Result.md)
-    * [ValidationResult](ValidationResult.md)
-        * **ExternalReferenceValidationResult**
+* [ValidationResult](ValidationResult.md)
+    * **ExternalReferenceValidationResult**
 
 
 

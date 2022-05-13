@@ -1,5 +1,5 @@
 # Class: ValidationReport
-_A holder for multiple validation results_
+_A report object_
 
 
 
@@ -9,12 +9,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
-
-## Inheritance
-
-* [Report](Report.md)
-    * **ValidationReport**
-
+<!-- no inheritance hierarchy -->
 
 
 
@@ -48,14 +43,16 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 <details>
 ```yaml
 name: ValidationReport
-description: A holder for multiple validation results
+description: A report object
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
-is_a: Report
-slot_usage:
+attributes:
   results:
     name: results
+    from_schema: https://w3id.org/linkml/validation_results
+    slot_uri: sh:result
+    multivalued: true
     range: ValidationResult
 class_uri: sh:ValidationReport
 
@@ -67,15 +64,10 @@ class_uri: sh:ValidationReport
 <details>
 ```yaml
 name: ValidationReport
-description: A holder for multiple validation results
+description: A report object
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
-is_a: Report
-slot_usage:
-  results:
-    name: results
-    range: ValidationResult
 attributes:
   results:
     name: results

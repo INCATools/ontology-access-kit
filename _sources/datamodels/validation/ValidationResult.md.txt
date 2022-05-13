@@ -12,9 +12,8 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 ## Inheritance
 
-* [Result](Result.md)
-    * **ValidationResult**
-        * [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md)
+* **ValidationResult**
+    * [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md)
 
 
 
@@ -40,7 +39,6 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [ValidationReport](ValidationReport.md) | [results](results.md) | range | ValidationResult |
-| [RepairOperation](RepairOperation.md) | [repairs](repairs.md) | range | ValidationResult |
 
 
 
@@ -66,7 +64,6 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
-is_a: Result
 slots:
 - type
 - severity
@@ -90,7 +87,6 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
-is_a: Result
 attributes:
   type:
     name: type

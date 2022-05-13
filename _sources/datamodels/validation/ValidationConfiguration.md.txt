@@ -1,6 +1,4 @@
 # Class: ValidationConfiguration
-_Configuration parameters for execution of a validation report_
-
 
 
 
@@ -25,11 +23,6 @@ URI: [reporting:ValidationConfiguration](https://w3id.org/linkml/validation-mode
 ## Usages
 
 
-| used by | used in | type | used |
-| ---  | --- | --- | --- |
-| [RepairConfiguration](RepairConfiguration.md) | [validation_configuration](validation_configuration.md) | range | ValidationConfiguration |
-
-
 
 ## Identifier and Mapping Information
 
@@ -50,7 +43,6 @@ URI: [reporting:ValidationConfiguration](https://w3id.org/linkml/validation-mode
 <details>
 ```yaml
 name: ValidationConfiguration
-description: Configuration parameters for execution of a validation report
 from_schema: https://w3id.org/linkml/validation_results
 attributes:
   max_number_results_per_type:
@@ -80,7 +72,6 @@ attributes:
 <details>
 ```yaml
 name: ValidationConfiguration
-description: Configuration parameters for execution of a validation report
 from_schema: https://w3id.org/linkml/validation_results
 attributes:
   max_number_results_per_type:

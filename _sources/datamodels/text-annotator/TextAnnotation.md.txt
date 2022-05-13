@@ -5,7 +5,7 @@ _An individual text annotation_
 
 
 
-URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
+URI: [ann:TextAnnotation](https://w3id.org/linkml/text_annotator/TextAnnotation)
 
 
 
@@ -28,7 +28,6 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [confidence](confidence.md) | [float](float.md) | 0..1 | None  | . |
 | [match_string](match_string.md) | [string](string.md) | 0..1 | None  | . |
 | [is_longest_match](is_longest_match.md) | [boolean](boolean.md) | 0..1 | None  | . |
-| [matches_whole_text](matches_whole_text.md) | [boolean](boolean.md) | 0..1 | None  | . |
 | [match_type](match_type.md) | [string](string.md) | 0..1 | None  | . |
 | [info](info.md) | [string](string.md) | 0..1 | None  | . |
 | [subject_start](subject_start.md) | [Position](Position.md) | 0..1 | None  | . |
@@ -104,17 +103,12 @@ attributes:
     name: is_longest_match
     from_schema: https://w3id.org/linkml/text_annotator
     range: boolean
-  matches_whole_text:
-    name: matches_whole_text
-    from_schema: https://w3id.org/linkml/text_annotator
-    range: boolean
   match_type:
     name: match_type
     from_schema: https://w3id.org/linkml/text_annotator
   info:
     name: info
     from_schema: https://w3id.org/linkml/text_annotator
-class_uri: oa:Annotation
 
 ```
 </details>
@@ -181,12 +175,6 @@ attributes:
     alias: is_longest_match
     owner: TextAnnotation
     range: boolean
-  matches_whole_text:
-    name: matches_whole_text
-    from_schema: https://w3id.org/linkml/text_annotator
-    alias: matches_whole_text
-    owner: TextAnnotation
-    range: boolean
   match_type:
     name: match_type
     from_schema: https://w3id.org/linkml/text_annotator
@@ -227,8 +215,6 @@ attributes:
     range: string
   subject_source:
     name: subject_source
-    exact_mappings:
-    - oa:hasBody
     from_schema: https://w3id.org/linkml/text_annotator
     slot_uri: sssom:subject_source
     alias: subject_source
@@ -240,7 +226,6 @@ attributes:
     alias: subject_text_id
     owner: TextAnnotation
     range: TextualElement
-class_uri: oa:Annotation
 
 ```
 </details>

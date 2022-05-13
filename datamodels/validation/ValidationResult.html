@@ -84,13 +84,9 @@
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="Result.html"><span class="doc std std-doc">Result</span></a></p>
-<ul>
 <li><p><strong>ValidationResult</strong></p>
 <ul>
 <li><p><a class="reference internal" href="ExternalReferenceValidationResult.html"><span class="doc std std-doc">ExternalReferenceValidationResult</span></a></p></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -180,11 +176,6 @@
 <td><p>range</p></td>
 <td><p>ValidationResult</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="RepairOperation.html"><span class="doc std std-doc">RepairOperation</span></a></p></td>
-<td><p><a class="reference internal" href="repairs.html"><span class="doc std std-doc">repairs</span></a></p></td>
-<td><p>range</p></td>
-<td><p>ValidationResult</p></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -202,7 +193,6 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
-is_a: Result
 slots:
 - type
 - severity
@@ -224,7 +214,6 @@ name: ValidationResult
 description: An individual result arising from validation of a data instance using
   a particular rule
 from_schema: https://w3id.org/linkml/validation_results
-is_a: Result
 attributes:
   type:
     name: type

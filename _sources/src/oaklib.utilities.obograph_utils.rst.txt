@@ -24,6 +24,7 @@
       index_graph_edges_by_object
       index_graph_edges_by_predicate
       index_graph_edges_by_subject
+      index_graph_edges_by_subject_object
       index_graph_nodes
       reflexive
       topological_sort

@@ -8,15 +8,10 @@ URI: https://w3id.org/linkml/validation_results
 
 | Class | Description |
 | --- | --- |
-| [ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report | 
-| [RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs | 
+| [ValidationConfiguration](ValidationConfiguration.md) | None | 
 | [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | None | 
-| [Report](Report.md) | A report object that is a holder to multiple report results | 
-| [ValidationReport](ValidationReport.md) | A holder for multiple validation results | 
-| [RepairReport](RepairReport.md) | A repair object | 
-| [Result](Result.md) | None | 
+| [ValidationReport](ValidationReport.md) | A report object | 
 | [ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule | 
-| [RepairOperation](RepairOperation.md) | None | 
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid | 
 
 
@@ -33,15 +28,10 @@ URI: https://w3id.org/linkml/validation_results
 | [source](source.md) | None | 
 | [severity](severity.md) | None | 
 | [info](info.md) | None | 
-| [results](results.md) | None | 
 | [max_number_results_per_type](max_number_results_per_type.md) | if set then truncate results such that no more than this number of results are reported per type | 
 | [type_severity_map](type_severity_map.md) | Allows overriding of severity of a particular type | 
 | [schema_path](schema_path.md) | allows overriding the default OMO schema | 
-| [validation_configuration](validation_configuration.md) | None | 
-| [dry_run](dry_run.md) | None | 
-| [repairs](repairs.md) | None | 
-| [modified](modified.md) | None | 
-| [successful](successful.md) | None | 
+| [results](results.md) | None | 
 | [url](url.md) | None | 
 | [time_checked](time_checked.md) | None | 
 | [number_of_attempts](number_of_attempts.md) | None | 

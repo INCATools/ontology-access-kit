@@ -9,7 +9,7 @@ URI: [http://www.w3.org/ns/shacl#result](http://www.w3.org/ns/shacl#result)
 
 ## Properties
 
- * Range: Result
+ * Range: ValidationResult
 
 
 
