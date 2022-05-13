@@ -14,9 +14,6 @@ METADATA_MAP = Dict[PRED_CURIE, List[str]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
 
 
-
-
-
 class BasicOntologyInterface(OntologyInterface, ABC):
     """
     Basic lookup operations on ontologies

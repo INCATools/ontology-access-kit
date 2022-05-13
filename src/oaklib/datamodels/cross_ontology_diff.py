@@ -1,5 +1,5 @@
 # Auto generated from cross_ontology_diff.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-04T10:01:04
+# Generation date: 2022-05-13T10:39:26
 # Schema: cross-ontology-diff
 #
 # id: https://w3id.org/linkml/cross_ontology_diff

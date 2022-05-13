@@ -1,4 +1,5 @@
 import logging
+import math
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
@@ -19,6 +20,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
+from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 from rdflib import RDFS, RDF, OWL, URIRef
 
 
@@ -106,7 +108,6 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
             subj = self.uri_to_curie(row['s']['value'])
             yield pred, subj
 
-
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, obj in self._get_outgoing_edges_by_curie(curie, graph=RelationGraphEnum.nonredundant):
@@ -120,11 +121,13 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         return rmap
 
     def entailed_outgoing_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+                                                 predicates: List[PRED_CURIE] = None) -> Iterable[
+        Tuple[PRED_CURIE, CURIE]]:
         return self._get_outgoing_edges_by_curie(curie, graph=RelationGraphEnum.redundant, predicates=predicates)
 
     def entailed_incoming_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+                                                 predicates: List[PRED_CURIE] = None) -> Iterable[
+        Tuple[PRED_CURIE, CURIE]]:
         return self._get_incoming_edges_by_curie(curie, graph=RelationGraphEnum.redundant, predicates=predicates)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -145,9 +148,9 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
             for r in self._from_subjects(next_subjects, predicates, **kwargs):
                 yield r
 
-
     def _from_subjects(self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None,
-                       graph: str = None, object_is_literal=False, where=[]) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+                       graph: str = None, object_is_literal=False, where=[]) -> Iterable[
+        Tuple[CURIE, PRED_CURIE, CURIE]]:
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
             predicate_uris = [self.curie_to_sparql(curie) for curie in predicates]
@@ -160,7 +163,7 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
                                    self._values('s', subject_uris),
                                    self._values('p', predicate_uris),
                                    ] + where)
-        #print(f'G={graph} Q={query.query_str()}')
+        # print(f'G={graph} Q={query.query_str()}')
         bindings = self._query(query.query_str())
         for row in bindings:
             v = row['o']['value']
@@ -173,8 +176,8 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
     def _object_properties(self) -> List[PRED_CURIE]:
         return list(set([t[0] for t in self._triples(None, RDF.type, OWL.ObjectProperty)]))
 
-
-    def ancestor_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> obograph.Graph:
+    def ancestor_graph(self, start_curies: Union[CURIE, List[CURIE]],
+                       predicates: List[PRED_CURIE] = None) -> obograph.Graph:
         ancs = list(self.ancestors(start_curies, predicates))
         logging.info(f'NUM ANCS: {len(ancs)}')
         edges = []
@@ -202,14 +205,15 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         return obograph.Graph(id='query',
                               nodes=list(nodes.values()), edges=edges)
 
-    def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[
+        CURIE]:
         # TODO: DRY
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = [f'?s ?p ?o',
                  f'?o a owl:Class',
-                 #f'?p a owl:ObjectProperty',
+                 # f'?p a owl:ObjectProperty',
                  _sparql_values('s', query_uris)]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
@@ -221,7 +225,8 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         for row in bindings:
             yield self.uri_to_curie(row['o']['value'])
 
-    def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[
+        CURIE]:
         # TODO: DRY
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = [f'?s ?p ?o',
@@ -241,7 +246,8 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
     # Implements: Subsetter
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[
+        RELATIONSHIP]:
         # TODO: compare with https://api.triplydb.com/s/_mZ9q_-rg
         query_uris = [self.curie_to_sparql(curie) for curie in seed_curies]
         where = [f'?s ?p ?o',
@@ -256,9 +262,9 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         # TODO: remove redundancy
         rels = []
         for row in bindings:
-            rels.append( (self.uri_to_curie(row['s']['value']),
-                          self.uri_to_curie(row['p']['value']),
-                          self.uri_to_curie(row['o']['value'])))
+            rels.append((self.uri_to_curie(row['s']['value']),
+                         self.uri_to_curie(row['p']['value']),
+                         self.uri_to_curie(row['o']['value'])))
         for rel in transitive_reduction_by_predicate(rels):
             yield rel
 
@@ -346,7 +352,7 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         for curie, label in self.get_labels_for_curies([subject, object, mrca]):
             if label is None:
                 continue
-            #print(f'C={curie} L={label}')
+            # print(f'C={curie} L={label}')
             if curie == subject:
                 sim.subject_label = label
             if curie == object:
@@ -354,6 +360,9 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
             if curie == mrca:
                 sim.ancestor_label = label
         sim.ancestor_information_content = max_ic
+        sim.jaccard_similarity = setwise_jaccard_similarity(list(self.ancestors(subject, predicates=predicates)),
+                                                            list(self.ancestors(object, predicates=predicates)))
+        sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.ancestor_information_content)
         return sim
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -390,4 +399,3 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
             else:
                 yield tuple([_as_rdf_obj(v) for v in list(triple)])
         logging.info(f'Total triples: {n}')
-

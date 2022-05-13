@@ -21,12 +21,13 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.datamodels.search import SearchConfiguration
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
-    ALL_MATCH_PREDICATES
+    ALL_MATCH_PREDICATES, IS_A
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from sqlalchemy import text, update, delete
 from sqlalchemy.orm import sessionmaker, aliased
@@ -50,7 +51,8 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
 
 @dataclass
 class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface,
-                        SubsetterInterface, MappingProviderInterface, PatcherInterface, ABC):
+                        SubsetterInterface, MappingProviderInterface, PatcherInterface,
+                        SemanticSimilarityInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -68,6 +70,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     _session: Any = None
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
+    autosave : bool = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -164,6 +167,13 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for row in self.session.query(Statements.subject).filter(Statements.predicate == IN_SUBSET,
                                                                  Statements.object == sm[subset]):
             yield self._get_subset_curie(row.subject)
+
+    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+        self.session.execute(
+            update(Statements).where(Statements.subject == curie and Statements.predicate == LABEL_PREDICATE).values(value=label)
+        )
+        if self.autosave:
+            self.save()
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         preds = []
@@ -473,14 +483,45 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         seed_curies = tuple(seed_curies)
         q = self.session.query(EntailedEdge).filter(EntailedEdge.subject.in_(seed_curies))
         q = q.filter(EntailedEdge.object.in_(seed_curies))
+        q = q.filter(EntailedEdge.subject != EntailedEdge.object)
         if predicates:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
-        rels = []
         for row in q:
             if row.subject != row.object:
-                rels.append((row.subject, row.predicate, row.object))
-        for rel in transitive_reduction_by_predicate(rels):
-            yield rel
+                e1 = aliased(EntailedEdge)
+                e2 = aliased(EntailedEdge)
+                q2 = self.session.query(e1, e2)
+                q2 = q2.filter(e1.subject == row.subject)
+                q2 = q2.filter(e1.object.in_(seed_curies))
+                q2 = q2.filter(e1.object == e2.subject)
+                q2 = q2.filter(e2.object == row.object)
+                q2 = q2.filter(e1.subject != e1.object)
+                q2 = q2.filter(e2.subject != e2.object)
+                if predicates:
+                    q2 = q2.filter(e1.predicate.in_(tuple(predicates)))
+                    q2 = q2.filter(e2.predicate.in_(tuple(predicates)))
+                redundant = False
+                for e1row, e2row in q2:
+                    if predicates is None:
+                        redundant = True
+                    else:
+                        if e1row.predicate in predicates:
+                            if e2row.predicate in predicates or e2row.predicate == IS_A:
+                                redundant = True
+                        elif e2row.predicate in predicates:
+                            if e1row.predicate == IS_A:
+                                redundant = True
+                    if redundant:
+                        break
+                if not redundant:
+                    yield row.subject, row.predicate, row.object
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SemSim
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def get_information_content(self, curie: CURIE, background: CURIE = None,
+                                predicates: List[PRED_CURIE] = None):
+        raise NotImplementedError
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface
@@ -495,6 +536,8 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 r = self.session.execute(cmd)
                 cmd = update(cls).where(cls.object == k).values(object=v)
                 r = self.session.execute(cmd)
+        if self.autosave:
+            self.save()
 
     def save(self):
         self.session.commit()

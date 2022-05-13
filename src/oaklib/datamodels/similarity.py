@@ -1,5 +1,5 @@
 # Auto generated from similarity.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-22T11:45:47
+# Generation date: 2022-05-13T10:39:24
 # Schema: similarity
 #
 # id: https://w3id.org/linkml/similarity
@@ -55,6 +55,13 @@ class ZeroToOne(Float):
     type_model_uri = SIM.ZeroToOne
 
 
+class NonNegativeFloat(Float):
+    type_class_uri = XSD.float
+    type_class_curie = "xsd:float"
+    type_name = "NonNegativeFloat"
+    type_model_uri = SIM.NonNegativeFloat
+
+
 class NegativeLogValue(Float):
     type_class_uri = XSD.float
     type_class_curie = "xsd:float"
@@ -96,6 +103,7 @@ class PairwiseSimilarity(YAMLRoot):
     ancestor_information_content: Optional[Union[float, NegativeLogValue]] = None
     jaccard_similarity: Optional[Union[float, ZeroToOne]] = None
     dice_similarity: Optional[Union[float, ZeroToOne]] = None
+    phenodigm_score: Optional[Union[float, NonNegativeFloat]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.subject_id is not None and not isinstance(self.subject_id, URIorCURIE):
@@ -139,6 +147,9 @@ class PairwiseSimilarity(YAMLRoot):
 
         if self.dice_similarity is not None and not isinstance(self.dice_similarity, ZeroToOne):
             self.dice_similarity = ZeroToOne(self.dice_similarity)
+
+        if self.phenodigm_score is not None and not isinstance(self.phenodigm_score, NonNegativeFloat):
+            self.phenodigm_score = NonNegativeFloat(self.phenodigm_score)
 
         super().__post_init__(**kwargs)
 
@@ -215,6 +226,9 @@ slots.jaccard_similarity = Slot(uri=SIM.jaccard_similarity, name="jaccard_simila
 
 slots.dice_similarity = Slot(uri=SIM.dice_similarity, name="dice_similarity", curie=SIM.curie('dice_similarity'),
                    model_uri=SIM.dice_similarity, domain=None, range=Optional[Union[float, ZeroToOne]])
+
+slots.phenodigm_score = Slot(uri=SIM.phenodigm_score, name="phenodigm_score", curie=SIM.curie('phenodigm_score'),
+                   model_uri=SIM.phenodigm_score, domain=None, range=Optional[Union[float, NonNegativeFloat]])
 
 slots.overlap_coefficient = Slot(uri=SIM.overlap_coefficient, name="overlap_coefficient", curie=SIM.curie('overlap_coefficient'),
                    model_uri=SIM.overlap_coefficient, domain=None, range=Optional[Union[float, ZeroToOne]])
