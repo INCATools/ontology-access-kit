@@ -521,7 +521,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     def get_information_content(self, curie: CURIE, background: CURIE = None,
                                 predicates: List[PRED_CURIE] = None):
-        raise NotImplementedError
+        return 1.0
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface
