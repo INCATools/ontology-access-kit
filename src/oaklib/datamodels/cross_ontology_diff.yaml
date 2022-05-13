@@ -18,6 +18,7 @@ prefixes:
 default_prefix: ann
 default_range: string
 
+
 default_curi_maps:
   - semweb_context
 

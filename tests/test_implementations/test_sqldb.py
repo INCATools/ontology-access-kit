@@ -10,7 +10,7 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import graph_as_dict
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE, HAS_PART
 
 from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, HUMAN, CHEBI_NUCLEUS, \
     NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID
@@ -232,22 +232,57 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_gap_fill(self):
         oi = self.oi
+        # note that HUMAN will be deselected as it is a singleton in the is-a/part-of graph
         rels = list(oi.gap_fill_relationships([NUCLEUS, VACUOLE, CELLULAR_COMPONENT, HUMAN],
                                               predicates=[IS_A, PART_OF]))
-        #for rel in rels:
-        #    print(rel)
         self.assertEqual(len(rels), 4)
         self.assertCountEqual(rels,
                               [('GO:0005773', 'rdfs:subClassOf', 'GO:0005575'),
                                ('GO:0005634', 'rdfs:subClassOf', 'GO:0005575'),
                                ('GO:0005773', 'BFO:0000050', 'GO:0005575'),
                                ('GO:0005634', 'BFO:0000050', 'GO:0005575')])
+        # include has-part
+        rels = list(oi.gap_fill_relationships([NUCLEUS, VACUOLE, CELLULAR_COMPONENT, HUMAN],
+                                              predicates=[IS_A, PART_OF, HAS_PART]))
+        self.assertEqual(len(rels), 6)
+        self.assertCountEqual(rels,
+                              [('GO:0005773', 'rdfs:subClassOf', 'GO:0005575'),
+                               ('GO:0005634', 'rdfs:subClassOf', 'GO:0005575'),
+                               ('GO:0005773', 'BFO:0000050', 'GO:0005575'),
+                               ('GO:0005634', 'BFO:0000050', 'GO:0005575'),
+                               ('GO:0005773', 'BFO:0000051', 'GO:0005575'),
+                               ('GO:0005634', 'BFO:0000051', 'GO:0005575')])
+        # is-a graph of siblings makes singletons
+        rels = list(oi.gap_fill_relationships([NUCLEUS, VACUOLE, HUMAN],
+                                              predicates=[IS_A, PART_OF, HAS_PART]))
+        self.assertEqual(len(rels), 0)
+        # trivial edge case - subset using all terms and all predicates
+        rels = list(oi.gap_fill_relationships(list(oi.all_entity_curies())))
+        all_rels = list(oi.all_relationships())
+        #self.assertEqual(len(rels), len(all_rels))
+        for rel in rels:
+            if rel not in all_rels:
+                print(rel)
 
-    def test_mutable(self):
+
+
+
+    def test_set_label(self):
         """
         Tests the SQL store can be modified
 
-        Currently only tests
+        """
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        label = oi.get_label_by_curie(NUCLEUS)
+        oi.set_label_for_curie(NUCLEUS, "foo")
+        oi.save()
+        label = oi.get_label_by_curie(NUCLEUS)
+        self.assertEqual("foo", label)
+
+    def test_migrate_curies(self):
+        """
+        Tests the SQL store can be modified
         """
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))

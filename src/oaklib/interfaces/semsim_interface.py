@@ -1,3 +1,4 @@
+import math
 from abc import ABC
 from typing import Dict, List, Iterable
 
@@ -51,5 +52,6 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         best_mrcas = [a for a in cas if ics[a] == max_ic]
         sim = TermPairwiseSimilarity(subject_id=subject, object_id=object, ancestor_id=best_mrcas[0])
         sim.ancestor_information_content = max_ic
+        sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.information_content)
         return sim
 

@@ -54,6 +54,7 @@ classes:
       - ancestor_information_content
       - jaccard_similarity
       - dice_similarity
+      - phenodigm_score
 
   TermPairwiseSimilarity:
     is_a: PairwiseSimilarity
@@ -67,6 +68,9 @@ types:
     typeof: float
     minimum_value: 0
     maximum_value: 0
+  NonNegativeFloat:
+    typeof: float
+    minimum_value: 0
   NegativeLogValue:
     typeof: float
     minimum_value: 0
@@ -110,6 +114,10 @@ slots:
   dice_similarity:
     is_a: score
     range: ZeroToOne
+  phenodigm_score:
+    is_a: score
+    range: NonNegativeFloat
+    equals_expression: sqrt({jaccard_similarity} * {information_content})
   overlap_coefficient:
     is_a: score
     range: ZeroToOne

@@ -4,7 +4,11 @@ Utilities for working with networkx
 
 NetworkX is a popular python package for working with graphs
 """
+import logging
+from typing import Dict, Tuple, List
+
 import sssom
+from oaklib.types import PRED_CURIE, CURIE
 
 try:
     # Python <= 3.9
@@ -51,15 +55,26 @@ def transitive_reduction(relationships: Iterable[RELATIONSHIP]) -> Iterable[RELA
             yield r
 
 def transitive_reduction_by_predicate(relationships: Iterable[RELATIONSHIP]) -> Iterable[RELATIONSHIP]:
+    """
+    Performs a simple transitive reduction of a graph, in which each predicate is treated as independent,
+    and forming its own distinct graph
+
+    :param relationships:
+    :return:
+    """
     relationships = list(relationships)
-    tuples_dict = defaultdict(list)
-    rels_dict = defaultdict(list)
+    tuples_dict: Dict[PRED_CURIE, List[Tuple[CURIE, CURIE]]] = defaultdict(list)
+    rels_dict: Dict[PRED_CURIE, List[RELATIONSHIP]] = defaultdict(list)
     for s, p, o in relationships:
         if o != s:
             tuples_dict[p].append((o, s))
         rels_dict[p].append((s, p, o))
     for p, tuples in tuples_dict.items():
         g = nx.DiGraph(tuples)
+        if not nx.is_directed_acyclic_graph(g):
+            cycles = [(s, o) for (s, o) in g.edges() if g.has_edge(o, s)]
+            for s, o in cycles:
+                g.remove_edge(s, o)
         reduced = nx.transitive_reduction(g)
         for r in rels_dict[p]:
             s, _, o = r

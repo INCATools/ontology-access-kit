@@ -16,7 +16,7 @@ from collections import defaultdict
 from copy import deepcopy
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, List, TextIO, Optional
+from typing import Dict, Any, List, TextIO, Optional, Tuple
 
 import yaml
 from linkml_runtime.dumpers import json_dumper
@@ -168,7 +168,7 @@ def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
 
 def index_graph_edges_by_subject(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """
-    Returns an index of lists of edges keyed by predicate id
+    Returns an index of lists of edges keyed by subject id
 
     :param graph:
     :return:
@@ -177,6 +177,20 @@ def index_graph_edges_by_subject(graph: Graph) -> Dict[CURIE, List[Edge]]:
     for e in graph.edges:
         d[e.sub].append(e)
     return d
+
+
+def index_graph_edges_by_subject_object(graph: Graph) -> Dict[Tuple[CURIE, CURIE], List[Edge]]:
+    """
+    Returns an index of lists of edges keyed by subject and object
+
+    :param graph:
+    :return:
+    """
+    d = defaultdict(list)
+    for e in graph.edges:
+        d[(e.sub, e.obj)].append(e)
+    return d
+
 
 def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """

@@ -1196,15 +1196,18 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     See :ref:`.lexical_index_to_sssom`
 
     Examples:
+
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
 
     Outputting intermediate index:
+
         runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv
 
     Note: if you run the above command a second time it will be faster as the index
     will be reused
 
     Using custom rules:
+    
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
     """
     impl = settings.impl
