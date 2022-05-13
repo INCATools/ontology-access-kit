@@ -80,7 +80,7 @@
   <section id="class-textannotation">
 <h1>Class: TextAnnotation<a class="headerlink" href="#class-textannotation" title="Permalink to this headline"></a></h1>
 <p><em>An individual text annotation</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/TextAnnotation">ann:TextAnnotation</a></p>
+<p>URI: <a class="reference external" href="http://www.w3.org/ns/oa#Annotation">oa:Annotation</a></p>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -141,43 +141,49 @@
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="match_type.html"><span class="doc std std-doc">match_type</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="matches_whole_text.html"><span class="doc std std-doc">matches_whole_text</span></a></p></td>
+<td><p><span class="xref myst">boolean</span></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="match_type.html"><span class="doc std std-doc">match_type</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_start.html"><span class="doc std std-doc">subject_start</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_start.html"><span class="doc std std-doc">subject_start</span></a></p></td>
 <td><p><a class="reference internal" href="Position.html"><span class="doc std std-doc">Position</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_end.html"><span class="doc std std-doc">subject_end</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_end.html"><span class="doc std std-doc">subject_end</span></a></p></td>
 <td><p><a class="reference internal" href="Position.html"><span class="doc std std-doc">Position</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
 <td><p>The portion of the subject text that is matched, ranging from subject_start to subject_end</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
 <td><p><span class="xref myst">string</span></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_text_id.html"><span class="doc std std-doc">subject_text_id</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_text_id.html"><span class="doc std std-doc">subject_text_id</span></a></p></td>
 <td><p><a class="reference internal" href="TextualElement.html"><span class="doc std std-doc">TextualElement</span></a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
@@ -254,12 +260,17 @@ attributes:
     name: is_longest_match
     from_schema: https://w3id.org/linkml/text_annotator
     range: boolean
+  matches_whole_text:
+    name: matches_whole_text
+    from_schema: https://w3id.org/linkml/text_annotator
+    range: boolean
   match_type:
     name: match_type
     from_schema: https://w3id.org/linkml/text_annotator
   info:
     name: info
     from_schema: https://w3id.org/linkml/text_annotator
+class_uri: oa:Annotation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -324,6 +335,12 @@ attributes:
     alias: is_longest_match
     owner: TextAnnotation
     range: boolean
+  matches_whole_text:
+    name: matches_whole_text
+    from_schema: https://w3id.org/linkml/text_annotator
+    alias: matches_whole_text
+    owner: TextAnnotation
+    range: boolean
   match_type:
     name: match_type
     from_schema: https://w3id.org/linkml/text_annotator
@@ -364,6 +381,8 @@ attributes:
     range: string
   subject_source:
     name: subject_source
+    exact_mappings:
+    - oa:hasBody
     from_schema: https://w3id.org/linkml/text_annotator
     slot_uri: sssom:subject_source
     alias: subject_source
@@ -375,6 +394,7 @@ attributes:
     alias: subject_text_id
     owner: TextAnnotation
     range: TextualElement
+class_uri: oa:Annotation
 
 </pre></div>
 </div>
