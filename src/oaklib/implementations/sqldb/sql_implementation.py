@@ -1,7 +1,7 @@
 import logging
 from abc import ABC
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
 import semsql.builder.builder as semsql_builder
@@ -70,7 +70,6 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     _session: Any = None
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
-    autosave : bool = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -169,9 +168,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             yield self._get_subset_curie(row.subject)
 
     def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+        stmt = update(Statements).where(Statements.subject == curie and Statements.predicate == LABEL_PREDICATE).values(value=label)
         self.session.execute(
-            update(Statements).where(Statements.subject == curie and Statements.predicate == LABEL_PREDICATE).values(value=label)
+            stmt
         )
+        self.session.flush()
         if self.autosave:
             self.save()
 
@@ -521,6 +522,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     def get_information_content(self, curie: CURIE, background: CURIE = None,
                                 predicates: List[PRED_CURIE] = None):
+        # TODO: fix
         return 1.0
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -540,5 +542,6 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             self.save()
 
     def save(self):
+        logging.info(f'Committing and flushing changes')
         self.session.commit()
         self.session.flush()

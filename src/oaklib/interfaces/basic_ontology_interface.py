@@ -1,5 +1,5 @@
 from abc import ABC
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Iterable, Tuple, Optional, Any, Iterator
 
 from oaklib.interfaces.ontology_interface import OntologyInterface
@@ -66,6 +66,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     """
     strict: bool = False
+    autosave: bool = field(default_factory= lambda: True)
 
 
     def get_prefix_map(self) -> PREFIX_MAP:
@@ -335,3 +336,5 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    def save(self):
+        pass
