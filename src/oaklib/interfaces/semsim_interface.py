@@ -6,6 +6,7 @@ from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
+from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
 
 class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
@@ -52,6 +53,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         best_mrcas = [a for a in cas if ics[a] == max_ic]
         sim = TermPairwiseSimilarity(subject_id=subject, object_id=object, ancestor_id=best_mrcas[0])
         sim.ancestor_information_content = max_ic
-        sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.information_content)
+        if isinstance(self, OboGraphInterface):
+            sim.jaccard_similarity = setwise_jaccard_similarity(list(self.ancestors(subject, predicates=predicates)),
+                                                                list(self.ancestors(object, predicates=predicates)))
+        #sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.information_content)
         return sim
 

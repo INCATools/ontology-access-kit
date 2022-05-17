@@ -9,6 +9,7 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
+from oaklib.utilities.lexical.lexical_indexer import add_labels_from_uris
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE, HAS_PART
 
@@ -16,7 +17,9 @@ from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM,
     NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID
 
 DB = INPUT_DIR / 'go-nucleus.db'
+SSN_DB = INPUT_DIR / 'ssn.db'
 MUTABLE_DB = OUTPUT_DIR / 'go-nucleus.db'
+MUTABLE_SSN_DB = OUTPUT_DIR / 'ssn.db'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 VALIDATION_REPORT_OUT = OUTPUT_DIR / 'validation-results.tsv'
 
@@ -28,6 +31,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.oi = oi
         bad_ont = INPUT_DIR / 'bad-ontology.db'
         self.bad_oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{bad_ont}'))
+        self.ssn_oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{SSN_DB}'))
 
     def test_relationships(self):
         oi = self.oi
@@ -265,8 +269,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                 print(rel)
 
 
-
-
     def test_set_label(self):
         """
         Tests the SQL store can be modified
@@ -274,11 +276,46 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         """
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        oi.autosave = True
         label = oi.get_label_by_curie(NUCLEUS)
+        self.assertEqual("nucleus", label)
         oi.set_label_for_curie(NUCLEUS, "foo")
-        oi.save()
         label = oi.get_label_by_curie(NUCLEUS)
         self.assertEqual("foo", label)
+        oi.save()
+        oi.autosave = False
+        label = oi.get_label_by_curie(NUCLEUS)
+        self.assertEqual("foo", label)
+        oi.set_label_for_curie(NUCLEUS, "bar")
+        oi.set_label_for_curie(NUCLEAR_ENVELOPE, "baz")
+        self.assertNotEqual("bar", oi.get_label_by_curie(NUCLEUS))
+        self.assertNotEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+        oi.save()
+        self.assertEqual("bar", oi.get_label_by_curie(NUCLEUS))
+        self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        self.assertEqual("bar", oi.get_label_by_curie(NUCLEUS))
+        self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+
+    def test_set_labels_from_iris(self):
+        """
+        Test ability to generate labels for a semweb-style ontology
+        """
+        shutil.copyfile(SSN_DB, MUTABLE_SSN_DB)
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_SSN_DB}'))
+        no_label_curies = []
+        for curie in oi.all_entity_curies():
+            label = oi.get_label_by_curie(curie)
+            #print(f'{curie}: {label}')
+            if label is None:
+                no_label_curies.append(curie)
+        oi.autosave = True
+        add_labels_from_uris(oi)
+        oi.save()
+        for curie in no_label_curies:
+            label = oi.get_label_by_curie(curie)
+            print(f'XXX {curie}: {label}')
+            #self.assertIsNotNone(label)
 
     def test_migrate_curies(self):
         """
