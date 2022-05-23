@@ -79,7 +79,7 @@ PATO:0045035 ! normal osmolarity
 Perform validation on PR using sqlite/rdftab instance:
 
 ```bash
-runoak validate -i sqlite:../semantic-sql/db/pr.db
+runoak -i sqlite:../semantic-sql/db/pr.db validate
 ```
 
 ### List all terms
@@ -87,7 +87,7 @@ runoak validate -i sqlite:../semantic-sql/db/pr.db
 List all terms obolibrary has for mondo
 
 ```bash
-runoak validate -i obolibrary:mondo.obo terms
+runoak -i obolibrary:mondo.obo terms 
 ```
 
 ### Lexical index
@@ -95,7 +95,7 @@ runoak validate -i obolibrary:mondo.obo terms
 Make a lexical index of all terms in Mondo:
 
 ```bash
-runoak lexmatch -i obolibrary:mondo.obo -L mondo.index.yaml
+runoak  -i obolibrary:mondo.obo lexmatch -L mondo.index.yaml
 ```
 
 ### Search
