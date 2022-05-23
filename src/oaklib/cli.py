@@ -305,6 +305,10 @@ def annotate(words, output: str, text_file: TextIO, output_type: str):
               default=False,
               show_default=True,
               help="If set then find the minimal graph that spans all input curies")
+@click.option("--add-mrcas/--no-add-mrcas",
+              default=False,
+              show_default=True,
+              help="If set then extend input seed list to include all pairwise MRCAs")
 @click.option('-S', '--stylemap',
               help='a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/')
 @click.option('-C', '--configure',
@@ -316,7 +320,7 @@ def annotate(words, output: str, text_file: TextIO, output_type: str):
 @click.option('-o', '--output',
               help="Path to output file")
 #@output_option
-def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: str):
+def viz(terms, predicates, down, gap_fill, add_mrcas, view, stylemap, configure, output_type: str, output: str):
     """
     Visualizing an ancestor graph using obographviz
 
@@ -363,6 +367,13 @@ def viz(terms, predicates, down, gap_fill, view, stylemap, configure, output_typ
         else:
             logging.warning(f'Search not implemented: using direct inputs')
             curies = terms_expanded
+        if add_mrcas:
+            if isinstance(impl, SemanticSimilarityInterface):
+                curies_to_add = [lca for s, o, lca in impl.multiset_most_recent_common_ancestors(curies, predicates=actual_predicates)]
+                curies = list(set(curies + curies_to_add))
+                logging.info(f'Expanded CURIEs = {curies}')
+            else:
+                raise NotImplementedError(f'{impl} does not implement SemanticSimilarityInterface')
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:

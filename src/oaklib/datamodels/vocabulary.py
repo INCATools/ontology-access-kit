@@ -25,6 +25,7 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
     'BROAD': HAS_BROAD_SYNONYM
 }
 
+OWL_THING = 'owl:Thing'
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 RDF_TYPE = 'rdf:type'
