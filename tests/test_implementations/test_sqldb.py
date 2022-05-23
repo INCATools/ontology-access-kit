@@ -11,10 +11,10 @@ from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import add_labels_from_uris
 from oaklib.utilities.obograph_utils import graph_as_dict
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE, HAS_PART
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE, HAS_PART, OWL_THING
 
 from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, HUMAN, CHEBI_NUCLEUS, \
-    NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID
+    NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID, FUNGI
 
 DB = INPUT_DIR / 'go-nucleus.db'
 SSN_DB = INPUT_DIR / 'ssn.db'
@@ -233,6 +233,29 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         #print(curies)
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
+
+    def test_multiset_mrcas(self):
+        oi = self.oi
+        results = oi.multiset_most_recent_common_ancestors([NUCLEUS, VACUOLE, NUCLEAR_ENVELOPE, FUNGI],
+                                                           predicates=[IS_A, PART_OF], asymmetric=True)
+        results = list(results)
+        expected = [('GO:0005635', 'GO:0005773', 'GO:0043231'),
+                    ('GO:0005634', 'NCBITaxon:4751', 'owl:Thing'),
+                    ('GO:0005635', 'NCBITaxon:4751', 'owl:Thing'),
+                    ('GO:0005634', 'GO:0005635', 'GO:0005634'),
+                    ('GO:0005773', 'NCBITaxon:4751', 'owl:Thing'),
+                    ('GO:0005634', 'GO:0005773', 'GO:0043231')]
+        self.assertCountEqual(expected,
+                              list(results))
+        for s, o, lca in expected:
+            results = list(oi.most_recent_common_ancestors(s, o, predicates=[IS_A, PART_OF]))
+            #print(f'{s} {o} == {results}')
+            if lca == OWL_THING:
+                # TODO: unify treatment of owl:Thing
+                self.assertEqual([], results)
+            else:
+                self.assertEqual([lca], results)
+
 
     def test_gap_fill(self):
         oi = self.oi

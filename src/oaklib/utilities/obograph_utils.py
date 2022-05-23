@@ -157,6 +157,25 @@ def as_multi_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool 
             mdg.add_edge(edge.sub, edge.obj, **edge_attrs)
     return mdg
 
+def as_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool = True) -> nx.MultiDiGraph:
+    """
+    Convert to a networkx :class:`.MultiDiGraph`
+
+    :param graph: OBOGraph
+    :param reverse:
+    :return:
+    """
+    dg = nx.DiGraph()
+    for edge in graph.edges:
+        if filter_reflexive and reflexive(edge):
+            continue
+        edge_attrs = {"predicate": edge.pred}
+        if reverse:
+            dg.add_edge(edge.obj, edge.sub, **edge_attrs)
+        else:
+            mdg.add_edge(edge.sub, edge.obj, **edge_attrs)
+    return dg
+
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
     """
     Returns an index of all nodes key by node id
