@@ -112,14 +112,41 @@ the instructions.</p>
 <section id="code-the-first-example">
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
 <p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <span class="xref std std-ref">ProntoImplementation</span></p>
-<p>Edit a file using your favorite IDE</p>
-<p><code class="docutils literal notranslate"><span class="pre">src/my_oak_demo/demo.py</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TODO</span>
+<p>We will use a Jupyter notebook for the running example. As preparation, we expect <cite>fbbt.obo</cite> to exist
+in the same directory as the python notebook. fbbt.obo can be downloaded here:</p>
+<p><a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.ipynb</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
+<span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;fbbt.obo&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>this is still to be filled in. For now consult test_pronto.py in tests/test_implementations</p>
+<p>We first import the general <cite>OntologyResource</cite> implementation which allows us to declare where to get the ontology from.
+We then load this resource using the <cite>ProntoImplementation</cite>, which allows us to perform all operations on the resource
+that we could do with [pronto](<a class="reference external" href="https://github.com/althonos/pronto">https://github.com/althonos/pronto</a>). Next, let us use <cite>pronto</cite> to actually
+query the ontology:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We first obtain all of the outgoing relationships from the
+FBbt class for “wing vein”, which has the id of <cite>FBbt:00004751</cite>.</p>
+<p>Next, we iterate through all the relationships, and print the labels for
+both the relationship and the connected entities (here named <cite>parents</cite>) using
+the <cite>get_label_by_curie()</cite> method of the <cite>ProntoImplementation</cite> object.</p>
+<p>You should see something similar to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>rdfs:subClassOf ! subClassOf
+  FBbt:00007245 ! cuticular specialization
+RO:0002202 ! develops_from
+  FBbt:00046035 ! presumptive wing vein
+BFO:0000050 ! part_of
+  FBbt:00006015 ! wing blade
+</pre></div>
 </div>
 </section>
 </section>
