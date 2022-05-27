@@ -24,14 +24,50 @@ Code the first example
 
 We are going to use an example from the :ref:`BasicOntologyInterface`, using a :ref:`ProntoImplementation`
 
-Edit a file using your favorite IDE
+We will use a Jupyter notebook for the running example. As preparation, we expect `fbbt.obo` to exist
+in the same directory as the python notebook. fbbt.obo can be downloaded here:
 
-``src/my_oak_demo/demo.py``
+http://purl.obolibrary.org/obo/fbbt.obo
+
+
+``my_oak_demo/demo.ipynb``
 
 .. code-block:: python
 
-    TODO
+    from oaklib.resource import OntologyResource
+    from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+    resource = OntologyResource(slug='fbbt.obo', local=True)
+    oi = ProntoImplementation(resource)
 
-.. note::
+We first import the general `OntologyResource` implementation which allows us to declare where to get the ontology from.
+We then load this resource using the `ProntoImplementation`, which allows us to perform all operations on the resource 
+that we could do with [pronto](https://github.com/althonos/pronto). Next, let us use `pronto` to actually
+query the ontology:
 
-    this is still to be filled in. For now consult test_pronto.py in tests/test_implementations
+.. code-block:: python
+
+    rels = oi.get_outgoing_relationships_by_curie('FBbt:00004751')
+
+    for rel, parents in rels.items():
+        print(f'  {rel} ! {oi.get_label_by_curie(rel)}')
+        for parent in parents:
+            print(f'    {parent} ! {oi.get_label_by_curie(parent)}')
+
+We first obtain all of the outgoing relationships from the 
+FBbt class for "wing vein", which has the id of `FBbt:00004751`.
+
+Next, we iterate through all the relationships, and print the labels for 
+both the relationship and the connected entities (here named `parents`) using
+the `get_label_by_curie()` method of the `ProntoImplementation` object.
+
+You should see something similar to:
+
+.. code-block:: python
+
+    rdfs:subClassOf ! subClassOf
+      FBbt:00007245 ! cuticular specialization
+    RO:0002202 ! develops_from
+      FBbt:00046035 ! presumptive wing vein
+    BFO:0000050 ! part_of
+      FBbt:00006015 ! wing blade
+
