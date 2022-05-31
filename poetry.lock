@@ -41,7 +41,7 @@ python-versions = "*"
 name = "antlr4-python3-runtime"
 version = "4.9.3"
 description = "ANTLR 4.9.3 runtime for Python 3.7"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -96,7 +96,7 @@ tests = ["pytest"]
 name = "argparse"
 version = "1.4.0"
 description = "Python command-line parsing library"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -243,7 +243,7 @@ pycparser = "*"
 name = "cfgraph"
 version = "0.2.1"
 description = "rdflib collections flattening graph"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -379,7 +379,7 @@ python-versions = ">=3.6"
 name = "et-xmlfile"
 version = "1.1.0"
 description = "An implementation of lxml.xmlfile for the standard library"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -420,7 +420,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "fsspec"
-version = "2022.3.0"
+version = "2022.5.0"
 description = "File-system specification"
 category = "main"
 optional = false
@@ -457,7 +457,7 @@ tqdm = ["tqdm"]
 name = "graphviz"
 version = "0.20"
 description = "Simple Python interface for Graphviz"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -667,7 +667,7 @@ pyyaml = "*"
 name = "jsonasobj"
 version = "2.0.1"
 description = "JSON as python objects"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -689,7 +689,7 @@ hbreader = "*"
 name = "jsonpatch"
 version = "1.32"
 description = "Apply JSON-Patches (RFC 6902)"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -700,7 +700,7 @@ jsonpointer = ">=1.9"
 name = "jsonpath-ng"
 version = "1.5.3"
 description = "A final implementation of JSONPath for Python that aims to be standard compliant, including arithmetic and binary comparison operators and providing clear AST for metaprogramming."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -713,7 +713,7 @@ six = "*"
 name = "jsonpointer"
 version = "2.3"
 description = "Identify specific nodes in a JSON document (RFC 6901)"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -834,27 +834,26 @@ regex = ["regex"]
 
 [[package]]
 name = "linkml"
-version = "1.2.10"
+version = "1.2.12"
 description = "Linked Open Data Modeling Language"
-category = "main"
+category = "dev"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.7.6,<4.0.0"
 
 [package.dependencies]
-antlr4-python3-runtime = ">=4.9,<4.10"
+antlr4-python3-runtime = ">=4.9.0,<4.10"
 argparse = ">=1.4.0"
 click = ">=7.0"
 graphviz = ">=0.10.1"
 hbreader = "*"
 isodate = ">=0.6.0"
 jinja2 = "*"
-jsonasobj2 = ">=1.0.3,<2.0"
+jsonasobj2 = ">=1.0.3,<2.0.0"
 jsonschema = ">=3.0.1"
 linkml-dataops = "*"
-linkml-runtime = ">=1.2.4,<1.3.0"
+linkml-runtime = ">=1.2.14,<2.0.0"
 myst-parser = "*"
 openpyxl = "*"
-pandas = "*"
 parse = "*"
 prefixcommons = ">=0.1.7"
 pydantic = "*"
@@ -865,17 +864,18 @@ python-dateutil = "*"
 pyyaml = "*"
 rdflib = ">=6.0.0"
 requests = ">=2.22"
-sphinx = "*"
 sphinx-click = "*"
-sphinx-rtd-theme = "*"
 sqlalchemy = ">=1.4.31"
 watchdog = ">=0.9.0"
+
+[package.extras]
+docs = ["sphinx-rtd-theme", "sphinx"]
 
 [[package]]
 name = "linkml-dataops"
 version = "0.1.0"
 description = "LinkML Data Operations API"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -888,7 +888,7 @@ linkml-runtime = ">=1.1.6"
 
 [[package]]
 name = "linkml-runtime"
-version = "1.2.10"
+version = "1.2.15"
 description = "Runtime environment for LinkML, the Linked open data modeling language"
 category = "main"
 optional = false
@@ -910,7 +910,7 @@ requests = "*"
 name = "markdown-it-py"
 version = "2.1.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -950,7 +950,7 @@ traitlets = "*"
 name = "mdit-py-plugins"
 version = "0.3.0"
 description = "Collection of plugins for markdown-it-py"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "~=3.6"
 
@@ -966,7 +966,7 @@ testing = ["coverage", "pytest (>=3.6,<4)", "pytest-cov", "pytest-regressions"]
 name = "mdurl"
 version = "0.1.1"
 description = "Markdown URL utilities"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1009,7 +1009,7 @@ python-versions = ">=3.7"
 name = "myst-parser"
 version = "0.17.2"
 description = "An extended commonmark compliant parser, with bridges to docutils & sphinx."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1178,7 +1178,7 @@ viz = ["pygraphviz"]
 name = "openpyxl"
 version = "3.0.9"
 description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -1242,7 +1242,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "parse"
 version = "1.19.0"
 description = "parse() is the opposite of format()"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1292,7 +1292,7 @@ dev = ["pre-commit", "tox"]
 name = "ply"
 version = "3.11"
 description = "Python Lex & Yacc"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1420,7 +1420,7 @@ python-versions = ">=3.6"
 name = "pyjsg"
 version = "0.11.10"
 description = "Python JSON Schema Grammar interpreter"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1448,7 +1448,7 @@ python-versions = ">=3.7"
 name = "pyshex"
 version = "0.8.1"
 description = "Python ShEx Implementation"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -1467,7 +1467,7 @@ urllib3 = "*"
 name = "pyshexc"
 version = "0.9.1"
 description = "PyShExC - Python ShEx compiler"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1642,7 +1642,7 @@ tests = ["berkeleydb", "html5lib", "networkx", "pytest", "pytest-cov", "pytest-s
 name = "rdflib-jsonld"
 version = "0.6.1"
 description = "rdflib extension adding JSON-LD parser and serializer"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1653,7 +1653,7 @@ rdflib = ">=5.0.0"
 name = "rdflib-shim"
 version = "1.0.3"
 description = "Shim for rdflib 5 and 6 incompatibilities"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1696,7 +1696,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 name = "ruamel.yaml"
 version = "0.17.21"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3"
 
@@ -1711,7 +1711,7 @@ jinja2 = ["ruamel.yaml.jinja2 (>=0.2)"]
 name = "ruamel.yaml.clib"
 version = "0.2.6"
 description = "C version of reader, parser and emitter for ruamel.yaml derived from libyaml"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 
@@ -1748,7 +1748,7 @@ numpy = ">=1.16.5"
 
 [[package]]
 name = "semsql"
-version = "0.1.3"
+version = "0.1.6"
 description = ""
 category = "main"
 optional = false
@@ -1756,7 +1756,7 @@ python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
 click = ">=8.1.3,<9.0.0"
-linkml = ">=1.2.10,<2.0.0"
+linkml-runtime = ">=1.2.15,<2.0.0"
 SQLAlchemy-Utils = ">=0.38.2,<0.39.0"
 
 [[package]]
@@ -1776,7 +1776,7 @@ win32 = ["pywin32"]
 name = "shexjsg"
 version = "0.8.2"
 description = "ShExJSG - Astract Syntax Tree for the ShEx 2.0 language"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1811,7 +1811,7 @@ python-versions = ">=3.6"
 name = "sparqlslurper"
 version = "0.5.1"
 description = "SPARQL Slurper for rdflib"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7.4"
 
@@ -1873,7 +1873,7 @@ test = ["pytest", "pytest-cov", "html5lib", "cython", "typed-ast"]
 name = "sphinx-click"
 version = "3.1.0"
 description = "Sphinx extension that automatically documents click applications"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -1886,7 +1886,7 @@ sphinx = ">=2.0"
 name = "sphinx-rtd-theme"
 version = "1.0.0"
 description = "Read the Docs theme for Sphinx"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 
@@ -2197,7 +2197,7 @@ test = ["pytest (>=2.2.3)", "flake8 (>=2.4.0)", "isort (>=4.2.2)"]
 name = "watchdog"
 version = "2.1.7"
 description = "Filesystem events monitoring"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -2269,7 +2269,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "5b2b36c42c13b481d58a663fd77101d8c0a5fc09418c8a0f2f08950743907eb2"
+content-hash = "3be1748c3ded0775c6cc9e633257215d37cf40bc5977009b69d9fa73626b5fd2"
 
 [metadata.files]
 aiohttp = [
@@ -2695,8 +2695,8 @@ frozenlist = [
     {file = "frozenlist-1.3.0.tar.gz", hash = "sha256:ce6f2ba0edb7b0c1d8976565298ad2deba6f8064d2bebb6ffce2ca896eb35b0b"},
 ]
 fsspec = [
-    {file = "fsspec-2022.3.0-py3-none-any.whl", hash = "sha256:a53491b003210fce6911dd8f2d37e20c41a27ce52a655eef11b885d1578ed4cf"},
-    {file = "fsspec-2022.3.0.tar.gz", hash = "sha256:fd582cc4aa0db5968bad9317cae513450eddd08b2193c4428d9349265a995523"},
+    {file = "fsspec-2022.5.0-py3-none-any.whl", hash = "sha256:2c198c50eb541a80bbd03540b07602c4a957366f3fb416a1f270d34bd4ff0926"},
+    {file = "fsspec-2022.5.0.tar.gz", hash = "sha256:7a5459c75c44e760fbe6a3ccb1f37e81e023cde7da8ba20401258d877ec483b4"},
 ]
 graphviz = [
     {file = "graphviz-0.20-py3-none-any.whl", hash = "sha256:62c5f48bcc534a45b4588c548ff75e419c1f1f3a33d31a91796ae80a7f581e4a"},
@@ -2866,16 +2866,16 @@ lark = [
     {file = "lark-1.1.2.tar.gz", hash = "sha256:7a8d0c07d663da9391d7faee1bf1d7df4998c47ca43a593cbef5c7566acd057a"},
 ]
 linkml = [
-    {file = "linkml-1.2.10-py3-none-any.whl", hash = "sha256:35634789d46406ebe103a70715ccb6e05a4ffc70f31d3597b5b25bdf8baee08f"},
-    {file = "linkml-1.2.10.tar.gz", hash = "sha256:cfefac344adea6d47ed50cdc6787d1f8be8687019fb0df6050b9f1a5e7714904"},
+    {file = "linkml-1.2.12-py3-none-any.whl", hash = "sha256:de67c9f4e962af96362cce1234739c3c828e54c77633f5b1c74089452d7c8b2d"},
+    {file = "linkml-1.2.12.tar.gz", hash = "sha256:aace378f8f4372ac890484ddeabc3ebb35df4852ae895028b5b729750ea1a38c"},
 ]
 linkml-dataops = [
     {file = "linkml_dataops-0.1.0-py3-none-any.whl", hash = "sha256:193cf7f659e5f07946d2c2761896910d5f7151d91282543b1363801f68307f4c"},
     {file = "linkml_dataops-0.1.0.tar.gz", hash = "sha256:4550eab65e78b70dc3b9c651724a94ac2b1d1edb2fbe576465f1d6951a54ed04"},
 ]
 linkml-runtime = [
-    {file = "linkml_runtime-1.2.10-py3-none-any.whl", hash = "sha256:e39918ca0fb5b1e616f920c4e400b286b2f8a08d442454d624a6dd81b3006b8f"},
-    {file = "linkml_runtime-1.2.10.tar.gz", hash = "sha256:6028f9b80fb356b52b9b72d6a38bde074e7fc65b4a97a862f0f1c26428065d3e"},
+    {file = "linkml-runtime-1.2.15.tar.gz", hash = "sha256:09ae3d03c3200fc9a75598dbeb2beecf5e09f23fbcf6d961be4f93b11616dc0f"},
+    {file = "linkml_runtime-1.2.15-py3-none-any.whl", hash = "sha256:37905faa9299ed70c5cbd52ac4c25c08879b547cb65fabd2bfe9d5d4d3b25840"},
 ]
 markdown-it-py = [
     {file = "markdown-it-py-2.1.0.tar.gz", hash = "sha256:cf7e59fed14b5ae17c0006eff14a2d9a00ed5f3a846148153899a0224e2c07da"},
@@ -3041,6 +3041,7 @@ numpy = [
     {file = "numpy-1.22.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:8251ed96f38b47b4295b1ae51631de7ffa8260b5b087808ef09a39a9d66c97ab"},
     {file = "numpy-1.22.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:48a3aecd3b997bf452a2dedb11f4e79bc5bfd21a1d4cc760e703c31d57c84b3e"},
     {file = "numpy-1.22.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a3bae1a2ed00e90b3ba5f7bd0a7c7999b55d609e0c54ceb2b076a25e345fa9f4"},
+    {file = "numpy-1.22.3-cp310-cp310-win32.whl", hash = "sha256:f950f8845b480cffe522913d35567e29dd381b0dc7e4ce6a4a9f9156417d2430"},
     {file = "numpy-1.22.3-cp310-cp310-win_amd64.whl", hash = "sha256:08d9b008d0156c70dc392bb3ab3abb6e7a711383c3247b410b39962263576cd4"},
     {file = "numpy-1.22.3-cp38-cp38-macosx_10_14_x86_64.whl", hash = "sha256:201b4d0552831f7250a08d3b38de0d989d6f6e4658b709a02a73c524ccc6ffce"},
     {file = "numpy-1.22.3-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:f8c1f39caad2c896bc0018f699882b345b2a63708008be29b1f355ebf6f933fe"},
@@ -3511,8 +3512,8 @@ scipy = [
     {file = "scipy-1.6.1.tar.gz", hash = "sha256:c4fceb864890b6168e79b0e714c585dbe2fd4222768ee90bc1aa0f8218691b11"},
 ]
 semsql = [
-    {file = "semsql-0.1.3-py3-none-any.whl", hash = "sha256:d94f7d95f9ce545bf99b712ea2952d535ca1d1c43391b0af1fe9bfccd3178d00"},
-    {file = "semsql-0.1.3.tar.gz", hash = "sha256:274129e95d72181600424a84b0bddd9aaf11f8be50096d9da49fb79ddba2aeb8"},
+    {file = "semsql-0.1.6-py3-none-any.whl", hash = "sha256:8834d52a3c6551b3230e1ba31a6b54c51947042680b10c4dfb5458b8d1b1cebc"},
+    {file = "semsql-0.1.6.tar.gz", hash = "sha256:01f8a2625bd2b00c55914c2e8875120225d15e478dc45f4ab1f91af94c9e5163"},
 ]
 send2trash = [
     {file = "Send2Trash-1.8.0-py3-none-any.whl", hash = "sha256:f20eaadfdb517eaca5ce077640cb261c7d2698385a6a0f072a4a5447fd49fa08"},
