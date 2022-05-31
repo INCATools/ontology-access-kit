@@ -8,6 +8,9 @@ from oaklib.implementations.bioportal.bioportal_implementation import BioportalI
 from tests import DIGIT, HUMAN, NEURON, VACUOLE
 
 class TestBioportal(unittest.TestCase):
+    """
+    Tests :ref:`BioportalImplementation`
+    """
 
     def setUp(self) -> None:
         impl = BioportalImplementation()
@@ -16,6 +19,7 @@ class TestBioportal(unittest.TestCase):
         except ValueError:
             self.skipTest('Skipping bioportal tests, no API key set')
         self.impl = impl
+
 
     def test_text_annotator(self):
         results = list(self.impl.annotate_text('hippocampal neuron from human'))
@@ -33,7 +37,7 @@ class TestBioportal(unittest.TestCase):
     def test_mappings(self):
         mappings = list(self.impl.get_sssom_mappings_by_curie(DIGIT))
         for m in mappings:
-            print(yaml_dumper.dumps(m))
+            logging.info(yaml_dumper.dumps(m))
         assert any(m for m in mappings if m.object_id == 'http://purl.obolibrary.org/obo/NCIT_C73791')
 
         # FMA:24879 cannot be converted to the IRI recognized by BioPortal automatically,

@@ -11,6 +11,7 @@ PREFIX_MAP = Dict[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
 ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
+#ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
 
 
@@ -128,6 +129,23 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Even when a single ontology is wrapped, there may be multiple ontologies included as imports
 
         :return: iterator
+        """
+        raise NotImplementedError
+
+    def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
+        """
+        returns iterator over all version identifiers for an ontology
+        :param ontology:
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def ontology_metadata(self, ontology: CURIE) -> METADATA_MAP:
+        """
+        Basic metadata about an ontology
+
+        :param ontology:
+        :return:
         """
         raise NotImplementedError
 

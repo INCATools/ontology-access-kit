@@ -10,12 +10,15 @@ from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.implementations.sqldb.model import Statements, Edge, HasSynonymStatement, \
+from semsql.sqla.semsql import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
-    ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement
+    ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement, OntologyNode, \
+    RdfTypeStatement, OwlAxiomAnnotation
 from oaklib.interfaces import SubsetterInterface
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP
+from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP, \
+    METADATA_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
@@ -25,6 +28,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
+import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
     ALL_MATCH_PREDICATES, IS_A
@@ -48,11 +52,36 @@ def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
         raise ValueError(f'No xsd type for {rng}')
 
 
+def regex_to_sql_like(regex: str) -> str:
+    """
+    convert a regex to a LIKE
+
+    TODO: implement various different DBMS flavors https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit
+
+    :param regex:
+    :return:
+    """
+    for c in r'()[]{}|':
+        if c in regex:
+            raise NotImplementedError(f'Regex engine not implemented for SQL and cannot parse char {c} in {regex}')
+    like = regex.replace('.*', '%')
+    like = like.replace('.', '_')
+    if like.startswith('^'):
+        like = like[1:]
+    else:
+        like = f'%{like}'
+    if like.endswith('$'):
+        like = like[0:-1]
+    else:
+        like = f'{like}%'
+    logging.info(f'Translated {regex} => {like}')
+    return like
+
 
 @dataclass
 class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface,
                         SubsetterInterface, MappingProviderInterface, PatcherInterface,
-                        SemanticSimilarityInterface, ABC):
+                        SemanticSimilarityInterface, MetadataInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -105,10 +134,19 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             self._ontology_metadata_model = package_schemaview(ontology_metadata.__name__)
         return self._ontology_metadata_model
 
+    def is_mysql(self):
+        # TODO
+        return False
+
+    def is_postgres(self):
+        # TODO
+        return False
+
     def all_entity_curies(self) -> Iterable[CURIE]:
         s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')
         for row in self.engine.execute(s):
             yield row['id']
+
 
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         for row in self.session.query(Edge):
@@ -133,6 +171,31 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
         for row in self.session.query(HasTextDefinitionStatement).filter(HasTextDefinitionStatement.subject == curie):
             return row.value
+
+    def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
+        m = {'id': curie}
+        #subquery = self.session.query(AnnotationPropertyNode.id)
+        subquery = self.session.query(RdfTypeStatement.subject).filter(RdfTypeStatement.object == 'owl:AnnotationProperty')
+        q = self.session.query(Statements)
+        q = q.filter(Statements.predicate.in_(subquery))
+        for row in q.filter(Statements.subject == curie):
+            if row.value is not None:
+                v = row.value
+            elif row.object is not None:
+                v = row.object
+            else:
+                v = None
+            if row.predicate in m:
+                if not isinstance(m[row.predicate], list):
+                    m[row.predicate] = [m[row.predicate]]
+                m[row.predicate].append(v)
+            else:
+                m[row.predicate] = v
+        return m
+
+    def all_ontology_curies(self) -> Iterable[CURIE]:
+        for row in self.session.query(OntologyNode):
+            yield row.id
 
     def _get_subset_curie(self, curie: str) -> str:
         if '#' in curie:
@@ -179,20 +242,35 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         preds = []
         preds.append(omd_slots.label.curie)
-        if SearchProperty(SearchProperty.ALIAS) in config.properties:
+        search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
+        if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
             preds += SYNONYM_PREDICATES
         view = Statements
-        q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds)))
-        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
-            q = q.filter(view.value.like(f'{search_term}%'))
-        elif config.syntax == SearchTermSyntax(SearchTermSyntax.SQL):
-            q = q.filter(view.value.like(search_term))
-        elif config.is_partial:
-            q = q.filter(view.value.like(f'%{search_term}%'))
-        else:
-            q = q.filter(view.value == search_term)
+        def make_query(qcol):
+            q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds)))
+            if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+                q = q.filter(qcol.like(f'{search_term}%'))
+            elif config.syntax == SearchTermSyntax(SearchTermSyntax.SQL):
+                q = q.filter(qcol.like(search_term))
+            elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+                if self.is_mysql():
+                    q = q.filter(qcol.op('regex')(search_term))
+                elif self.is_postgres():
+                    q = q.filter(qcol.op('~')(search_term))
+                else:
+                    q = q.filter(qcol.like(regex_to_sql_like(search_term)))
+            elif config.is_partial:
+                q = q.filter(qcol.like(f'%{search_term}%'))
+            else:
+                q = q.filter(qcol == search_term)
+            return q
+        q = make_query(view.value)
         for row in q.distinct():
             yield str(row.subject)
+        if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+            q = make_query(view.subject)
+            for row in q.distinct():
+                yield str(row.subject)
 
     def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
@@ -545,3 +623,46 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         logging.info(f'Committing and flushing changes')
         self.session.commit()
         self.session.flush()
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: MetadataInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def statements_with_annotations(self, curie: CURIE) -> Iterable[om.Axiom]:
+        m = self.metadata_map_by_curie(curie)
+        q = self.session.query(OwlAxiomAnnotation)
+        q = q.filter(OwlAxiomAnnotation.subject == curie)
+        axiom_by_id = {}
+        visited = {}
+        for row in q:
+            if row.value is not None:
+                v = row.value
+            elif row.object is not None:
+                v = row.object
+            else:
+                raise ValueError(f'Unexpected null object/value in {row}')
+            axiom_id = row.id
+            if axiom_id in axiom_by_id:
+                ax = axiom_by_id[axiom_id]
+            else:
+                ax = om.Axiom(annotatedSource=curie,
+                              annotatedProperty=row.predicate,
+                              annotatedTarget=v)
+                axiom_by_id[axiom_id] = ax
+            v = row.annotation_object
+            if v is None:
+                v = row.annotation_value
+            ax.annotations.append(om.Annotation(predicate=row.annotation_predicate,
+                                                object=v))
+        for ax in axiom_by_id.values():
+            visited[(ax.annotatedSource, ax.annotatedProperty, ax.annotatedTarget)] = True
+            yield ax
+        for k, vs in m.items():
+            if not isinstance(vs, list):
+                vs = [vs]
+            for v in vs:
+                if (curie, k, v) not in visited:
+                    ax = om.Axiom(annotatedSource=curie,
+                                  annotatedProperty=k,
+                                  annotatedTarget=v)
+                    yield ax

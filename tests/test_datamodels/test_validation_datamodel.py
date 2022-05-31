@@ -13,7 +13,10 @@ class TestValidationDatamodel(unittest.TestCase):
         """
         Tests the creation of an example instance of reports
         """
-        r1 = vdm.ValidationResult(severity=vdm.SeverityOptions.ERROR)
+        severity = vdm.SeverityOptions(vdm.SeverityOptions.ERROR)
+        r1 = vdm.ValidationResult(subject='FOO:1',
+                                  type='sh:Test',
+                                  severity=severity)
         op1 = vdm.RepairOperation(repairs=r1, modified=True)
         rr = vdm.RepairReport(results=[op1])
         yaml_dumper.dump(rr, output_path('repair_report.vdm.yaml'))

@@ -1,7 +1,6 @@
 import logging
 import unittest
 
-from linkml_runtime.dumpers import yaml_dumper
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
