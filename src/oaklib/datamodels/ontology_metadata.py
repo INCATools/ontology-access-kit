@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-11T17:33:26
+# Generation date: 2022-05-29T22:52:46
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -1147,6 +1147,28 @@ class NamedIndividual(Term):
 
 
 @dataclass
+class Annotation(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OMOSCHEMA.Annotation
+    class_class_curie: ClassVar[str] = "omoschema:Annotation"
+    class_name: ClassVar[str] = "Annotation"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Annotation
+
+    predicate: Optional[str] = None
+    object: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.predicate is not None and not isinstance(self.predicate, str):
+            self.predicate = str(self.predicate)
+
+        if self.object is not None and not isinstance(self.object, str):
+            self.object = str(self.object)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class Axiom(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1156,8 +1178,9 @@ class Axiom(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Axiom
 
     annotatedProperty: Optional[Union[str, AnnotationPropertyId]] = None
-    annotatedSource: Optional[Union[dict, Thing]] = None
+    annotatedSource: Optional[Union[str, NamedObjectId]] = None
     annotatedTarget: Optional[Union[dict, Any]] = None
+    annotations: Optional[Union[Union[dict, Annotation], List[Union[dict, Annotation]]]] = empty_list()
     source: Optional[Union[str, List[str]]] = empty_list()
     is_inferred: Optional[Union[bool, Bool]] = None
     notes: Optional[Union[str, List[str]]] = empty_list()
@@ -1180,8 +1203,12 @@ class Axiom(YAMLRoot):
         if self.annotatedProperty is not None and not isinstance(self.annotatedProperty, AnnotationPropertyId):
             self.annotatedProperty = AnnotationPropertyId(self.annotatedProperty)
 
-        if self.annotatedSource is not None and not isinstance(self.annotatedSource, Thing):
-            self.annotatedSource = Thing(**as_dict(self.annotatedSource))
+        if self.annotatedSource is not None and not isinstance(self.annotatedSource, NamedObjectId):
+            self.annotatedSource = NamedObjectId(self.annotatedSource)
+
+        if not isinstance(self.annotations, list):
+            self.annotations = [self.annotations] if self.annotations is not None else []
+        self.annotations = [v if isinstance(v, Annotation) else Annotation(**as_dict(v)) for v in self.annotations]
 
         if not isinstance(self.source, list):
             self.source = [self.source] if self.source is not None else []
@@ -1478,6 +1505,9 @@ slots.id = Slot(uri=OMOSCHEMA.id, name="id", curie=OMOSCHEMA.curie('id'),
 slots.label = Slot(uri=RDFS.label, name="label", curie=RDFS.curie('label'),
                    model_uri=OMOSCHEMA.label, domain=None, range=Optional[Union[str, LabelType]])
 
+slots.annotations = Slot(uri=OMOSCHEMA.annotations, name="annotations", curie=OMOSCHEMA.curie('annotations'),
+                   model_uri=OMOSCHEMA.annotations, domain=None, range=Optional[Union[Union[dict, Annotation], List[Union[dict, Annotation]]]])
+
 slots.definition = Slot(uri=IAO['0000115'], name="definition", curie=IAO.curie('0000115'),
                    model_uri=OMOSCHEMA.definition, domain=None, range=Optional[Union[Union[str, NarrativeText], List[Union[str, NarrativeText]]]])
 
@@ -1704,7 +1734,7 @@ slots.annotatedProperty = Slot(uri=OWL.annotatedProperty, name="annotatedPropert
                    model_uri=OMOSCHEMA.annotatedProperty, domain=None, range=Optional[Union[str, AnnotationPropertyId]])
 
 slots.annotatedSource = Slot(uri=OWL.annotatedSource, name="annotatedSource", curie=OWL.curie('annotatedSource'),
-                   model_uri=OMOSCHEMA.annotatedSource, domain=None, range=Optional[Union[dict, Thing]])
+                   model_uri=OMOSCHEMA.annotatedSource, domain=None, range=Optional[Union[str, NamedObjectId]])
 
 slots.annotatedTarget = Slot(uri=OWL.annotatedTarget, name="annotatedTarget", curie=OWL.curie('annotatedTarget'),
                    model_uri=OMOSCHEMA.annotatedTarget, domain=None, range=Optional[Union[dict, Any]])
@@ -1843,6 +1873,12 @@ slots.NCIT_term_type = Slot(uri=NCIT.P383, name="NCIT_term_type", curie=NCIT.cur
 
 slots.NCIT_term_source = Slot(uri=NCIT.P384, name="NCIT_term_source", curie=NCIT.curie('P384'),
                    model_uri=OMOSCHEMA.NCIT_term_source, domain=None, range=Optional[str])
+
+slots.annotation__predicate = Slot(uri=OMOSCHEMA.predicate, name="annotation__predicate", curie=OMOSCHEMA.curie('predicate'),
+                   model_uri=OMOSCHEMA.annotation__predicate, domain=None, range=Optional[str])
+
+slots.annotation__object = Slot(uri=OMOSCHEMA.object, name="annotation__object", curie=OMOSCHEMA.curie('object'),
+                   model_uri=OMOSCHEMA.annotation__object, domain=None, range=Optional[str])
 
 slots.Ontology_title = Slot(uri=DCTERMS.title, name="Ontology_title", curie=DCTERMS.curie('title'),
                    model_uri=OMOSCHEMA.Ontology_title, domain=Ontology, range=Union[str, NarrativeText])

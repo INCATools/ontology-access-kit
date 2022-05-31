@@ -1,9 +1,9 @@
 # Auto generated from validation_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-07T21:26:12
+# Generation date: 2022-05-30T15:33:38
 # Schema: validaton-results
 #
 # id: https://w3id.org/linkml/validation_results
-# description: A datamodel for reports on data
+# description: A datamodel for data validation results.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -22,8 +22,8 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.linkml_model.types import Boolean, Integer, Nodeidentifier, String
-from linkml_runtime.utils.metamodelcore import Bool, NodeIdentifier
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
+from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE
 
 metamodel_version = "1.7.0"
 version = None
@@ -37,18 +37,18 @@ OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 PAV = CurieNamespace('pav', 'http://purl.org/pav/')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
-REPORTING = CurieNamespace('reporting', 'https://w3id.org/linkml/validation-model/')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
 SH = CurieNamespace('sh', 'http://www.w3.org/ns/shacl#')
 SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
+VM = CurieNamespace('vm', 'https://w3id.org/linkml/validation-model/')
 XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
-DEFAULT_ = REPORTING
+DEFAULT_ = VM
 
 
 # Types
 
 # Class references
-class TypeSeverityKeyValueType(NodeIdentifier):
+class TypeSeverityKeyValueType(URIorCURIE):
     pass
 
 
@@ -59,10 +59,10 @@ class ValidationConfiguration(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.ValidationConfiguration
-    class_class_curie: ClassVar[str] = "reporting:ValidationConfiguration"
+    class_class_uri: ClassVar[URIRef] = VM.ValidationConfiguration
+    class_class_curie: ClassVar[str] = "vm:ValidationConfiguration"
     class_name: ClassVar[str] = "ValidationConfiguration"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ValidationConfiguration
+    class_model_uri: ClassVar[URIRef] = VM.ValidationConfiguration
 
     max_number_results_per_type: Optional[int] = None
     type_severity_map: Optional[Union[Dict[Union[str, TypeSeverityKeyValueType], Union[dict, "TypeSeverityKeyValue"]], List[Union[dict, "TypeSeverityKeyValue"]]]] = empty_dict()
@@ -87,10 +87,10 @@ class RepairConfiguration(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.RepairConfiguration
-    class_class_curie: ClassVar[str] = "reporting:RepairConfiguration"
+    class_class_uri: ClassVar[URIRef] = VM.RepairConfiguration
+    class_class_curie: ClassVar[str] = "vm:RepairConfiguration"
     class_name: ClassVar[str] = "RepairConfiguration"
-    class_model_uri: ClassVar[URIRef] = REPORTING.RepairConfiguration
+    class_model_uri: ClassVar[URIRef] = VM.RepairConfiguration
 
     validation_configuration: Optional[Union[dict, ValidationConfiguration]] = None
     dry_run: Optional[Union[bool, Bool]] = None
@@ -107,12 +107,15 @@ class RepairConfiguration(YAMLRoot):
 
 @dataclass
 class TypeSeverityKeyValue(YAMLRoot):
+    """
+    key-value pair that maps a validation result type to a severity setting, for overriding default severity
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.TypeSeverityKeyValue
-    class_class_curie: ClassVar[str] = "reporting:TypeSeverityKeyValue"
+    class_class_uri: ClassVar[URIRef] = VM.TypeSeverityKeyValue
+    class_class_curie: ClassVar[str] = "vm:TypeSeverityKeyValue"
     class_name: ClassVar[str] = "TypeSeverityKeyValue"
-    class_model_uri: ClassVar[URIRef] = REPORTING.TypeSeverityKeyValue
+    class_model_uri: ClassVar[URIRef] = VM.TypeSeverityKeyValue
 
     type: Union[str, TypeSeverityKeyValueType] = None
     severity: Optional[Union[str, "SeverityOptions"]] = None
@@ -136,10 +139,10 @@ class Report(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.Report
-    class_class_curie: ClassVar[str] = "reporting:Report"
+    class_class_uri: ClassVar[URIRef] = VM.Report
+    class_class_curie: ClassVar[str] = "vm:Report"
     class_name: ClassVar[str] = "Report"
-    class_model_uri: ClassVar[URIRef] = REPORTING.Report
+    class_model_uri: ClassVar[URIRef] = VM.Report
 
     results: Optional[Union[Union[dict, "Result"], List[Union[dict, "Result"]]]] = empty_list()
 
@@ -154,14 +157,14 @@ class Report(YAMLRoot):
 @dataclass
 class ValidationReport(Report):
     """
-    A holder for multiple validation results
+    A report that consists of validation results
     """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = SH.ValidationReport
     class_class_curie: ClassVar[str] = "sh:ValidationReport"
     class_name: ClassVar[str] = "ValidationReport"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ValidationReport
+    class_model_uri: ClassVar[URIRef] = VM.ValidationReport
 
     results: Optional[Union[Union[dict, "ValidationResult"], List[Union[dict, "ValidationResult"]]]] = empty_list()
 
@@ -176,14 +179,14 @@ class ValidationReport(Report):
 @dataclass
 class RepairReport(Report):
     """
-    A repair object
+    A report that consists of repair operation results
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.RepairReport
-    class_class_curie: ClassVar[str] = "reporting:RepairReport"
+    class_class_uri: ClassVar[URIRef] = VM.RepairReport
+    class_class_curie: ClassVar[str] = "vm:RepairReport"
     class_name: ClassVar[str] = "RepairReport"
-    class_model_uri: ClassVar[URIRef] = REPORTING.RepairReport
+    class_model_uri: ClassVar[URIRef] = VM.RepairReport
 
     results: Optional[Union[Union[dict, "RepairOperation"], List[Union[dict, "RepairOperation"]]]] = empty_list()
 
@@ -196,12 +199,15 @@ class RepairReport(Report):
 
 
 class Result(YAMLRoot):
+    """
+    Abstract base class for any individual report result
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.Result
-    class_class_curie: ClassVar[str] = "reporting:Result"
+    class_class_uri: ClassVar[URIRef] = VM.Result
+    class_class_curie: ClassVar[str] = "vm:Result"
     class_name: ClassVar[str] = "Result"
-    class_model_uri: ClassVar[URIRef] = REPORTING.Result
+    class_model_uri: ClassVar[URIRef] = VM.Result
 
 
 @dataclass
@@ -214,42 +220,46 @@ class ValidationResult(Result):
     class_class_uri: ClassVar[URIRef] = SH.ValidationResult
     class_class_curie: ClassVar[str] = "sh:ValidationResult"
     class_name: ClassVar[str] = "ValidationResult"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ValidationResult
+    class_model_uri: ClassVar[URIRef] = VM.ValidationResult
 
-    type: Optional[Union[str, NodeIdentifier]] = None
+    type: Union[str, URIorCURIE] = None
+    subject: Union[str, URIorCURIE] = None
     severity: Optional[Union[str, "SeverityOptions"]] = None
-    subject: Optional[Union[str, NodeIdentifier]] = None
-    instantiates: Optional[Union[str, NodeIdentifier]] = None
-    predicate: Optional[Union[str, NodeIdentifier]] = None
-    object: Optional[Union[str, NodeIdentifier]] = None
+    instantiates: Optional[Union[str, URIorCURIE]] = None
+    predicate: Optional[Union[str, URIorCURIE]] = None
+    object: Optional[Union[str, URIorCURIE]] = None
     object_str: Optional[str] = None
-    source: Optional[Union[str, NodeIdentifier]] = None
+    source: Optional[Union[str, URIorCURIE]] = None
     info: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.type is not None and not isinstance(self.type, NodeIdentifier):
-            self.type = NodeIdentifier(self.type)
+        if self._is_empty(self.type):
+            self.MissingRequiredField("type")
+        if not isinstance(self.type, URIorCURIE):
+            self.type = URIorCURIE(self.type)
+
+        if self._is_empty(self.subject):
+            self.MissingRequiredField("subject")
+        if not isinstance(self.subject, URIorCURIE):
+            self.subject = URIorCURIE(self.subject)
 
         if self.severity is not None and not isinstance(self.severity, SeverityOptions):
             self.severity = SeverityOptions(self.severity)
 
-        if self.subject is not None and not isinstance(self.subject, NodeIdentifier):
-            self.subject = NodeIdentifier(self.subject)
+        if self.instantiates is not None and not isinstance(self.instantiates, URIorCURIE):
+            self.instantiates = URIorCURIE(self.instantiates)
 
-        if self.instantiates is not None and not isinstance(self.instantiates, NodeIdentifier):
-            self.instantiates = NodeIdentifier(self.instantiates)
+        if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
+            self.predicate = URIorCURIE(self.predicate)
 
-        if self.predicate is not None and not isinstance(self.predicate, NodeIdentifier):
-            self.predicate = NodeIdentifier(self.predicate)
-
-        if self.object is not None and not isinstance(self.object, NodeIdentifier):
-            self.object = NodeIdentifier(self.object)
+        if self.object is not None and not isinstance(self.object, URIorCURIE):
+            self.object = URIorCURIE(self.object)
 
         if self.object_str is not None and not isinstance(self.object_str, str):
             self.object_str = str(self.object_str)
 
-        if self.source is not None and not isinstance(self.source, NodeIdentifier):
-            self.source = NodeIdentifier(self.source)
+        if self.source is not None and not isinstance(self.source, URIorCURIE):
+            self.source = URIorCURIE(self.source)
 
         if self.info is not None and not isinstance(self.info, str):
             self.info = str(self.info)
@@ -259,16 +269,20 @@ class ValidationResult(Result):
 
 @dataclass
 class RepairOperation(Result):
+    """
+    The result of performing an individual repair
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.RepairOperation
-    class_class_curie: ClassVar[str] = "reporting:RepairOperation"
+    class_class_uri: ClassVar[URIRef] = VM.RepairOperation
+    class_class_curie: ClassVar[str] = "vm:RepairOperation"
     class_name: ClassVar[str] = "RepairOperation"
-    class_model_uri: ClassVar[URIRef] = REPORTING.RepairOperation
+    class_model_uri: ClassVar[URIRef] = VM.RepairOperation
 
     repairs: Optional[Union[dict, ValidationResult]] = None
     modified: Optional[Union[bool, Bool]] = None
     successful: Optional[Union[bool, Bool]] = None
+    info: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.repairs is not None and not isinstance(self.repairs, ValidationResult):
@@ -280,6 +294,9 @@ class RepairOperation(Result):
         if self.successful is not None and not isinstance(self.successful, Bool):
             self.successful = Bool(self.successful)
 
+        if self.info is not None and not isinstance(self.info, str):
+            self.info = str(self.info)
+
         super().__post_init__(**kwargs)
 
 
@@ -290,11 +307,13 @@ class ExternalReferenceValidationResult(ValidationResult):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.ExternalReferenceValidationResult
-    class_class_curie: ClassVar[str] = "reporting:ExternalReferenceValidationResult"
+    class_class_uri: ClassVar[URIRef] = VM.ExternalReferenceValidationResult
+    class_class_curie: ClassVar[str] = "vm:ExternalReferenceValidationResult"
     class_name: ClassVar[str] = "ExternalReferenceValidationResult"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ExternalReferenceValidationResult
+    class_model_uri: ClassVar[URIRef] = VM.ExternalReferenceValidationResult
 
+    type: Union[str, URIorCURIE] = None
+    subject: Union[str, URIorCURIE] = None
     url: Optional[str] = None
     time_checked: Optional[str] = None
     number_of_attempts: Optional[int] = None
@@ -334,20 +353,28 @@ class SeverityOptions(EnumDefinitionImpl):
 class ValidationResultType(EnumDefinitionImpl):
 
     DatatypeConstraintComponent = PermissibleValue(text="DatatypeConstraintComponent",
+                                                                             description="constraint in which the range is a type, and the slot value must conform to the type",
                                                                              meaning=SH.DatatypeConstraintComponent)
     MinCountConstraintComponent = PermissibleValue(text="MinCountConstraintComponent",
+                                                                             description="cardinality constraint where the slot value must be greater or equal to a specified minimum",
                                                                              meaning=SH.MinCountConstraintComponent)
     MaxCountConstraintComponent = PermissibleValue(text="MaxCountConstraintComponent",
+                                                                             description="cardinality constraint where the slot value must be less than or equal to a specified maximum",
                                                                              meaning=SH.MaxCountConstraintComponent)
     DeprecatedPropertyComponent = PermissibleValue(text="DeprecatedPropertyComponent",
-                                                                             meaning=REPORTING.DeprecatedPropertyComponent)
+                                                                             description="constraint where the instance slot should not be deprecated",
+                                                                             meaning=VM.DeprecatedPropertyComponent)
     MaxLengthConstraintComponent = PermissibleValue(text="MaxLengthConstraintComponent",
+                                                                               description="constraint where the slot value must have a length equal to or less than a specified maximum",
                                                                                meaning=SH.MaxLengthConstraintComponent)
     MinLengthConstraintComponent = PermissibleValue(text="MinLengthConstraintComponent",
+                                                                               description="constraint where the slot value must have a length equal to or less than a specified maximum",
                                                                                meaning=SH.MinLengthConstraintComponent)
     PatternConstraintComponent = PermissibleValue(text="PatternConstraintComponent",
+                                                                           description="constraint where the slot value must match a given regular expression pattern",
                                                                            meaning=SH.PatternConstraintComponent)
     ClosedConstraintComponent = PermissibleValue(text="ClosedConstraintComponent",
+                                                                         description="constraint where the slot value must be allowable for the type of an instance",
                                                                          meaning=SH.ClosedConstraintComponent)
 
     _defn = EnumDefinition(
@@ -359,79 +386,82 @@ class slots:
     pass
 
 slots.type = Slot(uri=SH.sourceConstraintComponent, name="type", curie=SH.curie('sourceConstraintComponent'),
-                   model_uri=REPORTING.type, domain=None, range=Optional[Union[str, NodeIdentifier]])
+                   model_uri=VM.type, domain=None, range=Union[str, URIorCURIE])
 
 slots.subject = Slot(uri=SH.focusNode, name="subject", curie=SH.curie('focusNode'),
-                   model_uri=REPORTING.subject, domain=None, range=Optional[Union[str, NodeIdentifier]])
+                   model_uri=VM.subject, domain=None, range=Union[str, URIorCURIE])
 
-slots.instantiates = Slot(uri=REPORTING.instantiates, name="instantiates", curie=REPORTING.curie('instantiates'),
-                   model_uri=REPORTING.instantiates, domain=None, range=Optional[Union[str, NodeIdentifier]])
+slots.instantiates = Slot(uri=VM.instantiates, name="instantiates", curie=VM.curie('instantiates'),
+                   model_uri=VM.instantiates, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.predicate = Slot(uri=REPORTING.predicate, name="predicate", curie=REPORTING.curie('predicate'),
-                   model_uri=REPORTING.predicate, domain=None, range=Optional[Union[str, NodeIdentifier]])
+slots.predicate = Slot(uri=VM.predicate, name="predicate", curie=VM.curie('predicate'),
+                   model_uri=VM.predicate, domain=None, range=Optional[Union[str, URIorCURIE]])
 
 slots.object = Slot(uri=SH.value, name="object", curie=SH.curie('value'),
-                   model_uri=REPORTING.object, domain=None, range=Optional[Union[str, NodeIdentifier]])
+                   model_uri=VM.object, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.object_str = Slot(uri=REPORTING.object_str, name="object_str", curie=REPORTING.curie('object_str'),
-                   model_uri=REPORTING.object_str, domain=None, range=Optional[str])
+slots.object_str = Slot(uri=VM.object_str, name="object_str", curie=VM.curie('object_str'),
+                   model_uri=VM.object_str, domain=None, range=Optional[str])
 
-slots.source = Slot(uri=REPORTING.source, name="source", curie=REPORTING.curie('source'),
-                   model_uri=REPORTING.source, domain=None, range=Optional[Union[str, NodeIdentifier]])
+slots.source = Slot(uri=VM.source, name="source", curie=VM.curie('source'),
+                   model_uri=VM.source, domain=None, range=Optional[Union[str, URIorCURIE]])
 
 slots.severity = Slot(uri=SH.resultSeverity, name="severity", curie=SH.curie('resultSeverity'),
-                   model_uri=REPORTING.severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
+                   model_uri=VM.severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
 
 slots.info = Slot(uri=SH.resultMessage, name="info", curie=SH.curie('resultMessage'),
-                   model_uri=REPORTING.info, domain=None, range=Optional[str])
+                   model_uri=VM.info, domain=None, range=Optional[str])
 
 slots.results = Slot(uri=SH.result, name="results", curie=SH.curie('result'),
-                   model_uri=REPORTING.results, domain=None, range=Optional[Union[Union[dict, Result], List[Union[dict, Result]]]])
+                   model_uri=VM.results, domain=None, range=Optional[Union[Union[dict, Result], List[Union[dict, Result]]]])
 
-slots.validationConfiguration__max_number_results_per_type = Slot(uri=REPORTING.max_number_results_per_type, name="validationConfiguration__max_number_results_per_type", curie=REPORTING.curie('max_number_results_per_type'),
-                   model_uri=REPORTING.validationConfiguration__max_number_results_per_type, domain=None, range=Optional[int])
+slots.validationConfiguration__max_number_results_per_type = Slot(uri=VM.max_number_results_per_type, name="validationConfiguration__max_number_results_per_type", curie=VM.curie('max_number_results_per_type'),
+                   model_uri=VM.validationConfiguration__max_number_results_per_type, domain=None, range=Optional[int])
 
-slots.validationConfiguration__type_severity_map = Slot(uri=REPORTING.type_severity_map, name="validationConfiguration__type_severity_map", curie=REPORTING.curie('type_severity_map'),
-                   model_uri=REPORTING.validationConfiguration__type_severity_map, domain=None, range=Optional[Union[Dict[Union[str, TypeSeverityKeyValueType], Union[dict, TypeSeverityKeyValue]], List[Union[dict, TypeSeverityKeyValue]]]])
+slots.validationConfiguration__type_severity_map = Slot(uri=VM.type_severity_map, name="validationConfiguration__type_severity_map", curie=VM.curie('type_severity_map'),
+                   model_uri=VM.validationConfiguration__type_severity_map, domain=None, range=Optional[Union[Dict[Union[str, TypeSeverityKeyValueType], Union[dict, TypeSeverityKeyValue]], List[Union[dict, TypeSeverityKeyValue]]]])
 
-slots.validationConfiguration__schema_path = Slot(uri=REPORTING.schema_path, name="validationConfiguration__schema_path", curie=REPORTING.curie('schema_path'),
-                   model_uri=REPORTING.validationConfiguration__schema_path, domain=None, range=Optional[str])
+slots.validationConfiguration__schema_path = Slot(uri=VM.schema_path, name="validationConfiguration__schema_path", curie=VM.curie('schema_path'),
+                   model_uri=VM.validationConfiguration__schema_path, domain=None, range=Optional[str])
 
-slots.repairConfiguration__validation_configuration = Slot(uri=REPORTING.validation_configuration, name="repairConfiguration__validation_configuration", curie=REPORTING.curie('validation_configuration'),
-                   model_uri=REPORTING.repairConfiguration__validation_configuration, domain=None, range=Optional[Union[dict, ValidationConfiguration]])
+slots.repairConfiguration__validation_configuration = Slot(uri=VM.validation_configuration, name="repairConfiguration__validation_configuration", curie=VM.curie('validation_configuration'),
+                   model_uri=VM.repairConfiguration__validation_configuration, domain=None, range=Optional[Union[dict, ValidationConfiguration]])
 
-slots.repairConfiguration__dry_run = Slot(uri=REPORTING.dry_run, name="repairConfiguration__dry_run", curie=REPORTING.curie('dry_run'),
-                   model_uri=REPORTING.repairConfiguration__dry_run, domain=None, range=Optional[Union[bool, Bool]])
+slots.repairConfiguration__dry_run = Slot(uri=VM.dry_run, name="repairConfiguration__dry_run", curie=VM.curie('dry_run'),
+                   model_uri=VM.repairConfiguration__dry_run, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.typeSeverityKeyValue__type = Slot(uri=REPORTING.type, name="typeSeverityKeyValue__type", curie=REPORTING.curie('type'),
-                   model_uri=REPORTING.typeSeverityKeyValue__type, domain=None, range=URIRef)
+slots.typeSeverityKeyValue__type = Slot(uri=VM.type, name="typeSeverityKeyValue__type", curie=VM.curie('type'),
+                   model_uri=VM.typeSeverityKeyValue__type, domain=None, range=URIRef)
 
-slots.typeSeverityKeyValue__severity = Slot(uri=REPORTING.severity, name="typeSeverityKeyValue__severity", curie=REPORTING.curie('severity'),
-                   model_uri=REPORTING.typeSeverityKeyValue__severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
+slots.typeSeverityKeyValue__severity = Slot(uri=VM.severity, name="typeSeverityKeyValue__severity", curie=VM.curie('severity'),
+                   model_uri=VM.typeSeverityKeyValue__severity, domain=None, range=Optional[Union[str, "SeverityOptions"]])
 
-slots.repairOperation__repairs = Slot(uri=REPORTING.repairs, name="repairOperation__repairs", curie=REPORTING.curie('repairs'),
-                   model_uri=REPORTING.repairOperation__repairs, domain=None, range=Optional[Union[dict, ValidationResult]])
+slots.repairOperation__repairs = Slot(uri=VM.repairs, name="repairOperation__repairs", curie=VM.curie('repairs'),
+                   model_uri=VM.repairOperation__repairs, domain=None, range=Optional[Union[dict, ValidationResult]])
 
-slots.repairOperation__modified = Slot(uri=REPORTING.modified, name="repairOperation__modified", curie=REPORTING.curie('modified'),
-                   model_uri=REPORTING.repairOperation__modified, domain=None, range=Optional[Union[bool, Bool]])
+slots.repairOperation__modified = Slot(uri=VM.modified, name="repairOperation__modified", curie=VM.curie('modified'),
+                   model_uri=VM.repairOperation__modified, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.repairOperation__successful = Slot(uri=REPORTING.successful, name="repairOperation__successful", curie=REPORTING.curie('successful'),
-                   model_uri=REPORTING.repairOperation__successful, domain=None, range=Optional[Union[bool, Bool]])
+slots.repairOperation__successful = Slot(uri=VM.successful, name="repairOperation__successful", curie=VM.curie('successful'),
+                   model_uri=VM.repairOperation__successful, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.externalReferenceValidationResult__url = Slot(uri=REPORTING.url, name="externalReferenceValidationResult__url", curie=REPORTING.curie('url'),
-                   model_uri=REPORTING.externalReferenceValidationResult__url, domain=None, range=Optional[str])
+slots.repairOperation__info = Slot(uri=VM.info, name="repairOperation__info", curie=VM.curie('info'),
+                   model_uri=VM.repairOperation__info, domain=None, range=Optional[str])
 
-slots.externalReferenceValidationResult__time_checked = Slot(uri=REPORTING.time_checked, name="externalReferenceValidationResult__time_checked", curie=REPORTING.curie('time_checked'),
-                   model_uri=REPORTING.externalReferenceValidationResult__time_checked, domain=None, range=Optional[str])
+slots.externalReferenceValidationResult__url = Slot(uri=VM.url, name="externalReferenceValidationResult__url", curie=VM.curie('url'),
+                   model_uri=VM.externalReferenceValidationResult__url, domain=None, range=Optional[str])
 
-slots.externalReferenceValidationResult__number_of_attempts = Slot(uri=REPORTING.number_of_attempts, name="externalReferenceValidationResult__number_of_attempts", curie=REPORTING.curie('number_of_attempts'),
-                   model_uri=REPORTING.externalReferenceValidationResult__number_of_attempts, domain=None, range=Optional[int])
+slots.externalReferenceValidationResult__time_checked = Slot(uri=VM.time_checked, name="externalReferenceValidationResult__time_checked", curie=VM.curie('time_checked'),
+                   model_uri=VM.externalReferenceValidationResult__time_checked, domain=None, range=Optional[str])
 
-slots.externalReferenceValidationResult__http_response_code = Slot(uri=REPORTING.http_response_code, name="externalReferenceValidationResult__http_response_code", curie=REPORTING.curie('http_response_code'),
-                   model_uri=REPORTING.externalReferenceValidationResult__http_response_code, domain=None, range=Optional[int])
+slots.externalReferenceValidationResult__number_of_attempts = Slot(uri=VM.number_of_attempts, name="externalReferenceValidationResult__number_of_attempts", curie=VM.curie('number_of_attempts'),
+                   model_uri=VM.externalReferenceValidationResult__number_of_attempts, domain=None, range=Optional[int])
+
+slots.externalReferenceValidationResult__http_response_code = Slot(uri=VM.http_response_code, name="externalReferenceValidationResult__http_response_code", curie=VM.curie('http_response_code'),
+                   model_uri=VM.externalReferenceValidationResult__http_response_code, domain=None, range=Optional[int])
 
 slots.ValidationReport_results = Slot(uri=SH.result, name="ValidationReport_results", curie=SH.curie('result'),
-                   model_uri=REPORTING.ValidationReport_results, domain=ValidationReport, range=Optional[Union[Union[dict, "ValidationResult"], List[Union[dict, "ValidationResult"]]]])
+                   model_uri=VM.ValidationReport_results, domain=ValidationReport, range=Optional[Union[Union[dict, "ValidationResult"], List[Union[dict, "ValidationResult"]]]])
 
 slots.RepairReport_results = Slot(uri=SH.result, name="RepairReport_results", curie=SH.curie('result'),
-                   model_uri=REPORTING.RepairReport_results, domain=RepairReport, range=Optional[Union[Union[dict, "RepairOperation"], List[Union[dict, "RepairOperation"]]]])
+                   model_uri=VM.RepairReport_results, domain=RepairReport, range=Optional[Union[Union[dict, "RepairOperation"], List[Union[dict, "RepairOperation"]]]])

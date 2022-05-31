@@ -52,5 +52,7 @@ stage-docs:
 tests/input/%.db: tests/input/%.owl
 	$(RUN) semsql make $@
 
+# create a convenient wrapper script;
+# this can be used outside the poetry environment
 bin/runoak:
-	echo `poetry run which runoak` '"$$0"' > $@ && chmod +x $@
+	echo `poetry run which runoak` '"$$@"' > $@ && chmod +x $@

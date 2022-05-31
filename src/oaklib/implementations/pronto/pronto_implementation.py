@@ -1,5 +1,6 @@
 import logging
 import tempfile
+import re
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Iterable, Iterator, Union, Tuple
@@ -382,23 +383,32 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
             mfunc = lambda label: str(label).startswith(search_term)
         elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
-            import re
             prog = re.compile(search_term)
-            mfunc = lambda label: prog.match(label)
+            mfunc = lambda label: prog.search(label)
         elif config.is_partial:
             mfunc = lambda label: search_term in str(label)
         else:
             mfunc = lambda label: label == search_term
+        search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
+        logging.info(f'SEARCH={search_term}')
         for t in self.wrapped_ontology.terms():
-            if t.name and mfunc(t.name):
-                matches.append(t.id)
-                logging.info(f'Name match to {t.id}')
-                continue
-            if SearchProperty(SearchProperty.ALIAS) in config.properties:
+            logging.debug(f'T={t} // {config}')
+            if search_all or SearchProperty(SearchProperty.LABEL) or not config.properties in config.properties:
+                if t.name and mfunc(t.name):
+                    matches.append(t.id)
+                    logging.info(f'Name match to {t.id}')
+                    continue
+            if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+                if mfunc(t.id):
+                    matches.append(t.id)
+                    logging.info(f'identifier match to {t.id}')
+                    continue
+            if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in t.synonyms:
                     if mfunc(syn.description):
                         logging.info(f'Syn match to {t.id}')
                         matches.append(t.id)
                         continue
-        return matches
+        for m in matches:
+            yield m
 

@@ -1,11 +1,12 @@
 import logging
 import unittest
+import re
 
 from oaklib.cli import search, main
 from oaklib.datamodels.vocabulary import IN_TAXON
 
 from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA, VACUOLE, \
-    CELLULAR_COMPONENT, HUMAN, MAMMALIA, SHAPE
+    CELLULAR_COMPONENT, HUMAN, MAMMALIA, SHAPE, CHEBI_NUCLEUS, NUCLEATED, INTRACELLULAR, NUCLEAR_MEMBRANE
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
@@ -133,6 +134,50 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn(NUCLEUS, out)
             self.assertIn('nucleus', out)
             self.assertEqual("", err)
+
+    def test_search_local_advanced(self):
+        search_tests = [
+            (["nucleus"], True, [NUCLEUS], []),
+            (["t^nucleus"], True, [NUCLEUS], []),
+            (["t/^n.....s$"], True, [NUCLEUS], []),
+            (["t~nucleus"], True, [NUCLEUS, CHEBI_NUCLEUS], []),
+            (["l=protoplasm"], True, [], []),
+            (["t=protoplasm"], True, [INTRACELLULAR], []),
+            ([".=protoplasm"], True, [INTRACELLULAR], []),
+            (["t/^nucl", ".and", "i/^PATO", ".not", "PATO:0001404"], True, [NUCLEATED], [TEST_OWL_RDF]),
+            ([".predicates=i,p", ".desc", "nucleus"], True, [NUCLEUS, NUCLEAR_ENVELOPE, NUCLEAR_MEMBRANE], [TEST_OWL_RDF, TEST_ONT]),
+            ([".predicates=i,p", ".desc", "nucleus", ".not", "l~membrane"],
+             True, [NUCLEUS, NUCLEAR_ENVELOPE], [TEST_OWL_RDF, TEST_ONT]),
+        ]
+        inputs = [TEST_ONT, f'sqlite:{TEST_DB}', TEST_OWL_RDF]
+        for input_arg in inputs:
+            logging.info(f'INPUT={input_arg}')
+            for t in search_tests:
+                terms, complete, expected, excluded = t
+                if input_arg in excluded:
+                    logging.info(f'Skipping {terms} as {input_arg} in Excluded: {excluded}')
+                    continue
+                result = self.runner.invoke(main, ['-i', str(input_arg), 'search'] + terms)
+                out = result.stdout
+                err = result.stderr
+                if result.exit_code != 0:
+                    logging.error(f'INPUT: {input_arg} code = {result.exit_code}')
+                    logging.error(f'OUTPUT={out}')
+                    logging.error(f'ERR={err}')
+                self.assertEqual(0, result.exit_code)
+                logging.info(f'OUTPUT={out}')
+                logging.info(f'ERR={err}')
+                self.assertEqual(0, result.exit_code)
+                self.assertEqual("", err)
+                lines = out.split("\n")
+                curies = []
+                for line in lines:
+                    m = re.match(r'(\S+)\s+!', line)
+                    if m:
+                        curies.append(m.group(1))
+                logging.info(f'SEARCH: {terms} => {curies} // {input_arg}')
+                self.assertCountEqual(expected, curies)
+
 
     def test_search_pronto_obolibrary(self):
         result = self.runner.invoke(main, ['-i', 'obolibrary:pato.obo', 'search', 't~shape'])

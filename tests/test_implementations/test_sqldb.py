@@ -206,6 +206,21 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         config = SearchConfiguration()
         curies = list(self.oi.basic_search("enzyme activity", config=config))
         self.assertEqual(curies, [])
+        config = SearchConfiguration(properties=[SearchProperty.ANYTHING])
+        curies = list(self.oi.basic_search("enzyme activity", config=config))
+        self.assertEqual(curies, ['GO:0003824'])
+
+    def test_search_identifier(self):
+        config = SearchConfiguration(properties=[SearchProperty.IDENTIFIER],
+                                     syntax=SearchTermSyntax.STARTS_WITH)
+        curies = list(self.oi.basic_search("NCBITaxon", config=config))
+        self.assertGreater(len(curies), 10)
+        for curie in curies:
+            assert curie.startswith('NCBITaxon')
+        config = SearchConfiguration(properties=[SearchProperty.IDENTIFIER],
+                                     syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        curies = list(self.oi.basic_search("^GO:...5773$", config=config))
+        self.assertEqual([VACUOLE], curies)
 
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
@@ -233,6 +248,23 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         #print(curies)
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
+
+    def test_search_regex(self):
+        config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        curies = list(self.oi.basic_search("^nucl.*s$", config=config))
+        self.assertCountEqual([NUCLEUS], curies)
+        curies = list(self.oi.basic_search("^nucl..s$", config=config))
+        self.assertCountEqual([NUCLEUS], curies)
+        curies = list(self.oi.basic_search("^nucl.s$", config=config))
+        self.assertCountEqual([], curies)
+        curies = list(self.oi.basic_search("nucl.*s", config=config))
+        self.assertCountEqual([NUCLEUS, CHEBI_NUCLEUS], curies)
+        curies = list(self.oi.basic_search("nucl.*", config=config))
+        self.assertIn(NUCLEUS, curies)
+        self.assertIn(CHEBI_NUCLEUS, curies)
+        self.assertGreater(len(curies), 5)
+        with self.assertRaises(NotImplementedError):
+            list(self.oi.basic_search("(a|b)", config=config))
 
     def test_multiset_mrcas(self):
         oi = self.oi
@@ -364,3 +396,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds)))
         self.assertCountEqual(descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2)))
         self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds)))
+
+    def test_statements_with_annotations(self):
+        oi = self.oi
+        for curie in oi.all_entity_curies():
+            for ax in oi.statements_with_annotations(curie):
+                logging.info(yaml_dumper.dumps(ax))
+        for ax in oi.statements_with_annotations(NUCLEUS):
+            print(yaml_dumper.dumps(ax))

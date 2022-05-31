@@ -36,6 +36,9 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
         elif code == '/':
             cfg = SearchBaseConfiguration([rest],
                                           syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        elif code == '@':
+            cfg = SearchBaseConfiguration([rest],
+                                          syntax=SearchTermSyntax.SQL)
         elif code == '=':
             cfg = SearchBaseConfiguration([rest],
                                           is_partial=False)
@@ -52,6 +55,8 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
                 props = [SearchProperty.ANYTHING]
             elif prop == 'l':
                 props = [SearchProperty.LABEL]
+            elif prop == 'i':
+                props = [SearchProperty.IDENTIFIER]
             else:
                 raise ValueError(f'Unknown property code: {prop}')
             cfg.properties = [SearchProperty(p) for p in props]
@@ -65,6 +70,8 @@ def search_properties_to_predicates(props: List[SearchProperty]) -> List[PRED_CU
         if p == SearchProperty(SearchProperty.LABEL):
             preds.add(LABEL_PREDICATE)
         elif p == SearchProperty(SearchProperty.ALIAS):
+            preds.update(SYNONYM_PREDICATES + [LABEL_PREDICATE])
+        elif p == SearchProperty(SearchProperty.ANYTHING):
             preds.update(SYNONYM_PREDICATES + [LABEL_PREDICATE])
         else:
             raise ValueError(p)

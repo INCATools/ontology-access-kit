@@ -179,8 +179,9 @@ def as_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool = True
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
     """
     Returns an index of all nodes key by node id
+
     :param graph:
-    :return:
+    :return: node by id index
     """
     return {n.id: n for n in graph.nodes}
 
@@ -190,7 +191,7 @@ def index_graph_edges_by_subject(graph: Graph) -> Dict[CURIE, List[Edge]]:
     Returns an index of lists of edges keyed by subject id
 
     :param graph:
-    :return:
+    :return: edges by subject index
     """
     d = defaultdict(list)
     for e in graph.edges:
@@ -203,24 +204,11 @@ def index_graph_edges_by_subject_object(graph: Graph) -> Dict[Tuple[CURIE, CURIE
     Returns an index of lists of edges keyed by subject and object
 
     :param graph:
-    :return:
+    :return: edges by subject-object pair index
     """
     d = defaultdict(list)
     for e in graph.edges:
         d[(e.sub, e.obj)].append(e)
-    return d
-
-
-def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
-    """
-    Returns an index of lists of edges keyed by predicate id
-
-    :param graph:
-    :return:
-    """
-    d = defaultdict(list)
-    for e in graph.edges:
-        d[e.pred].append(e)
     return d
 
 def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
@@ -228,7 +216,7 @@ def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
     Returns an index of lists of edges keyed by object id
 
     :param graph:
-    :return:
+    :return: edges by object index
     """
     d = defaultdict(list)
     for e in graph.edges:
@@ -240,7 +228,7 @@ def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
     Returns an index of lists of edges keyed by predicate id
 
     :param graph:
-    :return:
+    :return: edges by predicate index
     """
     d = defaultdict(list)
     for e in graph.edges:
@@ -266,6 +254,20 @@ def graph_to_tree(graph: Graph, predicates: List[PRED_CURIE] = None, output: Tex
                   format: str = None, max_paths: int = 10,
                   predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
                   stylemap = None) -> Optional[str]:
+    """
+    Translate a graph to a textual tree representation
+
+    :param graph: input graph
+    :param predicates: predicates to traverse over
+    :param output: where to write tree text
+    :param start_curies: seed nodes
+    :param seeds: nodes to highlight
+    :param format: markdown or text
+    :param max_paths: upper limit on number of distinct paths to show
+    :param predicate_code_map: mapping between predicates and codes/acronyms
+    :param stylemap: kgviz stylemap (not yet used)
+    :return:
+    """
     if output is None:
         output = io.StringIO()
         is_str = True

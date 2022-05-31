@@ -9,7 +9,7 @@ import rdflib
 import sssom
 from SPARQLWrapper import JSON
 from oaklib.datamodels import obograph
-from oaklib.datamodels.search_datamodel import SearchTermSyntax
+from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     PREFIX_MAP
@@ -160,6 +160,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         for row in bindings:
             yield (self.uri_to_curie(row['p']['value']),
                    self.uri_to_curie(row['o']['value']))
+
+    def all_ontology_curies(self) -> Iterable[CURIE]:
+        query = SparqlQuery(select=['?s'],
+                            where=[f'?s rdf:type owl:Ontology'])
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            yield self.uri_to_curie(row['s']['value'])
 
     def list_of_named_graphs(self) -> List[URI]:
         if self._list_of_named_graphs:
@@ -361,6 +368,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         if ':' in search_term and ' ' not in search_term:
             logging.debug(f'Not performing search on what looks like a CURIE: {search_term}')
             return
+        search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
         if self._is_blazegraph():
             filter_clause = f'?v bds:search "{search_term}"'
         else:
@@ -389,6 +397,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])
+        if SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+            raise NotImplementedError
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

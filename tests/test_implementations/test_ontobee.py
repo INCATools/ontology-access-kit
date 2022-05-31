@@ -13,6 +13,7 @@ TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
 TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
 
 
+@unittest.skip('Ontobee times out too often')
 class TestOntobeeImplementation(unittest.TestCase):
 
     def setUp(self) -> None:

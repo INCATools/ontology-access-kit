@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 import requests
 from oaklib.datamodels.text_annotator import TextAnnotation
-from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
+from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP, METADATA_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.datamodels.search import SearchConfiguration
@@ -62,11 +62,62 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     def _headers(self) -> dict:
         return {'Authorization': 'apikey token=' + self.bioportal_api_key}
 
-    def _bioportal_get(self, *args, **kwargs):
+    def _bioportal_get(self, *args, raise_for_status=True, **kwargs):
         if self.bioportal_api_key is  None:
             self.load_bioportal_api_key()
         check_limit()
-        return requests.get(*args, **kwargs, headers=self._headers())
+        result = requests.get(*args, **kwargs, headers=self._headers())
+        if raise_for_status:
+            result.raise_for_status()
+        #if result.status_code != 200:
+        #    raise EnvironmentError
+        return result
+
+    def all_ontology_curies(self) -> Iterable[CURIE]:
+        include =[]
+        include_str = ','.join(include)
+        params = {'include':  include_str}
+        r = self._bioportal_get(self._base_url + '/ontologies', params=params)
+        results = r.json()
+        for result in results:
+            logging.debug(result)
+            yield result['acronym']
+
+    def ontology_versions(self, ontology: CURIE) -> Iterable[CURIE]:
+        r = self._bioportal_get(self._base_url + f'/ontologies/{ontology.upper()}/submissions')
+        r.raise_for_status()
+        for result in r.json():
+            logging.debug(result)
+            yield result['version']
+
+    def ontology_metadata(self, ontology: CURIE) -> METADATA_MAP:
+        # TODO: normalize metadata
+        r = self._bioportal_get(self._base_url + f'/ontologies/{ontology.upper()}/latest_submission')
+        r.raise_for_status()
+        m = {}
+        submission_url = None
+        for k, v in r.json().items():
+            if k == '@id':
+                k = 'submission_uri'
+                submission_url = v
+            if k == '@type':
+                k = 'type'
+            if isinstance(v, dict) or isinstance(v, list):
+                if k == 'ontology':
+                    if isinstance(v, dict):
+                        m['id'] = v['acronym']
+                        m['title'] = v['name']
+            else:
+                m[k] = v
+        if submission_url:
+            print(submission_url)
+            r = self._bioportal_get(f'{submission_url}/metrics')
+            r.raise_for_status()
+            for k, v in r.json().items():
+                if isinstance(v, str) or isinstance(v, int) or isinstance(v, float):
+                    if not k.startswith('@'):
+                        m[k] = v
+        return m
 
     def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         label_cache = self.label_cache
@@ -166,8 +217,8 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         quoted_class_uri = quote(class_uri, safe='')
         req_url = f'{self._base_url}/ontologies/{ontology}/classes/{quoted_class_uri}/mappings'
         logging.debug(req_url)
-        response = self._bioportal_get(req_url, params={'display_context': 'false'})
-        if (response.status_code != requests.codes.ok):
+        response = self._bioportal_get(req_url, params={'display_context': 'false'}, raise_for_status=False)
+        if response.status_code != requests.codes.ok:
             logging.warn(f'Could not fetch mappings for {id}')
             return []
         body = response.json()
