@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/reportby_subset](https://w3id.org/linkml/reportby_
 
 ## Properties
 
- * Range: FacetStatistics
+ * Range: [FacetStatistics](FacetStatistics.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
 
 
 

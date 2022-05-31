@@ -8,13 +8,75 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Term <|-- NamedIndividual
+      
+      NamedIndividual : alternative_term
+      NamedIndividual : broadMatch
+      NamedIndividual : category
+      NamedIndividual : closeMatch
+      NamedIndividual : comment
+      NamedIndividual : conformsTo
+      NamedIndividual : consider
+      NamedIndividual : contributor
+      NamedIndividual : created
+      NamedIndividual : created_by
+      NamedIndividual : creation_date
+      NamedIndividual : creator
+      NamedIndividual : curator_note
+      NamedIndividual : database_cross_reference
+      NamedIndividual : date
+      NamedIndividual : definition
+      NamedIndividual : definition_source
+      NamedIndividual : depicted_by
+      NamedIndividual : deprecated
+      NamedIndividual : editor_note
+      NamedIndividual : editor_preferred_term
+      NamedIndividual : exactMatch
+      NamedIndividual : example_of_usage
+      NamedIndividual : excluded_from_QC_check
+      NamedIndividual : excluded_subClassOf
+      NamedIndividual : excluded_synonym
+      NamedIndividual : has_alternative_id
+      NamedIndividual : has_broad_synonym
+      NamedIndividual : has_curation_status
+      NamedIndividual : has_exact_synonym
+      NamedIndividual : has_narrow_synonym
+      NamedIndividual : has_obo_namespace
+      NamedIndividual : has_obsolescence_reason
+      NamedIndividual : has_related_synonym
+      NamedIndividual : id
+      NamedIndividual : IEDB_alternative_term
+      NamedIndividual : image
+      NamedIndividual : imported_from
+      NamedIndividual : in_subset
+      NamedIndividual : ISA_alternative_term
+      NamedIndividual : isDefinedBy
+      NamedIndividual : label
+      NamedIndividual : narrowMatch
+      NamedIndividual : OBO_foundry_unique_label
+      NamedIndividual : ontology_term_requester
+      NamedIndividual : page
+      NamedIndividual : seeAlso
+      NamedIndividual : should_conform_to
+      NamedIndividual : term_editor
+      NamedIndividual : term_replaced_by
+      NamedIndividual : term_tracker_item
+      NamedIndividual : type
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
         * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
             * **NamedIndividual**
-
 
 
 
@@ -26,54 +88,54 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 | [has_narrow_synonym](has_narrow_synonym.md) | [label_type](label_type.md) | 0..* | None  | . |
 | [has_broad_synonym](has_broad_synonym.md) | [label_type](label_type.md) | 0..* | None  | . |
 | [has_related_synonym](has_related_synonym.md) | [label_type](label_type.md) | 0..* | None  | . |
-| [alternative_term](alternative_term.md) | [string](string.md) | 0..* | None  | . |
-| [ISA_alternative_term](ISA_alternative_term.md) | [string](string.md) | 0..* | None  | . |
-| [IEDB_alternative_term](IEDB_alternative_term.md) | [string](string.md) | 0..* | None  | . |
-| [editor_preferred_term](editor_preferred_term.md) | [string](string.md) | 0..* | None  | . |
-| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | [string](string.md) | 0..* | None  | . |
-| [deprecated](deprecated.md) | [boolean](boolean.md) | 0..1 | None  | . |
-| [has_obsolescence_reason](has_obsolescence_reason.md) | [string](string.md) | 0..1 | None  | . |
+| [alternative_term](alternative_term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [ISA_alternative_term](ISA_alternative_term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [IEDB_alternative_term](IEDB_alternative_term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [editor_preferred_term](editor_preferred_term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [deprecated](deprecated.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
+| [has_obsolescence_reason](has_obsolescence_reason.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [term_replaced_by](term_replaced_by.md) | [Any](Any.md) | 0..1 | None  | . |
 | [consider](consider.md) | [Any](Any.md) | 0..* | None  | . |
-| [has_alternative_id](has_alternative_id.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
+| [has_alternative_id](has_alternative_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [excluded_subClassOf](excluded_subClassOf.md) | [Class](Class.md) | 0..* | None  | . |
-| [excluded_synonym](excluded_synonym.md) | [string](string.md) | 0..* | None  | . |
+| [excluded_synonym](excluded_synonym.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [should_conform_to](should_conform_to.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [created_by](created_by.md) | [string](string.md) | 0..1 | None  | . |
-| [creation_date](creation_date.md) | [string](string.md) | 0..* | None  | . |
+| [created_by](created_by.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [creation_date](creation_date.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [contributor](contributor.md) | [Thing](Thing.md) | 0..* | None  | . |
-| [creator](creator.md) | [string](string.md) | 0..* | None  | . |
-| [created](created.md) | [string](string.md) | 0..1 | when the term came into being  | . |
-| [date](date.md) | [string](string.md) | 0..* | when the term was updated  | . |
+| [creator](creator.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [created](created.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | when the term came into being  | . |
+| [date](date.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | when the term was updated  | . |
 | [isDefinedBy](isDefinedBy.md) | [Ontology](Ontology.md) | 0..1 | None  | . |
 | [editor_note](editor_note.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
-| [term_editor](term_editor.md) | [string](string.md) | 0..* | None  | . |
-| [definition_source](definition_source.md) | [string](string.md) | 0..* | None  | . |
-| [ontology_term_requester](ontology_term_requester.md) | [string](string.md) | 0..1 | None  | . |
+| [term_editor](term_editor.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [definition_source](definition_source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [ontology_term_requester](ontology_term_requester.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [imported_from](imported_from.md) | [NamedIndividual](NamedIndividual.md) | 0..* | None  | . |
-| [term_tracker_item](term_tracker_item.md) | [string](string.md) | 0..* | None  | . |
+| [term_tracker_item](term_tracker_item.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [broadMatch](broadMatch.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [closeMatch](closeMatch.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [exactMatch](exactMatch.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [narrowMatch](narrowMatch.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [database_cross_reference](database_cross_reference.md) | [CURIELiteral](CURIELiteral.md) | 0..* | None  | . |
-| [has_obo_namespace](has_obo_namespace.md) | [string](string.md) | 0..* | None  | . |
-| [category](category.md) | [string](string.md) | 0..1 | None  | . |
+| [has_obo_namespace](has_obo_namespace.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [category](category.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [in_subset](in_subset.md) | [Subset](Subset.md) | 0..* | Maps an ontology element to a subset it belongs to  | . |
 | [conformsTo](conformsTo.md) | [Thing](Thing.md) | 0..* | None  | . |
-| [comment](comment.md) | [string](string.md) | 0..* | None  | . |
+| [comment](comment.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [image](image.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [example_of_usage](example_of_usage.md) | [string](string.md) | 0..* | None  | . |
-| [curator_note](curator_note.md) | [string](string.md) | 0..* | None  | . |
-| [has_curation_status](has_curation_status.md) | [string](string.md) | 0..1 | None  | . |
-| [depicted_by](depicted_by.md) | [string](string.md) | 0..* | None  | . |
-| [page](page.md) | [string](string.md) | 0..* | None  | . |
+| [example_of_usage](example_of_usage.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [curator_note](curator_note.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [has_curation_status](has_curation_status.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [depicted_by](depicted_by.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [page](page.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [label](label.md) | [label_type](label_type.md) | 0..1 | None  | . |
 | [definition](definition.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
-| [id](id.md) | [uriorcurie](uriorcurie.md) | 1..1 | this maps to the URI in RDF  | . |
-| [type](type.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
+| [id](id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | this maps to the URI in RDF  | . |
+| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
 
 
 ## Usages
@@ -103,6 +165,23 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['owl:NamedIndividual'] |
+| native | ['omoschema:NamedIndividual'] |
 
 
 ## LinkML Specification
@@ -168,11 +247,11 @@ attributes:
     range: label type
   alternative_term:
     name: alternative_term
-    exact_mappings:
-    - skos:altLabel
     in_subset:
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:altLabel
     slot_uri: IAO:0000118
     multivalued: true
     alias: alternative_term
@@ -220,13 +299,13 @@ attributes:
     range: string
   deprecated:
     name: deprecated
-    aliases:
-    - is obsolete
     in_subset:
     - allotrope permitted profile
     - go permitted profile
     - obi permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    aliases:
+    - is obsolete
     is_a: obsoletion_related_property
     slot_uri: owl:deprecated
     alias: deprecated
@@ -246,8 +325,6 @@ attributes:
     range: string
   term_replaced_by:
     name: term_replaced_by
-    exact_mappings:
-    - dcterms:isReplacedBy
     comments:
     - '{''RULE'': ''subject must be deprecated''}'
     in_subset:
@@ -255,6 +332,8 @@ attributes:
     - obi permitted profile
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - dcterms:isReplacedBy
     is_a: obsoletion_related_property
     slot_uri: IAO:0100001
     alias: term_replaced_by
@@ -303,9 +382,9 @@ attributes:
     range: Class
   excluded_synonym:
     name: excluded_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:hiddenSynonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: excluded_axiom
     multivalued: true
     alias: excluded_synonym
@@ -343,9 +422,9 @@ attributes:
     range: string
   contributor:
     name: contributor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
     multivalued: true
@@ -354,9 +433,9 @@ attributes:
     range: Thing
   creator:
     name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
@@ -365,10 +444,10 @@ attributes:
     range: string
   created:
     name: created
-    close_mappings:
-    - pav:createdOn
     description: when the term came into being
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:createdOn
     is_a: provenance_property
     slot_uri: dcterms:created
     multivalued: false
@@ -377,10 +456,10 @@ attributes:
     range: string
   date:
     name: date
-    close_mappings:
-    - pav:authoredOn
     description: when the term was updated
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:authoredOn
     is_a: provenance_property
     slot_uri: dcterms:date
     multivalued: true
@@ -389,10 +468,10 @@ attributes:
     range: string
   isDefinedBy:
     name: isDefinedBy
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - pav:importedFrom
     - dcterms:publisher
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     slot_uri: rdfs:isDefinedBy
     alias: isDefinedBy
     owner: NamedIndividual
@@ -566,11 +645,11 @@ attributes:
     range: Thing
   example_of_usage:
     name: example_of_usage
-    exact_mappings:
-    - skos:example
     in_subset:
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:example
     is_a: informative_property
     slot_uri: IAO:0000112
     multivalued: true
@@ -614,8 +693,6 @@ attributes:
     range: string
   label:
     name: label
-    exact_mappings:
-    - skos:prefLabel
     comments:
     - SHOULD follow OBO label guidelines
     - MUST be unique within an ontology
@@ -625,6 +702,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:prefLabel
     is_a: core_property
     slot_uri: rdfs:label
     multivalued: false
@@ -633,8 +712,6 @@ attributes:
     range: label type
   definition:
     name: definition
-    exact_mappings:
-    - skos:definition
     comments:
     - SHOULD be in Aristotelian (genus-differentia) form
     in_subset:
@@ -642,6 +719,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:definition
     is_a: core_property
     slot_uri: IAO:0000115
     multivalued: true

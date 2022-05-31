@@ -81,6 +81,25 @@
 <h1>Class: Ontology<a class="headerlink" href="#class-ontology" title="Permalink to this headline"></a></h1>
 <p><em>An OWL ontology</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#Ontology">owl:Ontology</a></p>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span> classDiagram
+      NamedObject &lt;|-- Ontology
+      
+      Ontology : comment
+      Ontology : created
+      Ontology : creator
+      Ontology : has_ontology_root_term
+      Ontology : id
+      Ontology : imports
+      Ontology : license
+      Ontology : source
+      Ontology : title
+      Ontology : type
+      Ontology : versionInfo
+      Ontology : versionIRI
+      
+
+</pre></div>
+</div>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -126,55 +145,55 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="versionIRI.html"><span class="doc std std-doc">versionIRI</span></a></p></td>
-<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>1..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="versionInfo.html"><span class="doc std std-doc">versionInfo</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>1..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>when the term came into being</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="imports.html"><span class="doc std std-doc">imports</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>1..1</p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -243,6 +262,30 @@
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>[‘owl:Ontology’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>[‘omoschema:Ontology’]</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="linkml-specification">
 <h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
@@ -332,10 +375,10 @@ attributes:
     required: true
   source:
     name: source
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:source
     multivalued: true
@@ -373,9 +416,9 @@ attributes:
     range: string
   creator:
     name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
@@ -384,10 +427,10 @@ attributes:
     range: string
   created:
     name: created
-    close_mappings:
-    - pav:createdOn
     description: when the term came into being
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:createdOn
     is_a: provenance_property
     slot_uri: dcterms:created
     multivalued: false

@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/search_datamodel/graph_function](https://w3id.org/
 
 ## Properties
 
- * Range: GraphFunction
+ * Range: [GraphFunction](GraphFunction.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
 
 
 

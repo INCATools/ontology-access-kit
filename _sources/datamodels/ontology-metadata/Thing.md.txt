@@ -10,11 +10,21 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Thing <|-- NamedObject
+      
+      Thing : type
+      
+```
 
+
+
+
+
+## Inheritance
 * **Thing**
     * [NamedObject](NamedObject.md)
-
 
 
 
@@ -22,7 +32,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [type](type.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
+| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
 
 
 ## Usages
@@ -92,7 +102,6 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 | [NamedIndividual](NamedIndividual.md) | [conformsTo](conformsTo.md) | range | Thing |
 | [NamedIndividual](NamedIndividual.md) | [seeAlso](seeAlso.md) | range | Thing |
 | [NamedIndividual](NamedIndividual.md) | [image](image.md) | range | Thing |
-| [Axiom](Axiom.md) | [annotatedSource](annotatedSource.md) | range | Thing |
 | [Axiom](Axiom.md) | [has_axiom_label](has_axiom_label.md) | range | Thing |
 | [Axiom](Axiom.md) | [seeAlso](seeAlso.md) | range | Thing |
 | [Subset](Subset.md) | [excluded_from_QC_check](excluded_from_QC_check.md) | range | Thing |
@@ -112,6 +121,23 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['owl:Thing'] |
+| native | ['omoschema:Thing'] |
 
 
 ## LinkML Specification

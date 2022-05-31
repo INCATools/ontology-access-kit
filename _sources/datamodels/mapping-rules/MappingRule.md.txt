@@ -9,16 +9,29 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class MappingRule
+      MappingRule : description
+      MappingRule : oneway
+      MappingRule : postconditions
+      MappingRule : preconditions
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [description](description.md) | [string](string.md) | 0..1 | None  | . |
-| [oneway](oneway.md) | [boolean](boolean.md) | 0..1 | if true then subject and object can be switched and predicate inverted  | . |
+| [description](description.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [oneway](oneway.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | if true then subject and object can be switched and predicate inverted  | . |
 | [preconditions](preconditions.md) | [Precondition](Precondition.md) | 0..1 | all of the criteria that must be true before a rule is fired  | . |
 | [postconditions](postconditions.md) | [Postcondition](Postcondition.md) | 0..1 | conditions that apply if preconditions match  | . |
 
@@ -40,6 +53,23 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['mrules:MappingRule'] |
+| native | ['mrules:MappingRule'] |
 
 
 ## LinkML Specification

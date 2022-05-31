@@ -12,8 +12,24 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      AnnotationPropertyMixin <|-- HasMinimalMetadata
+      AnnotationPropertyMixin <|-- HasSynonyms
+      AnnotationPropertyMixin <|-- HasMappings
+      AnnotationPropertyMixin <|-- HasProvenance
+      AnnotationPropertyMixin <|-- HasLifeCycle
+      AnnotationPropertyMixin <|-- HasCategory
+      AnnotationPropertyMixin <|-- HasUserInformation
+      
+      
+```
 
+
+
+
+
+## Inheritance
 * **AnnotationPropertyMixin**
     * [HasMinimalMetadata](HasMinimalMetadata.md)
     * [HasSynonyms](HasSynonyms.md)
@@ -22,7 +38,6 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
     * [HasLifeCycle](HasLifeCycle.md)
     * [HasCategory](HasCategory.md)
     * [HasUserInformation](HasUserInformation.md)
-
 
 
 
@@ -44,6 +59,23 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:AnnotationPropertyMixin'] |
+| native | ['omoschema:AnnotationPropertyMixin'] |
 
 
 ## LinkML Specification

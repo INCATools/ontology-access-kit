@@ -15,13 +15,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym](http://www.g
 
 ## Properties
 
- * Range: label type
+ * Range: [label_type](label_type.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

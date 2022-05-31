@@ -9,18 +9,32 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class RelationshipToTerm
+      RelationshipToTerm : element
+      RelationshipToTerm : element_term
+      RelationshipToTerm : pipeline
+      RelationshipToTerm : predicate
+      RelationshipToTerm : source
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [predicate](predicate.md) | [uriorcurie](uriorcurie.md) | 0..1 | None  | . |
-| [element](element.md) | [uriorcurie](uriorcurie.md) | 0..1 | None  | . |
-| [element_term](element_term.md) | [string](string.md) | 0..1 | the original term used in the element  | . |
-| [source](source.md) | [uriorcurie](uriorcurie.md) | 0..1 | None  | . |
+| [predicate](predicate.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
+| [element](element.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
+| [element_term](element_term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | the original term used in the element  | . |
+| [source](source.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
 | [pipeline](pipeline.md) | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | 0..* | None  | . |
 
 
@@ -41,6 +55,23 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['li:RelationshipToTerm'] |
+| native | ['li:RelationshipToTerm'] |
 
 
 ## LinkML Specification

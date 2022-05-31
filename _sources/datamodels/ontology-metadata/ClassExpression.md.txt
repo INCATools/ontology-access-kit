@@ -10,11 +10,29 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Expression <|-- ClassExpression
+      
+      ClassExpression : cardinality
+      ClassExpression : complementOf
+      ClassExpression : disjointWith
+      ClassExpression : equivalentClass
+      ClassExpression : intersectionOf
+      ClassExpression : oneOf
+      ClassExpression : subClassOf
+      ClassExpression : unionOf
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Expression](Expression.md)
     * **ClassExpression**
-
 
 
 
@@ -22,14 +40,14 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [disjointWith](disjointWith.md) | [string](string.md) | 0..* | None  | . |
+| [disjointWith](disjointWith.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [equivalentClass](equivalentClass.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
 | [intersectionOf](intersectionOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
 | [subClassOf](subClassOf.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
-| [cardinality](cardinality.md) | [string](string.md) | 0..1 | None  | . |
-| [complementOf](complementOf.md) | [string](string.md) | 0..1 | None  | . |
+| [cardinality](cardinality.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [complementOf](complementOf.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [oneOf](oneOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
-| [unionOf](unionOf.md) | [string](string.md) | 0..1 | None  | . |
+| [unionOf](unionOf.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 
 
 ## Usages
@@ -59,6 +77,23 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:ClassExpression'] |
+| native | ['omoschema:ClassExpression'] |
 
 
 ## LinkML Specification

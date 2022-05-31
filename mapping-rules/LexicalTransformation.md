@@ -10,11 +10,23 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Activity <|-- LexicalTransformation
+      
+      LexicalTransformation : params
+      LexicalTransformation : type
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Activity](Activity.md)
     * **LexicalTransformation**
-
 
 
 
@@ -23,7 +35,7 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [type](type.md) | [TransformationType](TransformationType.md) | 0..1 | The type of transformation  | . |
-| [params](params.md) | [string](string.md) | 0..1 | Any parameters to be applied to the transformation algorithm  | . |
+| [params](params.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | Any parameters to be applied to the transformation algorithm  | . |
 
 
 ## Usages
@@ -43,6 +55,23 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['li:LexicalTransformation'] |
+| native | ['li:LexicalTransformation'] |
 
 
 ## LinkML Specification

@@ -7,17 +7,30 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class Node
+      Node : id
+      Node : lbl
+      Node : meta
+      Node : type
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [id](id.md) | [string](string.md) | 0..1 | None  | . |
-| [lbl](lbl.md) | [string](string.md) | 0..1 | None  | . |
-| [type](type.md) | [string](string.md) | 0..1 | None  | . |
+| [id](id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [lbl](lbl.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [type](type.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
 
 
@@ -38,6 +51,23 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:Node'] |
+| native | ['og:Node'] |
 
 
 ## LinkML Specification

@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/lexical_index/relationships](https://w3id.org/link
 
 ## Properties
 
- * Range: RelationshipToTerm
+ * Range: [RelationshipToTerm](RelationshipToTerm.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
 
 
 

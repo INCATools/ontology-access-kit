@@ -60,7 +60,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">mapping-rules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enums">Enums</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subsets">Subsets</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">text-annotator</a></li>
@@ -111,35 +112,35 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="MappingRuleCollection.html"><span class="doc std std-doc">MappingRuleCollection</span></a></p></td>
-<td><p>A collection of mapping rules</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="MappingRule.html"><span class="doc std std-doc">MappingRule</span></a></p></td>
-<td><p>An individual mapping rule, if preconditions match the postconditions are applied</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
-<td><p>A pattern to be matched against an individual SSSOM mapping</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Postcondition.html"><span class="doc std std-doc">Postcondition</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="LexicalIndex.html"><span class="doc std std-doc">LexicalIndex</span></a></p></td>
-<td><p>An index over an ontology keyed by lexical unit</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Activity.html"><span class="doc std std-doc">Activity</span></a></p></td>
+<td><p>Generic grouping for any lexical operation</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="LexicalGrouping.html"><span class="doc std std-doc">LexicalGrouping</span></a></p></td>
 <td><p>A grouping of ontology elements by a shared lexical term</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="RelationshipToTerm.html"><span class="doc std std-doc">RelationshipToTerm</span></a></p></td>
-<td><p>A relationship of an ontology element to a lexical term</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="LexicalIndex.html"><span class="doc std std-doc">LexicalIndex</span></a></p></td>
+<td><p>An index over an ontology keyed by lexical unit</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Activity.html"><span class="doc std std-doc">Activity</span></a></p></td>
-<td><p>Generic grouping for any lexical operation</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="LexicalTransformation.html"><span class="doc std std-doc">LexicalTransformation</span></a></p></td>
+<td><p>An atomic lexical transformation applied on a term (string) yielding a transformed string</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
 <td><p>A collection of atomic lexical transformations that are applied in serial fashion</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="LexicalTransformation.html"><span class="doc std std-doc">LexicalTransformation</span></a></p></td>
-<td><p>An atomic lexical transformation applied on a term (string) yielding a transformed string</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="MappingRule.html"><span class="doc std std-doc">MappingRule</span></a></p></td>
+<td><p>An individual mapping rule, if preconditions match the postconditions are applied</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="MappingRuleCollection.html"><span class="doc std std-doc">MappingRuleCollection</span></a></p></td>
+<td><p>A collection of mapping rules</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Postcondition.html"><span class="doc std std-doc">Postcondition</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
+<td><p>A pattern to be matched against an individual SSSOM mapping</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="RelationshipToTerm.html"><span class="doc std std-doc">RelationshipToTerm</span></a></p></td>
+<td><p>A relationship of an ontology element to a lexical term</p></td>
 </tr>
 </tbody>
 </table>
@@ -153,61 +154,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="rules.html"><span class="doc std std-doc">rules</span></a></p></td>
-<td><p>all rules</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="doc std std-doc">minimum_confidence</span></a></p></td>
-<td><p>None</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
-<td><p>if true then subject and object can be switched and predicate inverted</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
-<td><p>all of the criteria that must be true before a rule is fired</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
-<td><p>conditions that apply if preconditions match</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="doc std std-doc">subject_source_one_of</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="doc std std-doc">object_source_one_of</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="doc std std-doc">mapping_source_one_of</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="doc std std-doc">subject_match_field_one_of</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="doc std std-doc">object_match_field_one_of</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="doc std std-doc">transformations_included_in</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="doc std std-doc">predicate_id</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="weight.html"><span class="doc std std-doc">weight</span></a></p></td>
-<td><p>Weighting of the rule, positive increases the confidence, negative decreases</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="groupings.html"><span class="doc std std-doc">groupings</span></a></p></td>
-<td><p>all groupings</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pipelines.html"><span class="doc std std-doc">pipelines</span></a></p></td>
-<td><p>all pipelines used to build the index</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="term.html"><span class="doc std std-doc">term</span></a></p></td>
-<td><p>A normalized term that groups ontology elements</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="relationships.html"><span class="doc std std-doc">relationships</span></a></p></td>
-<td><p>All ontology elements grouped and their relationship to the normalized term</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="element.html"><span class="doc std std-doc">element</span></a></p></td>
@@ -216,32 +163,86 @@
 <tr class="row-even"><td><p><a class="reference internal" href="element_term.html"><span class="doc std std-doc">element_term</span></a></p></td>
 <td><p>the original term used in the element</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="groupings.html"><span class="doc std std-doc">groupings</span></a></p></td>
+<td><p>all groupings</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="doc std std-doc">mapping_source_one_of</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="minimum_confidence.html"><span class="doc std std-doc">minimum_confidence</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="name.html"><span class="doc std std-doc">name</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="doc std std-doc">object_match_field_one_of</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="doc std std-doc">object_source_one_of</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
+<td><p>if true then subject and object can be switched and predicate inverted</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
+<td><p>Any parameters to be applied to the transformation algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pipeline.html"><span class="doc std std-doc">pipeline</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pipelines.html"><span class="doc std std-doc">pipelines</span></a></p></td>
+<td><p>all pipelines used to build the index</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
+<td><p>conditions that apply if preconditions match</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
+<td><p>all of the criteria that must be true before a rule is fired</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="doc std std-doc">predicate_id</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="relationships.html"><span class="doc std std-doc">relationships</span></a></p></td>
+<td><p>All ontology elements grouped and their relationship to the normalized term</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="rules.html"><span class="doc std std-doc">rules</span></a></p></td>
+<td><p>all rules</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pipeline.html"><span class="doc std std-doc">pipeline</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="doc std std-doc">subject_match_field_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="name.html"><span class="doc std std-doc">name</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="doc std std-doc">subject_source_one_of</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="transformations.html"><span class="doc std std-doc">transformations</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="term.html"><span class="doc std std-doc">term</span></a></p></td>
+<td><p>A normalized term that groups ontology elements</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="transformations.html"><span class="doc std std-doc">transformations</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="doc std std-doc">transformations_included_in</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
 <td><p>The type of transformation</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="params.html"><span class="doc std std-doc">params</span></a></p></td>
-<td><p>Any parameters to be applied to the transformation algorithm</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="weight.html"><span class="doc std std-doc">weight</span></a></p></td>
+<td><p>Weighting of the rule, positive increases the confidence, negative decreases</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="enums">
-<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline"></a></h2>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Enums</p></th>
+<tr class="row-odd"><th class="head"><p>Enumeration</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
@@ -250,6 +251,16 @@
 <td><p>A controlled datamodels of the types of transformation that can be applied to</p></td>
 </tr>
 </tbody>
+</table>
+</section>
+<section id="subsets">
+<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Subset</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
 </table>
 </section>
 </section>

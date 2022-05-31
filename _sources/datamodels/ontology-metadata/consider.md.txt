@@ -14,13 +14,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#consider](http://www.geneonto
 
 ## Properties
 
- * Range: Any
+ * Range: [Any](Any.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

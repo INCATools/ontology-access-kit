@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/meta](https://github.com/geneont
 
 ## Properties
 
- * Range: Meta
+ * Range: [Meta](Meta.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

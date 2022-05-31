@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/reportproperty_statistic_group](https://w3id.org/l
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
@@ -23,6 +23,16 @@ URI: [https://w3id.org/linkml/reportproperty_statistic_group](https://w3id.org/l
 
 | property | value |
 | --- | --- |
+| _if_missing |  |
 | count_of | rdf:Property |
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
+
 
 

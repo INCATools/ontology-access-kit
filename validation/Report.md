@@ -7,17 +7,28 @@ _A report object that is a holder to multiple report results_
 
 
 
-URI: [reporting:Report](https://w3id.org/linkml/validation-model/Report)
+URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
+
+
+
+
+```mermaid
+ classDiagram
+      Report <|-- ValidationReport
+      Report <|-- RepairReport
+      
+      Report : results
+      
+```
+
 
 
 
 
 ## Inheritance
-
 * **Report**
     * [ValidationReport](ValidationReport.md)
     * [RepairReport](RepairReport.md)
-
 
 
 
@@ -25,7 +36,7 @@ URI: [reporting:Report](https://w3id.org/linkml/validation-model/Report)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [results](results.md) | [Result](Result.md) | 0..* | None  | . |
+| [results](results.md) | [Result](Result.md) | 0..* | collection of results  | . |
 
 
 ## Usages
@@ -40,6 +51,23 @@ URI: [reporting:Report](https://w3id.org/linkml/validation-model/Report)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['vm:Report'] |
+| native | ['vm:Report'] |
 
 
 ## LinkML Specification
@@ -71,12 +99,15 @@ abstract: true
 attributes:
   results:
     name: results
+    description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: Report
     range: Result
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>

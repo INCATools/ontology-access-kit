@@ -7,8 +7,17 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class Any
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -52,6 +61,23 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['linkml:Any'] |
+| native | ['omoschema:Any'] |
 
 
 ## LinkML Specification

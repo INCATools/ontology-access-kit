@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/validation-model/type_severity_map](https://w3id.o
 
 ## Properties
 
- * Range: TypeSeverityKeyValue
+ * Range: [TypeSeverityKeyValue](TypeSeverityKeyValue.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
 
 
 

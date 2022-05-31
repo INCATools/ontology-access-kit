@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/validation-model/source](https://w3id.org/linkml/v
 
 ## Properties
 
- * Range: nodeidentifier
+ * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
 
 
 

@@ -83,6 +83,69 @@
 <li><p><strong>NOTE</strong>: this is an abstract class and should not be instantiated directly</p></li>
 </ul>
 <p>URI: <a class="reference external" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property">rdf:Property</a></p>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span> classDiagram
+      Term &lt;|-- Property
+      
+      Property : alternative_term
+      Property : broadMatch
+      Property : category
+      Property : closeMatch
+      Property : comment
+      Property : conformsTo
+      Property : consider
+      Property : contributor
+      Property : created
+      Property : created_by
+      Property : creation_date
+      Property : creator
+      Property : curator_note
+      Property : database_cross_reference
+      Property : date
+      Property : definition
+      Property : definition_source
+      Property : depicted_by
+      Property : deprecated
+      Property : domain
+      Property : editor_note
+      Property : editor_preferred_term
+      Property : exactMatch
+      Property : example_of_usage
+      Property : excluded_from_QC_check
+      Property : excluded_subClassOf
+      Property : excluded_synonym
+      Property : has_alternative_id
+      Property : has_broad_synonym
+      Property : has_curation_status
+      Property : has_exact_synonym
+      Property : has_narrow_synonym
+      Property : has_obo_namespace
+      Property : has_obsolescence_reason
+      Property : has_related_synonym
+      Property : id
+      Property : IEDB_alternative_term
+      Property : image
+      Property : imported_from
+      Property : in_subset
+      Property : is_class_level
+      Property : is_metadata_tag
+      Property : ISA_alternative_term
+      Property : isDefinedBy
+      Property : label
+      Property : narrowMatch
+      Property : OBO_foundry_unique_label
+      Property : ontology_term_requester
+      Property : page
+      Property : range
+      Property : seeAlso
+      Property : should_conform_to
+      Property : term_editor
+      Property : term_replaced_by
+      Property : term_tracker_item
+      Property : type
+      
+
+</pre></div>
+</div>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -119,25 +182,25 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="domain.html"><span class="doc std std-doc">domain</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="range.html"><span class="doc std std-doc">range</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_class_level.html"><span class="doc std std-doc">is_class_level</span></a></p></td>
-<td><p><span class="xref myst">boolean</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_metadata_tag.html"><span class="doc std std-doc">is_metadata_tag</span></a></p></td>
-<td><p><span class="xref myst">boolean</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -167,43 +230,43 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="alternative_term.html"><span class="doc std std-doc">alternative_term</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ISA_alternative_term.html"><span class="doc std std-doc">ISA_alternative_term</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="IEDB_alternative_term.html"><span class="doc std std-doc">IEDB_alternative_term</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="editor_preferred_term.html"><span class="doc std std-doc">editor_preferred_term</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="OBO_foundry_unique_label.html"><span class="doc std std-doc">OBO_foundry_unique_label</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a></p></td>
-<td><p><span class="xref myst">boolean</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_obsolescence_reason.html"><span class="doc std std-doc">has_obsolescence_reason</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -221,7 +284,7 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_alternative_id.html"><span class="doc std std-doc">has_alternative_id</span></a></p></td>
-<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -239,7 +302,7 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="excluded_synonym.html"><span class="doc std std-doc">excluded_synonym</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -251,13 +314,13 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="created_by.html"><span class="doc std std-doc">created_by</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creation_date.html"><span class="doc std std-doc">creation_date</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -269,19 +332,19 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>when the term came into being</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>when the term was updated</p></td>
 <td><p>.</p></td>
@@ -299,19 +362,19 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -323,7 +386,7 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -359,13 +422,13 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -383,7 +446,7 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -401,31 +464,31 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="example_of_usage.html"><span class="doc std std-doc">example_of_usage</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="curator_note.html"><span class="doc std std-doc">curator_note</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="has_curation_status.html"><span class="doc std std-doc">has_curation_status</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..1</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="page.html"><span class="doc std std-doc">page</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -443,13 +506,13 @@
 <td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>1..1</p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p><span class="xref myst">uriorcurie</span></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>0..*</p></td>
 <td><p>None</p></td>
 <td><p>.</p></td>
@@ -593,6 +656,30 @@
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>[‘rdf:Property’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>[‘omoschema:Property’]</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="linkml-specification">
 <h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
@@ -743,11 +830,11 @@ attributes:
     range: label type
   alternative_term:
     name: alternative_term
-    exact_mappings:
-    - skos:altLabel
     in_subset:
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:altLabel
     slot_uri: IAO:0000118
     multivalued: true
     alias: alternative_term
@@ -795,13 +882,13 @@ attributes:
     range: string
   deprecated:
     name: deprecated
-    aliases:
-    - is obsolete
     in_subset:
     - allotrope permitted profile
     - go permitted profile
     - obi permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    aliases:
+    - is obsolete
     is_a: obsoletion_related_property
     slot_uri: owl:deprecated
     alias: deprecated
@@ -821,8 +908,6 @@ attributes:
     range: string
   term_replaced_by:
     name: term_replaced_by
-    exact_mappings:
-    - dcterms:isReplacedBy
     comments:
     - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
     in_subset:
@@ -830,6 +915,8 @@ attributes:
     - obi permitted profile
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - dcterms:isReplacedBy
     is_a: obsoletion_related_property
     slot_uri: IAO:0100001
     alias: term_replaced_by
@@ -878,9 +965,9 @@ attributes:
     range: Class
   excluded_synonym:
     name: excluded_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:hiddenSynonym
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: excluded_axiom
     multivalued: true
     alias: excluded_synonym
@@ -918,9 +1005,9 @@ attributes:
     range: string
   contributor:
     name: contributor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
     multivalued: true
@@ -929,9 +1016,9 @@ attributes:
     range: Thing
   creator:
     name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
@@ -940,10 +1027,10 @@ attributes:
     range: string
   created:
     name: created
-    close_mappings:
-    - pav:createdOn
     description: when the term came into being
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:createdOn
     is_a: provenance_property
     slot_uri: dcterms:created
     multivalued: false
@@ -952,10 +1039,10 @@ attributes:
     range: string
   date:
     name: date
-    close_mappings:
-    - pav:authoredOn
     description: when the term was updated
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:authoredOn
     is_a: provenance_property
     slot_uri: dcterms:date
     multivalued: true
@@ -964,10 +1051,10 @@ attributes:
     range: string
   isDefinedBy:
     name: isDefinedBy
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - pav:importedFrom
     - dcterms:publisher
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     slot_uri: rdfs:isDefinedBy
     alias: isDefinedBy
     owner: Property
@@ -1141,11 +1228,11 @@ attributes:
     range: Thing
   example_of_usage:
     name: example_of_usage
-    exact_mappings:
-    - skos:example
     in_subset:
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:example
     is_a: informative_property
     slot_uri: IAO:0000112
     multivalued: true

@@ -1,5 +1,5 @@
 # Class: ValidationReport
-_A holder for multiple validation results_
+_A report that consists of validation results_
 
 
 
@@ -10,11 +10,22 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Report <|-- ValidationReport
+      
+      ValidationReport : results
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Report](Report.md)
     * **ValidationReport**
-
 
 
 
@@ -22,7 +33,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [results](results.md) | [ValidationResult](ValidationResult.md) | 0..* | None  | . |
+| [results](results.md) | [ValidationResult](ValidationResult.md) | 0..* | collection of results  | . |
 
 
 ## Usages
@@ -37,6 +48,23 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['sh:ValidationReport'] |
+| native | ['vm:ValidationReport'] |
 
 
 ## LinkML Specification
@@ -48,7 +76,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 <details>
 ```yaml
 name: ValidationReport
-description: A holder for multiple validation results
+description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
@@ -67,7 +95,7 @@ class_uri: sh:ValidationReport
 <details>
 ```yaml
 name: ValidationReport
-description: A holder for multiple validation results
+description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
@@ -79,12 +107,15 @@ slot_usage:
 attributes:
   results:
     name: results
+    description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: ValidationReport
     range: ValidationResult
+    inlined: true
+    inlined_as_list: true
 class_uri: sh:ValidationReport
 
 ```

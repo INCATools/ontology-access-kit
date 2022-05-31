@@ -2,8 +2,9 @@
 
 A string representation of a CURIE
 
-URI: http://purl.obolibrary.org/obo/schema/CURIELiteral
+URI: http://www.w3.org/2001/XMLSchema#string
 
+* [base](https://w3id.org/linkml/base): str
 
 
 
@@ -13,6 +14,15 @@ URI: http://purl.obolibrary.org/obo/schema/CURIELiteral
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

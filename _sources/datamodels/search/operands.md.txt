@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/search_datamodel/operands](https://w3id.org/linkml
 
 ## Properties
 
- * Range: BooleanQuery
+ * Range: [BooleanQuery](BooleanQuery.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
 
 
 

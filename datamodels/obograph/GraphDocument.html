@@ -80,57 +80,78 @@
   <section id="class-graphdocument">
 <h1>Class: GraphDocument<a class="headerlink" href="#class-graphdocument" title="Permalink to this headline"></a></h1>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/GraphDocument">og:GraphDocument</a></p>
-<!-- no inheritance hierarchy -->
-<section id="slots">
-<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
-<td><p><a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="graphs.html"><span class="doc std std-doc">graphs</span></a></p></td>
-<td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="usages">
-<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
-</section>
-<section id="identifier-and-mapping-information">
-<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
-</section>
-<section id="linkml-specification">
-<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
-<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
-<section id="direct">
-<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
-<details>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span> classDiagram
+    class GraphDocument
+      GraphDocument : graphs
+      GraphDocument : meta
+      
+
+
+
+
+
+&lt;!-- no inheritance hierarchy --&gt;
+
+
+## Slots
+
+| Name | Range | Cardinality | Description  | Info |
+| ---  | --- | --- | --- | --- |
+| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| [graphs](graphs.md) | [Graph](Graph.md) | 0..* | None  | . |
+
+
+## Usages
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | [&#39;og:GraphDocument&#39;] |
+| native | [&#39;og:GraphDocument&#39;] |
+
+
+## LinkML Specification
+
+&lt;!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx --&gt;
+
+### Direct
+
+&lt;details&gt;
 ```yaml
 name: GraphDocument
 from_schema: https://github.com/geneontology/obographs
 slots:
 - meta
 - graphs
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
-### Induced
-
-&lt;details&gt;
+</pre></div>
+</div>
+</details>
+<section id="induced">
+<h2>Induced<a class="headerlink" href="#induced" title="Permalink to this headline"></a></h2>
+<details>
 ```yaml
 name: GraphDocument
 from_schema: https://github.com/geneontology/obographs
@@ -145,15 +166,14 @@ attributes:
     name: graphs
     from_schema: https://github.com/geneontology/obographs
     multivalued: true
-    inlined: true
-    inlined_as_list: true
     alias: graphs
     owner: GraphDocument
     range: Graph
-
+    inlined: true
+    inlined_as_list: true
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</details></section>
 </section>
 </section>
 

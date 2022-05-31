@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/lexical_index/type](https://w3id.org/linkml/lexica
 
 ## Properties
 
- * Range: TransformationType
+ * Range: [TransformationType](TransformationType.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
 
 
 

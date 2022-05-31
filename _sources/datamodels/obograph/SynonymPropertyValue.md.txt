@@ -8,11 +8,28 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      PropertyValue <|-- SynonymPropertyValue
+      
+      SynonymPropertyValue : isExact
+      SynonymPropertyValue : meta
+      SynonymPropertyValue : pred
+      SynonymPropertyValue : scope
+      SynonymPropertyValue : synonymType
+      SynonymPropertyValue : val
+      SynonymPropertyValue : xrefs
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **SynonymPropertyValue**
-
 
 
 
@@ -20,12 +37,12 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [synonymType](synonymType.md) | [string](string.md) | 0..1 | None  | . |
-| [isExact](isExact.md) | [boolean](boolean.md) | 0..1 | None  | . |
+| [synonymType](synonymType.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [isExact](isExact.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
 | [scope](scope.md) | [ScopesEnum](ScopesEnum.md) | 0..1 | None  | . |
-| [pred](pred.md) | [string](string.md) | 0..1 | None  | . |
-| [val](val.md) | [string](string.md) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [string](string.md) | 0..* | None  | . |
+| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [val](val.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
 
 
@@ -46,6 +63,23 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:SynonymPropertyValue'] |
+| native | ['og:SynonymPropertyValue'] |
 
 
 ## LinkML Specification

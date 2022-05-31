@@ -9,13 +9,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasSynonymType](http://www.ge
 
 ## Properties
 
- * Range: AnnotationProperty
+ * Range: [AnnotationProperty](AnnotationProperty.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/validation-model/repairs](https://w3id.org/linkml/
 
 ## Properties
 
- * Range: ValidationResult
+ * Range: [ValidationResult](ValidationResult.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
 
 
 

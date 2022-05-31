@@ -10,12 +10,31 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Result <|-- ValidationResult
+      
+      ValidationResult : info
+      ValidationResult : instantiates
+      ValidationResult : object
+      ValidationResult : object_str
+      ValidationResult : predicate
+      ValidationResult : severity
+      ValidationResult : source
+      ValidationResult : subject
+      ValidationResult : type
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Result](Result.md)
     * **ValidationResult**
         * [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md)
-
 
 
 
@@ -23,15 +42,15 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [type](type.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID  | . |
-| [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | None  | . |
-| [subject](subject.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
-| [instantiates](instantiates.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
-| [predicate](predicate.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
-| [object](object.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
-| [object_str](object_str.md) | [string](string.md) | 0..1 | None  | . |
-| [source](source.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
-| [info](info.md) | [string](string.md) | 0..1 | None  | . |
+| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID  | . |
+| [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | the severity of the issue  | . |
+| [subject](subject.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The instance which the result is about  | . |
+| [instantiates](instantiates.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The type of the subject  | . |
+| [predicate](predicate.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The predicate or property of the subject which the result is about  | . |
+| [object](object.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
+| [object_str](object_str.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [source](source.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
+| [info](info.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | additional information about the issue  | . |
 
 
 ## Usages
@@ -52,6 +71,23 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['sh:ValidationResult'] |
+| native | ['vm:ValidationResult'] |
 
 
 ## LinkML Specification
@@ -101,9 +137,11 @@ attributes:
     slot_uri: sh:sourceConstraintComponent
     alias: type
     owner: ValidationResult
-    range: nodeidentifier
+    range: uriorcurie
+    required: true
   severity:
     name: severity
+    description: the severity of the issue
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:resultSeverity
     alias: severity
@@ -111,34 +149,38 @@ attributes:
     range: severity_options
   subject:
     name: subject
+    description: The instance which the result is about
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:focusNode
     alias: subject
     owner: ValidationResult
-    range: nodeidentifier
+    range: uriorcurie
+    required: true
   instantiates:
     name: instantiates
+    description: The type of the subject
+    from_schema: https://w3id.org/linkml/validation_results
     exact_mappings:
     - sh:sourceShape
-    from_schema: https://w3id.org/linkml/validation_results
     alias: instantiates
     owner: ValidationResult
-    range: nodeidentifier
+    range: uriorcurie
   predicate:
     name: predicate
+    description: The predicate or property of the subject which the result is about
+    from_schema: https://w3id.org/linkml/validation_results
     related_mappings:
     - sh:resultPath
-    from_schema: https://w3id.org/linkml/validation_results
     alias: predicate
     owner: ValidationResult
-    range: nodeidentifier
+    range: uriorcurie
   object:
     name: object
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:value
     alias: object
     owner: ValidationResult
-    range: nodeidentifier
+    range: uriorcurie
   object_str:
     name: object_str
     from_schema: https://w3id.org/linkml/validation_results
@@ -150,9 +192,10 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     alias: source
     owner: ValidationResult
-    range: nodeidentifier
+    range: uriorcurie
   info:
     name: info
+    description: additional information about the issue
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:resultMessage
     alias: info

@@ -7,22 +7,39 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class Meta
+      Meta : basicPropertyValues
+      Meta : comments
+      Meta : definition
+      Meta : deprecated
+      Meta : subsets
+      Meta : synonyms
+      Meta : version
+      Meta : xrefs
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [subsets](subsets.md) | [string](string.md) | 0..* | None  | . |
-| [version](version.md) | [string](string.md) | 0..1 | None  | . |
-| [comments](comments.md) | [string](string.md) | 0..* | None  | . |
+| [subsets](subsets.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [version](version.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [comments](comments.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [definition](definition.md) | [DefinitionPropertyValue](DefinitionPropertyValue.md) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [string](string.md) | 0..* | None  | . |
+| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [synonyms](synonyms.md) | [SynonymPropertyValue](SynonymPropertyValue.md) | 0..* | None  | . |
 | [basicPropertyValues](basicPropertyValues.md) | [BasicPropertyValue](BasicPropertyValue.md) | 0..* | None  | . |
-| [deprecated](deprecated.md) | [boolean](boolean.md) | 0..1 | None  | . |
+| [deprecated](deprecated.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
 
 
 ## Usages
@@ -54,6 +71,23 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:Meta'] |
+| native | ['og:Meta'] |
 
 
 ## LinkML Specification

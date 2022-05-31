@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/text_annotator/subject_text_id](https://w3id.org/l
 
 ## Properties
 
- * Range: TextualElement
+ * Range: [TextualElement](TextualElement.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/text_annotator
 
 
 

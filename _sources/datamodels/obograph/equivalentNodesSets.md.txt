@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://git
 
 ## Properties
 
- * Range: EquivalentNodesSet
+ * Range: [EquivalentNodesSet](EquivalentNodesSet.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

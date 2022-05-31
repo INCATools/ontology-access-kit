@@ -2,8 +2,9 @@
 
 None
 
-URI: http://purl.obolibrary.org/obo/schema/tidy_string
+URI: http://www.w3.org/2001/XMLSchema#string
 
+* [base](https://w3id.org/linkml/base): str
 
 
 
@@ -14,6 +15,15 @@ URI: http://purl.obolibrary.org/obo/schema/tidy_string
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

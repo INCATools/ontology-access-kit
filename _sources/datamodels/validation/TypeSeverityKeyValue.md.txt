@@ -1,21 +1,34 @@
 # Class: TypeSeverityKeyValue
+_key-value pair that maps a validation result type to a severity setting, for overriding default severity_
 
 
 
 
-URI: [reporting:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeverityKeyValue)
+
+URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeverityKeyValue)
+
+
+
+
+```mermaid
+ classDiagram
+    class TypeSeverityKeyValue
+      TypeSeverityKeyValue : severity
+      TypeSeverityKeyValue : type
+      
+
+
 
 
 
 <!-- no inheritance hierarchy -->
 
 
-
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [type](type.md) | [nodeidentifier](nodeidentifier.md) | 0..1 | None  | . |
+| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | None  | . |
 | [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | None  | . |
 
 
@@ -36,6 +49,23 @@ URI: [reporting:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/T
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['vm:TypeSeverityKeyValue'] |
+| native | ['vm:TypeSeverityKeyValue'] |
 
 
 ## LinkML Specification
@@ -47,13 +77,16 @@ URI: [reporting:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/T
 <details>
 ```yaml
 name: TypeSeverityKeyValue
+conforms_to: wikidata:Q4818718
+description: key-value pair that maps a validation result type to a severity setting,
+  for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
 attributes:
   type:
     name: type
     from_schema: https://w3id.org/linkml/validation_results
     key: true
-    range: nodeidentifier
+    range: uriorcurie
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results
@@ -67,6 +100,9 @@ attributes:
 <details>
 ```yaml
 name: TypeSeverityKeyValue
+conforms_to: wikidata:Q4818718
+description: key-value pair that maps a validation result type to a severity setting,
+  for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
 attributes:
   type:
@@ -75,7 +111,8 @@ attributes:
     key: true
     alias: type
     owner: TypeSeverityKeyValue
-    range: nodeidentifier
+    range: uriorcurie
+    required: true
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results

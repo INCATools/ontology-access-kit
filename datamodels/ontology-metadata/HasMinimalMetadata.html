@@ -84,6 +84,15 @@
 <li><p><strong>NOTE</strong>: this is a mixin class intended to be used in combination with other classes, and not used directly</p></li>
 </ul>
 <p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/schema/HasMinimalMetadata">omoschema:HasMinimalMetadata</a></p>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span> classDiagram
+      AnnotationPropertyMixin &lt;|-- HasMinimalMetadata
+      
+      HasMinimalMetadata : definition
+      HasMinimalMetadata : label
+      
+
+</pre></div>
+</div>
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -126,6 +135,30 @@
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>[‘omoschema:HasMinimalMetadata’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>[‘omoschema:HasMinimalMetadata’]</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="linkml-specification">
 <h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
@@ -156,8 +189,6 @@ mixin: true
 attributes:
   label:
     name: label
-    exact_mappings:
-    - skos:prefLabel
     comments:
     - SHOULD follow OBO label guidelines
     - MUST be unique within an ontology
@@ -167,6 +198,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:prefLabel
     is_a: core_property
     slot_uri: rdfs:label
     multivalued: false
@@ -175,8 +208,6 @@ attributes:
     range: label type
   definition:
     name: definition
-    exact_mappings:
-    - skos:definition
     comments:
     - SHOULD be in Aristotelian (genus-differentia) form
     in_subset:
@@ -184,6 +215,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:definition
     is_a: core_property
     slot_uri: IAO:0000115
     multivalued: true

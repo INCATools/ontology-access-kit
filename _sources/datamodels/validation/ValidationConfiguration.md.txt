@@ -5,21 +5,33 @@ _Configuration parameters for execution of a validation report_
 
 
 
-URI: [reporting:ValidationConfiguration](https://w3id.org/linkml/validation-model/ValidationConfiguration)
+URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/ValidationConfiguration)
+
+
+
+
+```mermaid
+ classDiagram
+    class ValidationConfiguration
+      ValidationConfiguration : max_number_results_per_type
+      ValidationConfiguration : schema_path
+      ValidationConfiguration : type_severity_map
+      
+
+
 
 
 
 <!-- no inheritance hierarchy -->
 
 
-
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [max_number_results_per_type](max_number_results_per_type.md) | [integer](integer.md) | 0..1 | if set then truncate results such that no more than this number of results are reported per type  | . |
+| [max_number_results_per_type](max_number_results_per_type.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | if set then truncate results such that no more than this number of results are reported per type  | . |
 | [type_severity_map](type_severity_map.md) | [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | 0..* | Allows overriding of severity of a particular type  | . |
-| [schema_path](schema_path.md) | [string](string.md) | 0..1 | allows overriding the default OMO schema  | . |
+| [schema_path](schema_path.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | allows overriding the default OMO schema  | . |
 
 
 ## Usages
@@ -39,6 +51,23 @@ URI: [reporting:ValidationConfiguration](https://w3id.org/linkml/validation-mode
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['vm:ValidationConfiguration'] |
+| native | ['vm:ValidationConfiguration'] |
 
 
 ## LinkML Specification
@@ -64,8 +93,8 @@ attributes:
     description: Allows overriding of severity of a particular type
     from_schema: https://w3id.org/linkml/validation_results
     multivalued: true
-    inlined: true
     range: TypeSeverityKeyValue
+    inlined: true
   schema_path:
     name: schema_path
     description: allows overriding the default OMO schema
@@ -96,10 +125,10 @@ attributes:
     description: Allows overriding of severity of a particular type
     from_schema: https://w3id.org/linkml/validation_results
     multivalued: true
-    inlined: true
     alias: type_severity_map
     owner: ValidationConfiguration
     range: TypeSeverityKeyValue
+    inlined: true
   schema_path:
     name: schema_path
     description: allows overriding the default OMO schema

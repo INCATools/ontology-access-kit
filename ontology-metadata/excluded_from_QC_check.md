@@ -14,13 +14,22 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_from_QC_check](http://purl.
 
 ## Properties
 
- * Range: Thing
+ * Range: [Thing](Thing.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

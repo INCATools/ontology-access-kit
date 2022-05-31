@@ -2,10 +2,12 @@
 
 An IRI
 
-URI: http://purl.obolibrary.org/obo/schema/iri_type
+URI: http://www.w3.org/2001/XMLSchema#anyURI
+
+* [base](https://w3id.org/linkml/base): URIorCURIE
 
 
-
+* [repr](https://w3id.org/linkml/repr): str
 
 
 
@@ -13,6 +15,15 @@ URI: http://purl.obolibrary.org/obo/schema/iri_type
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

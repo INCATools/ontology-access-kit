@@ -10,12 +10,22 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Expression <|-- ClassExpression
+      Expression <|-- PropertyExpression
+      
+      
+```
 
+
+
+
+
+## Inheritance
 * **Expression**
     * [ClassExpression](ClassExpression.md)
     * [PropertyExpression](PropertyExpression.md)
-
 
 
 
@@ -37,6 +47,23 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:Expression'] |
+| native | ['omoschema:Expression'] |
 
 
 ## LinkML Specification

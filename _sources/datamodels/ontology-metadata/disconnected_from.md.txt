@@ -14,13 +14,22 @@ URI: [http://purl.obolibrary.org/obo/schema/disconnected_from](http://purl.oboli
 
 ## Properties
 
- * Range: Class
+ * Range: [Class](Class.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

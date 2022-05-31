@@ -7,8 +7,20 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class AtomicQuery
+      AtomicQuery : graph_function
+      AtomicQuery : graph_predicates
+      AtomicQuery : search_term
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -16,7 +28,7 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [graph_function](graph_function.md) | [GraphFunction](GraphFunction.md) | 0..1 | None  | . |
-| [graph_predicates](graph_predicates.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
+| [graph_predicates](graph_predicates.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
 | [search_term](search_term.md) | [SearchBaseConfiguration](SearchBaseConfiguration.md) | 0..1 | None  | . |
 
 
@@ -37,6 +49,23 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['search:AtomicQuery'] |
+| native | ['search:AtomicQuery'] |
 
 
 ## LinkML Specification

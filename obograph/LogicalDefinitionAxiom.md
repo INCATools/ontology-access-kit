@@ -8,11 +8,22 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Axiom <|-- LogicalDefinitionAxiom
+      
+      LogicalDefinitionAxiom : meta
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Axiom](Axiom.md)
     * **LogicalDefinitionAxiom**
-
 
 
 
@@ -40,6 +51,23 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:LogicalDefinitionAxiom'] |
+| native | ['og:LogicalDefinitionAxiom'] |
 
 
 ## LinkML Specification

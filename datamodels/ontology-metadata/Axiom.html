@@ -80,163 +80,114 @@
   <section id="class-axiom">
 <h1>Class: Axiom<a class="headerlink" href="#class-axiom" title="Permalink to this headline"></a></h1>
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#Axiom">owl:Axiom</a></p>
-<!-- no inheritance hierarchy -->
-<section id="slots">
-<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="annotatedProperty.html"><span class="doc std std-doc">annotatedProperty</span></a></p></td>
-<td><p><a class="reference internal" href="AnnotationProperty.html"><span class="doc std std-doc">AnnotationProperty</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="annotatedSource.html"><span class="doc std std-doc">annotatedSource</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="annotatedTarget.html"><span class="doc std std-doc">annotatedTarget</span></a></p></td>
-<td><p><a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="is_inferred.html"><span class="doc std std-doc">is_inferred</span></a></p></td>
-<td><p><span class="xref myst">boolean</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="notes.html"><span class="doc std std-doc">notes</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="url.html"><span class="doc std std-doc">url</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="has_axiom_label.html"><span class="doc std std-doc">has_axiom_label</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="is_a_defining_property_chain_axiom.html"><span class="doc std std-doc">is_a_defining_property_chain_axiom</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.html"><span class="doc std std-doc">is_a_defining_property_chain_axiom_where_second_argument_is_reflexive</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="created_by.html"><span class="doc std std-doc">created_by</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="date_retrieved.html"><span class="doc std std-doc">date_retrieved</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="evidence.html"><span class="doc std std-doc">evidence</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="external_ontology.html"><span class="doc std std-doc">external_ontology</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="doc std std-doc">database_cross_reference</span></a></p></td>
-<td><p><a class="reference internal" href="CURIELiteral.html"><span class="doc std std-doc">CURIELiteral</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>Uses to indicate the source of an axiom</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="has_exact_synonym.html"><span class="doc std std-doc">has_exact_synonym</span></a></p></td>
-<td><p><span class="xref myst">label_type</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="has_synonym_type.html"><span class="doc std std-doc">has_synonym_type</span></a></p></td>
-<td><p><a class="reference internal" href="AnnotationProperty.html"><span class="doc std std-doc">AnnotationProperty</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a></p></td>
-<td><p><span class="xref myst">string</span></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
-<td><p><span class="xref myst">label_type</span></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="seeAlso.html"><span class="doc std std-doc">seeAlso</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="usages">
-<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
-</section>
-<section id="identifier-and-mapping-information">
-<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
-</section>
-<section id="linkml-specification">
-<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
-<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
-<section id="direct">
-<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
-<details>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span> classDiagram
+    class Axiom
+      Axiom : annotatedProperty
+      Axiom : annotatedSource
+      Axiom : annotatedTarget
+      Axiom : annotations
+      Axiom : comment
+      Axiom : created_by
+      Axiom : database_cross_reference
+      Axiom : date_retrieved
+      Axiom : evidence
+      Axiom : external_ontology
+      Axiom : has_axiom_label
+      Axiom : has_exact_synonym
+      Axiom : has_synonym_type
+      Axiom : is_a_defining_property_chain_axiom
+      Axiom : is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
+      Axiom : is_inferred
+      Axiom : label
+      Axiom : notes
+      Axiom : seeAlso
+      Axiom : source
+      Axiom : url
+      
+
+
+
+
+
+&lt;!-- no inheritance hierarchy --&gt;
+
+
+## Slots
+
+| Name | Range | Cardinality | Description  | Info |
+| ---  | --- | --- | --- | --- |
+| [annotatedProperty](annotatedProperty.md) | [AnnotationProperty](AnnotationProperty.md) | 0..1 | None  | . |
+| [annotatedSource](annotatedSource.md) | [NamedObject](NamedObject.md) | 0..1 | None  | . |
+| [annotatedTarget](annotatedTarget.md) | [Any](Any.md) | 0..1 | None  | . |
+| [annotations](annotations.md) | [Annotation](Annotation.md) | 0..* | None  | . |
+| [source](source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [is_inferred](is_inferred.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
+| [notes](notes.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [url](url.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [has_axiom_label](has_axiom_label.md) | [Thing](Thing.md) | 0..1 | None  | . |
+| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [created_by](created_by.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [date_retrieved](date_retrieved.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [evidence](evidence.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [external_ontology](external_ontology.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [database_cross_reference](database_cross_reference.md) | [CURIELiteral](CURIELiteral.md) | 0..* | Uses to indicate the source of an axiom  | . |
+| [has_exact_synonym](has_exact_synonym.md) | [label_type](label_type.md) | 0..* | None  | . |
+| [has_synonym_type](has_synonym_type.md) | [AnnotationProperty](AnnotationProperty.md) | 0..* | None  | . |
+| [comment](comment.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [label](label.md) | [label_type](label_type.md) | 0..1 | None  | . |
+| [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
+
+
+## Usages
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | [&#39;owl:Axiom&#39;] |
+| native | [&#39;omoschema:Axiom&#39;] |
+| exact | [&#39;rdf:Statement&#39;] |
+
+
+## LinkML Specification
+
+&lt;!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx --&gt;
+
+### Direct
+
+&lt;details&gt;
 ```yaml
 name: Axiom
+from_schema: http://purl.obolibrary.org/obo/omo/schema
 exact_mappings:
 - rdf:Statement
-from_schema: http://purl.obolibrary.org/obo/omo/schema
 slots:
 - annotatedProperty
 - annotatedSource
 - annotatedTarget
+- annotations
 - source
 - is_inferred
 - notes
@@ -257,71 +208,84 @@ slots:
 slot_usage:
   database_cross_reference:
     name: database_cross_reference
-    exact_mappings:
-    - dcterms:source
     description: Uses to indicate the source of an axiom
     in_subset:
     - go permitted profile
+    exact_mappings:
+    - dcterms:source
 class_uri: owl:Axiom
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+represents_relationship: true
 
-### Induced
-
-&lt;details&gt;
+</pre></div>
+</div>
+</details>
+<section id="induced">
+<h2>Induced<a class="headerlink" href="#induced" title="Permalink to this headline"></a></h2>
+<details>
 ```yaml
 name: Axiom
+from_schema: http://purl.obolibrary.org/obo/omo/schema
 exact_mappings:
 - rdf:Statement
-from_schema: http://purl.obolibrary.org/obo/omo/schema
 slot_usage:
   database_cross_reference:
     name: database_cross_reference
-    exact_mappings:
-    - dcterms:source
     description: Uses to indicate the source of an axiom
     in_subset:
     - go permitted profile
+    exact_mappings:
+    - dcterms:source
 attributes:
   annotatedProperty:
     name: annotatedProperty
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - rdf:predicate
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: reification_predicate
     slot_uri: owl:annotatedProperty
     alias: annotatedProperty
     owner: Axiom
+    relational_role: PREDICATE
     range: AnnotationProperty
   annotatedSource:
     name: annotatedSource
-    exact_mappings:
-    - rdf:subject
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - rdf:subject
     is_a: reification_predicate
     slot_uri: owl:annotatedSource
     alias: annotatedSource
     owner: Axiom
-    range: Thing
+    relational_role: SUBJECT
+    range: NamedObject
   annotatedTarget:
     name: annotatedTarget
-    exact_mappings:
-    - rdf:object
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - rdf:object
     is_a: reification_predicate
     slot_uri: owl:annotatedTarget
     alias: annotatedTarget
     owner: Axiom
+    relational_role: OBJECT
     range: Any
+  annotations:
+    name: annotations
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    multivalued: true
+    alias: annotations
+    owner: Axiom
+    range: Annotation
   source:
     name: source
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:source
     multivalued: true
@@ -412,12 +376,12 @@ attributes:
     range: string
   database_cross_reference:
     name: database_cross_reference
-    exact_mappings:
-    - dcterms:source
     description: Uses to indicate the source of an axiom
     in_subset:
     - go permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - dcterms:source
     is_a: match
     slot_uri: oio:hasDbXref
     multivalued: true
@@ -456,8 +420,6 @@ attributes:
     range: string
   label:
     name: label
-    exact_mappings:
-    - skos:prefLabel
     comments:
     - SHOULD follow OBO label guidelines
     - MUST be unique within an ontology
@@ -467,6 +429,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:prefLabel
     is_a: core_property
     slot_uri: rdfs:label
     multivalued: false
@@ -484,10 +448,10 @@ attributes:
     owner: Axiom
     range: Thing
 class_uri: owl:Axiom
-
+represents_relationship: true
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-</details></section>
 </section>
 </section>
 

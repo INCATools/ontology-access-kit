@@ -61,7 +61,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">text-annotator</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enums">Enums</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subsets">Subsets</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../cross-ontology-diff/index.html">cross-ontology-diff</a></li>
@@ -111,17 +112,17 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="TextAnnotationResultSet.html"><span class="doc std std-doc">TextAnnotationResultSet</span></a></p></td>
-<td><p>A collection of annotation results</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="TextualElement.html"><span class="doc std std-doc">TextualElement</span></a></p></td>
-<td><p>None</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="TextAnnotation.html"><span class="doc std std-doc">TextAnnotation</span></a></p></td>
 <td><p>An individual text annotation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="TextAnnotationResultSet.html"><span class="doc std std-doc">TextAnnotationResultSet</span></a></p></td>
+<td><p>A collection of annotation results</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="TextualElement.html"><span class="doc std std-doc">TextualElement</span></a></p></td>
+<td><p>None</p></td>
 </tr>
 </tbody>
 </table>
@@ -138,19 +139,43 @@
 <tr class="row-even"><td><p><a class="reference internal" href="annotations.html"><span class="doc std std-doc">annotations</span></a></p></td>
 <td><p>all annotations</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="confidence.html"><span class="doc std std-doc">confidence</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="text.html"><span class="doc std std-doc">text</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="is_longest_match.html"><span class="doc std std-doc">is_longest_match</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="match_string.html"><span class="doc std std-doc">match_string</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="match_type.html"><span class="doc std std-doc">match_type</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="matches_whole_text.html"><span class="doc std std-doc">matches_whole_text</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_label.html"><span class="doc std std-doc">object_label</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="parent_document.html"><span class="doc std std-doc">parent_document</span></a></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="doc std std-doc">predicate_id</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source_text.html"><span class="doc std std-doc">source_text</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="parent_document.html"><span class="doc std std-doc">parent_document</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_start.html"><span class="doc std std-doc">subject_start</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_end.html"><span class="doc std std-doc">subject_end</span></a></p></td>
@@ -162,47 +187,23 @@
 <tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_text_id.html"><span class="doc std std-doc">subject_text_id</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_start.html"><span class="doc std std-doc">subject_start</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="doc std std-doc">predicate_id</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_text_id.html"><span class="doc std std-doc">subject_text_id</span></a></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="doc std std-doc">object_label</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="confidence.html"><span class="doc std std-doc">confidence</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="match_string.html"><span class="doc std std-doc">match_string</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="is_longest_match.html"><span class="doc std std-doc">is_longest_match</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="matches_whole_text.html"><span class="doc std std-doc">matches_whole_text</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="match_type.html"><span class="doc std std-doc">match_type</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="text.html"><span class="doc std std-doc">text</span></a></p></td>
 <td><p>None</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="enums">
-<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline"></a></h2>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Enums</p></th>
+<tr class="row-odd"><th class="head"><p>Enumeration</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
@@ -211,6 +212,16 @@
 <td><p>A controlled datamodels of the types of transformation that can be applied to</p></td>
 </tr>
 </tbody>
+</table>
+</section>
+<section id="subsets">
+<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Subset</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
 </table>
 </section>
 </section>

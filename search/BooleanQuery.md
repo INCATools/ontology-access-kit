@@ -7,8 +7,20 @@ URI: [search:BooleanQuery](https://w3id.org/linkml/search_datamodel/BooleanQuery
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class BooleanQuery
+      BooleanQuery : atom
+      BooleanQuery : operands
+      BooleanQuery : operator
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -37,6 +49,23 @@ URI: [search:BooleanQuery](https://w3id.org/linkml/search_datamodel/BooleanQuery
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['search:BooleanQuery'] |
+| native | ['search:BooleanQuery'] |
 
 
 ## LinkML Specification

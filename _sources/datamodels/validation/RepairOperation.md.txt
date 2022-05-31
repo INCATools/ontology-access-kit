@@ -1,18 +1,34 @@
 # Class: RepairOperation
+_The result of performing an individual repair_
 
 
 
 
-URI: [reporting:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperation)
+
+URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperation)
+
+
+
+
+```mermaid
+ classDiagram
+      Result <|-- RepairOperation
+      
+      RepairOperation : info
+      RepairOperation : modified
+      RepairOperation : repairs
+      RepairOperation : successful
+      
+
+```
+
 
 
 
 
 ## Inheritance
-
 * [Result](Result.md)
     * **RepairOperation**
-
 
 
 
@@ -21,8 +37,9 @@ URI: [reporting:RepairOperation](https://w3id.org/linkml/validation-model/Repair
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [repairs](repairs.md) | [ValidationResult](ValidationResult.md) | 0..1 | None  | . |
-| [modified](modified.md) | [boolean](boolean.md) | 0..1 | None  | . |
-| [successful](successful.md) | [boolean](boolean.md) | 0..1 | None  | . |
+| [modified](modified.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
+| [successful](successful.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
+| [info](info.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 
 
 ## Usages
@@ -42,6 +59,23 @@ URI: [reporting:RepairOperation](https://w3id.org/linkml/validation-model/Repair
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['vm:RepairOperation'] |
+| native | ['vm:RepairOperation'] |
 
 
 ## LinkML Specification
@@ -53,6 +87,7 @@ URI: [reporting:RepairOperation](https://w3id.org/linkml/validation-model/Repair
 <details>
 ```yaml
 name: RepairOperation
+description: The result of performing an individual repair
 todos:
 - integrate with kgcl data model, to be able to describe changes
 from_schema: https://w3id.org/linkml/validation_results
@@ -70,6 +105,10 @@ attributes:
     name: successful
     from_schema: https://w3id.org/linkml/validation_results
     range: boolean
+  info:
+    name: info
+    from_schema: https://w3id.org/linkml/validation_results
+    range: string
 
 ```
 </details>
@@ -79,6 +118,7 @@ attributes:
 <details>
 ```yaml
 name: RepairOperation
+description: The result of performing an individual repair
 todos:
 - integrate with kgcl data model, to be able to describe changes
 from_schema: https://w3id.org/linkml/validation_results
@@ -102,6 +142,12 @@ attributes:
     alias: successful
     owner: RepairOperation
     range: boolean
+  info:
+    name: info
+    from_schema: https://w3id.org/linkml/validation_results
+    alias: info
+    owner: RepairOperation
+    range: string
 
 ```
 </details>

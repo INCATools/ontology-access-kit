@@ -23,3 +23,12 @@ URI: SearchProperty
 
 
 
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
+
+
+

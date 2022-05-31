@@ -11,13 +11,22 @@ URI: [https://w3id.org/shacl/condition](https://w3id.org/shacl/condition)
 
 ## Properties
 
- * Range: Precondition
+ * Range: [Precondition](Precondition.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
 
 
 

@@ -10,11 +10,34 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      AnnotationPropertyMixin <|-- HasProvenance
+      
+      HasProvenance : contributor
+      HasProvenance : created
+      HasProvenance : created_by
+      HasProvenance : creation_date
+      HasProvenance : creator
+      HasProvenance : date
+      HasProvenance : definition_source
+      HasProvenance : editor_note
+      HasProvenance : imported_from
+      HasProvenance : isDefinedBy
+      HasProvenance : ontology_term_requester
+      HasProvenance : term_editor
+      HasProvenance : term_tracker_item
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasProvenance**
-
 
 
 
@@ -22,19 +45,19 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [created_by](created_by.md) | [string](string.md) | 0..1 | None  | . |
-| [creation_date](creation_date.md) | [string](string.md) | 0..* | None  | . |
+| [created_by](created_by.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [creation_date](creation_date.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [contributor](contributor.md) | [Thing](Thing.md) | 0..* | None  | . |
-| [creator](creator.md) | [string](string.md) | 0..* | None  | . |
-| [created](created.md) | [string](string.md) | 0..1 | when the term came into being  | . |
-| [date](date.md) | [string](string.md) | 0..* | when the term was updated  | . |
+| [creator](creator.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [created](created.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | when the term came into being  | . |
+| [date](date.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | when the term was updated  | . |
 | [isDefinedBy](isDefinedBy.md) | [Ontology](Ontology.md) | 0..1 | None  | . |
 | [editor_note](editor_note.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
-| [term_editor](term_editor.md) | [string](string.md) | 0..* | None  | . |
-| [definition_source](definition_source.md) | [string](string.md) | 0..* | None  | . |
-| [ontology_term_requester](ontology_term_requester.md) | [string](string.md) | 0..1 | None  | . |
+| [term_editor](term_editor.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [definition_source](definition_source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [ontology_term_requester](ontology_term_requester.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [imported_from](imported_from.md) | [NamedIndividual](NamedIndividual.md) | 0..* | None  | . |
-| [term_tracker_item](term_tracker_item.md) | [string](string.md) | 0..* | None  | . |
+| [term_tracker_item](term_tracker_item.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 
 
 ## Usages
@@ -49,6 +72,23 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:HasProvenance'] |
+| native | ['omoschema:HasProvenance'] |
 
 
 ## LinkML Specification
@@ -115,9 +155,9 @@ attributes:
     range: string
   contributor:
     name: contributor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:contributor
     multivalued: true
@@ -126,9 +166,9 @@ attributes:
     range: Thing
   creator:
     name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
@@ -137,10 +177,10 @@ attributes:
     range: string
   created:
     name: created
-    close_mappings:
-    - pav:createdOn
     description: when the term came into being
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:createdOn
     is_a: provenance_property
     slot_uri: dcterms:created
     multivalued: false
@@ -149,10 +189,10 @@ attributes:
     range: string
   date:
     name: date
-    close_mappings:
-    - pav:authoredOn
     description: when the term was updated
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:authoredOn
     is_a: provenance_property
     slot_uri: dcterms:date
     multivalued: true
@@ -161,10 +201,10 @@ attributes:
     range: string
   isDefinedBy:
     name: isDefinedBy
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - pav:importedFrom
     - dcterms:publisher
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     slot_uri: rdfs:isDefinedBy
     alias: isDefinedBy
     owner: HasProvenance

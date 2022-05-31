@@ -9,8 +9,19 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class LexicalIndex
+      LexicalIndex : groupings
+      LexicalIndex : pipelines
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -33,6 +44,23 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['li:LexicalIndex'] |
+| native | ['li:LexicalIndex'] |
 
 
 ## LinkML Specification
@@ -52,15 +80,15 @@ attributes:
     description: all groupings
     from_schema: https://w3id.org/linkml/lexical_index
     multivalued: true
-    inlined: true
     range: LexicalGrouping
+    inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/linkml/lexical_index
     multivalued: true
-    inlined: true
     range: LexicalTransformationPipeline
+    inlined: true
 
 ```
 </details>
@@ -78,19 +106,19 @@ attributes:
     description: all groupings
     from_schema: https://w3id.org/linkml/lexical_index
     multivalued: true
-    inlined: true
     alias: groupings
     owner: LexicalIndex
     range: LexicalGrouping
+    inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/linkml/lexical_index
     multivalued: true
-    inlined: true
     alias: pipelines
     owner: LexicalIndex
     range: LexicalTransformationPipeline
+    inlined: true
 
 ```
 </details>

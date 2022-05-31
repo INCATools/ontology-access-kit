@@ -20,3 +20,12 @@ URI: SeverityOptions
 
 
 
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+

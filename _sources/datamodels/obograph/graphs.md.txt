@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/graphs](https://github.com/geneo
 
 ## Properties
 
- * Range: Graph
+ * Range: [Graph](Graph.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

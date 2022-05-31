@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/validation-model/max_number_results_per_type](http
 
 ## Properties
 
- * Range: integer
+ * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
 
 
 

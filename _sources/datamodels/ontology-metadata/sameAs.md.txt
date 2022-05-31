@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs
 
 ## Properties
 
- * Range: Thing
+ * Range: [Thing](Thing.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

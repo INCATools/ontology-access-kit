@@ -5,20 +5,31 @@ _Configuration parameters for execution of validation repairs_
 
 
 
-URI: [reporting:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairConfiguration)
+URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairConfiguration)
+
+
+
+
+```mermaid
+ classDiagram
+    class RepairConfiguration
+      RepairConfiguration : dry_run
+      RepairConfiguration : validation_configuration
+      
+
+
 
 
 
 <!-- no inheritance hierarchy -->
 
 
-
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [validation_configuration](validation_configuration.md) | [ValidationConfiguration](ValidationConfiguration.md) | 0..1 | None  | . |
-| [dry_run](dry_run.md) | [boolean](boolean.md) | 0..1 | None  | . |
+| [validation_configuration](validation_configuration.md) | [ValidationConfiguration](ValidationConfiguration.md) | 0..1 | repair configurations include validation configurations  | . |
+| [dry_run](dry_run.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
 
 
 ## Usages
@@ -33,6 +44,23 @@ URI: [reporting:RepairConfiguration](https://w3id.org/linkml/validation-model/Re
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['vm:RepairConfiguration'] |
+| native | ['vm:RepairConfiguration'] |
 
 
 ## LinkML Specification
@@ -49,6 +77,7 @@ from_schema: https://w3id.org/linkml/validation_results
 attributes:
   validation_configuration:
     name: validation_configuration
+    description: repair configurations include validation configurations
     from_schema: https://w3id.org/linkml/validation_results
     range: ValidationConfiguration
   dry_run:
@@ -69,6 +98,7 @@ from_schema: https://w3id.org/linkml/validation_results
 attributes:
   validation_configuration:
     name: validation_configuration
+    description: repair configurations include validation configurations
     from_schema: https://w3id.org/linkml/validation_results
     alias: validation_configuration
     owner: RepairConfiguration

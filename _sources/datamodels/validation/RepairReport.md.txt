@@ -1,20 +1,31 @@
 # Class: RepairReport
-_A repair object_
+_A report that consists of repair operation results_
 
 
 
 
 
-URI: [reporting:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
+URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
+
+
+
+
+```mermaid
+ classDiagram
+      Report <|-- RepairReport
+      
+      RepairReport : results
+      
+
+```
+
 
 
 
 
 ## Inheritance
-
 * [Report](Report.md)
     * **RepairReport**
-
 
 
 
@@ -22,7 +33,7 @@ URI: [reporting:RepairReport](https://w3id.org/linkml/validation-model/RepairRep
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [results](results.md) | [RepairOperation](RepairOperation.md) | 0..* | None  | . |
+| [results](results.md) | [RepairOperation](RepairOperation.md) | 0..* | collection of results  | . |
 
 
 ## Usages
@@ -37,6 +48,23 @@ URI: [reporting:RepairReport](https://w3id.org/linkml/validation-model/RepairRep
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['vm:RepairReport'] |
+| native | ['vm:RepairReport'] |
 
 
 ## LinkML Specification
@@ -48,7 +76,7 @@ URI: [reporting:RepairReport](https://w3id.org/linkml/validation-model/RepairRep
 <details>
 ```yaml
 name: RepairReport
-description: A repair object
+description: A report that consists of repair operation results
 from_schema: https://w3id.org/linkml/validation_results
 is_a: Report
 slot_usage:
@@ -64,7 +92,7 @@ slot_usage:
 <details>
 ```yaml
 name: RepairReport
-description: A repair object
+description: A report that consists of repair operation results
 from_schema: https://w3id.org/linkml/validation_results
 is_a: Report
 slot_usage:
@@ -74,12 +102,15 @@ slot_usage:
 attributes:
   results:
     name: results
+    description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: RepairReport
     range: RepairOperation
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>

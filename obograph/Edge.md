@@ -7,17 +7,29 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class Edge
+      Edge : obj
+      Edge : pred
+      Edge : sub
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [sub](sub.md) | [string](string.md) | 0..1 | None  | . |
-| [pred](pred.md) | [string](string.md) | 0..1 | None  | . |
-| [obj](obj.md) | [string](string.md) | 0..1 | None  | . |
+| [sub](sub.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [obj](obj.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 
 
 ## Usages
@@ -37,6 +49,23 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:Edge'] |
+| native | ['og:Edge'] |
 
 
 ## LinkML Specification

@@ -8,11 +8,24 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      Axiom <|-- EquivalentNodesSet
+      
+      EquivalentNodesSet : meta
+      EquivalentNodesSet : nodeIds
+      EquivalentNodesSet : representitiveNodeId
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Axiom](Axiom.md)
     * **EquivalentNodesSet**
-
 
 
 
@@ -20,8 +33,8 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [representitiveNodeId](representitiveNodeId.md) | [string](string.md) | 0..1 | None  | . |
-| [nodeIds](nodeIds.md) | [string](string.md) | 0..* | None  | . |
+| [representitiveNodeId](representitiveNodeId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [nodeIds](nodeIds.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
 
 
@@ -42,6 +55,23 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:EquivalentNodesSet'] |
+| native | ['og:EquivalentNodesSet'] |
 
 
 ## LinkML Specification

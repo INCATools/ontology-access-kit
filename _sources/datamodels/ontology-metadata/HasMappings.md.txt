@@ -10,11 +10,26 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
 
-## Inheritance
+```mermaid
+ classDiagram
+      AnnotationPropertyMixin <|-- HasMappings
+      
+      HasMappings : broadMatch
+      HasMappings : closeMatch
+      HasMappings : database_cross_reference
+      HasMappings : exactMatch
+      HasMappings : narrowMatch
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasMappings**
-
 
 
 
@@ -41,6 +56,23 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:HasMappings'] |
+| native | ['omoschema:HasMappings'] |
 
 
 ## LinkML Specification

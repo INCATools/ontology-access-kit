@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasV
 
 ## Properties
 
- * Range: Any
+ * Range: [Any](Any.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

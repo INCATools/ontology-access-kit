@@ -9,20 +9,35 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 
 
-<!-- no inheritance hierarchy -->
 
+```mermaid
+ classDiagram
+    class Precondition
+      Precondition : mapping_source_one_of
+      Precondition : object_match_field_one_of
+      Precondition : object_source_one_of
+      Precondition : subject_match_field_one_of
+      Precondition : subject_source_one_of
+      Precondition : transformations_included_in
+      
+
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [subject_source_one_of](subject_source_one_of.md) | [string](string.md) | 0..* | None  | . |
-| [object_source_one_of](object_source_one_of.md) | [string](string.md) | 0..* | None  | . |
-| [mapping_source_one_of](mapping_source_one_of.md) | [string](string.md) | 0..* | None  | . |
-| [subject_match_field_one_of](subject_match_field_one_of.md) | [string](string.md) | 0..* | None  | . |
-| [object_match_field_one_of](object_match_field_one_of.md) | [string](string.md) | 0..* | None  | . |
-| [transformations_included_in](transformations_included_in.md) | [string](string.md) | 0..* | None  | . |
+| [subject_source_one_of](subject_source_one_of.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [object_source_one_of](object_source_one_of.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [mapping_source_one_of](mapping_source_one_of.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [object_match_field_one_of](object_match_field_one_of.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [transformations_included_in](transformations_included_in.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 
 
 ## Usages
@@ -42,6 +57,23 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['mrules:Precondition'] |
+| native | ['mrules:Precondition'] |
 
 
 ## LinkML Specification
