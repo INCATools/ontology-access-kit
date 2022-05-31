@@ -1,5 +1,5 @@
 # Auto generated from cross_ontology_diff.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-13T10:39:26
+# Generation date: 2022-05-29T22:40:51
 # Schema: cross-ontology-diff
 #
 # id: https://w3id.org/linkml/cross_ontology_diff
@@ -102,15 +102,15 @@ class RelationalDiff(YAMLRoot):
     left_object_id: Union[str, URIorCURIE] = None
     left_predicate_id: Union[str, URIorCURIE] = None
     category: Optional[Union[str, "DiffCategory"]] = None
-    left_subject_name: Optional[str] = None
-    left_object_name: Optional[str] = None
-    left_predicate_name: Optional[str] = None
+    left_subject_label: Optional[str] = None
+    left_object_label: Optional[str] = None
+    left_predicate_label: Optional[str] = None
     right_subject_id: Optional[Union[str, URIorCURIE]] = None
     right_object_id: Optional[Union[str, URIorCURIE]] = None
     right_predicate_ids: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
-    right_subject_name: Optional[str] = None
-    right_object_name: Optional[str] = None
-    right_predicate_names: Optional[Union[str, List[str]]] = empty_list()
+    right_subject_label: Optional[str] = None
+    right_object_label: Optional[str] = None
+    right_predicate_labels: Optional[Union[str, List[str]]] = empty_list()
     left_subject_is_functional: Optional[Union[bool, Bool]] = None
     left_object_is_functional: Optional[Union[bool, Bool]] = None
 
@@ -133,14 +133,14 @@ class RelationalDiff(YAMLRoot):
         if self.category is not None and not isinstance(self.category, DiffCategory):
             self.category = DiffCategory(self.category)
 
-        if self.left_subject_name is not None and not isinstance(self.left_subject_name, str):
-            self.left_subject_name = str(self.left_subject_name)
+        if self.left_subject_label is not None and not isinstance(self.left_subject_label, str):
+            self.left_subject_label = str(self.left_subject_label)
 
-        if self.left_object_name is not None and not isinstance(self.left_object_name, str):
-            self.left_object_name = str(self.left_object_name)
+        if self.left_object_label is not None and not isinstance(self.left_object_label, str):
+            self.left_object_label = str(self.left_object_label)
 
-        if self.left_predicate_name is not None and not isinstance(self.left_predicate_name, str):
-            self.left_predicate_name = str(self.left_predicate_name)
+        if self.left_predicate_label is not None and not isinstance(self.left_predicate_label, str):
+            self.left_predicate_label = str(self.left_predicate_label)
 
         if self.right_subject_id is not None and not isinstance(self.right_subject_id, URIorCURIE):
             self.right_subject_id = URIorCURIE(self.right_subject_id)
@@ -152,15 +152,15 @@ class RelationalDiff(YAMLRoot):
             self.right_predicate_ids = [self.right_predicate_ids] if self.right_predicate_ids is not None else []
         self.right_predicate_ids = [v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.right_predicate_ids]
 
-        if self.right_subject_name is not None and not isinstance(self.right_subject_name, str):
-            self.right_subject_name = str(self.right_subject_name)
+        if self.right_subject_label is not None and not isinstance(self.right_subject_label, str):
+            self.right_subject_label = str(self.right_subject_label)
 
-        if self.right_object_name is not None and not isinstance(self.right_object_name, str):
-            self.right_object_name = str(self.right_object_name)
+        if self.right_object_label is not None and not isinstance(self.right_object_label, str):
+            self.right_object_label = str(self.right_object_label)
 
-        if not isinstance(self.right_predicate_names, list):
-            self.right_predicate_names = [self.right_predicate_names] if self.right_predicate_names is not None else []
-        self.right_predicate_names = [v if isinstance(v, str) else str(v) for v in self.right_predicate_names]
+        if not isinstance(self.right_predicate_labels, list):
+            self.right_predicate_labels = [self.right_predicate_labels] if self.right_predicate_labels is not None else []
+        self.right_predicate_labels = [v if isinstance(v, str) else str(v) for v in self.right_predicate_labels]
 
         if self.left_subject_is_functional is not None and not isinstance(self.left_subject_is_functional, Bool):
             self.left_subject_is_functional = Bool(self.left_subject_is_functional)
@@ -213,14 +213,14 @@ slots.relationalDiff__left_object_id = Slot(uri=ANN.left_object_id, name="relati
 slots.relationalDiff__left_predicate_id = Slot(uri=ANN.left_predicate_id, name="relationalDiff__left_predicate_id", curie=ANN.curie('left_predicate_id'),
                    model_uri=ANN.relationalDiff__left_predicate_id, domain=None, range=Union[str, URIorCURIE])
 
-slots.relationalDiff__left_subject_name = Slot(uri=ANN.left_subject_name, name="relationalDiff__left_subject_name", curie=ANN.curie('left_subject_name'),
-                   model_uri=ANN.relationalDiff__left_subject_name, domain=None, range=Optional[str])
+slots.relationalDiff__left_subject_label = Slot(uri=ANN.left_subject_label, name="relationalDiff__left_subject_label", curie=ANN.curie('left_subject_label'),
+                   model_uri=ANN.relationalDiff__left_subject_label, domain=None, range=Optional[str])
 
-slots.relationalDiff__left_object_name = Slot(uri=ANN.left_object_name, name="relationalDiff__left_object_name", curie=ANN.curie('left_object_name'),
-                   model_uri=ANN.relationalDiff__left_object_name, domain=None, range=Optional[str])
+slots.relationalDiff__left_object_label = Slot(uri=ANN.left_object_label, name="relationalDiff__left_object_label", curie=ANN.curie('left_object_label'),
+                   model_uri=ANN.relationalDiff__left_object_label, domain=None, range=Optional[str])
 
-slots.relationalDiff__left_predicate_name = Slot(uri=ANN.left_predicate_name, name="relationalDiff__left_predicate_name", curie=ANN.curie('left_predicate_name'),
-                   model_uri=ANN.relationalDiff__left_predicate_name, domain=None, range=Optional[str])
+slots.relationalDiff__left_predicate_label = Slot(uri=ANN.left_predicate_label, name="relationalDiff__left_predicate_label", curie=ANN.curie('left_predicate_label'),
+                   model_uri=ANN.relationalDiff__left_predicate_label, domain=None, range=Optional[str])
 
 slots.relationalDiff__right_subject_id = Slot(uri=ANN.right_subject_id, name="relationalDiff__right_subject_id", curie=ANN.curie('right_subject_id'),
                    model_uri=ANN.relationalDiff__right_subject_id, domain=None, range=Optional[Union[str, URIorCURIE]])
@@ -231,14 +231,14 @@ slots.relationalDiff__right_object_id = Slot(uri=ANN.right_object_id, name="rela
 slots.relationalDiff__right_predicate_ids = Slot(uri=ANN.right_predicate_ids, name="relationalDiff__right_predicate_ids", curie=ANN.curie('right_predicate_ids'),
                    model_uri=ANN.relationalDiff__right_predicate_ids, domain=None, range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]])
 
-slots.relationalDiff__right_subject_name = Slot(uri=ANN.right_subject_name, name="relationalDiff__right_subject_name", curie=ANN.curie('right_subject_name'),
-                   model_uri=ANN.relationalDiff__right_subject_name, domain=None, range=Optional[str])
+slots.relationalDiff__right_subject_label = Slot(uri=ANN.right_subject_label, name="relationalDiff__right_subject_label", curie=ANN.curie('right_subject_label'),
+                   model_uri=ANN.relationalDiff__right_subject_label, domain=None, range=Optional[str])
 
-slots.relationalDiff__right_object_name = Slot(uri=ANN.right_object_name, name="relationalDiff__right_object_name", curie=ANN.curie('right_object_name'),
-                   model_uri=ANN.relationalDiff__right_object_name, domain=None, range=Optional[str])
+slots.relationalDiff__right_object_label = Slot(uri=ANN.right_object_label, name="relationalDiff__right_object_label", curie=ANN.curie('right_object_label'),
+                   model_uri=ANN.relationalDiff__right_object_label, domain=None, range=Optional[str])
 
-slots.relationalDiff__right_predicate_names = Slot(uri=ANN.right_predicate_names, name="relationalDiff__right_predicate_names", curie=ANN.curie('right_predicate_names'),
-                   model_uri=ANN.relationalDiff__right_predicate_names, domain=None, range=Optional[Union[str, List[str]]])
+slots.relationalDiff__right_predicate_labels = Slot(uri=ANN.right_predicate_labels, name="relationalDiff__right_predicate_labels", curie=ANN.curie('right_predicate_labels'),
+                   model_uri=ANN.relationalDiff__right_predicate_labels, domain=None, range=Optional[Union[str, List[str]]])
 
 slots.relationalDiff__left_subject_is_functional = Slot(uri=ANN.left_subject_is_functional, name="relationalDiff__left_subject_is_functional", curie=ANN.curie('left_subject_is_functional'),
                    model_uri=ANN.relationalDiff__left_subject_is_functional, domain=None, range=Optional[Union[bool, Bool]])
