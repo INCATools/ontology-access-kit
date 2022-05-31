@@ -1,18 +1,19 @@
 id: https://w3id.org/linkml/validation_results
 title: Validation Results Datamodel
 name: validaton-results
-description: A datamodel for reports on data
+description: |-
+  A datamodel for data validation results.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  reporting: https://w3id.org/linkml/validation-model/
+  vm: https://w3id.org/linkml/validation-model/
   skos: http://www.w3.org/2004/02/skos/core#
   pav: http://purl.org/pav/
   schema: http://schema.org/
   sh: http://www.w3.org/ns/shacl#
 
-default_prefix: reporting
+default_prefix: vm
 default_range: string
 
 default_curi_maps:
@@ -27,8 +28,6 @@ emit_prefixes:
 
 imports:
   - linkml:types
-
-
 
 #==================================
 # Classes                         #
@@ -53,16 +52,19 @@ classes:
     description: Configuration parameters for execution of validation repairs
     attributes:
       validation_configuration:
+        description: repair configurations include validation configurations
         range: ValidationConfiguration
       dry_run:
         range: boolean
 
 
   TypeSeverityKeyValue:
+    description: key-value pair that maps a validation result type to a severity setting, for overriding default severity
+    conforms_to: wikidata:Q4818718
     attributes:
       type:
         key: true
-        range: nodeidentifier
+        range: uriorcurie
       severity:
         range: severity_options
 
@@ -75,7 +77,7 @@ classes:
   ValidationReport:
     is_a: Report
     class_uri: sh:ValidationReport
-    description: A holder for multiple validation results
+    description: A report that consists of validation results
     slot_usage:
       results:
         range: ValidationResult
@@ -84,13 +86,14 @@ classes:
 
   RepairReport:
     is_a: Report
-    description: A repair object
+    description: A report that consists of repair operation results
     slot_usage:
       results:
         range: RepairOperation
 
   Result:
     abstract: true
+    description: Abstract base class for any individual report result
 
   ValidationResult:
     is_a: Result
@@ -109,6 +112,7 @@ classes:
 
   RepairOperation:
     is_a: Result
+    description: The result of performing an individual repair
     todos:
       - integrate with kgcl data model, to be able to describe changes
     attributes:
@@ -118,6 +122,8 @@ classes:
         range: boolean
       successful:
         range: boolean
+      info:
+        range: string
 
   ExternalReferenceValidationResult:
     is_a: ValidationResult
@@ -135,40 +141,49 @@ classes:
 #==================================
 slots:
   type:
-    range: nodeidentifier
+    range: uriorcurie
     slot_uri: sh:sourceConstraintComponent
     description: >-
       The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel.
       For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID
+    required: true
   subject:
-    range: nodeidentifier
+    description: The instance which the result is about
+    range: uriorcurie
     slot_uri: sh:focusNode
+    required: true
   instantiates:
-    range: nodeidentifier
+    description: The type of the subject
+    range: uriorcurie
     exact_mappings:
       - sh:sourceShape
   predicate:
-    range: nodeidentifier
+    description: The predicate or property of the subject which the result is about
+    range: uriorcurie
     related_mappings:
       - sh:resultPath
   object:
-    range: nodeidentifier
+    range: uriorcurie
     slot_uri: sh:value
   object_str:
     range: string
   source:
-    range: nodeidentifier
+    range: uriorcurie
   severity:
+    description: the severity of the issue
     range: severity_options
     slot_uri: sh:resultSeverity
   info:
+    description: additional information about the issue
     range: string
     slot_uri: sh:resultMessage
   results:
+    description: collection of results
     slot_uri: sh:result
     range: Result
     multivalued: true
-
+    inlined: true
+    inlined_as_list: true
 
 #==================================
 # Enumerations                    #
@@ -191,19 +206,39 @@ enums:
     permissible_values:
       DatatypeConstraintComponent:
         meaning: sh:DatatypeConstraintComponent
+        description: constraint in which the range is a type, and the slot value must conform to the type
+        annotations:
+          element: linkml:range
       MinCountConstraintComponent:
         meaning: sh:MinCountConstraintComponent
+        description: cardinality constraint where the slot value must be greater or equal to a specified minimum
+        annotations:
+          element: linkml:minimum_value
       MaxCountConstraintComponent:
         meaning: sh:MaxCountConstraintComponent
+        description: cardinality constraint where the slot value must be less than or equal to a specified maximum
+        annotations:
+          element: linkml:maximum_value
       DeprecatedPropertyComponent:
-        meaning: reporting:DeprecatedPropertyComponent
+        meaning: vm:DeprecatedPropertyComponent
+        description: constraint where the instance slot should not be deprecated
+        annotations:
+          element: linkml:deprecated
       MaxLengthConstraintComponent:
         meaning: sh:MaxLengthConstraintComponent
+        description: constraint where the slot value must have a length equal to or less than a specified maximum
       MinLengthConstraintComponent:
         meaning: sh:MinLengthConstraintComponent
+        description: constraint where the slot value must have a length equal to or less than a specified maximum
       PatternConstraintComponent:
         meaning: sh:PatternConstraintComponent
+        description: constraint where the slot value must match a given regular expression pattern
+        annotations:
+          element: linkml:pattern
       ClosedConstraintComponent:
         meaning: sh:ClosedConstraintComponent
+        description: constraint where the slot value must be allowable for the type of an instance
+        annotations:
+          element: linkml:attributes
 
 

@@ -344,9 +344,18 @@ classes:
     class_uri: owl:NamedIndividual
     #slots:
     #- type
+
+  Annotation:
+    represents_relationship: true
+    attributes:
+      predicate:
+        relational_role: PREDICATE
+      object:
+        relational_role: OBJECT
     
   Axiom:
     class_uri: owl:Axiom
+    represents_relationship: true
     exact_mappings:
       - rdf:Statement
     slots:
@@ -354,6 +363,8 @@ classes:
     - annotatedProperty
     - annotatedSource
     - annotatedTarget
+    ## generic annotations
+    - annotations
     # other
     - source
     - is_inferred
@@ -369,8 +380,6 @@ classes:
     - database_cross_reference
     - has_exact_synonym
     - has_synonym_type
-    #- onProperty
-    #- someValuesFrom
     - comment
     - label
     - seeAlso
@@ -485,7 +494,10 @@ slots:
       - MUST be unique within an ontology
       - SHOULD be unique across OBO
 
-      
+  annotations:
+    multivalued: true
+    range: Annotation
+
   definition:
     is_a: core_property
     slot_uri: IAO:0000115
@@ -895,19 +907,22 @@ slots:
   annotatedProperty:
     is_a: reification_predicate
     slot_uri: owl:annotatedProperty
+    relational_role: PREDICATE
     exact_mappings:
       - rdf:predicate
     range: AnnotationProperty
   annotatedSource:
     is_a: reification_predicate
     slot_uri: owl:annotatedSource
-    range: Thing
+    relational_role: SUBJECT
+    range: NamedObject
     exact_mappings:
       - rdf:subject
     todos:
     - restrict range
   annotatedTarget:
     is_a: reification_predicate
+    relational_role: OBJECT
     exact_mappings:
       - rdf:object
     slot_uri: owl:annotatedTarget
