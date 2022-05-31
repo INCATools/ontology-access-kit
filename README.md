@@ -216,6 +216,4 @@ Currently all implementations exist in this repo/module, this results in a lot o
 
 One possibility is to split out each implementation into its own repo and use a plugin architecture
 
-## PyPI release
 
-TODO
