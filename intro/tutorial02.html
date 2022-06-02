@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Part 3: Ubergraph" href="tutorial03.html" />
-    <link rel="prev" title="Part 1" href="tutorial01.html" /> 
+    <link rel="prev" title="Part 1: Getting Started" href="tutorial01.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,7 +43,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1: Getting Started</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 2: Basic Python</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#install-poetry">Install Poetry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-project">Create a new project</a></li>
@@ -94,7 +94,7 @@
              
   <section id="part-2-basic-python">
 <h1>Part 2: Basic Python<a class="headerlink" href="#part-2-basic-python" title="Permalink to this headline"></a></h1>
-<p>Some basic Python knowledge is assumed</p>
+<p>For this tutorial some basic Python knowledge is assumed.</p>
 <section id="install-poetry">
 <h2>Install Poetry<a class="headerlink" href="#install-poetry" title="Permalink to this headline"></a></h2>
 <p>For this section we are going to use <a class="reference external" href="https://python-poetry.org/">Poetry</a> to set up a project. If you are an experienced
@@ -112,20 +112,21 @@ the instructions.</p>
 <section id="code-the-first-example">
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
 <p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <span class="xref std std-ref">ProntoImplementation</span></p>
-<p>We will use a Jupyter notebook for the running example. As preparation, we expect <cite>fbbt.obo</cite> to exist
-in the same directory as the python notebook. fbbt.obo can be downloaded here:</p>
-<p><a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
-<p><code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.ipynb</span></code></p>
+<p>We will use a Jupyter notebook for the running example. As preparation, we expect <code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> to exist
+in the same directory as the python notebook.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> can be downloaded here: <a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
+<p>Then create a Notebook: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.ipynb</span></code> and add the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
 <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;fbbt.obo&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">oi</span> <span class="o">=</span> <span class="n">ProntoImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We first import the general <cite>OntologyResource</cite> implementation which allows us to declare where to get the ontology from.
-We then load this resource using the <cite>ProntoImplementation</cite>, which allows us to perform all operations on the resource
-that we could do with [pronto](<a class="reference external" href="https://github.com/althonos/pronto">https://github.com/althonos/pronto</a>). Next, let us use <cite>pronto</cite> to actually
-query the ontology:</p>
+<ul class="simple">
+<li><p>We first import the general <code class="docutils literal notranslate"><span class="pre">OntologyResource</span></code> implementation which allows us to declare where to get the ontology from.</p></li>
+<li><p>We then load this resource using the <code class="docutils literal notranslate"><span class="pre">ProntoImplementation</span></code>, which allows us to perform all operations on the resource that we could do with <a class="reference external" href="https://github.com/althonos/pronto">pronto</a>.</p></li>
+</ul>
+<p>Next, let us use <cite>pronto</cite> to actually query the ontology:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -135,10 +136,10 @@ query the ontology:</p>
 </pre></div>
 </div>
 <p>We first obtain all of the outgoing relationships from the
-FBbt class for “wing vein”, which has the id of <cite>FBbt:00004751</cite>.</p>
+FBbt class for “wing vein”, which has the id of <code class="docutils literal notranslate"><span class="pre">FBbt:00004751</span></code>.</p>
 <p>Next, we iterate through all the relationships, and print the labels for
-both the relationship and the connected entities (here named <cite>parents</cite>) using
-the <cite>get_label_by_curie()</cite> method of the <cite>ProntoImplementation</cite> object.</p>
+both the relationship and the connected entities (here named <code class="docutils literal notranslate"><span class="pre">parents</span></code>) using
+the <code class="docutils literal notranslate"><span class="pre">get_label_by_curie()</span></code> method of the <code class="docutils literal notranslate"><span class="pre">ProntoImplementation</span></code> object.</p>
 <p>You should see something similar to:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>rdfs:subClassOf ! subClassOf
   FBbt:00007245 ! cuticular specialization
@@ -155,7 +156,7 @@ BFO:0000050 ! part_of
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tutorial01.html" class="btn btn-neutral float-left" title="Part 1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial01.html" class="btn btn-neutral float-left" title="Part 1: Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="tutorial03.html" class="btn btn-neutral float-right" title="Part 3: Ubergraph" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

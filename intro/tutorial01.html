@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Part 1 &mdash; oaklib  documentation</title>
+  <title>Part 1: Getting Started &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -43,13 +43,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Part 1</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Part 1: Getting Started</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#query-the-obo-library">Query the OBO Library</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#working-with-local-files">Working with local files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fetching-ancestors">Fetching ancestors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#using-other-backends">Using other backends</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#using-bioportal">Using BioPortal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-other-backends">Using other backends</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-ubergraph">Using Ubergraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-bioportal">Using BioPortal</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#next-steps">Next steps</a></li>
 </ul>
 </li>
@@ -86,7 +89,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Tutorial</a> &raquo;</li>
-      <li>Part 1</li>
+      <li>Part 1: Getting Started</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/intro/tutorial01.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -96,32 +99,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="part-1">
-<h1>Part 1<a class="headerlink" href="#part-1" title="Permalink to this headline"></a></h1>
-<p>First we will install the package and then we will try some command line examples querying the fruitfly anatomy ontology.</p>
+  <section id="part-1-getting-started">
+<h1>Part 1: Getting Started<a class="headerlink" href="#part-1-getting-started" title="Permalink to this headline"></a></h1>
+<p>First we will install the package and then we will try some command line examples
+querying the Drosophila anatomy ontology (<a class="reference external" href="http://obofoundry.org/ontology/fbbt">fbbt</a>).</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
-<p>Create a directory</p>
+<p>First, create a directory:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~</span>
 <span class="n">mkdir</span> <span class="n">oak</span><span class="o">-</span><span class="n">tutorial</span>
 <span class="n">cd</span> <span class="n">oak</span><span class="o">-</span><span class="n">tutorial</span>
 </pre></div>
 </div>
-<p>First create a virtual environment</p>
+<p>Then create a virtual environment:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python3 -m venv venv
 source venv/bin/activate
 export PYTHONPATH=.:$PYTHONPATH
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Make sure you have Python 3.9 or higher</p>
+</div>
 <p>Then install:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">oaklib</span>
 </pre></div>
 </div>
+<p>After successful installation, try invoking OAK via <code class="docutils literal notranslate"><span class="pre">runoak</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
-<p>You should see a list of all commands.</p>
+<p>You should see a list of all commands that are supported by OAK.</p>
 <p>You can get help on a specific command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="n">search</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
@@ -131,13 +139,14 @@ export PYTHONPATH=.:$PYTHONPATH
 <section id="query-the-obo-library">
 <h2>Query the OBO Library<a class="headerlink" href="#query-the-obo-library" title="Permalink to this headline"></a></h2>
 <p>Next try using the “search” command to search for a term in the Drosophila anatomy ontology (<a class="reference external" href="http://obofoundry.org/ontology/fbbt">fbbt</a>).</p>
-<p>The base command takes an <code class="code docutils literal notranslate"><span class="pre">--input</span></code> (or just <code class="code docutils literal notranslate"><span class="pre">-i</span></code>) option that specifies the input implementation. We will return to the full syntax later,
-but one pattern that is useful to know is <code class="code docutils literal notranslate"><span class="pre">obolibrary:&lt;ontology-file&gt;</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+<p>The base command takes an <code class="docutils literal notranslate"><span class="pre">--input</span></code> (or just <code class="docutils literal notranslate"><span class="pre">-i</span></code>) option that specifies the input
+implementation. We will return to the full syntax later, but one pattern that is
+useful to know is <code class="docutils literal notranslate"><span class="pre">obolibrary:&lt;ontology-file&gt;</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
-<p>The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
-library under the hood)</p>
+<p>The first time you run this there will be a lag as the file is downloaded,
+but after that it will be cached. (This is using the Pronto library under the hood)</p>
 <p>After the lag you will get results like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FBbt:00004751 ! wing vein
 FBbt:00004754 ! axillary vein
@@ -148,25 +157,47 @@ FBbt:00004760 ! wing vein L2
 </section>
 <section id="working-with-local-files">
 <h2>Working with local files<a class="headerlink" href="#working-with-local-files" title="Permalink to this headline"></a></h2>
+<p>To work with a local ontology file, you can provide the filename as input:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">purl</span><span class="o">.</span><span class="n">obolibrary</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">obo</span><span class="o">/</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span>
-<span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+<span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
 </section>
 <section id="fetching-ancestors">
 <h2>Fetching ancestors<a class="headerlink" href="#fetching-ancestors" title="Permalink to this headline"></a></h2>
 <p>Next we will try a different command, plugging in an ID we got from the previous search.</p>
-<p>We will use the <code class="code docutils literal notranslate"><span class="pre">ancestors</span></code> command to find all rdfs:subClassOf and part-of (BFO:0000050) ancestors of ‘wing vein’.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">ancestors</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
+<p>We will use the <a class="reference internal" href="../cli.html#runoak-ancestors"><span class="std std-ref">ancestors</span></a> command to find all subclass-of (<code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code>) and part-of (<code class="docutils literal notranslate"><span class="pre">BFO:0000050</span></code>) ancestors of ‘wing vein’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">ancestors</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">--</span><span class="n">predicates</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
 </pre></div>
 </div>
-<p><a href="#id1"><span class="problematic" id="id2">*</span></a>Here we are using built-in shorthands, but you can get the same effect with the full :ref:<a href="#id3"><span class="problematic" id="id4">`</span></a>CURIE`s, rdfs:subClassOf and BFO:0000050)</p>
-<p>You should see body parts such as cuticle, wing, etc, alongside their ID</p>
+<p>You should see body parts such as cuticle, wing, etc, alongside their ID.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here we are providing the predicates to traverse via the <code class="docutils literal notranslate"><span class="pre">-p/--predicates</span></code> argument.
+The values <code class="docutils literal notranslate"><span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">p</span></code> for the predicates argument are short-hand names for
+<code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code> and <code class="docutils literal notranslate"><span class="pre">BFO:0000050</span></code>, respectively.</p>
+<p>You can get the same effect with the full predicate CURIEs, <code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf`</span> <span class="pre">and</span> <span class="pre">``BFO:0000050</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">ancestors</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">--</span><span class="n">predicates</span> <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span><span class="p">,</span><span class="n">BFO</span><span class="p">:</span><span class="mi">0000050</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Possible short-hand names are:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">i</span></code> for the <code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code> predicate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p</span></code> for the <code class="docutils literal notranslate"><span class="pre">BFO:0000050</span></code> predicate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">e</span></code> for the <code class="docutils literal notranslate"><span class="pre">owl:equivalentClass</span></code> predicate</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 <p>Later on we will see how we can make images like:</p>
 <img alt="../_images/wing-vein.png" src="../_images/wing-vein.png" />
 </section>
 <section id="using-other-backends">
 <h2>Using other backends<a class="headerlink" href="#using-other-backends" title="Permalink to this headline"></a></h2>
+<p>You can use OAK to query other backends that provides one (or more ontologies) as a graph.</p>
+<section id="using-ubergraph">
+<h3>Using Ubergraph<a class="headerlink" href="#using-ubergraph" title="Permalink to this headline"></a></h3>
+<p>Ubergraph is an integrated ontology store that contains a merged set of mutually referential OBO ontologies.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
@@ -175,17 +206,23 @@ of ontologies, this returns a ranked list that might include matches only to “
 search a little differently, but this will be more unified and controllable in the future.</p>
 </section>
 <section id="using-bioportal">
-<h2>Using BioPortal<a class="headerlink" href="#using-bioportal" title="Permalink to this headline"></a></h2>
-<p>First you will need to go to <a class="reference external" href="https://bioportal.bioontology.org/">BioPortal</a> and get an API key, if you don’t already have one.</p>
+<h3>Using BioPortal<a class="headerlink" href="#using-bioportal" title="Permalink to this headline"></a></h3>
+<p>BioPortal is a comprehensive repository of biomedical ontologies.</p>
+<p>To query BioPortal, first you will need to go to <a class="reference external" href="https://bioportal.bioontology.org/">BioPortal</a> and get an API key (if you don’t already have one).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The API Key is assigned to each user upon creating an account on BioPortal.</p>
+</div>
 <p>You will then need to set it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="nb">set</span><span class="o">-</span><span class="n">apikey</span> <span class="o">-</span><span class="n">e</span> <span class="n">bioportal</span> <span class="n">YOUR</span><span class="o">-</span><span class="n">API</span><span class="o">-</span><span class="n">KEY</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="nb">set</span><span class="o">-</span><span class="n">apikey</span> <span class="o">--</span><span class="n">endpoint</span> <span class="n">bioportal</span> <span class="n">YOUR</span><span class="o">-</span><span class="n">API</span><span class="o">-</span><span class="n">KEY</span>
 </pre></div>
 </div>
-<p>This stores it in an OS-dependent folder</p>
+<p>This stores it in an OS-dependent folder, which is then accessed by OAK for performing API queries.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
-<p>Again the results are relevance ranked, and there are a lot of them, as this includes multiple ontologies, you may want to ctrl-C to kill before the end</p>
+<p>Again the results are relevance ranked, and there are a lot of them, as this includes multiple ontologies, you may want to ctrl-C to kill before the end.</p>
+</section>
 </section>
 <section id="next-steps">
 <h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline"></a></h2>

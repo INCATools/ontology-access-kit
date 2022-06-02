@@ -43,11 +43,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1: Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial02.html">Part 2: Basic Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Ubergraph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial04.html">Part 4: OboGraphs</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 5: Graph Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-graphviz">Install Graphviz</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#install-obographviz">Install OBOGraphViz</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-usage">Command Line Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#how-this-works">How this works</a></li>
@@ -95,19 +96,33 @@
              
   <section id="part-5-graph-visualization">
 <h1>Part 5: Graph Visualization<a class="headerlink" href="#part-5-graph-visualization" title="Permalink to this headline"></a></h1>
+<p>This section of the tutorial requires two dependencies that are outside OAK.</p>
+<ul class="simple">
+<li><p>Graphviz</p></li>
+<li><p>OBOGraphViz</p></li>
+</ul>
+<section id="install-graphviz">
+<h2>Install Graphviz<a class="headerlink" href="#install-graphviz" title="Permalink to this headline"></a></h2>
+<p>Graphviz is an open-source graph visualization software that provides a way to
+represent information about graphs and networks.</p>
+<p>For installation refer to <a class="reference external" href="https://graphviz.org/download/">Graphviz.org/download/</a>.</p>
+</section>
 <section id="install-obographviz">
 <h2>Install OBOGraphViz<a class="headerlink" href="#install-obographviz" title="Permalink to this headline"></a></h2>
+<p>OBOGraphViz is a Javascript package that allows you to visualize OBOGraphs using Graphviz.</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">npm</span></code> or <code class="docutils literal notranslate"><span class="pre">yarn</span></code> to install the OBOGraphViz package.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="n">obographviz</span>
 </pre></div>
 </div>
 </section>
 <section id="command-line-usage">
 <h2>Command Line Usage<a class="headerlink" href="#command-line-usage" title="Permalink to this headline"></a></h2>
+<p>Using OAK, you can generate graph visualizations directly from the command line as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">viz</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span> <span class="o">-</span><span class="n">o</span> <span class="n">wing</span><span class="o">-</span><span class="n">vein</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
-<p>Then open the file wing-vein.png using a tool such as Preview, or in a web browser.</p>
-<p>If you omit the –output option then the png will be written to a temp file and immediately opened:</p>
+<p>Then open the file <code class="docutils literal notranslate"><span class="pre">wing-vein.png</span></code> using a tool such as Preview, or in a web browser.</p>
+<p>If you omit the <code class="docutils literal notranslate"><span class="pre">-o/--output</span></code> option then the png will be written to a temp file and immediately opened:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">viz</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
 </pre></div>
 </div>
