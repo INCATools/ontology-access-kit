@@ -112,7 +112,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 # they should be running through ODK docker
                 locator = locator.replace('.owl', '.db').replace('sqlite:', '')
                 semsql_builder.make(locator)
-                locator = f'sqlite:///{locator}'
+            locator = f'sqlite:///{locator}'
             self.engine = create_engine(locator)
 
     @property
