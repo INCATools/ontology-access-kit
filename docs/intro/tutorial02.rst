@@ -1,7 +1,7 @@
 Part 2: Basic Python
 =====================
 
-Some basic Python knowledge is assumed
+For this tutorial some basic Python knowledge is assumed.
 
 Install Poetry
 --------------
@@ -24,13 +24,13 @@ Code the first example
 
 We are going to use an example from the :ref:`BasicOntologyInterface`, using a :ref:`ProntoImplementation`
 
-We will use a Jupyter notebook for the running example. As preparation, we expect `fbbt.obo` to exist
-in the same directory as the python notebook. fbbt.obo can be downloaded here:
+We will use a Jupyter notebook for the running example. As preparation, we expect :code:`fbbt.obo` to exist
+in the same directory as the python notebook.
 
-http://purl.obolibrary.org/obo/fbbt.obo
+:code:`fbbt.obo` can be downloaded here: http://purl.obolibrary.org/obo/fbbt.obo
 
 
-``my_oak_demo/demo.ipynb``
+Then create a Notebook: ``my_oak_demo/demo.ipynb`` and add the following:
 
 .. code-block:: python
 
@@ -39,10 +39,10 @@ http://purl.obolibrary.org/obo/fbbt.obo
     resource = OntologyResource(slug='fbbt.obo', local=True)
     oi = ProntoImplementation(resource)
 
-We first import the general `OntologyResource` implementation which allows us to declare where to get the ontology from.
-We then load this resource using the `ProntoImplementation`, which allows us to perform all operations on the resource 
-that we could do with [pronto](https://github.com/althonos/pronto). Next, let us use `pronto` to actually
-query the ontology:
+- We first import the general ``OntologyResource`` implementation which allows us to declare where to get the ontology from.
+- We then load this resource using the ``ProntoImplementation``, which allows us to perform all operations on the resource that we could do with `pronto <https://github.com/althonos/pronto>`_.
+
+Next, let us use `pronto` to actually query the ontology:
 
 .. code-block:: python
 
@@ -54,11 +54,12 @@ query the ontology:
             print(f'    {parent} ! {oi.get_label_by_curie(parent)}')
 
 We first obtain all of the outgoing relationships from the 
-FBbt class for "wing vein", which has the id of `FBbt:00004751`.
+FBbt class for "wing vein", which has the id of ``FBbt:00004751``.
 
 Next, we iterate through all the relationships, and print the labels for 
-both the relationship and the connected entities (here named `parents`) using
-the `get_label_by_curie()` method of the `ProntoImplementation` object.
+both the relationship and the connected entities (here named ``parents``) using
+the ``get_label_by_curie()`` method of the ``ProntoImplementation`` object.
+
 
 You should see something similar to:
 

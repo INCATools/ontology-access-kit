@@ -33,7 +33,7 @@ OboGraph Interface
 -----------
 
 Like most datamodels in OAK, the OboGraph datamodel follows a Data Access Object (DAO) pattern - the objects are intentionally limited
-in their behavior. For example, you cannot ask a node what edges come out or go in; these is stored at the top level graph object.
+in their behavior. For example, you cannot ask a node what edges come out or go in; these are stored at the top level graph object.
 
 "Smarter" operations are provided by the interface
 
