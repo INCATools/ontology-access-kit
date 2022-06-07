@@ -1,11 +1,16 @@
 import logging
+import math
+import shutil
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
+import requests
 import semsql.builder.builder as semsql_builder
 import sssom
+from appdirs import user_cache_dir
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
@@ -13,7 +18,7 @@ from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from semsql.sqla.semsql import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement, OntologyNode, \
-    RdfTypeStatement, OwlAxiomAnnotation
+    RdfTypeStatement, OwlAxiomAnnotation, Node
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP, \
     METADATA_MAP
@@ -37,10 +42,16 @@ from sqlalchemy import text, update, delete
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
 
-
 # TODO: move to schemaview
 from sssom.sssom_datamodel import MatchTypeEnum
 
+
+# https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests
+def download_file(url: str, local_filename: Path):
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(local_filename, 'wb') as f:
+            shutil.copyfileobj(r.raw, f)
 
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
     t = sv.get_type(rng)
@@ -103,6 +114,24 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     def __post_init__(self):
         if self.engine is None:
             locator = str(self.resource.slug)
+            logging.info(f'Locator: {locator}')
+            if locator.startswith('obo:'):
+                # easter egg feature, to be documented:
+                # The selector 'sqlite:obo:ONTOLOGY' will use a pre-generated
+                # sqlite db of an OBO ontology after downloading from S3.
+                # Note: this can take some time
+                db_name = locator.replace('obo:', '') + '.db'
+                cache_dir = Path(user_cache_dir('oaklib'))
+                cache_dir.mkdir(parents=True, exist_ok=True)
+                logging.info(f'Using cache dir: {cache_dir}')
+                db_path = cache_dir / db_name
+                if not db_path.exists():
+                    url = f'https://s3.amazonaws.com/bbop-sqlite/{db_name}'
+                    logging.info(f'Downloading from {url} to {db_path}')
+                    download_file(url, db_path)
+                else:
+                    logging.info(f'Using cached db: {db_path}')
+                locator = f'sqlite:///{db_path}'
             if locator.endswith('.owl'):
                 # this is currently an "Easter Egg" feature. It allows you to specify a locator
                 # such as sqlite:/path/to/my.owl
@@ -111,8 +140,12 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 # the catch is that EITHER the user must have BOTH rdftab and relation-graph installed, OR
                 # they should be running through ODK docker
                 locator = locator.replace('.owl', '.db').replace('sqlite:', '')
+                logging.info(f'Building {locator} using semsql')
                 semsql_builder.make(locator)
                 locator = f'sqlite:///{locator}'
+            else:
+                path = Path(locator.replace('sqlite:', '')).absolute()
+                locator = f'sqlite:///{path}'
             self.engine = create_engine(locator)
 
     @property
@@ -147,7 +180,6 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for row in self.engine.execute(s):
             yield row['id']
 
-
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         for row in self.session.query(Edge):
             yield row.subject, row.predicate, row.object
@@ -174,8 +206,9 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
 
     def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
         m = {'id': curie}
-        #subquery = self.session.query(AnnotationPropertyNode.id)
-        subquery = self.session.query(RdfTypeStatement.subject).filter(RdfTypeStatement.object == 'owl:AnnotationProperty')
+        # subquery = self.session.query(AnnotationPropertyNode.id)
+        subquery = self.session.query(RdfTypeStatement.subject).filter(
+            RdfTypeStatement.object == 'owl:AnnotationProperty')
         q = self.session.query(Statements)
         q = q.filter(Statements.predicate.in_(subquery))
         for row in q.filter(Statements.subject == curie):
@@ -231,7 +264,8 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             yield self._get_subset_curie(row.subject)
 
     def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
-        stmt = update(Statements).where(Statements.subject == curie and Statements.predicate == LABEL_PREDICATE).values(value=label)
+        stmt = update(Statements).where(Statements.subject == curie and Statements.predicate == LABEL_PREDICATE).values(
+            value=label)
         self.session.execute(
             stmt
         )
@@ -246,6 +280,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
             preds += SYNONYM_PREDICATES
         view = Statements
+
         def make_query(qcol):
             q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds)))
             if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
@@ -264,6 +299,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             else:
                 q = q.filter(qcol == search_term)
             return q
+
         q = make_query(view.value)
         for row in q.distinct():
             yield str(row.subject)
@@ -293,10 +329,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False, include_annotations=False) -> obograph.Node:
         meta = obograph.Meta()
         n = obograph.Node(id=curie, meta=meta)
-        for row in self.session.query(Statements).filter(Statements.subject == curie):
+        rows = list(self.session.query(Statements).filter(Statements.subject == curie))
+        for row in rows:
             if row.value is not None:
                 v = row.value
             elif row.object is not None:
@@ -307,9 +344,24 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             if pred == omd_slots.label.curie:
                 n.lbl = v
             else:
+                if include_annotations:
+                    anns = self._axiom_annotations(curie, pred, row.object, row.value)
+                else:
+                    anns = []
                 if pred == omd_slots.definition.curie:
-                    meta.definition = obograph.DefinitionPropertyValue(val=v)
+                    meta.definition = obograph.DefinitionPropertyValue(val=v, xrefs=[ann.object for ann in anns])
         return n
+
+    def _axiom_annotations(self, subject: CURIE, predicate: CURIE, object: CURIE, value: Any) -> List[om.Annotation]:
+        q = self.session.query(OwlAxiomAnnotation)
+        q = q.filter(OwlAxiomAnnotation.subject == subject)
+        q = q.filter(OwlAxiomAnnotation.predicate == predicate)
+        if object:
+            q = q.filter(OwlAxiomAnnotation.object == object)
+        if value:
+            q = q.filter(OwlAxiomAnnotation.object == value)
+        return [om.Annotation(row.annotation_predicate, row.annotation_object) for row in q]
+
 
     def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[
         CURIE]:
@@ -339,9 +391,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
     def entailed_relationships_between(self, subject: CURIE, object: CURIE) -> Iterable[PRED_CURIE]:
         preds = []
-        for row in self.session.query(EntailedEdge.predicate).filter(EntailedEdge.subject==subject).filter(EntailedEdge.object==object):
+        for row in self.session.query(EntailedEdge.predicate).filter(EntailedEdge.subject == subject).filter(
+                EntailedEdge.object == object):
             p = row.predicate
             if p not in preds:
                 yield p
@@ -419,7 +473,8 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         sv = self.ontology_metadata_model
         preds = [sv.get_uri(s, expand=False) for s in sv.all_slots().values()]
         logging.info(f'Known preds: {len(preds)} -- checking for other uses')
-        main_q = self.session.query(Statements).filter(Statements.predicate.not_in(preds)).join(IriNode, Statements.subject == IriNode.id)
+        main_q = self.session.query(Statements).filter(Statements.predicate.not_in(preds)).join(IriNode,
+                                                                                                Statements.subject == IriNode.id)
         try:
             for row in main_q:
                 result = vdm.ValidationResult(subject=row.subject,
@@ -543,12 +598,12 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                     yield result
                 if rng in sv.all_types():
                     uri = get_range_xsd_type(sv, rng)
-                    #uri = rng_type.uri
+                    # uri = rng_type.uri
                     main_q = self.session.query(Statements.subject)
                     main_q = main_q.join(IriNode, Statements.subject == IriNode.id)
                     main_q = main_q.join(sqla_cls, Statements.subject == sqla_cls.id)
                     main_q = main_q.filter(Statements.predicate == predicate, Statements.datatype != uri)
-                    #print(main_q)
+                    # print(main_q)
                     for row in main_q:
                         result = vdm.ValidationResult(subject=row.subject,
                                                       predicate=predicate,
@@ -558,7 +613,8 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                                                       )
                         yield result
 
-    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
+    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[
+        RELATIONSHIP]:
         seed_curies = tuple(seed_curies)
         q = self.session.query(EntailedEdge).filter(EntailedEdge.subject.in_(seed_curies))
         q = q.filter(EntailedEdge.object.in_(seed_curies))
@@ -600,8 +656,13 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     def get_information_content(self, curie: CURIE, background: CURIE = None,
                                 predicates: List[PRED_CURIE] = None):
-        # TODO: fix
-        return 1.0
+        num_nodes = self.session.query(Node.id).count()
+        q = self.session.query(EntailedEdge.subject)
+        q = q.filter(EntailedEdge.object == curie)
+        if predicates:
+            q = q.filter(EntailedEdge.predicate.in_(predicates))
+        num_descs = q.count()
+        return -math.log(num_descs / num_nodes) / math.log(2)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface

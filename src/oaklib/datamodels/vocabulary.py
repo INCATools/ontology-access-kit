@@ -24,6 +24,8 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
     'NARROW': HAS_NARROW_SYNONYM,
     'BROAD': HAS_BROAD_SYNONYM
 }
+SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
+
 
 OWL_THING = 'owl:Thing'
 SUBCLASS_OF = omd.slots.subClassOf.curie
@@ -53,3 +55,4 @@ SKOS_MATCH_PREDICATES = [SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, SKOS_CLOSE_MATCH, 
 HAS_DBXREF = omd.slots.database_cross_reference.curie
 ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri
+HAS_DEFINITION_CURIE = omd.slots.definition.curie

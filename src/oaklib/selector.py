@@ -22,7 +22,7 @@ discovered_plugins = {
     name: importlib.import_module(name)
     for finder, name, ispkg
     in pkgutil.iter_modules()
-    if name.startswith('oakext_')
+    if name.startswith('oakext_') or name.startswith('oakx_')
 }
 
 RDF_SUFFIX_TO_FORMAT = {
@@ -75,7 +75,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             resource.slug = rest
             if scheme == 'sqlite':
                 impl_class = SqlImplementation
-                resource.slug = f'sqlite:///{Path(rest).absolute()}'
+                #resource.slug = f'sqlite:///{Path(rest).absolute()}'
             elif scheme == 'ubergraph':
                 impl_class = UbergraphImplementation
             elif scheme == 'ontobee':

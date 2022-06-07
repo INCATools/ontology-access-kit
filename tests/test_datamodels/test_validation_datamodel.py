@@ -17,11 +17,13 @@ class TestValidationDatamodel(unittest.TestCase):
         r1 = vdm.ValidationResult(subject='FOO:1',
                                   type='sh:Test',
                                   severity=severity)
+        print(type(r1.severity))
+        vr = vdm.ValidationReport(results=[r1])
+        yaml_dumper.dump(vr, output_path('validation_report.vdm.yaml'))
         op1 = vdm.RepairOperation(repairs=r1, modified=True)
         rr = vdm.RepairReport(results=[op1])
         yaml_dumper.dump(rr, output_path('repair_report.vdm.yaml'))
-        vr = vdm.ValidationReport(results=[r1])
-        yaml_dumper.dump(vr, output_path('validation_report.vdm.yaml'))
+
 
     def test_introspect(self):
         """

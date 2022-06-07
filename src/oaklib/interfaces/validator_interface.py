@@ -34,6 +34,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
     def term_curies_without_definitions(self) -> Iterable[CURIE]:
         """
         TODO: decide whether to write highly specific methods or use a generic validate method
+
         :return:
         """
         # Implementations are advise to implement more efficient interfaces for their back-end
@@ -55,8 +56,33 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def repair(self, configuration: RepairConfiguration = None) -> Iterable[RepairOperation]:
+        """
+        Finds problems and fixes them
+
+        :param configuration:
+        :return:
+        """
         raise NotImplementedError
 
     def check_external_references(self):
+        raise NotImplementedError
+
+    def is_coherent(self) -> bool:
+        """
+        True if the ontology is logically coherent, as determined by deductive reasoning
+        (e.g. an OWL reasoner)
+
+        :return: true if coherent
+        """
+        raise NotImplementedError
+
+    def unsatisfiable_classes(self, exclude_nothing=True) -> Iterable[CURIE]:
+        """
+        Yields all classes that are unsatisfiable, as determined by deductive reasoning
+        (e.g. an OWL reasoner)
+
+        :param exclude_nothing: if True (default) do not include the tautological owl:Nothing
+        :return: class curie iterator
+        """
         raise NotImplementedError
 

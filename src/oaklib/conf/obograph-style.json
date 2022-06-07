@@ -94,10 +94,13 @@
         "FOODON": {
             "fillcolor": "pink"
         },
-        "http://purl.obolibrary.org/obo/CHEBI_": {
+        "CHEBI": {
             "fillcolor": "pink"
         },
-        "http://purl.obolibrary.org/obo/BFO_": {
+        "ENM": {
+            "fillcolor": "cornsilk"
+        },
+        "BFO": {
             "fillcolor": "cyan"
         }
     },

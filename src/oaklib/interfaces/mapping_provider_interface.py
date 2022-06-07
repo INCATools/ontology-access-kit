@@ -40,5 +40,10 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def get_transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+        """
+
+        :param curie:
+        :return:
+        """
         raise NotImplementedError
 

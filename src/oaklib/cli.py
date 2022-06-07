@@ -35,6 +35,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
@@ -45,7 +46,8 @@ from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
-from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path, graph_to_tree
+from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path, graph_to_tree, \
+    as_digraph, ancestors_with_stats
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
@@ -121,6 +123,7 @@ def _process_predicates_arg(preds_str: str) -> List[PRED_CURIE]:
     inputs = preds_str.split(',')
     preds = [_shorthand_to_pred_curie(p) for p in inputs]
     return preds
+
 
 # TODO: move to vocab
 def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
@@ -654,8 +657,14 @@ def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_ty
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
+@output_type_option
+@click.option('--statistics/--no-statistics',
+              default=False,
+              show_default=True,
+              help="For each ancestor, show statistics."
+              )
 @output_option
-def ancestors(terms, predicates, output: str):
+def ancestors(terms, predicates, statistics: bool, output_type:str, output: str):
     """
     List all ancestors
 
@@ -686,13 +695,25 @@ def ancestors(terms, predicates, output: str):
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
+    writer = StreamingCsvWriter(ontology_interface=impl)
+    #writer.display_options = display.split(',')
+    writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f'Ancestor seed: {curies}')
         graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+        if statistics:
+            logging.info(f'Calculating graph stats')
+            ancs_stats = ancestors_with_stats(graph, curies)
+        else:
+            ancs_stats = None
         for n in graph.nodes:
-            print(f'{n.id} ! {n.lbl}')
+            kwargs = {}
+            if ancs_stats:
+                for k, v in ancs_stats.get(n.id, {}).items():
+                    kwargs[k] = v
+            writer.emit(dict(id=n.id, label=n.lbl, **kwargs))
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -856,11 +877,13 @@ def info(terms, output: TextIO, display: str, output_type: str):
     impl = settings.impl
     if output_type == 'obo':
         writer = StreamingOboWriter(ontology_interface=impl)
+    elif output_type == 'md':
+        writer = StreamingMarkdownWriter(ontology_interface=impl)
     else:
         writer = StreamingInfoWriter(ontology_interface=impl)
     writer.display_options = display.split(',')
     writer.file = output
-    logging.info(f'Input Terms={terms}')
+    logging.info(f'Input Terms={terms}; w={writer}')
     for curie in query_terms_iterator(terms, impl):
         writer.emit(curie)
 
@@ -932,6 +955,7 @@ def convert(output: str, output_type):
         curies = impl.store(resource)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @click.argument("terms", nargs=-1)
@@ -1027,6 +1051,30 @@ def roots(output: str, predicates: str):
 
 @main.command()
 @output_option
+@predicates_option
+def leafs(output: str, predicates: str):
+    """
+    List all leaf nodes in the ontology
+
+    Example:
+
+        runoak -i db/cob.db leafs
+
+    Note that the default is to return the roots of the relation graph over *all* predicates
+
+    TODO: filter obsoletes
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        for curie in impl.leafs(actual_predicates):
+            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@output_option
 @output_type_option
 def mappings(output, output_type):
     """
@@ -1052,6 +1100,7 @@ def mappings(output, output_type):
             writer.emit(mapping)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @output_option
@@ -1377,7 +1426,6 @@ def check_definitions(output: str):
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 
-
 @main.command()
 @click.argument("terms", nargs=-1)
 @output_option
@@ -1423,6 +1471,7 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
             impl.save()
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
 
 @main.command()
 @click.option('--endpoint',
