@@ -23,3 +23,4 @@ class DifferInterface(BasicOntologyInterface, ABC):
         :param right_ontology_id:
         :return: TBD KGCL?
         """
+        raise NotImplementedError

@@ -176,6 +176,37 @@ def as_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool = True
             mdg.add_edge(edge.sub, edge.obj, **edge_attrs)
     return dg
 
+
+def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[str, Any]]:
+    """
+    Given an OBO Graph, and a list of start/seed curies, calculate
+    various statistics about each graph node.
+
+    The current stats for each ancestor node are:
+
+    - visited (int): number of seed nodes underneath that node
+    - distance (int): the shortest distance from that ancestor node to a seed node
+
+    :param graph:
+    :param curies:
+    :return:
+    """
+    dg = as_digraph(graph)
+    counts = defaultdict(int)
+    logging.info(f'Calculating visits')
+    for curie in curies:
+        for a in set(list(nx.ancestors(dg, curie)) + [curie]):
+            counts[a] += 1
+    logging.info(f'Calculating distance matrix')
+    splens = dict(nx.all_pairs_shortest_path_length(dg))
+    logging.info(f'Getting final stats')
+    stats = {}
+    for node in dg.nodes:
+        stats[node] = dict(visits=counts[node],
+                           distance=min([dist for k, dist in splens[node].items() if k in curies]))
+    return stats
+
+
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
     """
     Returns an index of all nodes key by node id

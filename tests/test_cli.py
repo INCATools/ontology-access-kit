@@ -1,12 +1,14 @@
+import json
 import logging
 import unittest
 import re
 
+import yaml
 from oaklib.cli import search, main
 from oaklib.datamodels.vocabulary import IN_TAXON
 
 from tests import OUTPUT_DIR, INPUT_DIR, NUCLEUS, NUCLEAR_ENVELOPE, ATOM, INTERNEURON, BACTERIA, EUKARYOTA, VACUOLE, \
-    CELLULAR_COMPONENT, HUMAN, MAMMALIA, SHAPE, CHEBI_NUCLEUS, NUCLEATED, INTRACELLULAR, NUCLEAR_MEMBRANE
+    CELLULAR_COMPONENT, HUMAN, MAMMALIA, SHAPE, CHEBI_NUCLEUS, NUCLEATED, INTRACELLULAR, NUCLEAR_MEMBRANE, IMBO
 from click.testing import CliRunner
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
@@ -14,14 +16,20 @@ TEST_OWL_RDF = INPUT_DIR / 'go-nucleus.owl.ttl'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
 TEST_DB = INPUT_DIR / 'go-nucleus.db'
 BAD_ONTOLOGY_DB = INPUT_DIR / 'bad-ontology.db'
-TEST_OUT = OUTPUT_DIR / 'tmp'
+TEST_OUT = str(OUTPUT_DIR / 'tmp')
 
 
 class TestCommandLineInterface(unittest.TestCase):
+    """
+    Tests all command-line subcommands
+    """
 
     def setUp(self) -> None:
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
+
+    def _out(self) -> str:
+        return "".join(open(TEST_OUT).readlines())
 
     def test_main_help(self):
         result = self.runner.invoke(main, ['--help'])
@@ -58,57 +66,70 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_obograph_local(self):
         for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', str(TEST_OWL_RDF)]:
             logging.info(f'INPUT={input_arg}')
-            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', NUCLEUS])
-            out = result.stdout
-            assert 'GO:0043226 ! organelle' in out
-            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', '-p', 'i', 'plasma membrane'])
-            out = result.stdout
-            assert 'GO:0016020 ! membrane' in out
-            assert 'GO:0043226 ! organelle' not in out
-            result = self.runner.invoke(main, ['-i', input_arg, 'descendants', '-p', 'i', 'GO:0016020'])
-            out = result.stdout
+            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', NUCLEUS, '-o', TEST_OUT])
+            out = self._out()
+            assert 'GO:0043226' in out
+            result = self.runner.invoke(main, ['-i', input_arg, 'ancestors', '-p', 'i', 'plasma membrane', '-o',
+                                               TEST_OUT])
+            out = self._out()
+            assert 'GO:0016020' in out
+            assert 'GO:0043226' not in out
+            result = self.runner.invoke(main, ['-i', input_arg, 'descendants', '-p', 'i', 'GO:0016020', '-o', TEST_OUT])
+            out = self._out()
             # TODO:
             #assert 'GO:0016020 ! membrane' not in out
-            assert 'GO:0043226 ! organelle' not in out
+            assert 'GO:0043226' not in out
 
     def test_gap_fill(self):
         result = self.runner.invoke(main, ['-i', str(TEST_DB), 'viz', '--gap-fill',
                                            '-p', f'i,p,{IN_TAXON}',
                                            NUCLEUS, VACUOLE, CELLULAR_COMPONENT,
-                                           '-O', 'json', '-o', str(TEST_OUT)])
+                                           '-O', 'json', '-o', TEST_OUT])
         out = result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
-        with open(TEST_OUT) as file:
-            contents = "\n".join(file.readlines())
-            self.assertIn(NUCLEUS, contents)
-            self.assertIn(VACUOLE, contents)
-            self.assertIn(CELLULAR_COMPONENT, contents)
-            # TODO: parse json to check it conforms
-            #g = json_loader.loads(contents, target_class=obograph.Graph)
+        contents = self._out()
+        self.assertIn(NUCLEUS, contents)
+        self.assertIn(VACUOLE, contents)
+        self.assertIn(CELLULAR_COMPONENT, contents)
+        # parse json to check it conforms
+        with open(TEST_OUT) as f:
+            g = json.load(f)
+            nodes = g['nodes']
+            edges = g['edges']
+            [nucleus_node] = [n for n in nodes if n['id'] == NUCLEUS]
+            self.assertEqual(nucleus_node['lbl'], 'nucleus')
 
-
+    def test_roots_and_leafs(self):
+        for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', str(TEST_OWL_RDF)]:
+            result = self.runner.invoke(main, ['-i', input_arg, 'roots', '-p', 'i'])
+            out = result.stdout
+            self.assertIn('CHEBI:36342', out)
+            result = self.runner.invoke(main, ['-i', input_arg, 'leafs', '-p', 'i'])
+            out = result.stdout
+            self.assertIn(NUCLEAR_ENVELOPE, out)
 
     ## MAPPINGS
 
     def test_mappings_local(self):
-        result = self.runner.invoke(main, ['-i', str(TEST_ONT), 'term-mappings', 'GO:0016740'])
+        result = self.runner.invoke(main, ['-i', str(TEST_ONT), 'term-mappings', 'GO:0016740', '-o', TEST_OUT])
         out = result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
-        #self.assertIn('EC:2', out)
+        out = self._out()
+        self.assertIn('EC:2.-.-.-', out)
+        self.assertIn('Reactome:R-HSA-1483089', out)
 
     ## TAXON
 
     def test_taxon_constraints_local(self):
         for input_arg in [TEST_ONT, f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
-            result = self.runner.invoke(main, ['-i', str(input_arg), 'taxon-constraints', NUCLEUS, '-o', str(TEST_OUT)])
+            result = self.runner.invoke(main, ['-i', str(input_arg), 'taxon-constraints', NUCLEUS, '-o', TEST_OUT])
             out = result.stdout
             err = result.stderr
             self.assertEqual(0, result.exit_code)
-            with open(TEST_OUT) as file:
-                contents = "\n".join(file.readlines())
-                self.assertIn('Eukaryota', contents)
+            contents = self._out()
+            self.assertIn('Eukaryota', contents)
 
     ## SEARCH
 
@@ -117,6 +138,8 @@ class TestCommandLineInterface(unittest.TestCase):
         out = result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
+        self.assertIn('Usage:', out)
+        self.assertIn('Example:', out)
 
     def test_search_local(self):
         for input_arg in [str(TEST_ONT), f'sqlite:{TEST_DB}', TEST_OWL_RDF]:
@@ -136,6 +159,11 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual("", err)
 
     def test_search_local_advanced(self):
+        """
+        Tests boolean combinations of search results
+
+        :return:
+        """
         search_tests = [
             (["nucleus"], True, [NUCLEUS], []),
             (["t^nucleus"], True, [NUCLEUS], []),
@@ -247,8 +275,7 @@ class TestCommandLineInterface(unittest.TestCase):
             contents = "\n".join(stream.readlines())
             self.assertIn('skos:closeMatch', contents)
             self.assertIn('skos:exactMatch', contents)
-        # TODO: currently pronto produces various warnings when parsing OWL
-        #self.assertEqual("", err)
+        self.assertEqual("", err)
 
     def test_lexmatch_sqlite(self):
         outfile = f'{OUTPUT_DIR}/matcher-test-cli.db.sssom.tsv'
@@ -256,6 +283,7 @@ class TestCommandLineInterface(unittest.TestCase):
                                            '-o', outfile])
         out = result.stdout
         err = result.stderr
+        self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
             contents = "\n".join(stream.readlines())
@@ -263,3 +291,20 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn('skos:exactMatch', contents)
             self.assertIn('x:bone_element', contents)
             self.assertIn('bone tissue', contents)
+
+    def test_similarity(self):
+        result = self.runner.invoke(main, ['-i', TEST_DB, 'similarity', NUCLEAR_MEMBRANE, VACUOLE, '-p', 'i,p', '-o', TEST_OUT])
+        #out = result.stdout
+        err = result.stderr
+        self.assertEqual(0, result.exit_code)
+        out = self._out()
+        self.assertIn(IMBO, out)
+        with open(TEST_OUT) as f:
+            obj = yaml.safe_load(f)
+            #print(obj)
+            self.assertEqual(obj['subject_id'], NUCLEAR_MEMBRANE)
+            self.assertEqual(obj['object_id'], VACUOLE)
+            self.assertEqual(obj['ancestor_id'], IMBO)
+            self.assertGreater(obj['jaccard_similarity'], 0.5)
+            self.assertGreater(obj['ancestor_information_content'], 3.0)
+

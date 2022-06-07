@@ -26,6 +26,7 @@ def mappings_to_graph(mappings: Iterable[sssom.Mapping]) -> nx.Graph:
         g.add_edge(m.subject_id, m.object_id)
     return g
 
+
 def relationships_to_multi_digraph(relationships: Iterable[RELATIONSHIP], reverse: bool = True) -> nx.MultiDiGraph:
     """
     Converts an OBOGraph to NetworkX
@@ -41,6 +42,7 @@ def relationships_to_multi_digraph(relationships: Iterable[RELATIONSHIP], revers
         else:
             g.add_edge(rel[0], rel[2], predicate=rel[1])
     return g
+
 
 def transitive_reduction(relationships: Iterable[RELATIONSHIP]) -> Iterable[RELATIONSHIP]:
     relationships = list(relationships)

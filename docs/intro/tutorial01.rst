@@ -52,14 +52,37 @@ Next try using the "search" command to search for a term in the Drosophila anato
 The base command takes an :code:`--input` (or just :code:`-i`) option that specifies the input implementation. We will return to the full syntax later,
 but one pattern that is useful to know is :code:`obolibrary:<ontology-file>`.
 
+To do a basic lookup, using either a name or IR
+
 .. code-block::
 
-    runoak -i obolibrary:fbbt.obo search 'wing vein'
+    runoak -i obolibrary:fbbt.obo info 'wing vein'
 
 The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
-library under the hood)
+library under the hood). The results should include:
 
-After the lag you will get results like:
+.. code-block::
+
+    FBbt:00004751 ! wing vein
+
+You get the same results wth:
+
+.. code-block::
+
+    runoak -i obolibrary:fbbt.obo info FBbt:00004751
+
+Search
+------
+
+You can use the `search` command to search for terms. You can also use a special search syntax like this:
+
+.. code-block::
+
+    runoak -i obolibrary:fbbt.obo search 't^wing vein'
+
+Here ``t`` means "term" (search in all term fields) and ``^`` means "starts with"
+
+This will give results like:
 
 .. code-block::
 
@@ -94,6 +117,7 @@ You should see body parts such as cuticle, wing, etc, alongside their ID
 Later on we will see how we can make images like:
 
 .. image:: wing-vein.png
+
 
 Using other backends
 --------------------

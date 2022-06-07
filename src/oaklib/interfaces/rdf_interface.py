@@ -24,10 +24,23 @@ class RdfInterface(BasicOntologyInterface, ABC):
         pass
 
     def triples(self, pattern: TRIPLE) -> Iterator[TRIPLE]:
+        """
+        All triples matching triple pattern
+
+        :param pattern: tuple of s,p,o, where None matches anything
+        :return:
+        """
         for t in self.graph().triples(self._triple_as_urirefs(pattern)):
             yield self._triple_as_curies(t)
 
     def objects(self, subject, predicate) -> Iterator[Any]:
+        """
+        queries objects based on s,p
+
+        :param subject:
+        :param predicate:
+        :return:
+        """
         for obj in self.graph().objects(subject, predicate):
             if isinstance(obj, URIRef):
                 yield self.uri_to_curie(obj)
@@ -36,5 +49,14 @@ class RdfInterface(BasicOntologyInterface, ABC):
 
     def extract_triples(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None, strategy: str = None,
                         map_to_curies=True) -> Iterator[TRIPLE]:
+        """
+        Finds all triples reachable from a seed set
+
+        :param seed_curies:
+        :param predicates:
+        :param strategy:
+        :param map_to_curies:
+        :return:
+        """
         pass
 

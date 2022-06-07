@@ -31,8 +31,8 @@ Examples of scheme-less descriptors, implicit implementation:
 
 - :code:`tests/input/go-nucleus.obo` - local obo format file loaded with pronto
 - :code:`tests/input/go-nucleus.json` - local obojson format file loaded with pronto
-- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with rdflib at the moment may change)
-- :code:`tests/input/go-nucleus.owl.ttl` - local OWL turtle format file (loaded with rdflib at the moment may change)
+- :code:`tests/input/go-nucleus.owl` - local OWL rdf/xml format file (loaded with rdflib at the moment, may change)
+- :code:`tests/input/go-nucleus.owl.ttl` - local OWL turtle format file (loaded with rdflib at the moment, may change)
 - :code:`tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`http://purl.obolibrary.org/obo/pato.obo` - NOT IMPLEMENTED; download locally for now
 - :code:`http://purl.obolibrary.org/obo/pato.owl` - NOT IMPLEMENTED; download locally for now
@@ -47,6 +47,7 @@ Examples of explicit schemes:
 - :code:`pronto:tests/input/go-nucleus.db` - local sqlite3 db loaded with SqlImplementation
 - :code:`prontolib:pato.obo` - remote obo format file loaded from OBO Library with pronto
 - :code:`prontolib:pato.owl` - remote owl format file loaded from OBO Library with pronto
+- :code:`sqlite:tests/input/go-nucleus.owl` - convert OWL to SQLite and query using sql_implementation
 - :code:`bioportal:` all of bioportal
 - :code:`bioportal:pato` pato in bioportal (NOT IMPLEMENTED)
 - :code:`ontobee:` all of ontobee
