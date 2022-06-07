@@ -13,6 +13,7 @@
 
    .. autosummary::
    
+      ancestors_with_stats
       as_digraph
       as_multi_digraph
       default_stylemap_path

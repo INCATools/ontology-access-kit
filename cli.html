@@ -70,6 +70,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-subset">extract-subset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-leafs">leafs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-lexmatch">lexmatch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-list-subset">list-subset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
@@ -427,8 +428,25 @@ the command line interface understands shortcuts for these:</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-ancestors-o">
-<span id="cmdoption-runoak-ancestors-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ancestors-o" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-ancestors-O">
+<span id="cmdoption-runoak-ancestors-o"></span><span id="cmdoption-runoak-ancestors-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ancestors-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-ancestors-statistics">
+<span id="cmdoption-runoak-ancestors-no-statistics"></span><span class="sig-name descname"><span class="pre">--statistics</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-statistics</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-ancestors-statistics" title="Permalink to this definition"></a></dt>
+<dd><p>For each ancestor, show statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-ancestors-0">
+<span id="cmdoption-runoak-ancestors-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ancestors-0" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
@@ -750,6 +768,34 @@ to have performance issues with the query</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-info-arg-TERMS">
 <span id="cmdoption-runoak-info-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-info-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-leafs">
+<h4>leafs<a class="headerlink" href="#runoak-leafs" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>List all leaf nodes in the ontology</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i db/cob.db leafs</p>
+</div></blockquote>
+<p>Note that the default is to return the roots of the relation graph over <em>all</em> predicates</p>
+<p>TODO: filter obsoletes</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak leafs <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-leafs-o">
+<span id="cmdoption-runoak-leafs-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-leafs-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-leafs-p">
+<span id="cmdoption-runoak-leafs-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-leafs-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
 </dd></dl>
 
 </section>

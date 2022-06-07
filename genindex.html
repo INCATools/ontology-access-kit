@@ -296,6 +296,13 @@
 </li>
       </ul></li>
       <li>
+    --no-statistics
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-statistics">runoak-ancestors command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-view
 
       <ul>
@@ -325,7 +332,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-all-subsets-o">runoak-all-subsets command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-0">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
 </li>
@@ -344,6 +351,8 @@
         <li><a href="cli.html#cmdoption-runoak-extract-triples-o">runoak-extract-triples command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-o">runoak-info command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-o">runoak-leafs command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-o">runoak-lexmatch command line option</a>
 </li>
@@ -392,6 +401,8 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-all-relationships-O">runoak-all-relationships command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-O">runoak-ancestors command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-combine-O">runoak-combine command line option</a>
@@ -432,6 +443,8 @@
         <li><a href="cli.html#cmdoption-runoak-descendants-p">runoak-descendants command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-p">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-p">runoak-leafs command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-roots-p">runoak-roots command line option</a>
 </li>
@@ -500,6 +513,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-all-similarity-set2">runoak-all-similarity command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --statistics
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-statistics">runoak-ancestors command line option</a>
 </li>
       </ul></li>
       <li>
@@ -609,6 +629,8 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-all-relationships-O">runoak-all-relationships command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-O">runoak-ancestors command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-combine-O">runoak-combine command line option</a>
@@ -650,7 +672,7 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-all-subsets-o">runoak-all-subsets command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-o">runoak-ancestors command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-0">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
 </li>
@@ -669,6 +691,8 @@
         <li><a href="cli.html#cmdoption-runoak-extract-triples-o">runoak-extract-triples command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-o">runoak-info command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-o">runoak-leafs command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-o">runoak-lexmatch command line option</a>
 </li>
@@ -724,6 +748,8 @@
         <li><a href="cli.html#cmdoption-runoak-descendants-p">runoak-descendants command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-p">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-p">runoak-leafs command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-roots-p">runoak-roots command line option</a>
 </li>
@@ -946,6 +972,8 @@
 </li>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">get_sssom_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
+      <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">get_transitive_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+</li>
       <li><a href="glossary.html#term-Graph"><strong>Graph</strong></a>
 </li>
   </ul></td>
@@ -956,9 +984,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Implementation"><strong>Implementation</strong></a>
 </li>
+      <li><a href="glossary.html#term-Interface"><strong>Interface</strong></a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glossary.html#term-Interface"><strong>Interface</strong></a>
+      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">is_coherent() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Iterator"><strong>Iterator</strong></a>
 </li>
@@ -980,6 +1010,10 @@
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs">leafs() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.load_graph">load_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
@@ -1174,6 +1208,8 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">relationships_to_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
+      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">repair() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">roots() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li>
@@ -1272,11 +1308,19 @@
     runoak-ancestors command line option
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-o">--output</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-statistics">--no-statistics</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-0">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-p">--predicates</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-ancestors-o">-o</a>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-statistics">--statistics</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-ancestors-0">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-p">-p</a>
 </li>
@@ -1425,6 +1469,19 @@
 </li>
       </ul></li>
       <li>
+    runoak-leafs command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-leafs-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-p">--predicates</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-leafs-p">-p</a>
+</li>
+      </ul></li>
+      <li>
     runoak-lexmatch command line option
 
       <ul>
@@ -1460,6 +1517,8 @@
         <li><a href="cli.html#cmdoption-runoak-list-subset-arg-SUBSET">SUBSET</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-mappings command line option
 
@@ -1473,8 +1532,6 @@
         <li><a href="cli.html#cmdoption-runoak-mappings-O">-O</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-migrate-curies command line option
 
@@ -1787,6 +1844,12 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save">save() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+
+      <ul>
+        <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.save">(oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+</li>
+      </ul></li>
       <li><a href="search-syntax.html#oaklib.datamodels.search.SearchConfiguration">SearchConfiguration (class in oaklib.datamodels.search)</a>
 
       <ul>
@@ -1803,10 +1866,10 @@
 </li>
       <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
 </li>
-      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
       <li>
     SUBSET
 
@@ -1887,6 +1950,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">UbergraphImplementation (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
+</li>
+      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">unsatisfiable_classes() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>

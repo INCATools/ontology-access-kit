@@ -131,10 +131,55 @@ this implements a generic property check using the OntologyMetadata datamodel</p
 </ul>
 </div></blockquote>
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">
+<span class="sig-name descname"><span class="pre">is_coherent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.is_coherent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent" title="Permalink to this definition"></a></dt>
+<dd><p>True if the ontology is logically coherent, as determined by deductive reasoning
+(e.g. an OWL reasoner)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if coherent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.repair">
+<span class="sig-name descname"><span class="pre">repair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.validation_datamodel.RepairConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.validation_datamodel.RepairOperation</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.repair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.repair" title="Permalink to this definition"></a></dt>
+<dd><p>Finds problems and fixes them</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>configuration</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">
 <span class="sig-name descname"><span class="pre">term_curies_without_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.term_curies_without_definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions" title="Permalink to this definition"></a></dt>
-<dd><p>TODO: decide whether to write highly specific methods or use a generic validate method
-:return:</p>
+<dd><p>TODO: decide whether to write highly specific methods or use a generic validate method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">
+<span class="sig-name descname"><span class="pre">unsatisfiable_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude_nothing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/validator_interface.html#ValidatorInterface.unsatisfiable_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes" title="Permalink to this definition"></a></dt>
+<dd><p>Yields all classes that are unsatisfiable, as determined by deductive reasoning
+(e.g. an OWL reasoner)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>exclude_nothing</strong> – if True (default) do not include the tautological owl:Nothing</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>class curie iterator</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

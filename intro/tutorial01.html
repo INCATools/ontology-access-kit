@@ -46,6 +46,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 1: Getting Started</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#query-the-obo-library">Query the OBO Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#search">Search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#working-with-local-files">Working with local files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fetching-ancestors">Fetching ancestors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-other-backends">Using other backends</a><ul>
@@ -142,12 +143,28 @@ export PYTHONPATH=.:$PYTHONPATH
 <p>The base command takes an <code class="docutils literal notranslate"><span class="pre">--input</span></code> (or just <code class="docutils literal notranslate"><span class="pre">-i</span></code>) option that specifies the input
 implementation. We will return to the full syntax later, but one pattern that is
 useful to know is <code class="docutils literal notranslate"><span class="pre">obolibrary:&lt;ontology-file&gt;</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
+<p>To do a basic lookup, using either a name or IR</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">info</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
-<p>The first time you run this there will be a lag as the file is downloaded,
-but after that it will be cached. (This is using the Pronto library under the hood)</p>
-<p>After the lag you will get results like:</p>
+<p>The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
+library under the hood). The results should include:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FBbt:00004751 ! wing vein
+</pre></div>
+</div>
+<p>You get the same results wth:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">info</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span>
+</pre></div>
+</div>
+</section>
+<section id="search">
+<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h2>
+<p>You can use the <cite>search</cite> command to search for terms. You can also use a special search syntax like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">obolibrary</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;t^wing vein&#39;</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">t</span></code> means “term” (search in all term fields) and <code class="docutils literal notranslate"><span class="pre">^</span></code> means “starts with”</p>
+<p>This will give results like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FBbt:00004751 ! wing vein
 FBbt:00004754 ! axillary vein
 FBbt:00004759 ! wing vein L1

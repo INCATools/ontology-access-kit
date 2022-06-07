@@ -113,6 +113,7 @@
 <div class="viewcode-block" id="ValidatorInterface.term_curies_without_definitions"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.term_curies_without_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">term_curies_without_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO: decide whether to write highly specific methods or use a generic validate method</span>
+
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Implementations are advise to implement more efficient interfaces for their back-end</span>
@@ -133,11 +134,36 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="k">def</span> <span class="nf">repair</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">RepairConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RepairOperation</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<div class="viewcode-block" id="ValidatorInterface.repair"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">[docs]</a>    <span class="k">def</span> <span class="nf">repair</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">RepairConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RepairOperation</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds problems and fixes them</span>
+
+<span class="sd">        :param configuration:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="k">def</span> <span class="nf">check_external_references</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="ValidatorInterface.is_coherent"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">[docs]</a>    <span class="k">def</span> <span class="nf">is_coherent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        True if the ontology is logically coherent, as determined by deductive reasoning</span>
+<span class="sd">        (e.g. an OWL reasoner)</span>
+
+<span class="sd">        :return: true if coherent</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="ValidatorInterface.unsatisfiable_classes"><a class="viewcode-back" href="../../../interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">[docs]</a>    <span class="k">def</span> <span class="nf">unsatisfiable_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exclude_nothing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all classes that are unsatisfiable, as determined by deductive reasoning</span>
+<span class="sd">        (e.g. an OWL reasoner)</span>
+
+<span class="sd">        :param exclude_nothing: if True (default) do not include the tautological owl:Nothing</span>
+<span class="sd">        :return: class curie iterator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 
 </pre></div>
 

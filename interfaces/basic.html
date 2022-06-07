@@ -430,6 +430,21 @@ this will return part-of parents for GO, as well as is-a</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs">
+<span class="sig-name descname"><span class="pre">leafs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_owl_thing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.leafs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs" title="Permalink to this definition"></a></dt>
+<dd><p>All leaf nodes, where root is defined as any node that is not the object of
+a relationship with one of the specified predicates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>predicates</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie">
 <span class="sig-name descname"><span class="pre">metadata_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.metadata_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a dictionary keyed by property predicate, with a list of zero or more values,
@@ -469,7 +484,7 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">
-<span class="sig-name descname"><span class="pre">roots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.roots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">roots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_owl_thing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.roots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots" title="Permalink to this definition"></a></dt>
 <dd><p>All root nodes, where root is defined as any node that is not the subject of
 a relationship with one of the specified predicates</p>
 <dl class="field-list simple">
@@ -478,6 +493,17 @@ a relationship with one of the specified predicates</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves current state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
 </dd>
 </dl>
 </dd></dl>
