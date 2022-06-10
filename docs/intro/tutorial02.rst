@@ -22,15 +22,14 @@ Create a new project
 Code the first example
 ----------
 
-We are going to use an example from the :ref:`BasicOntologyInterface`, using a :ref:`ProntoImplementation`
+We are going to use an example from the :ref:`BasicOntologyInterface`, using a :ref:`pronto` implementation.
 
-We will use a Jupyter notebook for the running example. As preparation, we expect :code:`fbbt.obo` to exist
-in the same directory as the python notebook.
+As preparation, we expect ``fbbt.obo`` to exist in the top level directory.
 
 :code:`fbbt.obo` can be downloaded here: http://purl.obolibrary.org/obo/fbbt.obo
 
 
-Then create a Notebook: ``my_oak_demo/demo.ipynb`` and add the following:
+Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
 .. code-block:: python
 
@@ -42,7 +41,7 @@ Then create a Notebook: ``my_oak_demo/demo.ipynb`` and add the following:
 - We first import the general ``OntologyResource`` implementation which allows us to declare where to get the ontology from.
 - We then load this resource using the ``ProntoImplementation``, which allows us to perform all operations on the resource that we could do with `pronto <https://github.com/althonos/pronto>`_.
 
-Next, let us use `pronto` to actually query the ontology:
+Next, let us use :term:`Pronto` to actually query the ontology:
 
 .. code-block:: python
 

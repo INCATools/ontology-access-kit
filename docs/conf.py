@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'oaklib'
-copyright = '2022, Chris Mungall'
+copyright = '2022, OAK developers'
 author = 'Chris Mungall'
 
 

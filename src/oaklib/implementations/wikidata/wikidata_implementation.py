@@ -16,6 +16,7 @@ from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE, URI
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from rdflib import RDFS, RDF, OWL, URIRef
@@ -30,7 +31,7 @@ DEFAULT_CURIE_MAP = {
 
 @dataclass
 class WikidataImplementation(AbstractSparqlImplementation, RelationGraphInterface, SearchInterface, OboGraphInterface,
-                             MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface):
+                             MappingProviderInterface, SemanticSimilarityInterface, SubsetterInterface, TextAnnotatorInterface):
     """
     Wraps the wikidata sparql endpoint
 

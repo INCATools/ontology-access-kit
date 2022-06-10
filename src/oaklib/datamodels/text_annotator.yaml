@@ -44,6 +44,16 @@ types:
 # Classes                         #
 #==================================
 classes:
+  TextAnnotationConfiguration:
+    description: configuration for search
+    attributes:
+      matches_whole_text:
+        range: boolean
+      sources:
+        multivalued: true
+      limit:
+        range: integer
+
   TextAnnotationResultSet:
     description: A collection of annotation results
     attributes:

@@ -20,6 +20,7 @@ import click
 import rdflib
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
 from oaklib.datamodels.search import create_search_configuration
+from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
@@ -442,12 +443,14 @@ def list_subset(subset, output: str):
 
 @main.command()
 @click.argument("words", nargs=-1)
+@click.option('-W/--no-W',
+              '--matches-whole-text/--no-matches-whole-text')
 @click.option('--text-file',
               type=click.File(mode="r"),
               help="Text file to annotate")
 @output_option
 @output_type_option
-def annotate(words, output: str, text_file: TextIO, output_type: str):
+def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, output_type: str):
     """
     Annotate a piece of text using a Named Entity Recognition annotation
 
@@ -462,6 +465,7 @@ def annotate(words, output: str, text_file: TextIO, output_type: str):
     """
     impl = settings.impl
     if isinstance(impl, TextAnnotatorInterface):
+        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
         if output_type is None or output_type == 'yaml':
             writer = StreamingYamlWriter(output)
         elif output_type == 'csv':
@@ -473,13 +477,13 @@ def annotate(words, output: str, text_file: TextIO, output_type: str):
         if text_file:
             for line in text_file.readlines():
                 line = line.strip()
-                for ann in impl.annotate_text(line):
+                for ann in impl.annotate_text(line, configuration):
                     # TODO: better way to represent this
                     ann.subject_source = line
                     writer.emit(ann)
         else:
             text = ' '.join(words)
-            for ann in impl.annotate_text(text):
+            for ann in impl.annotate_text(text, configuration):
                 writer.emit(ann)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
