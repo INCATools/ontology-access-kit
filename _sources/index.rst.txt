@@ -19,6 +19,7 @@ Ontology Access Kit (OAK) Documentation
    selectors
    datamodels/index
    utilities
+   howtos/index
    notebooks
    concepts
    glossary

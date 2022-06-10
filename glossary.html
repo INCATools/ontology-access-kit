@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
@@ -81,61 +82,103 @@
   <section id="glossary">
 <h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline"></a></h1>
 <dl class="glossary">
-<dt id="term-Ontology">Ontology<a class="headerlink" href="#term-Ontology" title="Permalink to this term"></a></dt><dd><p>A flexible concept loosely encompassing any collection of ontology elements and statements or relationships connecting them</p>
+<dt id="term-Ontology">Ontology<a class="headerlink" href="#term-Ontology" title="Permalink to this term"></a></dt><dd><p>A flexible concept loosely encompassing any collection of <span class="xref std std-term">Ontology elements</span> and statements or relationships connecting them</p>
 </dd>
-<dt id="term-Ontology-element">Ontology element<a class="headerlink" href="#term-Ontology-element" title="Permalink to this term"></a></dt><dd><p>A discrete part of an <a class="reference internal" href="#term-Ontology"><span class="xref std std-term">Ontology</span></a>, with a unique persistent identifier</p>
+<dt id="term-Ontology-element">Ontology element<a class="headerlink" href="#term-Ontology-element" title="Permalink to this term"></a></dt><dd><p>A discrete part of an <a class="reference internal" href="#term-Ontology"><span class="xref std std-term">Ontology</span></a>, with a unique persistent identifier. The most important elements are :ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>Term`s, but
+other elements can include various metadata artefacts like :ref:<a href="#id3"><span class="problematic" id="id4">`</span></a>Annotation Property`s or :ref:<a href="#id5"><span class="problematic" id="id6">`</span></a>Subset`s</p>
 </dd>
-<dt id="term-Term">Term<a class="headerlink" href="#term-Term" title="Permalink to this term"></a></dt><dd><p>A core element in an ontology, typically a <a class="reference internal" href="#term-Class"><span class="xref std std-term">Class</span></a>, but sometimes used to include instances or relationship types</p>
+<dt id="term-Term">Term<a class="headerlink" href="#term-Term" title="Permalink to this term"></a></dt><dd><p>A core element in an ontology, typically a <a class="reference internal" href="#term-Class"><span class="xref std std-term">Class</span></a>, but sometimes used to include instances or relationship types,
+depending on context.</p>
 </dd>
 <dt id="term-Concept">Concept<a class="headerlink" href="#term-Concept" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Term"><span class="xref std std-term">Term</span></a></p>
 </dd>
-<dt id="term-CURIE">CURIE<a class="headerlink" href="#term-CURIE" title="Permalink to this term"></a></dt><dd><p>A <a href="#id1"><span class="problematic" id="id2">|CURIE|</span></a> is a compact <a class="reference internal" href="#term-URI"><span class="xref std std-term">URI</span></a></p>
+<dt id="term-CURIE">CURIE<a class="headerlink" href="#term-CURIE" title="Permalink to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-CURIE"><span class="xref std std-term">CURIE</span></a> is a compact <a class="reference internal" href="#term-URI"><span class="xref std std-term">URI</span></a>. For example, <code class="docutils literal notranslate"><span class="pre">CL:0000001</span></code>.</p>
 </dd>
-<dt id="term-URI">URI<a class="headerlink" href="#term-URI" title="Permalink to this term"></a></dt><dd><p>A Uniform Resource Indicator, a generalization of URL. Most people think of URLs as being solely for addresses for web pages (or APIs) but in semantic web technologies, URLs can serve as actual identifiers for entities like ontology terms.</p>
+<dt id="term-URI">URI<a class="headerlink" href="#term-URI" title="Permalink to this term"></a></dt><dd><p>A Uniform Resource Indicator, a generalization of URL. Most people think of URLs as being solely for addresses for web pages (or APIs) but in semantic web technologies, URLs can serve as actual identifiers for entities like ontology terms.
+Data models like <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a> and <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> use URIs as identifiers. In OAK, URIs are mapped to :term:<a href="#id7"><span class="problematic" id="id8">`</span></a>CURIE`s</p>
 </dd>
-<dt id="term-Class">Class<a class="headerlink" href="#term-Class" title="Permalink to this term"></a></dt><dd><p>An <a href="#id3"><span class="problematic" id="id4">|Ontology element|</span></a> that formally represents something that can be instantiated. For example, the class “heart”</p>
+<dt id="term-Class">Class<a class="headerlink" href="#term-Class" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-element"><span class="xref std std-term">Ontology element</span></a> that formally represents something that can be instantiated. For example, the class “heart”</p>
 </dd>
 <dt id="term-Mapping">Mapping<a class="headerlink" href="#term-Mapping" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="datamodels/sssom/index.html#sssom"><span class="std std-ref">SSSOM</span></a></p>
 </dd>
-<dt id="term-Graph">Graph<a class="headerlink" href="#term-Graph" title="Permalink to this term"></a></dt><dd><p>Formally…</p>
+<dt id="term-SSSOM">SSSOM<a class="headerlink" href="#term-SSSOM" title="Permalink to this term"></a></dt><dd><p>Simple Standard for Sharing Ontological Mappings. SSSOM is the primary <a class="reference internal" href="#term-Datamodel"><span class="xref std std-term">Datamodel</span></a> in OAK for passing around :term:<a href="#id9"><span class="problematic" id="id10">`</span></a>Mapping`s.</p>
 </dd>
-<dt id="term-OWL">OWL<a class="headerlink" href="#term-OWL" title="Permalink to this term"></a></dt><dd><p>See…</p>
+<dt id="term-Graph">Graph<a class="headerlink" href="#term-Graph" title="Permalink to this term"></a></dt><dd><p>Formally a graph is a data structure consisting of <span class="xref std std-term">Nodes</span> and <span class="xref std std-term">Edges</span>. There are different forms of graphs, but for the purposes of OAK,
+an ontology graph has all <span class="xref std std-term">Term`s as nodes, and relationships connecting terms (is-a, part-of) as edges.
+Note the concept of an ontology graph and an :term:`RDF</span> graph do not necessarily fully align - RDF graphs of OWL ontologies
+employ numerous blank nodes that obscure the ontology structure.</p>
 </dd>
-<dt id="term-RDF">RDF<a class="headerlink" href="#term-RDF" title="Permalink to this term"></a></dt><dd><p>See…</p>
+<dt id="term-OWL">OWL<a class="headerlink" href="#term-OWL" title="Permalink to this term"></a></dt><dd><p>An ontology language that uses constructs from <span class="xref std std-term">Description Logic</span>. OWL is not itself an ontology format, it can be serialized
+through different formats such as <span class="xref std std-term">Functional Syntax</span>, and it can be mapped to <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> and serialized via an RDF format.</p>
 </dd>
-<dt id="term-OBO-Format">OBO Format<a class="headerlink" href="#term-OBO-Format" title="Permalink to this term"></a></dt><dd><p>See…</p>
+<dt id="term-RDF">RDF<a class="headerlink" href="#term-RDF" title="Permalink to this term"></a></dt><dd><p>A datamodel consisting of simple <span class="xref std std-term">Subject</span> <a class="reference internal" href="#term-Predicate"><span class="xref std std-term">Predicate</span></a> <span class="xref std std-term">Object</span> <span class="xref std std-term">Triples</span> organized into an RDF <a class="reference internal" href="#term-Graph"><span class="xref std std-term">Graph</span></a></p>
 </dd>
-<dt id="term-Iterator">Iterator<a class="headerlink" href="#term-Iterator" title="Permalink to this term"></a></dt><dd><p>We…</p>
+<dt id="term-OBO-Format">OBO Format<a class="headerlink" href="#term-OBO-Format" title="Permalink to this term"></a></dt><dd><p>A serialization format for ontologies designed for easy viewing, direct editing, and readable diffs. It is popular in bioinformatics,
+but not widely used or known outside the genomics sphere. OBO is mapped to OWL, but only expresses a subset, and provides some OWL
+abstractions in a more easy to understand fashion.</p>
 </dd>
-<dt id="term-Interface">Interface<a class="headerlink" href="#term-Interface" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a></p>
+<dt id="term-Pronto">Pronto<a class="headerlink" href="#term-Pronto" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Ontology Library</span> for parsing obo and owl files</p>
+</dd>
+<dt id="term-Iterator">Iterator<a class="headerlink" href="#term-Iterator" title="Permalink to this term"></a></dt><dd><p>A programming language construct used frequently in OAK - it allows for passing of results from API calls without fetching
+everything in advance</p>
+</dd>
+<dt id="term-Interface">Interface<a class="headerlink" href="#term-Interface" title="Permalink to this term"></a></dt><dd><p>A programmatic abstraction that allows us to focus on <em>what</em> something should do rather than <em>how</em> it is done.
+See <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a>. The <em>how</em> is managed by an <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementation</span></a></p>
 </dd>
 <dt id="term-Implementation">Implementation<a class="headerlink" href="#term-Implementation" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a></p>
 </dd>
 <dt id="term-Datamodel">Datamodel<a class="headerlink" href="#term-Datamodel" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="interfaces/search.html#datamodels"><span class="std std-ref">Datamodels</span></a></p>
 </dd>
-<dt id="term-Named-Individual">Named Individual<a class="headerlink" href="#term-Named-Individual" title="Permalink to this term"></a></dt><dd><p>An <a href="#id5"><span class="problematic" id="id6">|Ontology element|</span></a> that represents an instance of a class. . For example, the instance “John” or “John’s heart”.
-Note that instances are not commonly represented in ontologies</p>
+<dt id="term-Named-Individual">Named Individual<a class="headerlink" href="#term-Named-Individual" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-element"><span class="xref std std-term">Ontology element</span></a> that represents an instance of a class. . For example, the instance “John” or “John’s heart”.
+Note that instances are not commonly represented in ontologies, and are not currently well supported in OAK.</p>
 </dd>
-<dt id="term-Property">Property<a class="headerlink" href="#term-Property" title="Permalink to this term"></a></dt><dd><p>An <a href="#id7"><span class="problematic" id="id8">|Ontology element|</span></a> that represents an attribute or a characteristic of an element.
-In <a href="#id9"><span class="problematic" id="id10">|OWL|</span></a>, properties are divided into disjoint categories:</p>
+<dt id="term-Property">Property<a class="headerlink" href="#term-Property" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-element"><span class="xref std std-term">Ontology element</span></a> that represents an attribute or a characteristic of an element.
+In <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a>, properties are divided into disjoint categories:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">|ObjectProperty|</span></a></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">|AnnotationProperty|</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">|DatatypeProperty|</span></a></p></li>
+<li><p><span class="xref std std-term">ObjectProperty</span></p></li>
+<li><p><span class="xref std std-term">AnnotationProperty</span></p></li>
+<li><p><span class="xref std std-term">DatatypeProperty</span></p></li>
 </ul>
 </div></blockquote>
 </dd>
-<dt id="term-Relationship">Relationship<a class="headerlink" href="#term-Relationship" title="Permalink to this term"></a></dt><dd><p>A <a href="#id17"><span class="problematic" id="id18">|Relationship|</span></a> is a type connection between two ontology elements. The first element is called the <a href="#id19"><span class="problematic" id="id20">|subject|</span></a>,
-and the second one the <a href="#id21"><span class="problematic" id="id22">|object|</span></a>, with the type of connection being the <a href="#id23"><span class="problematic" id="id24">|Relationship Type|</span></a>.
-Sometimes Relationships are equated with <a href="#id25"><span class="problematic" id="id26">|Triple|s in |RDF|</span></a> but this can be confusing, because some relationships
+<dt id="term-Edge">Edge<a class="headerlink" href="#term-Edge" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Relationship"><span class="xref std std-term">Relationship</span></a></p>
+</dd>
+<dt id="term-Triple">Triple<a class="headerlink" href="#term-Triple" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Relationship"><span class="xref std std-term">Relationship</span></a></p>
+</dd>
+<dt id="term-Relationship">Relationship<a class="headerlink" href="#term-Relationship" title="Permalink to this term"></a></dt><dd><p>A <a class="reference internal" href="#term-Relationship"><span class="xref std std-term">Relationship</span></a> is a type connection between two ontology elements. The first element is called the <span class="xref std std-term">subject</span>,
+and the second one the <span class="xref std std-term">object</span>, with the type of connection being the <a class="reference internal" href="#term-Relationship-Type"><span class="xref std std-term">Relationship Type</span></a>.
+Sometimes Relationships are equated with <a class="reference internal" href="#term-Triple"><span class="xref std std-term">Triples</span></a> in <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> but this can be confusing, because some relationships
 map to <em>multiple</em> triples when following the OWL RDF serialization. An example is the relationship “finger part-of hand”,
-which in OWL is represented using a <a href="#id27"><span class="problematic" id="id28">|Existential Restriction|</span></a> that maps to 4 triples.</p>
+which in OWL is represented using a <span class="xref std std-term">Existential Restriction</span> that maps to 4 triples.</p>
 </dd>
-<dt id="term-Relationship-Type">Relationship Type<a class="headerlink" href="#term-Relationship-Type" title="Permalink to this term"></a></dt><dd><p>An <a href="#id29"><span class="problematic" id="id30">|Ontology element|</span></a> that represents the type of a <a href="#id31"><span class="problematic" id="id32">|Relationship|</span></a>.
-Typically corresponds to an <a href="#id33"><span class="problematic" id="id34">|ObjectProperty|</span></a> in <a href="#id35"><span class="problematic" id="id36">|OWL|</span></a></p>
+<dt id="term-Relationship-Type">Relationship Type<a class="headerlink" href="#term-Relationship-Type" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="#term-Predicate"><span class="xref std std-term">Predicate</span></a></p>
 </dd>
-<dt id="term-Subset">Subset<a class="headerlink" href="#term-Subset" title="Permalink to this term"></a></dt><dd><p>An <a href="#id37"><span class="problematic" id="id38">|Ontology element|</span></a> that represents a named collection of elements, typically grouped for some purpose</p>
+<dt id="term-Predicate">Predicate<a class="headerlink" href="#term-Predicate" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-element"><span class="xref std std-term">Ontology element</span></a> that represents the type of a <a class="reference internal" href="#term-Relationship"><span class="xref std std-term">Relationship</span></a>.
+Typically corresponds to an <span class="xref std std-term">ObjectProperty</span> in <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a>, but this is not always true;
+in particular, the <span class="xref std std-term">is-a</span> relationship type is a builtin construct <code class="docutils literal notranslate"><span class="pre">SubClassOf</span></code> in OWL
+Examples:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>is-a</p></li>
+<li><p>part-of (BFO:0000050)</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt id="term-Subset">Subset<a class="headerlink" href="#term-Subset" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-element"><span class="xref std std-term">Ontology element</span></a> that represents a named collection of elements, typically grouped for some purpose</p>
+</dd>
+<dt id="term-Reasoner">Reasoner<a class="headerlink" href="#term-Reasoner" title="Permalink to this term"></a></dt><dd><p>An ontology tool that will perform inference over an ontology to yield new <em>axioms</em> (e.g. new <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>) or
+to determine if an ontology is logically <span class="xref std std-term">Coherent</span>.</p>
+</dd>
+<dt id="term-Bioportal">Bioportal<a class="headerlink" href="#term-Bioportal" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Ontology Repository</span> that is a comprehensive collection of multiple biologically relevant ontologies.
+Bioportal exposes an <span class="xref std std-term">API</span> endpoint, that is utilized by the OAK Bioportal <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementation</span></a></p>
+</dd>
+<dt id="term-OLS">OLS<a class="headerlink" href="#term-OLS" title="Permalink to this term"></a></dt><dd><p>Ontology Lookup Service. An <span class="xref std std-term">Ontology Repository</span> that is a curated collection of multiple biologically relevant ontologies,
+many from <span class="xref std std-term">OBO</span>.
+OLS exposes an <span class="xref std std-term">API</span> endpoint, that is utilized by the OAK OLS <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementation</span></a></p>
+</dd>
+<dt id="term-Ubergraph">Ubergraph<a class="headerlink" href="#term-Ubergraph" title="Permalink to this term"></a></dt><dd><p>A:term:<cite>Triplestore</cite> and a <span class="xref std std-term">Ontology Repository</span> that allows for <span class="xref std std-term">SPARQL</span> querying of integrated <span class="xref std std-term">OBO</span> ontologies.
+Accessible via AK Ubergraph <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementation</span></a></p>
 </dd>
 </dl>
 </section>
@@ -150,7 +193,7 @@ Typically corresponds to an <a href="#id33"><span class="problematic" id="id34">
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

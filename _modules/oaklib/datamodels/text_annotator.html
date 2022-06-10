@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
@@ -78,11 +79,12 @@
              
   <h1>Source code for oaklib.datamodels.text_annotator</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0</span>
-<span class="c1"># Generation date: 2022-05-06T18:20:18</span>
+<span class="c1"># Generation date: 2022-06-08T15:32:53</span>
 <span class="c1"># Schema: text-annotator</span>
 <span class="c1">#</span>
 <span class="c1"># id: https://w3id.org/linkml/text_annotator</span>
-<span class="c1"># description: A datamodel for representing the results of textual named entity recognition annotation results</span>
+<span class="c1"># description: A datamodel for representing the results of textual named entity recognition annotation results.</span>
+<span class="c1">#              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/</span>
 <span class="c1"># license: https://creativecommons.org/publicdomain/zero/1.0/</span>
 
 <span class="kn">import</span> <span class="nn">dataclasses</span>
@@ -114,6 +116,7 @@
 <span class="n">ANN</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;ann&#39;</span><span class="p">,</span> <span class="s1">&#39;https://w3id.org/linkml/text_annotator/&#39;</span><span class="p">)</span>
 <span class="n">BPA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;bpa&#39;</span><span class="p">,</span> <span class="s1">&#39;https://bioportal.bioontology.org/annotator/&#39;</span><span class="p">)</span>
 <span class="n">LINKML</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;linkml&#39;</span><span class="p">,</span> <span class="s1">&#39;https://w3id.org/linkml/&#39;</span><span class="p">)</span>
+<span class="n">OA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;oa&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/ns/oa#&#39;</span><span class="p">)</span>
 <span class="n">OWL</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;owl&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/2002/07/owl#&#39;</span><span class="p">)</span>
 <span class="n">PAV</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;pav&#39;</span><span class="p">,</span> <span class="s1">&#39;http://purl.org/pav/&#39;</span><span class="p">)</span>
 <span class="n">PROV</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;prov&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/ns/prov#&#39;</span><span class="p">)</span>
@@ -138,6 +141,36 @@
 <span class="c1"># Class references</span>
 <span class="k">class</span> <span class="nc">TextualElementId</span><span class="p">(</span><span class="n">URIorCURIE</span><span class="p">):</span>
     <span class="k">pass</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TextAnnotationConfiguration</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    configuration for search</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotationConfiguration</span>
+    <span class="n">class_class_curie</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ann:TextAnnotationConfiguration&quot;</span>
+    <span class="n">class_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TextAnnotationConfiguration&quot;</span>
+    <span class="n">class_model_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotationConfiguration</span>
+
+    <span class="n">matches_whole_text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">Bool</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
 <span class="nd">@dataclass</span>
@@ -235,8 +268,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotation</span>
-    <span class="n">class_class_curie</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ann:TextAnnotation&quot;</span>
+    <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">OA</span><span class="o">.</span><span class="n">Annotation</span>
+    <span class="n">class_class_curie</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;oa:Annotation&quot;</span>
     <span class="n">class_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TextAnnotation&quot;</span>
     <span class="n">class_model_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotation</span>
 
@@ -334,6 +367,15 @@
 <span class="k">class</span> <span class="nc">slots</span><span class="p">:</span>
     <span class="k">pass</span>
 
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__matches_whole_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__matches_whole_text&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;matches_whole_text&#39;</span><span class="p">),</span>
+                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__matches_whole_text</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]])</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__sources</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__sources&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">),</span>
+                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__sources</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]])</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">limit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__limit&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;limit&#39;</span><span class="p">),</span>
+                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span>
+
 <span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationResultSet__annotations&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;annotations&#39;</span><span class="p">),</span>
                    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">]]]])</span>
 
@@ -402,7 +444,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

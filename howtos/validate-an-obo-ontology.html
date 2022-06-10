@@ -19,7 +19,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="visualize-ontology-subgraphs.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="roll-up-annotations-to-a-subset.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,7 +40,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -48,6 +50,23 @@
 <li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to Validate an OBO ontology using Obo Metadata Ontology schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-obtain-the-sqlite-version-of-the-ontology">Step 1: Obtain the sqlite version of the ontology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-install-oaklib">Step 2: Install oaklib</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-validate-an-individual-ontology">Step 3: Validate an individual ontology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-alternative-validate-multiple-ontologies">Step 3 (alternative): Validate multiple ontologies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#caveats">Caveats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-your-own-schema">Using your own schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-this-works">How this works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -67,6 +86,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">How-To Guides</a> &raquo;</li>
       <li>How to Validate an OBO ontology using Obo Metadata Ontology schema</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/howtos/validate-an-obo-ontology.md.txt" rel="nofollow"> View page source</a>
@@ -173,12 +193,15 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="roll-up-annotations-to-a-subset.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="visualize-ontology-subgraphs.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

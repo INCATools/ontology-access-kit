@@ -19,7 +19,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture" href="../architecture.html" />
+    <link rel="prev" title="Part 6: Working With OWL" href="tutorial06.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,9 +40,28 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1: Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial02.html">Part 2: Basic Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Ubergraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial04.html">Part 4: OboGraphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Part 7: SQLite files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-a-sqlite-file">Download a SQLite file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-your-own-sqlite-files">Building your own SQLite files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#with-docker">With docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#without-docker">Without docker</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#other-rdbmss">Other RDBMSs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-orm">Python ORM</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
@@ -48,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -67,6 +89,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Tutorial</a> &raquo;</li>
       <li>Part 7: SQLite files</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/intro/tutorial07.rst.txt" rel="nofollow"> View page source</a>
@@ -79,32 +102,86 @@
              
   <section id="part-7-sqlite-files">
 <h1>Part 7: SQLite files<a class="headerlink" href="#part-7-sqlite-files" title="Permalink to this headline"></a></h1>
+<p>The most efficient way to work with OAK is through SQLite files. OAK accepts SQLite files that follow the <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic SQL</a> schema.</p>
+<p>The <span class="xref std std-ref">SqlImplementation</span> wraps SQLite or any relational database.</p>
 <section id="download-a-sqlite-file">
 <h2>Download a SQLite file<a class="headerlink" href="#download-a-sqlite-file" title="Permalink to this headline"></a></h2>
-</section>
-<section id="query">
-<h2>Query<a class="headerlink" href="#query" title="Permalink to this headline"></a></h2>
+<p>You can download ready made SQLite files for any <span class="xref std std-term">OBO</span> Librray ontology</p>
+<p>For example: <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/hp.db">https://s3.amazonaws.com/bbop-sqlite/hp.db</a></p>
+<p>You can also use the <code class="docutils literal notranslate"><span class="pre">obosqlite</span></code> ontology selector:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">pato</span> <span class="n">search</span> <span class="n">t</span><span class="o">~</span><span class="n">shape</span>
+</pre></div>
+</div>
+<p>This will download the pato.db sqlite file once, and cache it</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The ready-made SQLite files are not made at regular intervals</p>
+</div>
 </section>
 <section id="building-your-own-sqlite-files">
 <h2>Building your own SQLite files<a class="headerlink" href="#building-your-own-sqlite-files" title="Permalink to this headline"></a></h2>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">semsql</span></code> command that should be pre-installed with OAK</p>
+<p>There are two paths</p>
+<ul class="simple">
+<li><p>using ODK docker</p></li>
+<li><p>without docker, with dependencies pre-installed</p></li>
+</ul>
+<section id="with-docker">
+<h3>With docker<a class="headerlink" href="#with-docker" title="Permalink to this headline"></a></h3>
+<p>If you have an OWL file in <code class="docutils literal notranslate"><span class="pre">path/to/obi.owl</span></code></p>
+<p>Then you can do this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">semsql</span> <span class="n">make</span> <span class="o">--</span><span class="n">docker</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">obi</span><span class="o">.</span><span class="n">db</span>
+</pre></div>
+</div>
+<p>This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don’t need to do anythiong else)</p>
+<p>You can then query the file as normal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">obi</span><span class="o">.</span><span class="n">db</span> <span class="n">info</span> <span class="n">assay</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>for this to work, the OWL file <strong>must</strong> be in RDF/XML. Also, imports merging will NOT be done by default,
+please merge in advance using ROBOT if this is your desired behavior.</p>
+</div>
 </section>
-<section id="python">
-<h2>Python<a class="headerlink" href="#python" title="Permalink to this headline"></a></h2>
+<section id="without-docker">
+<h3>Without docker<a class="headerlink" href="#without-docker" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">semsql</span> <span class="n">make</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">obi</span><span class="o">.</span><span class="n">db</span>
+</pre></div>
+</div>
+<p>However, for this to work you will need two dependencies loaded and on your path</p>
+<ul class="simple">
+<li><p>rdftab</p></li>
+<li><p>relation-graph</p></li>
+</ul>
+<p>Consult the <cite>SemSQL &lt;https://github.com/INCATools/semantic-sql&gt;</cite> docs for more details.</p>
+<p>In future we hope to wrap these more seamlessly in Python</p>
+</section>
 </section>
 <section id="other-rdbmss">
 <h2>Other RDBMSs<a class="headerlink" href="#other-rdbmss" title="Permalink to this headline"></a></h2>
+<p>We avoid SQLite specific features so in theory OAK should work with any RDBMS that follows the semantic-sql schema,
+but currently SQLite is the focus of development and testing</p>
+</section>
+<section id="python-orm">
+<h2>Python ORM<a class="headerlink" href="#python-orm" title="Permalink to this headline"></a></h2>
+<p>OAK abstracts away the details of the underlying database and ways of accessing it, but for some purposes you
+may wish to write direct SQL or use the ORM layer. Consult SemSQL docs for details.</p>
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial06.html" class="btn btn-neutral float-left" title="Part 6: Working With OWL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

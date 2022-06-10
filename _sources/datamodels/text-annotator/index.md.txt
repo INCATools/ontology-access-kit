@@ -10,6 +10,7 @@ URI: https://w3id.org/linkml/text_annotator
 | --- | --- |
 | [HasSpan](HasSpan.md) | None |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |
+| [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |
 | [TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results |
 | [TextualElement](TextualElement.md) | None |
 
@@ -23,6 +24,7 @@ URI: https://w3id.org/linkml/text_annotator
 | [id](id.md) | None |
 | [info](info.md) | None |
 | [is_longest_match](is_longest_match.md) | None |
+| [limit](limit.md) | None |
 | [match_string](match_string.md) | None |
 | [match_type](match_type.md) | None |
 | [matches_whole_text](matches_whole_text.md) | None |
@@ -32,6 +34,7 @@ URI: https://w3id.org/linkml/text_annotator
 | [parent_document](parent_document.md) | None |
 | [predicate_id](predicate_id.md) | None |
 | [source_text](source_text.md) | None |
+| [sources](sources.md) | None |
 | [subject_end](subject_end.md) | None |
 | [subject_label](subject_label.md) | The portion of the subject text that is matched, ranging from subject_start to subject_end |
 | [subject_source](subject_source.md) | None |

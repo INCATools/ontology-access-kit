@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -222,6 +223,13 @@
 </li>
       </ul></li>
       <li>
+    --matches-whole-text
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">runoak-annotate command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-A
 
       <ul>
@@ -275,6 +283,13 @@
 </li>
       </ul></li>
       <li>
+    --no-matches-whole-text
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">runoak-annotate command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-recreate
 
       <ul>
@@ -309,6 +324,13 @@
         <li><a href="cli.html#cmdoption-runoak-tree-view">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-view">runoak-viz command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-W
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">runoak-annotate command line option</a>
 </li>
       </ul></li>
       <li>
@@ -799,6 +821,13 @@
         <li><a href="cli.html#cmdoption-runoak-v">runoak command line option</a>
 </li>
       </ul></li>
+      <li>
+    -W
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">runoak-annotate command line option</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -841,9 +870,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">basic_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">BasicOntologyInterface (class in oaklib.interfaces.basic_ontology_interface)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">BasicOntologyInterface (class in oaklib.interfaces.basic_ontology_interface)</a>
+      <li><a href="glossary.html#term-Bioportal"><strong>Bioportal</strong></a>
 </li>
       <li><a href="implementations/bioportal.html#oaklib.implementations.bioportal.bioportal_implementation.BioportalImplementation">BioportalImplementation (class in oaklib.implementations.bioportal.bioportal_implementation)</a>
 </li>
@@ -916,14 +947,16 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-Edge"><strong>Edge</strong></a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">edges() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships_by_curie">entailed_incoming_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships_by_curie">entailed_incoming_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+</li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">entailed_relationships_between() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
@@ -1151,6 +1184,8 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
 </li>
+      <li><a href="glossary.html#term-OLS"><strong>OLS</strong></a>
+</li>
       <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">OlsImplementation (class in oaklib.implementations.ols.ols_implementation)</a>
 </li>
       <li><a href="implementations/ontobee.html#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">OntobeeImplementation (class in oaklib.implementations.ontobee.ontobee_implementation)</a>
@@ -1184,8 +1219,12 @@
 </li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
 </li>
+      <li><a href="glossary.html#term-Predicate"><strong>Predicate</strong></a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-Pronto"><strong>Pronto</strong></a>
+</li>
       <li><a href="implementations/obofiles.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">ProntoImplementation (class in oaklib.implementations.pronto.pronto_implementation)</a>
 </li>
       <li><a href="glossary.html#term-Property"><strong>Property</strong></a>
@@ -1197,6 +1236,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-RDF"><strong>RDF</strong></a>
+</li>
+      <li><a href="glossary.html#term-Reasoner"><strong>Reasoner</strong></a>
 </li>
       <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">RelationGraphEnum (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
 </li>
@@ -1331,6 +1372,12 @@
     runoak-annotate command line option
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">--matches-whole-text</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">--no-matches-whole-text</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">--no-W</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">--output-type</a>
@@ -1340,6 +1387,8 @@
         <li><a href="cli.html#cmdoption-runoak-annotate-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-annotate-W">-W</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-arg-WORDS">WORDS</a>
 </li>
@@ -1868,6 +1917,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glossary.html#term-SSSOM"><strong>SSSOM</strong></a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li>
@@ -1943,18 +1994,22 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">TraversalConfiguration (class in oaklib.interfaces.obograph_interface)</a>
 </li>
+      <li><a href="glossary.html#term-Triple"><strong>Triple</strong></a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">UbergraphImplementation (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
+      <li><a href="glossary.html#term-Ubergraph"><strong>Ubergraph</strong></a>
 </li>
-      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">unsatisfiable_classes() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+      <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">UbergraphImplementation (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.unsatisfiable_classes">unsatisfiable_classes() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+</li>
       <li><a href="glossary.html#term-URI"><strong>URI</strong></a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">uri_to_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2000,7 +2055,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

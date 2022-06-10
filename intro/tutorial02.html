@@ -53,6 +53,8 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Ubergraph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial04.html">Part 4: OboGraphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial07.html">Part 7: SQLite files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -62,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -111,11 +114,10 @@ the instructions.</p>
 </section>
 <section id="code-the-first-example">
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
-<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <span class="xref std std-ref">ProntoImplementation</span></p>
-<p>We will use a Jupyter notebook for the running example. As preparation, we expect <code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> to exist
-in the same directory as the python notebook.</p>
+<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation.</p>
+<p>As preparation, we expect <code class="docutils literal notranslate"><span class="pre">fbbt.obo</span></code> to exist in the top level directory.</p>
 <p><code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> can be downloaded here: <a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
-<p>Then create a Notebook: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.ipynb</span></code> and add the following:</p>
+<p>Then create a python program: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.py</span></code> and add the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
 <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;fbbt.obo&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -126,7 +128,7 @@ in the same directory as the python notebook.</p>
 <li><p>We first import the general <code class="docutils literal notranslate"><span class="pre">OntologyResource</span></code> implementation which allows us to declare where to get the ontology from.</p></li>
 <li><p>We then load this resource using the <code class="docutils literal notranslate"><span class="pre">ProntoImplementation</span></code>, which allows us to perform all operations on the resource that we could do with <a class="reference external" href="https://github.com/althonos/pronto">pronto</a>.</p></li>
 </ul>
-<p>Next, let us use <cite>pronto</cite> to actually query the ontology:</p>
+<p>Next, let us use <a class="reference internal" href="../glossary.html#term-Pronto"><span class="xref std std-term">Pronto</span></a> to actually query the ontology:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -163,7 +165,7 @@ BFO:0000050 ! part_of
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

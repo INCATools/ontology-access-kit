@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -109,7 +110,7 @@
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">
-<span class="sig-name descname"><span class="pre">annotate_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.datamodels.text_annotator.TextAnnotation" title="oaklib.datamodels.text_annotator.TextAnnotation"><span class="pre">oaklib.datamodels.text_annotator.TextAnnotation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface.annotate_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">annotate_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.text_annotator.TextAnnotationConfiguration</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oaklib.datamodels.text_annotator.TextAnnotation" title="oaklib.datamodels.text_annotator.TextAnnotation"><span class="pre">oaklib.datamodels.text_annotator.TextAnnotation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/text_annotator_interface.html#TextAnnotatorInterface.annotate_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text" title="Permalink to this definition"></a></dt>
 <dd><p>Annotate a piece of text</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -117,7 +118,10 @@
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – </p></li>
+<li><p><strong>configuration</strong> – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -146,7 +150,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Chris Mungall.</p>
+    <p>&#169; Copyright 2022, OAK developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -52,42 +52,58 @@ See also the :ref:`cli` section of this documentation
 Query the OBO Library
 ---------------------
 
-Next try using the "search" command to search for a term in the Drosophila anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
+Next try using the `info command <https://incatools.github.io/ontology-access-kit/cli.html#runoak-info>`_
+to search for a term in the *Drosophila* (fruitfly) anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
 
 The base command takes an ``--input`` (or just ``-i``) option that specifies the input
-implementation. We will return to the full syntax later, but one pattern that is
-useful to know is ``obolibrary:<ontology-file>``.
+implementation. We will return to the `full syntax <https://incatools.github.io/ontology-access-kit/selectors.html>`_ later,
+but one pattern that is useful to know is ``prontolib:<ontology-file>``, which uses the :term:`Pronto` library to fetch
+and parse an OBO file.
 
-
-To do a basic lookup, using either a name or IR
+To do a basic lookup, using either a name or ID:
 
 .. code-block::
 
-    runoak -i obolibrary:fbbt.obo info 'wing vein'
+    runoak -input prontolib:fbbt.obo info 'wing vein'
 
 The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
-library under the hood). The results should include:
+library under the hood). The results should be:
 
 .. code-block::
 
     FBbt:00004751 ! wing vein
 
-You get the same results wth:
+You get the same results by specifying the :term:`CURIE`:
 
 .. code-block::
 
-    runoak -i obolibrary:fbbt.obo info FBbt:00004751
+    runoak --input prontolib:fbbt.obo info FBbt:00004751
+
+.. note::
+
+   not all OBO libraries can be accessed via Pronto, and using Pronto for non OBO-Libraries can involve additional steps.
+   However, using the pronto adapter is a great way to get started with OAK, as obo files are small in size, and pronto
+   can parse them very quickly. Later on we will learn about different :term:`implementation`s
 
 Search
 ------
 
-You can use the `search` command to search for terms. You can also use a special search syntax like this:
+You can use the `search command <https://incatools.github.io/ontology-access-kit/cli.html#runoak-search>`_ to search for terms.
+You can also use a special search syntax like this:
 
 .. code-block::
 
-    runoak -i obolibrary:fbbt.obo search 't^wing vein'
+    runoak -i prontolib:fbbt.obo search 't^wing vein'
 
-Here ``t`` means "term" (search in all term fields) and ``^`` means "starts with"
+.. note::
+
+    We switched from ``--input`` to the shorter ``-i`` form. We will continue to use the abbreviation in this tutorial.
+    It is up to you which one you use. Some people prefer more verbose explicit options (and the extra typing!). Others
+    prefer the more compact form. For the whole command line interface we attempt to follow common standards to avoid
+    any surprises.
+
+Here ``t`` means "term" (search in all term fields) and ``^`` means "starts with" (don't worry if this sounds a
+bit abstract just now, this will be introduced in more detail later).
 
 This will give results like:
 
@@ -97,6 +113,42 @@ This will give results like:
     FBbt:00004754 ! axillary vein
     FBbt:00004759 ! wing vein L1
     FBbt:00004760 ! wing vein L2
+    ...
+
+Note that "axillary vein" matches because this term has an :term:`alias`
+
+If you want to instead find any terms that contain the string "wing vein",
+then you can use the ``~`` symbol:
+
+.. code-block::
+
+    runoak -i prontolib:fbbt.obo search 't~wing vein'
+
+The results should include the previous results, and include broader matches such as:
+
+.. code-block::
+
+    ...
+    FBbt:00046009 ! presumptive wing vein L1
+    FBbt:00046030 ! presumptive wing vein L2
+    FBbt:00046031 ! presumptive wing vein L3
+    ...
+
+You can use the ``/`` symbol to perform a :term:`regular expression` search:
+
+.. code-block::
+
+    runoak -i prontolib:fbbt.obo search 't/^wing vein L\d+$'
+
+    FBbt:00004754 ! axillary vein
+    FBbt:00004759 ! wing vein L1
+    FBbt:00004760 ! wing vein L2
+    FBbt:00004761 ! wing vein L3
+    FBbt:00004762 ! wing vein L4
+    FBbt:00004763 ! wing vein L5
+    FBbt:00004764 ! wing vein L6
+
+
 
 
 Working with local files
@@ -107,40 +159,159 @@ To work with a local ontology file, you can provide the filename as input:
 .. code-block::
 
     wget http://purl.obolibrary.org/obo/fbbt.obo
+
+This will create a file ``fbbt.obo`` in your directory. This is an :term:`OBO Format` file that
+can be passed in directly:
+
+.. code-block::
+
     runoak --input fbbt.obo search 'wing vein'
 
+This should give the same results as when you used ``prontolib``. Note you can also be
+specific about the method in which a file is parsed:
 
-Fetching ancestors
+.. code-block::
+
+    runoak --input pronto:fbbt.obo search 'wing vein'
+
+
+Introduction to graphs: Fetching ancestors
 ------------------
 
-Next we will try a different command, plugging in an ID we got from the previous search.
+Next we will try a different command, plugging in an ID (:term:`CURIE`) we got from the previous search.
 
 We will use the :ref:`ancestors` command to find all subclass-of (``rdfs:subClassOf``) and part-of (``BFO:0000050``) ancestors of 'wing vein'.
 
 .. code-block::
 
-    runoak --input obolibrary:fbbt.obo ancestors FBbt:00004751 --predicates i,p
+    runoak --input prontolib:fbbt.obo ancestors FBbt:00004751 --predicates i,p
 
-You should see body parts such as cuticle, wing, etc, alongside their ID.
+You should see body parts such as cuticle, wing, etc, alongside their ID:
 
-.. note:: Here we are providing the predicates to traverse via the ``-p/--predicates`` argument.
-   The values ``i`` and ``p`` for the predicates argument are short-hand names for
-   ``rdfs:subClassOf`` and ``BFO:0000050``, respectively.
+.. code-block::
 
-   You can get the same effect with the full predicate CURIEs, ``rdfs:subClassOf` and ``BFO:0000050``.
+    ...
+    FBbt:00004729   wing
+    FBbt:00007000   appendage
+    ...
 
-   .. code-block::
+Predicate Abbreviations
+^^^^^^^^^^^^^^^^^^^^^^^
 
-      runoak --input obolibrary:fbbt.obo ancestors FBbt:00004751 --predicates rdfs:subClassOf,BFO:0000050
+Here we are providing the :term:`Predicates<Predicate>` to traverse via the ``-p/--predicates`` argument.
+The values ``i`` and ``p`` for the predicates argument are short-hand names for
+``rdfs:subClassOf`` and ``BFO:0000050``, respectively.
+
+You can get the same effect with the full predicate CURIEs, ``rdfs:subClassOf`` and ``BFO:0000050``.
+
+.. code-block::
+
+    runoak --input obolibrary:fbbt.obo ancestors FBbt:00004751 --predicates rdfs:subClassOf,BFO:0000050
+
+Possible short-hand names are:
+- ``i`` for the ``rdfs:subClassOf`` predicate
+- ``p`` for the ``BFO:0000050`` predicate
+- ``e`` for the ``owl:equivalentClass`` predicate
+
+Ancestor Statistics
+^^^^^^^^^^^^^^^^^^^
+
+In the previous example we saw that *wing* and *appendage* are ancestor concepts of *wing vein* but we don't
+have any indication of distance. The ``--statistics`` option can provide this in a table form:
+
+.. code-block::
+
+    runoak --input prontolib:fbbt.obo ancestors FBbt:00004751 --predicates i,p --statistics
+
+This generates a TSV table that shows all ancestors plus (a) the number of input terms that count this as an ancestor
+[only meaningful if multiple inputs provided] (b) minimum distance up from input term to ancestor
+
+.. csv-table:: Ancestor statistics
+    :header: id, label, visits, distance
+
+    FBbt:00004751,wing vein,1,0
+    FBbt:00007245,cuticular specialization,1,1
+    FBbt:00006015,wing blade,1,1
+    FBbt:00007010,multi-tissue structure,1,2
+    FBbt:00004729,wing,1,2
+    FBbt:00007000,appendage,1,3
+    FBbt:00004551,adult external thorax,1,3
 
 
-   Possible short-hand names are:
-    - ``i`` for the ``rdfs:subClassOf`` predicate
-    - ``p`` for the ``BFO:0000050`` predicate
-    - ``e`` for the ``owl:equivalentClass`` predicate
+Oak Trees
+-------------
+
+The :ref:`tree` command will generate an ascii tree for a term
+
+.. code-block::
+
+    runoak -i prontolib:fbbt.obo tree FBbt:00004751 -p i
+
+.. code-block::
 
 
-Later on we will see how we can make images like:
+    * [] FBbt:10000000 ! anatomical entity
+        * [i] FBbt:00007016 ! material anatomical entity
+            * [i] FBbt:00007001 ! anatomical structure
+                * [i] FBbt:00007013 ! acellular anatomical structure
+                    * [i] FBbt:00007245 ! cuticular specialization
+                        * [i] **FBbt:00004751 ! wing vein**
+
+For this example, we show only the is-a tree. You can try other predicates, or even leaving the predicate option unbounded.
+This will generate large tree displays, due to the facts there are multiple :term:`paths to root`.
+
+.. warning::
+
+    you may be tempted to pass in only the ``p`` predicate to see *just* the partonomy. However, this will likely generate
+    a truncated tree, since many parts of are not :term:`directly asserted`, they must be :term:`inferred` from an is-a parent.
+    Later on we will see how to better incorporate reasoning, but for now it is recommended that you always include is-a
+    as a predicate
+
+Using search terms as parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Search terms can be used as input for *any* OAK command:
+
+.. code-block::
+
+    runoak -i prontolib:fbbt.obo tree "t/^wing vein L.*$" -p i
+
+This will feed the search results into the tree command:
+
+.. code-block::
+
+    * [] FBbt:10000000 ! anatomical entity
+        * [i] FBbt:00007016 ! material anatomical entity
+            * [i] FBbt:00007001 ! anatomical structure
+                * [i] FBbt:00007013 ! acellular anatomical structure
+                    * [i] FBbt:00007245 ! cuticular specialization
+                        * [i] FBbt:00004751 ! wing vein
+                            * [i] FBbt:00047212 ! longitudinal vein
+                                * [i] **FBbt:00004754 ! axillary vein**
+                                * [i] **FBbt:00004759 ! wing vein L1**
+                                * [i] **FBbt:00004760 ! wing vein L2**
+                                * [i] **FBbt:00004761 ! wing vein L3**
+                                * [i] **FBbt:00004762 ! wing vein L4**
+                                * [i] **FBbt:00004763 ! wing vein L5**
+                                * [i] **FBbt:00004764 ! wing vein L6**
+
+Note that the direct matches are highlighted with ``**...**``
+
+Chaining Commands
+-------------
+
+The output of one command can be passed in as input to another. Just specify ``-`` as one of the :term:`arguments`:
+
+.. code-block::
+
+    runoak -i prontolib:fbbt.obo search "t/^wing vein L.*$" | runoak -i prontolib:fbbt.obo tree -p i -
+
+This will give the same results as the above
+
+Visualization
+-------------
+
+Later on we will see how we can  use the :ref:`viz` command to make images like:
 
 .. image:: wing-vein.png
 
@@ -148,33 +319,69 @@ Later on we will see how we can make images like:
 Using other backends
 --------------------
 
-You can use OAK to query other backends that provides one (or more ontologies) as a graph.
+So far we have used :term:`Pronto` and :term:`OBO Format` files as input because they are small in size and fast to parse,
+and are thus good for illustrative purposes.
+
+In fact, OAK allows a number of other backends (also called :term:`Implementations<Implementation>`). We will give a brief overview of some here
 
 
 Using Ubergraph
 ~~~~~~~~~~~~~~~
 
-Ubergraph is an integrated ontology store that contains a merged set of mutually referential OBO ontologies.
+:term:`Ubergraph` is an integrated ontology store that contains a merged set of mutually referential OBO ontologies.
 
 .. code-block::
 
     runoak -i ubergraph: search 'wing vein'
 
-This searches the :ref:`ubergraph` backend using the blazegraph search interface. Note that in addition to searching over a wider range
+This searches the :ref:`ubergraph` backend using the blazegraph search interface.
+
+Note that in addition to searching over a wider range
 of ontologies, this returns a ranked list that might include matches only to "wing" or "vein". Currently each backend implements
 search a little differently, but this will be more unified and controllable in the future.
+
+.. warning::
+
+   in future this behavior may change, and relevancy-ranked searching will be more explicitly under
+   control of the user.
+
+You can constrain search to a particular ontology in Ubergraph:
+
+.. code-block::
+
+    runoak -i ubergraph:fbbt search 'wing vein'
+
+The ubergraph implementation largely allows for the same operations as the pronto one we have seen previously.
+However, not every implementation implements every operation. And some operations may be more efficient on some implementations.
+There are a variety of space-time tradeoffs as well. See the :ref:`architecture` document to learn more.
+
+The main obvious difference is that there is no need for any ontology download - so you can do quick queries:
+
+.. code-block::
+
+    runoak -i ubergraph:chebi info CHEBI:15356 -O obo
+
+generates obo:
+
+.. code-block::
+
+    [Term]
+    id: CHEBI:15356
+    name: cysteine
+    def: "A sulfur-containing amino acid that is propanoic acid with an amino group at position 2 and a sulfanyl group at position 3." []
+    xref: Beilstein:1721406
+    xref: CAS:3374-22-9
+    ...
 
 
 Using BioPortal
 ~~~~~~~~~~~~~~~
 
-BioPortal is a comprehensive repository of biomedical ontologies.
+:term:`BioPortal` is a comprehensive repository of biomedical ontologies.
 
-To query BioPortal, first you will need to go to `BioPortal <https://bioportal.bioontology.org/>`_ and get an API key (if you don't already have one).
-
+To query BioPortal, first you will need to go to `BioPortal <https://bioportal.bioontology.org/>`_ and get an :term:`API key` (if you don't already have one).
 
 .. note:: The API Key is assigned to each user upon creating an account on BioPortal.
-
 
 You will then need to set it:
 
@@ -182,7 +389,10 @@ You will then need to set it:
 
     runoak set-apikey --endpoint bioportal YOUR-API-KEY
 
-This stores it in an OS-dependent folder, which is then accessed by OAK for performing API queries.
+This stores it in an OS-dependent folder, which is then accessed by OAK for performing API queries. You don't need to do this again,
+unless you switch to a different computer.
+
+After you have set the API key
 
 .. code-block::
 
@@ -190,7 +400,41 @@ This stores it in an OS-dependent folder, which is then accessed by OAK for perf
 
 Again the results are relevance ranked, and there are a lot of them, as this includes multiple ontologies, you may want to ctrl-C to kill before the end.
 
+Currently the bioportal implementation is not as fully featured as some of the others, and doesn't take full advantage of all API routes
+
+One of the unique features of bioportal is the comprehensivity of computed lexical mappings. These can be exported in various :term:`SSSOM` formats such
+as yaml or TSV:
+
+.. code-block::
+
+    runoak -i bioportal:chebi term-mappings CHEBI:15356 -O sssom
+
+Using OLS
+~~~~~~~~~
+
+:term:`OLS` is a repository of high quality ontologies. It has less breadth than BioPortal. Currently OAK offers very limited functionality with OLS
+but this will be improved in future.
+
+OLS also aggregates curated mappings, these can be exported in the same way:
+
+.. code-block::
+
+    runoak -i ols: term-mappings CHEBI:15356 -O sssom
+
+.. csv-table:: OLS SSSOM
+    :header: subject_id,subject_label,predicate_id,object_id,match_type,subject_source,object_source,mapping_provider
+
+    CHEBI:15356,cysteine,skos:closeMatch,PMID:25181601,Unspecified,CHEBI,PMID,CDNO
+    CHEBI:15356,cysteine,skos:closeMatch,PMID:25181601,Unspecified,CHEBI,PMID,CHEBI
+    CHEBI:15356,cysteine,skos:closeMatch,CAS:3374-22-9,Unspecified,CHEBI,CAS,CHEBI
+    CHEBI:15356,cysteine,skos:closeMatch,PMID:17439666,Unspecified,CHEBI,PMID,CHEBI
+    CHEBI:15356,cysteine,skos:closeMatch,KEGG:C00736,Unspecified,CHEBI,KEGG,CHEBI
+    CHEBI:15356,cysteine,skos:closeMatch,KNApSAcK:C00007323,Unspecified,CHEBI,KNApSAcK,ZP
+    CHEBI:15356,cysteine,skos:closeMatch,Wikipedia:Cysteine,Unspecified,CHEBI,Wikipedia,ZP
+
+
+
 Next steps
 ----------
 
-You can play around with some of the other commands, or go right into the next section on programmatic usage!
+You can play around with some of the other commands (see :ref:`cli`), or go right into the next section on programmatic usage!
