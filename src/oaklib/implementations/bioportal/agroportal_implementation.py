@@ -14,9 +14,7 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
-from sssom import Mapping
-from sssom.sssom_datamodel import MatchTypeEnum
-
+from sssom_schema import Mapping
 
 @dataclass
 class AgroportalImplementation(BioportalImplementation, TextAnnotatorInterface, SearchInterface, MappingProviderInterface):

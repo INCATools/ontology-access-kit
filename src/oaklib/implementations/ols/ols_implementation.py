@@ -8,7 +8,7 @@ from typing import Any, List, Dict, Union, Iterator, Iterable, Tuple
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.text_annotator import TextAnnotation
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, SEMAPV
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -16,8 +16,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE
-from sssom import Mapping
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 from sssom.sssom_document import MappingSetDocument
 
 ANNOTATION = Dict[str, Any]
@@ -123,7 +122,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
                               subject_label=oxo_s.label,
                               subject_source=oxo_s.datasource.prefix if oxo_s.datasource else None,
                               predicate_id=oxo_pred_mappings[str(oxo_mapping.scope)],
-                              match_type=MatchTypeEnum.Unspecified,
+                              mapping_justification=SEMAPV.UnspecifiedMatching.value,
                               object_id=oxo_o.curie,
                               object_label=oxo_o.label,
                               object_source=oxo_o.datasource.prefix if oxo_o.datasource else None,
@@ -146,7 +145,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
                                 object_id=anc,
                                 predicate_id='rdfs:subClassOf',
                                 confidence=confidence,
-                                match_type=MatchTypeEnum.HumanCurated
+                                mapping_justification=SEMAPV.ManualMappingCuration
                                 )
                     logging.info(f'Gap filled link: {m}')
                     msdoc.mapping_set.mappings.append(m)

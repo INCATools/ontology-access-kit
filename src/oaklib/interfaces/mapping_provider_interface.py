@@ -3,7 +3,7 @@ from abc import ABC
 from typing import Dict, List, Tuple, Iterable
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-import sssom
+import sssom_schema as sssom
 from oaklib.types import CURIE
 
 

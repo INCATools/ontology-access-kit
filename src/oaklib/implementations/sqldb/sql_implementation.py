@@ -9,7 +9,7 @@ from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iter
 
 import requests
 import semsql.builder.builder as semsql_builder
-import sssom
+import sssom_schema as sssom
 from appdirs import user_cache_dir
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -35,15 +35,12 @@ from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
-from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
+from oaklib.datamodels.vocabulary import SEMAPV, SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
     ALL_MATCH_PREDICATES, IS_A
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from sqlalchemy import text, update, delete
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
-
-# TODO: move to schemaview
-from sssom.sssom_datamodel import MatchTypeEnum
 
 
 # https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests
@@ -414,7 +411,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 yield sssom.Mapping(subject_id=row.subject,
                                     object_id=v,
                                     predicate_id=row.predicate,
-                                    match_type=MatchTypeEnum.Unspecified)
+                                    mapping_justification=SEMAPV.UnspecifiedMatching.value)
             else:
                 if self.strict:
                     raise ValueError(f'not a CURIE: {V}')
@@ -426,19 +423,19 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             yield sssom.Mapping(subject_id=curie,
                                 object_id=row.value if row.value is not None else row.object,
                                 predicate_id=row.predicate,
-                                match_type=MatchTypeEnum.Unspecified)
+                                mapping_justification=SEMAPV.UnspecifiedMatching.value)
         # xrefs are stored as literals
         for row in base_query.filter(Statements.value == curie):
             yield sssom.Mapping(subject_id=row.subject,
                                 object_id=curie,
                                 predicate_id=row.predicate,
-                                match_type=MatchTypeEnum.Unspecified)
+                                mapping_justification=SEMAPV.UnspecifiedMatching.value)
         # skos mappings are stored as objects
         for row in base_query.filter(Statements.object == curie):
             yield sssom.Mapping(subject_id=row.subject,
                                 object_id=curie,
                                 predicate_id=row.predicate,
-                                match_type=MatchTypeEnum.Unspecified)
+                                mapping_justification=SEMAPV.UnspecifiedMatching.value)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface

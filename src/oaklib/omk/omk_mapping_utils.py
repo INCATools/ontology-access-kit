@@ -8,7 +8,7 @@ from oaklib.interfaces import MappingProviderInterface, RelationGraphInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import PRED_CURIE, CURIE
 from oaklib.utilities.graph.networkx_bridge import mappings_to_graph
-from sssom import Mapping
+from sssom_schema import Mapping
 
 DIFF_CATEGORY = CURIE
 ANALOGOUS_RELATION = Tuple[DIFF_CATEGORY, CURIE, PRED_CURIE, CURIE, List[CURIE]]

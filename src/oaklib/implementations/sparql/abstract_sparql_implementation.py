@@ -6,7 +6,7 @@ from typing import List, Iterable, Tuple, Optional, Union, Iterator, Dict
 
 import SPARQLWrapper
 import rdflib
-import sssom
+import sssom_schema as sssom
 from SPARQLWrapper import JSON
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
@@ -18,12 +18,12 @@ from oaklib.datamodels.search import SearchConfiguration, search_properties_to_p
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
 from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_URI, LABEL_PREDICATE, OBO_PURL, ALL_MATCH_PREDICATES, \
-    DEFAULT_PREFIX_MAP, SYNONYM_PREDICATES, SKOS_EXACT_MATCH
+    DEFAULT_PREFIX_MAP, SEMAPV, SYNONYM_PREDICATES, SKOS_EXACT_MATCH
 from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
 from oaklib.utilities.rate_limiter import check_limit
 from rdflib import URIRef, RDFS, Literal, BNode
 from rdflib.term import Identifier
-from sssom.sssom_datamodel import MatchTypeEnum
+
 
 VAL_VAR = 'v'
 LANGUAGE_TAG = str
@@ -437,7 +437,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             m = create_sssom_mapping(subject_id=curie,
                                      predicate_id=self.uri_to_curie(row['p']['value']),
                                      object_id=self.uri_to_curie(row['o']['value']),
-                                     match_type=MatchTypeEnum.Unspecified)
+                                     mapping_justification=SEMAPV.UnspecifiedMatching.value)
             if m is not None:
                 yield m
         query = SparqlQuery(select=['?s', '?p'],
@@ -448,7 +448,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             m = create_sssom_mapping(subject_id=self.uri_to_curie(row['s']['value']),
                                      predicate_id=self.uri_to_curie(row['p']['value']),
                                      object_id=curie,
-                                     match_type=MatchTypeEnum.Unspecified)
+                                     mapping_justification=SEMAPV.UnspecifiedMatching.value)
             if m is not None:
                 yield m
 

@@ -4,7 +4,7 @@ from typing import List, Iterator, Tuple, Iterable, Optional
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from oaklib.io.streaming_writer import StreamingWriter
-import sssom.sssom_datamodel as sssom_dm
+import sssom_schema as sssom_dm
 from oaklib.types import CURIE
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import to_mapping_set_dataframe

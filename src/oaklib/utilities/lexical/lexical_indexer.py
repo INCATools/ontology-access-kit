@@ -18,13 +18,11 @@ from oaklib.types import PRED_CURIE
 from oaklib.datamodels.lexical_index import LexicalIndex, LexicalTransformation, TransformationType, RelationshipToTerm, \
     LexicalGrouping, LexicalTransformationPipeline
 from oaklib.datamodels.mapping_rules_datamodel import Precondition, MappingRuleCollection
-from oaklib.datamodels.vocabulary import SKOS_EXACT_MATCH, SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, \
+from oaklib.datamodels.vocabulary import SEMAPV, SKOS_EXACT_MATCH, SKOS_BROAD_MATCH, SKOS_NARROW_MATCH, \
     SKOS_CLOSE_MATCH
 from oaklib.utilities.basic_utils import pairs_as_dict
-from sssom import Mapping
-from sssom.sssom_document import MappingSetDocument
-from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
-from sssom.sssom_datamodel import MatchTypeEnum, MappingSet
+from sssom_schema import Mapping, MappingSet
+from sssom.util import MappingSetDocument, MappingSetDataFrame, to_mapping_set_dataframe
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
     """
@@ -157,7 +155,7 @@ def create_mapping(term: str, r1: RelationshipToTerm, r2: RelationshipToTerm,
                    match_string=term,
                    subject_match_field=[r1.predicate],
                    object_match_field=[r2.predicate],
-                   match_type=MatchTypeEnum.Lexical,
+                   mapping_justification=SEMAPV.LexicalMatching.value,
                    mapping_tool='oaklib'
                    )
 

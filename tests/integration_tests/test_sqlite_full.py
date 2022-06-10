@@ -9,7 +9,6 @@ from oaklib.omk.omk_mapping_utils import unreciprocated_mappings, calculate_pair
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index
 from oaklib.utilities.mapping.sssom_utils import mappings_to_pairs
-from sssom import Mapping
 
 from tests import OUTPUT_DIR, INPUT_DIR, EXTERNAL_DB_DIR
 

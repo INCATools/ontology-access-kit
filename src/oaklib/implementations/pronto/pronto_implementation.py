@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import List, Iterable, Iterator, Union, Tuple
 
 import pronto
-import sssom
+import sssom_schema as sssom
 from deprecated import deprecated
 from linkml_runtime.dumpers import json_dumper
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -23,9 +23,8 @@ from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
-from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP, SKOS_CLOSE_MATCH
+from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP, SEMAPV, SKOS_CLOSE_MATCH
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
-from sssom.sssom_datamodel import MatchTypeEnum
 
 
 @dataclass
@@ -326,7 +325,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
                 yield sssom.Mapping(subject_id=curie,
                                     predicate_id=SKOS_CLOSE_MATCH,
                                     object_id=x.id,
-                                    match_type=MatchTypeEnum.Unspecified)
+                                    mapping_justification=SEMAPV.UnspecifiedMatching.value)
         # TODO: use a cache to avoid re-calculating
         for e in self.all_entity_curies():
             t = self._entity(e)
@@ -336,7 +335,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
                         yield sssom.Mapping(subject_id=e,
                                             predicate_id=SKOS_CLOSE_MATCH,
                                             object_id=curie,
-                                            match_type=MatchTypeEnum.Unspecified)
+                                            mapping_justification=SEMAPV.UnspecifiedMatching.value)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

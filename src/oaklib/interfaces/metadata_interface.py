@@ -5,7 +5,6 @@ from typing import Dict, List, Tuple, Iterable, Optional
 from oaklib.datamodels.vocabulary import IS_A, HAS_DEFINITION_CURIE
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 import oaklib.datamodels.ontology_metadata as om
-import sssom
 from oaklib.types import CURIE
 
 

@@ -7,7 +7,7 @@ NetworkX is a popular python package for working with graphs
 import logging
 from typing import Dict, Tuple, List
 
-import sssom
+import sssom_schema as sssom
 from oaklib.types import PRED_CURIE, CURIE
 
 try:

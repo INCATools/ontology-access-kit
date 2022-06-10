@@ -5,6 +5,7 @@ from urllib.parse import quote
 
 import requests
 from oaklib.datamodels.text_annotator import TextAnnotation
+from oaklib.datamodels.vocabulary import SEMAPV
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP, METADATA_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -13,8 +14,7 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
-from sssom import Mapping
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 REST_URL = "http://data.bioontology.org"
 
@@ -234,7 +234,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         mapping = Mapping(
             subject_id=subject['@id'],
             predicate_id=SOURCE_TO_PREDICATE[result['source']],
-            match_type=MatchTypeEnum.Unspecified,
+            mapping_justification=SEMAPV.UnspecifiedMatching.value,
             object_id=object['@id'],
             mapping_provider=result['@type'],
             mapping_tool=result['source'],

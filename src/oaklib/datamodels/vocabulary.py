@@ -1,6 +1,7 @@
 from linkml_runtime import CurieNamespace
 from oaklib.datamodels.ontology_metadata import slots as omd_slots
 import oaklib.datamodels.ontology_metadata as omd
+from enum import Enum
 
 WIKIDATA = CurieNamespace('wikidata', 'http://www.wikidata.org/entity/')
 WDP = CurieNamespace('wdp', 'http://www.wikidata.org/prop/direct/')
@@ -56,3 +57,16 @@ HAS_DBXREF = omd.slots.database_cross_reference.curie
 ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie
+
+class SEMAPV(Enum):
+     """SEMAPV Enum containing different mapping_justification."""
+
+     LexicalMatching = "semapv:LexicalMatching"
+     LogicalReasoning = "semapv:LogicalReasoning"
+     CompositeMatching = "semapv:CompositeMatching"
+     UnspecifiedMatching = "semapv:UnspecifiedMatching"
+     SemanticSimilarityThresholdMatching = "semapv:SemanticSimilarityThresholdMatching"
+     LexicalSimilarityThresholdMatching = "semapv:LexicalSimilarityThresholdMatching"
+     MappingChaining = "semapv:MappingChaining"
+     MappingReview = "semapv:MappingReview"
+     ManualMappingCuration = "semapv:ManualMappingCuration"
