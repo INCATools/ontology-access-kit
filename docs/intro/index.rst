@@ -16,4 +16,6 @@ Tutorial
    tutorial03
    tutorial04
    tutorial05
+   tutorial06
+   tutorial07
 

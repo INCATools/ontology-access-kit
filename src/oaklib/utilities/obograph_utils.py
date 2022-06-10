@@ -86,7 +86,7 @@ def graph_to_image(graph: Graph, seeds = None, configure = None, stylemap = None
     """
     g = {"graphs": [graph_as_dict(graph)]}
     logging.debug(f'graph = {g}')
-    EXEC = 'og2dot.js'
+    EXEC = 'og2dot'
     if shutil.which(EXEC) is None:
         logging.error(f'No {EXEC}')
         print('You need to install a node package to be able to visualize results')

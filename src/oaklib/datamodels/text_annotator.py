@@ -1,9 +1,10 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-06T18:20:18
+# Generation date: 2022-06-08T15:32:53
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
-# description: A datamodel for representing the results of textual named entity recognition annotation results
+# description: A datamodel for representing the results of textual named entity recognition annotation results.
+#              This draws upon both SSSOM and https://www.w3.org/TR/annotation-model/
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -35,6 +36,7 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 ANN = CurieNamespace('ann', 'https://w3id.org/linkml/text_annotator/')
 BPA = CurieNamespace('bpa', 'https://bioportal.bioontology.org/annotator/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
+OA = CurieNamespace('oa', 'http://www.w3.org/ns/oa#')
 OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 PAV = CurieNamespace('pav', 'http://purl.org/pav/')
 PROV = CurieNamespace('prov', 'http://www.w3.org/ns/prov#')
@@ -59,6 +61,36 @@ class Position(Integer):
 # Class references
 class TextualElementId(URIorCURIE):
     pass
+
+
+@dataclass
+class TextAnnotationConfiguration(YAMLRoot):
+    """
+    configuration for search
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ANN.TextAnnotationConfiguration
+    class_class_curie: ClassVar[str] = "ann:TextAnnotationConfiguration"
+    class_name: ClassVar[str] = "TextAnnotationConfiguration"
+    class_model_uri: ClassVar[URIRef] = ANN.TextAnnotationConfiguration
+
+    matches_whole_text: Optional[Union[bool, Bool]] = None
+    sources: Optional[Union[str, List[str]]] = empty_list()
+    limit: Optional[int] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
+            self.matches_whole_text = Bool(self.matches_whole_text)
+
+        if not isinstance(self.sources, list):
+            self.sources = [self.sources] if self.sources is not None else []
+        self.sources = [v if isinstance(v, str) else str(v) for v in self.sources]
+
+        if self.limit is not None and not isinstance(self.limit, int):
+            self.limit = int(self.limit)
+
+        super().__post_init__(**kwargs)
 
 
 @dataclass
@@ -156,8 +188,8 @@ class TextAnnotation(YAMLRoot):
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = ANN.TextAnnotation
-    class_class_curie: ClassVar[str] = "ann:TextAnnotation"
+    class_class_uri: ClassVar[URIRef] = OA.Annotation
+    class_class_curie: ClassVar[str] = "oa:Annotation"
     class_name: ClassVar[str] = "TextAnnotation"
     class_model_uri: ClassVar[URIRef] = ANN.TextAnnotation
 
@@ -254,6 +286,15 @@ class TransformationType(EnumDefinitionImpl):
 # Slots
 class slots:
     pass
+
+slots.textAnnotationConfiguration__matches_whole_text = Slot(uri=ANN.matches_whole_text, name="textAnnotationConfiguration__matches_whole_text", curie=ANN.curie('matches_whole_text'),
+                   model_uri=ANN.textAnnotationConfiguration__matches_whole_text, domain=None, range=Optional[Union[bool, Bool]])
+
+slots.textAnnotationConfiguration__sources = Slot(uri=ANN.sources, name="textAnnotationConfiguration__sources", curie=ANN.curie('sources'),
+                   model_uri=ANN.textAnnotationConfiguration__sources, domain=None, range=Optional[Union[str, List[str]]])
+
+slots.textAnnotationConfiguration__limit = Slot(uri=ANN.limit, name="textAnnotationConfiguration__limit", curie=ANN.curie('limit'),
+                   model_uri=ANN.textAnnotationConfiguration__limit, domain=None, range=Optional[int])
 
 slots.textAnnotationResultSet__annotations = Slot(uri=ANN.annotations, name="textAnnotationResultSet__annotations", curie=ANN.curie('annotations'),
                    model_uri=ANN.textAnnotationResultSet__annotations, domain=None, range=Optional[Union[Union[dict, TextAnnotation], List[Union[dict, TextAnnotation]]]])

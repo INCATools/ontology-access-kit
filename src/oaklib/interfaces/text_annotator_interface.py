@@ -1,7 +1,8 @@
 from abc import ABC
 from typing import Iterator
 
-from oaklib.datamodels.text_annotator import TextAnnotation
+from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
+from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 
 TEXT = str
@@ -20,7 +21,7 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     - spacy
     """
 
-    def annotate_text(self, text: TEXT) -> Iterator[TextAnnotation]:
+    def annotate_text(self, text: TEXT, configuration: TextAnnotationConfiguration = None) -> Iterator[TextAnnotation]:
         """
         Annotate a piece of text
 
@@ -29,6 +30,20 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
            the signature of this method may change
 
         :param text:
+        :param configuration:
         :return:
         """
-        raise NotImplementedError
+        if configuration and configuration.matches_whole_text:
+            if isinstance(self, SearchInterface):
+                for object_id in self.basic_search(text):
+                    label = self.get_label_by_curie(object_id)
+                    #amap = self.alias_map_by_curie(object_id)
+                    ann = TextAnnotation(subject_start=1,
+                                         subject_end=len(text),
+                                         object_id=object_id,
+                                         object_label=label)
+                    yield ann
+            else:
+                raise NotImplementedError
+        else:
+            raise NotImplementedError
