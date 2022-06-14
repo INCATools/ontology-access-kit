@@ -15,26 +15,27 @@ src/oaklib/datamodels/%.py: src/oaklib/datamodels/%.yaml
 src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-json-schema $< > $@.tmp && mv $@.tmp $@
 
+RUN_GENDOC = $(RUN) gen-doc --dialect myst
 gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/ontology-metadata/
+	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/
 gendoc-og: src/oaklib/datamodels/obograph.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/obograph
+	$(RUN_GENDOC)  $< -d docs/datamodels/obograph
 gendoc-val: src/oaklib/datamodels/validation_datamodel.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/validation
+	$(RUN_GENDOC)  $< -d docs/datamodels/validation
 gendoc-ss: src/oaklib/datamodels/summary_statistics_datamodel.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/summary-statistics
+	$(RUN_GENDOC)  $< -d docs/datamodels/summary-statistics
 gendoc-li: src/oaklib/datamodels/lexical_index.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/lexical-index
+	$(RUN_GENDOC)  $< -d docs/datamodels/lexical-index
 gendoc-mr: src/oaklib/datamodels/mapping_rules_datamodel.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/mapping-rules
+	$(RUN_GENDOC)  $< -d docs/datamodels/mapping-rules
 gendoc-ann: src/oaklib/datamodels/text_annotator.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/text-annotator
+	$(RUN_GENDOC)  $< -d docs/datamodels/text-annotator
 gendoc-search: src/oaklib/datamodels/search_datamodel.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/search
+	$(RUN_GENDOC)  $< -d docs/datamodels/search
 gendoc-xodiff: src/oaklib/datamodels/cross_ontology_diff.yaml
-	$(RUN) gen-doc $< -d docs/datamodels/cross-ontology-diff
+	$(RUN_GENDOC)  $< -d docs/datamodels/cross-ontology-diff
 
 nb:
 	$(RUN) jupyter notebook

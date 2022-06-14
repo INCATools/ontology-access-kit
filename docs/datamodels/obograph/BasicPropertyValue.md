@@ -8,11 +8,25 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      PropertyValue <|-- BasicPropertyValue
+      
+      BasicPropertyValue : meta
+      BasicPropertyValue : pred
+      BasicPropertyValue : val
+      BasicPropertyValue : xrefs
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **BasicPropertyValue**
-
 
 
 
@@ -20,9 +34,9 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [pred](pred.md) | [string](string.md) | 0..1 | None  | . |
-| [val](val.md) | [string](string.md) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [string](string.md) | 0..* | None  | . |
+| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [val](val.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
 
 
@@ -43,6 +57,23 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:BasicPropertyValue'] |
+| native | ['og:BasicPropertyValue'] |
 
 
 ## LinkML Specification

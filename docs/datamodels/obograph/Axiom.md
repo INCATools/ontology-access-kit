@@ -10,14 +10,27 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Axiom <|-- DomainRangeAxiom
+      Axiom <|-- EquivalentNodesSet
+      Axiom <|-- LogicalDefinitionAxiom
+      Axiom <|-- PropertyChainAxiom
+      
+      Axiom : meta
+      
+```
 
+
+
+
+
+## Inheritance
 * **Axiom**
     * [DomainRangeAxiom](DomainRangeAxiom.md)
     * [EquivalentNodesSet](EquivalentNodesSet.md)
     * [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)
     * [PropertyChainAxiom](PropertyChainAxiom.md)
-
 
 
 
@@ -40,6 +53,23 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:Axiom'] |
+| native | ['og:Axiom'] |
 
 
 ## LinkML Specification

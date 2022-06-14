@@ -7,8 +7,19 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class GraphDocument
+      GraphDocument : graphs
+      GraphDocument : meta
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -31,6 +42,23 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:GraphDocument'] |
+| native | ['og:GraphDocument'] |
 
 
 ## LinkML Specification
@@ -67,11 +95,11 @@ attributes:
     name: graphs
     from_schema: https://github.com/geneontology/obographs
     multivalued: true
-    inlined: true
-    inlined_as_list: true
     alias: graphs
     owner: GraphDocument
     range: Graph
+    inlined: true
+    inlined_as_list: true
 
 ```
 </details>

@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2004/02/skos/core#changeNote](http://www.w3.org/2004/02/
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

@@ -10,8 +10,21 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Thing <|-- NamedObject
+      
+      NamedObject : id
+      NamedObject : type
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Thing](Thing.md)
     * **NamedObject**
         * [Ontology](Ontology.md)
@@ -19,16 +32,20 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
 
-
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [id](id.md) | [uriorcurie](uriorcurie.md) | 1..1 | this maps to the URI in RDF  | . |
-| [type](type.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
+| [id](id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | this maps to the URI in RDF  | . |
+| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
 
 
 ## Usages
+
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [Axiom](Axiom.md) | [annotatedSource](annotatedSource.md) | range | NamedObject |
 
 
 
@@ -40,6 +57,23 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:NamedObject'] |
+| native | ['omoschema:NamedObject'] |
 
 
 ## LinkML Specification
@@ -51,12 +85,12 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 <details>
 ```yaml
 name: NamedObject
+description: Anything with an IRI
+from_schema: http://purl.obolibrary.org/obo/omo/schema
 aliases:
 - named entity
 - identified object
 - IRI
-description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: Thing
 slots:
 - id
@@ -69,12 +103,12 @@ slots:
 <details>
 ```yaml
 name: NamedObject
+description: Anything with an IRI
+from_schema: http://purl.obolibrary.org/obo/omo/schema
 aliases:
 - named entity
 - identified object
 - IRI
-description: Anything with an IRI
-from_schema: http://purl.obolibrary.org/obo/omo/schema
 is_a: Thing
 attributes:
   id:

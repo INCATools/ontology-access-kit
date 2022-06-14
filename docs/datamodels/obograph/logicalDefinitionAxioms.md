@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/logicalDefinitionAxioms](https:/
 
 ## Properties
 
- * Range: LogicalDefinitionAxiom
+ * Range: [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

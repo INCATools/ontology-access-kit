@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/nodes](https://github.com/geneon
 
 ## Properties
 
- * Range: Node
+ * Range: [Node](Node.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

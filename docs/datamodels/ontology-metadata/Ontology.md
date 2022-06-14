@@ -10,12 +10,34 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      NamedObject <|-- Ontology
+      
+      Ontology : comment
+      Ontology : created
+      Ontology : creator
+      Ontology : has_ontology_root_term
+      Ontology : id
+      Ontology : imports
+      Ontology : license
+      Ontology : source
+      Ontology : title
+      Ontology : type
+      Ontology : versionInfo
+      Ontology : versionIRI
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
         * **Ontology**
-
 
 
 
@@ -26,15 +48,15 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [title](title.md) | [narrative_text](narrative_text.md) | 1..1 | None  | . |
 | [has_ontology_root_term](has_ontology_root_term.md) | [Class](Class.md) | 0..* | None  | . |
 | [license](license.md) | [Thing](Thing.md) | 1..1 | None  | . |
-| [source](source.md) | [string](string.md) | 0..* | None  | . |
-| [versionIRI](versionIRI.md) | [uriorcurie](uriorcurie.md) | 1..1 | None  | . |
-| [versionInfo](versionInfo.md) | [string](string.md) | 1..1 | None  | . |
-| [comment](comment.md) | [string](string.md) | 0..* | None  | . |
-| [creator](creator.md) | [string](string.md) | 0..* | None  | . |
-| [created](created.md) | [string](string.md) | 0..1 | when the term came into being  | . |
-| [imports](imports.md) | [string](string.md) | 0..1 | None  | . |
-| [id](id.md) | [uriorcurie](uriorcurie.md) | 1..1 | this maps to the URI in RDF  | . |
-| [type](type.md) | [uriorcurie](uriorcurie.md) | 0..* | None  | . |
+| [source](source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [versionIRI](versionIRI.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | None  | . |
+| [versionInfo](versionInfo.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 1..1 | None  | . |
+| [comment](comment.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [creator](creator.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [created](created.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | when the term came into being  | . |
+| [imports](imports.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [id](id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | this maps to the URI in RDF  | . |
+| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
 
 
 ## Usages
@@ -62,6 +84,23 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['owl:Ontology'] |
+| native | ['omoschema:Ontology'] |
 
 
 ## LinkML Specification
@@ -155,10 +194,10 @@ attributes:
     required: true
   source:
     name: source
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:source
     multivalued: true
@@ -196,9 +235,9 @@ attributes:
     range: string
   creator:
     name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
-    from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
@@ -207,10 +246,10 @@ attributes:
     range: string
   created:
     name: created
-    close_mappings:
-    - pav:createdOn
     description: when the term came into being
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:createdOn
     is_a: provenance_property
     slot_uri: dcterms:created
     multivalued: false

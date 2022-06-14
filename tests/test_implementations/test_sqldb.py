@@ -35,7 +35,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie(VACUOLE)
+        rels = oi.get_outgoing_relationship_map_by_curie(VACUOLE)
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
         self.assertCountEqual(rels[PART_OF], ['GO:0005737'])
         self.assertCountEqual([IS_A, PART_OF], rels)

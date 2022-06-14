@@ -26,14 +26,14 @@ class TestOntobeeImplementation(unittest.TestCase):
 
     def test_relationships(self):
         ont = self.oi
-        rels = ont.get_outgoing_relationships_by_curie(VACUOLE)
+        rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
         for k, v in rels.items():
             logging.info(f'{k} = {v}')
         self.assertIn('GO:0043231', rels[IS_A])
         self.assertIn('GO:0005737', rels[PART_OF])
 
     def test_parents(self):
-        parents = self.oi.get_parents_by_curie(VACUOLE)
+        parents = self.oi.get_hierararchical_parents_by_curie(VACUOLE)
         #print(parents)
         assert 'GO:0043231' in parents
 

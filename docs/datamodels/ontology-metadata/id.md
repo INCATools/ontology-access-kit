@@ -16,13 +16,22 @@ URI: [http://purl.obolibrary.org/obo/schema/id](http://purl.obolibrary.org/obo/s
 
 ## Properties
 
- * Range: uriorcurie
+ * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

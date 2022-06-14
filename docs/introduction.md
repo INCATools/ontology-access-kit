@@ -28,7 +28,7 @@ si = SqlImplementation(resource)
 for curie in si.basic_search("cell"):
     print(f'{curie} ! {si.get_label_by_curie(curie)}')
     print(f'Definition: {si.get_definition_by_curie(curie)}')
-    for rel, fillers in si.get_outgoing_relationships_by_curie(curie).items():
+    for rel, fillers in si.get_outgoing_relationship_map_by_curie(curie).items():
         print(f'  RELATION: {rel} ! {si.get_label_by_curie(rel)}')
         for filler in fillers:
             print(f'     * {filler} ! {si.get_label_by_curie(filler)}')

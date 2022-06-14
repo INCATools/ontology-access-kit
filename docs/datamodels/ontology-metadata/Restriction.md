@@ -10,12 +10,34 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      ClassExpression <|-- Restriction
+      AnonymousClassExpression <|-- Restriction
+      
+      Restriction : allValuesFrom
+      Restriction : cardinality
+      Restriction : complementOf
+      Restriction : disjointWith
+      Restriction : equivalentClass
+      Restriction : intersectionOf
+      Restriction : oneOf
+      Restriction : onProperty
+      Restriction : someValuesFrom
+      Restriction : subClassOf
+      Restriction : unionOf
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Anonymous](Anonymous.md)
     * [AnonymousClassExpression](AnonymousClassExpression.md)
         * **Restriction** [ ClassExpression]
-
 
 
 
@@ -24,16 +46,16 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [onProperty](onProperty.md) | [PropertyExpression](PropertyExpression.md) | 0..* | None  | . |
-| [someValuesFrom](someValuesFrom.md) | [string](string.md) | 0..* | None  | . |
-| [allValuesFrom](allValuesFrom.md) | [string](string.md) | 0..1 | None  | . |
-| [disjointWith](disjointWith.md) | [string](string.md) | 0..* | None  | . |
+| [someValuesFrom](someValuesFrom.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [allValuesFrom](allValuesFrom.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [disjointWith](disjointWith.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [equivalentClass](equivalentClass.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
 | [intersectionOf](intersectionOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
 | [subClassOf](subClassOf.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
-| [cardinality](cardinality.md) | [string](string.md) | 0..1 | None  | . |
-| [complementOf](complementOf.md) | [string](string.md) | 0..1 | None  | . |
+| [cardinality](cardinality.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [complementOf](complementOf.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [oneOf](oneOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
-| [unionOf](unionOf.md) | [string](string.md) | 0..1 | None  | . |
+| [unionOf](unionOf.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 
 
 ## Usages
@@ -48,6 +70,23 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['owl:Restriction'] |
+| native | ['omoschema:Restriction'] |
 
 
 ## LinkML Specification

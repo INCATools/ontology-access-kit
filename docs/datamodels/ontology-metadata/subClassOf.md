@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2000/01/rdf-schema#subClassOf](http://www.w3.org/2000/01
 
 ## Properties
 
- * Range: ClassExpression
+ * Range: [ClassExpression](ClassExpression.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

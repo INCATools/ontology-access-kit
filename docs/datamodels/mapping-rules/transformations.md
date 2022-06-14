@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/lexical_index/transformations](https://w3id.org/li
 
 ## Properties
 
- * Range: LexicalTransformation
+ * Range: [LexicalTransformation](LexicalTransformation.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
 
 
 

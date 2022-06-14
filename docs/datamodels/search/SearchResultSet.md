@@ -7,8 +7,21 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class SearchResultSet
+      SearchResultSet : configuration
+      SearchResultSet : cursor
+      SearchResultSet : result_count
+      SearchResultSet : results
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -17,8 +30,8 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 | ---  | --- | --- | --- | --- |
 | [configuration](configuration.md) | [SearchBaseConfiguration](SearchBaseConfiguration.md) | 0..1 | None  | . |
 | [results](results.md) | [SearchResult](SearchResult.md) | 0..* | None  | . |
-| [result_count](result_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [cursor](cursor.md) | [integer](integer.md) | 0..1 | None  | . |
+| [result_count](result_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [cursor](cursor.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
 
 
 ## Usages
@@ -33,6 +46,23 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['search:SearchResultSet'] |
+| native | ['search:SearchResultSet'] |
 
 
 ## LinkML Specification

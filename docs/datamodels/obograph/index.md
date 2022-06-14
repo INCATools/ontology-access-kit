@@ -1,71 +1,77 @@
-# obographs_datamodel
+# Obographs Datamodel
 
 Schema for benchmarking based on obographs
 
 URI: https://github.com/geneontology/obographs
+Name: obographs_datamodel
 
 ## Classes
 
 | Class | Description |
 | --- | --- |
-| [GraphDocument](GraphDocument.md) | None | 
-| [Graph](Graph.md) | None | 
-| [Node](Node.md) | None | 
-| [Edge](Edge.md) | None | 
-| [Meta](Meta.md) | None | 
-| [DefinitionPropertyValue](DefinitionPropertyValue.md) | None | 
-| [BasicPropertyValue](BasicPropertyValue.md) | None | 
-| [XrefPropertyValue](XrefPropertyValue.md) | None | 
-| [SynonymPropertyValue](SynonymPropertyValue.md) | None | 
-| [PropertyValue](PropertyValue.md) | None | 
-| [Axiom](Axiom.md) | None | 
-| [DomainRangeAxiom](DomainRangeAxiom.md) | None | 
-| [EquivalentNodesSet](EquivalentNodesSet.md) | None | 
-| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None | 
-| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None | 
-| [PropertyChainAxiom](PropertyChainAxiom.md) | None | 
+| [Axiom](Axiom.md) | None |
+| [BasicPropertyValue](BasicPropertyValue.md) | None |
+| [DefinitionPropertyValue](DefinitionPropertyValue.md) | None |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | None |
+| [Edge](Edge.md) | None |
+| [EquivalentNodesSet](EquivalentNodesSet.md) | None |
+| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None |
+| [Graph](Graph.md) | None |
+| [GraphDocument](GraphDocument.md) | None |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None |
+| [Meta](Meta.md) | None |
+| [Node](Node.md) | None |
+| [PropertyChainAxiom](PropertyChainAxiom.md) | None |
+| [PropertyValue](PropertyValue.md) | None |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | None |
+| [XrefPropertyValue](XrefPropertyValue.md) | None |
 
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| [id](id.md) | None | 
-| [sub](sub.md) | None | 
-| [pred](pred.md) | None | 
-| [obj](obj.md) | None | 
-| [val](val.md) | None | 
-| [lbl](lbl.md) | None | 
-| [type](type.md) | None | 
-| [meta](meta.md) | None | 
-| [definition](definition.md) | None | 
-| [basicPropertyValues](basicPropertyValues.md) | None | 
-| [comments](comments.md) | None | 
-| [version](version.md) | None | 
-| [deprecated](deprecated.md) | None | 
-| [subsets](subsets.md) | None | 
-| [xrefs](xrefs.md) | None | 
-| [nodes](nodes.md) | None | 
-| [edges](edges.md) | None | 
-| [equivalentNodesSets](equivalentNodesSets.md) | None | 
-| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | None | 
-| [domainRangeAxioms](domainRangeAxioms.md) | None | 
-| [propertyChainAxioms](propertyChainAxioms.md) | None | 
-| [representitiveNodeId](representitiveNodeId.md) | None | 
-| [nodeIds](nodeIds.md) | None | 
-| [fillerId](fillerId.md) | None | 
-| [propertyId](propertyId.md) | None | 
-| [synonyms](synonyms.md) | None | 
-| [synonymType](synonymType.md) | None | 
-| [scope](scope.md) | None | 
-| [isExact](isExact.md) | None | 
-| [graphs](graphs.md) | None | 
+| [basicPropertyValues](basicPropertyValues.md) | None |
+| [comments](comments.md) | None |
+| [definition](definition.md) | None |
+| [deprecated](deprecated.md) | None |
+| [domainRangeAxioms](domainRangeAxioms.md) | None |
+| [edges](edges.md) | None |
+| [equivalentNodesSets](equivalentNodesSets.md) | None |
+| [fillerId](fillerId.md) | None |
+| [graphs](graphs.md) | None |
+| [id](id.md) | None |
+| [isExact](isExact.md) | None |
+| [lbl](lbl.md) | None |
+| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | None |
+| [meta](meta.md) | None |
+| [nodeIds](nodeIds.md) | None |
+| [nodes](nodes.md) | None |
+| [obj](obj.md) | None |
+| [pred](pred.md) | None |
+| [propertyChainAxioms](propertyChainAxioms.md) | None |
+| [propertyId](propertyId.md) | None |
+| [representitiveNodeId](representitiveNodeId.md) | None |
+| [scope](scope.md) | None |
+| [sub](sub.md) | None |
+| [subsets](subsets.md) | None |
+| [synonyms](synonyms.md) | None |
+| [synonymType](synonymType.md) | None |
+| [type](type.md) | None |
+| [val](val.md) | None |
+| [version](version.md) | None |
+| [xrefs](xrefs.md) | None |
 
 
-## Enums
+## Enumerations
 
-| Enums | Description |
+| Enumeration | Description |
 | --- | --- |
-| [ScopesEnum](ScopesEnum.md) | None | 
-| [PredsEnum](PredsEnum.md) | None | 
+| [PredsEnum](PredsEnum.md) | None |
+| [ScopesEnum](ScopesEnum.md) | None |
 
+
+## Subsets
+
+| Subset | Description |
+| --- | --- |

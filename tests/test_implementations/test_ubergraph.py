@@ -21,7 +21,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     def test_relationships(self):
         ont = self.oi
-        rels = ont.get_outgoing_relationships_by_curie(VACUOLE)
+        rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
         for k, v in rels.items():
             logging.info(f'{k} = {v}')
         self.assertIn('GO:0043231', rels[IS_A])

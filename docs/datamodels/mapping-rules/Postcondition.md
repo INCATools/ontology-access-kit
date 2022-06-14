@@ -7,16 +7,27 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class Postcondition
+      Postcondition : predicate_id
+      Postcondition : weight
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [predicate_id](predicate_id.md) | [string](string.md) | 0..1 | None  | . |
-| [weight](weight.md) | [float](float.md) | 0..1 | Weighting of the rule, positive increases the confidence, negative decreases  | . |
+| [predicate_id](predicate_id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [weight](weight.md) | [xsd:float](http://www.w3.org/2001/XMLSchema#float) | 0..1 | Weighting of the rule, positive increases the confidence, negative decreases  | . |
 
 
 ## Usages
@@ -36,6 +47,23 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['mrules:Postcondition'] |
+| native | ['mrules:Postcondition'] |
 
 
 ## LinkML Specification

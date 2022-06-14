@@ -15,13 +15,22 @@ URI: [http://purl.obolibrary.org/obo/schema/obsoletion_related_property](http://
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://git
 
 ## Properties
 
- * Range: PropertyChainAxiom
+ * Range: [PropertyChainAxiom](PropertyChainAxiom.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

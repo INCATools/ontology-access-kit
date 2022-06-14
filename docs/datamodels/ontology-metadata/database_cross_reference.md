@@ -14,13 +14,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasDbXref](http://www.geneont
 
 ## Properties
 
- * Range: CURIELiteral
+ * Range: [CURIELiteral](CURIELiteral.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

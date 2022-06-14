@@ -12,11 +12,23 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      AnnotationPropertyMixin <|-- HasMinimalMetadata
+      
+      HasMinimalMetadata : definition
+      HasMinimalMetadata : label
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasMinimalMetadata**
-
 
 
 
@@ -40,6 +52,23 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:HasMinimalMetadata'] |
+| native | ['omoschema:HasMinimalMetadata'] |
 
 
 ## LinkML Specification
@@ -74,8 +103,6 @@ mixin: true
 attributes:
   label:
     name: label
-    exact_mappings:
-    - skos:prefLabel
     comments:
     - SHOULD follow OBO label guidelines
     - MUST be unique within an ontology
@@ -85,6 +112,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:prefLabel
     is_a: core_property
     slot_uri: rdfs:label
     multivalued: false
@@ -93,8 +122,6 @@ attributes:
     range: label type
   definition:
     name: definition
-    exact_mappings:
-    - skos:definition
     comments:
     - SHOULD be in Aristotelian (genus-differentia) form
     in_subset:
@@ -102,6 +129,8 @@ attributes:
     - go required profile
     - obi required profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:definition
     is_a: core_property
     slot_uri: IAO:0000115
     multivalued: true

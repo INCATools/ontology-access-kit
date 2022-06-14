@@ -21,7 +21,7 @@ class TestWikidataImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie(WD_SLY_SYNDROME)
+        rels = oi.get_outgoing_relationship_map_by_curie(WD_SLY_SYNDROME)
         for k, vs in rels.items():
             print(f'{k}')
             for v in vs:
@@ -30,7 +30,7 @@ class TestWikidataImplementation(unittest.TestCase):
     @unittest.skip('Too slow')
     def test_relationships_slow(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie(WD_SLY_SYNDROME)
+        rels = oi.get_outgoing_relationship_map_by_curie(WD_SLY_SYNDROME)
         for k, vs in rels.items():
             print(f'{k} "{oi.get_label_by_curie(k)}"')
             for v in vs:

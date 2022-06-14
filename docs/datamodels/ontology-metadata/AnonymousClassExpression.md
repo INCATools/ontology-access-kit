@@ -8,12 +8,22 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Anonymous <|-- AnonymousClassExpression
+      
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Anonymous](Anonymous.md)
     * **AnonymousClassExpression**
         * [Restriction](Restriction.md) [ ClassExpression]
-
 
 
 
@@ -35,6 +45,23 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:AnonymousClassExpression'] |
+| native | ['omoschema:AnonymousClassExpression'] |
 
 
 ## LinkML Specification
