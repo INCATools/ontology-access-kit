@@ -28,7 +28,7 @@ jupyter = "^1.0.0"
 sphinx-rtd-theme = "^1.0.0"
 sphinx-click = "^3.1.0"
 myst-parser = "^0.17.0"
-linkml = "^1.2.12"
+linkml = "^1.2.14"
 sphinxcontrib-mermaid = "^0.7.1"
 coverage = "^6.3.2"
 
