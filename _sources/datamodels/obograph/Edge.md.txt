@@ -8,14 +8,14 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Edge
       Edge : obj
       Edge : pred
       Edge : sub
       
-
+```
 
 
 

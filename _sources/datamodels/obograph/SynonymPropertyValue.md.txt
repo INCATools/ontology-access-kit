@@ -8,7 +8,7 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       PropertyValue <|-- SynonymPropertyValue
       

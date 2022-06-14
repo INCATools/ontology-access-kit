@@ -155,15 +155,17 @@
             <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">rest</span>
             <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">SqlImplementation</span>
-                <span class="c1">#resource.slug = f&#39;sqlite:///{Path(rest).absolute()}&#39;</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ubergraph&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ontobee&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;lov&#39;</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;lov scheme may become plugin in future&#39;</span><span class="p">)</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">LovImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;sparql&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">SparqlImplementation</span>
+                <span class="n">resource</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">rest</span>
+                <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;bioportal&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">BioportalImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;agroportal&#39;</span><span class="p">:</span>

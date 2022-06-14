@@ -8,7 +8,7 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       PropertyExpression <|-- ObjectProperty
       Property <|-- ObjectProperty

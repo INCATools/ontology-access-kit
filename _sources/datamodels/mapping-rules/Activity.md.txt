@@ -12,7 +12,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Activity <|-- LexicalTransformationPipeline
       Activity <|-- LexicalTransformation

@@ -10,7 +10,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Expression <|-- PropertyExpression
       

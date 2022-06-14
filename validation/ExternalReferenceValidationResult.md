@@ -10,7 +10,7 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       ValidationResult <|-- ExternalReferenceValidationResult
       

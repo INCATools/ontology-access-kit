@@ -10,7 +10,7 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasCategory
       

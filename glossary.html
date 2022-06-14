@@ -97,13 +97,25 @@ depending on context.</p>
 <dt id="term-URI">URI<a class="headerlink" href="#term-URI" title="Permalink to this term"></a></dt><dd><p>A Uniform Resource Indicator, a generalization of URL. Most people think of URLs as being solely for addresses for web pages (or APIs) but in semantic web technologies, URLs can serve as actual identifiers for entities like ontology terms.
 Data models like <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a> and <a class="reference internal" href="#term-RDF"><span class="xref std std-term">RDF</span></a> use URIs as identifiers. In OAK, URIs are mapped to :term:<a href="#id7"><span class="problematic" id="id8">`</span></a>CURIE`s</p>
 </dd>
+<dt id="term-Label">Label<a class="headerlink" href="#term-Label" title="Permalink to this term"></a></dt><dd><p>Usually refers to a human-readable label corresponding to the <code class="docutils literal notranslate"><span class="pre">rdfs:label</span></code> <a class="reference internal" href="#term-Predicate"><span class="xref std std-term">predicate</span></a>. Labels are typically unique
+per ontology. In OBO Format and in the bio-ontology literature, labels are sometimes called <a class="reference internal" href="#term-Name"><span class="xref std std-term">Names</span></a>.
+Sometimes in the machine learning literature, and in databases such as Neo4J, “label” actually refers to a <span class="xref std std-term">Category</span>.</p>
+</dd>
+<dt id="term-Name">Name<a class="headerlink" href="#term-Name" title="Permalink to this term"></a></dt><dd><p>Usually synonymous with <a class="reference internal" href="#term-Label"><span class="xref std std-term">Label</span></a>, but in the formal logic and OWL community, “Name” sometimes denotes an <span class="xref std std-term">Identifier</span></p>
+</dd>
 <dt id="term-Class">Class<a class="headerlink" href="#term-Class" title="Permalink to this term"></a></dt><dd><p>An <a class="reference internal" href="#term-Ontology-element"><span class="xref std std-term">Ontology element</span></a> that formally represents something that can be instantiated. For example, the class “heart”</p>
+</dd>
+<dt id="term-Annotation">Annotation<a class="headerlink" href="#term-Annotation" title="Permalink to this term"></a></dt><dd><p>This term is frequently ambiguous. It can refer to <a class="reference internal" href="#term-Text-Annotation"><span class="xref std std-term">Text Annotation</span></a>, <a class="reference internal" href="#term-OWL-Annotation"><span class="xref std std-term">OWL Annotation</span></a>, or <span class="xref std std-term">Association</span>.</p>
+</dd>
+<dt id="term-Text-Annotation">Text Annotation<a class="headerlink" href="#term-Text-Annotation" title="Permalink to this term"></a></dt><dd><p>The process of annotating spans of texts within a text document with references to ontology terms, or the result of this
+process. This is frequently done automatically. The <a class="reference internal" href="#term-Bioportal"><span class="xref std std-term">Bioportal</span></a> implementation provides text annotation services.
+More advanced annotation services will be available through AI plugins in OAK in the future.</p>
 </dd>
 <dt id="term-Mapping">Mapping<a class="headerlink" href="#term-Mapping" title="Permalink to this term"></a></dt><dd><p>See <a class="reference internal" href="datamodels/sssom/index.html#sssom"><span class="std std-ref">SSSOM</span></a></p>
 </dd>
 <dt id="term-SSSOM">SSSOM<a class="headerlink" href="#term-SSSOM" title="Permalink to this term"></a></dt><dd><p>Simple Standard for Sharing Ontological Mappings. SSSOM is the primary <a class="reference internal" href="#term-Datamodel"><span class="xref std std-term">Datamodel</span></a> in OAK for passing around :term:<a href="#id9"><span class="problematic" id="id10">`</span></a>Mapping`s.</p>
 </dd>
-<dt id="term-Graph">Graph<a class="headerlink" href="#term-Graph" title="Permalink to this term"></a></dt><dd><p>Formally a graph is a data structure consisting of <span class="xref std std-term">Nodes</span> and <span class="xref std std-term">Edges</span>. There are different forms of graphs, but for the purposes of OAK,
+<dt id="term-Graph">Graph<a class="headerlink" href="#term-Graph" title="Permalink to this term"></a></dt><dd><p>Formally a graph is a data structure consisting of <span class="xref std std-term">Nodes</span> and <a class="reference internal" href="#term-Edge"><span class="xref std std-term">Edges</span></a>. There are different forms of graphs, but for the purposes of OAK,
 an ontology graph has all <span class="xref std std-term">Term`s as nodes, and relationships connecting terms (is-a, part-of) as edges.
 Note the concept of an ontology graph and an :term:`RDF</span> graph do not necessarily fully align - RDF graphs of OWL ontologies
 employ numerous blank nodes that obscure the ontology structure.</p>
@@ -117,10 +129,13 @@ through different formats such as <span class="xref std std-term">Functional Syn
 but not widely used or known outside the genomics sphere. OBO is mapped to OWL, but only expresses a subset, and provides some OWL
 abstractions in a more easy to understand fashion.</p>
 </dd>
+<dt id="term-OWL-Annotation">OWL Annotation<a class="headerlink" href="#term-OWL-Annotation" title="Permalink to this term"></a></dt><dd><p>In the context of <a class="reference internal" href="#term-OWL"><span class="xref std std-term">OWL</span></a>, the term <a class="reference internal" href="#term-Annotation"><span class="xref std std-term">Annotation</span></a> means a piece of metadata that does not have a strict logical
+interpretation. Annotations can be on entities, for example, <a class="reference internal" href="#term-Label"><span class="xref std std-term">Label</span></a> annotations, or annotations can be on <span class="xref std std-term">Axioms</span>.</p>
+</dd>
 <dt id="term-Pronto">Pronto<a class="headerlink" href="#term-Pronto" title="Permalink to this term"></a></dt><dd><p>An <span class="xref std std-term">Ontology Library</span> for parsing obo and owl files</p>
 </dd>
 <dt id="term-Iterator">Iterator<a class="headerlink" href="#term-Iterator" title="Permalink to this term"></a></dt><dd><p>A programming language construct used frequently in OAK - it allows for passing of results from API calls without fetching
-everything in advance</p>
+everything in advance.</p>
 </dd>
 <dt id="term-Interface">Interface<a class="headerlink" href="#term-Interface" title="Permalink to this term"></a></dt><dd><p>A programmatic abstraction that allows us to focus on <em>what</em> something should do rather than <em>how</em> it is done.
 See <a class="reference internal" href="interfaces/index.html#interfaces"><span class="std std-ref">Interfaces</span></a>. The <em>how</em> is managed by an <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementation</span></a></p>
@@ -179,6 +194,9 @@ OLS exposes an <span class="xref std std-term">API</span> endpoint, that is util
 </dd>
 <dt id="term-Ubergraph">Ubergraph<a class="headerlink" href="#term-Ubergraph" title="Permalink to this term"></a></dt><dd><p>A:term:<cite>Triplestore</cite> and a <span class="xref std std-term">Ontology Repository</span> that allows for <span class="xref std std-term">SPARQL</span> querying of integrated <span class="xref std std-term">OBO</span> ontologies.
 Accessible via AK Ubergraph <a class="reference internal" href="#term-Implementation"><span class="xref std std-term">Implementation</span></a></p>
+</dd>
+<dt id="term-Semantic-SQL">Semantic SQL<a class="headerlink" href="#term-Semantic-SQL" title="Permalink to this term"></a></dt><dd><p>Semantic SQL is a proposed standardized schema for representing any RDF/OWL ontology, plus a set of tools for building
+a database conforming to this schema from RDF/OWL files. See <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic-SQL</a></p>
 </dd>
 </dl>
 </section>

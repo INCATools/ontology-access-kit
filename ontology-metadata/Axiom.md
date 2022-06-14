@@ -8,7 +8,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Axiom
       Axiom : annotatedProperty
@@ -33,7 +33,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
       Axiom : source
       Axiom : url
       
-
+```
 
 
 

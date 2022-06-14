@@ -12,7 +12,7 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/schema/Term)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       HasSynonyms <|-- Term
       HasLifeCycle <|-- Term

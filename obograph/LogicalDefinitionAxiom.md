@@ -8,7 +8,7 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Axiom <|-- LogicalDefinitionAxiom
       

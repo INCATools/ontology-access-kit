@@ -10,13 +10,13 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class TypeSeverityKeyValue
       TypeSeverityKeyValue : severity
       TypeSeverityKeyValue : type
       
-
+```
 
 
 

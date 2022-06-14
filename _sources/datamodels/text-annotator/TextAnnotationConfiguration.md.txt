@@ -10,14 +10,14 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class TextAnnotationConfiguration
       TextAnnotationConfiguration : limit
       TextAnnotationConfiguration : matches_whole_text
       TextAnnotationConfiguration : sources
       
-
+```
 
 
 

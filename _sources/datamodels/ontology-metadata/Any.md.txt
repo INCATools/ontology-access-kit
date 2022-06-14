@@ -8,11 +8,11 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Any
       
-
+```
 
 
 

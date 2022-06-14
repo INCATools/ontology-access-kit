@@ -10,7 +10,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasMappings
       

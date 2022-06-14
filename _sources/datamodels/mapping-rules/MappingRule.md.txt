@@ -10,7 +10,7 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class MappingRule
       MappingRule : description
@@ -18,7 +18,7 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
       MappingRule : postconditions
       MappingRule : preconditions
       
-
+```
 
 
 

@@ -12,7 +12,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasMinimalMetadata
       

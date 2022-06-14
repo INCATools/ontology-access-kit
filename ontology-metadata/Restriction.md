@@ -10,7 +10,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       ClassExpression <|-- Restriction
       AnonymousClassExpression <|-- Restriction

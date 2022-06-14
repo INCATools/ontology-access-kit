@@ -8,13 +8,13 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class ExistentialRestrictionExpression
       ExistentialRestrictionExpression : fillerId
       ExistentialRestrictionExpression : propertyId
       
-
+```
 
 
 

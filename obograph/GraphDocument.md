@@ -8,13 +8,13 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class GraphDocument
       GraphDocument : graphs
       GraphDocument : meta
       
-
+```
 
 
 

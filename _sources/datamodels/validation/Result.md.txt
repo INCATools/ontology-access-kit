@@ -12,7 +12,7 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Result <|-- ValidationResult
       Result <|-- RepairOperation

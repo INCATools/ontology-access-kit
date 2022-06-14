@@ -10,7 +10,7 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Expression <|-- ClassExpression
       

@@ -8,7 +8,7 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Meta
       Meta : basicPropertyValues
@@ -20,7 +20,7 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
       Meta : version
       Meta : xrefs
       
-
+```
 
 
 

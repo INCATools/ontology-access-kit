@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; oaklib  documentation</title>
+  <title>How to write a plugin &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -40,7 +40,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -50,7 +50,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">How-To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How-To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to write a plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-a-plugin">What is a plugin?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#an-example-plugin">An example plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-plugin">Creating a plugin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#discuss-on-the-issue-tracker">Discuss on the issue tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-a-new-project">Create a new project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implement-one-or-more-interfaces">Implement one or more interfaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implement-a-selector">Implement a selector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-tests">Write tests</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#release-to-pypi">Release to PyPI</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -71,7 +88,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">How-To Guides</a> &raquo;</li>
-      <li>&lt;no title&gt;</li>
+      <li>How to write a plugin</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/howtos/write-a-plugin.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -81,8 +98,108 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p>More docs coming soon</p>
-<p>For now, consult <a class="reference external" href="https://github.com/INCATools/oakx-robot">https://github.com/INCATools/oakx-robot</a></p>
+  <section id="how-to-write-a-plugin">
+<h1>How to write a plugin<a class="headerlink" href="#how-to-write-a-plugin" title="Permalink to this headline"></a></h1>
+<section id="what-is-a-plugin">
+<h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Permalink to this headline"></a></h2>
+<p>A plugin is a software component that adds a specific feature to an existing computer program.
+When a program supports plug-ins, it enables customization (<a class="reference external" href="https://en.wikipedia.org/wiki/Plug-in_(computing)">Wikipedia</a>).</p>
+<p>In the context of OAK, plugins allow you to add optional functionality to OAK.</p>
+<p>An example of a plugin would be a code that uses a machine learning library such as Spacy or NLTK to provide an <span class="xref std std-ref">implementation</span>
+of a <span class="xref std std-ref">text_annotator</span>. We wouldn’t want to include this in the main library due to the additional dependencies required.
+But we might want to allow people to drop in this functionality, e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">my_awesome_plugin</span><span class="p">:</span> <span class="n">annotate</span> <span class="s2">&quot;my text here&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="an-example-plugin">
+<h2>An example plugin<a class="headerlink" href="#an-example-plugin" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://github.com/INCATools/oakx-robot">oakx-robot</a> is a plugin that implements the <span class="xref std std-ref">validator</span> interface, providing
+access to OWL reasoners through robot.</p>
+<p>You can use this programmatically by first installing it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">oakx</span><span class="o">-</span><span class="n">robot</span>
+</pre></div>
+</div>
+<p>And then using the plugin’s <span class="xref std std-ref">selector</span>, which is <code class="docutils literal notranslate"><span class="pre">robot</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">robot</span><span class="p">:</span><span class="n">tests</span><span class="o">/</span><span class="nb">input</span><span class="o">/</span><span class="n">go</span><span class="o">-</span><span class="n">nucleus</span><span class="o">-</span><span class="n">unsat</span><span class="o">.</span><span class="n">owl</span> <span class="n">validate</span>
+</pre></div>
+</div>
+<p>This can also be used programmatically</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.selector</span> <span class="kn">import</span> <span class="n">get_resource_from_shorthand</span><span class="p">,</span> <span class="n">discovered_plugins</span><span class="p">,</span> <span class="n">get_implementation_from_shorthand</span>
+<span class="kn">from</span> <span class="nn">oakx_robot.robot_implementation</span> <span class="kn">import</span> <span class="n">RobotImplementation</span><span class="p">,</span> <span class="n">OWL_NOTHING</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;tests/input/go-nucleus-unsat.owl&#39;</span>
+<span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;robot:</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">oi</span><span class="o">.</span><span class="n">is_coherent</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Congratulations! The ontology is coherent&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reasoner detected usatisfiable classes&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">unsatisfiable_classes</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsatisfiable: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-a-plugin">
+<h2>Creating a plugin<a class="headerlink" href="#creating-a-plugin" title="Permalink to this headline"></a></h2>
+<section id="discuss-on-the-issue-tracker">
+<h3>Discuss on the issue tracker<a class="headerlink" href="#discuss-on-the-issue-tracker" title="Permalink to this headline"></a></h3>
+<p>First make an issue on the OAK issue tracker - someone may be developing a plugin similar to yours!
+You will also want to propose the namespace/scheme you will use.</p>
+</section>
+<section id="create-a-new-project">
+<h3>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline"></a></h3>
+<p>First create a new python project in the way you would normally do this.</p>
+<p>We recommend using poetry, but you can adapt these to whichever system you like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">new</span> <span class="o">--</span><span class="n">src</span> <span class="n">oakx</span><span class="o">-</span><span class="n">my</span><span class="o">-</span><span class="n">awesome</span><span class="o">-</span><span class="n">plugin</span>
+</pre></div>
+</div>
+<p>The project name should always start with <code class="docutils literal notranslate"><span class="pre">oakx-</span></code>. Remember, poetry will make a python project that
+uses underscores in the name</p>
+<p>Then make sure OAK is added as a dependency:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">add</span> <span class="n">oaklib</span>
+</pre></div>
+</div>
+</section>
+<section id="implement-one-or-more-interfaces">
+<h3>Implement one or more interfaces<a class="headerlink" href="#implement-one-or-more-interfaces" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Create an Implementation Class</p></li>
+<li><p>Have this implement at least one interface</p></li>
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">__post_init__()</span></code>, which initializes the implementation using a Resource object.</p></li>
+</ol>
+<p>Example:</p>
+<p><a class="reference external" href="https://github.com/INCATools/oakx-robot/blob/main/src/oakx_robot/robot_implementation.py">oakx-robot implementation</a></p>
+</section>
+<section id="implement-a-selector">
+<h3>Implement a selector<a class="headerlink" href="#implement-a-selector" title="Permalink to this headline"></a></h3>
+<p>Create an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>, e.g like this one:</p>
+<p><a class="reference external" href="https://github.com/INCATools/oakx-robot/blob/main/src/oakx_robot/__init__.py">oakx_robot __init__.py</a></p>
+<p>This should have a top-level dict called <code class="docutils literal notranslate"><span class="pre">schemes</span></code> that is keyed by any selector schemes you implement, mapped
+to the implementation. The scheme should match the name used for your project, and should be unique, concise, and descriptive.
+Don’t pollute the top level namespace!</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oakx_robot.robot_implementation</span> <span class="kn">import</span> <span class="n">RobotImplementation</span>
+
+<span class="n">schemes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;robot&#39;</span><span class="p">:</span> <span class="n">RobotImplementation</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="write-tests">
+<h3>Write tests<a class="headerlink" href="#write-tests" title="Permalink to this headline"></a></h3>
+<p>Write tests as you would for any other project</p>
+<p>See for example <a class="reference external" href="https://github.com/INCATools/oakx-robot/tree/main/tests">oakx-robot tests</a></p>
+</section>
+</section>
+<section id="release-to-pypi">
+<h2>Release to PyPI<a class="headerlink" href="#release-to-pypi" title="Permalink to this headline"></a></h2>
+<p>Release to PyPI as you would any other module. E.g. with poetry:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">publish</span>
+</pre></div>
+</div>
+</section>
+</section>
 
 
            </div>

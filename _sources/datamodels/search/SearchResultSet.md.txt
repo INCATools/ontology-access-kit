@@ -8,7 +8,7 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class SearchResultSet
       SearchResultSet : configuration
@@ -16,7 +16,7 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
       SearchResultSet : result_count
       SearchResultSet : results
       
-
+```
 
 
 

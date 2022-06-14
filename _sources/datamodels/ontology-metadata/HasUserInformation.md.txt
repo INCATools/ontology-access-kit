@@ -10,7 +10,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasUserInformation
       

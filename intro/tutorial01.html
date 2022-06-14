@@ -44,22 +44,38 @@
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 1: Getting Started</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#query-the-obo-library">Query the OBO Library</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#search">Search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#working-with-local-files">Working with local files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#introduction-to-graphs-fetching-ancestors">Introduction to graphs: Fetching ancestors</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#predicate-abbreviations">Predicate Abbreviations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ancestor-statistics">Ancestor Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-the-oak-command">Run the OAK command</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#oak-trees">Oak Trees</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basics">Basics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#query-the-obo-library">Query the OBO Library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#working-with-local-files">Working with local files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-to-graphs-and-trees">Introduction to graphs and trees</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fetching-ancestors">Fetching ancestors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predicate-abbreviations">Predicate Abbreviations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ancestor-statistics">Ancestor Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oak-trees">Oak Trees</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-search">Advanced Search</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#using-search-terms-as-parameters">Using search terms as parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#chaining-commands">Chaining Commands</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#visualization">Visualization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#using-other-backends">Using other backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-other-backends">Using other backends</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-ubergraph">Using Ubergraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-ontobee">Using Ontobee</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-bioportal">Using BioPortal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-ols">Using OLS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-sqlite">Using SQLIte</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#next-steps">Next steps</a></li>
 </ul>
 </li>
@@ -115,6 +131,8 @@
 querying the Drosophila anatomy ontology (<a class="reference external" href="http://obofoundry.org/ontology/fbbt">fbbt</a>).</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<section id="install-from-pypi">
+<h3>Install from PyPI<a class="headerlink" href="#install-from-pypi" title="Permalink to this headline"></a></h3>
 <p>First, create a directory:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~</span>
 <span class="n">mkdir</span> <span class="n">oak</span><span class="o">-</span><span class="n">tutorial</span>
@@ -135,6 +153,9 @@ export PYTHONPATH=.:$PYTHONPATH
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">oaklib</span>
 </pre></div>
 </div>
+</section>
+<section id="run-the-oak-command">
+<h3>Run the OAK command<a class="headerlink" href="#run-the-oak-command" title="Permalink to this headline"></a></h3>
 <p>After successful installation, try invoking OAK via <code class="docutils literal notranslate"><span class="pre">runoak</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
@@ -146,8 +167,11 @@ export PYTHONPATH=.:$PYTHONPATH
 </div>
 <p>See also the <span class="xref std std-ref">cli</span> section of this documentation</p>
 </section>
+</section>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline"></a></h2>
 <section id="query-the-obo-library">
-<h2>Query the OBO Library<a class="headerlink" href="#query-the-obo-library" title="Permalink to this headline"></a></h2>
+<h3>Query the OBO Library<a class="headerlink" href="#query-the-obo-library" title="Permalink to this headline"></a></h3>
 <p>Next try using the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-info">info command</a>
 to search for a term in the <em>Drosophila</em> (fruitfly) anatomy ontology (<a class="reference external" href="http://obofoundry.org/ontology/fbbt">fbbt</a>).</p>
 <p>The base command takes an <code class="docutils literal notranslate"><span class="pre">--input</span></code> (or just <code class="docutils literal notranslate"><span class="pre">-i</span></code>) option that specifies the input
@@ -175,7 +199,7 @@ can parse them very quickly. Later on we will learn about different :term:<a hre
 </div>
 </section>
 <section id="search">
-<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h2>
+<h3>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h3>
 <p>You can use the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-search">search command</a> to search for terms.
 You can also use a special search syntax like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">prontolib</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">search</span> <span class="s1">&#39;t^wing vein&#39;</span>
@@ -226,7 +250,7 @@ FBbt:00004764 ! wing vein L6
 </div>
 </section>
 <section id="working-with-local-files">
-<h2>Working with local files<a class="headerlink" href="#working-with-local-files" title="Permalink to this headline"></a></h2>
+<h3>Working with local files<a class="headerlink" href="#working-with-local-files" title="Permalink to this headline"></a></h3>
 <p>To work with a local ontology file, you can provide the filename as input:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">purl</span><span class="o">.</span><span class="n">obolibrary</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">obo</span><span class="o">/</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span>
 </pre></div>
@@ -242,8 +266,11 @@ specific about the method in which a file is parsed:</p>
 </pre></div>
 </div>
 </section>
-<section id="introduction-to-graphs-fetching-ancestors">
-<h2>Introduction to graphs: Fetching ancestors<a class="headerlink" href="#introduction-to-graphs-fetching-ancestors" title="Permalink to this headline"></a></h2>
+</section>
+<section id="introduction-to-graphs-and-trees">
+<h2>Introduction to graphs and trees<a class="headerlink" href="#introduction-to-graphs-and-trees" title="Permalink to this headline"></a></h2>
+<section id="fetching-ancestors">
+<h3>Fetching ancestors<a class="headerlink" href="#fetching-ancestors" title="Permalink to this headline"></a></h3>
 <p>Next we will try a different command, plugging in an ID (<a class="reference internal" href="../glossary.html#term-CURIE"><span class="xref std std-term">CURIE</span></a>) we got from the previous search.</p>
 <p>We will use the <a class="reference internal" href="../cli.html#runoak-ancestors"><span class="std std-ref">ancestors</span></a> command to find all subclass-of (<code class="docutils literal notranslate"><span class="pre">rdfs:subClassOf</span></code>) and part-of (<code class="docutils literal notranslate"><span class="pre">BFO:0000050</span></code>) ancestors of ‘wing vein’.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">prontolib</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">ancestors</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">--</span><span class="n">predicates</span> <span class="n">i</span><span class="p">,</span><span class="n">p</span>
@@ -256,6 +283,7 @@ specific about the method in which a file is parsed:</p>
 <span class="o">...</span>
 </pre></div>
 </div>
+</section>
 <section id="predicate-abbreviations">
 <h3>Predicate Abbreviations<a class="headerlink" href="#predicate-abbreviations" title="Permalink to this headline"></a></h3>
 <p>Here we are providing the <a class="reference internal" href="../glossary.html#term-Predicate"><span class="xref std std-term">Predicates</span></a> to traverse via the <code class="docutils literal notranslate"><span class="pre">-p/--predicates</span></code> argument.
@@ -333,9 +361,8 @@ have any indication of distance. The <code class="docutils literal notranslate">
 </tbody>
 </table>
 </section>
-</section>
 <section id="oak-trees">
-<h2>Oak Trees<a class="headerlink" href="#oak-trees" title="Permalink to this headline"></a></h2>
+<h3>Oak Trees<a class="headerlink" href="#oak-trees" title="Permalink to this headline"></a></h3>
 <p>The <a class="reference internal" href="../cli.html#runoak-tree"><span class="std std-ref">tree</span></a> command will generate an ascii tree for a term</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">prontolib</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">tree</span> <span class="n">FBbt</span><span class="p">:</span><span class="mi">00004751</span> <span class="o">-</span><span class="n">p</span> <span class="n">i</span>
 </pre></div>
@@ -357,6 +384,10 @@ a truncated tree, since many parts of are not <span class="xref std std-term">di
 Later on we will see how to better incorporate reasoning, but for now it is recommended that you always include is-a
 as a predicate</p>
 </div>
+</section>
+</section>
+<section id="advanced-search">
+<h2>Advanced Search<a class="headerlink" href="#advanced-search" title="Permalink to this headline"></a></h2>
 <section id="using-search-terms-as-parameters">
 <h3>Using search terms as parameters<a class="headerlink" href="#using-search-terms-as-parameters" title="Permalink to this headline"></a></h3>
 <p>Search terms can be used as input for <em>any</em> OAK command:</p>
@@ -401,6 +432,8 @@ as a predicate</p>
 <p>So far we have used <a class="reference internal" href="../glossary.html#term-Pronto"><span class="xref std std-term">Pronto</span></a> and <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a> files as input because they are small in size and fast to parse,
 and are thus good for illustrative purposes.</p>
 <p>In fact, OAK allows a number of other backends (also called <a class="reference internal" href="../glossary.html#term-Implementation"><span class="xref std std-term">Implementations</span></a>). We will give a brief overview of some here</p>
+<section id="using-ubergraph">
+<h3>Using Ubergraph<a class="headerlink" href="#using-ubergraph" title="Permalink to this headline"></a></h3>
 <p><a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a> is an integrated ontology store that contains a merged set of mutually referential OBO ontologies.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span> <span class="n">search</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
@@ -435,6 +468,17 @@ There are a variety of space-time tradeoffs as well. See the <a class="reference
 <span class="o">...</span>
 </pre></div>
 </div>
+</section>
+<section id="using-ontobee">
+<h3>Using Ontobee<a class="headerlink" href="#using-ontobee" title="Permalink to this headline"></a></h3>
+<p>Another triplestore you can use is ontobee</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ontobee</span><span class="p">:</span><span class="n">chebi</span> <span class="n">info</span> <span class="n">CHEBI</span><span class="p">:</span><span class="mi">15356</span> <span class="o">-</span><span class="n">O</span> <span class="n">obo</span>
+</pre></div>
+</div>
+<p>Currently the ontobee implementation does not handle non-isa hierarchical queries.</p>
+</section>
+<section id="using-bioportal">
+<h3>Using BioPortal<a class="headerlink" href="#using-bioportal" title="Permalink to this headline"></a></h3>
 <p><a class="reference internal" href="../glossary.html#term-Bioportal"><span class="xref std std-term">BioPortal</span></a> is a comprehensive repository of biomedical ontologies.</p>
 <p>To query BioPortal, first you will need to go to <a class="reference external" href="https://bioportal.bioontology.org/">BioPortal</a> and get an <span class="xref std std-term">API key</span> (if you don’t already have one).</p>
 <div class="admonition note">
@@ -458,6 +502,9 @@ as yaml or TSV:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span><span class="n">chebi</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">CHEBI</span><span class="p">:</span><span class="mi">15356</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span>
 </pre></div>
 </div>
+</section>
+<section id="using-ols">
+<h3>Using OLS<a class="headerlink" href="#using-ols" title="Permalink to this headline"></a></h3>
 <p><a class="reference internal" href="../glossary.html#term-OLS"><span class="xref std std-term">OLS</span></a> is a repository of high quality ontologies. It has less breadth than BioPortal. Currently OAK offers very limited functionality with OLS
 but this will be improved in future.</p>
 <p>OLS also aggregates curated mappings, these can be exported in the same way:</p>
@@ -553,6 +600,18 @@ but this will be improved in future.</p>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="using-sqlite">
+<h3>Using SQLIte<a class="headerlink" href="#using-sqlite" title="Permalink to this headline"></a></h3>
+<p>The SQLite backend will be covered fully in part 7</p>
+<p>But if you want to jump ahead and start using SQLite you can do this with any existing OBO ontology:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">iao</span> <span class="n">search</span> <span class="n">t</span><span class="o">~</span><span class="n">information</span>
+</pre></div>
+</div>
+<p>Here we are searching IAO for any term loosely matching “information”</p>
+<p>Note there is an initial lag as the sqlite database is downloaded from S3. These can be quite
+large as they include pre-cached relation graphs. Once downloaded, responsivity will be fast.</p>
+</section>
 </section>
 <section id="next-steps">
 <h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline"></a></h2>

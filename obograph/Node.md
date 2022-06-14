@@ -8,7 +8,7 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Node
       Node : id
@@ -16,7 +16,7 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
       Node : meta
       Node : type
       
-
+```
 
 
 

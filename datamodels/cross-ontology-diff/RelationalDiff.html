@@ -82,7 +82,8 @@
 <h1>Class: RelationalDiff<a class="headerlink" href="#class-relationaldiff" title="Permalink to this headline"></a></h1>
 <p><em>A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in another ontology (or a different version of the same ontology). The diff is from the perspective of one ontology (the one on the “left” side). For every edge in the left ontology, the subject and object are mapped to the right ontology. If mappings cannot be found then the diff is categorized as missing mappings. The predicate is also mapped, with the reflexivity assumption. for every mapped subject and object pair (the “right” subject and object), the entailed relationship is examined to determine if it consistent with the left predicate.</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/RelationalDiff">ann:RelationalDiff</a></p>
-<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span> classDiagram
+<div class="mermaid">
+             classDiagram
     class RelationalDiff
       RelationalDiff : category
       RelationalDiff : left_object_id
@@ -100,87 +101,173 @@
       RelationalDiff : right_subject_id
       RelationalDiff : right_subject_label
       
-
-
-
-
-
-&lt;!-- no inheritance hierarchy --&gt;
-
-
-## Slots
-
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [category](category.md) | [DiffCategory](DiffCategory.md) | 0..1 | Each match (or lack of match) is placed into exactly one category  | . |
-| [left_subject_id](left_subject_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The subject (child) of the source/left edge  | . |
-| [left_object_id](left_object_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The object (parent) of the source/left edge  | . |
-| [left_predicate_id](left_predicate_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The predicate (relation) of the source/left edge  | . |
-| [left_subject_label](left_subject_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the subject (child) of the source/left edge  | . |
-| [left_object_label](left_object_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the object (parent) of the source/left edge  | . |
-| [left_predicate_label](left_predicate_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the predicate of the source/left edge  | . |
-| [right_subject_id](right_subject_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The subject (child) of the matched/right edge, if matchable  | . |
-| [right_object_id](right_object_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The object (parent) of the matched/right edge, if matchable  | . |
-| [right_predicate_ids](right_predicate_ids.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | If the match type is consistent, then all consistent predicates. If the match type is identical, then the identical predicate. If the match type is OtherRelationship, then all predicates that form a path between right subject and object  | . |
-| [right_subject_label](right_subject_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the subject (child) of the matched/right edge, if matchable  | . |
-| [right_object_label](right_object_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the object (parent) of the matched/right edge, if matchable  | . |
-| [right_predicate_labels](right_predicate_labels.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | The names corresponding to the right_predicate_ids  | . |
-| [left_subject_is_functional](left_subject_is_functional.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | True if a subject mapping is present, and maps uniquely within the same ontology  | . |
-| [left_object_is_functional](left_object_is_functional.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | True if an object mapping is present, and maps uniquely within the same ontology  | . |
-
-
-## Usages
-
-
-| used by | used in | type | used |
-| ---  | --- | --- | --- |
-| [StructureDiffResultSet](StructureDiffResultSet.md) | [results](results.md) | range | RelationalDiff |
-
-
-
-## Identifier and Mapping Information
-
-
-
-
-
-
-
-### Schema Source
-
-
-* from schema: https://w3id.org/linkml/cross_ontology_diff
-
-
-
-
-
-
-
-## Mappings
-
-| Mapping Type | Mapped Value |
-| ---  | ---  |
-| self | [&#39;ann:RelationalDiff&#39;] |
-| native | [&#39;ann:RelationalDiff&#39;] |
-
-
-## LinkML Specification
-
-&lt;!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx --&gt;
-
-### Direct
-
-&lt;details&gt;
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Range</p></th>
+<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Info</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
+<td><p><a class="reference internal" href="DiffCategory.html"><span class="doc std std-doc">DiffCategory</span></a></p></td>
+<td><p>0..1</p></td>
+<td><p>Each match (or lack of match) is placed into exactly one category</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="left_subject_id.html"><span class="doc std std-doc">left_subject_id</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1</p></td>
+<td><p>The subject (child) of the source/left edge</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="left_object_id.html"><span class="doc std std-doc">left_object_id</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1</p></td>
+<td><p>The object (parent) of the source/left edge</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="left_predicate_id.html"><span class="doc std std-doc">left_predicate_id</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1</p></td>
+<td><p>The predicate (relation) of the source/left edge</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="left_subject_label.html"><span class="doc std std-doc">left_subject_label</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The name of the subject (child) of the source/left edge</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="left_object_label.html"><span class="doc std std-doc">left_object_label</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The name of the object (parent) of the source/left edge</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="left_predicate_label.html"><span class="doc std std-doc">left_predicate_label</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The name of the predicate of the source/left edge</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_subject_id.html"><span class="doc std std-doc">right_subject_id</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The subject (child) of the matched/right edge, if matchable</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_object_id.html"><span class="doc std std-doc">right_object_id</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The object (parent) of the matched/right edge, if matchable</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="doc std std-doc">right_predicate_ids</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..*</p></td>
+<td><p>If the match type is consistent, then all consistent predicates. If the match type is identical, then the identical predicate. If the match type is OtherRelationship, then all predicates that form a path between right subject and object</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The name of the subject (child) of the matched/right edge, if matchable</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>The name of the object (parent) of the matched/right edge, if matchable</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..*</p></td>
+<td><p>The names corresponding to the right_predicate_ids</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1</p></td>
+<td><p>True if a subject mapping is present, and maps uniquely within the same ontology</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1</p></td>
+<td><p>True if an object mapping is present, and maps uniquely within the same ontology</p></td>
+<td><p>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>used by</p></th>
+<th class="head"><p>used in</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="StructureDiffResultSet.html"><span class="doc std std-doc">StructureDiffResultSet</span></a></p></td>
+<td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
+<td><p>range</p></td>
+<td><p>RelationalDiff</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>from schema: https://w3id.org/linkml/cross_ontology_diff</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>[‘ann:RelationalDiff’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>[‘ann:RelationalDiff’]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
+<details>
 ```yaml
 name: RelationalDiff
 description: A relational diff expresses the difference between an edge in one ontology,
   and an edge (or lack of edge) in another ontology (or a different version of the
   same ontology). The diff is from the perspective of one ontology (the one on the
-  &quot;left&quot; side). For every edge in the left ontology, the subject and object are mapped
+  "left" side). For every edge in the left ontology, the subject and object are mapped
   to the right ontology. If mappings cannot be found then the diff is categorized
   as missing mappings. The predicate is also mapped, with the reflexivity assumption.
-  for every mapped subject and object pair (the &quot;right&quot; subject and object), the entailed
+  for every mapped subject and object pair (the "right" subject and object), the entailed
   relationship is examined to determine if it consistent with the left predicate.
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
@@ -263,22 +350,20 @@ attributes:
       same ontology
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     range: boolean
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
-</pre></div>
-</div>
-</details>
-<section id="induced">
-<h2>Induced<a class="headerlink" href="#induced" title="Permalink to this headline"></a></h2>
-<details>
+### Induced
+
+&lt;details&gt;
 ```yaml
 name: RelationalDiff
 description: A relational diff expresses the difference between an edge in one ontology,
   and an edge (or lack of edge) in another ontology (or a different version of the
   same ontology). The diff is from the perspective of one ontology (the one on the
-  "left" side). For every edge in the left ontology, the subject and object are mapped
+  &quot;left&quot; side). For every edge in the left ontology, the subject and object are mapped
   to the right ontology. If mappings cannot be found then the diff is categorized
   as missing mappings. The predicate is also mapped, with the reflexivity assumption.
-  for every mapped subject and object pair (the "right" subject and object), the entailed
+  for every mapped subject and object pair (the &quot;right&quot; subject and object), the entailed
   relationship is examined to determine if it consistent with the left predicate.
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
@@ -397,9 +482,10 @@ attributes:
     alias: left_object_is_functional
     owner: RelationalDiff
     range: boolean
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+
 </pre></div>
 </div>
+</details></section>
 </section>
 </section>
 

@@ -10,7 +10,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasProvenance
       

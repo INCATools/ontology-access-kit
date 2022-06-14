@@ -8,13 +8,13 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Annotation
       Annotation : object
       Annotation : predicate
       
-
+```
 
 
 

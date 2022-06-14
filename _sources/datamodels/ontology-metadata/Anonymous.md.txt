@@ -12,7 +12,7 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Anonymous <|-- AnonymousClassExpression
       

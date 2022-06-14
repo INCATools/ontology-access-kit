@@ -8,7 +8,7 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class TextualElement
       TextualElement : id
@@ -16,7 +16,7 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
       TextualElement : source_text
       TextualElement : text
       
-
+```
 
 
 

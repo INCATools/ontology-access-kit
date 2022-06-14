@@ -10,13 +10,13 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class MappingRuleCollection
       MappingRuleCollection : minimum_confidence
       MappingRuleCollection : rules
       
-
+```
 
 
 

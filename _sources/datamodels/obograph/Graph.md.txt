@@ -8,7 +8,7 @@ URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Graph
       Graph : domainRangeAxioms
@@ -21,7 +21,7 @@ URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
       Graph : nodes
       Graph : propertyChainAxioms
       
-
+```
 
 
 

@@ -10,13 +10,13 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class LexicalIndex
       LexicalIndex : groupings
       LexicalIndex : pipelines
       
-
+```
 
 
 

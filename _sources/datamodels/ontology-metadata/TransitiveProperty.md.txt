@@ -8,7 +8,7 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/schema/Transi
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       ObjectProperty <|-- TransitiveProperty
       

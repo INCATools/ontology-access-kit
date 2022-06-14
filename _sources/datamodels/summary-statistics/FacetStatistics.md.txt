@@ -10,7 +10,7 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       SummaryStatisticCollection <|-- FacetStatistics
       

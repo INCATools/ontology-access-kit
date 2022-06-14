@@ -8,7 +8,7 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Axiom <|-- EquivalentNodesSet
       

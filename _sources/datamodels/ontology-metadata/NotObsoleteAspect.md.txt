@@ -12,11 +12,11 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class NotObsoleteAspect
       
-
+```
 
 
 

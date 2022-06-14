@@ -10,7 +10,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       HasSpan <|-- TextAnnotation
       

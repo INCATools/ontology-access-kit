@@ -10,7 +10,7 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class SearchBaseConfiguration
       SearchBaseConfiguration : categories
@@ -28,7 +28,7 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
       SearchBaseConfiguration : search_terms
       SearchBaseConfiguration : syntax
       
-
+```
 
 
 

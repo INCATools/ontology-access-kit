@@ -10,13 +10,13 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class LexicalGrouping
       LexicalGrouping : relationships
       LexicalGrouping : term
       
-
+```
 
 
 

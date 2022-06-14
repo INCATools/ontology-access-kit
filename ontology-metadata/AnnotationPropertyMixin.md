@@ -12,7 +12,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasMinimalMetadata
       AnnotationPropertyMixin <|-- HasSynonyms

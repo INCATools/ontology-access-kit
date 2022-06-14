@@ -10,12 +10,12 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class StructureDiffResultSet
       StructureDiffResultSet : results
       
-
+```
 
 
 

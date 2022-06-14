@@ -10,7 +10,7 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class RelationalDiff
       RelationalDiff : category
@@ -29,7 +29,7 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
       RelationalDiff : right_subject_id
       RelationalDiff : right_subject_label
       
-
+```
 
 
 

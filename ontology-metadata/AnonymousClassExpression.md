@@ -8,7 +8,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Anonymous <|-- AnonymousClassExpression
       

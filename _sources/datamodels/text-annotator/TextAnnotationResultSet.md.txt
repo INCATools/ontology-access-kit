@@ -10,12 +10,12 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class TextAnnotationResultSet
       TextAnnotationResultSet : annotations
       
-
+```
 
 
 

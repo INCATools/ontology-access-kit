@@ -10,7 +10,7 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Activity <|-- LexicalTransformationPipeline
       

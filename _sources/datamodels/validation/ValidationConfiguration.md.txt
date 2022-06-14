@@ -10,14 +10,14 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class ValidationConfiguration
       ValidationConfiguration : max_number_results_per_type
       ValidationConfiguration : schema_path
       ValidationConfiguration : type_severity_map
       
-
+```
 
 
 

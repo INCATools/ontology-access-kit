@@ -1,8 +1,9 @@
-# summary-statistics
+# Summary Statistics Datamodel
 
 A datamodel for reports on data
 
 URI: https://w3id.org/linkml/summary_statistics
+Name: summary-statistics
 
 ## Classes
 

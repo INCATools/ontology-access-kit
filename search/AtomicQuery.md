@@ -8,14 +8,14 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class AtomicQuery
       AtomicQuery : graph_function
       AtomicQuery : graph_predicates
       AtomicQuery : search_term
       
-
+```
 
 
 

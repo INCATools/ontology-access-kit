@@ -10,7 +10,7 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       SummaryStatisticCollection <|-- GlobalStatistics
       

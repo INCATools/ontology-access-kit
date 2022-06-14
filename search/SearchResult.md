@@ -10,7 +10,7 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class SearchResult
       SearchResult : matches_full_search_term
@@ -22,7 +22,7 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
       SearchResult : rank
       SearchResult : snippet
       
-
+```
 
 
 

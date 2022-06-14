@@ -8,13 +8,13 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Postcondition
       Postcondition : predicate_id
       Postcondition : weight
       
-
+```
 
 
 

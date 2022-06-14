@@ -10,13 +10,13 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class RepairConfiguration
       RepairConfiguration : dry_run
       RepairConfiguration : validation_configuration
       
-
+```
 
 
 

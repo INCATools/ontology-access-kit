@@ -10,7 +10,7 @@ URI: [oio:Subset](http://www.geneontology.org/formats/oboInOwl#Subset)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationProperty <|-- Subset
       

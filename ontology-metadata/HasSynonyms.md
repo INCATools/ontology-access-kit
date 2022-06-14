@@ -12,7 +12,7 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/schema/HasSynonyms)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       AnnotationPropertyMixin <|-- HasSynonyms
       

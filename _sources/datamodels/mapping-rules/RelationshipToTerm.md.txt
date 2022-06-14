@@ -10,7 +10,7 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class RelationshipToTerm
       RelationshipToTerm : element
@@ -19,7 +19,7 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
       RelationshipToTerm : predicate
       RelationshipToTerm : source
       
-
+```
 
 
 

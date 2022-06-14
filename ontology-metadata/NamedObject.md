@@ -10,7 +10,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Thing <|-- NamedObject
       

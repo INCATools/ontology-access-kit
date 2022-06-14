@@ -8,7 +8,7 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Axiom <|-- PropertyChainAxiom
       

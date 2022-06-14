@@ -8,14 +8,14 @@ URI: [search:BooleanQuery](https://w3id.org/linkml/search_datamodel/BooleanQuery
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class BooleanQuery
       BooleanQuery : atom
       BooleanQuery : operands
       BooleanQuery : operator
       
-
+```
 
 
 

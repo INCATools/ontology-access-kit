@@ -10,7 +10,7 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
     class Precondition
       Precondition : mapping_source_one_of
@@ -20,7 +20,7 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
       Precondition : subject_source_one_of
       Precondition : transformations_included_in
       
-
+```
 
 
 

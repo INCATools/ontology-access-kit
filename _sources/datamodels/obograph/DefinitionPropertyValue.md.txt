@@ -8,7 +8,7 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       PropertyValue <|-- DefinitionPropertyValue
       

@@ -8,7 +8,7 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       Axiom <|-- DomainRangeAxiom
       

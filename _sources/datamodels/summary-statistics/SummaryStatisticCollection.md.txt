@@ -10,7 +10,7 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 
 
 
-```mermaid
+```{mermaid}
  classDiagram
       SummaryStatisticCollection <|-- GlobalStatistics
       SummaryStatisticCollection <|-- FacetStatistics
