@@ -119,6 +119,7 @@ http://purl.obolibrary.org/obo/CEPH_0000258 ! tentacle pad
 ```
 
 Searching over a broader set of ontologies in bioportal (requires API KEY)
+(https://www.bioontology.org/wiki/BioPortal_Help#Getting_an_API_key)
 
 ```bash
 runoak set-apikey bioportal YOUR-KEY-HERE
