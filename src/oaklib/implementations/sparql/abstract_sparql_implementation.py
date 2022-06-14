@@ -203,8 +203,16 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
             def tr(v: Identifier):
                 val = str(v)
-                dt = ''
-                return dict(value=val, datatype=dt)
+                dt = None
+                t = None
+                if isinstance(v, BNode):
+                    t = 'bnode'
+                elif isinstance(v, Literal):
+                    t = 'typed-literal'
+                    dt = v.datatype
+                else:
+                    t = 'uri'
+                return dict(value=val, datatype=dt, type=t)
 
             for row in self.graph.query(query):
                 rows.append({k: tr(row[k]) for k in row.labels})
@@ -243,7 +251,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         for row in bindings:
             yield tuple([row[v]['value'] for v in vars])
 
-    def get_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def get_hierararchical_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         uri = self.curie_to_uri(curie)
         query = SparqlQuery(select=['?o'],
                             where=[f'<{uri}> <{RDFS.subClassOf}> ?o',
@@ -251,10 +259,10 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         bindings = self._query(query)
         return list(set([self.uri_to_curie(row['o']['value']) for row in bindings]))
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         uri = self.curie_to_uri(curie)
         rels = defaultdict(list)
-        rels[IS_A] = self.get_parents_by_curie(curie)
+        rels[IS_A] = self.get_hierararchical_parents_by_curie(curie)
         query = SparqlQuery(select=['?p', '?o'],
                             where=[f'<{uri}> <{RDFS.subClassOf}> [owl:onProperty ?p ; owl:someValuesFrom ?o]',
                                    'FILTER (isIRI(?o))'])
@@ -359,6 +367,32 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return labels[0]
         else:
             return None
+
+    def dump(self, path: str = None, syntax: str = 'turtle'):
+        if self.named_graph is None:
+            raise ValueError(f'Must specific a named graph to dump')
+        query = SparqlQuery(select=['?s', '?p', '?o'],
+                            where=['?s ?p ?o'])
+        bindings = self._query(query)
+        g = rdflib.Graph()
+        n = 0
+
+        bnodes = {}
+        def tr(v: dict):
+            vv = v['value']
+            if v['type'] == 'bnode':
+                if vv not in bnodes:
+                    bnodes[vv] = BNode()
+                return bnodes[vv]
+            elif v['type'] == 'uri':
+                return URIRef(vv)
+            else:
+                return Literal(vv)
+        for row in bindings:
+            #print(f'ROW={row}\n')
+            triple = (tr(row['s']), tr(row['p']), tr(row['o']))
+            g.add(triple)
+        g.serialize(path, format=syntax)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface

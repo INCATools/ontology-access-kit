@@ -14,7 +14,7 @@ URI: [https://w3id.org/linkml/reportnamed_individual_count](https://w3id.org/lin
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -28,6 +28,16 @@ URI: [https://w3id.org/linkml/reportnamed_individual_count](https://w3id.org/lin
 
 | property | value |
 | --- | --- |
+| _if_missing |  |
 | count_of | owl:NamedIndividual |
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
+
 
 

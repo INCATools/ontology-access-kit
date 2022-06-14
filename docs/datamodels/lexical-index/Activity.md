@@ -12,12 +12,22 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Activity <|-- LexicalTransformationPipeline
+      Activity <|-- LexicalTransformation
+      
+      
+```
 
+
+
+
+
+## Inheritance
 * **Activity**
     * [LexicalTransformationPipeline](LexicalTransformationPipeline.md)
     * [LexicalTransformation](LexicalTransformation.md)
-
 
 
 
@@ -39,6 +49,23 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['prov:Activity'] |
+| native | ['li:Activity'] |
 
 
 ## LinkML Specification

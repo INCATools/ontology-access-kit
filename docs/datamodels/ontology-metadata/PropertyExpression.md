@@ -10,11 +10,22 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Expression <|-- PropertyExpression
+      
+      PropertyExpression : disjointWith
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Expression](Expression.md)
     * **PropertyExpression**
-
 
 
 
@@ -22,7 +33,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [disjointWith](disjointWith.md) | [string](string.md) | 0..* | None  | . |
+| [disjointWith](disjointWith.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 
 
 ## Usages
@@ -42,6 +53,23 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:PropertyExpression'] |
+| native | ['omoschema:PropertyExpression'] |
 
 
 ## LinkML Specification

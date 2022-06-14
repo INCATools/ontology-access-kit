@@ -9,13 +9,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#ontology](http://www.geneonto
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

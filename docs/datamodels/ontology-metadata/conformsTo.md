@@ -14,13 +14,22 @@ URI: [http://purl.org/dc/terms/conformsTo](http://purl.org/dc/terms/conformsTo)
 
 ## Properties
 
- * Range: Thing
+ * Range: [Thing](Thing.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

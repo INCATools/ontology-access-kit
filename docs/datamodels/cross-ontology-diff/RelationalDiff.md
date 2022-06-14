@@ -9,8 +9,32 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class RelationalDiff
+      RelationalDiff : category
+      RelationalDiff : left_object_id
+      RelationalDiff : left_object_is_functional
+      RelationalDiff : left_object_label
+      RelationalDiff : left_predicate_id
+      RelationalDiff : left_predicate_label
+      RelationalDiff : left_subject_id
+      RelationalDiff : left_subject_is_functional
+      RelationalDiff : left_subject_label
+      RelationalDiff : right_object_id
+      RelationalDiff : right_object_label
+      RelationalDiff : right_predicate_ids
+      RelationalDiff : right_predicate_labels
+      RelationalDiff : right_subject_id
+      RelationalDiff : right_subject_label
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -18,20 +42,20 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [category](category.md) | [DiffCategory](DiffCategory.md) | 0..1 | Each match (or lack of match) is placed into exactly one category  | . |
-| [left_subject_id](left_subject_id.md) | [uriorcurie](uriorcurie.md) | 1..1 | The subject (child) of the source/left edge  | . |
-| [left_object_id](left_object_id.md) | [uriorcurie](uriorcurie.md) | 1..1 | The object (parent) of the source/left edge  | . |
-| [left_predicate_id](left_predicate_id.md) | [uriorcurie](uriorcurie.md) | 1..1 | The predicate (relation) of the source/left edge  | . |
-| [left_subject_name](left_subject_name.md) | [string](string.md) | 0..1 | The name of the subject (child) of the source/left edge  | . |
-| [left_object_name](left_object_name.md) | [string](string.md) | 0..1 | The name of the object (parent) of the source/left edge  | . |
-| [left_predicate_name](left_predicate_name.md) | [string](string.md) | 0..1 | The name of the predicate of the source/left edge  | . |
-| [right_subject_id](right_subject_id.md) | [uriorcurie](uriorcurie.md) | 0..1 | The subject (child) of the matched/right edge, if matchable  | . |
-| [right_object_id](right_object_id.md) | [uriorcurie](uriorcurie.md) | 0..1 | The object (parent) of the matched/right edge, if matchable  | . |
-| [right_predicate_ids](right_predicate_ids.md) | [uriorcurie](uriorcurie.md) | 0..* | If the match type is consistent, then all consistent predicates. If the match type is identical, then the identical predicate. If the match type is OtherRelationship, then all predicates that form a path between right subject and object  | . |
-| [right_subject_name](right_subject_name.md) | [string](string.md) | 0..1 | The name of the subject (child) of the matched/right edge, if matchable  | . |
-| [right_object_name](right_object_name.md) | [string](string.md) | 0..1 | The name of the object (parent) of the matched/right edge, if matchable  | . |
-| [right_predicate_names](right_predicate_names.md) | [string](string.md) | 0..* | The names corresponding to the right_predicate_ids  | . |
-| [left_subject_is_functional](left_subject_is_functional.md) | [boolean](boolean.md) | 0..1 | True if a subject mapping is present, and maps uniquely within the same ontology  | . |
-| [left_object_is_functional](left_object_is_functional.md) | [boolean](boolean.md) | 0..1 | True if an object mapping is present, and maps uniquely within the same ontology  | . |
+| [left_subject_id](left_subject_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The subject (child) of the source/left edge  | . |
+| [left_object_id](left_object_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The object (parent) of the source/left edge  | . |
+| [left_predicate_id](left_predicate_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The predicate (relation) of the source/left edge  | . |
+| [left_subject_label](left_subject_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the subject (child) of the source/left edge  | . |
+| [left_object_label](left_object_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the object (parent) of the source/left edge  | . |
+| [left_predicate_label](left_predicate_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the predicate of the source/left edge  | . |
+| [right_subject_id](right_subject_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The subject (child) of the matched/right edge, if matchable  | . |
+| [right_object_id](right_object_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The object (parent) of the matched/right edge, if matchable  | . |
+| [right_predicate_ids](right_predicate_ids.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | If the match type is consistent, then all consistent predicates. If the match type is identical, then the identical predicate. If the match type is OtherRelationship, then all predicates that form a path between right subject and object  | . |
+| [right_subject_label](right_subject_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the subject (child) of the matched/right edge, if matchable  | . |
+| [right_object_label](right_object_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The name of the object (parent) of the matched/right edge, if matchable  | . |
+| [right_predicate_labels](right_predicate_labels.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | The names corresponding to the right_predicate_ids  | . |
+| [left_subject_is_functional](left_subject_is_functional.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | True if a subject mapping is present, and maps uniquely within the same ontology  | . |
+| [left_object_is_functional](left_object_is_functional.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | True if an object mapping is present, and maps uniquely within the same ontology  | . |
 
 
 ## Usages
@@ -51,6 +75,23 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/cross_ontology_diff
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['ann:RelationalDiff'] |
+| native | ['ann:RelationalDiff'] |
 
 
 ## LinkML Specification
@@ -95,16 +136,16 @@ attributes:
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     range: uriorcurie
     required: true
-  left_subject_name:
-    name: left_subject_name
+  left_subject_label:
+    name: left_subject_label
     description: The name of the subject (child) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-  left_object_name:
-    name: left_object_name
+  left_object_label:
+    name: left_object_label
     description: The name of the object (parent) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-  left_predicate_name:
-    name: left_predicate_name
+  left_predicate_label:
+    name: left_predicate_label
     description: The name of the predicate of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
   right_subject_id:
@@ -126,16 +167,16 @@ attributes:
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
     range: uriorcurie
-  right_subject_name:
-    name: right_subject_name
+  right_subject_label:
+    name: right_subject_label
     description: The name of the subject (child) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-  right_object_name:
-    name: right_object_name
+  right_object_label:
+    name: right_object_label
     description: The name of the object (parent) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-  right_predicate_names:
-    name: right_predicate_names
+  right_predicate_labels:
+    name: right_predicate_labels
     description: The names corresponding to the right_predicate_ids
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
@@ -201,25 +242,25 @@ attributes:
     owner: RelationalDiff
     range: uriorcurie
     required: true
-  left_subject_name:
-    name: left_subject_name
+  left_subject_label:
+    name: left_subject_label
     description: The name of the subject (child) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-    alias: left_subject_name
+    alias: left_subject_label
     owner: RelationalDiff
     range: string
-  left_object_name:
-    name: left_object_name
+  left_object_label:
+    name: left_object_label
     description: The name of the object (parent) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-    alias: left_object_name
+    alias: left_object_label
     owner: RelationalDiff
     range: string
-  left_predicate_name:
-    name: left_predicate_name
+  left_predicate_label:
+    name: left_predicate_label
     description: The name of the predicate of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-    alias: left_predicate_name
+    alias: left_predicate_label
     owner: RelationalDiff
     range: string
   right_subject_id:
@@ -247,26 +288,26 @@ attributes:
     alias: right_predicate_ids
     owner: RelationalDiff
     range: uriorcurie
-  right_subject_name:
-    name: right_subject_name
+  right_subject_label:
+    name: right_subject_label
     description: The name of the subject (child) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-    alias: right_subject_name
+    alias: right_subject_label
     owner: RelationalDiff
     range: string
-  right_object_name:
-    name: right_object_name
+  right_object_label:
+    name: right_object_label
     description: The name of the object (parent) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
-    alias: right_object_name
+    alias: right_object_label
     owner: RelationalDiff
     range: string
-  right_predicate_names:
-    name: right_predicate_names
+  right_predicate_labels:
+    name: right_predicate_labels
     description: The names corresponding to the right_predicate_ids
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
-    alias: right_predicate_names
+    alias: right_predicate_labels
     owner: RelationalDiff
     range: string
   left_subject_is_functional:

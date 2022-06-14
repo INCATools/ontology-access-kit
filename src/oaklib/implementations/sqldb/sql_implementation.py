@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Any, Iterable, Optional, Type, Dict, Union, Tuple, Iterator
 
+import rdflib
 import requests
 import semsql.builder.builder as semsql_builder
 import sssom
@@ -18,10 +19,10 @@ from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from semsql.sqla.semsql import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement, OntologyNode, \
-    RdfTypeStatement, OwlAxiomAnnotation, Node
+    RdfTypeStatement, OwlAxiomAnnotation, Node, Prefix
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP, \
-    METADATA_MAP
+    METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -110,6 +111,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     _session: Any = None
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
+    _prefix_map: PREFIX_MAP = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -174,6 +176,11 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     def is_postgres(self):
         # TODO
         return False
+
+    def get_prefix_map(self) -> PREFIX_MAP:
+        if self._prefix_map is None:
+            self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
+        return self._prefix_map
 
     def all_entity_curies(self) -> Iterable[CURIE]:
         s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')
@@ -308,13 +315,13 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
             for row in q.distinct():
                 yield str(row.subject)
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for row in self.session.query(Edge).filter(Edge.subject == curie):
             rmap[row.predicate].append(row.object)
         return rmap
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for row in self.session.query(Edge).filter(Edge.object == curie):
             rmap[row.predicate].append(row.subject)
@@ -324,6 +331,32 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         m = defaultdict(list)
         for row in self.session.query(HasMappingStatement).filter(HasMappingStatement.subject == curie):
             yield row.predicate, row.value
+
+    def dump(self, path: str = None, syntax: str = None):
+        g = rdflib.Graph()
+        bnodes = {}
+
+        def tr(n: str, v: str = None, datatype: str = None):
+            if n:
+                if n.startswith('_'):
+                    if n not in bnodes:
+                        bnodes[n] = rdflib.BNode()
+                    return bnodes[n]
+                else:
+                    return rdflib.URIRef(self.curie_to_uri(n))
+            else:
+                lit = rdflib.Literal(v, datatype=datatype)
+                return lit
+
+        for row in self.session.query(Statements):
+            s = tr(row.subject)
+            p = tr(row.predicate)
+            o = tr(row.object, row.value, row.datatype)
+            logging.debug(f'Triple {s} {p} {o}')
+            g.add((s, p, o))
+        logging.info(f'Dumping to {path}')
+        g.serialize(path, format=syntax)
+
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
@@ -680,7 +713,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         if self.autosave:
             self.save()
 
-    def save(self):
+    def save(self,):
         logging.info(f'Committing and flushing changes')
         self.session.commit()
         self.session.flush()

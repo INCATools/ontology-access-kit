@@ -14,13 +14,22 @@ URI: [http://purl.org/dc/terms/contributor](http://purl.org/dc/terms/contributor
 
 ## Properties
 
- * Range: Thing
+ * Range: [Thing](Thing.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

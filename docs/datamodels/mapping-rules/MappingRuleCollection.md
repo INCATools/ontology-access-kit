@@ -9,8 +9,19 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class MappingRuleCollection
+      MappingRuleCollection : minimum_confidence
+      MappingRuleCollection : rules
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -18,7 +29,7 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
 | [rules](rules.md) | [MappingRule](MappingRule.md) | 0..* | all rules  | . |
-| [minimum_confidence](minimum_confidence.md) | [float](float.md) | 0..1 | None  | . |
+| [minimum_confidence](minimum_confidence.md) | [xsd:float](http://www.w3.org/2001/XMLSchema#float) | 0..1 | None  | . |
 
 
 ## Usages
@@ -33,6 +44,23 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['mrules:MappingRuleCollection'] |
+| native | ['mrules:MappingRuleCollection'] |
 
 
 ## LinkML Specification
@@ -52,8 +80,8 @@ attributes:
     description: all rules
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     multivalued: true
-    inlined: true
     range: MappingRule
+    inlined: true
   minimum_confidence:
     name: minimum_confidence
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
@@ -76,10 +104,10 @@ attributes:
     description: all rules
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     multivalued: true
-    inlined: true
     alias: rules
     owner: MappingRuleCollection
     range: MappingRule
+    inlined: true
   minimum_confidence:
     name: minimum_confidence
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel

@@ -14,13 +14,22 @@ URI: [https://w3id.org/linkml/reportclass_count_with_definitions](https://w3id.o
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
 
 
 

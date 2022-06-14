@@ -9,8 +9,18 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class TextAnnotationResultSet
+      TextAnnotationResultSet : annotations
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -32,6 +42,23 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/text_annotator
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['ann:TextAnnotationResultSet'] |
+| native | ['ann:TextAnnotationResultSet'] |
 
 
 ## LinkML Specification
@@ -51,8 +78,8 @@ attributes:
     description: all annotations
     from_schema: https://w3id.org/linkml/text_annotator
     multivalued: true
-    inlined: true
     range: TextAnnotation
+    inlined: true
 
 ```
 </details>
@@ -70,10 +97,10 @@ attributes:
     description: all annotations
     from_schema: https://w3id.org/linkml/text_annotator
     multivalued: true
-    inlined: true
     alias: annotations
     owner: TextAnnotationResultSet
     range: TextAnnotation
+    inlined: true
 
 ```
 </details>

@@ -10,11 +10,23 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Activity <|-- LexicalTransformationPipeline
+      
+      LexicalTransformationPipeline : name
+      LexicalTransformationPipeline : transformations
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Activity](Activity.md)
     * **LexicalTransformationPipeline**
-
 
 
 
@@ -22,7 +34,7 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [name](name.md) | [string](string.md) | 0..1 | None  | . |
+| [name](name.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [transformations](transformations.md) | [LexicalTransformation](LexicalTransformation.md) | 0..* | None  | . |
 
 
@@ -44,6 +56,23 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['li:LexicalTransformationPipeline'] |
+| native | ['li:LexicalTransformationPipeline'] |
 
 
 ## LinkML Specification

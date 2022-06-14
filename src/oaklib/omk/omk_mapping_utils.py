@@ -112,7 +112,7 @@ def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, obj
     g = mappings_to_graph(list(subject_oi.all_sssom_mappings()) + list(object_oi.all_sssom_mappings()))
     if isinstance(subject_oi, OboGraphInterface) and isinstance(object_oi, OboGraphInterface):
         for subject_child in subject_oi.all_entity_curies():
-            for pred, subject_parent in relation_dict_as_tuples(subject_oi.get_outgoing_relationships_by_curie(subject_child)):
+            for pred, subject_parent in relation_dict_as_tuples(subject_oi.get_outgoing_relationship_map_by_curie(subject_child)):
                 logging.debug(f'Checking for analog of {subject_child} {pred} {subject_parent}')
                 has_child_mapping = False
                 has_parent_mapping = False
@@ -124,7 +124,7 @@ def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, obj
                 for object_child in object_child_list:
                     has_child_mapping = True
                     object_child_ancs = list(object_oi.ancestors(object_child))
-                    object_child_direct_outgoing = object_oi.get_outgoing_relationships_by_curie(object_child)
+                    object_child_direct_outgoing = object_oi.get_outgoing_relationship_map_by_curie(object_child)
                     for object_parent in object_parent_list:
                         has_parent_mapping = True
                         #print(f'CHECKING: {object_child} -> {object_parent} // {object_child_ancs}')

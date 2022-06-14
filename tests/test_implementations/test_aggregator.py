@@ -29,12 +29,12 @@ class TestAggregator(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie('GO:0005773')
+        rels = oi.get_outgoing_relationship_map_by_curie('GO:0005773')
         #for k, v in rels.items():
         #    print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
-        rels = oi.get_outgoing_relationships_by_curie(TISSUE)
+        rels = oi.get_outgoing_relationship_map_by_curie(TISSUE)
         #for k, v in rels.items():
         #    print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['UBERON:0010000'])

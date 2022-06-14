@@ -4,7 +4,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
 import requests
-from oaklib.datamodels.text_annotator import TextAnnotation
+from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP, METADATA_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -131,10 +131,12 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
                 yield curie, label
 
 
-    def annotate_text(self, text: str) -> Iterator[TextAnnotation]:
+    def annotate_text(self, text: str, configuration: TextAnnotationConfiguration = None) -> Iterator[TextAnnotation]:
+        if configuration is None:
+            configuration = TextAnnotationConfiguration()
         logging.info(f'Annotating text: {text}')
         #include =['prefLabel', 'synonym', 'definition', 'semanticType', 'cui']
-        include =['prefLabel', 'semanticType', 'cui']
+        include = ['prefLabel', 'semanticType', 'cui']
         require_exact_match = True
         include_str = ','.join(include)
         params = {'include':  include_str,
@@ -143,9 +145,10 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         if self.resource and self.resource.slug:
             params['ontologies'] = self.resource.slug.upper()
         r = self._bioportal_get(self._base_url + '/annotator', params=params)
-        return self.json_to_results(r.json(), text)
+        return self._annotator_json_to_results(r.json(), text, configuration)
 
-    def json_to_results(self, json_list: List[Any], text: str) -> Iterator[TextAnnotation]:
+    def _annotator_json_to_results(self, json_list: List[Any], text: str,
+                                   configuration: TextAnnotationConfiguration = None) -> Iterator[TextAnnotation]:
         results = []
         seen = {}
         for obj in json_list:
@@ -161,8 +164,10 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
                                          match_type=x['matchType'],
                                          #info=str(obj)
                                          )
-                    if len(text) == ann.subject_end:
+                    if len(text) == ann.subject_end and ann.subject_start ==1:
                         ann.matches_whole_text = True
+                    if configuration and configuration.matches_whole_text and not ann.matches_whole_text:
+                        continue
                     uid = ann.subject_start, ann.subject_end, ann.object_id
                     if uid in seen:
                         logging.debug(f'Skipping duplicative annotation to {ann.object_source}')

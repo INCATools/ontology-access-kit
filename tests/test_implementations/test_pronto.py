@@ -42,7 +42,7 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie('GO:0005773')
+        rels = oi.get_outgoing_relationship_map_by_curie('GO:0005773')
         for k, v in rels.items():
             print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0043231'])
@@ -51,14 +51,14 @@ class TestProntoImplementation(unittest.TestCase):
     @unittest.skip('https://github.com/althonos/pronto/issues/163')
     def test_gci_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationships_by_curie(CELL)
+        rels = oi.get_outgoing_relationship_map_by_curie(CELL)
         self.assertCountEqual(rels[IS_A], ['CARO:0000003'])
         self.assertCountEqual(rels[ONLY_IN_TAXON], [CELLULAR_ORGANISMS])
         self.assertNotIn(NUCLEUS, rels[PART_OF])
 
     def test_incoming_relationships(self):
         oi = self.oi
-        rels = oi.get_incoming_relationships_by_curie(CYTOPLASM)
+        rels = oi.get_incoming_relationship_map_by_curie(CYTOPLASM)
         for k, v in rels.items():
             print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ['GO:0005938', 'GO:0099568'])

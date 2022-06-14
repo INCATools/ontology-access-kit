@@ -2,8 +2,9 @@
 
 A string that provides a human-readable name for an entity
 
-URI: http://purl.obolibrary.org/obo/schema/label_type
+URI: http://www.w3.org/2001/XMLSchema#string
 
+* [base](https://w3id.org/linkml/base): str
 
 
 
@@ -13,6 +14,15 @@ URI: http://purl.obolibrary.org/obo/schema/label_type
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

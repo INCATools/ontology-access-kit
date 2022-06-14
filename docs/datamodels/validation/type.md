@@ -11,13 +11,22 @@ URI: [http://www.w3.org/ns/shacl#sourceConstraintComponent](http://www.w3.org/ns
 
 ## Properties
 
- * Range: nodeidentifier
+ * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
 
 
 

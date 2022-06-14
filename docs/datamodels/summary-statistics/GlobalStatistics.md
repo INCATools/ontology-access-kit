@@ -10,11 +10,47 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      SummaryStatisticCollection <|-- GlobalStatistics
+      
+      GlobalStatistics : annotation_property_count
+      GlobalStatistics : anonymous_class_expression_count
+      GlobalStatistics : anonymous_individual_count
+      GlobalStatistics : by_category
+      GlobalStatistics : by_ontology
+      GlobalStatistics : by_subset
+      GlobalStatistics : by_taxon
+      GlobalStatistics : class_count
+      GlobalStatistics : class_count_excluding_deprecated
+      GlobalStatistics : class_count_with_definitions
+      GlobalStatistics : datatype_property_count
+      GlobalStatistics : description_logic_profile
+      GlobalStatistics : distinct_synonym_count
+      GlobalStatistics : equivalentclasses_axiom_count
+      GlobalStatistics : individual_count
+      GlobalStatistics : mapping_count
+      GlobalStatistics : named_individual_count
+      GlobalStatistics : object_property_count
+      GlobalStatistics : ontology_count
+      GlobalStatistics : owl_axiom_count
+      GlobalStatistics : property_count
+      GlobalStatistics : rdf_triple_count
+      GlobalStatistics : subclass_of_axiom_count
+      GlobalStatistics : synonym_statement_count
+      GlobalStatistics : unsatisfiable_class_count
+      GlobalStatistics : untyped_entity_count
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [SummaryStatisticCollection](SummaryStatisticCollection.md)
     * **GlobalStatistics**
-
 
 
 
@@ -26,28 +62,28 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 | [by_taxon](by_taxon.md) | [FacetStatistics](FacetStatistics.md) | 0..* | statistics keyed by organism taxon  | . |
 | [by_ontology](by_ontology.md) | [FacetStatistics](FacetStatistics.md) | 0..* | statistics keyed by ontology  | . |
 | [by_subset](by_subset.md) | [FacetStatistics](FacetStatistics.md) | 0..* | statistics keyed by ontology subset  | . |
-| [class_count](class_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [anonymous_class_expression_count](anonymous_class_expression_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [unsatisfiable_class_count](unsatisfiable_class_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [class_count_excluding_deprecated](class_count_excluding_deprecated.md) | [integer](integer.md) | 0..1 | None  | . |
-| [class_count_with_definitions](class_count_with_definitions.md) | [integer](integer.md) | 0..1 | None  | . |
-| [property_count](property_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [object_property_count](object_property_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [datatype_property_count](datatype_property_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [annotation_property_count](annotation_property_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [individual_count](individual_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [named_individual_count](named_individual_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [anonymous_individual_count](anonymous_individual_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [untyped_entity_count](untyped_entity_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [description_logic_profile](description_logic_profile.md) | [string](string.md) | 0..1 | None  | . |
-| [owl_axiom_count](owl_axiom_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [rdf_triple_count](rdf_triple_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [subclass_of_axiom_count](subclass_of_axiom_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [equivalentclasses_axiom_count](equivalentclasses_axiom_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [distinct_synonym_count](distinct_synonym_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [synonym_statement_count](synonym_statement_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [mapping_count](mapping_count.md) | [integer](integer.md) | 0..1 | None  | . |
-| [ontology_count](ontology_count.md) | [integer](integer.md) | 0..1 | None  | . |
+| [class_count](class_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [anonymous_class_expression_count](anonymous_class_expression_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [unsatisfiable_class_count](unsatisfiable_class_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [class_count_excluding_deprecated](class_count_excluding_deprecated.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [class_count_with_definitions](class_count_with_definitions.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [property_count](property_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [object_property_count](object_property_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [datatype_property_count](datatype_property_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [annotation_property_count](annotation_property_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [individual_count](individual_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [named_individual_count](named_individual_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [anonymous_individual_count](anonymous_individual_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [untyped_entity_count](untyped_entity_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [description_logic_profile](description_logic_profile.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [owl_axiom_count](owl_axiom_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [rdf_triple_count](rdf_triple_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [subclass_of_axiom_count](subclass_of_axiom_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [equivalentclasses_axiom_count](equivalentclasses_axiom_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [distinct_synonym_count](distinct_synonym_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [synonym_statement_count](synonym_statement_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [mapping_count](mapping_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| [ontology_count](ontology_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
 
 
 ## Usages
@@ -62,6 +98,23 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['reporting:GlobalStatistics'] |
+| native | ['reporting:GlobalStatistics'] |
 
 
 ## LinkML Specification
@@ -84,15 +137,15 @@ attributes:
     - for example, GO stats may be broken out by MF/BP/CC
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     range: FacetStatistics
+    inlined: true
   by_taxon:
     name: by_taxon
     description: statistics keyed by organism taxon
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     range: FacetStatistics
+    inlined: true
   by_ontology:
     name: by_ontology
     description: statistics keyed by ontology
@@ -101,8 +154,8 @@ attributes:
       break stats into each sub-ontology
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     range: FacetStatistics
+    inlined: true
   by_subset:
     name: by_subset
     description: statistics keyed by ontology subset
@@ -110,8 +163,8 @@ attributes:
     - For example, GO metagenomics_slim
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     range: FacetStatistics
+    inlined: true
 
 ```
 </details>
@@ -132,19 +185,19 @@ attributes:
     - for example, GO stats may be broken out by MF/BP/CC
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     alias: by_category
     owner: GlobalStatistics
     range: FacetStatistics
+    inlined: true
   by_taxon:
     name: by_taxon
     description: statistics keyed by organism taxon
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     alias: by_taxon
     owner: GlobalStatistics
     range: FacetStatistics
+    inlined: true
   by_ontology:
     name: by_ontology
     description: statistics keyed by ontology
@@ -153,10 +206,10 @@ attributes:
       break stats into each sub-ontology
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     alias: by_ontology
     owner: GlobalStatistics
     range: FacetStatistics
+    inlined: true
   by_subset:
     name: by_subset
     description: statistics keyed by ontology subset
@@ -164,10 +217,10 @@ attributes:
     - For example, GO metagenomics_slim
     from_schema: https://w3id.org/linkml/summary_statistics
     multivalued: true
-    inlined: true
     alias: by_subset
     owner: GlobalStatistics
     range: FacetStatistics
+    inlined: true
   class_count:
     name: class_count
     from_schema: https://w3id.org/linkml/summary_statistics

@@ -9,13 +9,22 @@ URI: [https://github.com/geneontology/obographs/basicPropertyValues](https://git
 
 ## Properties
 
- * Range: BasicPropertyValue
+ * Range: [BasicPropertyValue](BasicPropertyValue.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
 
 
 

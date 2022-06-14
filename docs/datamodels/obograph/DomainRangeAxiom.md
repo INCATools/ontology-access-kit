@@ -8,11 +8,22 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Axiom <|-- DomainRangeAxiom
+      
+      DomainRangeAxiom : meta
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Axiom](Axiom.md)
     * **DomainRangeAxiom**
-
 
 
 
@@ -40,6 +51,23 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:DomainRangeAxiom'] |
+| native | ['og:DomainRangeAxiom'] |
 
 
 ## LinkML Specification

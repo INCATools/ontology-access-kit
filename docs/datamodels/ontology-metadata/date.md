@@ -1,20 +1,37 @@
-# Date
-
-a date (year, month and day) in an idealized calendar
-
-URI: http://www.w3.org/2001/XMLSchema#date
-
-* [base](https://w3id.org/linkml/base): XSDDate
+# Slot: date
+_when the term was updated_
 
 
-* [repr](https://w3id.org/linkml/repr): str
+URI: [http://purl.org/dc/terms/date](http://purl.org/dc/terms/date)
 
+
+
+
+## Inheritance
+
+* [provenance_property](provenance_property.md)
+    * **date**
+
+
+
+## Properties
+
+ * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

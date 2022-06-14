@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/text_annotator/results](https://w3id.org/linkml/te
 
 ## Properties
 
- * Range: RelationalDiff
+ * Range: [RelationalDiff](RelationalDiff.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/cross_ontology_diff
 
 
 

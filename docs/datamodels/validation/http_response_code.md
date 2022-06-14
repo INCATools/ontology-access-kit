@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/validation-model/http_response_code](https://w3id.
 
 ## Properties
 
- * Range: integer
+ * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
 
 
 

@@ -90,7 +90,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if curie.startswith('http'):
             return curie
         pm = self.get_prefix_map()
-        pfx, local_id = curie.split(':')
+        parts = curie.split(':')
+        if len(parts) == 2:
+            pfx, local_id = parts
+        else:
+            if strict:
+                raise ValueError(f'Bad CURIE: {curie} parts: {parts}')
+            else:
+                return curie
         if pfx in pm:
             return f'{pm[pfx]}{local_id}'
         else:
@@ -165,7 +172,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         for curie in self.all_entity_curies():
-            for pred, fillers in self.get_outgoing_relationships_by_curie(curie).items():
+            for pred, fillers in self.get_outgoing_relationship_map_by_curie(curie).items():
                 for filler in fillers:
                     yield curie, pred, filler
 
@@ -278,7 +285,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def get_hierararchical_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents
 
@@ -295,9 +302,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param isa_only: restrict hierarchical parents to isa only
         :return:
         """
-        return self.get_outgoing_relationships_by_curie(curie)[IS_A]
+        return self.get_outgoing_relationship_map_by_curie(curie)[IS_A]
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -312,13 +319,43 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationships(self, curie: CURIE, predicates: List[PRED_CURIE] = None) -> \
+            Iterator[Tuple[PRED_CURIE, CURIE]]:
+        """
+        Returns relationships where curie in the subject
+
+        :param curie:
+        :param predicates: if None, do not filter
+        :return:
+        """
+        for p, vs in self.get_outgoing_relationship_map_by_curie(curie).items():
+            if predicates is None or p not in predicates:
+                continue
+            for v in vs:
+                yield p, v
+
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
 
         :param curie:
         :return:
         """
         raise NotImplementedError()
+
+    def get_incoming_relationships(self, curie: CURIE, predicates: List[PRED_CURIE] = None) -> \
+            Iterator[Tuple[PRED_CURIE, CURIE]]:
+        """
+        Returns relationships where curie in the object
+
+        :param curie:
+        :param predicates: if None, do not filter
+        :return:
+        """
+        for p, vs in self.get_incoming_relationship_map_by_curie(curie).items():
+            if predicates is None or p not in predicates:
+                continue
+            for v in vs:
+                yield p, v
 
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
         """
@@ -389,6 +426,16 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Saves current state
 
+        :return:
+        """
+        raise NotImplementedError
+
+    def dump(self, path: str = None, syntax: str = None):
+        """
+        Exports current state
+
+        :param path:
+        :param syntax:
         :return:
         """
         raise NotImplementedError

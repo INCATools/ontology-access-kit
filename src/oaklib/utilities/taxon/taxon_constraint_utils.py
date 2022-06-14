@@ -17,7 +17,7 @@ def _taxon_ids(tcs: List[TaxonConstraint]) -> List[TAXON_CURIE]:
 
 
 def get_direct_taxon_constraints(oi: OboGraphInterface, curie: CURIE) -> Iterator[Tuple[PRED_CURIE, TAXON_CURIE]]:
-    for pred, taxons in oi.get_outgoing_relationships_by_curie(curie).items():
+    for pred, taxons in oi.get_outgoing_relationship_map_by_curie(curie).items():
         if pred in TAXON_PREDICATES:
             if pred == ONLY_IN_TAXON:
                 pred = IN_TAXON

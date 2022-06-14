@@ -9,15 +9,26 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class LexicalGrouping
+      LexicalGrouping : relationships
+      LexicalGrouping : term
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [term](term.md) | [string](string.md) | 0..1 | A normalized term that groups ontology elements  | . |
+| [term](term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | A normalized term that groups ontology elements  | . |
 | [relationships](relationships.md) | [RelationshipToTerm](RelationshipToTerm.md) | 0..* | All ontology elements grouped and their relationship to the normalized term  | . |
 
 
@@ -38,6 +49,23 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['li:LexicalGrouping'] |
+| native | ['li:LexicalGrouping'] |
 
 
 ## LinkML Specification

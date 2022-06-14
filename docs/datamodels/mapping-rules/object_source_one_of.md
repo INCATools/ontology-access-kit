@@ -9,13 +9,22 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/object_source_one_of](http
 
 ## Properties
 
- * Range: None
+ * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
 
 
 

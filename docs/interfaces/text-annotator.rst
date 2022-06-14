@@ -1,3 +1,5 @@
+.. _text_annotator
+
 Text Annotator Interface
 ------------------------
 

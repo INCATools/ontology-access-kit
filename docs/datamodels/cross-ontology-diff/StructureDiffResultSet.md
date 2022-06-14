@@ -9,8 +9,18 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class StructureDiffResultSet
+      StructureDiffResultSet : results
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -32,6 +42,23 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/cross_ontology_diff
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['ann:StructureDiffResultSet'] |
+| native | ['ann:StructureDiffResultSet'] |
 
 
 ## LinkML Specification
@@ -51,8 +78,8 @@ attributes:
     description: all annotations
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
-    inlined: true
     range: RelationalDiff
+    inlined: true
 
 ```
 </details>
@@ -70,10 +97,10 @@ attributes:
     description: all annotations
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
-    inlined: true
     alias: results
     owner: StructureDiffResultSet
     range: RelationalDiff
+    inlined: true
 
 ```
 </details>

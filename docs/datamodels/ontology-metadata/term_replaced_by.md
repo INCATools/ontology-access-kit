@@ -14,13 +14,22 @@ URI: [http://purl.obolibrary.org/obo/IAO_0100001](http://purl.obolibrary.org/obo
 
 ## Properties
 
- * Range: Any
+ * Range: [Any](Any.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

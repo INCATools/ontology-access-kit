@@ -900,7 +900,7 @@ regex = ["regex"]
 
 [[package]]
 name = "linkml"
-version = "1.2.13"
+version = "1.2.14"
 description = "Linked Open Data Modeling Language"
 category = "main"
 optional = false
@@ -2438,7 +2438,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "1000699b19ea4576f7190e6cda80c9cea23e02cc66b98b20a0831f983c46bdc9"
+content-hash = "52aaf08a88c585dc8d6cf0cf102a28af44a67b2c340aeb6001b3414b22b12164"
 
 [metadata.files]
 aiohttp = [
@@ -3070,8 +3070,8 @@ lark = [
     {file = "lark-1.1.2.tar.gz", hash = "sha256:7a8d0c07d663da9391d7faee1bf1d7df4998c47ca43a593cbef5c7566acd057a"},
 ]
 linkml = [
-    {file = "linkml-1.2.13-py3-none-any.whl", hash = "sha256:be8de2848fc038549bad9abaa43a32d9a7550ba245cda2baa14027b6a10c71c2"},
-    {file = "linkml-1.2.13.tar.gz", hash = "sha256:df0e1b5e87ca41ae51812f30906829dc2d2db1d63062ceb0fc7c61e91a53932d"},
+    {file = "linkml-1.2.14-py3-none-any.whl", hash = "sha256:198f88a6157604afa78db2e41b1c91e4e795803d5ed09ab4fc7ce58b89b88d01"},
+    {file = "linkml-1.2.14.tar.gz", hash = "sha256:593a3bcfdac22ba3a1aae29056e02abf9e2a6d423ad65b5526f08af288adc3dc"},
 ]
 linkml-dataops = [
     {file = "linkml_dataops-0.1.0-py3-none-any.whl", hash = "sha256:193cf7f659e5f07946d2c2761896910d5f7151d91282543b1363801f68307f4c"},

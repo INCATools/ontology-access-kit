@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2002/07/owl#onProperty](http://www.w3.org/2002/07/owl#on
 
 ## Properties
 
- * Range: PropertyExpression
+ * Range: [PropertyExpression](PropertyExpression.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

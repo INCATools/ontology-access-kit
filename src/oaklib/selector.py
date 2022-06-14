@@ -75,15 +75,17 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             resource.slug = rest
             if scheme == 'sqlite':
                 impl_class = SqlImplementation
-                #resource.slug = f'sqlite:///{Path(rest).absolute()}'
             elif scheme == 'ubergraph':
                 impl_class = UbergraphImplementation
             elif scheme == 'ontobee':
                 impl_class = OntobeeImplementation
             elif scheme == 'lov':
+                logging.warning(f'lov scheme may become plugin in future')
                 impl_class = LovImplementation
             elif scheme == 'sparql':
                 impl_class = SparqlImplementation
+                resource.url = rest
+                resource.slug = None
             elif scheme == 'bioportal':
                 impl_class = BioportalImplementation
             elif scheme == 'agroportal':

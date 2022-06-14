@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2002/07/owl#inverseOf](http://www.w3.org/2002/07/owl#inv
 
 ## Properties
 
- * Range: Property
+ * Range: [Property](Property.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

@@ -14,13 +14,22 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_subClassOf](http://purl.obo
 
 ## Properties
 
- * Range: Class
+ * Range: [Class](Class.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 
