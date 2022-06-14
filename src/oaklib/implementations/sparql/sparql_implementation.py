@@ -19,10 +19,14 @@ class SparqlImplementation(AbstractSparqlImplementation, SearchInterface, Mappin
     def __post_init__(self):
         if self.graph is None:
             resource = self.resource
-            graph = rdflib.Graph()
-            if resource is not None:
-                graph.parse(str(resource.local_path), format=resource.format)
-            self.graph = graph
+            #print(resource)
+            if resource.url:
+                super(SparqlImplementation, self).__post_init__()
+            else:
+                graph = rdflib.Graph()
+                if resource is not None:
+                    graph.parse(str(resource.local_path), format=resource.format)
+                    self.graph = graph
 
 
 

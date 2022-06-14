@@ -38,7 +38,7 @@ class StreamingInfoWriter(StreamingWriter):
                 for _, x in oi.get_simple_mappings_by_curie(curie):
                     self.file.write(f' {x}')
             if show_all or 'r' in self.display_options and isinstance(oi, OboGraphInterface):
-                for k, vs in oi.get_outgoing_relationships_by_curie(curie).items():
+                for k, vs in oi.get_outgoing_relationship_map_by_curie(curie).items():
                     p = predicate_code_map.get(k, None)
                     if p is None:
                         p = oi.get_label_by_curie(k)

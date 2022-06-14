@@ -70,9 +70,11 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
             return None
         else:
             ont = self.resource.slug
-            for g in self.list_of_named_graphs():
-                if f'/{ont}.' in g or f'/{ont}-base' in g:
-                    return g
+            if ont:
+                for g in self.list_of_named_graphs():
+                    if f'/{ont}.' in g or f'/{ont}-base' in g:
+                        return g
+                logging.warning(f'No graph named: {ont}')
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraph
@@ -108,13 +110,13 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
             subj = self.uri_to_curie(row['s']['value'])
             yield pred, subj
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, obj in self._get_outgoing_edges_by_curie(curie, graph=RelationGraphEnum.nonredundant):
             rmap[pred].append(obj)
         return rmap
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, s in self._get_incoming_edges_by_curie(curie, graph=RelationGraphEnum.nonredundant):
             rmap[pred].append(s)
@@ -241,6 +243,9 @@ class UbergraphImplementation(AbstractSparqlImplementation, RelationGraphInterfa
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row['s']['value'])
+
+    def dump(self, path: str = None, syntax: str = None):
+        raise NotImplemented(f'Dump not allowed on ubergraph')
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: Subsetter

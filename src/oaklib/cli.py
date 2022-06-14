@@ -25,7 +25,8 @@ from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
+from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface, \
+    RelationGraphInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -444,10 +445,13 @@ def list_subset(subset, output: str):
 @main.command()
 @click.argument("words", nargs=-1)
 @click.option('-W/--no-W',
-              '--matches-whole-text/--no-matches-whole-text')
+              '--matches-whole-text/--no-matches-whole-text',
+              default=False,
+              show_default=True,
+              help="if true, then only show matches that span the entire input text")
 @click.option('--text-file',
               type=click.File(mode="r"),
-              help="Text file to annotate")
+              help="Text file to annotate. Each newline separated entry is a distinct text.")
 @output_option
 @output_type_option
 def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, output_type: str):
@@ -461,7 +465,9 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
 
     See the ontorunner framework for plugins for SciSpacy and OGER
 
-    For more on text annotation, see https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html
+    For more on text annotation, see:
+
+     - <https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html>_
     """
     impl = settings.impl
     if isinstance(impl, TextAnnotatorInterface):
@@ -658,6 +664,7 @@ def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_ty
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
+
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
@@ -706,18 +713,63 @@ def ancestors(terms, predicates, statistics: bool, output_type:str, output: str)
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f'Ancestor seed: {curies}')
-        graph = impl.ancestor_graph(curies, predicates=actual_predicates)
         if statistics:
-            logging.info(f'Calculating graph stats')
-            ancs_stats = ancestors_with_stats(graph, curies)
+            if isinstance(impl, OboGraphInterface):
+                graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+                logging.info(f'Calculating graph stats')
+                ancs_stats = ancestors_with_stats(graph, curies)
+                for n in graph.nodes:
+                    kwargs = {}
+                    for k, v in ancs_stats.get(n.id, {}).items():
+                        kwargs[k] = v
+                    writer.emit(dict(id=n.id, label=n.lbl, **kwargs))
+            else:
+                raise NotImplementedError
         else:
-            ancs_stats = None
-        for n in graph.nodes:
-            kwargs = {}
-            if ancs_stats:
-                for k, v in ancs_stats.get(n.id, {}).items():
-                    kwargs[k] = v
-            writer.emit(dict(id=n.id, label=n.lbl, **kwargs))
+            if isinstance(impl, OboGraphInterface):
+                ancs = list(impl.ancestors(curies, actual_predicates))
+                for a_curie, a_label in impl.get_labels_for_curies(ancs):
+                    writer.emit(dict(id=a_curie, label=a_label))
+            else:
+                raise NotImplementedError
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@output_type_option
+@output_option
+def siblings(terms, predicates, output_type:str, output: str):
+    """
+    List all siblings
+
+    Example:
+
+        runoak -i cl.owl siblings CL:4023094
+
+    Note that ancestors is by default over ALL relationship types
+    """
+    impl = settings.impl
+    if output_type == 'obo':
+        writer = StreamingOboWriter(ontology_interface=impl)
+    else:
+        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer.file = output
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        curies = list(query_terms_iterator(terms, impl))
+        logging.info(f'seed: {curies}')
+        sibs = []
+        for curie in curies:
+            for _, parent in impl.get_outgoing_relationships(curie, actual_predicates):
+                for _, child in impl.get_incoming_relationships(parent, actual_predicates):
+                    if child not in sibs:
+                        sibs.append(child)
+        for sib in sibs:
+            writer.emit(sib, impl.get_label_by_curie(sib))
+
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -755,6 +807,26 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
                 writer.emit(curie, label)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option("-o", "--output")
+@output_type_option
+def dump(terms, output, output_type: str):
+    """
+    Exports an ontology
+
+    Example:
+
+        runoak -i prontolib:pato.obo dump -o pato.json -O json
+
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        impl.dump(output, output_type)
+    else:
+        raise NotImplementedError
 
 @main.command()
 @click.argument("terms", nargs=-1)
@@ -978,7 +1050,7 @@ def relationships(terms, output: str):
         curies = list(query_terms_iterator(terms, impl))
         for curie in curies:
             print(f'{curie} ! {impl.get_label_by_curie(curie)}')
-            for pred, fillers in impl.get_outgoing_relationships_by_curie(curie).items():
+            for pred, fillers in impl.get_outgoing_relationship_map_by_curie(curie).items():
                 print(f'  PRED: {pred} ! {impl.get_label_by_curie(pred)}')
                 for filler in fillers:
                     print(f'    * {filler} ! {impl.get_label_by_curie(filler)}')

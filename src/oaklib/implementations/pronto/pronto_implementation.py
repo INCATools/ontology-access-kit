@@ -206,7 +206,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         return rel_type.id
 
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         # See: https://github.com/althonos/pronto/issues/119
         term = self._entity(curie)
         if isinstance(term, Term):
@@ -219,7 +219,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             rels = {}
         return rels
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         term = self._entity(curie)
         if isinstance(term, Term):
             # only "Terms" in pronto have relationships
@@ -314,6 +314,13 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             t2.name = t.name
             # TODO - complete object
         return ProntoImplementation(wrapped_ontology=subontology)
+
+    def dump(self, path: str = None, syntax: str = None):
+        if isinstance(path, str):
+            with open(path, 'wb') as file:
+                self.wrapped_ontology.dump(file, format=syntax)
+        else:
+            self.wrapped_ontology.dump(path, format=syntax)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface

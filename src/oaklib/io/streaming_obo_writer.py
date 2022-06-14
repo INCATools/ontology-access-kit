@@ -54,7 +54,7 @@ class StreamingOboWriter(StreamingWriter):
                 for v in vs:
                     self.line(f'synonym: "{v}" {scope} []')
         if isinstance(oi, OboGraphInterface):
-            rmap = oi.get_outgoing_relationships_by_curie(curie)
+            rmap = oi.get_outgoing_relationship_map_by_curie(curie)
             for p in rmap.get(IS_A, []):
                 self.line(f'is_a: {p} ! {oi.get_label_by_curie(p)}')
             for r, ps in rmap.items():

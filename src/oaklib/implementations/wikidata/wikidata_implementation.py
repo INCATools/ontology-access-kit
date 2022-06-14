@@ -131,13 +131,13 @@ class WikidataImplementation(AbstractSparqlImplementation, RelationGraphInterfac
             subj = self.uri_to_curie(row['s']['value'])
             yield pred, subj
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, obj in self._get_outgoing_edges_by_curie(curie):
             rmap[pred].append(obj)
         return rmap
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, s in self._get_incoming_edges_by_curie(curie):
             rmap[pred].append(s)

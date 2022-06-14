@@ -82,11 +82,11 @@ class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphIn
                     return node
         return node
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self._delegate_simple_tuple_map(lambda i: i.get_outgoing_relationships_by_curie(curie))
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.get_outgoing_relationship_map_by_curie(curie))
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self._delegate_simple_tuple_map(lambda i: i.get_incoming_relationships_by_curie(curie))
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.get_incoming_relationship_map_by_curie(curie))
 
 
 

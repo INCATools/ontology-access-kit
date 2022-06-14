@@ -44,7 +44,7 @@ class StreamingMarkdownWriter(StreamingWriter):
         self.file.write('\n')
         if isinstance(oi, OboGraphInterface):
             self.file.write(f'### Relationships\n\n')
-            for k, vs in oi.get_outgoing_relationships_by_curie(curie).items():
+            for k, vs in oi.get_outgoing_relationship_map_by_curie(curie).items():
                 p = predicate_code_map.get(k, None)
                 if p is None:
                     p = oi.get_label_by_curie(k)
