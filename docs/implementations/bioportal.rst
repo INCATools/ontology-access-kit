@@ -1,4 +1,4 @@
-.. bioportal:
+.. _bioportal_implementation:
 
 Bioportal Endpoint
 ==================

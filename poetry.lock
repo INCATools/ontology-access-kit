@@ -886,6 +886,17 @@ docs = ["sphinx", "sphinx-rtd-theme", "sphinx-autodoc-typehints", "sphinx-click"
 test = ["pytest"]
 
 [[package]]
+name = "kgcl-schema"
+version = "0.1.1"
+description = "Schema fro the KGCL project."
+category = "main"
+optional = false
+python-versions = ">=3.9,<4.0"
+
+[package.dependencies]
+linkml-runtime = ">=1.1.24,<2.0.0"
+
+[[package]]
 name = "lark"
 version = "1.1.2"
 description = "a modern parsing library"
@@ -2438,7 +2449,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "52aaf08a88c585dc8d6cf0cf102a28af44a67b2c340aeb6001b3414b22b12164"
+content-hash = "2e0c11fb1bc649d8aad9d022a101a581f0dc820f062250528ff3c145d0ea44ba"
 
 [metadata.files]
 aiohttp = [
@@ -3064,6 +3075,10 @@ keyring = [
 ]
 kgcl = [
     {file = "kgcl-0.1.0.tar.gz", hash = "sha256:8fe36c6a7f713f2da81bf937b036d051f5968ada1718a8947f0e3a26d99d53b0"},
+]
+kgcl-schema = [
+    {file = "kgcl-schema-0.1.1.tar.gz", hash = "sha256:43485c926b381b426944ec90920f8f1fdecce483a2f41f7559a3fa4b5d51f2ee"},
+    {file = "kgcl_schema-0.1.1-py3-none-any.whl", hash = "sha256:b387771562f45517487ae0f2145da89866ef5357114def852f5b12965c8e067e"},
 ]
 lark = [
     {file = "lark-1.1.2-py2.py3-none-any.whl", hash = "sha256:c1ab213fc5e2d273fe2d91da218ccc8b5b92d065b17faa5e743499cb16594b7d"},

@@ -2,6 +2,7 @@ import logging
 import shutil
 import unittest
 
+from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
@@ -9,12 +10,15 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.resource import OntologyResource
+from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import add_labels_from_uris
 from oaklib.utilities.obograph_utils import graph_as_dict
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, LABEL_PREDICATE, HAS_PART, OWL_THING
+from semsql.sqla.semsql import Statements
+from sqlalchemy import delete
 
 from tests import OUTPUT_DIR, INPUT_DIR, CELLULAR_COMPONENT, VACUOLE, CYTOPLASM, NUCLEUS, HUMAN, CHEBI_NUCLEUS, \
-    NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID, FUNGI
+    NUCLEAR_ENVELOPE, FAKE_PREDICATE, FAKE_ID, FUNGI, IMBO
 
 DB = INPUT_DIR / 'go-nucleus.db'
 SSN_DB = INPUT_DIR / 'ssn.db'
@@ -332,14 +336,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
         oi.autosave = True
-        label = oi.get_label_by_curie(NUCLEUS)
-        self.assertEqual("nucleus", label)
-        oi.set_label_for_curie(NUCLEUS, "foo")
-        label = oi.get_label_by_curie(NUCLEUS)
+        label = oi.get_label_by_curie(VACUOLE)
+        self.assertEqual("vacuole", label)
+        oi.set_label_for_curie(VACUOLE, "foo")
+        label = oi.get_label_by_curie(VACUOLE)
         self.assertEqual("foo", label)
-        oi.save()
+        #oi.save()
         oi.autosave = False
-        label = oi.get_label_by_curie(NUCLEUS)
+        label = oi.get_label_by_curie(VACUOLE)
         self.assertEqual("foo", label)
         oi.set_label_for_curie(NUCLEUS, "bar")
         oi.set_label_for_curie(NUCLEAR_ENVELOPE, "baz")
@@ -348,6 +352,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi.save()
         self.assertEqual("bar", oi.get_label_by_curie(NUCLEUS))
         self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+        # get a fresh copy to ensure changes have persisted
         oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
         self.assertEqual("bar", oi.get_label_by_curie(NUCLEUS))
         self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
@@ -364,12 +369,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             #print(f'{curie}: {label}')
             if label is None:
                 no_label_curies.append(curie)
-        oi.autosave = True
+        self.assertGreater(len(no_label_curies), 4)
+        oi.autosave = False
         add_labels_from_uris(oi)
         oi.save()
         for curie in no_label_curies:
             label = oi.get_label_by_curie(curie)
-            print(f'XXX {curie}: {label}')
+            # TODO
+            #print(f'XXX {curie}: {label}')
             #self.assertIsNotNone(label)
 
     def test_migrate_curies(self):
@@ -403,4 +410,57 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             for ax in oi.statements_with_annotations(curie):
                 logging.info(yaml_dumper.dumps(ax))
         for ax in oi.statements_with_annotations(NUCLEUS):
-            print(yaml_dumper.dumps(ax))
+            logging.info(yaml_dumper.dumps(ax))
+
+    def test_patcher(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        #oi.autosave = True
+        oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
+        #with self.assertRaises(ValueError) as e:
+        #    oi.apply_patch(kgcl.NodeObsoletion(id='x', about_node='NO SUCH TERM'))
+        oi.apply_patch(kgcl.NodeDeletion(id=generate_change_id(), about_node=VACUOLE))
+        oi.apply_patch(kgcl.NewSynonym(id=generate_change_id(),
+                                       about_node=NUCLEAR_ENVELOPE, new_value='envelope of nucleus'))
+        oi.apply_patch(kgcl.EdgeCreation(id=generate_change_id(),
+                                         subject=NUCLEUS, predicate=IS_A, object=CELLULAR_COMPONENT))
+        oi.apply_patch(kgcl.EdgeDeletion(id=generate_change_id(),
+                                         subject=NUCLEUS, predicate=IS_A, object=IMBO))
+        #oi.apply_patch(kgcl.NameBecomesSynonym(id=generate_change_id(),
+        #                                       about_node=NUCLEAR_ENVELOPE,
+        #                                       change_1=kgcl.NodeRename(id='FIXME-1',
+        #                                                                )))
+        oi.save()
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        obs = list(oi.all_obsolete_curies())
+        self.assertIn(NUCLEUS, obs)
+        self.assertIsNone(oi.get_label_by_curie(VACUOLE))
+        self.assertIn('envelope of nucleus', oi.aliases_by_curie(NUCLEAR_ENVELOPE))
+        self.assertIn(CELLULAR_COMPONENT, oi.get_outgoing_relationship_map_by_curie(NUCLEUS)[IS_A])
+        self.assertNotIn(IMBO, oi.get_outgoing_relationship_map_by_curie(NUCLEUS)[IS_A])
+
+    def test_sqla_write(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        session = oi.session
+        #session.autoflush = True
+        rows = list(session.query(Statements))
+        #for row in rows:
+        #    print(row)
+        self.assertGreater(len(rows), 0)
+        stmt = delete(Statements)
+        session.execute(stmt)
+        session.commit()
+        print(f'D={session.dirty}')
+        rows = list(session.query(Statements))
+        for row in rows:
+            print(row)
+        self.assertEqual([], rows)
+        session.commit()
+        oi = SqlImplementation(OntologyResource(slug=f'sqlite:///{MUTABLE_DB}'))
+        session = oi.session
+        rows = list(session.query(Statements))
+        for row in rows:
+            print(row)
+        self.assertEqual([], rows)
+

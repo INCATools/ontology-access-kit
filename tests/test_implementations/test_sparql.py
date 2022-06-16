@@ -55,6 +55,16 @@ class TestSparqlImplementation(unittest.TestCase):
         #self.assertEqual(label, 'digit')
         self.assertEqual('shape', oi.get_label_by_curie(SHAPE))
 
+    def test_dump(self):
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        self.oi.dump(TEST_MUTABLE_RDF, 'ttl')
+
+    @unittest.skip('TODO')
+    def test_test_label(self):
+        self.oi.set_label_for_curie(NUCLEUS, 'foo')
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        self.oi.dump(TEST_MUTABLE_RDF, 'ttl')
+
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         logging.info(syns)

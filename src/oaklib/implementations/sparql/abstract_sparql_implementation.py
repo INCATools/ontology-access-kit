@@ -369,8 +369,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return None
 
     def dump(self, path: str = None, syntax: str = 'turtle'):
-        if self.named_graph is None:
-            raise ValueError(f'Must specific a named graph to dump')
+        if self.named_graph is None and not self.graph:
+            raise ValueError(f'Must specify a named graph to dump for a remote triplestore')
         query = SparqlQuery(select=['?s', '?p', '?o'],
                             where=['?s ?p ?o'])
         bindings = self._query(query)

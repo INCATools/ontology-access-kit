@@ -3,17 +3,19 @@ import tempfile
 import re
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Iterator, Union, Tuple
+from typing import List, Iterable, Iterator, Union, Tuple, Dict
 
 import pronto
 import sssom
 from deprecated import deprecated
+from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
     METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.validator_interface import ValidatorInterface
@@ -27,10 +29,13 @@ from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOP
 from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
 from sssom.sssom_datamodel import MatchTypeEnum
 
+# https://github.com/althonos/pronto/issues/173
+import warnings
+warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
 
 @dataclass
 class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface,
-                           MappingProviderInterface):
+                           MappingProviderInterface, PatcherInterface):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -128,7 +133,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
     def get_prefix_map(self) -> PREFIX_MAP:
         return {}
 
-    def _entity(self, curie: CURIE):
+    def _entity(self, curie: CURIE, strict=False):
         for r in self.wrapped_ontology.relationships():
             # see https://owlcollab.github.io/oboformat/doc/obo-syntax.html#4.4.1
             # pronto gives relations shorthand IDs for RO and BFO, as it is providing
@@ -141,6 +146,8 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         if curie in self.wrapped_ontology:
             return self.wrapped_ontology[curie]
         else:
+            if strict:
+                raise ValueError(f'No such CURIE: {curie}')
             return None
 
     def _create(self, curie: CURIE, exist_ok = True):
@@ -419,3 +426,18 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         for m in matches:
             yield m
 
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: PatcherInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
+        pass
+
+    def apply_patch(self, patch: kgcl.Change) -> None:
+        if isinstance(patch, kgcl.NodeRename):
+            self.set_label_for_curie(patch.about_node, patch.new_value)
+        elif isinstance(patch, kgcl.NodeObsoletion):
+            t = self._entity(patch.about_node, strict=True)
+            t.obsolete = True
+        else:
+            raise NotImplementedError

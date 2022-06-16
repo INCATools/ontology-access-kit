@@ -13,6 +13,7 @@ class OntologyResource:
     """
     slug: str = None
     directory: str = None
+    scheme: str = None
     format: str = None
     url: str = None
     readonly: bool = False

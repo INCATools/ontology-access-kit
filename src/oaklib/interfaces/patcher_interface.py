@@ -3,7 +3,7 @@ from typing import Dict, List, Iterable, Any
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
-
+from kgcl_schema.datamodel.kgcl import NodeCreation, NodeDeletion, Change
 
 class PatcherInterface(BasicOntologyInterface, ABC):
     """
@@ -12,7 +12,7 @@ class PatcherInterface(BasicOntologyInterface, ABC):
     See `KGCL <https://github.com/cmungall/knowledge-graph-change-language>`_
     """
 
-    def apply_patch(self, patch: Any) -> None:
+    def apply_patch(self, patch: Change) -> None:
         """
         Applies a change description
 

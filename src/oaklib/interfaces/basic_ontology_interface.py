@@ -3,6 +3,7 @@ from abc import ABC
 from dataclasses import dataclass, field
 from typing import Dict, List, Iterable, Tuple, Optional, Any, Iterator
 
+#from oaklib import OntologyResource
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, URI, PRED_CURIE, SUBSET_CURIE
 from oaklib.datamodels.vocabulary import IS_A, OBO_PURL, BIOPORTAL_PURL, OWL_THING
@@ -135,6 +136,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
         Even when a single ontology is wrapped, there may be multiple ontologies included as imports
+
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        """
+        returns iterator over all known CURIEs that are obsolete
 
         :return: iterator
         """
@@ -436,6 +445,15 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :param path:
         :param syntax:
+        :return:
+        """
+        raise NotImplementedError
+
+    def clone(self, resource: Any) -> None:
+        """
+        Clones the ontology interface to a new resource
+
+        :param resource:
         :return:
         """
         raise NotImplementedError
