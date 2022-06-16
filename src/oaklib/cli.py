@@ -18,6 +18,7 @@ from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type, Iterator, Uni
 
 import click
 import rdflib
+from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper, json_dumper
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
@@ -27,6 +28,7 @@ from oaklib.implementations.aggregator.aggregator_implementation import Aggregat
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface, \
     RelationGraphInterface
+from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -37,6 +39,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
@@ -45,6 +48,7 @@ from oaklib.selector import get_resource_from_shorthand, get_implementation_from
 from oaklib.types import PRED_CURIE, CURIE
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
+from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
     load_lexical_index, load_mapping_rules, add_labels_from_uris
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
@@ -69,6 +73,7 @@ class SetOperation(Enum):
 @dataclass
 class Settings:
     impl: Any = None
+    autosave: bool = False
 
 
 settings = Settings()
@@ -76,7 +81,7 @@ settings = Settings()
 input_option = click.option(
     "-i",
     "--input",
-    help="path to input implementation specification."
+    help="input implementation specification. This is either a path to a file, or an ontology selector"
 )
 add_option = click.option(
     "-a",
@@ -223,10 +228,14 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
+@click.option("--save-to",
+              help="For commands that mutate the ontology, this specifies where changes are saved to")
+@click.option("--autosave/--no-autosave",
+              help="For commands that mutate the ontology, this determines if these are automatically saved in place")
 @input_option
 @input_type_option
 @add_option
-def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
+def main(verbose: int, quiet: bool, input: str, input_type: str, add: List, save_to: str, autosave: bool):
     """Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
@@ -249,6 +258,7 @@ def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
         logging.basicConfig(level=logging.ERROR)
     resource = OntologyResource()
     resource.slug = input
+    settings.autosave = autosave
 
     if input:
         impl_class: Type[OntologyInterface]
@@ -261,6 +271,12 @@ def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
         if settings.impl:
             impls = [settings.impl] + impls
         settings.impl = AggregatorImplementation(implementations=impls)
+    if save_to:
+        if autosave:
+            raise ValueError(f'Cannot specify both --save-to and --autosave')
+        settings.impl = settings.impl.clone(get_resource_from_shorthand(save_to))
+        settings.autosave = True
+
 
 
 @main.command()
@@ -325,6 +341,24 @@ def all_subsets(output: str):
     if isinstance(impl, BasicOntologyInterface):
         for subset in impl.all_subset_curies():
             print(f'{subset} ! {impl.get_label_by_curie(subset)}')
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@output_option
+def all_obsoletes(output: str):
+    """
+    Shows all obsolete nodes
+
+    Example:
+        runoak -i obolibrary:go.obo all-obsoletes
+
+    """
+    impl = settings.impl
+    if isinstance(impl, BasicOntologyInterface):
+        for term in impl.all_obsolete_curies():
+            print(f'{term} ! {impl.get_label_by_curie(term)}')
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
@@ -1152,7 +1186,8 @@ def leafs(output: str, predicates: str):
 @main.command()
 @output_option
 @output_type_option
-def mappings(output, output_type):
+@click.option('--maps-to-source')
+def mappings(maps_to_source, output, output_type):
     """
     List all SSSOM mappings in the ontology
 
@@ -1172,7 +1207,7 @@ def mappings(output, output_type):
     else:
         raise ValueError(f'No such format: {output_type}')
     if isinstance(impl, MappingProviderInterface):
-        for mapping in impl.all_sssom_mappings():
+        for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
             writer.emit(mapping)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
@@ -1625,6 +1660,106 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
         sssom_writers.write_table(msdf, output)
     else:
         raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@click.option("--other-ontology",
+              help="other ontology")
+@output_option
+@click.argument("terms", nargs=-1)
+def diff_terms(output, other_ontology, terms):
+    """
+    EXPERIMENTAL
+
+    :param output:
+    :param other_ontology:
+    :param terms:
+    :return:
+    """
+    impl = settings.impl
+    other_impl = get_implementation_from_shorthand(other_ontology)
+    terms = list(query_terms_iterator(terms, impl))
+    if len(terms) == 2:
+        [term, other_term] = terms
+    elif len(terms) == 1:
+        (term, other_term) = terms[0], None
+    else:
+        raise ValueError(f'Must pass one or two terms; got: {terms}')
+    if isinstance(impl, DifferInterface):
+        diff = impl.compare_term_in_two_ontologies(other_impl, term, other_curie=other_term)
+        # THIS WILL CHANGE!!!
+        left, right = diff
+        print(f'LEFT')
+        for x in left:
+            print(f' * {x}')
+        print(f'RIGHT')
+        for x in right:
+            print(f' * {x}')
+    else:
+        raise NotImplementedError
+
+
+@main.command()
+@click.option("--other-ontology",
+              help="other ontology")
+@output_option
+@output_type_option
+def diff_ontologies(output, output_type, other_ontology):
+    """
+    EXPERIMENTAL
+    """
+    if output_type is None or output_type == 'json':
+        writer = StreamingJsonLinesWriter(output)
+    elif output_type == 'yaml':
+        writer = StreamingYamlWriter(output)
+    elif output_type == 'csv':
+        writer = StreamingCsvWriter(output)
+    elif output_type == 'kgcl':
+        raise NotImplementedError
+    else:
+        raise ValueError(f'No such format: {output_type}')
+    impl = settings.impl
+    other_impl = get_implementation_from_shorthand(other_ontology)
+    if isinstance(impl, DifferInterface):
+        for diff in impl.compare_ontology_term_lists(other_impl):
+            writer.emit(diff)
+    else:
+        raise NotImplementedError
+
+
+@main.command()
+@click.option('--output', '-o')
+@output_type_option
+@click.argument("terms", nargs=-1)
+def set_obsolete(output, output_type, terms):
+    """
+    Sets an ontology element to be obsolete
+
+    WARNING: this command may be replaced by a more general KGCL change command
+    in future
+
+    Example:
+
+        runoak -i my.obo set-obsolete MY:0002200 -o my-modified.obo
+
+    This may be chained, for example to take all terms matching a search query and then
+    obsolete them all:
+
+        runoak -i my.db search 'l/^Foo/` | runoak -i my.db --autosave set-obsolete -
+    """
+    impl = settings.impl
+    if isinstance(impl, PatcherInterface):
+        impl.autosave = settings.autosave
+        for term in query_terms_iterator(terms, impl):
+            impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(),
+                                                 about_node=term))
+        if not settings.autosave and not output:
+            logging.warning(f'--autosave not passed, changes are NOT saved')
+        if output:
+            impl.dump(output, output_type)
+        #impl.save()
+    else:
+        raise NotImplementedError
 
 
 if __name__ == "__main__":

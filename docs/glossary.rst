@@ -67,6 +67,10 @@ Glossary
     but not widely used or known outside the genomics sphere. OBO is mapped to OWL, but only expresses a subset, and provides some OWL
     abstractions in a more easy to understand fashion.
 
+   KGCL
+    Knowledge Graph Change Language (KGCL) is a :term:`Datamodel` for communicating desired changes to an ontology.
+    It can also be used to communicate differences between two ontologies. See `KGCL docs <https://github.com/INCATools/kgcl>`_.
+
    OWL Annotation
     In the context of :term:`OWL`, the term :term:`Annotation` means a piece of metadata that does not have a strict logical
     interpretation. Annotations can be on entities, for example, :term:`Label` annotations, or annotations can be on :term:`Axioms<Axiom>`.
@@ -132,7 +136,7 @@ Glossary
 
    Bioportal
     An :term:`Ontology Repository` that is a comprehensive collection of multiple biologically relevant ontologies.
-    Bioportal exposes an :term:`API` endpoint, that is utilized by the OAK Bioportal :term:`Implementation`
+    Bioportal exposes an :term:`API` endpoint, that is utilized by the OAK :ref:`bioportal_implementation`. 
 
    OLS
     Ontology Lookup Service. An :term:`Ontology Repository` that is a curated collection of multiple biologically relevant ontologies,

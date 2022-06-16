@@ -434,6 +434,53 @@ as yaml or TSV:
 
     runoak -i bioportal:chebi term-mappings CHEBI:15356 -O sssom
 
+The Bioportal endpoint can also be used to :term:`Annotate` sections of text, for example:
+
+.. code-block::
+
+    runoak -i bioportal:cl annotate "interneuron of forebrain"
+
+Gives results:
+
+.. code-block::
+
+    object_id: CL:0000099
+    object_label: interneuron
+    object_source: https://data.bioontology.org/ontologies/CL
+    match_type: PREF
+    subject_start: 1
+    subject_end: 11
+    subject_label: INTERNEURON
+
+    ---
+    object_id: UBERON:0001890
+    object_label: forebrain
+    object_source: https://data.bioontology.org/ontologies/CL
+    match_type: PREF
+    subject_start: 16
+    subject_end: 24
+    subject_label: FOREBRAIN
+
+Note that the results here are in :term:`YAML` syntax, with each result being a YAML document.
+The results of the annotate command conform to the annotate :term:`Datamodel`. We will return to
+the concept of datamodels later on, for now you can look at the `Text Annotator Datamodel docs <https://incatools.github.io/ontology-access-kit/datamodels/text-annotator/index.html>`_.
+
+Some datamodels can also be expressed as TSVs:
+
+.. code-block::
+
+    runoak -i bioportal:cl annotate "interneuron of forebrain" -O csv
+
+Gives back a TSV table:
+
+.. csv-table:: Annotate results
+    :header: predicate_id,object_id,object_label,object_source,confidence,match_string,is_longest_match,matches_whole_text,match_type,info,subject_start,subject_end,subject_label
+
+    CL:0000099,interneuron,https://data.bioontology.org/ontologies/CL,None,None,None,None,PREF,None,1,11,INTERNEURON
+    UBERON:0001890,forebrain,https://data.bioontology.org/ontologies/CL,None,None,None,None,PREF,None,16,24,FOREBRAIN
+
+Any other implementation that implements the annotate interface will *conform* to this same datamodel and format.
+
 Using OLS
 ^^^^^^^^^^
 

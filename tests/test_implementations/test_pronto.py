@@ -1,11 +1,13 @@
 import logging
 import unittest
 
+from kgcl_schema.datamodel import kgcl
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchTermSyntax, SearchProperty
 from oaklib.implementations import ProntoImplementation
 from oaklib.resource import OntologyResource
+from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.obograph_utils import graph_as_dict, index_graph_nodes, index_graph_edges_by_subject, \
     index_graph_edges_by_object, index_graph_edges_by_predicate
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART, ONLY_IN_TAXON, IN_TAXON
@@ -13,7 +15,8 @@ from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_PART, ONLY_IN_TAXON,
 from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM, CELL, CELLULAR_ORGANISMS, NUCLEUS
 
 TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
-TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
+TEST_SIMPLE_ONT = INPUT_DIR / 'go-nucleus-simple.obo'
+TEST_ONT_COPY = OUTPUT_DIR / 'go-nucleus.copy.obo'
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / 'vacuole.obo'
 
 
@@ -262,6 +265,27 @@ class TestProntoImplementation(unittest.TestCase):
         print(curies)
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
+
+    @unittest.skip('https://github.com/althonos/pronto/issues/175')
+    def test_dump(self):
+        COPY = 'go-nucleus.copy.obo'
+        OUTPUT_DIR.mkdir(exist_ok=True)
+        resource = OntologyResource(slug=COPY, directory=OUTPUT_DIR, local=True, format='obo')
+        self.oi.dump(str(OUTPUT_DIR / COPY), syntax='obo')
+
+    def test_patcher(self):
+        resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
+        oi = ProntoImplementation(resource)
+        oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
+        with self.assertRaises(ValueError) as e:
+            oi.apply_patch(kgcl.NodeObsoletion(id='x', about_node='NO SUCH TERM'))
+        oi.dump(str(OUTPUT_DIR / 'post-kgcl.obo'), syntax='obo')
+
+
+
+
+
+
 
 
 

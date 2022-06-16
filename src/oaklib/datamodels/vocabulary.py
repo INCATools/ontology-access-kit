@@ -26,6 +26,8 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 }
 SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
+DEPRECATED_PREDICATE = omd.slots.deprecated.curie
+
 
 OWL_THING = 'owl:Thing'
 SUBCLASS_OF = omd.slots.subClassOf.curie

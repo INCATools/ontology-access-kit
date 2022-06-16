@@ -12,17 +12,21 @@ import requests
 import semsql.builder.builder as semsql_builder
 import sssom
 from appdirs import user_cache_dir
+from kgcl_schema.datamodel import kgcl
+from kgcl_schema.datamodel.kgcl import NodeRename
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+#from oaklib import OntologyResource
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.interfaces.differ_interface import DifferInterface
 from semsql.sqla.semsql import Statements, Edge, HasSynonymStatement, \
     HasTextDefinitionStatement, ClassNode, IriNode, RdfsLabelStatement, DeprecatedNode, EntailedEdge, \
     ObjectPropertyNode, AnnotationPropertyNode, NamedIndividualNode, HasMappingStatement, OntologyNode, \
     RdfTypeStatement, OwlAxiomAnnotation, Node, Prefix
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, RELATIONSHIP, \
-    METADATA_MAP, PREFIX_MAP
+    METADATA_MAP, PREFIX_MAP, BasicOntologyInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -37,15 +41,27 @@ from oaklib.datamodels import obograph, ontology_metadata
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES, omd_slots, LABEL_PREDICATE, IN_SUBSET, HAS_DBXREF, \
-    ALL_MATCH_PREDICATES, IS_A
+    ALL_MATCH_PREDICATES, IS_A, DEPRECATED_PREDICATE, HAS_EXACT_SYNONYM
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
-from sqlalchemy import text, update, delete
+from sqlalchemy import text, update, delete, insert, and_
 from sqlalchemy.orm import sessionmaker, aliased
 from sqlalchemy import create_engine
 
 # TODO: move to schemaview
 from sssom.sssom_datamodel import MatchTypeEnum
 
+def _curie_prefix(curie: CURIE) -> Optional[str]:
+    if ':' in curie:
+        return curie.split(':')[0]
+    else:
+        return None
+
+def _mapping(m: sssom.Mapping):
+    # enhances a mapping with sources
+    # TODO: move to sssom utils
+    m.subject_source = _curie_prefix(m.subject_id)
+    m.object_source = _curie_prefix(m.object_id)
+    return m
 
 # https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests
 def download_file(url: str, local_filename: Path):
@@ -93,7 +109,7 @@ def regex_to_sql_like(regex: str) -> str:
 @dataclass
 class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInterface, SearchInterface,
                         SubsetterInterface, MappingProviderInterface, PatcherInterface,
-                        SemanticSimilarityInterface, MetadataInterface, ABC):
+                        SemanticSimilarityInterface, MetadataInterface, DifferInterface, ABC):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
 
@@ -187,6 +203,10 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for row in self.engine.execute(s):
             yield row['id']
 
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        for row in self.session.query(DeprecatedNode):
+            yield row.id
+
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         for row in self.session.query(Edge):
             yield row.subject, row.predicate, row.object
@@ -270,15 +290,18 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                                                                  Statements.object == sm[subset]):
             yield self._get_subset_curie(row.subject)
 
-    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
-        stmt = update(Statements).where(Statements.subject == curie and Statements.predicate == LABEL_PREDICATE).values(
-            value=label)
-        self.session.execute(
-            stmt
-        )
+    def _execute(self, stmt):
+        self.session.execute(stmt)
         self.session.flush()
         if self.autosave:
             self.save()
+
+    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+        stmt = update(Statements).where(and_(Statements.subject == curie,
+                                             Statements.predicate == LABEL_PREDICATE)).values(
+            value=label)
+        #print(f'{curie} - {label} - {stmt}')
+        self._execute(stmt)
 
     def basic_search(self, search_term: str, config: SearchConfiguration = SearchConfiguration()) -> Iterable[CURIE]:
         preds = []
@@ -332,30 +355,44 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         for row in self.session.query(HasMappingStatement).filter(HasMappingStatement.subject == curie):
             yield row.predicate, row.value
 
+    def clone(self, resource: Any) -> None:
+        print(f'{self.resource.scheme} ==> {resource.scheme}')
+        if self.resource.scheme == 'sqlite':
+            if resource.scheme == 'sqlite':
+                shutil.copyfile(self.resource.slug, resource.slug)
+                new_oi = type(self)(resource)
+                return new_oi
+        raise NotImplementedError(f'Can only clone sqlite to sqlite')
+
     def dump(self, path: str = None, syntax: str = None):
-        g = rdflib.Graph()
-        bnodes = {}
+        if syntax is None or syntax == 'ttl':
+            g = rdflib.Graph()
+            bnodes = {}
 
-        def tr(n: str, v: str = None, datatype: str = None):
-            if n:
-                if n.startswith('_'):
-                    if n not in bnodes:
-                        bnodes[n] = rdflib.BNode()
-                    return bnodes[n]
+            def tr(n: str, v: str = None, datatype: str = None):
+                if n:
+                    if n.startswith('_'):
+                        if n not in bnodes:
+                            bnodes[n] = rdflib.BNode()
+                        return bnodes[n]
+                    else:
+                        return rdflib.URIRef(self.curie_to_uri(n))
                 else:
-                    return rdflib.URIRef(self.curie_to_uri(n))
-            else:
-                lit = rdflib.Literal(v, datatype=datatype)
-                return lit
+                    lit = rdflib.Literal(v, datatype=datatype)
+                    return lit
 
-        for row in self.session.query(Statements):
-            s = tr(row.subject)
-            p = tr(row.predicate)
-            o = tr(row.object, row.value, row.datatype)
-            logging.debug(f'Triple {s} {p} {o}')
-            g.add((s, p, o))
-        logging.info(f'Dumping to {path}')
-        g.serialize(path, format=syntax)
+            for row in self.session.query(Statements):
+                s = tr(row.subject)
+                p = tr(row.predicate)
+                o = tr(row.object, row.value, row.datatype)
+                logging.debug(f'Triple {s} {p} {o}')
+                g.add((s, p, o))
+            logging.info(f'Dumping to {path}')
+            g.serialize(path, format=syntax)
+        elif syntax == 'sqlite':
+            raise NotImplementedError
+        else:
+            raise NotImplementedError
 
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -438,16 +475,25 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def all_sssom_mappings(self) -> Iterable[sssom.Mapping]:
+    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[sssom.Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query:
             v = row.value if row.value is not None else row.object
+            # TODO: this check is slow
             if URIorCURIE.is_valid(v):
-                yield sssom.Mapping(subject_id=row.subject,
+                if row.subject.startswith('_:'):
+                    continue
+                mpg = sssom.Mapping(subject_id=row.subject,
                                     object_id=v,
                                     predicate_id=row.predicate,
                                     match_type=MatchTypeEnum.Unspecified)
+                _mapping(mpg)
+                if subject_or_object_source:
+                    # TODO: consider moving to query for efficiency
+                    if mpg.subject_source != subject_or_object_source and mpg.object_source != subject_or_object_source:
+                        continue
+                yield mpg
             else:
                 if self.strict:
                     raise ValueError(f'not a CURIE: {V}')
@@ -456,22 +502,25 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query.filter(Statements.subject == curie):
-            yield sssom.Mapping(subject_id=curie,
+            mpg = sssom.Mapping(subject_id=curie,
                                 object_id=row.value if row.value is not None else row.object,
                                 predicate_id=row.predicate,
                                 match_type=MatchTypeEnum.Unspecified)
+            yield _mapping(mpg)
         # xrefs are stored as literals
         for row in base_query.filter(Statements.value == curie):
-            yield sssom.Mapping(subject_id=row.subject,
+            mpg = sssom.Mapping(subject_id=row.subject,
                                 object_id=curie,
                                 predicate_id=row.predicate,
                                 match_type=MatchTypeEnum.Unspecified)
+            yield _mapping(mpg)
         # skos mappings are stored as objects
         for row in base_query.filter(Statements.object == curie):
-            yield sssom.Mapping(subject_id=row.subject,
+            mpg = sssom.Mapping(subject_id=row.subject,
                                 object_id=curie,
                                 predicate_id=row.predicate,
                                 match_type=MatchTypeEnum.Unspecified)
+            yield _mapping(mpg)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface
@@ -702,6 +751,7 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
+        # TODO: add an operation for this to KGCL
         for k, v in curie_map.items():
             for cls in [Statements, EntailedEdge]:
                 cmd = update(cls).where(cls.subject == k).values(subject=v)
@@ -712,6 +762,56 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                 r = self.session.execute(cmd)
         if self.autosave:
             self.save()
+
+    def _set_predicate_value(self, subject: CURIE, predicate: PRED_CURIE, value: str, datatype: str):
+        stmt = delete(Statements).where(and_(Statements.subject == subject,
+                                             Statements.predicate == predicate))
+        self._execute(stmt)
+        stmt = insert(Statements).values(subject=subject, predicate=predicate, value=value, datatype=datatype)
+        self._execute(stmt)
+
+    def apply_patch(self, patch: kgcl.Change) -> None:
+        if isinstance(patch, kgcl.NodeChange):
+            about = patch.about_node
+            if isinstance(patch, kgcl.NodeRename):
+                self.set_label_for_curie(patch.about_node, patch.new_value)
+            elif isinstance(patch, kgcl.NewSynonym):
+                # TODO: synonym type
+                self._execute(insert(Statements).values(subject=about,
+                                                        predicate=HAS_EXACT_SYNONYM,
+                                                        value=patch.new_value))
+            elif isinstance(patch, kgcl.NodeObsoletion):
+                self._set_predicate_value(about, DEPRECATED_PREDICATE, value='true', datatype='xsd:string')
+            elif isinstance(patch, kgcl.NodeDeletion):
+                self._execute(delete(Statements).where(Statements.subject == about))
+            elif isinstance(patch, kgcl.NameBecomesSynonym):
+                label = self.get_label_by_curie(about)
+                self.apply_patch(kgcl.NodeRename(id=f'{path.id}-1', about_node=about, new_value=patch.new_value))
+                self.apply_patch(kgcl.NewSynonym(id=f'{path.id}-2', about_node=about, new_value=label))
+            else:
+                raise NotImplementedError
+        elif isinstance(patch, kgcl.EdgeChange):
+            about = patch.about_edge
+            if isinstance(patch, kgcl.EdgeCreation):
+                self._execute(insert(Statements).values(subject=patch.subject,
+                                                        predicate=patch.predicate,
+                                                        object=patch.object))
+                logging.warning(f'entailed_edge is now stale')
+            elif isinstance(patch, kgcl.EdgeDeletion):
+                self._execute(delete(Statements).where(and_(Statements.subject==patch.subject,
+                                                            Statements.predicate==patch.predicate,
+                                                            Statements.object==patch.object)))
+                logging.warning(f'entailed_edge is now stale')
+            elif isinstance(patch, kgcl.NodeMove):
+                raise NotImplementedError
+                #self._execute(delete(Statements).where(and_(Statements.subject==patch.subject,
+                #                                            Statements.predicate==patch.predicate,
+                #                                            Statements.object==patch.object)))
+                logging.warning(f'entailed_edge is now stale')
+            else:
+                raise NotImplementedError(f'Cannot handle patches of type {type(patch)}')
+        else:
+            raise NotImplementedError
 
     def save(self,):
         logging.info(f'Committing and flushing changes')
@@ -760,3 +860,24 @@ class SqlImplementation(RelationGraphInterface, OboGraphInterface, ValidatorInte
                                   annotatedProperty=k,
                                   annotatedTarget=v)
                     yield ax
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: DifferInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def compare_term_in_two_ontologies(self, other_ontology: BasicOntologyInterface, curie: CURIE,
+                                       other_curie: CURIE = None) -> Any:
+        if other_curie is None:
+            other_curie = curie
+        logging.info(f'Comparing {curie} with {other_curie}')
+        if isinstance(other_ontology, SqlImplementation):
+            def nullify_subject(row):
+                return(f'{row.predicate} {row.object} {row.value} {row.datatype} {row.language}')
+
+            this_rows = [nullify_subject(row) for row in self.session.query(Statements).filter(Statements.subject == curie)]
+            other_rows = [nullify_subject(row) for row in other_ontology.session.query(Statements).filter(Statements.subject == other_curie)]
+            this_only = set(this_rows).difference(set(other_rows))
+            other_only = set(other_rows).difference(set(this_rows))
+            return this_only, other_only
+        else:
+            raise NotImplementedError(f'other ontology {other_ontology} must implement SqlInterface')

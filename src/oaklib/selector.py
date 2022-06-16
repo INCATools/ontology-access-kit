@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Type, Union, Optional
 
+from oaklib import BasicOntologyInterface
 from oaklib.implementations.bioportal.agroportal_implementation import AgroportalImplementation
 from oaklib.implementations.bioportal.bioportal_implementation import BioportalImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
@@ -32,7 +33,8 @@ RDF_SUFFIX_TO_FORMAT = {
     'json-ld': 'json-ld',
 }
 
-def get_implementation_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
+
+def get_implementation_from_shorthand(descriptor: str, format: str = None) -> BasicOntologyInterface:
     """
     See :ref:`get_resource_from_shorthand`
 
@@ -51,12 +53,10 @@ def get_implementation_from_shorthand(descriptor: str, format: str = None) -> On
     res = get_resource_from_shorthand(descriptor, format)
     return res.implementation_class(res)
 
+
 def get_resource_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
     """
     Maps from a shorthand descriptor to an OntologyResource.
-
-
-
 
     :param descriptor:
     :param format:
@@ -69,9 +69,10 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
         if ':' in descriptor:
             toks = descriptor.split(':')
             scheme = toks[0]
+            resource.scheme = scheme
             rest = ':'.join(toks[1:])
             if not rest:
-                rest= None
+                rest = None
             resource.slug = rest
             if scheme == 'sqlite':
                 impl_class = SqlImplementation

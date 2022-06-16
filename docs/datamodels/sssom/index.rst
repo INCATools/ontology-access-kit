@@ -1,3 +1,5 @@
+.. _sssom_datamodel:
+
 SSSOM
 =====
 
