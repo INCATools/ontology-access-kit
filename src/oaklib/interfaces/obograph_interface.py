@@ -2,17 +2,23 @@ import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Tuple, Iterable, Union, Iterator, Optional, Any
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
-from oaklib.utilities.graph.relationship_walker import walk_up, walk_down
-from oaklib.datamodels.obograph import Node, Graph, Edge
+from oaklib.datamodels.obograph import Edge, Graph, Node
+from oaklib.interfaces.basic_ontology_interface import (
+    RELATIONSHIP,
+    RELATIONSHIP_MAP,
+    BasicOntologyInterface,
+)
+from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
+from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
+
 
 class Distance(Enum):
     """
     Specifies how many hops to walk in any given direction
     """
+
     ZERO = "zero"
     DIRECT = "direct"
     TRANSITIVE = "transitive"
@@ -23,6 +29,7 @@ class TraversalConfiguration:
     """
     Specifies how to walk up and down a graph
     """
+
     predicates: List[PRED_CURIE] = None
     up_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
     down_distance: Distance = field(default_factory=lambda: Distance.TRANSITIVE)
@@ -42,6 +49,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     This datamodel conceives of an ontology as a graph
     """
+
     transitive_query_cache: Dict[Any, Any] = None
 
     def enable_transitive_query_cache(self):
@@ -93,12 +101,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             if o not in node_map:
                 node_map[o] = self.node(o)
             edges.append(Edge(sub=s, pred=p, obj=o))
-        graph_id = 'test'
-        return Graph(id=graph_id,
-                     nodes=list(node_map.values()),
-                     edges=edges)
+        graph_id = "test"
+        return Graph(id=graph_id, nodes=list(node_map.values()), edges=edges)
 
-    def ancestor_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Graph:
+    def ancestor_graph(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Graph:
         """
         Return a graph object that consists of all the nodes specified in the start_curies list,
         extended with an interactive walk up the graph following all relationships (optionally filtered by the predicate
@@ -108,7 +116,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: if supplied then only follow edges with these predicates
         :return: ancestor graph
         """
-        key = ('ancestor_graph', tuple(start_curies), tuple(predicates if predicates is not None else ()))
+        key = (
+            "ancestor_graph",
+            tuple(start_curies),
+            tuple(predicates if predicates is not None else ()),
+        )
         if self.transitive_query_cache is not None:
             if key in self.transitive_query_cache:
                 return self.transitive_query_cache[key]
@@ -117,7 +129,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             self.transitive_query_cache[key] = g
         return g
 
-    def descendant_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Graph:
+    def descendant_graph(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Graph:
         """
         As ancestor graph, but in opposite direction
 
@@ -125,7 +139,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param predicates: if supplied then only follow edges with these predicates
         :return: ancestor graph
         """
-        key = ('descendant_graph', tuple(start_curies), tuple(predicates if predicates is not None else ()))
+        key = (
+            "descendant_graph",
+            tuple(start_curies),
+            tuple(predicates if predicates is not None else ()),
+        )
         if self.transitive_query_cache is not None:
             if key in self.transitive_query_cache:
                 return self.transitive_query_cache[key]
@@ -134,7 +152,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             self.transitive_query_cache[key] = g
         return g
 
-    def ancestors(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def ancestors(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Iterable[CURIE]:
         """
         Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
         predicates.
@@ -150,7 +170,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         for node in self.ancestor_graph(start_curies, predicates).nodes:
             yield node.id
 
-    def descendants(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def descendants(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Iterable[CURIE]:
         """
         Descendants obtained from a walk downwards starting from start_curies ending in roots, following only the specified
         predicates.
@@ -166,8 +188,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         for node in self.descendant_graph(start_curies, predicates).nodes:
             yield node.id
 
-    def subgraph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None,
-                 traversal: TraversalConfiguration = None) -> Graph:
+    def subgraph(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        traversal: TraversalConfiguration = None,
+    ) -> Graph:
         """
         Combines ancestors and descendants according to a traversal configuration
 
@@ -179,7 +205,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         if traversal is None:
             traversal = TraversalConfiguration()
         if traversal.up_distance == Distance.TRANSITIVE:
-            logging.info(f'Getting ancestor graph from {type(self)}, start={start_curies}')
+            logging.info(f"Getting ancestor graph from {type(self)}, start={start_curies}")
             up_graph = self.ancestor_graph(start_curies, predicates=predicates)
         else:
             up_graph = None
@@ -189,7 +215,6 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             down_graph = None
         g = self._merge_graphs([up_graph, down_graph])
         return g
-
 
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:
         """
@@ -204,10 +229,11 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             node_ids.update(list(rel))
         edges = [Edge(sub=s, pred=p, obj=o) for s, p, o in relationships]
         nodes = [self.node(id) for id in node_ids]
-        return Graph(id='query',
-                     nodes=list(nodes), edges=edges)
+        return Graph(id="query", nodes=list(nodes), edges=edges)
 
-    def walk_up_relationship_graph(self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
+    def walk_up_relationship_graph(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Iterable[RELATIONSHIP]:
         """
         Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
 
@@ -242,7 +268,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def _merge_graphs(self, graphs: List[Optional[Graph]]) -> Graph:
-        g = Graph(id='merged')
+        g = Graph(id="merged")
         for src in graphs:
             if src is not None:
                 g.nodes += src.nodes
@@ -250,12 +276,3 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             if src is not None:
                 g.edges += src.edges
         return g
-
-
-
-
-
-
-
-
-

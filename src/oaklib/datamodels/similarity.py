@@ -7,23 +7,33 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import sys
 import re
-from jsonasobj2 import JsonObj, as_dict
-from typing import Optional, List, Union, Dict, ClassVar, Any
+import sys
 from dataclasses import dataclass
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from rdflib import Namespace, URIRef
-from linkml_runtime.utils.curienamespace import CurieNamespace
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
 from linkml_runtime.linkml_model.types import Float, Integer, String, Uriorcurie
-from linkml_runtime.utils.metamodelcore import URIorCURIE
+from linkml_runtime.utils.curienamespace import CurieNamespace
+from linkml_runtime.utils.dataclass_extensions_376 import (
+    dataclasses_init_fn_with_kwargs,
+)
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import URIorCURIE, bnode, empty_dict, empty_list
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -32,18 +42,18 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
-PAV = CurieNamespace('pav', 'http://purl.org/pav/')
-PROV = CurieNamespace('prov', 'http://www.w3.org/ns/prov#')
-RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
-SCHEMA = CurieNamespace('schema', 'http://schema.org/')
-SH = CurieNamespace('sh', 'https://w3id.org/shacl/')
-SIM = CurieNamespace('sim', 'https://w3id.org/linkml/similarity/')
-SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
-SSSOM = CurieNamespace('sssom', 'http://w3id.org/sssom/')
-XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
+LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
+PAV = CurieNamespace("pav", "http://purl.org/pav/")
+PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
+RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+RDFS = CurieNamespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
+SCHEMA = CurieNamespace("schema", "http://schema.org/")
+SH = CurieNamespace("sh", "https://w3id.org/shacl/")
+SIM = CurieNamespace("sim", "https://w3id.org/linkml/similarity/")
+SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
+SSSOM = CurieNamespace("sssom", "http://w3id.org/sssom/")
+XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
 DEFAULT_ = SIM
 
 
@@ -77,7 +87,6 @@ class ItemCount(Integer):
 
 
 # Class references
-
 
 
 @dataclass
@@ -133,22 +142,32 @@ class PairwiseSimilarity(YAMLRoot):
         if self.ancestor_source is not None and not isinstance(self.ancestor_source, str):
             self.ancestor_source = str(self.ancestor_source)
 
-        if self.object_information_content is not None and not isinstance(self.object_information_content, NegativeLogValue):
+        if self.object_information_content is not None and not isinstance(
+            self.object_information_content, NegativeLogValue
+        ):
             self.object_information_content = NegativeLogValue(self.object_information_content)
 
-        if self.subject_information_content is not None and not isinstance(self.subject_information_content, NegativeLogValue):
+        if self.subject_information_content is not None and not isinstance(
+            self.subject_information_content, NegativeLogValue
+        ):
             self.subject_information_content = NegativeLogValue(self.subject_information_content)
 
-        if self.ancestor_information_content is not None and not isinstance(self.ancestor_information_content, NegativeLogValue):
+        if self.ancestor_information_content is not None and not isinstance(
+            self.ancestor_information_content, NegativeLogValue
+        ):
             self.ancestor_information_content = NegativeLogValue(self.ancestor_information_content)
 
-        if self.jaccard_similarity is not None and not isinstance(self.jaccard_similarity, ZeroToOne):
+        if self.jaccard_similarity is not None and not isinstance(
+            self.jaccard_similarity, ZeroToOne
+        ):
             self.jaccard_similarity = ZeroToOne(self.jaccard_similarity)
 
         if self.dice_similarity is not None and not isinstance(self.dice_similarity, ZeroToOne):
             self.dice_similarity = ZeroToOne(self.dice_similarity)
 
-        if self.phenodigm_score is not None and not isinstance(self.phenodigm_score, NonNegativeFloat):
+        if self.phenodigm_score is not None and not isinstance(
+            self.phenodigm_score, NonNegativeFloat
+        ):
             self.phenodigm_score = NonNegativeFloat(self.phenodigm_score)
 
         super().__post_init__(**kwargs)
@@ -179,68 +198,201 @@ class TermSetPairwiseSimilarity(PairwiseSimilarity):
 class slots:
     pass
 
-slots.subject_id = Slot(uri=SSSOM.subject_id, name="subject_id", curie=SSSOM.curie('subject_id'),
-                   model_uri=SIM.subject_id, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.subject_label = Slot(uri=SSSOM.subject_label, name="subject_label", curie=SSSOM.curie('subject_label'),
-                   model_uri=SIM.subject_label, domain=None, range=Optional[str])
+slots.subject_id = Slot(
+    uri=SSSOM.subject_id,
+    name="subject_id",
+    curie=SSSOM.curie("subject_id"),
+    model_uri=SIM.subject_id,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
 
-slots.subject_source = Slot(uri=SSSOM.subject_source, name="subject_source", curie=SSSOM.curie('subject_source'),
-                   model_uri=SIM.subject_source, domain=None, range=Optional[str])
+slots.subject_label = Slot(
+    uri=SSSOM.subject_label,
+    name="subject_label",
+    curie=SSSOM.curie("subject_label"),
+    model_uri=SIM.subject_label,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.object_id = Slot(uri=SSSOM.object_id, name="object_id", curie=SSSOM.curie('object_id'),
-                   model_uri=SIM.object_id, domain=None, range=Optional[Union[str, URIorCURIE]])
+slots.subject_source = Slot(
+    uri=SSSOM.subject_source,
+    name="subject_source",
+    curie=SSSOM.curie("subject_source"),
+    model_uri=SIM.subject_source,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.object_label = Slot(uri=SSSOM.object_label, name="object_label", curie=SSSOM.curie('object_label'),
-                   model_uri=SIM.object_label, domain=None, range=Optional[str])
+slots.object_id = Slot(
+    uri=SSSOM.object_id,
+    name="object_id",
+    curie=SSSOM.curie("object_id"),
+    model_uri=SIM.object_id,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
 
-slots.object_source = Slot(uri=SSSOM.object_source, name="object_source", curie=SSSOM.curie('object_source'),
-                   model_uri=SIM.object_source, domain=None, range=Optional[str])
+slots.object_label = Slot(
+    uri=SSSOM.object_label,
+    name="object_label",
+    curie=SSSOM.curie("object_label"),
+    model_uri=SIM.object_label,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.ancestor_id = Slot(uri=SIM.ancestor_id, name="ancestor_id", curie=SIM.curie('ancestor_id'),
-                   model_uri=SIM.ancestor_id, domain=None, range=Optional[Union[str, URIorCURIE]])
+slots.object_source = Slot(
+    uri=SSSOM.object_source,
+    name="object_source",
+    curie=SSSOM.curie("object_source"),
+    model_uri=SIM.object_source,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.ancestor_label = Slot(uri=SIM.ancestor_label, name="ancestor_label", curie=SIM.curie('ancestor_label'),
-                   model_uri=SIM.ancestor_label, domain=None, range=Optional[str])
+slots.ancestor_id = Slot(
+    uri=SIM.ancestor_id,
+    name="ancestor_id",
+    curie=SIM.curie("ancestor_id"),
+    model_uri=SIM.ancestor_id,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
 
-slots.ancestor_source = Slot(uri=SIM.ancestor_source, name="ancestor_source", curie=SIM.curie('ancestor_source'),
-                   model_uri=SIM.ancestor_source, domain=None, range=Optional[str])
+slots.ancestor_label = Slot(
+    uri=SIM.ancestor_label,
+    name="ancestor_label",
+    curie=SIM.curie("ancestor_label"),
+    model_uri=SIM.ancestor_label,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.score = Slot(uri=SIM.score, name="score", curie=SIM.curie('score'),
-                   model_uri=SIM.score, domain=None, range=Optional[str])
+slots.ancestor_source = Slot(
+    uri=SIM.ancestor_source,
+    name="ancestor_source",
+    curie=SIM.curie("ancestor_source"),
+    model_uri=SIM.ancestor_source,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.information_content = Slot(uri=SIM.information_content, name="information_content", curie=SIM.curie('information_content'),
-                   model_uri=SIM.information_content, domain=None, range=Optional[Union[float, NegativeLogValue]])
+slots.score = Slot(
+    uri=SIM.score,
+    name="score",
+    curie=SIM.curie("score"),
+    model_uri=SIM.score,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.subject_information_content = Slot(uri=SIM.subject_information_content, name="subject_information_content", curie=SIM.curie('subject_information_content'),
-                   model_uri=SIM.subject_information_content, domain=None, range=Optional[Union[float, NegativeLogValue]])
+slots.information_content = Slot(
+    uri=SIM.information_content,
+    name="information_content",
+    curie=SIM.curie("information_content"),
+    model_uri=SIM.information_content,
+    domain=None,
+    range=Optional[Union[float, NegativeLogValue]],
+)
 
-slots.object_information_content = Slot(uri=SIM.object_information_content, name="object_information_content", curie=SIM.curie('object_information_content'),
-                   model_uri=SIM.object_information_content, domain=None, range=Optional[Union[float, NegativeLogValue]])
+slots.subject_information_content = Slot(
+    uri=SIM.subject_information_content,
+    name="subject_information_content",
+    curie=SIM.curie("subject_information_content"),
+    model_uri=SIM.subject_information_content,
+    domain=None,
+    range=Optional[Union[float, NegativeLogValue]],
+)
 
-slots.ancestor_information_content = Slot(uri=SIM.ancestor_information_content, name="ancestor_information_content", curie=SIM.curie('ancestor_information_content'),
-                   model_uri=SIM.ancestor_information_content, domain=None, range=Optional[Union[float, NegativeLogValue]])
+slots.object_information_content = Slot(
+    uri=SIM.object_information_content,
+    name="object_information_content",
+    curie=SIM.curie("object_information_content"),
+    model_uri=SIM.object_information_content,
+    domain=None,
+    range=Optional[Union[float, NegativeLogValue]],
+)
 
-slots.jaccard_similarity = Slot(uri=SIM.jaccard_similarity, name="jaccard_similarity", curie=SIM.curie('jaccard_similarity'),
-                   model_uri=SIM.jaccard_similarity, domain=None, range=Optional[Union[float, ZeroToOne]])
+slots.ancestor_information_content = Slot(
+    uri=SIM.ancestor_information_content,
+    name="ancestor_information_content",
+    curie=SIM.curie("ancestor_information_content"),
+    model_uri=SIM.ancestor_information_content,
+    domain=None,
+    range=Optional[Union[float, NegativeLogValue]],
+)
 
-slots.dice_similarity = Slot(uri=SIM.dice_similarity, name="dice_similarity", curie=SIM.curie('dice_similarity'),
-                   model_uri=SIM.dice_similarity, domain=None, range=Optional[Union[float, ZeroToOne]])
+slots.jaccard_similarity = Slot(
+    uri=SIM.jaccard_similarity,
+    name="jaccard_similarity",
+    curie=SIM.curie("jaccard_similarity"),
+    model_uri=SIM.jaccard_similarity,
+    domain=None,
+    range=Optional[Union[float, ZeroToOne]],
+)
 
-slots.phenodigm_score = Slot(uri=SIM.phenodigm_score, name="phenodigm_score", curie=SIM.curie('phenodigm_score'),
-                   model_uri=SIM.phenodigm_score, domain=None, range=Optional[Union[float, NonNegativeFloat]])
+slots.dice_similarity = Slot(
+    uri=SIM.dice_similarity,
+    name="dice_similarity",
+    curie=SIM.curie("dice_similarity"),
+    model_uri=SIM.dice_similarity,
+    domain=None,
+    range=Optional[Union[float, ZeroToOne]],
+)
 
-slots.overlap_coefficient = Slot(uri=SIM.overlap_coefficient, name="overlap_coefficient", curie=SIM.curie('overlap_coefficient'),
-                   model_uri=SIM.overlap_coefficient, domain=None, range=Optional[Union[float, ZeroToOne]])
+slots.phenodigm_score = Slot(
+    uri=SIM.phenodigm_score,
+    name="phenodigm_score",
+    curie=SIM.curie("phenodigm_score"),
+    model_uri=SIM.phenodigm_score,
+    domain=None,
+    range=Optional[Union[float, NonNegativeFloat]],
+)
 
-slots.subsumes_score = Slot(uri=SIM.subsumes_score, name="subsumes_score", curie=SIM.curie('subsumes_score'),
-                   model_uri=SIM.subsumes_score, domain=None, range=Optional[Union[float, ZeroToOne]])
+slots.overlap_coefficient = Slot(
+    uri=SIM.overlap_coefficient,
+    name="overlap_coefficient",
+    curie=SIM.curie("overlap_coefficient"),
+    model_uri=SIM.overlap_coefficient,
+    domain=None,
+    range=Optional[Union[float, ZeroToOne]],
+)
 
-slots.subsumed_by_score = Slot(uri=SIM.subsumed_by_score, name="subsumed_by_score", curie=SIM.curie('subsumed_by_score'),
-                   model_uri=SIM.subsumed_by_score, domain=None, range=Optional[Union[float, ZeroToOne]])
+slots.subsumes_score = Slot(
+    uri=SIM.subsumes_score,
+    name="subsumes_score",
+    curie=SIM.curie("subsumes_score"),
+    model_uri=SIM.subsumes_score,
+    domain=None,
+    range=Optional[Union[float, ZeroToOne]],
+)
 
-slots.intersection_count = Slot(uri=SIM.intersection_count, name="intersection_count", curie=SIM.curie('intersection_count'),
-                   model_uri=SIM.intersection_count, domain=None, range=Optional[Union[int, ItemCount]])
+slots.subsumed_by_score = Slot(
+    uri=SIM.subsumed_by_score,
+    name="subsumed_by_score",
+    curie=SIM.curie("subsumed_by_score"),
+    model_uri=SIM.subsumed_by_score,
+    domain=None,
+    range=Optional[Union[float, ZeroToOne]],
+)
 
-slots.union_count = Slot(uri=SIM.union_count, name="union_count", curie=SIM.curie('union_count'),
-                   model_uri=SIM.union_count, domain=None, range=Optional[Union[int, ItemCount]])
+slots.intersection_count = Slot(
+    uri=SIM.intersection_count,
+    name="intersection_count",
+    curie=SIM.curie("intersection_count"),
+    model_uri=SIM.intersection_count,
+    domain=None,
+    range=Optional[Union[int, ItemCount]],
+)
+
+slots.union_count = Slot(
+    uri=SIM.union_count,
+    name="union_count",
+    curie=SIM.curie("union_count"),
+    model_uri=SIM.union_count,
+    domain=None,
+    range=Optional[Union[int, ItemCount]],
+)

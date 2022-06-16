@@ -1,8 +1,12 @@
 from abc import ABC
-from typing import Dict, List, Tuple, Iterable, Union
+from typing import Dict, Iterable, List, Tuple, Union
 
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
+from oaklib.interfaces.basic_ontology_interface import (
+    RELATIONSHIP,
+    RELATIONSHIP_MAP,
+    BasicOntologyInterface,
+)
+from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
 from oaklib.utilities.graph.relationship_walker import walk_up
 
 
@@ -16,8 +20,9 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         The main difference is that a RG provides a more restricted and formally correct set of entailments
     """
 
-    def entailed_outgoing_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    def entailed_outgoing_relationships_by_curie(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -33,8 +38,9 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def entailed_incoming_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    def entailed_incoming_relationships_by_curie(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -59,8 +65,3 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
-
-
-
-
-

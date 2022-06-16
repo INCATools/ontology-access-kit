@@ -1,9 +1,11 @@
 from abc import ABC
-from typing import Dict, List, Iterable, Any
+from typing import Any, Dict, Iterable, List
+
+from kgcl_schema.datamodel.kgcl import Change, NodeCreation, NodeDeletion
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
-from kgcl_schema.datamodel.kgcl import NodeCreation, NodeDeletion, Change
+
 
 class PatcherInterface(BasicOntologyInterface, ABC):
     """
@@ -32,5 +34,3 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
     def save(self):
         pass
-
-

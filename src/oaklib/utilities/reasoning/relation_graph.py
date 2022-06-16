@@ -1,7 +1,11 @@
 from collections import Iterator
 from dataclasses import dataclass
+
 import oaklib.datamodels.obograph as og
-from oaklib.utilities.obograph_utils import index_graph_edges_by_subject, index_graph_edges_by_subject_object
+from oaklib.utilities.obograph_utils import (
+    index_graph_edges_by_subject,
+    index_graph_edges_by_subject_object,
+)
 
 
 @dataclass

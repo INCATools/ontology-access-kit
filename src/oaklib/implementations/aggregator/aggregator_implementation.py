@@ -1,26 +1,41 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Tuple, Callable, Optional, Any, Dict
+from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 
 import sssom
+
 from oaklib.datamodels.obograph import Node
-from oaklib.datamodels.validation_datamodel import ValidationConfiguration, ValidationResult
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.validation_datamodel import (
+    ValidationConfiguration,
+    ValidationResult,
+)
+from oaklib.interfaces.basic_ontology_interface import (
+    ALIAS_MAP,
+    PRED_CURIE,
+    RELATIONSHIP_MAP,
+    BasicOntologyInterface,
+)
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface
-from oaklib.datamodels.search import SearchConfiguration
-from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
 
-
 @dataclass
-class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphInterface, OboGraphInterface, SearchInterface, MappingProviderInterface):
-    """
-    """
+class AggregatorImplementation(
+    ValidatorInterface,
+    RdfInterface,
+    RelationGraphInterface,
+    OboGraphInterface,
+    SearchInterface,
+    MappingProviderInterface,
+):
+    """ """
+
     implementations: List[BasicOntologyInterface] = None
 
     def _delegate_iterator(self, func: Callable) -> Iterable:
@@ -35,14 +50,13 @@ class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphIn
                 m[k] += vs
         return m
 
-
     def _delegate_first(self, func: Callable, strict=False) -> Optional[Any]:
         for i in self.implementations:
             v = func(i)
             if v is not None:
                 return v
         if strict:
-            raise ValueError(f'No value for {func}')
+            raise ValueError(f"No value for {func}")
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
         return self._delegate_iterator(lambda i: i.basic_search(search_term, config=config))
@@ -83,16 +97,11 @@ class AggregatorImplementation(ValidatorInterface, RdfInterface, RelationGraphIn
         return node
 
     def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self._delegate_simple_tuple_map(lambda i: i.get_outgoing_relationship_map_by_curie(curie))
+        return self._delegate_simple_tuple_map(
+            lambda i: i.get_outgoing_relationship_map_by_curie(curie)
+        )
 
     def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self._delegate_simple_tuple_map(lambda i: i.get_incoming_relationship_map_by_curie(curie))
-
-
-
-
-
-
-
-
-
+        return self._delegate_simple_tuple_map(
+            lambda i: i.get_incoming_relationship_map_by_curie(curie)
+        )

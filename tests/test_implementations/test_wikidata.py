@@ -2,19 +2,23 @@ import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-from oaklib.implementations.wikidata.wikidata_implementation import WikidataImplementation
+
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.implementations.wikidata.wikidata_implementation import (
+    WikidataImplementation,
+)
 
-WD_PECTORAL_FIN_MORPHOGENESIS = 'wikidata:Q22298706'
-WD_ER = 'wikidata:Q79927'
-WD_SLY_SYNDROME = 'wikidata:Q1750471'
-WD_MPS = 'wikidata:Q1479681'
+WD_PECTORAL_FIN_MORPHOGENESIS = "wikidata:Q22298706"
+WD_ER = "wikidata:Q79927"
+WD_SLY_SYNDROME = "wikidata:Q1750471"
+WD_MPS = "wikidata:Q1479681"
 
 
-@unittest.skip('Causes timeouts. See https://stackoverflow.com/questions/61803586/wikidata-forbidden-access')
+@unittest.skip(
+    "Causes timeouts. See https://stackoverflow.com/questions/61803586/wikidata-forbidden-access"
+)
 class TestWikidataImplementation(unittest.TestCase):
-
     def setUp(self) -> None:
         oi = WikidataImplementation()
         self.oi = oi
@@ -23,11 +27,11 @@ class TestWikidataImplementation(unittest.TestCase):
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie(WD_SLY_SYNDROME)
         for k, vs in rels.items():
-            print(f'{k}')
+            print(f"{k}")
             for v in vs:
-                print(f'  = {v}')
+                print(f"  = {v}")
 
-    @unittest.skip('Too slow')
+    @unittest.skip("Too slow")
     def test_relationships_slow(self):
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie(WD_SLY_SYNDROME)
@@ -38,38 +42,37 @@ class TestWikidataImplementation(unittest.TestCase):
 
     def test_labels(self):
         label = self.oi.get_label_by_curie(WD_SLY_SYNDROME)
-        #print(label)
+        # print(label)
         self.assertIn(WD_SLY_SYNDROME, self.oi.get_curies_by_label(label))
 
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(WD_SLY_SYNDROME)
         logging.info(syns)
-        assert 'mucopolysaccharidosis VII' in syns
+        assert "mucopolysaccharidosis VII" in syns
 
     def test_definition(self):
         defn = self.oi.get_definition_by_curie(WD_PECTORAL_FIN_MORPHOGENESIS)
-        logging.info(f'DEF={defn}')
+        logging.info(f"DEF={defn}")
         assert defn
 
     def test_search(self):
         oi = self.oi
         config = SearchConfiguration(is_partial=False, limit=3)
-        curies = list(oi.basic_search('endoplasmic reticulum', config=config))
+        curies = list(oi.basic_search("endoplasmic reticulum", config=config))
         tups = list(oi.get_labels_for_curies(curies))
-        #print(tups)
-        self.assertIn((WD_ER, 'endoplasmic reticulum'), tups)
+        # print(tups)
+        self.assertIn((WD_ER, "endoplasmic reticulum"), tups)
 
     # OboGraph
 
     def test_ancestors(self):
         oi = self.oi
-        ancs = list(oi.ancestors([WD_SLY_SYNDROME], predicates=[IS_A, 'wdp:P1199']))
+        ancs = list(oi.ancestors([WD_SLY_SYNDROME], predicates=[IS_A, "wdp:P1199"]))
         for a in ancs:
             print(a)
         for curie, label in oi.get_labels_for_curies(ancs):
-            print(f'{curie} ! {label}')
+            print(f"{curie} ! {label}")
         self.assertIn(WD_MPS, ancs)
-
 
     def test_descendants(self):
         oi = self.oi
@@ -78,7 +81,7 @@ class TestWikidataImplementation(unittest.TestCase):
             print(a)
         self.assertIn(WD_SLY_SYNDROME, results)
         for curie, label in oi.get_labels_for_curies(results):
-            print(f'D: {curie} ! {label}')
+            print(f"D: {curie} ! {label}")
 
     def test_ancestor_graph(self):
         oi = self.oi

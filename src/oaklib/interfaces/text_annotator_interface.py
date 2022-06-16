@@ -7,6 +7,7 @@ from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 
 TEXT = str
 
+
 class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     """
     Performs Named Entity Recognition on texts
@@ -21,7 +22,9 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     - spacy
     """
 
-    def annotate_text(self, text: TEXT, configuration: TextAnnotationConfiguration = None) -> Iterator[TextAnnotation]:
+    def annotate_text(
+        self, text: TEXT, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
         """
         Annotate a piece of text
 
@@ -37,11 +40,13 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
             if isinstance(self, SearchInterface):
                 for object_id in self.basic_search(text):
                     label = self.get_label_by_curie(object_id)
-                    #amap = self.alias_map_by_curie(object_id)
-                    ann = TextAnnotation(subject_start=1,
-                                         subject_end=len(text),
-                                         object_id=object_id,
-                                         object_label=label)
+                    # amap = self.alias_map_by_curie(object_id)
+                    ann = TextAnnotation(
+                        subject_start=1,
+                        subject_end=len(text),
+                        object_id=object_id,
+                        object_label=label,
+                    )
                     yield ann
             else:
                 raise NotImplementedError

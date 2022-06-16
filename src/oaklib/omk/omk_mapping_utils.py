@@ -3,34 +3,40 @@ from collections import Iterator, defaultdict
 from typing import Dict, List, Tuple
 
 import networkx as nx
+from sssom import Mapping
+
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces import MappingProviderInterface, RelationGraphInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.types import PRED_CURIE, CURIE
+from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import mappings_to_graph
-from sssom import Mapping
 
 DIFF_CATEGORY = CURIE
 ANALOGOUS_RELATION = Tuple[DIFF_CATEGORY, CURIE, PRED_CURIE, CURIE, List[CURIE]]
 
 
 def get_mappings_between(oi: MappingProviderInterface, external_source: str) -> Iterator[Mapping]:
-    prefix = f'{external_source}:'
+    prefix = f"{external_source}:"
     for m in oi.all_sssom_mappings():
         if m.object_source == external_source or m.object_id.startswith(prefix):
             yield m
 
+
 def subject_source(mapping: Mapping) -> str:
     if mapping.subject_source:
         return mapping.subject_source
-    return mapping.subject_id.split(':')[0]
+    return mapping.subject_id.split(":")[0]
+
 
 def object_source(mapping: Mapping) -> str:
     if mapping.object_source:
         return mapping.object_source
-    return mapping.object_id.split(':')[0]
+    return mapping.object_id.split(":")[0]
 
-def group_mappings_by_source_pairs(subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface) -> List[Tuple[str, str]]:
+
+def group_mappings_by_source_pairs(
+    subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface
+) -> List[Tuple[str, str]]:
     groups: Dict[Tuple[str, str], List[Mapping]] = defaultdict(list)
     for oi in [subject_oi, object_oi]:
         for m in oi.all_sssom_mappings():
@@ -40,8 +46,12 @@ def group_mappings_by_source_pairs(subject_oi: MappingProviderInterface, object_
     return groups
 
 
-def unreciprocated_mappings(subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface,
-                            filter_unidirectional: bool = True, both_directions: bool = True) -> Iterator[Mapping]:
+def unreciprocated_mappings(
+    subject_oi: MappingProviderInterface,
+    object_oi: MappingProviderInterface,
+    filter_unidirectional: bool = True,
+    both_directions: bool = True,
+) -> Iterator[Mapping]:
     """
     yields all mappings from all terms in subject ontology where the object
     is in the object ontology, and the object does not have the reciprocal mapping
@@ -79,16 +89,24 @@ def unreciprocated_mappings(subject_oi: MappingProviderInterface, object_oi: Map
             yield m
     if both_directions:
         if subject_oi != object_oi:
-            for m in unreciprocated_mappings(object_oi, subject_oi, filter_unidirectional=filter_unidirectional, both_directions=False):
+            for m in unreciprocated_mappings(
+                object_oi,
+                subject_oi,
+                filter_unidirectional=filter_unidirectional,
+                both_directions=False,
+            ):
                 yield m
+
 
 def relation_dict_as_tuples(md: Dict[PRED_CURIE, List[CURIE]]) -> Iterator[PRED_CURIE, CURIE]:
     for pred, parents in md.items():
-        for p in  parents:
+        for p in parents:
             yield pred, p
 
+
 def curie_has_prefix(curie: CURIE, sources: List[str]) -> bool:
-    return curie.split(':')[0] in sources
+    return curie.split(":")[0] in sources
+
 
 def get_mappings_in(g: nx.Graph, curie: CURIE, sources: List[str]):
     if curie in g:
@@ -97,8 +115,9 @@ def get_mappings_in(g: nx.Graph, curie: CURIE, sources: List[str]):
         return []
 
 
-def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface,
-                                       sources: List[str]) -> Iterator[ANALOGOUS_RELATION]:
+def calculate_pairwise_relational_diff(
+    subject_oi: MappingProviderInterface, object_oi: MappingProviderInterface, sources: List[str]
+) -> Iterator[ANALOGOUS_RELATION]:
     """
     Calculates a relational diff between ontologies in two sources using the combined mappings
     from both
@@ -108,12 +127,16 @@ def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, obj
     :param sources:
     :return:
     """
-    logging.info('Converting all mappings to networkx')
-    g = mappings_to_graph(list(subject_oi.all_sssom_mappings()) + list(object_oi.all_sssom_mappings()))
+    logging.info("Converting all mappings to networkx")
+    g = mappings_to_graph(
+        list(subject_oi.all_sssom_mappings()) + list(object_oi.all_sssom_mappings())
+    )
     if isinstance(subject_oi, OboGraphInterface) and isinstance(object_oi, OboGraphInterface):
         for subject_child in subject_oi.all_entity_curies():
-            for pred, subject_parent in relation_dict_as_tuples(subject_oi.get_outgoing_relationship_map_by_curie(subject_child)):
-                logging.debug(f'Checking for analog of {subject_child} {pred} {subject_parent}')
+            for pred, subject_parent in relation_dict_as_tuples(
+                subject_oi.get_outgoing_relationship_map_by_curie(subject_child)
+            ):
+                logging.debug(f"Checking for analog of {subject_child} {pred} {subject_parent}")
                 has_child_mapping = False
                 has_parent_mapping = False
                 has_edge = False
@@ -124,36 +147,42 @@ def calculate_pairwise_relational_diff(subject_oi: MappingProviderInterface, obj
                 for object_child in object_child_list:
                     has_child_mapping = True
                     object_child_ancs = list(object_oi.ancestors(object_child))
-                    object_child_direct_outgoing = object_oi.get_outgoing_relationship_map_by_curie(object_child)
+                    object_child_direct_outgoing = object_oi.get_outgoing_relationship_map_by_curie(
+                        object_child
+                    )
                     for object_parent in object_parent_list:
                         has_parent_mapping = True
-                        #print(f'CHECKING: {object_child} -> {object_parent} // {object_child_ancs}')
+                        # print(f'CHECKING: {object_child} -> {object_parent} // {object_child_ancs}')
                         if object_parent in object_child_ancs:
                             has_edge = True
-                            if pred in object_child_direct_outgoing and object_parent in object_child_direct_outgoing[pred]:
+                            if (
+                                pred in object_child_direct_outgoing
+                                and object_parent in object_child_direct_outgoing[pred]
+                            ):
                                 has_predicate = True
                                 has_direct_predicate = True
                             elif isinstance(object_oi, RelationGraphInterface):
-                                object_preds = list(object_oi.entailed_relationships_between(object_child, object_parent))
+                                object_preds = list(
+                                    object_oi.entailed_relationships_between(
+                                        object_child, object_parent
+                                    )
+                                )
                                 if pred in object_preds:
                                     has_predicate = True
-                            elif object_parent in list(object_oi.ancestors(object_child, predicates=[pred, IS_A])):
+                            elif object_parent in list(
+                                object_oi.ancestors(object_child, predicates=[pred, IS_A])
+                            ):
                                 has_predicate = True
                 if has_edge:
                     if has_direct_predicate:
-                        category = 'IDENTICAL'
+                        category = "IDENTICAL"
                     elif has_predicate:
-                        category = 'CONSISTENT'
+                        category = "CONSISTENT"
                     else:
-                        category = 'OTHER'
+                        category = "OTHER"
                 else:
                     if has_child_mapping and has_parent_mapping:
-                        category = 'MISSING_EDGE'
+                        category = "MISSING_EDGE"
                     else:
-                        category = 'MISSING_MAPPING'
+                        category = "MISSING_MAPPING"
                 yield category, subject_child, pred, subject_parent, []
-
-
-
-
-

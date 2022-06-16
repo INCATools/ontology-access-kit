@@ -1,12 +1,13 @@
 from abc import ABC
 from enum import Enum
-from typing import Dict, List, Tuple, Iterable, Optional
+from typing import Dict, Iterable, List, Optional, Tuple
 
 # TODO: add funowl to dependencies
-from funowl import Ontology, Axiom, Class, SubClassOf, EquivalentClasses
+from funowl import Axiom, Class, EquivalentClasses, Ontology, SubClassOf
+from rdflib import Graph
+
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, LABEL, URI
-from rdflib import Graph
 
 
 class OwlProfile(Enum):
@@ -16,11 +17,13 @@ class OwlProfile(Enum):
     RL = "RL"
     QC = "QL"
 
+
 @dataclass
 class ReasonerConfiguration:
     reasoner: str = None
     reasoner_version: str = None
     implements_profiles: List[OwlProfile] = None
+
 
 class OwlInterface(BasicOntologyInterface, ABC):
     """
@@ -42,7 +45,12 @@ class OwlInterface(BasicOntologyInterface, ABC):
     def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Axiom]:
         raise NotImplementedError
 
-    def subclass_axioms(self, subclass: CURIE = None, superclass: CURIE = None, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[SubClassOf]:
+    def subclass_axioms(
+        self,
+        subclass: CURIE = None,
+        superclass: CURIE = None,
+        reasoner: Optional[ReasonerConfiguration] = None,
+    ) -> Iterable[SubClassOf]:
         """
         Gets all SubClassOf axioms matching criterion
 
@@ -53,7 +61,12 @@ class OwlInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def equivalence_axioms(self, about: CURIE = None, references: CURIE = None, reasoner: Optional[ReasonerConfiguration] = None):
+    def equivalence_axioms(
+        self,
+        about: CURIE = None,
+        references: CURIE = None,
+        reasoner: Optional[ReasonerConfiguration] = None,
+    ):
         raise NotImplementedError
 
     def owl_classes(self) -> Iterable[Class]:
@@ -67,4 +80,3 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def reasoner_configurations(self) -> List[ReasonerConfiguration]:
         raise NotImplementedError
-

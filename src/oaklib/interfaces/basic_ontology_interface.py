@@ -1,19 +1,20 @@
 import logging
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Dict, List, Iterable, Tuple, Optional, Any, Iterator
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-#from oaklib import OntologyResource
+from oaklib.datamodels.vocabulary import BIOPORTAL_PURL, IS_A, OBO_PURL, OWL_THING
+
+# from oaklib import OntologyResource
 from oaklib.interfaces.ontology_interface import OntologyInterface
-from oaklib.types import CURIE, URI, PRED_CURIE, SUBSET_CURIE
-from oaklib.datamodels.vocabulary import IS_A, OBO_PURL, BIOPORTAL_PURL, OWL_THING
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
 ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
-#ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
+# ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
 
 
@@ -68,9 +69,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     in which case URIs may be used
 
     """
-    strict: bool = False
-    autosave: bool = field(default_factory= lambda: True)
 
+    strict: bool = False
+    autosave: bool = field(default_factory=lambda: True)
 
     def get_prefix_map(self) -> PREFIX_MAP:
         """
@@ -88,22 +89,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict:
         :return:
         """
-        if curie.startswith('http'):
+        if curie.startswith("http"):
             return curie
         pm = self.get_prefix_map()
-        parts = curie.split(':')
+        parts = curie.split(":")
         if len(parts) == 2:
             pfx, local_id = parts
         else:
             if strict:
-                raise ValueError(f'Bad CURIE: {curie} parts: {parts}')
+                raise ValueError(f"Bad CURIE: {curie} parts: {parts}")
             else:
                 return curie
         if pfx in pm:
-            return f'{pm[pfx]}{local_id}'
+            return f"{pm[pfx]}{local_id}"
         else:
             # TODO: not hardcode
-            return f'{OBO_PURL}{pfx}_{local_id}'
+            return f"{OBO_PURL}{pfx}_{local_id}"
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         """
@@ -118,17 +119,16 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         pm = self.get_prefix_map()
         for k, v in pm.items():
             if uri.startswith(v):
-                return uri.replace(v, f'{k}:')
+                return uri.replace(v, f"{k}:")
         if uri.startswith(OBO_PURL):
             # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f'{OBO_PURL}', "")
-            return uri.replace('_', ':')
+            uri = uri.replace(f"{OBO_PURL}", "")
+            return uri.replace("_", ":")
         if uri.startswith(BIOPORTAL_PURL):
             # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f'{BIOPORTAL_PURL}', "")
-            return uri.replace('_', ':')
+            uri = uri.replace(f"{BIOPORTAL_PURL}", "")
+            return uri.replace("_", ":")
         return uri
-
 
     def all_ontology_curies(self) -> Iterable[CURIE]:
         """
@@ -185,8 +185,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 for filler in fillers:
                     yield curie, pred, filler
 
-
-    def roots(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing = True) -> Iterable[CURIE]:
+    def roots(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
         a relationship with one of the specified predicates
@@ -196,22 +195,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         all_curies = set(list(self.all_entity_curies()))
         candidates = all_curies
-        logging.info(f'Candidates: {len(candidates)}')
+        logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
             if subject == object:
                 continue
             if ignore_owl_thing and object == OWL_THING:
                 continue
-            #if object not in all_curies:
+            # if object not in all_curies:
             #    continue
             if subject in candidates:
                 if predicates is None or pred in predicates:
                     candidates.remove(subject)
-                    logging.debug(f'Not a root: {subject} [{pred} {object}]')
+                    logging.debug(f"Not a root: {subject} [{pred} {object}]")
         for term in candidates:
             yield term
 
-    def leafs(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing = True) -> Iterable[CURIE]:
+    def leafs(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True) -> Iterable[CURIE]:
         """
         All leaf nodes, where root is defined as any node that is not the object of
         a relationship with one of the specified predicates
@@ -221,14 +220,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         all_curies = set(list(self.all_entity_curies()))
         candidates = all_curies
-        logging.info(f'Candidates: {len(candidates)}')
+        logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
             if subject == object:
                 continue
             if object in candidates:
                 if predicates is None or pred in predicates:
                     candidates.remove(object)
-                    logging.debug(f'Not a leaf: {object} [inv({pred}) {subject}]')
+                    logging.debug(f"Not a leaf: {object} [inv({pred}) {subject}]")
         for term in candidates:
             yield term
 
@@ -294,7 +293,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_hierararchical_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def get_hierararchical_parents_by_curie(
+        self, curie: CURIE, isa_only: bool = False
+    ) -> List[CURIE]:
         """
         Returns all hierarchical parents
 
@@ -328,8 +329,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_outgoing_relationships(self, curie: CURIE, predicates: List[PRED_CURIE] = None) -> \
-            Iterator[Tuple[PRED_CURIE, CURIE]]:
+    def get_outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
         Returns relationships where curie in the subject
 
@@ -351,8 +353,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_incoming_relationships(self, curie: CURIE, predicates: List[PRED_CURIE] = None) -> \
-            Iterator[Tuple[PRED_CURIE, CURIE]]:
+    def get_incoming_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
         Returns relationships where curie in the object
 
@@ -402,7 +405,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         - The alias map MUST include rdfs:label annotations
         - The alias map MAY include other properties the implementation deems to serve an alias role
-        
+
         :param curie:
         :return:
         """
@@ -420,7 +423,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
+    def create_entity(
+        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+    ) -> CURIE:
         """
         Adds an entity to the resource
 

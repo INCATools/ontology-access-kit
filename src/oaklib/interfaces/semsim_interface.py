@@ -1,14 +1,15 @@
 import logging
 import math
 from abc import ABC
-from typing import Dict, List, Iterable, Tuple, Iterator
+from typing import Dict, Iterable, Iterator, List, Tuple
 
 import networkx as nx
+
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
-from oaklib.utilities.obograph_utils import as_multi_digraph, as_digraph
+from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
+from oaklib.utilities.obograph_utils import as_digraph, as_multi_digraph
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
 
@@ -17,8 +18,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     TODO: consider direct use of nxontology
     """
 
-    def most_recent_common_ancestors(self, subject: CURIE, object: CURIE,
-                                     predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def most_recent_common_ancestors(
+        self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[CURIE]:
         """
         Most recent common ancestors (MRCAs) for a pair of entities
 
@@ -45,8 +47,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         else:
             raise NotImplementedError
 
-    def multiset_most_recent_common_ancestors(self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None,
-                                              asymmetric=True) -> Iterable[Tuple[CURIE, CURIE, CURIE]]:
+    def multiset_most_recent_common_ancestors(
+        self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, asymmetric=True
+    ) -> Iterable[Tuple[CURIE, CURIE, CURIE]]:
         """
         All pairwise common ancestors for all pairs in a set of terms
 
@@ -70,7 +73,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         else:
             raise NotImplementedError
 
-    def common_ancestors(self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None) -> Iterable[CURIE]:
+    def common_ancestors(
+        self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[CURIE]:
         """
         Common ancestors of a subject-object pair
 
@@ -87,9 +92,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         else:
             raise NotImplementedError
 
-
-    def get_information_content(self, curie: CURIE, background: CURIE = None,
-                                predicates: List[PRED_CURIE] = None) -> float:
+    def get_information_content(
+        self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
+    ) -> float:
         """
         Returns the information content of a term
 
@@ -102,8 +107,9 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def pairwise_similarity(self, subject: CURIE, object: CURIE,
-                            predicates: List[PRED_CURIE] = None) -> TermPairwiseSimilarity:
+    def pairwise_similarity(
+        self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> TermPairwiseSimilarity:
         """
         Pairwise similarity between a pair of ontology terms
 
@@ -112,7 +118,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param predicates:
         :return:
         """
-        logging.info(f'Calculating pairwise similarity for {subject} x {object} over {predicates}')
+        logging.info(f"Calculating pairwise similarity for {subject} x {object} over {predicates}")
         cas = list(self.most_recent_common_ancestors(subject, object, predicates))
         ics = {a: self.get_information_content(a, predicates) for a in cas}
         if len(ics) > 0:
@@ -125,17 +131,24 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         sim = TermPairwiseSimilarity(subject_id=subject, object_id=object, ancestor_id=anc)
         sim.ancestor_information_content = max_ic
         if isinstance(self, OboGraphInterface):
-            sim.jaccard_similarity = setwise_jaccard_similarity(list(self.ancestors(subject, predicates=predicates)),
-                                                                list(self.ancestors(object, predicates=predicates)))
-        #sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.information_content)
+            sim.jaccard_similarity = setwise_jaccard_similarity(
+                list(self.ancestors(subject, predicates=predicates)),
+                list(self.ancestors(object, predicates=predicates)),
+            )
+        # sim.phenodigm_score = math.sqrt(sim.jaccard_similarity * sim.information_content)
         return sim
 
-    def termset_pairwise_similarity(self, subjects: List[CURIE], objects: List[CURIE],
-                            predicates: List[PRED_CURIE] = None) -> TermPairwiseSimilarity:
+    def termset_pairwise_similarity(
+        self, subjects: List[CURIE], objects: List[CURIE], predicates: List[PRED_CURIE] = None
+    ) -> TermPairwiseSimilarity:
         raise NotImplementedError
 
-    def all_by_all_pairwise_similarity(self, subjects: Iterable[CURIE], objects: Iterable[CURIE],
-                            predicates: List[PRED_CURIE] = None) -> Iterator[TermPairwiseSimilarity]:
+    def all_by_all_pairwise_similarity(
+        self,
+        subjects: Iterable[CURIE],
+        objects: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+    ) -> Iterator[TermPairwiseSimilarity]:
         for s in subjects:
             for o in objects:
                 yield self.pairwise_similarity(s, o, predicates=predicates)

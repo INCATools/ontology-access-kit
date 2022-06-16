@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import Union, Any
+from typing import Any, Union
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
+
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -23,10 +24,10 @@ class StreamingOboWriter(StreamingWriter):
             raise NotImplementedError
 
     def tag_val(self, k: str, v: Any, xrefs=None):
-        self.file.write(f'{k}: {v}')
+        self.file.write(f"{k}: {v}")
         if xrefs is not None:
             self.file.write(f' [{", ".join(xrefs)}]')
-        self.file.write('\n')
+        self.file.write("\n")
 
     def emit_curie(self, curie: CURIE):
         file = self.file
@@ -35,18 +36,18 @@ class StreamingOboWriter(StreamingWriter):
             axioms = list(oi.statements_with_annotations(curie))
         else:
             axioms = []
-        self.line(f'[Term]')
-        self.line(f'id: {curie}')
-        self.tag_val('name', oi.get_label_by_curie(curie))
+        self.line(f"[Term]")
+        self.line(f"id: {curie}")
+        self.tag_val("name", oi.get_label_by_curie(curie))
         defn = oi.get_definition_by_curie(curie)
         if defn:
             if isinstance(oi, MetadataInterface):
                 _, anns = oi.definition_with_annotations(curie)
             else:
                 anns = []
-            self.tag_val('def', f'"{defn}"', xrefs=[ann.object for ann in anns])
+            self.tag_val("def", f'"{defn}"', xrefs=[ann.object for ann in anns])
         for prop, x in oi.get_simple_mappings_by_curie(curie):
-            self.line(f'xref: {x}')
+            self.line(f"xref: {x}")
         amap = oi.alias_map_by_curie(curie)
         for a, vs in amap.items():
             if a in SYNONYM_PRED_TO_SCOPE_MAP:
@@ -56,10 +57,9 @@ class StreamingOboWriter(StreamingWriter):
         if isinstance(oi, OboGraphInterface):
             rmap = oi.get_outgoing_relationship_map_by_curie(curie)
             for p in rmap.get(IS_A, []):
-                self.line(f'is_a: {p} ! {oi.get_label_by_curie(p)}')
+                self.line(f"is_a: {p} ! {oi.get_label_by_curie(p)}")
             for r, ps in rmap.items():
                 if r != IS_A:
                     for p in ps:
-                        self.line(f'relationship: {r} {p} ! {oi.get_label_by_curie(p)}')
-        self.line('\n')
-
+                        self.line(f"relationship: {r} {p} ! {oi.get_label_by_curie(p)}")
+        self.line("\n")

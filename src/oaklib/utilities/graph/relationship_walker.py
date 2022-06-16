@@ -6,16 +6,23 @@ Utilities for traversing Ontology Graphs
 """
 from copy import copy
 from dataclasses import dataclass
-from typing import List, Union, Dict, Iterable, Tuple
+from typing import Dict, Iterable, List, Tuple, Union
 
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP, BasicOntologyInterface
+from oaklib.interfaces.basic_ontology_interface import (
+    RELATIONSHIP,
+    BasicOntologyInterface,
+)
 from oaklib.types import CURIE, PRED_CURIE
 
-#PATH = Tuple[CURIE, List[PRED_CURIE], CURIE]
+# PATH = Tuple[CURIE, List[PRED_CURIE], CURIE]
 PATH = List[RELATIONSHIP]
 
 
-def walk_up(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
+def walk_up(
+    oi: BasicOntologyInterface,
+    start_curies: Union[CURIE, List[CURIE]],
+    predicates: List[PRED_CURIE] = None,
+) -> Iterable[RELATIONSHIP]:
     """
     Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph
 
@@ -29,7 +36,7 @@ def walk_up(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]],
     if isinstance(start_curies, CURIE):
         next_curies = [start_curies]
     else:
-        next_curies = copy(start_curies) # do not mutate
+        next_curies = copy(start_curies)  # do not mutate
     rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:
@@ -45,7 +52,11 @@ def walk_up(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]],
         yield rel
 
 
-def walk_down(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None) -> Iterable[RELATIONSHIP]:
+def walk_down(
+    oi: BasicOntologyInterface,
+    start_curies: Union[CURIE, List[CURIE]],
+    predicates: List[PRED_CURIE] = None,
+) -> Iterable[RELATIONSHIP]:
     """
     As walk_up, but traversing incoming, not outgoing relationships
 
@@ -57,7 +68,7 @@ def walk_down(oi: BasicOntologyInterface, start_curies: Union[CURIE, List[CURIE]
     if isinstance(start_curies, CURIE):
         next_curies = [start_curies]
     else:
-        next_curies = copy(start_curies) # do not mutate
+        next_curies = copy(start_curies)  # do not mutate
     rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:

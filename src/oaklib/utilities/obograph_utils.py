@@ -16,31 +16,32 @@ from collections import defaultdict
 from copy import deepcopy
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, List, TextIO, Optional, Tuple
+from typing import Any, Dict, List, Optional, TextIO, Tuple
 
+import networkx as nx
 import yaml
 from linkml_runtime.dumpers import json_dumper
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.types import PRED_CURIE, CURIE
-from oaklib.datamodels.obograph import Graph, Node, Edge
-import networkx as nx
+
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
+from oaklib.datamodels.obograph import Edge, Graph, Node
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.types import CURIE, PRED_CURIE
 
-DEFAULT_STYLEMAP = 'obograph-style.json'
+DEFAULT_STYLEMAP = "obograph-style.json"
 
-DEFAULT_PREDICATE_CODE_MAP = {
-    IS_A: 'i',
-    PART_OF: 'p'
-}
+DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p"}
+
 
 class TreeFormatEnum(Enum):
-    markdown = 'md'
-    text = 'text'
+    markdown = "md"
+    text = "text"
+
 
 def default_stylemap_path():
     conf_path = os.path.dirname(conf_package.__file__)
     return str(Path(conf_path) / DEFAULT_STYLEMAP)
+
 
 def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     """
@@ -53,14 +54,15 @@ def graph_as_dict(graph: Graph) -> Dict[str, Any]:
     :return:
     """
     obj = json_dumper.to_dict(graph)
-    for n in obj['nodes']:
-        if 'label' in n:
+    for n in obj["nodes"]:
+        if "label" in n:
             # annoying mutation: the json format uses 'lbl' not label
-            n['lbl'] = n['label']
-            del n['label']
+            n["lbl"] = n["label"]
+            del n["label"]
     return obj
 
-def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None, imgfile = None) -> None:
+
+def draw_graph(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None) -> None:
     """
     Generates an image from a graph using :ref:`graph_to_image` then open for display
 
@@ -72,9 +74,10 @@ def draw_graph(graph: Graph, seeds = None, configure = None, stylemap = None, im
     :return:
     """
     imgfile = graph_to_image(graph, seeds, configure=configure, stylemap=stylemap, imgfile=imgfile)
-    subprocess.run(['open', imgfile])
+    subprocess.run(["open", imgfile])
 
-def graph_to_image(graph: Graph, seeds = None, configure = None, stylemap = None, imgfile = None) -> str:
+
+def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgfile=None) -> str:
     """
     Renders a graph to png using obographviz
 
@@ -85,44 +88,47 @@ def graph_to_image(graph: Graph, seeds = None, configure = None, stylemap = None
     :return:
     """
     g = {"graphs": [graph_as_dict(graph)]}
-    logging.debug(f'graph = {g}')
-    EXEC = 'og2dot'
+    logging.debug(f"graph = {g}")
+    EXEC = "og2dot"
     if shutil.which(EXEC) is None:
-        logging.error(f'No {EXEC}')
-        print('You need to install a node package to be able to visualize results')
-        print('')
-        print('npm install -g obographviz')
-        print('Then set your path to include og2dot')
-        raise Exception(f'Cannot find {EXEC} on path. Install from https://github.com/cmungall/obographviz')
-    with tempfile.NamedTemporaryFile(dir='/tmp', mode='w') as tmpfile:
+        logging.error(f"No {EXEC}")
+        print("You need to install a node package to be able to visualize results")
+        print("")
+        print("npm install -g obographviz")
+        print("Then set your path to include og2dot")
+        raise Exception(
+            f"Cannot find {EXEC} on path. Install from https://github.com/cmungall/obographviz"
+        )
+    with tempfile.NamedTemporaryFile(dir="/tmp", mode="w") as tmpfile:
         style = {}
         if seeds is not None:
-            style['highlightIds'] = seeds
+            style["highlightIds"] = seeds
         if configure is not None:
             configure_obj = yaml.safe_load(configure)
-            for k,v in configure_obj.items():
+            for k, v in configure_obj.items():
                 style[k] = v
-        #style['styles'] = ['filled', 'rounded']
-        #style['prefixProperties'] = {
+        # style['styles'] = ['filled', 'rounded']
+        # style['prefixProperties'] = {
         #    "CL": {"fillcolor": "yellow"},
         #    "GO": {"fillcolor": "#ff7f00"}
-        #}
+        # }
         temp_file_name = tmpfile.name
-        logging.info(f'Writing to {temp_file_name}')
+        logging.info(f"Writing to {temp_file_name}")
         json_dump = json.dumps(g)
         tmpfile.write(json_dump)
-        logging.debug(f'JSON {json_dump}')
+        logging.debug(f"JSON {json_dump}")
         tmpfile.flush()
         if imgfile is None:
-            imgfile = f'{temp_file_name}.png'
+            imgfile = f"{temp_file_name}.png"
         style_json = json.dumps(style).replace("'", "\\'")
-        logging.debug(f'Style = {style_json}')
-        cmdtoks = [EXEC, '-S', style_json, '-t', 'png', temp_file_name, '-o', imgfile]
+        logging.debug(f"Style = {style_json}")
+        cmdtoks = [EXEC, "-S", style_json, "-t", "png", temp_file_name, "-o", imgfile]
         if stylemap is not None:
-            cmdtoks += ['-s', stylemap]
-        logging.debug(f'Run: {cmdtoks}')
+            cmdtoks += ["-s", stylemap]
+        logging.debug(f"Run: {cmdtoks}")
         subprocess.run(cmdtoks)
         return imgfile
+
 
 def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: str = None) -> Graph:
     """
@@ -138,7 +144,10 @@ def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: s
     edges = [edge for edge in graph.edges if edge.pred in predicates]
     return Graph(graph_id, nodes=deepcopy(graph.nodes), edges=edges)
 
-def as_multi_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool = True) -> nx.MultiDiGraph:
+
+def as_multi_digraph(
+    graph: Graph, reverse: bool = True, filter_reflexive: bool = True
+) -> nx.MultiDiGraph:
     """
     Convert to a networkx :class:`.MultiDiGraph`
 
@@ -157,7 +166,10 @@ def as_multi_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool 
             mdg.add_edge(edge.sub, edge.obj, **edge_attrs)
     return mdg
 
-def as_digraph(graph: Graph, reverse: bool = True, filter_reflexive: bool = True) -> nx.MultiDiGraph:
+
+def as_digraph(
+    graph: Graph, reverse: bool = True, filter_reflexive: bool = True
+) -> nx.MultiDiGraph:
     """
     Convert to a networkx :class:`.MultiDiGraph`
 
@@ -193,17 +205,19 @@ def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[
     """
     dg = as_digraph(graph)
     counts = defaultdict(int)
-    logging.info(f'Calculating visits')
+    logging.info(f"Calculating visits")
     for curie in curies:
         for a in set(list(nx.ancestors(dg, curie)) + [curie]):
             counts[a] += 1
-    logging.info(f'Calculating distance matrix')
+    logging.info(f"Calculating distance matrix")
     splens = dict(nx.all_pairs_shortest_path_length(dg))
-    logging.info(f'Getting final stats')
+    logging.info(f"Getting final stats")
     stats = {}
     for node in dg.nodes:
-        stats[node] = dict(visits=counts[node],
-                           distance=min([dist for k, dist in splens[node].items() if k in curies]))
+        stats[node] = dict(
+            visits=counts[node],
+            distance=min([dist for k, dist in splens[node].items() if k in curies]),
+        )
     return stats
 
 
@@ -242,6 +256,7 @@ def index_graph_edges_by_subject_object(graph: Graph) -> Dict[Tuple[CURIE, CURIE
         d[(e.sub, e.obj)].append(e)
     return d
 
+
 def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """
     Returns an index of lists of edges keyed by object id
@@ -253,6 +268,7 @@ def index_graph_edges_by_object(graph: Graph) -> Dict[CURIE, List[Edge]]:
     for e in graph.edges:
         d[e.obj].append(e)
     return d
+
 
 def index_graph_edges_by_predicate(graph: Graph) -> Dict[CURIE, List[Edge]]:
     """
@@ -273,18 +289,24 @@ def topological_sort(graph: Graph, predicates: List[PRED_CURIE]) -> List[CURIE]:
 
 
 def graph_info(graph: Graph) -> str:
-    return f'{graph.id} nodes: {len(graph.nodes)} edges: {len(graph.edges)}'
+    return f"{graph.id} nodes: {len(graph.nodes)} edges: {len(graph.edges)}"
 
 
 def reflexive(edge: Edge) -> bool:
     return edge.sub == edge.obj
 
 
-def graph_to_tree(graph: Graph, predicates: List[PRED_CURIE] = None, output: TextIO = None,
-                  start_curies: List[CURIE] = None, seeds: List[CURIE] = [],
-                  format: str = None, max_paths: int = 10,
-                  predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
-                  stylemap = None) -> Optional[str]:
+def graph_to_tree(
+    graph: Graph,
+    predicates: List[PRED_CURIE] = None,
+    output: TextIO = None,
+    start_curies: List[CURIE] = None,
+    seeds: List[CURIE] = [],
+    format: str = None,
+    max_paths: int = 10,
+    predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
+    stylemap=None,
+) -> Optional[str]:
     """
     Translate a graph to a textual tree representation
 
@@ -304,32 +326,32 @@ def graph_to_tree(graph: Graph, predicates: List[PRED_CURIE] = None, output: Tex
         is_str = True
     else:
         is_str = False
-    logging.info(f'graph = {graph_info(graph)}')
+    logging.info(f"graph = {graph_info(graph)}")
     nix = index_graph_nodes(graph)
     if predicates is not None:
         subgraph = filter_by_predicates(graph, predicates)
     else:
         subgraph = graph
-    logging.info(f'Subgraph = {graph_info(subgraph)}, filtered by {predicates}')
+    logging.info(f"Subgraph = {graph_info(subgraph)}, filtered by {predicates}")
     children_ix = index_graph_edges_by_object(subgraph)
     dg = as_multi_digraph(subgraph, filter_reflexive=True)
     if start_curies is None:
         roots = [n for n, d in dg.in_degree if d == 0]
     else:
         roots = start_curies
-    logging.info(f'Roots={roots}')
+    logging.info(f"Roots={roots}")
     if format is None or format == TreeFormatEnum.markdown.value:
-        indent = 4 * ' '
+        indent = 4 * " "
     else:
-        indent = '.'
-    todo = [(0, '', n) for n in roots]
+        indent = "."
+    todo = [(0, "", n) for n in roots]
     counts = defaultdict(int)
     while len(todo) > 0:
         depth, rel, n = todo.pop()
         counts[n] += 1
-        logging.debug(f'Visited {n} {counts[n]} times (max = {max_paths})')
+        logging.debug(f"Visited {n} {counts[n]} times (max = {max_paths})")
         if counts[n] > max_paths:
-            logging.info(f'Reached {counts[n]} for node {n};; truncating rest')
+            logging.info(f"Reached {counts[n]} for node {n};; truncating rest")
             break
         if rel in predicate_code_map:
             code = predicate_code_map[rel]
@@ -340,18 +362,15 @@ def graph_to_tree(graph: Graph, predicates: List[PRED_CURIE] = None, output: Tex
         else:
             code = rel
         output.write(depth * indent)
-        output.write(f'* [{code}] ')
-        node_info = f'{n} ! {nix[n].lbl}'
+        output.write(f"* [{code}] ")
+        node_info = f"{n} ! {nix[n].lbl}"
         if n in seeds:
-            node_info = f'**{node_info}**'
+            node_info = f"**{node_info}**"
         output.write(node_info)
-        output.write('\n')
+        output.write("\n")
         child_edges = children_ix.get(n, [])
         for child_edge in child_edges:
             if not reflexive(child_edge):
-                todo.append((depth+1, child_edge.pred, child_edge.sub))
+                todo.append((depth + 1, child_edge.pred, child_edge.sub))
     if is_str:
         return output.getvalue()
-
-
-
