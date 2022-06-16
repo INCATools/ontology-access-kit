@@ -1,4 +1,4 @@
-.. ubergraph:
+.. _ubergraph_implementation:
 
 Ubergraph Endpoint
 ==================

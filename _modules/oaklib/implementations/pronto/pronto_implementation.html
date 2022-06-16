@@ -83,17 +83,19 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">import</span> <span class="nn">pronto</span>
 <span class="kn">import</span> <span class="nn">sssom</span>
 <span class="kn">from</span> <span class="nn">deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel</span> <span class="kn">import</span> <span class="n">kgcl</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">ALIAS_MAP</span><span class="p">,</span> \
     <span class="n">METADATA_MAP</span><span class="p">,</span> <span class="n">PREFIX_MAP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.patcher_interface</span> <span class="kn">import</span> <span class="n">PatcherInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
@@ -107,10 +109,13 @@
 <span class="kn">from</span> <span class="nn">pronto</span> <span class="kn">import</span> <span class="n">Ontology</span><span class="p">,</span> <span class="n">LiteralPropertyValue</span><span class="p">,</span> <span class="n">ResourcePropertyValue</span><span class="p">,</span> <span class="n">Term</span>
 <span class="kn">from</span> <span class="nn">sssom.sssom_datamodel</span> <span class="kn">import</span> <span class="n">MatchTypeEnum</span>
 
+<span class="c1"># https://github.com/althonos/pronto/issues/173</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">pronto</span><span class="o">.</span><span class="n">warnings</span><span class="o">.</span><span class="n">SyntaxWarning</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s2">&quot;pronto&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ProntoImplementation"><a class="viewcode-back" href="../../../../implementations/obofiles.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ProntoImplementation"><a class="viewcode-back" href="../../../../implementations/pronto.html#oaklib.implementations.pronto.pronto_implementation.ProntoImplementation">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ProntoImplementation</span><span class="p">(</span><span class="n">ValidatorInterface</span><span class="p">,</span> <span class="n">RdfInterface</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span>
-                           <span class="n">MappingProviderInterface</span><span class="p">):</span>
+                           <span class="n">MappingProviderInterface</span><span class="p">,</span> <span class="n">PatcherInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pronto wraps local-file based ontologies in the following formats:</span>
 
@@ -208,7 +213,7 @@
     <span class="k">def</span> <span class="nf">get_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_entity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
             <span class="c1"># see https://owlcollab.github.io/oboformat/doc/obo-syntax.html#4.4.1</span>
             <span class="c1"># pronto gives relations shorthand IDs for RO and BFO, as it is providing</span>
@@ -221,6 +226,8 @@
         <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No such CURIE: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">exist_ok</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -497,8 +504,23 @@
                         <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
                         <span class="k">continue</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">m</span></div>
+            <span class="k">yield</span> <span class="n">m</span>
 
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: PatcherInterface</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+    <span class="k">def</span> <span class="nf">migrate_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeRename</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_label_for_curie</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeObsoletion</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">obsolete</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 </pre></div>
 
            </div>

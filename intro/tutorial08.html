@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Part 8: Applying Changes to Ontologies &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture" href="../architecture.html" />
+    <link rel="prev" title="Part 7: SQLite files" href="tutorial07.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1: Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial02.html">Part 2: Basic Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Ubergraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial04.html">Part 4: OboGraphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial07.html">Part 7: SQLite files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Part 8: Applying Changes to Ontologies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#about-kgcl">About KGCL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line">Command Line</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example-sqlite3">Example: Sqlite3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-obo-files">Example: OBO Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Tutorial</a> &raquo;</li>
+      <li>Part 8: Applying Changes to Ontologies</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/intro/tutorial08.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="part-8-applying-changes-to-ontologies">
+<span id="tutorial08"></span><h1>Part 8: Applying Changes to Ontologies<a class="headerlink" href="#part-8-applying-changes-to-ontologies" title="Permalink to this headline"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Apply changes is an experimental feature. This documentation is provided for alpha testers
+to try out existing functionality. Currently on a fraction of the KGCL specification is
+implemented.</p>
+</div>
+<p>OAK allows various kinds of changes to be applied to ontologies, including:</p>
+<ul class="simple">
+<li><p>Changing <a class="reference internal" href="../glossary.html#term-Name"><span class="xref std std-term">Names</span></a> of concepts</p></li>
+<li><p>Adding or removing edges</p></li>
+<li><p>Obsoleting concepts</p></li>
+<li><p>…</p></li>
+</ul>
+<p>Like most aspects of OAK, all changes in OAK conform to a <a class="reference internal" href="../glossary.html#term-Datamodel"><span class="xref std std-term">Datamodel</span></a>. The datamodel used by OAK is <a class="reference internal" href="../glossary.html#term-KGCL"><span class="xref std std-term">KGCL</span></a>.</p>
+<section id="about-kgcl">
+<h2>About KGCL<a class="headerlink" href="#about-kgcl" title="Permalink to this headline"></a></h2>
+<p>KGCL is a datamodel for describing changes to ontologies at a high level.</p>
+<p>The KGCL datamodel can be expressed in different forms:</p>
+<ul class="simple">
+<li><p>Natively, as YAML or JSON documents</p></li>
+<li><p>As RDF</p></li>
+<li><p>As Python Objects</p></li>
+<li><p>Using a Domain Specific Language (DSL) optimised for easy reading and writing</p></li>
+</ul>
+<p>OAK uses KGCL objects to communicate desired changes to an ontology. This is an example of the <a class="reference external" href="https://en.wikipedia.org/wiki/Command_pattern">Command Pattern</a>.</p>
+<p>For example, rather than simply calling a method <code class="docutils literal notranslate"><span class="pre">obsolete_class(term:</span> <span class="pre">CURIE)</span></code>, we instead:</p>
+<ol class="arabic simple">
+<li><p>Create a <span class="xref std std-ref">ClassObsoletion</span> object</p></li>
+<li><p>Pass that object to an implementation of the <span class="xref std std-ref">PatcherInterface</span></p></li>
+</ol>
+<p>While this involves an additional step, this pattern offers a number of advantages</p>
+<ul class="simple">
+<li><p>proposed changes can be created in queue and deployed at the appropriate time in the future</p></li>
+<li><p>a single extensible interface can be used, and new operations can be created without changing the interface</p></li>
+</ul>
+</section>
+<section id="command-line">
+<h2>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline"></a></h2>
+<p>A subset of commands <em>mutate</em> the ontology specified via the <code class="docutils literal notranslate"><span class="pre">--input</span></code> option. This includes</p>
+<ul class="simple">
+<li><p>set-obsolete</p></li>
+<li><p>migrate-curies</p></li>
+<li><p>…</p></li>
+</ul>
+<p>With a mutation command, there are a number of different options for how changes are persisted:</p>
+<ul class="simple">
+<li><p>write in place, using the general option <code class="docutils literal notranslate"><span class="pre">--autosave</span></code></p></li>
+<li><p>saving to a new resource using the general option <code class="docutils literal notranslate"><span class="pre">--save-to</span></code></p></li>
+<li><p>exporting to a different kind of resource or format using a command-specific <code class="docutils literal notranslate"><span class="pre">--output</span></code></p></li>
+</ul>
+<p>The behavior of these options may vary depending on the input, and some may be inapplicable.</p>
+<p>For example, if the input is an external triplestore such as <span class="xref std std-term">Ontobee</span> or <a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, or
+an external read-only API like <a class="reference internal" href="../glossary.html#term-Bioportal"><span class="xref std std-term">BioPortal</span></a> or <a class="reference internal" href="../glossary.html#term-OLS"><span class="xref std std-term">OLS</span></a> then saving in place is not allowed.</p>
+<section id="example-sqlite3">
+<h3>Example: Sqlite3<a class="headerlink" href="#example-sqlite3" title="Permalink to this headline"></a></h3>
+<p>We assume here that we have a local sqlite3 file called <code class="docutils literal notranslate"><span class="pre">go-edit.db</span></code> and we want to obsolete
+a concept “nucleus”.</p>
+<p>To do this in place:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="n">autosave</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">.</span><span class="n">db</span> <span class="nb">set</span><span class="o">-</span><span class="n">obsolete</span> <span class="n">nucleus</span>
+</pre></div>
+</div>
+<p>This will apply the obsoletion changes directly and update the input file</p>
+<p>To instead save to a different sqlite file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="n">save</span><span class="o">-</span><span class="n">to</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">out</span><span class="o">.</span><span class="n">db</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">.</span><span class="n">db</span> <span class="nb">set</span><span class="o">-</span><span class="n">obsolete</span> <span class="n">nucleus</span>
+</pre></div>
+</div>
+<p>Note that <em>exports</em> are not currently implemented for sqlite</p>
+</section>
+<section id="example-obo-files">
+<h3>Example: OBO Files<a class="headerlink" href="#example-obo-files" title="Permalink to this headline"></a></h3>
+<p>To make edits and export to a new file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span>  <span class="o">-</span><span class="n">i</span> <span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">.</span><span class="n">obo</span> <span class="nb">set</span><span class="o">-</span><span class="n">obsolete</span> <span class="n">nucleus</span> <span class="o">-</span><span class="n">o</span> <span class="n">go</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">out</span><span class="o">.</span><span class="n">obo</span> <span class="o">-</span><span class="n">O</span> <span class="n">obo</span>
+</pre></div>
+</div>
+<p>This will apply the obsoletion changes in memory and then save results to a separate obo file.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial07.html" class="btn btn-neutral float-left" title="Part 7: SQLite files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

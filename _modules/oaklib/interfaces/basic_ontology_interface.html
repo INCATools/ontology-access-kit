@@ -83,6 +83,7 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterator</span>
 
+<span class="c1">#from oaklib import OntologyResource</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.ontology_interface</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">URI</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">OBO_PURL</span><span class="p">,</span> <span class="n">BIOPORTAL_PURL</span><span class="p">,</span> <span class="n">OWL_THING</span>
@@ -215,6 +216,14 @@
 
 <span class="sd">        Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.</span>
 <span class="sd">        Even when a single ontology is wrapped, there may be multiple ontologies included as imports</span>
+
+<span class="sd">        :return: iterator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.all_obsolete_curies"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">[docs]</a>    <span class="k">def</span> <span class="nf">all_obsolete_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns iterator over all known CURIEs that are obsolete</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -516,6 +525,15 @@
 
 <span class="sd">        :param path:</span>
 <span class="sd">        :param syntax:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.clone"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clones the ontology interface to a new resource</span>
+
+<span class="sd">        :param resource:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>

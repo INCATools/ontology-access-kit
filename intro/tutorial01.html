@@ -85,6 +85,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial07.html">Part 7: SQLite files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial08.html">Part 8: Applying Changes to Ontologies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
@@ -502,6 +503,102 @@ as yaml or TSV:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span><span class="n">chebi</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">CHEBI</span><span class="p">:</span><span class="mi">15356</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span>
 </pre></div>
 </div>
+<p>The Bioportal endpoint can also be used to <span class="xref std std-term">Annotate</span> sections of text, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span><span class="n">cl</span> <span class="n">annotate</span> <span class="s2">&quot;interneuron of forebrain&quot;</span>
+</pre></div>
+</div>
+<p>Gives results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">object_id</span><span class="p">:</span> <span class="n">CL</span><span class="p">:</span><span class="mi">0000099</span>
+<span class="n">object_label</span><span class="p">:</span> <span class="n">interneuron</span>
+<span class="n">object_source</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">bioontology</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontologies</span><span class="o">/</span><span class="n">CL</span>
+<span class="n">match_type</span><span class="p">:</span> <span class="n">PREF</span>
+<span class="n">subject_start</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">subject_end</span><span class="p">:</span> <span class="mi">11</span>
+<span class="n">subject_label</span><span class="p">:</span> <span class="n">INTERNEURON</span>
+
+<span class="o">---</span>
+<span class="n">object_id</span><span class="p">:</span> <span class="n">UBERON</span><span class="p">:</span><span class="mi">0001890</span>
+<span class="n">object_label</span><span class="p">:</span> <span class="n">forebrain</span>
+<span class="n">object_source</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">bioontology</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontologies</span><span class="o">/</span><span class="n">CL</span>
+<span class="n">match_type</span><span class="p">:</span> <span class="n">PREF</span>
+<span class="n">subject_start</span><span class="p">:</span> <span class="mi">16</span>
+<span class="n">subject_end</span><span class="p">:</span> <span class="mi">24</span>
+<span class="n">subject_label</span><span class="p">:</span> <span class="n">FOREBRAIN</span>
+</pre></div>
+</div>
+<p>Note that the results here are in <span class="xref std std-term">YAML</span> syntax, with each result being a YAML document.
+The results of the annotate command conform to the annotate <a class="reference internal" href="../glossary.html#term-Datamodel"><span class="xref std std-term">Datamodel</span></a>. We will return to
+the concept of datamodels later on, for now you can look at the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/text-annotator/index.html">Text Annotator Datamodel docs</a>.</p>
+<p>Some datamodels can also be expressed as TSVs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">bioportal</span><span class="p">:</span><span class="n">cl</span> <span class="n">annotate</span> <span class="s2">&quot;interneuron of forebrain&quot;</span> <span class="o">-</span><span class="n">O</span> <span class="n">csv</span>
+</pre></div>
+</div>
+<p>Gives back a TSV table:</p>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Annotate results</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>predicate_id</p></th>
+<th class="head"><p>object_id</p></th>
+<th class="head"><p>object_label</p></th>
+<th class="head"><p>object_source</p></th>
+<th class="head"><p>confidence</p></th>
+<th class="head"><p>match_string</p></th>
+<th class="head"><p>is_longest_match</p></th>
+<th class="head"><p>matches_whole_text</p></th>
+<th class="head"><p>match_type</p></th>
+<th class="head"><p>info</p></th>
+<th class="head"><p>subject_start</p></th>
+<th class="head"><p>subject_end</p></th>
+<th class="head"><p>subject_label</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CL:0000099</p></td>
+<td><p>interneuron</p></td>
+<td><p><a class="reference external" href="https://data.bioontology.org/ontologies/CL">https://data.bioontology.org/ontologies/CL</a></p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>PREF</p></td>
+<td><p>None</p></td>
+<td><p>1</p></td>
+<td><p>11</p></td>
+<td><p>INTERNEURON</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>UBERON:0001890</p></td>
+<td><p>forebrain</p></td>
+<td><p><a class="reference external" href="https://data.bioontology.org/ontologies/CL">https://data.bioontology.org/ontologies/CL</a></p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>PREF</p></td>
+<td><p>None</p></td>
+<td><p>16</p></td>
+<td><p>24</p></td>
+<td><p>FOREBRAIN</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Any other implementation that implements the annotate interface will <em>conform</em> to this same datamodel and format.</p>
 </section>
 <section id="using-ols">
 <h3>Using OLS<a class="headerlink" href="#using-ols" title="Permalink to this headline"></a></h3>
@@ -511,8 +608,8 @@ but this will be improved in future.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ols</span><span class="p">:</span> <span class="n">term</span><span class="o">-</span><span class="n">mappings</span> <span class="n">CHEBI</span><span class="p">:</span><span class="mi">15356</span> <span class="o">-</span><span class="n">O</span> <span class="n">sssom</span>
 </pre></div>
 </div>
-<table class="docutils align-default" id="id5">
-<caption><span class="caption-text">OLS SSSOM</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">OLS SSSOM</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
 <colgroup>
 <col style="width: 13%" />
 <col style="width: 13%" />

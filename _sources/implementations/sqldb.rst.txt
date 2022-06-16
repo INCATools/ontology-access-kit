@@ -1,4 +1,4 @@
-.. sql:
+.. _sql_implementation:
 
 SQL Database Implementation
 ===========================
