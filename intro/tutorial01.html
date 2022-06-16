@@ -179,7 +179,7 @@ implementation. We will return to the <a class="reference external" href="https:
 but one pattern that is useful to know is <code class="docutils literal notranslate"><span class="pre">prontolib:&lt;ontology-file&gt;</span></code>, which uses the <a class="reference internal" href="../glossary.html#term-Pronto"><span class="xref std std-term">Pronto</span></a> library to fetch
 and parse an OBO file.</p>
 <p>To do a basic lookup, using either a name or ID:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="nb">input</span> <span class="n">prontolib</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">info</span> <span class="s1">&#39;wing vein&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">--</span><span class="nb">input</span> <span class="n">prontolib</span><span class="p">:</span><span class="n">fbbt</span><span class="o">.</span><span class="n">obo</span> <span class="n">info</span> <span class="s1">&#39;wing vein&#39;</span>
 </pre></div>
 </div>
 <p>The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
