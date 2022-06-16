@@ -71,7 +71,7 @@ To do a basic lookup, using either a name or ID:
 
 .. code-block::
 
-    runoak -input prontolib:fbbt.obo info 'wing vein'
+    runoak --input prontolib:fbbt.obo info 'wing vein'
 
 The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
 library under the hood). The results should be:
