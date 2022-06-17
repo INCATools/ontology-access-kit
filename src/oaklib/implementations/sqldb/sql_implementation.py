@@ -910,10 +910,10 @@ class SqlImplementation(
             elif isinstance(patch, kgcl.NameBecomesSynonym):
                 label = self.get_label_by_curie(about)
                 self.apply_patch(
-                    kgcl.NodeRename(id=f"{path.id}-1", about_node=about, new_value=patch.new_value)
+                    kgcl.NodeRename(id=f"{patch.id}-1", about_node=about, new_value=patch.new_value)
                 )
                 self.apply_patch(
-                    kgcl.NewSynonym(id=f"{path.id}-2", about_node=about, new_value=label)
+                    kgcl.NewSynonym(id=f"{patch.id}-2", about_node=about, new_value=label)
                 )
             else:
                 raise NotImplementedError

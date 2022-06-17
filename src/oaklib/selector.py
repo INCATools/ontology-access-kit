@@ -12,6 +12,7 @@ from oaklib.implementations.bioportal.agroportal_implementation import (
 from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
+from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -102,7 +103,9 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 impl_class = WikidataImplementation
             elif scheme == "ols":
                 impl_class = OlsImplementation
-            elif scheme == "pronto":
+            elif scheme == 'funowl':
+                impl_class = FunOwlImplementation
+            elif scheme == 'pronto':
                 impl_class = ProntoImplementation
                 if resource.slug.endswith(".obo"):
                     resource.format = "obo"

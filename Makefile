@@ -53,6 +53,9 @@ stage-docs:
 tests/input/%.owl: tests/input/%.obo
 	robot convert -i $< -o $@
 
+tests/input/%.ofn: tests/input/%.owl
+	robot convert -i $< -o $@
+
 tests/input/%.db: tests/input/%.owl
 	$(RUN) semsql make $@
 
