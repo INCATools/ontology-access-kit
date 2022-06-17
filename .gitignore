@@ -16,3 +16,4 @@ notebooks/input/go.db
 notebooks/api-key.txt
 
 .template.db
+.venv

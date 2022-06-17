@@ -1,22 +1,31 @@
 import logging
 import unittest
 
-from funowl import SubClassOf, EquivalentClasses
+from funowl import EquivalentClasses, SubClassOf
 from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
+
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
+from tests import (
+    CELL,
+    CELLULAR_ORGANISMS,
+    CHEBI_NUCLEUS,
+    CYTOPLASM,
+    HUMAN,
+    INPUT_DIR,
+    NUCLEUS,
+    OUTPUT_DIR,
+    VACUOLE,
+)
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, CYTOPLASM, CELL, CELLULAR_ORGANISMS, NUCLEUS, CHEBI_NUCLEUS, HUMAN
-
-TEST_ONT = INPUT_DIR / 'go-nucleus.ofn'
-NEW_NAME = 'new name'
+TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
+NEW_NAME = "new name"
 
 
 class TestFunOwlImplementation(unittest.TestCase):
-
     def setUp(self) -> None:
         resource = OntologyResource(TEST_ONT)
         oi = FunOwlImplementation(resource)
@@ -31,8 +40,11 @@ class TestFunOwlImplementation(unittest.TestCase):
     def test_filter_axioms(self):
         fw = FunctionalWriter()
         oi = self.oi
-        self.assertCountEqual(list(oi.axioms()), list(oi.filter_axioms(AxiomFilter())),
-                              "empty axiom filter should return all axioms")
+        self.assertCountEqual(
+            list(oi.axioms()),
+            list(oi.filter_axioms(AxiomFilter())),
+            "empty axiom filter should return all axioms",
+        )
         subclass_axioms = list(oi.filter_axioms(AxiomFilter(type=SubClassOf)))
         for ax in subclass_axioms:
             self.assertEqual(type(ax), SubClassOf)
@@ -65,8 +77,8 @@ class TestFunOwlImplementation(unittest.TestCase):
         self.assertGreater(len(anns), 5)
         label = oi.get_label_by_curie(NUCLEUS)
         self.assertEqual("nucleus", label)
-        oi.apply_patch(kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value=NEW_NAME))
+        oi.apply_patch(
+            kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value=NEW_NAME)
+        )
         label = oi.get_label_by_curie(VACUOLE)
         self.assertEqual(NEW_NAME, label)
-
-

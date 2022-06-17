@@ -7,32 +7,54 @@ Executed using "runoak" command
 # TODO: order commands. See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import logging
 import os
+import re
 import subprocess
 import sys
-import re
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
 from pathlib import Path
-from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type, Iterator, Union, Iterable
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Sequence,
+    TextIO,
+    Tuple,
+    Type,
+    Union,
+)
 
 import click
 import rdflib
+import sssom.writers as sssom_writers
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import yaml_dumper, json_dumper
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
+
+import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
+from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, PART_OF
 from oaklib.implementations import ProntoImplementation
-from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
+from oaklib.implementations.aggregator.aggregator_implementation import (
+    AggregatorImplementation,
+)
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
-from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface, \
-    RelationGraphInterface
+from oaklib.interfaces import (
+    BasicOntologyInterface,
+    OntologyInterface,
+    RelationGraphInterface,
+    SubsetterInterface,
+    ValidatorInterface,
+)
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.interfaces.owl_interface import OwlInterface, AxiomFilter
+from oaklib.interfaces.owl_interface import AxiomFilter, OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -46,21 +68,37 @@ from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
-from oaklib.selector import get_resource_from_shorthand, get_implementation_from_shorthand
-from oaklib.types import PRED_CURIE, CURIE
+from oaklib.selector import (
+    get_implementation_from_shorthand,
+    get_resource_from_shorthand,
+)
+from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import generate_change_id
-from oaklib.utilities.lexical.lexical_indexer import create_lexical_index, save_lexical_index, lexical_index_to_sssom, \
-    load_lexical_index, load_mapping_rules, add_labels_from_uris
+from oaklib.utilities.lexical.lexical_indexer import (
+    add_labels_from_uris,
+    create_lexical_index,
+    lexical_index_to_sssom,
+    load_lexical_index,
+    load_mapping_rules,
+    save_lexical_index,
+)
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
-from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_stylemap_path, graph_to_tree, \
-    as_digraph, ancestors_with_stats
-import sssom.writers as sssom_writers
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
+from oaklib.utilities.obograph_utils import (
+    ancestors_with_stats,
+    as_digraph,
+    default_stylemap_path,
+    draw_graph,
+    graph_to_image,
+    graph_to_tree,
+)
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-from oaklib.utilities.taxon.taxon_constraint_utils import get_term_with_taxon_constraints, test_candidate_taxon_constraint, parse_gain_loss_file
-import oaklib.datamodels.taxon_constraints as tcdm
+from oaklib.utilities.taxon.taxon_constraint_utils import (
+    get_term_with_taxon_constraints,
+    parse_gain_loss_file,
+    test_candidate_taxon_constraint,
+)
 
 
 @unique
@@ -83,64 +121,50 @@ settings = Settings()
 input_option = click.option(
     "-i",
     "--input",
-    help="input implementation specification. This is either a path to a file, or an ontology selector"
+    help="input implementation specification. This is either a path to a file, or an ontology selector",
 )
 add_option = click.option(
-    "-a",
-    "--add",
-    multiple=True,
-    help="additional implementation specification."
+    "-a", "--add", multiple=True, help="additional implementation specification."
 )
 set_operation_option = click.option(
-    '--operation',
+    "--operation",
     type=click.Choice([x.value for x in SetOperation]),
-    help="set operation, where left set is stdin list and right set is arguments."
+    help="set operation, where left set is stdin list and right set is arguments.",
 )
-input_type_option = click.option(
-    "-I",
-    "--input-type",
-    help="Input type."
-)
+input_type_option = click.option("-I", "--input-type", help="Input type.")
 output_option = click.option(
     "-o",
     "--output",
     type=click.File(mode="w"),
     default=sys.stdout,
-    help="Output file, e.g. obo file"
+    help="Output file, e.g. obo file",
 )
 output_type_option = click.option(
     "-O",
     "--output-type",
-    help=f'Desired output type',
+    help=f"Desired output type",
 )
-predicates_option = click.option(
-    "-p",
-    "--predicates",
-    help="A comma-separated list of predicates"
-)
+predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
 display_option = click.option(
-    "-D",
-    "--display",
-    default='',
-    help="A comma-separated list of display options"
+    "-D", "--display", default="", help="A comma-separated list of display options"
 )
 
 
 def _process_predicates_arg(preds_str: str) -> List[PRED_CURIE]:
     if preds_str is None:
         return None
-    inputs = preds_str.split(',')
+    inputs = preds_str.split(",")
     preds = [_shorthand_to_pred_curie(p) for p in inputs]
     return preds
 
 
 # TODO: move to vocab
 def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
-    if shorthand == 'i':
+    if shorthand == "i":
         return IS_A
-    elif shorthand == 'p':
+    elif shorthand == "p":
         return PART_OF
-    elif shorthand == 'e':
+    elif shorthand == "e":
         return EQUIVALENT_CLASS
     else:
         return shorthand
@@ -170,47 +194,48 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
             else:
                 for x in it:
                     yield x
+
     while len(terms) > 0:
         term = terms[0]
         terms = terms[1:]
-        if term == '-':
+        if term == "-":
             for line in sys.stdin.readlines():
-                m = re.match(r'^(\S+)', line)
+                m = re.match(r"^(\S+)", line)
                 iterators.append(m.group(1))
-        elif re.match(r'^(\w+):(\S+)$', term):
+        elif re.match(r"^(\w+):(\S+)$", term):
             iterators.append(term)
-        elif re.match(r'^\.predicates=(\S*)$', term):
-            m = re.match(r'^\.predicates=(\S*)$', term)
+        elif re.match(r"^\.predicates=(\S*)$", term):
+            m = re.match(r"^\.predicates=(\S*)$", term)
             predicates = _process_predicates_arg(m.group(1))
-        elif re.match(r'^http(\S+)$', term):
+        elif re.match(r"^http(\S+)$", term):
             iterators.append(term)
-        elif term == '.and':
+        elif term == ".and":
             rest = list(query_terms_iterator(terms, impl))
             for x in nxt(iterators):
                 if x in rest:
                     yield x
             terms = []
-        elif term == '.not':
+        elif term == ".not":
             rest = list(query_terms_iterator(terms, impl))
             for x in nxt(iterators):
                 if x not in rest:
                     yield x
             terms = []
-        elif term == '.or':
+        elif term == ".or":
             # or is implicit
             pass
-        elif term.startswith('.in'):
+        elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
             iterators.append(impl.curies_by_subset(subset))
-        elif term.startswith('.desc'):
+        elif term.startswith(".desc"):
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
                 iterators.append(impl.descendants(rest, predicates=predicates))
             else:
                 raise NotImplementedError
-        elif term.startswith('.anc'):
+        elif term.startswith(".anc"):
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
@@ -230,14 +255,20 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
-@click.option("--save-to",
-              help="For commands that mutate the ontology, this specifies where changes are saved to")
-@click.option("--autosave/--no-autosave",
-              help="For commands that mutate the ontology, this determines if these are automatically saved in place")
+@click.option(
+    "--save-to",
+    help="For commands that mutate the ontology, this specifies where changes are saved to",
+)
+@click.option(
+    "--autosave/--no-autosave",
+    help="For commands that mutate the ontology, this determines if these are automatically saved in place",
+)
 @input_option
 @input_type_option
 @add_option
-def main(verbose: int, quiet: bool, input: str, input_type: str, add: List, save_to: str, autosave: bool):
+def main(
+    verbose: int, quiet: bool, input: str, input_type: str, add: List, save_to: str, autosave: bool
+):
     """Run the oaklib Command Line.
 
     A subcommand must be passed - for example: ancestors, terms, ...
@@ -266,7 +297,7 @@ def main(verbose: int, quiet: bool, input: str, input_type: str, add: List, save
         impl_class: Type[OntologyInterface]
         resource = get_resource_from_shorthand(input, format=input_type)
         impl_class = resource.implementation_class
-        logging.info(f'RESOURCE={resource}')
+        logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)
     if add:
         impls = [get_implementation_from_shorthand(d) for d in add]
@@ -275,10 +306,9 @@ def main(verbose: int, quiet: bool, input: str, input_type: str, add: List, save
         settings.impl = AggregatorImplementation(implementations=impls)
     if save_to:
         if autosave:
-            raise ValueError(f'Cannot specify both --save-to and --autosave')
+            raise ValueError(f"Cannot specify both --save-to and --autosave")
         settings.impl = settings.impl.clone(get_resource_from_shorthand(save_to))
         settings.autosave = True
-
 
 
 @main.command()
@@ -318,11 +348,11 @@ def search(terms, output: str):
     impl = settings.impl
     if isinstance(impl, SearchInterface):
         for curie_it in chunk(query_terms_iterator(terms, impl)):
-            logging.info('** Next chunk:')
+            logging.info("** Next chunk:")
             for curie, label in impl.get_labels_for_curies(curie_it):
-                print(f'{curie} ! {label}')
+                print(f"{curie} ! {label}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -342,9 +372,9 @@ def all_subsets(output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for subset in impl.all_subset_curies():
-            print(f'{subset} ! {impl.get_label_by_curie(subset)}')
+            print(f"{subset} ! {impl.get_label_by_curie(subset)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -360,9 +390,9 @@ def all_obsoletes(output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for term in impl.all_obsolete_curies():
-            print(f'{term} ! {impl.get_label_by_curie(term)}')
+            print(f"{term} ! {impl.get_label_by_curie(term)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -375,14 +405,14 @@ def ontologies(output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for curie in impl.all_ontology_curies():
-            print(f'{curie}')
+            print(f"{curie}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
-@click.argument('ontologies', nargs=-1)
+@click.argument("ontologies", nargs=-1)
 def ontology_versions(ontologies, output: str):
     """
     Shows ontology versions
@@ -395,51 +425,53 @@ def ontology_versions(ontologies, output: str):
                 obj = dict(ontology=ont, version=v)
                 writer.emit(obj)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
 @output_type_option
-@click.argument('ontologies', nargs=-1)
+@click.argument("ontologies", nargs=-1)
 def ontology_metadata(ontologies, output_type: str, output: str):
     """
     Shows ontology metadata
     """
     impl = settings.impl
-    if output_type is None or output_type == 'yaml':
+    if output_type is None or output_type == "yaml":
         writer = StreamingYamlWriter(output)
-    elif output_type == 'csv':
+    elif output_type == "csv":
         writer = StreamingCsvWriter(output)
     else:
-        raise ValueError(f'No such format: {output_type}')
+        raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, BasicOntologyInterface):
         for ont in list(ontologies):
             metadata = impl.ontology_metadata(ont)
             writer.emit(metadata)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
 @output_type_option
-@click.option('--reification/--no-reification',
-              default=False,
-              show_default=True,
-              help="if true then fetch axiom triples with annotations")
-@click.argument('terms', nargs=-1)
+@click.option(
+    "--reification/--no-reification",
+    default=False,
+    show_default=True,
+    help="if true then fetch axiom triples with annotations",
+)
+@click.argument("terms", nargs=-1)
 def term_metadata(terms, reification: bool, output_type: str, output: str):
     """
     Shows term metadata
     """
     impl = settings.impl
-    if output_type is None or output_type == 'yaml':
+    if output_type is None or output_type == "yaml":
         writer = StreamingYamlWriter(output)
-    elif output_type == 'csv':
+    elif output_type == "csv":
         writer = StreamingCsvWriter(output)
     else:
-        raise ValueError(f'No such format: {output_type}')
+        raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, BasicOntologyInterface):
         for curie in query_terms_iterator(terms, impl):
             if reification:
@@ -452,7 +484,7 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
                 metadata = impl.metadata_map_by_curie(curie)
                 writer.emit(metadata)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -473,21 +505,25 @@ def list_subset(subset, output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for curie in impl.curies_by_subset(subset):
-            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @click.argument("words", nargs=-1)
-@click.option('-W/--no-W',
-              '--matches-whole-text/--no-matches-whole-text',
-              default=False,
-              show_default=True,
-              help="if true, then only show matches that span the entire input text")
-@click.option('--text-file',
-              type=click.File(mode="r"),
-              help="Text file to annotate. Each newline separated entry is a distinct text.")
+@click.option(
+    "-W/--no-W",
+    "--matches-whole-text/--no-matches-whole-text",
+    default=False,
+    show_default=True,
+    help="if true, then only show matches that span the entire input text",
+)
+@click.option(
+    "--text-file",
+    type=click.File(mode="r"),
+    help="Text file to annotate. Each newline separated entry is a distinct text.",
+)
 @output_option
 @output_type_option
 def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, output_type: str):
@@ -508,14 +544,14 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
     impl = settings.impl
     if isinstance(impl, TextAnnotatorInterface):
         configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
-        if output_type is None or output_type == 'yaml':
+        if output_type is None or output_type == "yaml":
             writer = StreamingYamlWriter(output)
-        elif output_type == 'csv':
+        elif output_type == "csv":
             writer = StreamingCsvWriter(output)
         else:
-            raise ValueError(f'unknown writer: {output_type}')
+            raise ValueError(f"unknown writer: {output_type}")
         if words and text_file:
-            raise ValueError(f'Specify EITHER text-file OR a list of words as arguments')
+            raise ValueError(f"Specify EITHER text-file OR a list of words as arguments")
         if text_file:
             for line in text_file.readlines():
                 line = line.strip()
@@ -524,42 +560,61 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
                     ann.subject_source = line
                     writer.emit(ann)
         else:
-            text = ' '.join(words)
+            text = " ".join(words)
             for ann in impl.annotate_text(text, configuration):
                 writer.emit(ann)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option("--view/--no-view",
-              default=True,
-              show_default=True,
-              help="if view is set then open the image after rendering")
-@click.option("--down/--no-down",
-              default=False,
-              show_default=True,
-              help="traverse down")
-@click.option("--gap-fill/--no-gap-fill",
-              default=False,
-              show_default=True,
-              help="If set then find the minimal graph that spans all input curies")
-@click.option("--add-mrcas/--no-add-mrcas",
-              default=False,
-              show_default=True,
-              help="If set then extend input seed list to include all pairwise MRCAs")
-@click.option('-S', '--stylemap',
-              help='a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/')
-@click.option('-C', '--configure',
-              help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `')
+@click.option(
+    "--view/--no-view",
+    default=True,
+    show_default=True,
+    help="if view is set then open the image after rendering",
+)
+@click.option("--down/--no-down", default=False, show_default=True, help="traverse down")
+@click.option(
+    "--gap-fill/--no-gap-fill",
+    default=False,
+    show_default=True,
+    help="If set then find the minimal graph that spans all input curies",
+)
+@click.option(
+    "--add-mrcas/--no-add-mrcas",
+    default=False,
+    show_default=True,
+    help="If set then extend input seed list to include all pairwise MRCAs",
+)
+@click.option(
+    "-S",
+    "--stylemap",
+    help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
+)
+@click.option(
+    "-C",
+    "--configure",
+    help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
+)
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
 # TODO: the main output option uses a filelike object
-@click.option('-o', '--output',
-              help="Path to output file")
-#@output_option
-def viz(terms, predicates, down, gap_fill, add_mrcas, view, stylemap, configure, output_type: str, output: str):
+@click.option("-o", "--output", help="Path to output file")
+# @output_option
+def viz(
+    terms,
+    predicates,
+    down,
+    gap_fill,
+    add_mrcas,
+    view,
+    stylemap,
+    configure,
+    output_type: str,
+    output: str,
+):
     """
     Visualizing an ancestor graph using obographviz
 
@@ -597,15 +652,20 @@ def viz(terms, predicates, down, gap_fill, add_mrcas, view, stylemap, configure,
         curies = list(query_terms_iterator(terms, impl))
         if add_mrcas:
             if isinstance(impl, SemanticSimilarityInterface):
-                curies_to_add = [lca for s, o, lca in impl.multiset_most_recent_common_ancestors(curies, predicates=actual_predicates)]
+                curies_to_add = [
+                    lca
+                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                        curies, predicates=actual_predicates
+                    )
+                ]
                 curies = list(set(curies + curies_to_add))
-                logging.info(f'Expanded CURIEs = {curies}')
+                logging.info(f"Expanded CURIEs = {curies}")
             else:
-                raise NotImplementedError(f'{impl} does not implement SemanticSimilarityInterface')
+                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
-            logging.info(f'Using gap-fill strategy')
+            logging.info(f"Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
                 rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
                 if isinstance(impl, OboGraphInterface):
@@ -613,54 +673,65 @@ def viz(terms, predicates, down, gap_fill, add_mrcas, view, stylemap, configure,
                 else:
                     assert False
             else:
-                raise NotImplementedError(f'{impl} needs to implement Subsetter for --gap-fill')
+                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
             graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        logging.info(f'Drawing graph seeded from {curies}')
-        if output_type == 'json':
+        logging.info(f"Drawing graph seeded from {curies}")
+        if output_type == "json":
             if output:
                 json_dumper.dump(graph, to_file=output, inject_type=False)
             else:
                 print(json_dumper.dumps(graph))
-        elif output_type == 'yaml':
+        elif output_type == "yaml":
             if output:
                 yaml_dumper.dump(graph, to_file=output, inject_type=False)
             else:
                 print(yaml_dumper.dumps(graph))
-        elif output_type == 'obo':
+        elif output_type == "obo":
             output_oi = ProntoImplementation()
             output_oi.load_graph(graph, replace=True)
-            output_oi.store(OntologyResource(slug=output, local=True, format='obo'))
+            output_oi.store(OntologyResource(slug=output, local=True, format="obo"))
         else:
-            imgfile = graph_to_image(graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output)
+            imgfile = graph_to_image(
+                graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
+            )
             if view:
-                subprocess.run(['open', imgfile])
+                subprocess.run(["open", imgfile])
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option("--view/--no-view",
-              default=True,
-              show_default=True,
-              help="if view is set then open the image after rendering")
-@click.option("--down/--no-down",
-              default=False,
-              show_default=True,
-              help="traverse down")
-@click.option("--gap-fill/--no-gap-fill",
-              default=False,
-              show_default=True,
-              help="If set then find the minimal graph that spans all input curies")
-@click.option('-S', '--stylemap',
-              help='a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/')
-@click.option('-C', '--configure',
-              help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `')
+@click.option(
+    "--view/--no-view",
+    default=True,
+    show_default=True,
+    help="if view is set then open the image after rendering",
+)
+@click.option("--down/--no-down", default=False, show_default=True, help="traverse down")
+@click.option(
+    "--gap-fill/--no-gap-fill",
+    default=False,
+    show_default=True,
+    help="If set then find the minimal graph that spans all input curies",
+)
+@click.option(
+    "-S",
+    "--stylemap",
+    help="a json file to configure visualization. See https://berkeleybop.github.io/kgviz-model/",
+)
+@click.option(
+    "-C",
+    "--configure",
+    help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
+)
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
 @output_option
-def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: TextIO):
+def tree(
+    terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: TextIO
+):
     """
     Display an ancestor graph as an ascii/markdown tree
 
@@ -683,7 +754,7 @@ def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_ty
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
-            logging.info(f'Using gap-fill strategy')
+            logging.info(f"Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
                 rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
                 if isinstance(impl, OboGraphInterface):
@@ -691,27 +762,36 @@ def tree(terms, predicates, down, gap_fill, view, stylemap, configure, output_ty
                 else:
                     assert False
             else:
-                raise NotImplementedError(f'{impl} needs to implement Subsetter for --gap-fill')
+                raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
             graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-        logging.info(f'Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}')
-        graph_to_tree(graph, seeds=curies, predicates=actual_predicates,
-                      format=output_type, stylemap=stylemap, output=output)
+        logging.info(
+            f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
+        )
+        graph_to_tree(
+            graph,
+            seeds=curies,
+            predicates=actual_predicates,
+            format=output_type,
+            stylemap=stylemap,
+            output=output,
+        )
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
-@click.option('--statistics/--no-statistics',
-              default=False,
-              show_default=True,
-              help="For each ancestor, show statistics."
-              )
+@click.option(
+    "--statistics/--no-statistics",
+    default=False,
+    show_default=True,
+    help="For each ancestor, show statistics.",
+)
 @output_option
-def ancestors(terms, predicates, statistics: bool, output_type:str, output: str):
+def ancestors(terms, predicates, statistics: bool, output_type: str, output: str):
     """
     List all ancestors
 
@@ -743,16 +823,16 @@ def ancestors(terms, predicates, statistics: bool, output_type:str, output: str)
     """
     impl = settings.impl
     writer = StreamingCsvWriter(ontology_interface=impl)
-    #writer.display_options = display.split(',')
+    # writer.display_options = display.split(',')
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
-        logging.info(f'Ancestor seed: {curies}')
+        logging.info(f"Ancestor seed: {curies}")
         if statistics:
             if isinstance(impl, OboGraphInterface):
                 graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-                logging.info(f'Calculating graph stats')
+                logging.info(f"Calculating graph stats")
                 ancs_stats = ancestors_with_stats(graph, curies)
                 for n in graph.nodes:
                     kwargs = {}
@@ -769,7 +849,7 @@ def ancestors(terms, predicates, statistics: bool, output_type:str, output: str)
             else:
                 raise NotImplementedError
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -777,7 +857,7 @@ def ancestors(terms, predicates, statistics: bool, output_type:str, output: str)
 @predicates_option
 @output_type_option
 @output_option
-def siblings(terms, predicates, output_type:str, output: str):
+def siblings(terms, predicates, output_type: str, output: str):
     """
     List all siblings
 
@@ -788,7 +868,7 @@ def siblings(terms, predicates, output_type:str, output: str):
     Note that ancestors is by default over ALL relationship types
     """
     impl = settings.impl
-    if output_type == 'obo':
+    if output_type == "obo":
         writer = StreamingOboWriter(ontology_interface=impl)
     else:
         writer = StreamingInfoWriter(ontology_interface=impl)
@@ -796,7 +876,7 @@ def siblings(terms, predicates, output_type:str, output: str):
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
-        logging.info(f'seed: {curies}')
+        logging.info(f"seed: {curies}")
         sibs = []
         for curie in curies:
             for _, parent in impl.get_outgoing_relationships(curie, actual_predicates):
@@ -807,7 +887,7 @@ def siblings(terms, predicates, output_type:str, output: str):
             writer.emit(sib, impl.get_label_by_curie(sib))
 
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -827,22 +907,22 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
-    if output_type == 'obo':
+    if output_type == "obo":
         writer = StreamingOboWriter(ontology_interface=impl)
     else:
         writer = StreamingInfoWriter(ontology_interface=impl)
-    writer.display_options = display.split(',')
+    writer.display_options = display.split(",")
     writer.file = output
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         result_it = impl.descendants(curies, predicates=actual_predicates)
         for curie_it in chunk(result_it):
-            logging.info('** Next chunk:')
+            logging.info("** Next chunk:")
             for curie, label in impl.get_labels_for_curies(curie_it):
                 writer.emit(curie, label)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -864,12 +944,13 @@ def dump(terms, output, output_type: str):
     else:
         raise NotImplementedError
 
+
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_option
 @output_type_option
-def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
+def extract_triples(terms, predicates, output, output_type: str = "ttl"):
     """
     Extracts a subontology as triples
 
@@ -889,11 +970,11 @@ def extract_triples(terms, predicates, output, output_type: str = 'ttl'):
         g = rdflib.Graph()
         curies = list(query_terms_iterator(terms, impl))
         for t in impl.extract_triples(curies, predicates=actual_predicates, map_to_curies=False):
-            logging.info(f'Triple: {t}')
+            logging.info(f"Triple: {t}")
             g.add(t)
         output.write(g.serialize())
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -923,7 +1004,7 @@ def similarity(terms, predicates, output: TextIO):
     Background: https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html
     """
     if len(terms) != 2:
-        raise ValueError(f'Need exactly 2 terms: {terms}')
+        raise ValueError(f"Need exactly 2 terms: {terms}")
     subject = terms[0]
     object = terms[1]
     impl = settings.impl
@@ -932,17 +1013,21 @@ def similarity(terms, predicates, output: TextIO):
         sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
         output.write(yaml_dumper.dumps(sim))
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @predicates_option
-@click.option('--set1',
-              multiple=True,
-              help="List of curies or curie queries for the first set. If empty uses all")
-@click.option('--set2',
-              multiple=True,
-              help="List of curies or curie queries for the second set. If empty uses all")
+@click.option(
+    "--set1",
+    multiple=True,
+    help="List of curies or curie queries for the first set. If empty uses all",
+)
+@click.option(
+    "--set2",
+    multiple=True,
+    help="List of curies or curie queries for the second set. If empty uses all",
+)
 @output_option
 def all_similarity(predicates, set1, set2, output: TextIO):
     """
@@ -959,10 +1044,12 @@ def all_similarity(predicates, set1, set2, output: TextIO):
         else:
             set2it = query_terms_iterator(set2, impl)
         actual_predicates = _process_predicates_arg(predicates)
-        for sim in impl.all_by_all_pairwise_similarity(set1it, set2it, predicates=actual_predicates):
+        for sim in impl.all_by_all_pairwise_similarity(
+            set1it, set2it, predicates=actual_predicates
+        ):
             output.write(yaml_dumper.dumps(sim))
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -987,24 +1074,26 @@ def info(terms, output: TextIO, display: str, output_type: str):
         runoak -i cl.owl info CL:4023094 -D x,d
     """
     impl = settings.impl
-    if output_type == 'obo':
+    if output_type == "obo":
         writer = StreamingOboWriter(ontology_interface=impl)
-    elif output_type == 'md':
+    elif output_type == "md":
         writer = StreamingMarkdownWriter(ontology_interface=impl)
     else:
         writer = StreamingInfoWriter(ontology_interface=impl)
-    writer.display_options = display.split(',')
+    writer.display_options = display.split(",")
     writer.file = output
-    logging.info(f'Input Terms={terms}; w={writer}')
+    logging.info(f"Input Terms={terms}; w={writer}")
     for curie in query_terms_iterator(terms, impl):
         writer.emit(curie)
 
 
 @main.command()
 @click.argument("terms", nargs=-1)
-@click.option('--operation',
-              type=click.Choice([x.value for x in SetOperation]),
-              help="set operation, where left set is stdin list and right set is arguments")
+@click.option(
+    "--operation",
+    type=click.Choice([x.value for x in SetOperation]),
+    help="set operation, where left set is stdin list and right set is arguments",
+)
 @output_option
 @display_option
 @output_type_option
@@ -1024,15 +1113,15 @@ def combine(terms, operation: str, output: TextIO, display: str, output_type: st
         uberon search t~bone | uberon combine --operation union t~cartilage
     """
     impl = settings.impl
-    if output_type == 'obo':
+    if output_type == "obo":
         writer = StreamingOboWriter(ontology_interface=impl)
     else:
         writer = StreamingInfoWriter(ontology_interface=impl)
-    writer.display_options = display.split(',')
+    writer.display_options = display.split(",")
     writer.file = output
     set1 = set()
     for line in sys.stdin.readlines():
-        m = re.match(r'^(\S+)', line)
+        m = re.match(r"^(\S+)", line)
         set1.add(m.group(1))
     set2 = set(query_terms_iterator(terms, impl))
     if operation == SetOperation.intersection.value:
@@ -1047,15 +1136,14 @@ def combine(terms, operation: str, output: TextIO, display: str, output_type: st
         curies = set2.difference(set1)
     else:
         raise NotImplementedError
-    logging.info(f'Result Terms={curies}')
+    logging.info(f"Result Terms={curies}")
     for curie in curies:
         writer.emit(curie)
 
 
 @main.command()
-#@output_option
-@click.option('-o', '--output',
-              help="output file")
+# @output_option
+@click.option("-o", "--output", help="output file")
 @output_type_option
 def convert(output: str, output_type):
     """
@@ -1066,7 +1154,7 @@ def convert(output: str, output_type):
         resource = get_resource_from_shorthand(output, format=output_type)
         curies = impl.store(resource)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1085,13 +1173,13 @@ def relationships(terms, output: str):
     if isinstance(impl, BasicOntologyInterface):
         curies = list(query_terms_iterator(terms, impl))
         for curie in curies:
-            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
             for pred, fillers in impl.get_outgoing_relationship_map_by_curie(curie).items():
-                print(f'  PRED: {pred} ! {impl.get_label_by_curie(pred)}')
+                print(f"  PRED: {pred} ! {impl.get_label_by_curie(pred)}")
                 for filler in fillers:
-                    print(f'    * {filler} ! {impl.get_label_by_curie(filler)}')
+                    print(f"    * {filler} ! {impl.get_label_by_curie(filler)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1106,17 +1194,17 @@ def all_relationships(output: TextIO, output_type: str):
 
     """
     impl = settings.impl
-    if output_type is None or output_type == 'yaml':
+    if output_type is None or output_type == "yaml":
         writer = StreamingYamlWriter(output)
-    elif output_type == 'csv':
+    elif output_type == "csv":
         writer = StreamingCsvWriter(output)
     else:
-        raise ValueError(f'No such format: {output_type}')
+        raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, OboGraphInterface):
         for s, p, o in impl.all_relationships():
             writer.emit(dict(subject=s, predicate=p, object=o))
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1132,9 +1220,9 @@ def terms(output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for curie in impl.all_entity_curies():
-            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1156,9 +1244,9 @@ def roots(output: str, predicates: str):
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         for curie in impl.roots(actual_predicates):
-            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1180,15 +1268,15 @@ def leafs(output: str, predicates: str):
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         for curie in impl.leafs(actual_predicates):
-            print(f'{curie} ! {impl.get_label_by_curie(curie)}')
+            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
 @output_type_option
-@click.option('--maps-to-source')
+@click.option("--maps-to-source")
 def mappings(maps_to_source, output, output_type):
     """
     List all SSSOM mappings in the ontology
@@ -1200,25 +1288,25 @@ def mappings(maps_to_source, output, output_type):
     TODO: TSV
     """
     impl = settings.impl
-    if output_type is None or output_type == 'yaml':
+    if output_type is None or output_type == "yaml":
         writer = StreamingYamlWriter(output)
-    elif output_type == 'csv':
+    elif output_type == "csv":
         writer = StreamingCsvWriter(output)
-    elif output_type == 'sssom':
+    elif output_type == "sssom":
         writer = StreamingSssomWriter(output)
     else:
-        raise ValueError(f'No such format: {output_type}')
+        raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, MappingProviderInterface):
         for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
             writer.emit(mapping)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
 @output_type_option
-@click.argument('terms', nargs=-1)
+@click.argument("terms", nargs=-1)
 def term_mappings(terms, output, output_type):
     """
     List all SSSOM mappings for a term or terms
@@ -1236,21 +1324,21 @@ def term_mappings(terms, output, output_type):
         runoak -i db/uberon.db term-mappings  UBERON:0002101
     """
     impl = settings.impl
-    if output_type is None or output_type == 'yaml':
+    if output_type is None or output_type == "yaml":
         writer = StreamingYamlWriter(output)
-    elif output_type == 'csv':
+    elif output_type == "csv":
         writer = StreamingCsvWriter(output)
-    elif output_type == 'sssom':
+    elif output_type == "sssom":
         writer = StreamingSssomWriter(output)
     else:
-        raise ValueError(f'No such format: {output_type}')
+        raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, MappingProviderInterface):
         for curie in query_terms_iterator(terms, impl):
             for mapping in impl.get_sssom_mappings_by_curie(curie):
                 writer.emit(mapping)
         writer.close()
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1271,12 +1359,12 @@ def aliases(output):
                 for alias in aliases:
                     writer.emit(dict(curie=curie, pred=pred, alias=alias))
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
-@click.argument('subsets', nargs=-1)
+@click.argument("subsets", nargs=-1)
 def subset_rollups(subsets: list, output):
     """
     For each subset provide a mapping of each term in the ontology to a subset
@@ -1286,24 +1374,24 @@ def subset_rollups(subsets: list, output):
         runoak -i db/pato.db subset-rollups attribute_slim value_slim
     """
     impl = settings.impl
-    #writer = StreamingCsvWriter(output)
+    # writer = StreamingCsvWriter(output)
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
         term_curies = list(impl.all_entity_curies())
-        output.write("\t".join(['subset', 'term', 'subset_term']))
+        output.write("\t".join(["subset", "term", "subset_term"]))
         if len(subsets) == 0:
             subsets = list(impl.all_subset_curies())
-            logging.info(f'SUBSETS={subsets}')
+            logging.info(f"SUBSETS={subsets}")
         for subset in subsets:
-            logging.info(f'Subset={subset}')
+            logging.info(f"Subset={subset}")
             m = roll_up_to_named_subset(impl, subset, term_curies, predicates=[IS_A, PART_OF])
             for term, mapped_to in m.items():
                 for tgt in mapped_to:
                     output.write("\t".join([subset, term, tgt]))
                     output.write("\n")
-                    #writer.emit(dict(subset=subset, term=term, subset_term=tgt))
+                    # writer.emit(dict(subset=subset, term=term, subset_term=tgt))
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1317,25 +1405,21 @@ def axioms(output: str, output_type: str):
     """
     impl = settings.impl
     if isinstance(impl, OwlInterface):
-        writer = StreamingAxiomWriter(output,
-                                      syntax=output_type,
-                                      functional_writer=impl.functional_writer)
+        writer = StreamingAxiomWriter(
+            output, syntax=output_type, functional_writer=impl.functional_writer
+        )
         for axiom in impl.axioms():
             writer.emit(axiom)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
 @output_type_option
-@click.option('--axiom-type',
-              help="Type of axiom, e.g. SubClassOf")
-@click.option('--about',
-              help="CURIE that the axiom is about")
-@click.option('--references',
-              multiple=True,
-              help="CURIEs that the axiom references")
+@click.option("--axiom-type", help="Type of axiom, e.g. SubClassOf")
+@click.option("--about", help="CURIE that the axiom is about")
+@click.option("--references", multiple=True, help="CURIEs that the axiom references")
 def filter_axioms(output: str, output_type: str, axiom_type: str, about: str, references: tuple):
     """
     Filters axioms
@@ -1355,22 +1439,26 @@ def filter_axioms(output: str, output_type: str, axiom_type: str, about: str, re
         if output:
             impl.dump(output, syntax=output_type)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @output_option
 @predicates_option
-@click.option('-A/--no-A',
-              '--all/--no-all',
-              default=False,
-              show_default=True,
-              help="if specified then perform for all terms")
-@click.option('--include-redundant/--no-include-redundant',
-              default=False,
-              show_default=True,
-              help="if specified then include redundant taxon constraints from ancestral subjects")
-@click.argument('terms', nargs=-1)
+@click.option(
+    "-A/--no-A",
+    "--all/--no-all",
+    default=False,
+    show_default=True,
+    help="if specified then perform for all terms",
+)
+@click.option(
+    "--include-redundant/--no-include-redundant",
+    default=False,
+    show_default=True,
+    help="if specified then include redundant taxon constraints from ancestral subjects",
+)
+@click.argument("terms", nargs=-1)
 def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicates: List, output):
     """
     List all taxon constraints for a term or terms
@@ -1387,26 +1475,29 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     writer = StreamingYamlWriter(output)
     if all:
         if curies:
-            raise ValueError(f'Do not specify explicit curies with --all option')
+            raise ValueError(f"Do not specify explicit curies with --all option")
         curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
         actual_predicates = _process_predicates_arg(predicates)
         for curie in query_terms_iterator(terms, impl):
-            st = get_term_with_taxon_constraints(impl, curie,
-                                                 include_redundant=include_redundant, predicates=actual_predicates,
-                                                 add_labels=True)
+            st = get_term_with_taxon_constraints(
+                impl,
+                curie,
+                include_redundant=include_redundant,
+                predicates=actual_predicates,
+                add_labels=True,
+            )
             writer.emit(st)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option('-E', '--evolution-file',
-              help="path to file containing gains and losses")
+@click.option("-E", "--evolution-file", help="path to file containing gains and losses")
 @output_option
 @predicates_option
-@click.argument('constraints', nargs=-1)
+@click.argument("constraints", nargs=-1)
 def add_taxon_constraints(constraints, evolution_file, predicates: List, output):
     """
     Test candidate taxon constraints
@@ -1435,7 +1526,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
     while len(constraints) > 0:
         nxt = constraints[0]
         constraints = constraints[1:]
-        if nxt == '.':
+        if nxt == ".":
             st = None
             curr = None
             continue
@@ -1444,11 +1535,11 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
             curr = st.only_in
             sts.append(st)
         else:
-            if nxt.lower().startswith('only'):
+            if nxt.lower().startswith("only"):
                 curr = st.only_in
-            elif nxt.lower().startswith('never'):
+            elif nxt.lower().startswith("never"):
                 curr = st.never_in
-            elif nxt.lower().startswith('present'):
+            elif nxt.lower().startswith("present"):
                 curr = st.present_in
             else:
                 tc = tcdm.TaxonConstraint(taxon=tcdm.Taxon(nxt))
@@ -1463,18 +1554,20 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
                 st = test_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
                 writer.emit(st)
             except ValueError as e:
-                logging.error(f'Error with TC: {e}')
-                st.description = 'PROBLEM'
+                logging.error(f"Error with TC: {e}")
+                st.description = "PROBLEM"
                 writer.emit(st)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option('--cutoff',
-              default=50,
-              show_default=True,
-              help="maximum results to report for any (type, predicate) pair")
+@click.option(
+    "--cutoff",
+    default=50,
+    show_default=True,
+    help="maximum results to report for any (type, predicate) pair",
+)
 @output_option
 def validate(output: str, cutoff: int):
     """
@@ -1496,25 +1589,28 @@ def validate(output: str, cutoff: int):
             n += 1
             counts[key] = n
             if n % 1000 == 0:
-                logging.info(f'Reached {n} results with {key}')
+                logging.info(f"Reached {n} results with {key}")
             if n == cutoff:
-                print(f'**TRUNCATING RESULTS FOR {key} at {cutoff}')
+                print(f"**TRUNCATING RESULTS FOR {key} at {cutoff}")
             elif n < cutoff:
                 writer.emit(result)
                 print(yaml_dumper.dumps(result))
         for k, v in counts.items():
-            print(f'{k}:: {v}')
+            print(f"{k}:: {v}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option('--cutoff',
-              default=50,
-              show_default=True,
-              help="maximum results to report for any (type, predicate) pair")
-@click.option('-s', '--schema',
-              help="Path to schema (if you want to override the bundled OMO schema)")
+@click.option(
+    "--cutoff",
+    default=50,
+    show_default=True,
+    help="maximum results to report for any (type, predicate) pair",
+)
+@click.option(
+    "-s", "--schema", help="Path to schema (if you want to override the bundled OMO schema)"
+)
 @click.argument("dbs", nargs=-1)
 @output_option
 def validate_multiple(dbs, output, schema, cutoff: int):
@@ -1530,32 +1626,32 @@ def validate_multiple(dbs, output, schema, cutoff: int):
     for db in dbs:
         try:
             path = Path(db).absolute()
-            print(f'PATH={path}')
-            resource = OntologyResource(slug=f'sqlite:///{str(path)}')
+            print(f"PATH={path}")
+            resource = OntologyResource(slug=f"sqlite:///{str(path)}")
             impl = SqlImplementation(resource)
             counts = defaultdict(int)
             for result in impl.validate(configuration=config):
-                result.source = f'sqlite:{db}'
+                result.source = f"sqlite:{db}"
                 key = (result.type, result.predicate)
                 n = counts[key]
                 n += 1
                 counts[key] = n
                 if n % 1000 == 0:
-                    logging.info(f'Reached {n} results with {key}')
+                    logging.info(f"Reached {n} results with {key}")
                 if n == cutoff:
-                    print(f'**TRUNCATING RESULTS FOR {key} at {cutoff}')
+                    print(f"**TRUNCATING RESULTS FOR {key} at {cutoff}")
                 elif n < cutoff:
                     try:
                         print(yaml_dumper.dumps(result))
                         writer.emit(result)
                     except ValueError as e:
                         logging.error(e)
-                        logging.error(f'Could not dump {result} -- bad identifier?')
+                        logging.error(f"Could not dump {result} -- bad identifier?")
         except Exception as e:
             logging.error(e)
-            logging.error(f'Problem with db')
+            logging.error(f"Problem with db")
         for k, v in counts.items():
-            print(f'{k}:: {v}')
+            print(f"{k}:: {v}")
 
 
 @main.command()
@@ -1569,9 +1665,9 @@ def check_definitions(output: str):
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
         for curie in impl.term_curies_without_definitions():
-            print(f'NO DEFINITION: {curie} ! {impl.get_label_by_curie(curie)}')
+            print(f"NO DEFINITION: {curie} ! {impl.get_label_by_curie(curie)}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1587,17 +1683,16 @@ def extract_subset(terms, output: str):
     if isinstance(impl, SubsetterInterface):
         curies = query_terms_iterator(terms, impl)
         subont = impl.extract_subset_ontology(curies)
-        print(f'TODO: {subont}')
+        print(f"TODO: {subont}")
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
 @click.argument("curie_pairs", nargs=-1)
-@click.option("--replace/--no-replace",
-              default=False,
-              show_default=True,
-              help="If true, will update in place")
+@click.option(
+    "--replace/--no-replace", default=False, show_default=True, help="If true, will update in place"
+)
 @output_type_option
 @output_option
 def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
@@ -1612,20 +1707,17 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
         k, v = p.split("=")
         curie_map[k] = v
     if not replace:
-        raise NotImplementedError(f'Must pass --replace as non-in-place updates not yet supported')
+        raise NotImplementedError(f"Must pass --replace as non-in-place updates not yet supported")
     if isinstance(impl, PatcherInterface):
         impl.migrate_curies(curie_map)
         if replace:
             impl.save()
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option('--endpoint',
-              '-e',
-              required=True,
-              help="Name of endpoint, e.g. bioportal")
+@click.option("--endpoint", "-e", required=True, help="Name of endpoint, e.g. bioportal")
 @click.argument("keyval")
 def set_apikey(endpoint, keyval):
     """
@@ -1640,18 +1732,24 @@ def set_apikey(endpoint, keyval):
 
 
 @main.command()
-@click.option("--lexical-index-file", "-L",
-              help="path to lexical index. This is recreated each time unless --no-recreate is passed")
-@click.option("--rules-file", "-R",
-              help="path to rules file. Conforms to rules_datamodel.")
-@click.option("--add-labels/--no-add-labels",
-              default=False,
-              show_default=True,
-              help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs")
-@click.option("--recreate/--no-recreate",
-              default=True,
-              show_default=True,
-              help="if true and lexical index is specified, always recreate, otherwise load from index")
+@click.option(
+    "--lexical-index-file",
+    "-L",
+    help="path to lexical index. This is recreated each time unless --no-recreate is passed",
+)
+@click.option("--rules-file", "-R", help="path to rules file. Conforms to rules_datamodel.")
+@click.option(
+    "--add-labels/--no-add-labels",
+    default=False,
+    show_default=True,
+    help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs",
+)
+@click.option(
+    "--recreate/--no-recreate",
+    default=True,
+    show_default=True,
+    help="if true and lexical index is specified, always recreate, otherwise load from index",
+)
 @output_option
 def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     """
@@ -1671,7 +1769,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     will be reused
 
     Using custom rules:
-    
+
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
     """
     impl = settings.impl
@@ -1683,25 +1781,24 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
         if add_labels:
             add_labels_from_uris(impl)
         if not recreate and Path(lexical_index_file).exists():
-            logging.info('Reusing previous index')
+            logging.info("Reusing previous index")
             ix = load_lexical_index(lexical_index_file)
         else:
-            logging.info('Creating index')
+            logging.info("Creating index")
             ix = create_lexical_index(impl)
         if lexical_index_file:
             if recreate:
-                logging.info('Saving index')
+                logging.info("Saving index")
                 save_lexical_index(ix, lexical_index_file)
-        logging.info(f'Generating mappings from {len(ix.groupings)} groupings')
+        logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
         msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset)
         sssom_writers.write_table(msdf, output)
     else:
-        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@click.option("--other-ontology",
-              help="other ontology")
+@click.option("--other-ontology", help="other ontology")
 @output_option
 @click.argument("terms", nargs=-1)
 def diff_terms(output, other_ontology, terms):
@@ -1721,40 +1818,39 @@ def diff_terms(output, other_ontology, terms):
     elif len(terms) == 1:
         (term, other_term) = terms[0], None
     else:
-        raise ValueError(f'Must pass one or two terms; got: {terms}')
+        raise ValueError(f"Must pass one or two terms; got: {terms}")
     if isinstance(impl, DifferInterface):
         diff = impl.compare_term_in_two_ontologies(other_impl, term, other_curie=other_term)
         # THIS WILL CHANGE!!!
         left, right = diff
-        print(f'LEFT')
+        print(f"LEFT")
         for x in left:
-            print(f' * {x}')
-        print(f'RIGHT')
+            print(f" * {x}")
+        print(f"RIGHT")
         for x in right:
-            print(f' * {x}')
+            print(f" * {x}")
     else:
         raise NotImplementedError
 
 
 @main.command()
-@click.option("--other-ontology",
-              help="other ontology")
+@click.option("--other-ontology", help="other ontology")
 @output_option
 @output_type_option
 def diff_ontologies(output, output_type, other_ontology):
     """
     EXPERIMENTAL
     """
-    if output_type is None or output_type == 'json':
+    if output_type is None or output_type == "json":
         writer = StreamingJsonLinesWriter(output)
-    elif output_type == 'yaml':
+    elif output_type == "yaml":
         writer = StreamingYamlWriter(output)
-    elif output_type == 'csv':
+    elif output_type == "csv":
         writer = StreamingCsvWriter(output)
-    elif output_type == 'kgcl':
+    elif output_type == "kgcl":
         raise NotImplementedError
     else:
-        raise ValueError(f'No such format: {output_type}')
+        raise ValueError(f"No such format: {output_type}")
     impl = settings.impl
     other_impl = get_implementation_from_shorthand(other_ontology)
     if isinstance(impl, DifferInterface):
@@ -1765,7 +1861,7 @@ def diff_ontologies(output, output_type, other_ontology):
 
 
 @main.command()
-@click.option('--output', '-o')
+@click.option("--output", "-o")
 @output_type_option
 @click.argument("terms", nargs=-1)
 def set_obsolete(output, output_type, terms):
@@ -1788,13 +1884,12 @@ def set_obsolete(output, output_type, terms):
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
         for term in query_terms_iterator(terms, impl):
-            impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(),
-                                                 about_node=term))
+            impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=term))
         if not settings.autosave and not output:
-            logging.warning(f'--autosave not passed, changes are NOT saved')
+            logging.warning(f"--autosave not passed, changes are NOT saved")
         if output:
             impl.dump(output, output_type)
-        #impl.save()
+        # impl.save()
     else:
         raise NotImplementedError
 

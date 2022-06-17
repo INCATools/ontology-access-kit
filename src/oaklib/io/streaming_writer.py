@@ -10,6 +10,7 @@ class StreamingWriter:
     """
     Base class for streaming writers
     """
+
     file: Any = field(default_factory=lambda: sys.stdout)
     ontology_interface: BasicOntologyInterface = None
     display_options: List[str] = None
@@ -18,4 +19,4 @@ class StreamingWriter:
         pass
 
     def line(self, v: str):
-        self.file.write(f'{v}\n')
+        self.file.write(f"{v}\n")

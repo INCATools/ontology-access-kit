@@ -5,10 +5,11 @@ Utilities for working with networkx
 NetworkX is a popular python package for working with graphs
 """
 import logging
-from typing import Dict, Tuple, List
+from typing import Dict, List, Tuple
 
 import sssom
-from oaklib.types import PRED_CURIE, CURIE
+
+from oaklib.types import CURIE, PRED_CURIE
 
 try:
     # Python <= 3.9
@@ -18,7 +19,9 @@ except ImportError:
     from collections.abc import Iterable
 
 import networkx as nx
+
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
+
 
 def mappings_to_graph(mappings: Iterable[sssom.Mapping]) -> nx.Graph:
     g = nx.Graph()
@@ -27,7 +30,9 @@ def mappings_to_graph(mappings: Iterable[sssom.Mapping]) -> nx.Graph:
     return g
 
 
-def relationships_to_multi_digraph(relationships: Iterable[RELATIONSHIP], reverse: bool = True) -> nx.MultiDiGraph:
+def relationships_to_multi_digraph(
+    relationships: Iterable[RELATIONSHIP], reverse: bool = True
+) -> nx.MultiDiGraph:
     """
     Converts an OBOGraph to NetworkX
 
@@ -54,7 +59,10 @@ def transitive_reduction(relationships: Iterable[RELATIONSHIP]) -> Iterable[RELA
         if (o, s) in reduced.edges:
             yield r
 
-def transitive_reduction_by_predicate(relationships: Iterable[RELATIONSHIP]) -> Iterable[RELATIONSHIP]:
+
+def transitive_reduction_by_predicate(
+    relationships: Iterable[RELATIONSHIP],
+) -> Iterable[RELATIONSHIP]:
     """
     Performs a simple transitive reduction of a graph, in which each predicate is treated as independent,
     and forming its own distinct graph

@@ -1,17 +1,38 @@
 import logging
 from dataclasses import dataclass
-from typing import Optional, Iterable, List, Iterator, Any
+from typing import Any, Iterable, Iterator, List, Optional
 
 import rdflib
+from funowl import (
+    IRI,
+    Annotatable,
+    AnnotationAssertion,
+    AnnotationAxiom,
+    AnnotationSubject,
+    Axiom,
+    Declaration,
+    Literal,
+    Ontology,
+    OntologyDocument,
+    Prefix,
+)
 from funowl.converters.functional_converter import to_python
-from funowl.general_definitions import FullIRI, AbbreviatedIRI
+from funowl.general_definitions import AbbreviatedIRI, FullIRI
 from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
-from oaklib.datamodels.vocabulary import DEFAULT_PREFIX_MAP, OBO_PURL, LABEL_PREDICATE, DEPRECATED_PREDICATE
+
+from oaklib.datamodels.vocabulary import (
+    DEFAULT_PREFIX_MAP,
+    DEPRECATED_PREDICATE,
+    LABEL_PREDICATE,
+    OBO_PURL,
+)
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
-from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration, AxiomFilter
-from funowl import Ontology, OntologyDocument, Axiom, Declaration, Prefix, Annotatable, IRI, AnnotationAxiom, \
-    AnnotationAssertion, Literal, AnnotationSubject
+from oaklib.interfaces.owl_interface import (
+    AxiomFilter,
+    OwlInterface,
+    ReasonerConfiguration,
+)
 from oaklib.types import CURIE, URI
 
 
@@ -25,6 +46,7 @@ class FunOwlImplementation(OwlInterface):
     `<https://github.com/hsolbrig/funowl>`_
 
     """
+
     ontology_document: OntologyDocument = None
     functional_writer: FunctionalWriter = None
 
@@ -34,14 +56,13 @@ class FunOwlImplementation(OwlInterface):
             if resource is None:
                 doc = OntologyDocument()
             else:
-                #print(resource)
+                # print(resource)
                 doc = to_python(str(resource.local_path))
             self.ontology_document = doc
         if self.functional_writer is None:
             self.functional_writer = FunctionalWriter()
             for prefix in doc.prefixDeclarations:
                 self.functional_writer.bind(prefix.prefixName, prefix.fullIRI)
-
 
     @property
     def _ontology(self):
@@ -63,24 +84,25 @@ class FunOwlImplementation(OwlInterface):
         pm = self.get_prefix_map()
         for k, v in pm.items():
             if uri.startswith(v):
-                return uri.replace(v, f'{k}:')
+                return uri.replace(v, f"{k}:")
         if uri.startswith(OBO_PURL):
             uri = uri.replace(OBO_PURL, "")
-            return uri.replace('_', ':')
+            return uri.replace("_", ":")
         return uri
 
     def get_label_by_curie(self, curie: CURIE) -> str:
-        labels = [a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)]
+        labels = [
+            a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)
+        ]
         if labels:
             if len(labels) > 1:
-                logging.warning(f'Multiple labels for {curie} = {labels}')
+                logging.warning(f"Multiple labels for {curie} = {labels}")
             label = labels[0]
             rdf_v = label.to_rdf(self.functional_writer.g)
             if isinstance(rdf_v, rdflib.Literal):
                 return rdf_v.value
             else:
-                raise ValueError(f'Label must be literal, not {label}')
-
+                raise ValueError(f"Label must be literal, not {label}")
 
     def all_entity_curies(self) -> Iterable[CURIE]:
         for ax in self._ontology.axioms:
@@ -97,16 +119,16 @@ class FunOwlImplementation(OwlInterface):
         self._ontology.axioms = axioms
 
     def dump(self, path: str = None, syntax: str = None):
-        if syntax is None or syntax == 'ofn':
+        if syntax is None or syntax == "ofn":
             out = self.ontology_document.to_functional(self.functional_writer)
-        elif syntax == 'ttl':
+        elif syntax == "ttl":
             out = self.ontology_document.to_rdf(self.functional_writer.g)
         else:
             out = str(self.ontology_document)
         if path is None:
             print(out)
         elif isinstance(path, str):
-            with open(path, 'wb') as file:
+            with open(path, "wb") as file:
                 file.write(str(out))
         else:
             path.write(str(out))
@@ -115,13 +137,16 @@ class FunOwlImplementation(OwlInterface):
     # Implements: PatcherInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
     def _set_annotation_predicate_value(self, subject: CURIE, property: CURIE, value: Any):
         for axiom in self.annotation_assertion_axioms(subject, property):
             self._ontology.axioms.remove(axiom)
-        self._ontology.axioms.append(AnnotationAssertion(subject=self.curie_to_entity_iri(subject),
-                                                         property=self.curie_to_entity_iri(property),
-                                                         value=value))
+        self._ontology.axioms.append(
+            AnnotationAssertion(
+                subject=self.curie_to_entity_iri(subject),
+                property=self.curie_to_entity_iri(property),
+                value=value,
+            )
+        )
 
     def apply_patch(self, patch: kgcl.Change) -> None:
         if isinstance(patch, kgcl.NodeChange):
@@ -136,13 +161,16 @@ class FunOwlImplementation(OwlInterface):
                 raise NotImplementedError
             elif isinstance(patch, kgcl.NameBecomesSynonym):
                 label = self.get_label_by_curie(about)
-                self.apply_patch(kgcl.NodeRename(id=f'{patch.id}-1', about_node=about, new_value=patch.new_value))
-                self.apply_patch(kgcl.NewSynonym(id=f'{patch.id}-2', about_node=about, new_value=label))
+                self.apply_patch(
+                    kgcl.NodeRename(id=f"{patch.id}-1", about_node=about, new_value=patch.new_value)
+                )
+                self.apply_patch(
+                    kgcl.NewSynonym(id=f"{patch.id}-2", about_node=about, new_value=label)
+                )
             else:
                 raise NotImplementedError
         elif isinstance(patch, kgcl.EdgeChange):
             about = patch.about_edge
-            raise NotImplementedError(f'Cannot handle patches of type {type(patch)}')
+            raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         else:
             raise NotImplementedError
-

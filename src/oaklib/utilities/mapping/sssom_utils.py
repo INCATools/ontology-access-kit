@@ -1,17 +1,20 @@
 from dataclasses import dataclass, field
-from typing import List, Iterator, Tuple, Iterable, Optional
+from typing import Iterable, Iterator, List, Optional, Tuple
 
+import sssom.sssom_datamodel as sssom_dm
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from oaklib.io.streaming_writer import StreamingWriter
-import sssom.sssom_datamodel as sssom_dm
-from oaklib.types import CURIE
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import to_mapping_set_dataframe
 from sssom.writers import write_table
 
+from oaklib.io.streaming_writer import StreamingWriter
+from oaklib.types import CURIE
 
-def create_sssom_mapping(subject_id: CURIE, object_id: CURIE, strict=False, **kwargs) -> Optional[sssom_dm.Mapping]:
+
+def create_sssom_mapping(
+    subject_id: CURIE, object_id: CURIE, strict=False, **kwargs
+) -> Optional[sssom_dm.Mapping]:
     """
     Wraps the initialization of an SSSOM Mapping
 
@@ -28,11 +31,11 @@ def create_sssom_mapping(subject_id: CURIE, object_id: CURIE, strict=False, **kw
     """
     if not URIorCURIE.is_valid(subject_id):
         if strict:
-            raise ValueError(f'Subject {subject_id} is not a valid curie')
+            raise ValueError(f"Subject {subject_id} is not a valid curie")
         return
     elif not URIorCURIE.is_valid(object_id):
         if strict:
-            raise ValueError(f'Object {object_id} is not a valid curie')
+            raise ValueError(f"Object {object_id} is not a valid curie")
         return
     else:
         return sssom_dm.Mapping(subject_id=subject_id, object_id=object_id, **kwargs)
@@ -53,15 +56,16 @@ class StreamingSssomWriter(StreamingWriter):
     """
     pseudo-streaming writer for SSSOM
     """
-    mappings : List[sssom_dm.Mapping] = field(default_factory=lambda: [])
+
+    mappings: List[sssom_dm.Mapping] = field(default_factory=lambda: [])
 
     def emit(self, obj: sssom_dm.Mapping):
         self.mappings.append(obj)
 
     def close(self):
-        mset = sssom_dm.MappingSet(mapping_set_id='temp',
-                                   mappings=self.mappings,
-                                   license='UNSPECIFIED')
+        mset = sssom_dm.MappingSet(
+            mapping_set_id="temp", mappings=self.mappings, license="UNSPECIFIED"
+        )
         doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
         write_table(msdf, self.file)

@@ -1,11 +1,15 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, List, Iterable
+from typing import Dict, Iterable, List
 
+from oaklib.datamodels.validation_datamodel import (
+    RepairConfiguration,
+    RepairOperation,
+    ValidationConfiguration,
+    ValidationResult,
+)
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
-from oaklib.datamodels.validation_datamodel import ValidationResult, ValidationConfiguration, RepairOperation, \
-    RepairConfiguration
 
 
 class ValidatorInterface(BasicOntologyInterface, ABC):
@@ -85,4 +89,3 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         :return: class curie iterator
         """
         raise NotImplementedError
-

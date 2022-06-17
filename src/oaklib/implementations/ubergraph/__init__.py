@@ -1,1 +1,3 @@
-from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+from oaklib.implementations.ubergraph.ubergraph_implementation import (
+    UbergraphImplementation,
+)

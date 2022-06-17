@@ -11,6 +11,7 @@ class OntologyResource:
 
     This may be a local or remote file, or an ontology name that is part of a remote service
     """
+
     slug: str = None
     directory: str = None
     scheme: str = None
@@ -26,7 +27,7 @@ class OntologyResource:
     @property
     def local_path(self) -> Path:
         if self.directory:
-            return Path(self.directory) /self.slug
+            return Path(self.directory) / self.slug
         else:
             return Path(self.slug)
 

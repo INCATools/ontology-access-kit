@@ -1,9 +1,13 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, Iterator
+from typing import Dict, Iterator, List, Tuple
 
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
+from oaklib.interfaces.basic_ontology_interface import (
+    RELATIONSHIP,
+    RELATIONSHIP_MAP,
+    BasicOntologyInterface,
+)
+from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
 
 
 @dataclass
@@ -12,7 +16,7 @@ class SubsetStrategy:
 
 
 class SyntacticLocalityModuleExtraction(SubsetStrategy):
-    module_type: str ## TODO enum
+    module_type: str  ## TODO enum
 
 
 class GraphWalkExtraction(SubsetStrategy):
@@ -34,7 +38,9 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
      - a reference to an ontology
     """
 
-    def extract_subset_ontology(self, seed_curies: List[CURIE], strategy: SubsetStrategy = None) -> BasicOntologyInterface:
+    def extract_subset_ontology(
+        self, seed_curies: List[CURIE], strategy: SubsetStrategy = None
+    ) -> BasicOntologyInterface:
         """
 
         :param seed_curies:
@@ -43,7 +49,9 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def gap_fill_relationships(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None) -> Iterator[RELATIONSHIP]:
+    def gap_fill_relationships(
+        self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None
+    ) -> Iterator[RELATIONSHIP]:
         """
         Given a term subset as a list of curies, find all non-redundant relationships connecting them
 
@@ -60,6 +68,3 @@ class SubsetterInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
-
-
-

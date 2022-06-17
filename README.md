@@ -29,6 +29,9 @@ These interfaces are *separated* from any particular [backend](https://incatools
 
 - [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
 
+## Contributing
+
+See the contribution guidelines at [CONTRIBTING.md](.github/CONTRIBUTING.md).
 
 ## Example
 
@@ -209,10 +212,6 @@ Same using pronto, fetching ontology from obolibrary
 ```bash
 runoak -i obolibrary:go.obo  viz GO:0005773
 ```
-
-## Documentation
-
-- [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
 
 ## Potential Refactoring
 

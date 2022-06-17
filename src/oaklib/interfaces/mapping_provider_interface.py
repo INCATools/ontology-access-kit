@@ -1,12 +1,11 @@
 import logging
 from abc import ABC
-from typing import Dict, List, Tuple, Iterable, Optional
+from typing import Dict, Iterable, List, Optional, Tuple
+
+import sssom
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-import sssom
 from oaklib.types import CURIE
-
-
 
 
 class MappingProviderInterface(BasicOntologyInterface, ABC):
@@ -25,12 +24,15 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         :param object_source:
         :return:
         """
-        logging.info(f'Getting all mappings')
+        logging.info(f"Getting all mappings")
         for curie in self.all_entity_curies():
-            logging.debug(f'Getting mappings for {curie}')
+            logging.debug(f"Getting mappings for {curie}")
             for m in self.get_sssom_mappings_by_curie(curie):
                 if subject_or_object_source:
-                    if m.object_source != subject_or_object_source and m.subject_source != subject_or_object_source:
+                    if (
+                        m.object_source != subject_or_object_source
+                        and m.subject_source != subject_or_object_source
+                    ):
                         continue
                 yield m
 
@@ -52,4 +54,3 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
-

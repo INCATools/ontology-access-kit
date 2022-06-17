@@ -9,7 +9,8 @@ class OntologyInterface:
     """
     An abstract parent for an ontology interface
     """
-    #engine: Any = None  ## implementation object
+
+    # engine: Any = None  ## implementation object
     resource: OntologyResource = None
     strict: bool = False
 
