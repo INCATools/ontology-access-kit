@@ -36,17 +36,18 @@ See the contribution guidelines at [CONTRIBTING.md](.github/CONTRIBUTING.md).
 ## Example
 
 ```python
-from src.oaklib.resource import OntologyResource
-from src.oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.resource import OntologyResource
 
-resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
-oi = SqlImplementation(resource)
-for curie in oi.basic_search("cell"):
-    print(f'{curie} ! {oi.get_label_by_curie(curie)}')
-    for rel, fillers in oi.get_outgoing_relationship_map_by_curie(curie).items():
-        print(f'  RELATION: {rel} ! {oi.get_label_by_curie(rel)}')
+ontology_resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
+ontology_interface = ontology_resource.materialize("sql")
+# can also pass an implementation class explicitly instead of a string.
+
+for curie in ontology_interface.basic_search("cell"):
+    print(f'{curie} ! {ontology_interface.get_label_by_curie(curie)}')
+    for rel, fillers in ontology_interface.get_outgoing_relationship_map_by_curie(curie).items():
+        print(f'  RELATION: {rel} ! {ontology_interface.get_label_by_curie(rel)}')
         for filler in fillers:
-            print(f'     * {filler} ! {oi.get_label_by_curie(filler)}')
+            print(f'     * {filler} ! {ontology_interface.get_label_by_curie(filler)}')
 ```
 
 For more examples, see

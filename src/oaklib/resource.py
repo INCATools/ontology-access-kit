@@ -1,7 +1,15 @@
-import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Type, Union
+from typing import TYPE_CHECKING, Type, Union
+
+from class_resolver import HintOrType
+
+if TYPE_CHECKING:
+    from .interfaces import OntologyInterface
+
+__all__ = [
+    "OntologyResource",
+]
 
 
 @dataclass
@@ -33,3 +41,9 @@ class OntologyResource:
 
     def valid(self) -> bool:
         return self.slug is not None or self.url is not None
+
+    def materialize(self, implementation: HintOrType["OntologyInterface"], **kwargs):
+        """Materialize the ontology resource with the given implementation."""
+        from .implementations import implementation_resolver
+
+        return implementation_resolver.make(implementation, kwargs, resource=self)

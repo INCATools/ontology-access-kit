@@ -1,3 +1,5 @@
+from class_resolver import ClassResolver
+
 from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
@@ -7,4 +9,22 @@ from oaklib.implementations.pronto.pronto_implementation import ProntoImplementa
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph.ubergraph_implementation import (
     UbergraphImplementation,
+)
+from oaklib.interfaces import OntologyInterface
+
+__all__ = [
+    "implementation_resolver",
+    # Concrete classes
+    "BioportalImplementation",
+    "OlsImplementation",
+    "OntobeeImplementation",
+    "ProntoImplementation",
+    "SqlImplementation",
+    "UbergraphImplementation",
+]
+
+implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
+    OntologyInterface,
+    default=SqlImplementation,
+    suffix="Implementation",
 )
