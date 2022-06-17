@@ -36,7 +36,7 @@ See the contribution guidelines at [CONTRIBTING.md](.github/CONTRIBUTING.md).
 ## Example
 
 ```python
-from oaklib.resource import OntologyResource
+from oaklib import OntologyResource
 
 ontology_resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
 ontology_interface = ontology_resource.materialize("sql")
