@@ -87,6 +87,7 @@
 
 <span class="n">TEXT</span> <span class="o">=</span> <span class="nb">str</span>
 
+
 <div class="viewcode-block" id="TextAnnotatorInterface"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">[docs]</a><span class="k">class</span> <span class="nc">TextAnnotatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs Named Entity Recognition on texts</span>
@@ -101,7 +102,9 @@
 <span class="sd">    - spacy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TextAnnotatorInterface.annotate_text"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
+<div class="viewcode-block" id="TextAnnotatorInterface.annotate_text"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Annotate a piece of text</span>
 
@@ -117,11 +120,13 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
                     <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
-                    <span class="c1">#amap = self.alias_map_by_curie(object_id)</span>
-                    <span class="n">ann</span> <span class="o">=</span> <span class="n">TextAnnotation</span><span class="p">(</span><span class="n">subject_start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                                         <span class="n">subject_end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span>
-                                         <span class="n">object_id</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
-                                         <span class="n">object_label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+                    <span class="c1"># amap = self.alias_map_by_curie(object_id)</span>
+                    <span class="n">ann</span> <span class="o">=</span> <span class="n">TextAnnotation</span><span class="p">(</span>
+                        <span class="n">subject_start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">subject_end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span>
+                        <span class="n">object_id</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
+                        <span class="n">object_label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                    <span class="p">)</span>
                     <span class="k">yield</span> <span class="n">ann</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span>

@@ -80,15 +80,20 @@
   <h1>Source code for oaklib.datamodels.search</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">lark</span> <span class="kn">import</span> <span class="n">Lark</span><span class="p">,</span> <span class="n">Transformer</span>
-
 
 <span class="kn">from</span> <span class="nn">deprecated.classic</span> <span class="kn">import</span> <span class="n">deprecated</span>
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchBaseConfiguration</span><span class="p">,</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>
+<span class="kn">from</span> <span class="nn">lark</span> <span class="kn">import</span> <span class="n">Lark</span><span class="p">,</span> <span class="n">Transformer</span>
+
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SearchBaseConfiguration</span><span class="p">,</span>
+    <span class="n">SearchProperty</span><span class="p">,</span>
+    <span class="n">SearchTermSyntax</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">LABEL_PREDICATE</span><span class="p">,</span> <span class="n">SYNONYM_PREDICATES</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">PRED_CURIE</span>
 
 <span class="n">DEFAULT_SEARCH_PROPERTIES</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">LABEL</span><span class="p">,</span> <span class="n">SearchProperty</span><span class="o">.</span><span class="n">ALIAS</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="create_search_configuration"><a class="viewcode-back" href="../../../search-syntax.html#oaklib.interfaces.search_interface.create_search_configuration">[docs]</a><span class="k">def</span> <span class="nf">create_search_configuration</span><span class="p">(</span><span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SearchConfiguration&quot;</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -109,40 +114,36 @@
         <span class="n">prop</span> <span class="o">=</span> <span class="n">term</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">term</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">rest</span> <span class="o">=</span> <span class="n">term</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;~&#39;</span><span class="p">:</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span>
-                                          <span class="n">is_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">is_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">syntax</span> <span class="o">=</span> <span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">PLAINTEXT</span>
-        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span>
-                                          <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">REGULAR_EXPRESSION</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;@&#39;</span><span class="p">:</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span>
-                                          <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">SQL</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;=&#39;</span><span class="p">:</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span>
-                                          <span class="n">is_partial</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;^&#39;</span><span class="p">:</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span>
-                                          <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">STARTS_WITH</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">REGULAR_EXPRESSION</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;@&quot;</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">SQL</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;=&quot;</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">is_partial</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;^&quot;</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">STARTS_WITH</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">term</span><span class="p">],</span> <span class="n">properties</span><span class="o">=</span><span class="n">DEFAULT_SEARCH_PROPERTIES</span><span class="p">)</span>
             <span class="n">prop</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">prop</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">prop</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;t&quot;</span><span class="p">:</span>
                 <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">LABEL</span><span class="p">,</span> <span class="n">SearchProperty</span><span class="o">.</span><span class="n">ALIAS</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
                 <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">ANYTHING</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;l&quot;</span><span class="p">:</span>
                 <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">LABEL</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;i&quot;</span><span class="p">:</span>
                 <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">IDENTIFIER</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown property code: </span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown property code: </span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">cfg</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">props</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">cfg</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SearchConfiguration</span><span class="p">([</span><span class="n">term</span><span class="p">],</span> <span class="n">properties</span><span class="o">=</span><span class="n">DEFAULT_SEARCH_PROPERTIES</span><span class="p">)</span></div>
+
 
 <span class="k">def</span> <span class="nf">search_properties_to_predicates</span><span class="p">(</span><span class="n">props</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SearchProperty</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]:</span>
     <span class="n">preds</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -156,6 +157,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="SearchConfiguration"><a class="viewcode-back" href="../../../search-syntax.html#oaklib.interfaces.search_interface.SearchConfiguration">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SearchConfiguration</span><span class="p">(</span><span class="n">SearchBaseConfiguration</span><span class="p">):</span>
@@ -175,6 +177,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">include_aliases</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">LABEL</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
+
 
 <span class="n">query_grammar</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">query: disj | conj</span>

@@ -88,23 +88,45 @@
 <span class="c1"># license: https://creativecommons.org/publicdomain/zero/1.0/</span>
 
 <span class="kn">import</span> <span class="nn">dataclasses</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">jsonasobj2</span> <span class="kn">import</span> <span class="n">JsonObj</span><span class="p">,</span> <span class="n">as_dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.meta</span> <span class="kn">import</span> <span class="n">EnumDefinition</span><span class="p">,</span> <span class="n">PermissibleValue</span><span class="p">,</span> <span class="n">PvFormulaOptions</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.slot</span> <span class="kn">import</span> <span class="n">Slot</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">empty_list</span><span class="p">,</span> <span class="n">empty_dict</span><span class="p">,</span> <span class="n">bnode</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="n">YAMLRoot</span><span class="p">,</span> <span class="n">extended_str</span><span class="p">,</span> <span class="n">extended_float</span><span class="p">,</span> <span class="n">extended_int</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.dataclass_extensions_376</span> <span class="kn">import</span> <span class="n">dataclasses_init_fn_with_kwargs</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.formatutils</span> <span class="kn">import</span> <span class="n">camelcase</span><span class="p">,</span> <span class="n">underscore</span><span class="p">,</span> <span class="n">sfx</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.enumerations</span> <span class="kn">import</span> <span class="n">EnumDefinitionImpl</span>
-<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">URIRef</span>
+<span class="kn">from</span> <span class="nn">jsonasobj2</span> <span class="kn">import</span> <span class="n">JsonObj</span><span class="p">,</span> <span class="n">as_dict</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.meta</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EnumDefinition</span><span class="p">,</span>
+    <span class="n">PermissibleValue</span><span class="p">,</span>
+    <span class="n">PvFormulaOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Boolean</span><span class="p">,</span>
+    <span class="n">Float</span><span class="p">,</span>
+    <span class="n">Integer</span><span class="p">,</span>
+    <span class="n">String</span><span class="p">,</span>
+    <span class="n">Uriorcurie</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.curienamespace</span> <span class="kn">import</span> <span class="n">CurieNamespace</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.types</span> <span class="kn">import</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Uriorcurie</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">URIorCURIE</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.dataclass_extensions_376</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">dataclasses_init_fn_with_kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.enumerations</span> <span class="kn">import</span> <span class="n">EnumDefinitionImpl</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.formatutils</span> <span class="kn">import</span> <span class="n">camelcase</span><span class="p">,</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">underscore</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Bool</span><span class="p">,</span>
+    <span class="n">URIorCURIE</span><span class="p">,</span>
+    <span class="n">bnode</span><span class="p">,</span>
+    <span class="n">empty_dict</span><span class="p">,</span>
+    <span class="n">empty_list</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.slot</span> <span class="kn">import</span> <span class="n">Slot</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">YAMLRoot</span><span class="p">,</span>
+    <span class="n">extended_float</span><span class="p">,</span>
+    <span class="n">extended_int</span><span class="p">,</span>
+    <span class="n">extended_str</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">URIRef</span>
 
 <span class="n">metamodel_version</span> <span class="o">=</span> <span class="s2">&quot;1.7.0&quot;</span>
 <span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
@@ -113,20 +135,20 @@
 <span class="n">dataclasses</span><span class="o">.</span><span class="n">_init_fn</span> <span class="o">=</span> <span class="n">dataclasses_init_fn_with_kwargs</span>
 
 <span class="c1"># Namespaces</span>
-<span class="n">ANN</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;ann&#39;</span><span class="p">,</span> <span class="s1">&#39;https://w3id.org/linkml/text_annotator/&#39;</span><span class="p">)</span>
-<span class="n">BPA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;bpa&#39;</span><span class="p">,</span> <span class="s1">&#39;https://bioportal.bioontology.org/annotator/&#39;</span><span class="p">)</span>
-<span class="n">LINKML</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;linkml&#39;</span><span class="p">,</span> <span class="s1">&#39;https://w3id.org/linkml/&#39;</span><span class="p">)</span>
-<span class="n">OA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;oa&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/ns/oa#&#39;</span><span class="p">)</span>
-<span class="n">OWL</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;owl&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/2002/07/owl#&#39;</span><span class="p">)</span>
-<span class="n">PAV</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;pav&#39;</span><span class="p">,</span> <span class="s1">&#39;http://purl.org/pav/&#39;</span><span class="p">)</span>
-<span class="n">PROV</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;prov&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/ns/prov#&#39;</span><span class="p">)</span>
-<span class="n">RDF</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;rdf&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/1999/02/22-rdf-syntax-ns#&#39;</span><span class="p">)</span>
-<span class="n">RDFS</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;rdfs&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/2000/01/rdf-schema#&#39;</span><span class="p">)</span>
-<span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;schema&#39;</span><span class="p">,</span> <span class="s1">&#39;http://schema.org/&#39;</span><span class="p">)</span>
-<span class="n">SH</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span> <span class="s1">&#39;https://w3id.org/shacl/&#39;</span><span class="p">)</span>
-<span class="n">SKOS</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;skos&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/2004/02/skos/core#&#39;</span><span class="p">)</span>
-<span class="n">SSSOM</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;sssom&#39;</span><span class="p">,</span> <span class="s1">&#39;http://w3id.org/sssom/&#39;</span><span class="p">)</span>
-<span class="n">XSD</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s1">&#39;xsd&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.w3.org/2001/XMLSchema#&#39;</span><span class="p">)</span>
+<span class="n">ANN</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;ann&quot;</span><span class="p">,</span> <span class="s2">&quot;https://w3id.org/linkml/text_annotator/&quot;</span><span class="p">)</span>
+<span class="n">BPA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;bpa&quot;</span><span class="p">,</span> <span class="s2">&quot;https://bioportal.bioontology.org/annotator/&quot;</span><span class="p">)</span>
+<span class="n">LINKML</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;linkml&quot;</span><span class="p">,</span> <span class="s2">&quot;https://w3id.org/linkml/&quot;</span><span class="p">)</span>
+<span class="n">OA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;oa&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/ns/oa#&quot;</span><span class="p">)</span>
+<span class="n">OWL</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;owl&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/2002/07/owl#&quot;</span><span class="p">)</span>
+<span class="n">PAV</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;pav&quot;</span><span class="p">,</span> <span class="s2">&quot;http://purl.org/pav/&quot;</span><span class="p">)</span>
+<span class="n">PROV</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;prov&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/ns/prov#&quot;</span><span class="p">)</span>
+<span class="n">RDF</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;rdf&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</span><span class="p">)</span>
+<span class="n">RDFS</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;rdfs&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/2000/01/rdf-schema#&quot;</span><span class="p">)</span>
+<span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;schema&quot;</span><span class="p">,</span> <span class="s2">&quot;http://schema.org/&quot;</span><span class="p">)</span>
+<span class="n">SH</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;sh&quot;</span><span class="p">,</span> <span class="s2">&quot;https://w3id.org/shacl/&quot;</span><span class="p">)</span>
+<span class="n">SKOS</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;skos&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/2004/02/skos/core#&quot;</span><span class="p">)</span>
+<span class="n">SSSOM</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;sssom&quot;</span><span class="p">,</span> <span class="s2">&quot;http://w3id.org/sssom/&quot;</span><span class="p">)</span>
+<span class="n">XSD</span> <span class="o">=</span> <span class="n">CurieNamespace</span><span class="p">(</span><span class="s2">&quot;xsd&quot;</span><span class="p">,</span> <span class="s2">&quot;http://www.w3.org/2001/XMLSchema#&quot;</span><span class="p">)</span>
 <span class="n">DEFAULT_</span> <span class="o">=</span> <span class="n">ANN</span>
 
 
@@ -148,6 +170,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    configuration for search</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotationConfiguration</span>
@@ -178,6 +201,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A collection of annotation results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotationResultSet</span>
@@ -185,12 +209,17 @@
     <span class="n">class_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TextAnnotationResultSet&quot;</span>
     <span class="n">class_model_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">ANN</span><span class="o">.</span><span class="n">TextAnnotationResultSet</span>
 
-    <span class="n">annotations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;TextAnnotation&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;TextAnnotation&quot;</span><span class="p">]]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
+    <span class="n">annotations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;TextAnnotation&quot;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;TextAnnotation&quot;</span><span class="p">]]]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">)</span> <span class="k">else</span> <span class="n">TextAnnotation</span><span class="p">(</span><span class="o">**</span><span class="n">as_dict</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">)</span> <span class="k">else</span> <span class="n">TextAnnotation</span><span class="p">(</span><span class="o">**</span><span class="n">as_dict</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span>
+        <span class="p">]</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -255,7 +284,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">,</span> <span class="n">TextualElementId</span>
+        <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="o">=</span> <span class="n">TextualElementId</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -266,6 +297,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An individual text annotation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">OA</span><span class="o">.</span><span class="n">Annotation</span>
@@ -332,7 +364,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_source</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">,</span> <span class="n">TextualElementId</span>
+        <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span> <span class="o">=</span> <span class="n">TextualElementId</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -343,98 +377,252 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A controlled datamodels of the types of transformation that can be applied to</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Stemming</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Stemming&quot;</span><span class="p">,</span>
-                                       <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Removal of the last few characters of a word to yield a stem term for each word in the term&quot;</span><span class="p">)</span>
-    <span class="n">Lemmatization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Lemmatization&quot;</span><span class="p">,</span>
-                                                 <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Contextual reduction of a word to its base form for each word in the term&quot;</span><span class="p">)</span>
-    <span class="n">WordOrderNormalization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;WordOrderNormalization&quot;</span><span class="p">,</span>
-                                                                   <span class="n">description</span><span class="o">=</span><span class="s2">&quot;reorder words in the term to a standard order such that comparisons are order-independent&quot;</span><span class="p">)</span>
-    <span class="n">Depluralization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Depluralization&quot;</span><span class="p">,</span>
-                                                     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Transform plural form to singular form for each word in a term&quot;</span><span class="p">)</span>
-    <span class="n">CaseNormalization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;CaseNormalization&quot;</span><span class="p">,</span>
-                                                         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Transform term to a standard case, typically lowercase&quot;</span><span class="p">)</span>
-    <span class="n">WhitespaceNormalization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;WhitespaceNormalization&quot;</span><span class="p">,</span>
-                                                                     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces&quot;</span><span class="p">)</span>
-    <span class="n">TermExpanson</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;TermExpanson&quot;</span><span class="p">,</span>
-                                               <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Expand terms using a dictionary&quot;</span><span class="p">)</span>
+
+    <span class="n">Stemming</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Stemming&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Removal of the last few characters of a word to yield a stem term for each word in the term&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">Lemmatization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Lemmatization&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Contextual reduction of a word to its base form for each word in the term&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">WordOrderNormalization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;WordOrderNormalization&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;reorder words in the term to a standard order such that comparisons are order-independent&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">Depluralization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Depluralization&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Transform plural form to singular form for each word in a term&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">CaseNormalization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;CaseNormalization&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Transform term to a standard case, typically lowercase&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">WhitespaceNormalization</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;WhitespaceNormalization&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">TermExpanson</span> <span class="o">=</span> <span class="n">PermissibleValue</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;TermExpanson&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Expand terms using a dictionary&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">_defn</span> <span class="o">=</span> <span class="n">EnumDefinition</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;TransformationType&quot;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A controlled datamodels of the types of transformation that can be applied to&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
+
 <span class="c1"># Slots</span>
 <span class="k">class</span> <span class="nc">slots</span><span class="p">:</span>
     <span class="k">pass</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__matches_whole_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__matches_whole_text&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;matches_whole_text&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__matches_whole_text</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]])</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__sources</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__sources&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__sources</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__matches_whole_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__matches_whole_text&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;matches_whole_text&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__matches_whole_text</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">limit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__limit&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;limit&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__sources</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__sources&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;sources&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__sources</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationResultSet__annotations&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;annotations&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">]]]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">limit</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__limit&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;limit&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__id&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__id</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">URIRef</span><span class="p">)</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">annotations</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationResultSet__annotations&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;annotations&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TextAnnotation</span><span class="p">]]]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__text&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__text</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__id&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__id</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">URIRef</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__source_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">source_text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__source_text&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;source_text&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__source_text</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__text&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__text</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__parent_document</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">parent_document</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__parent_document&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;parent_document&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__parent_document</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">URIorCURIE</span><span class="p">]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__source_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">source_text</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__source_text&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;source_text&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__source_text</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_start</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_start</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_start&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;subject_start&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_start</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Position</span><span class="p">]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textualElement__parent_document</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">parent_document</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textualElement__parent_document&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;parent_document&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textualElement__parent_document</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">URIorCURIE</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_end</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_end</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_end&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;subject_end&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_end</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Position</span><span class="p">]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_start</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_start</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_start&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;subject_start&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_start</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Position</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_label</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_label</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_label&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;subject_label&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_label</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_end</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_end</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_end&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;subject_end&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_end</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Position</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_source</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">subject_source</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_source&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;subject_source&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_source</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_label</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_label</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_label&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;subject_label&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_label</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_text_id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_text_id&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;subject_text_id&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_text_id</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_source</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">subject_source</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_source&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;subject_source&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_source</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__predicate_id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__predicate_id&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;predicate_id&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__predicate_id</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">hasSpan__subject_text_id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">subject_text_id</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hasSpan__subject_text_id&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;subject_text_id&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">hasSpan__subject_text_id</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TextualElementId</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">object_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_id&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;object_id&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_id</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__predicate_id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">predicate_id</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__predicate_id&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;predicate_id&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__predicate_id</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_label</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">object_label</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_label&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;object_label&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_label</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_id</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">object_id</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_id&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;object_id&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_id</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_source</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">object_source</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_source&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;object_source&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_source</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_label</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">object_label</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_label&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;object_label&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_label</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__confidence</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">confidence</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__confidence&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;confidence&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__confidence</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__object_source</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">object_source</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__object_source&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;object_source&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__object_source</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__match_string</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">match_string</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__match_string&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;match_string&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__match_string</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__confidence</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">confidence</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__confidence&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;confidence&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__confidence</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__is_longest_match</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">is_longest_match</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__is_longest_match&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;is_longest_match&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__is_longest_match</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__match_string</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">match_string</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__match_string&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">SSSOM</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;match_string&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__match_string</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__matches_whole_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__matches_whole_text&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;matches_whole_text&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__matches_whole_text</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__is_longest_match</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">is_longest_match</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__is_longest_match&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;is_longest_match&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__is_longest_match</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__match_type</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">match_type</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__match_type&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;match_type&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__match_type</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__matches_whole_text</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__matches_whole_text&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;matches_whole_text&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__matches_whole_text</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]],</span>
+<span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__info</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__info&quot;</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s1">&#39;info&#39;</span><span class="p">),</span>
-                   <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__info</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__match_type</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">match_type</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__match_type&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;match_type&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__match_type</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotation__info</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotation__info&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotation__info</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span>
 </pre></div>
 
            </div>
