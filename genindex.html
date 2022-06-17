@@ -106,6 +106,13 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
+    --about
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-about">runoak-filter-axioms command line option</a>
+</li>
+      </ul></li>
+      <li>
     --add
 
       <ul>
@@ -138,6 +145,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-autosave">runoak command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --axiom-type
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-axiom-type">runoak-filter-axioms command line option</a>
 </li>
       </ul></li>
       <li>
@@ -410,6 +424,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-o">runoak-extract-triples command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-o">runoak-filter-axioms command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-info-o">runoak-info command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-leafs-o">runoak-leafs command line option</a>
@@ -469,6 +485,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-axioms-O">runoak-axioms command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-combine-O">runoak-combine command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-convert-O">runoak-convert command line option</a>
@@ -480,6 +498,8 @@
         <li><a href="cli.html#cmdoption-runoak-dump-O">runoak-dump command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-O">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-O">runoak-filter-axioms command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-O">runoak-info command line option</a>
 </li>
@@ -545,6 +565,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-recreate">runoak-lexmatch command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --references
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-references">runoak-filter-axioms command line option</a>
 </li>
       </ul></li>
       <li>
@@ -714,6 +741,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-axioms-O">runoak-axioms command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-combine-O">runoak-combine command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-convert-O">runoak-convert command line option</a>
@@ -725,6 +754,8 @@
         <li><a href="cli.html#cmdoption-runoak-dump-O">runoak-dump command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-O">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-O">runoak-filter-axioms command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-O">runoak-info command line option</a>
 </li>
@@ -786,6 +817,8 @@
         <li><a href="cli.html#cmdoption-runoak-extract-subset-o">runoak-extract-subset command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-o">runoak-extract-triples command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-o">runoak-filter-axioms command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-info-o">runoak-info command line option</a>
 </li>
@@ -929,12 +962,12 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">all_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.all_sssom_mappings">all_sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">all_subset_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">ancestor_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">ancestors() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -943,9 +976,15 @@
 </li>
       <li><a href="glossary.html#term-Annotation"><strong>Annotation</strong></a>
 </li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.annotation_assertion_axioms">annotation_assertion_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+</li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">apply_patch() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">as_obograph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about">axiom_is_about() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_references">axiom_references() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1042,13 +1081,15 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships_by_curie">entailed_incoming_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">entailed_relationships_between() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms">equivalence_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">extract_subset_ontology() (oaklib.interfaces.subsetter_interface.SubsetterInterface method)</a>
 </li>
@@ -1115,6 +1156,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.is_coherent">is_coherent() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_satisfiable">is_satisfiable() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Iterator"><strong>Iterator</strong></a>
 </li>
@@ -1272,8 +1315,6 @@
         <li><a href="src/oaklib.utilities.subsets.slimmer_utils.html#module-oaklib.utilities.subsets.slimmer_utils">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     oaklib.utilities.taxon
 
@@ -1281,6 +1322,8 @@
         <li><a href="src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
@@ -1312,6 +1355,10 @@
 </li>
       <li><a href="glossary.html#term-OWL-Annotation"><strong>OWL Annotation</strong></a>
 </li>
+      <li><a href="implementations/owlery.html#oaklib.implementations.owlery.owlery_implementation.OwleryImplementation">OwleryImplementation (class in oaklib.implementations.owlery.owlery_implementation)</a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface">OwlInterface (class in oaklib.interfaces.owl_interface)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1341,6 +1388,8 @@
       <li><a href="glossary.html#term-RDF"><strong>RDF</strong></a>
 </li>
       <li><a href="glossary.html#term-Reasoner"><strong>Reasoner</strong></a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.reasoner_configurations">reasoner_configurations() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.RelationGraphEnum">RelationGraphEnum (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
 </li>
@@ -1517,7 +1566,11 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-axioms-o">--output</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-axioms-O">--output-type</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-axioms-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-axioms-O">-O</a>
 </li>
       </ul></li>
       <li>
@@ -1657,6 +1710,25 @@
         <li><a href="cli.html#cmdoption-runoak-extract-triples-p">-p</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-extract-triples-arg-TERMS">TERMS</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-filter-axioms command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-about">--about</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-axiom-type">--axiom-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-references">--references</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-filter-axioms-O">-O</a>
 </li>
       </ul></li>
       <li>
@@ -2117,6 +2189,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-SSSOM"><strong>SSSOM</strong></a>
+</li>
+      <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.subclass_axioms">subclass_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">subgraph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>

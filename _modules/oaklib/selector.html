@@ -88,6 +88,7 @@
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.agroportal_implementation</span> <span class="kn">import</span> <span class="n">AgroportalImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.bioportal_implementation</span> <span class="kn">import</span> <span class="n">BioportalImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.funowl.funowl_implementation</span> <span class="kn">import</span> <span class="n">FunOwlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ols.ols_implementation</span> <span class="kn">import</span> <span class="n">OlsImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
@@ -175,6 +176,8 @@
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">WikidataImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ols&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">OlsImplementation</span>
+            <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;funowl&#39;</span><span class="p">:</span>
+                <span class="n">impl_class</span> <span class="o">=</span> <span class="n">FunOwlImplementation</span>
             <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;pronto&#39;</span><span class="p">:</span>
                 <span class="n">impl_class</span> <span class="o">=</span> <span class="n">ProntoImplementation</span>
                 <span class="k">if</span> <span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.obo&#39;</span><span class="p">):</span>
