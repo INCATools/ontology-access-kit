@@ -33,6 +33,7 @@ from sssom.sssom_datamodel import MatchTypeEnum
 import warnings
 warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
 
+
 @dataclass
 class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface,
                            MappingProviderInterface, PatcherInterface):

@@ -21,6 +21,7 @@ semsql = "^0.1.6"
 lark = "^1.1.2"
 kgcl = "^0.1.0"
 kgcl-schema = "^0.1.1"
+funowl = "^0.1.12"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
