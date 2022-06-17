@@ -32,11 +32,13 @@ from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.owl_interface import OwlInterface, AxiomFilter
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
@@ -1306,19 +1308,54 @@ def subset_rollups(subsets: list, output):
 
 @main.command()
 @output_option
-def axioms(output: str):
+@output_type_option
+def axioms(output: str, output_type: str):
     """
     List all axioms
 
-    TODO: this is a placeholder -- will be added when we add funowl
+    EXPERIMENTAL
     """
     impl = settings.impl
-    #if isinstance(impl, OwlInterface):
-    #    for axiom in impl.axioms():
-    #        print(f'{axiom}')
-    #else:
-    #    raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
-    raise NotImplementedError
+    if isinstance(impl, OwlInterface):
+        writer = StreamingAxiomWriter(output,
+                                      syntax=output_type,
+                                      functional_writer=impl.functional_writer)
+        for axiom in impl.axioms():
+            writer.emit(axiom)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
+
+
+@main.command()
+@output_option
+@output_type_option
+@click.option('--axiom-type',
+              help="Type of axiom, e.g. SubClassOf")
+@click.option('--about',
+              help="CURIE that the axiom is about")
+@click.option('--references',
+              multiple=True,
+              help="CURIEs that the axiom references")
+def filter_axioms(output: str, output_type: str, axiom_type: str, about: str, references: tuple):
+    """
+    Filters axioms
+
+    """
+    impl = settings.impl
+    if isinstance(impl, OwlInterface):
+        conditions = AxiomFilter(about=about)
+        if references:
+            conditions.references = list(references)
+        if axiom_type:
+            conditions.set_type(axiom_type)
+        axioms = list(impl.filter_axioms(conditions=conditions))
+        impl.set_axioms(axioms)
+        if settings.autosave:
+            impl.save()
+        if output:
+            impl.dump(output, syntax=output_type)
+    else:
+        raise NotImplementedError(f'Cannot execute this using {impl} of type {type(impl)}')
 
 
 @main.command()
