@@ -3,13 +3,31 @@ import logging
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List, Tuple, Iterable, Optional, Type, Any, Union, Callable
+from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Type, Union
 
 # TODO: add funowl to dependencies
 import funowl
-from funowl import Ontology, Axiom, Class, SubClassOf, EquivalentClasses, Annotatable, IRI, ClassExpression, \
-    ObjectIntersectionOf, DisjointClasses, ObjectUnionOf, ObjectSomeValuesFrom, ObjectPropertyExpression, \
-    ObjectAllValuesFrom, ObjectProperty, Literal, AnnotationAxiom, AnnotationAssertion
+from funowl import (
+    IRI,
+    Annotatable,
+    AnnotationAssertion,
+    AnnotationAxiom,
+    Axiom,
+    Class,
+    ClassExpression,
+    DisjointClasses,
+    EquivalentClasses,
+    Literal,
+    ObjectAllValuesFrom,
+    ObjectIntersectionOf,
+    ObjectProperty,
+    ObjectPropertyExpression,
+    ObjectSomeValuesFrom,
+    ObjectUnionOf,
+    Ontology,
+    SubClassOf,
+)
+
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, LABEL, URI
 
@@ -42,9 +60,9 @@ class AxiomFilter:
             if len(matches) == 1:
                 self.type = matches[0]
             elif len(matches) == 0:
-                raise ValueError(f'No such axiom type: {axiom_type}')
+                raise ValueError(f"No such axiom type: {axiom_type}")
             else:
-                raise ValueError(f'Multiple matches {axiom_type} => {matches}')
+                raise ValueError(f"Multiple matches {axiom_type} => {matches}")
         else:
             self.type = axiom_type
 
@@ -69,7 +87,9 @@ class OwlInterface(BasicOntologyInterface, ABC):
     def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Axiom]:
         raise NotImplementedError
 
-    def filter_axioms(self, conditions: AxiomFilter, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Axiom]:
+    def filter_axioms(
+        self, conditions: AxiomFilter, reasoner: Optional[ReasonerConfiguration] = None
+    ) -> Iterable[Axiom]:
         if reasoner is not None:
             raise ValueError
         for axiom in self.axioms(reasoner=reasoner):
@@ -77,7 +97,8 @@ class OwlInterface(BasicOntologyInterface, ABC):
                 yield axiom
 
     def set_axioms(self, axioms: List[Axiom]) -> None:
-        raise NotImplementedError        
+        raise NotImplementedError
+
     def subclass_axioms(
         self,
         subclass: CURIE = None,
@@ -124,12 +145,14 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :param reasoner:
         :return:
         """
-        return self.filter_axioms(reasoner=reasoner,
-                                  conditions=AxiomFilter(type=EquivalentClasses,
-                                                         about=about,
-                                                         references=references))
+        return self.filter_axioms(
+            reasoner=reasoner,
+            conditions=AxiomFilter(type=EquivalentClasses, about=about, references=references),
+        )
 
-    def annotation_assertion_axioms(self, subject: CURIE = None, property: CURIE = None, value: Any = None) -> Iterable[AnnotationAssertion]:
+    def annotation_assertion_axioms(
+        self, subject: CURIE = None, property: CURIE = None, value: Any = None
+    ) -> Iterable[AnnotationAssertion]:
         """
         Filters all matching annotation axioms
 
@@ -193,7 +216,9 @@ class OwlInterface(BasicOntologyInterface, ABC):
             if not any(e for e in self._axiom_is_about_curies(axiom) if e == conditions.about):
                 return False
         if conditions.references is not None:
-            if not any(e for e in self._axiom_references_curies(axiom) if e == conditions.references):
+            if not any(
+                e for e in self._axiom_references_curies(axiom) if e == conditions.references
+            ):
                 return False
         return True
 
@@ -240,7 +265,9 @@ class OwlInterface(BasicOntologyInterface, ABC):
             # TODO: all axiom types
             pass
 
-    def _expression_references(self, ex: Union[ClassExpression, ObjectPropertyExpression]) -> Iterable[IRI]:
+    def _expression_references(
+        self, ex: Union[ClassExpression, ObjectPropertyExpression]
+    ) -> Iterable[IRI]:
         # TODO: generalize signature
         if isinstance(ex, IRI):
             # https://github.com/hsolbrig/funowl/issues/19
@@ -270,4 +297,3 @@ class OwlInterface(BasicOntologyInterface, ABC):
 
     def _axiom_is_about_curies(self, axiom: Axiom) -> List[CURIE]:
         return [self.entity_iri_to_curie(e) for e in self.axiom_is_about(axiom)]
-

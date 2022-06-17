@@ -103,9 +103,9 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 impl_class = WikidataImplementation
             elif scheme == "ols":
                 impl_class = OlsImplementation
-            elif scheme == 'funowl':
+            elif scheme == "funowl":
                 impl_class = FunOwlImplementation
-            elif scheme == 'pronto':
+            elif scheme == "pronto":
                 impl_class = ProntoImplementation
                 if resource.slug.endswith(".obo"):
                     resource.format = "obo"

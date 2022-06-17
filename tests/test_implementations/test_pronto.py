@@ -313,7 +313,9 @@ class TestProntoImplementation(unittest.TestCase):
     def test_patcher(self):
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
         oi = ProntoImplementation(resource)
-        oi.apply_patch(kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value='VaCuOlE'))
+        oi.apply_patch(
+            kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE")
+        )
         oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
         with self.assertRaises(ValueError) as e:
             oi.apply_patch(kgcl.NodeObsoletion(id="x", about_node="NO SUCH TERM"))
