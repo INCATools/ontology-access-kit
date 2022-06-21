@@ -141,7 +141,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
 
     def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -> int:
         curie_map = curie_to_uri_map(msdoc)
-        inv_map = {v: k for k, v in curie_map.items()}
+        # inv_map = {v: k for k, v in curie_map.items()}
         n = 0
         for curie, uri in curie_map.items():
             pfx, _ = curie.split(":", 2)

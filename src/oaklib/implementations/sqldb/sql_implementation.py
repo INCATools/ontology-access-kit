@@ -3,7 +3,7 @@ import math
 import shutil
 from abc import ABC
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Type, Union
 

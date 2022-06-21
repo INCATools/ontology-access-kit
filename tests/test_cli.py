@@ -94,7 +94,7 @@ class TestCommandLineInterface(unittest.TestCase):
             out = self._out()
             assert "GO:0016020" in out
             assert "GO:0043226" not in out
-            result = self.runner.invoke(
+            self.runner.invoke(
                 main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", TEST_OUT]
             )
             out = self._out()
