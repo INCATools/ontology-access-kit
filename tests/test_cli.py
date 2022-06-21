@@ -52,7 +52,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertIn("search", out)
         self.assertIn("subset", out)
         self.assertIn("validate", out)
@@ -63,8 +63,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"]
             )
-            out = result.stdout
-            err = result.stderr
+            result.stdout
+            result.stderr
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -74,8 +74,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x"]
             )
-            out = result.stdout
-            err = result.stderr
+            result.stdout
+            result.stderr
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -126,8 +126,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_OUT,
             ],
         )
-        out = result.stdout
-        err = result.stderr
+        result.stdout
+        result.stderr
         self.assertEqual(0, result.exit_code)
         contents = self._out()
         self.assertIn(NUCLEUS, contents)
@@ -137,7 +137,7 @@ class TestCommandLineInterface(unittest.TestCase):
         with open(TEST_OUT) as f:
             g = json.load(f)
             nodes = g["nodes"]
-            edges = g["edges"]
+            g["edges"]
             [nucleus_node] = [n for n in nodes if n["id"] == NUCLEUS]
             self.assertEqual(nucleus_node["lbl"], "nucleus")
 
@@ -157,7 +157,7 @@ class TestCommandLineInterface(unittest.TestCase):
             main, ["-i", str(TEST_ONT), "term-mappings", "GO:0016740", "-o", TEST_OUT]
         )
         out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
@@ -170,8 +170,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT]
             )
-            out = result.stdout
-            err = result.stderr
+            result.stdout
+            result.stderr
             self.assertEqual(0, result.exit_code)
             contents = self._out()
             self.assertIn("Eukaryota", contents)
@@ -181,7 +181,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_help(self):
         result = self.runner.invoke(main, ["search", "--help"])
         out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn("Usage:", out)
         self.assertIn("Example:", out)
@@ -292,8 +292,8 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_validate_help(self):
         result = self.runner.invoke(main, ["validate", "--help"])
-        out = result.stdout
-        err = result.stderr
+        result.stdout
+        result.stderr
         self.assertEqual(0, result.exit_code)
 
     def test_validate_bad_ontology(self):
@@ -335,7 +335,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        out = result.stdout
+        result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
@@ -358,7 +358,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        out = result.stdout
+        result.stdout
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -375,7 +375,7 @@ class TestCommandLineInterface(unittest.TestCase):
             ["-i", TEST_DB, "similarity", NUCLEAR_MEMBRANE, VACUOLE, "-p", "i,p", "-o", TEST_OUT],
         )
         # out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn(IMBO, out)

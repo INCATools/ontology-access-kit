@@ -6,7 +6,6 @@ Executed using "runoak" command
 """
 # TODO: order commands. See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import logging
-import os
 import re
 import subprocess
 import sys
@@ -16,13 +15,10 @@ from enum import Enum, unique
 from pathlib import Path
 from typing import (
     Any,
-    Dict,
     Iterable,
     Iterator,
     List,
-    Sequence,
     TextIO,
-    Tuple,
     Type,
     Union,
 )
@@ -46,7 +42,6 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import (
     BasicOntologyInterface,
     OntologyInterface,
-    RelationGraphInterface,
     SubsetterInterface,
     ValidatorInterface,
 )
@@ -87,9 +82,7 @@ from oaklib.utilities.lexical.lexical_indexer import (
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
-    as_digraph,
     default_stylemap_path,
-    draw_graph,
     graph_to_image,
     graph_to_tree,
 )

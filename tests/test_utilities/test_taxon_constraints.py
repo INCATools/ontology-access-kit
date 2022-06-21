@@ -73,11 +73,11 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
         self.assertCountEqual(st.never_in, [])
         self.assertEqual(1, len(st.only_in))
-        never = [tc.taxon.id for tc in st.never_in]
+        [tc.taxon.id for tc in st.never_in]
         only = [tc.taxon.id for tc in st.only_in]
-        never_nr = [tc.taxon.id for tc in st.never_in if not tc.redundant]
+        [tc.taxon.id for tc in st.never_in if not tc.redundant]
         only_nr = [tc.taxon.id for tc in st.only_in if not tc.redundant]
-        never_r = [tc.taxon.id for tc in st.never_in if tc.redundant]
+        [tc.taxon.id for tc in st.never_in if tc.redundant]
         only_r = [tc.taxon.id for tc in st.only_in if tc.redundant]
         self.assertCountEqual([CELLULAR_ORGANISMS], only)
         self.assertCountEqual([CELLULAR_ORGANISMS], only_nr)
@@ -90,11 +90,11 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         # print(yaml_dumper.dumps(st))
         self.assertCountEqual(st.never_in, [])
         self.assertEqual(5, len(st.only_in))
-        never = set([tc.taxon.id for tc in st.never_in])
+        set([tc.taxon.id for tc in st.never_in])
         only = set([tc.taxon.id for tc in st.only_in])
-        never_nr = set([tc.taxon.id for tc in st.never_in if not tc.redundant])
+        set([tc.taxon.id for tc in st.never_in if not tc.redundant])
         only_nr = set([tc.taxon.id for tc in st.only_in if not tc.redundant])
-        never_r = set([tc.taxon.id for tc in st.never_in if tc.redundant])
+        set([tc.taxon.id for tc in st.never_in if tc.redundant])
         only_r = set([tc.taxon.id for tc in st.only_in if tc.redundant])
         self.assertCountEqual([PLANTS_OR_CYANOBACTERIA, CELLULAR_ORGANISMS], only)
         self.assertCountEqual([PLANTS_OR_CYANOBACTERIA], only_nr)
@@ -260,7 +260,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
 
     def test_unsatisfiable(self):
         fake_oi = self.fake_oi
-        st = get_term_with_taxon_constraints(fake_oi, PHOTOSYNTHETIC_MEMBRANE)
+        get_term_with_taxon_constraints(fake_oi, PHOTOSYNTHETIC_MEMBRANE)
         # print(yaml_dumper.dumps(st))
 
     def test_all(self):
@@ -269,7 +269,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         for t in term_curies:
             st = get_term_with_taxon_constraints(oi, t)
             logging.info(yaml_dumper.dumps(st))
-            desc = get_taxon_constraints_description(oi, st)
+            get_taxon_constraints_description(oi, st)
             # print(desc)
 
     def test_parser(self):

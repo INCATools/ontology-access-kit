@@ -1,23 +1,13 @@
 import logging
 import unittest
-from collections import Iterator
 
-from linkml_runtime.dumpers import yaml_dumper
-from sssom import Mapping
 
 from oaklib.implementations import SqlImplementation
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.omk.omk_mapping_utils import (
     calculate_pairwise_relational_diff,
-    unreciprocated_mappings,
 )
 from oaklib.resource import OntologyResource
-from oaklib.utilities.lexical.lexical_indexer import (
-    create_lexical_index,
-    save_lexical_index,
-)
-from oaklib.utilities.mapping.sssom_utils import mappings_to_pairs
-from tests import EXTERNAL_DB_DIR, INPUT_DIR, OUTPUT_DIR
+from tests import EXTERNAL_DB_DIR
 
 DB_FOLDER = EXTERNAL_DB_DIR / "unreciprocated-mapping-test.obo"
 

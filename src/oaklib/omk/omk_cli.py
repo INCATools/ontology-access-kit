@@ -4,37 +4,22 @@ Command Line Interface to OMK
 
 """
 import logging
-import os
-import subprocess
-import sys
-from collections import defaultdict
-from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Dict, List, Sequence, TextIO, Tuple, Type
+from typing import List, Type
 
 import click
-from linkml_runtime.dumpers import yaml_dumper
 
-import oaklib.cli as oak_cli
 from oaklib.cli import (
     Settings,
     add_option,
     input_option,
     input_type_option,
-    output_option,
-    output_type_option,
 )
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
 from oaklib.interfaces import (
-    BasicOntologyInterface,
     OntologyInterface,
-    SubsetterInterface,
-    ValidatorInterface,
 )
-from oaklib.io.streaming_csv_writer import StreamingCsvWriter
-from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.omk.omk_mapping_utils import calculate_pairwise_relational_diff
 from oaklib.resource import OntologyResource
 from oaklib.selector import (

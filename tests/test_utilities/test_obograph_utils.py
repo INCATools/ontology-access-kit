@@ -2,12 +2,10 @@ import json
 import logging
 import unittest
 
-from pronto import Ontology
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
-from oaklib.utilities.graph.relationship_walker import walk_up
 from oaklib.utilities.obograph_utils import (
     as_multi_digraph,
     filter_by_predicates,
@@ -37,7 +35,6 @@ class TestOboGraphUtils(unittest.TestCase):
 
     def test_as_networkx(self):
         mdg = as_multi_digraph(self.graph)
-        found = False
         self.assertIn(NUCLEUS, mdg.nodes)
         for e in mdg.edges(data=True):
             logging.info(f"SU={e}")

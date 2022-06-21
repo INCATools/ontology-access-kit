@@ -1,4 +1,3 @@
-import logging
 import unittest
 
 from oaklib.implementations.bioportal.bioportal_implementation import (

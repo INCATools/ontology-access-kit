@@ -1,7 +1,7 @@
 from abc import ABC
-from typing import Any, Dict, Iterable, List
+from typing import Dict
 
-from kgcl_schema.datamodel.kgcl import Change, NodeCreation, NodeDeletion
+from kgcl_schema.datamodel.kgcl import Change
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE

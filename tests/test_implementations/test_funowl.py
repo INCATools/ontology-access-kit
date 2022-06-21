@@ -1,4 +1,3 @@
-import logging
 import unittest
 
 from funowl import EquivalentClasses, SubClassOf
@@ -10,14 +9,10 @@ from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from tests import (
-    CELL,
-    CELLULAR_ORGANISMS,
     CHEBI_NUCLEUS,
-    CYTOPLASM,
     HUMAN,
     INPUT_DIR,
     NUCLEUS,
-    OUTPUT_DIR,
     VACUOLE,
 )
 
@@ -38,7 +33,7 @@ class TestFunOwlImplementation(unittest.TestCase):
         self.assertIn(HUMAN, curies)
 
     def test_filter_axioms(self):
-        fw = FunctionalWriter()
+        FunctionalWriter()
         oi = self.oi
         self.assertCountEqual(
             list(oi.axioms()),

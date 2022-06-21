@@ -1,4 +1,3 @@
-import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -6,7 +5,7 @@ from linkml_runtime.dumpers import yaml_dumper
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.resource import OntologyResource
-from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, INPUT_DIR, OUTPUT_DIR, VACUOLE
+from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, VACUOLE
 
 
 class TestOlsImplementation(unittest.TestCase):

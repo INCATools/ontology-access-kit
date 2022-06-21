@@ -1,13 +1,10 @@
 from abc import ABC
-from typing import Dict, Iterable, List, Tuple, Union
+from typing import Iterable, List, Tuple
 
 from oaklib.interfaces.basic_ontology_interface import (
-    RELATIONSHIP,
-    RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
-from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
-from oaklib.utilities.graph.relationship_walker import walk_up
+from oaklib.types import CURIE, PRED_CURIE
 
 
 class RelationGraphInterface(BasicOntologyInterface, ABC):

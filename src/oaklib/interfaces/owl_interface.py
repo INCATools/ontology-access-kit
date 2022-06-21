@@ -1,17 +1,14 @@
 import inspect
-import logging
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, Iterable, List, Optional, Type, Union
 
 # TODO: add funowl to dependencies
 import funowl
 from funowl import (
     IRI,
-    Annotatable,
     AnnotationAssertion,
-    AnnotationAxiom,
     Axiom,
     Class,
     ClassExpression,
@@ -20,7 +17,6 @@ from funowl import (
     Literal,
     ObjectAllValuesFrom,
     ObjectIntersectionOf,
-    ObjectProperty,
     ObjectPropertyExpression,
     ObjectSomeValuesFrom,
     ObjectUnionOf,
@@ -29,7 +25,7 @@ from funowl import (
 )
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.types import CURIE, LABEL, URI
+from oaklib.types import CURIE
 
 
 class OwlProfile(Enum):

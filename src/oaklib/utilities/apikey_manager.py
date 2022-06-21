@@ -5,7 +5,6 @@ See `<https://github.com/ActiveState/appdirs>`_
 """
 
 import logging
-import os
 from pathlib import Path
 
 from appdirs import user_config_dir

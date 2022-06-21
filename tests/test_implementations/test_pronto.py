@@ -8,7 +8,6 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     HAS_PART,
-    IN_TAXON,
     IS_A,
     ONLY_IN_TAXON,
     PART_OF,
@@ -48,7 +47,7 @@ class TestProntoImplementation(unittest.TestCase):
     def test_obo_json(self) -> None:
         resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
         json_oi = ProntoImplementation(resource)
-        oi_src = self.oi
+        self.oi
         curies = list(json_oi.all_entity_curies())
         # for e in curies:
         #    print(e)
@@ -246,7 +245,7 @@ class TestProntoImplementation(unittest.TestCase):
         pix = index_graph_edges_by_predicate(g)
         self.assertIn(v2c, pix[PART_OF])
         self.assertNotIn(v2c, pix[IS_A])
-        obj = graph_as_dict(g)
+        graph_as_dict(g)
         assert "nodes" in g
         assert "edges" in g
         # check is reflexive

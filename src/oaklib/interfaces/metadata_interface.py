@@ -1,11 +1,9 @@
-import logging
 from abc import ABC
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
-import sssom
 
 import oaklib.datamodels.ontology_metadata as om
-from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE, IS_A
+from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 

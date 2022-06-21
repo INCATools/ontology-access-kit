@@ -118,7 +118,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
-        obj = graph_as_dict(g)
+        graph_as_dict(g)
         # print(yaml.dump(obj))
         assert g.nodes
         assert g.edges

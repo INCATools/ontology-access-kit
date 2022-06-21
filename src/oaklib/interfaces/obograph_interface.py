@@ -2,15 +2,14 @@ import logging
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Union
 
 from oaklib.datamodels.obograph import Edge, Graph, Node
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
-    RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
-from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
+from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
 
 

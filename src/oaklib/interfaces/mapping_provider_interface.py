@@ -1,6 +1,6 @@
 import logging
 from abc import ABC
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Iterable
 
 import sssom
 

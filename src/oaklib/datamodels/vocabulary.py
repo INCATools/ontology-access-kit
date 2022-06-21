@@ -1,7 +1,6 @@
 from linkml_runtime import CurieNamespace
 
 import oaklib.datamodels.ontology_metadata as omd
-from oaklib.datamodels.ontology_metadata import slots as omd_slots
 
 WIKIDATA = CurieNamespace("wikidata", "http://www.wikidata.org/entity/")
 WDP = CurieNamespace("wdp", "http://www.wikidata.org/prop/direct/")
