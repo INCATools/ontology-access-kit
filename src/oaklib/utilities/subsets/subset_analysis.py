@@ -1,7 +1,6 @@
 from typing import Dict, Iterable, List, Tuple
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.interfaces import BasicOntologyInterface, OntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.semsim.similarity_utils import (

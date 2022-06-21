@@ -1,11 +1,9 @@
 from dataclasses import dataclass
 
 from oaklib.implementations import BioportalImplementation
-from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
-from oaklib.types import CURIE, URI
 
 
 @dataclass

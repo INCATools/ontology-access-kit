@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
-from typing import Iterable, Iterator, List, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 import sssom.sssom_datamodel as sssom_dm
-from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import to_mapping_set_dataframe

@@ -13,7 +13,6 @@ import semsql.builder.builder as semsql_builder
 import sssom
 from appdirs import user_cache_dir
 from kgcl_schema.datamodel import kgcl
-from kgcl_schema.datamodel.kgcl import NodeRename
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
@@ -53,7 +52,6 @@ from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
-    HAS_DBXREF,
     HAS_EXACT_SYNONYM,
     IN_SUBSET,
     IS_A,
@@ -81,7 +79,6 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
-from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 
 
 def _curie_prefix(curie: CURIE) -> Optional[str]:
