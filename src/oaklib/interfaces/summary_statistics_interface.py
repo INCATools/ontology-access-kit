@@ -1,9 +1,7 @@
 from abc import ABC
 from typing import Any, Dict
 
-from oaklib.interfaces.basic_ontology_interface import (
-    BasicOntologyInterface,
-)
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 
 # import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots
 from oaklib.types import CURIE

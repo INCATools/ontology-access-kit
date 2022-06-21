@@ -1,7 +1,6 @@
 from abc import ABC
 from typing import Iterable
 
-
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 

@@ -1,9 +1,7 @@
 from abc import ABC
 from typing import Iterable, List, Tuple
 
-from oaklib.interfaces.basic_ontology_interface import (
-    BasicOntologyInterface,
-)
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
 
 

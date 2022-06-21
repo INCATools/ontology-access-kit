@@ -6,20 +6,15 @@ import unittest
 import yaml
 from click.testing import CliRunner
 
-from oaklib.cli import main, search
+from oaklib.cli import main
 from oaklib.datamodels.vocabulary import IN_TAXON
 from tests import (
     ATOM,
-    BACTERIA,
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
-    EUKARYOTA,
-    HUMAN,
     IMBO,
     INPUT_DIR,
-    INTERNEURON,
     INTRACELLULAR,
-    MAMMALIA,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEATED,
@@ -83,7 +78,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 self.assertIn("Wikipedia:Cell_nucleus", contents)
                 self.assertNotIn("A membrane-bounded organelle", contents)
 
-    ## OBOGRAPH
+    # OBOGRAPH
 
     def test_obograph_local(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
@@ -150,7 +145,7 @@ class TestCommandLineInterface(unittest.TestCase):
             out = result.stdout
             self.assertIn(NUCLEAR_ENVELOPE, out)
 
-    ## MAPPINGS
+    # MAPPINGS
 
     def test_mappings_local(self):
         result = self.runner.invoke(
@@ -163,7 +158,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("EC:2.-.-.-", out)
         self.assertIn("Reactome:R-HSA-1483089", out)
 
-    ## TAXON
+    # TAXON
 
     def test_taxon_constraints_local(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
@@ -176,7 +171,7 @@ class TestCommandLineInterface(unittest.TestCase):
             contents = self._out()
             self.assertIn("Eukaryota", contents)
 
-    ## SEARCH
+    # SEARCH
 
     def test_search_help(self):
         result = self.runner.invoke(main, ["search", "--help"])
@@ -288,7 +283,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
 
-    ## VALIDATE
+    # VALIDATE
 
     def test_validate_help(self):
         result = self.runner.invoke(main, ["validate", "--help"])
@@ -319,7 +314,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn(ATOM, out)
             self.assertEqual("", err)
 
-    ## LEXICAL
+    # LEXICAL
 
     def test_lexmatch_owl(self):
         outfile = f"{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv"

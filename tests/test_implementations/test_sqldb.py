@@ -47,6 +47,10 @@ TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
 VALIDATION_REPORT_OUT = OUTPUT_DIR / "validation-results.tsv"
 
 
+def non_reflexive(ancestors):
+    return [a for a in ancestors if a != NUCLEUS and a != PART_OF and a != FAKE_PREDICATE]
+
+
 class TestSqlDatabaseImplementation(unittest.TestCase):
     def setUp(self) -> None:
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
@@ -477,10 +481,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         preds2 = [IS_A, FAKE_PREDICATE]
         ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
         descendants = list(oi.descendants(NUCLEUS, predicates=preds))
-
-        def non_reflexive(l):
-            return [a for a in ancestors if a != NUCLEUS and a != PART_OF and a != FAKE_PREDICATE]
-
         expected_ancs = non_reflexive(ancestors)
         descendants_ancs = non_reflexive(descendants)
         oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})

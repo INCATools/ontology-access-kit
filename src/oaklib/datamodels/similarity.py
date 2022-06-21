@@ -17,9 +17,7 @@ from linkml_runtime.utils.dataclass_extensions_376 import (
 )
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import (
-    YAMLRoot,
-)
+from linkml_runtime.utils.yamlutils import YAMLRoot
 from rdflib import URIRef
 
 metamodel_version = "1.7.0"

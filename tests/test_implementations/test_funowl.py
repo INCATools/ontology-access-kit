@@ -8,13 +8,7 @@ from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementa
 from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
-from tests import (
-    CHEBI_NUCLEUS,
-    HUMAN,
-    INPUT_DIR,
-    NUCLEUS,
-    VACUOLE,
-)
+from tests import CHEBI_NUCLEUS, HUMAN, INPUT_DIR, NUCLEUS, VACUOLE
 
 TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
 NEW_NAME = "new name"

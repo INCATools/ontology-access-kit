@@ -1,7 +1,6 @@
 import logging
 import unittest
 
-
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource

@@ -1,7 +1,6 @@
 from abc import ABC
 from typing import Iterable, List, Optional, Tuple
 
-
 import oaklib.datamodels.ontology_metadata as om
 from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface

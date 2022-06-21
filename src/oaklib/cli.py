@@ -13,15 +13,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
 from pathlib import Path
-from typing import (
-    Any,
-    Iterable,
-    Iterator,
-    List,
-    TextIO,
-    Type,
-    Union,
-)
+from typing import Any, Iterable, Iterator, List, TextIO, Type, Union
 
 import click
 import rdflib

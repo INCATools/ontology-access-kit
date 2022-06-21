@@ -1,11 +1,8 @@
 import logging
 import unittest
 
-
 from oaklib.implementations import SqlImplementation
-from oaklib.omk.omk_mapping_utils import (
-    calculate_pairwise_relational_diff,
-)
+from oaklib.omk.omk_mapping_utils import calculate_pairwise_relational_diff
 from oaklib.resource import OntologyResource
 from tests import EXTERNAL_DB_DIR
 

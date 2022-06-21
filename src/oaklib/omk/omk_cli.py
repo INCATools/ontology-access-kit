@@ -8,18 +8,11 @@ from typing import List, Type
 
 import click
 
-from oaklib.cli import (
-    Settings,
-    add_option,
-    input_option,
-    input_type_option,
-)
+from oaklib.cli import Settings, add_option, input_option, input_type_option
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
-from oaklib.interfaces import (
-    OntologyInterface,
-)
+from oaklib.interfaces import OntologyInterface
 from oaklib.omk.omk_mapping_utils import calculate_pairwise_relational_diff
 from oaklib.resource import OntologyResource
 from oaklib.selector import (

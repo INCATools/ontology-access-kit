@@ -17,9 +17,11 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     test_candidate_taxon_constraint,
 )
 from tests import (
+    BACTERIA,
     CELLULAR_ORGANISMS,
     DICTYOSTELIUM,
     DICTYOSTELIUM_DISCOIDEUM,
+    EUKARYOTA,
     FUNGI,
     FUNGI_OR_BACTERIA,
     FUNGI_OR_DICTYOSTELIUM,
@@ -27,12 +29,13 @@ from tests import (
     INPUT_DIR,
     INTRACELLULAR,
     MAMMALIA,
+    NUCLEAR_ENVELOPE,
+    NUCLEUS,
     OUTPUT_DIR,
     PHOTOSYNTHETIC_MEMBRANE,
     PLANTS_OR_CYANOBACTERIA,
     SOROCARP_STALK_DEVELOPMENT,
 )
-from tests.test_cli import BACTERIA, EUKARYOTA, NUCLEAR_ENVELOPE, NUCLEUS
 
 GAIN_LOSS_FILE = INPUT_DIR / "go-evo-gains-losses.csv"
 TEST_INCONSISTENT = INPUT_DIR / "taxon-constraint-test.obo"
@@ -237,9 +240,9 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertFalse(st.never_in[0].redundant_with_only_in)
         self.assertFalse(st.only_in[0].redundant)
         # bad ID
-        with self.assertRaises(ValueError) as err:
+        with self.assertRaises(ValueError):
             st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], ["X:1"]))
-        with self.assertRaises(ValueError) as err:
+        with self.assertRaises(ValueError):
             st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, ["X:1"], []))
         st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], []))
         assert st.never_in == []

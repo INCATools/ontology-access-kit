@@ -2,7 +2,6 @@ import json
 import logging
 import unittest
 
-
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource

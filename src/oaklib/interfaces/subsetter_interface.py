@@ -15,7 +15,7 @@ class SubsetStrategy:
 
 
 class SyntacticLocalityModuleExtraction(SubsetStrategy):
-    module_type: str  ## TODO enum
+    module_type: str  # TODO enum
 
 
 class GraphWalkExtraction(SubsetStrategy):
