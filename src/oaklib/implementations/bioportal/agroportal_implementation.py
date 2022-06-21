@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 
 from oaklib.implementations import BioportalImplementation
@@ -7,6 +6,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, URI
+
 
 @dataclass
 class AgroportalImplementation(

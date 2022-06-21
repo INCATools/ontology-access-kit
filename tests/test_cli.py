@@ -88,7 +88,7 @@ class TestCommandLineInterface(unittest.TestCase):
             )
             out = self._out()
             assert "GO:0043226" in out
-            result = self.runner.invoke(
+            self.runner.invoke(
                 main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", TEST_OUT]
             )
             out = self._out()
