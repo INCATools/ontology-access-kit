@@ -435,7 +435,7 @@ class ProntoImplementation(
             if (
                 search_all
                 or SearchProperty(SearchProperty.LABEL)
-                or not config.properties in config.properties
+                or config.properties not in config.properties
             ):
                 if t.name and mfunc(t.name):
                     matches.append(t.id)

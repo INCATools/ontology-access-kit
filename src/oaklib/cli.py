@@ -13,7 +13,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, TextIO, Type, Union
+from typing import Any, Iterable, Iterator, List, Optional, TextIO, Type, Union
 
 import click
 import rdflib
@@ -127,7 +127,7 @@ output_option = click.option(
 output_type_option = click.option(
     "-O",
     "--output-type",
-    help=f"Desired output type",
+    help="Desired output type",
 )
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
 display_option = click.option(
@@ -135,7 +135,7 @@ display_option = click.option(
 )
 
 
-def _process_predicates_arg(preds_str: str) -> List[PRED_CURIE]:
+def _process_predicates_arg(preds_str: str) -> Optional[List[PRED_CURIE]]:
     if preds_str is None:
         return None
     inputs = preds_str.split(",")
@@ -291,7 +291,7 @@ def main(
         settings.impl = AggregatorImplementation(implementations=impls)
     if save_to:
         if autosave:
-            raise ValueError(f"Cannot specify both --save-to and --autosave")
+            raise ValueError("Cannot specify both --save-to and --autosave")
         settings.impl = settings.impl.clone(get_resource_from_shorthand(save_to))
         settings.autosave = True
 
@@ -390,7 +390,7 @@ def ontologies(output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for curie in impl.all_ontology_curies():
-            print(f"{curie}")
+            print(str(curie))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -536,7 +536,7 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
         else:
             raise ValueError(f"unknown writer: {output_type}")
         if words and text_file:
-            raise ValueError(f"Specify EITHER text-file OR a list of words as arguments")
+            raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
             for line in text_file.readlines():
                 line = line.strip()
@@ -650,7 +650,7 @@ def viz(
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
-            logging.info(f"Using gap-fill strategy")
+            logging.info("Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
                 rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
                 if isinstance(impl, OboGraphInterface):
@@ -739,7 +739,7 @@ def tree(
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
-            logging.info(f"Using gap-fill strategy")
+            logging.info("Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
                 rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
                 if isinstance(impl, OboGraphInterface):
@@ -817,7 +817,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         if statistics:
             if isinstance(impl, OboGraphInterface):
                 graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-                logging.info(f"Calculating graph stats")
+                logging.info("Calculating graph stats")
                 ancs_stats = ancestors_with_stats(graph, curies)
                 for n in graph.nodes:
                     kwargs = {}

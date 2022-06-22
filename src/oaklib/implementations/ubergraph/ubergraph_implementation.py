@@ -27,6 +27,11 @@ from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
+__all__ = [
+    "RelationGraphEnum",
+    "UbergraphImplementation",
+]
+
 
 class RelationGraphEnum(Enum):
     """
@@ -186,7 +191,7 @@ class UbergraphImplementation(
         predicates: List[PRED_CURIE] = None,
         graph: str = None,
         object_is_literal=False,
-        where=[],
+        where=[],  # FIXME never leave mutable structures in kwargs
     ) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
