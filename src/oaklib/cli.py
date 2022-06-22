@@ -25,7 +25,7 @@ import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
-from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, PART_OF, DEVELOPS_FROM
+from oaklib.datamodels.vocabulary import DEVELOPS_FROM, EQUIVALENT_CLASS, IS_A, PART_OF
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -675,7 +675,7 @@ def viz(
     With abbreviation:
 
         runoak -i sqlite:cl.db viz CL:4023094 -p i,p,d
-        
+
     We can also limit the number of "hops" from the seed terms; for
     example, all is-a and develops-from ancestors of T-cell, limiting
     to a distance of 2:
@@ -833,7 +833,7 @@ def tree(
     """
     impl = settings.impl
     if configure:
-        logging.warning(f'Configure is not yet supported')
+        logging.warning(f"Configure is not yet supported")
     if isinstance(impl, OboGraphInterface):
         curies = list(query_terms_iterator(terms, impl))
         if stylemap is None:
