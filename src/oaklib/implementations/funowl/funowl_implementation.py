@@ -3,13 +3,7 @@ from dataclasses import dataclass
 from typing import Any, Iterable, List, Optional
 
 import rdflib
-from funowl import (
-    IRI,
-    AnnotationAssertion,
-    Axiom,
-    Declaration,
-    OntologyDocument,
-)
+from funowl import IRI, AnnotationAssertion, Axiom, Declaration, OntologyDocument
 from funowl.converters.functional_converter import to_python
 from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
@@ -21,10 +15,7 @@ from oaklib.datamodels.vocabulary import (
     OBO_PURL,
 )
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
-from oaklib.interfaces.owl_interface import (
-    OwlInterface,
-    ReasonerConfiguration,
-)
+from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.types import CURIE, URI
 
 
