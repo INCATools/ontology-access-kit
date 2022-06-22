@@ -1,5 +1,4 @@
 import logging
-from collections import defaultdict
 from copy import deepcopy
 from typing import Collection, Iterator, List, TextIO, Tuple
 

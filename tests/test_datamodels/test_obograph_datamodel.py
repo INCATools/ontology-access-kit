@@ -26,6 +26,6 @@ class TestOboGraphDatamodel(unittest.TestCase):
         """
         sv = package_schemaview(obograph.__name__)
         assert "id" in sv.all_slots()
-        assert "lbl" in sv.all_slots()  ## TODO: consider changing
+        assert "lbl" in sv.all_slots()  # TODO: consider changing
         assert "Node" in sv.all_classes()
         assert "Edge" in sv.all_classes()

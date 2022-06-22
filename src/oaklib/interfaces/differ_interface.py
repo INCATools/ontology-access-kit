@@ -1,10 +1,9 @@
 from abc import ABC
-from typing import Any, Dict, Iterable, Iterator, List, Tuple
+from typing import Any, Iterator, Tuple
 
 from kgcl_schema.datamodel.kgcl import Change, NodeCreation, NodeDeletion
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.resource import OntologyResource
 from oaklib.types import CURIE
 
 TERM_LIST_DIFF = Tuple[CURIE, CURIE]

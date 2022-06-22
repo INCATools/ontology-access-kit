@@ -13,7 +13,7 @@ class TestOntologyMetadataDatamodel(unittest.TestCase):
         c = ontology_metadata.Class(id="EXAMPLE:1", label="foo", has_broad_synonym=["bar"])
         fn = output_path("example.om.yaml")
         yaml_dumper.dump(c, fn)
-        c2 = yaml_loader.load(fn, target_class=ontology_metadata.Class)
+        yaml_loader.load(fn, target_class=ontology_metadata.Class)
 
     def test_introspect(self):
         """

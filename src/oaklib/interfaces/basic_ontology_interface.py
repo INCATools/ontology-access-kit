@@ -1,6 +1,6 @@
 import logging
 from abc import ABC
-from dataclasses import dataclass, field
+from dataclasses import field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.vocabulary import BIOPORTAL_PURL, IS_A, OBO_PURL, OWL_THING

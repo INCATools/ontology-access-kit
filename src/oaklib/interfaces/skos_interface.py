@@ -1,10 +1,8 @@
 from abc import ABC
-from typing import Dict, Iterable, List, Tuple
-
-from rdflib import Graph
+from typing import Iterable
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.types import CURIE, LABEL, URI
+from oaklib.types import CURIE
 
 
 class SkosInterface(BasicOntologyInterface, ABC):

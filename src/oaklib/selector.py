@@ -1,9 +1,8 @@
 import importlib
 import logging
 import pkgutil
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, Type, Union
+from typing import Optional, Type
 
 from oaklib import BasicOntologyInterface
 from oaklib.implementations.bioportal.agroportal_implementation import (

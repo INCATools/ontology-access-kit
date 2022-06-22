@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from typing import List
 
 from deprecated.classic import deprecated
-from lark import Lark, Transformer
 
 from oaklib.datamodels.search_datamodel import (
     SearchBaseConfiguration,

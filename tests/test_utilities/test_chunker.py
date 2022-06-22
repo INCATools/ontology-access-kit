@@ -1,4 +1,3 @@
-import logging
 import unittest
 
 from oaklib.utilities.iterator_utils import chunk

@@ -1,11 +1,7 @@
-import csv
-import sys
-from dataclasses import dataclass, field
-from typing import Any, Dict, Tuple, Union
+from dataclasses import dataclass
+from typing import Any
 
 from linkml_runtime import CurieNamespace
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.io.streaming_writer import StreamingWriter

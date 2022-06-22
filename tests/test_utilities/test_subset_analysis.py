@@ -2,7 +2,6 @@ import logging
 import unittest
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.subsets.subset_analysis import (

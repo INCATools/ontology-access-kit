@@ -1,10 +1,9 @@
 import logging
 import unittest
 
-import yaml
 from linkml_runtime.dumpers import yaml_dumper
 
-from oaklib.datamodels.vocabulary import HAS_PART, IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
@@ -17,7 +16,6 @@ from tests import (
     INPUT_DIR,
     INTERNEURON,
     NUCLEUS,
-    OUTPUT_DIR,
     TISSUE,
     VACUOLE,
 )
@@ -135,7 +133,7 @@ class TestAggregator(unittest.TestCase):
 
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
-        obj = graph_as_dict(g)
+        graph_as_dict(g)
         assert "nodes" in g
         assert "edges" in g
         # check is reflexive
