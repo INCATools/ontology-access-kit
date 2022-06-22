@@ -29,7 +29,9 @@
       index_graph_edges_by_subject_object
       index_graph_nodes
       reflexive
+      remove_nodes_from_graph
       topological_sort
+      trim_graph
    
    
 

@@ -348,9 +348,13 @@
 
     <span class="k">def</span> <span class="nf">_merge_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graphs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Graph</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;merged&quot;</span><span class="p">)</span>
+        <span class="n">node_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">g</span><span class="o">.</span><span class="n">nodes</span> <span class="o">+=</span> <span class="n">src</span><span class="o">.</span><span class="n">nodes</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_ids</span><span class="p">:</span>
+                        <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                        <span class="n">node_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">g</span><span class="o">.</span><span class="n">edges</span> <span class="o">+=</span> <span class="n">src</span><span class="o">.</span><span class="n">edges</span>

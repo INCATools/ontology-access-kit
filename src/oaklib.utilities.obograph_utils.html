@@ -152,8 +152,14 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reflexive</span></code>(edge)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topological_sort</span></code>(graph, predicates)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_nodes_from_graph</span></code>(graph, node_ids)</p></td>
+<td><p>Remove the specified nodes from the graph, and cascade to any edges that reference these nodes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topological_sort</span></code>(graph, predicates)</p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trim_graph</span></code>(graph, seeds[, distance, ...])</p></td>
+<td><p>Remove all nodes more than a specified distance from a set of seed nodes</p></td>
 </tr>
 </tbody>
 </table>

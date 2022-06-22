@@ -1188,6 +1188,24 @@ will be reused</p>
 <h4>ontology-metadata<a class="headerlink" href="#runoak-ontology-metadata" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Shows ontology metadata</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i bioportal: ontology-metadata obi uberon foodon</p>
+</div></blockquote>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">--all</span></code> option to show all ontologies</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i bioportal: ontology-metadata –all</p>
+</div></blockquote>
+<p>By default the output is YAML. You can get the results as TSV:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i bioportal: ontology-metadata –all -O csv</p>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The output data model is not yet standardized – this may change in future</p>
+</div>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ontology-metadata <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
@@ -1203,6 +1221,17 @@ will be reused</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-ontology-metadata-O">
 <span id="cmdoption-runoak-ontology-metadata-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ontology-metadata-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-ontology-metadata-all">
+<span id="cmdoption-runoak-ontology-metadata-no-all"></span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-ontology-metadata-all" title="Permalink to this definition"></a></dt>
+<dd><p>If true, show all ontologies. Use in place of passing an explicit list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -1681,26 +1710,53 @@ the MRCA</p>
 <p>For general instructions, see the viz command, which this is analogous too</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i db/envo.db tree ENVO:00000372 -p i,p</p>
+<div><p>runoak -i envo.db tree ENVO:00000372 -p i,p</p>
 </div></blockquote>
 <p>Note: for many ontologies the tree view will explode, especially if no predicates are specified.
-To avoid this,</p>
+You may wish to start with the is-a tree.</p>
+<p>You can use the –gap-fill option to create a minimal tree:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i envo.db tree –gap-fill ‘pyroclastic shield volcano’ ‘subglacial volcano’ volcano -p i</p>
+</div></blockquote>
+<p>This will show the tree containing only these terms, and the most direct inferred relationships between them.</p>
+<p>You can also give a list of leaf terms and specify –add-mrcas alongside –gap-fill to fill in
+the most informative intermediate classes:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i envo.db tree –add-mrcas –gap-fill ‘pyroclastic shield volcano’ ‘subglacial volcano’ ‘mud volcano’ -p i</p>
+</div></blockquote>
+<p>This will fill in the term “volcano”, as it is the most recent common ancestor of the specified terms</p>
+<p>The –max-hops option can control the distance</p>
+<blockquote>
+<div><p>runoak -i envo.db tree ‘pyroclastic shield volcano’ ‘subglacial volcano’ –max-hops 1 -p i</p>
+</div></blockquote>
+<p>This will generate:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>[] ENVO:00000247 ! volcano</dt><dd><ul>
+<li><dl class="simple">
+<dt>[i] ENVO:00000403 ! shield volcano</dt><dd><ul>
+<li><p>[i] <strong>ENVO:00000372 ! pyroclastic shield volcano</strong></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>[i] <strong>ENVO:00000407 ! subglacial volcano</strong></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Note that ‘volcano’ is the root, even though it is 2 hops from one of the terms, it can be connected
+to at least one of the seeds (highlighted with asterisks) by a path of length 1.</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak tree <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-tree-view">
-<span id="cmdoption-runoak-tree-no-view"></span><span class="sig-name descname"><span class="pre">--view</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-view</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-view" title="Permalink to this definition"></a></dt>
-<dd><p>if view is set then open the image after rendering</p>
-<dl class="field-list simple">
-<dt class="field-odd">Default</dt>
-<dd class="field-odd"><p>True</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-down">
 <span id="cmdoption-runoak-tree-no-down"></span><span class="sig-name descname"><span class="pre">--down</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-down</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-down" title="Permalink to this definition"></a></dt>
@@ -1724,6 +1780,17 @@ To avoid this,</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-add-mrcas">
+<span id="cmdoption-runoak-tree-no-add-mrcas"></span><span class="sig-name descname"><span class="pre">--add-mrcas</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-mrcas</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-tree-add-mrcas" title="Permalink to this definition"></a></dt>
+<dd><p>If set then extend input seed list to include all pairwise MRCAs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-S">
 <span id="cmdoption-runoak-tree-s"></span><span id="cmdoption-runoak-tree-stylemap"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--stylemap</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;stylemap&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-S" title="Permalink to this definition"></a></dt>
 <dd><p>a json file to configure visualization. See <a class="reference external" href="https://berkeleybop.github.io/kgviz-model/">https://berkeleybop.github.io/kgviz-model/</a></p>
@@ -1733,6 +1800,12 @@ To avoid this,</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-C">
 <span id="cmdoption-runoak-tree-c"></span><span id="cmdoption-runoak-tree-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-C" title="Permalink to this definition"></a></dt>
 <dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id1"><span class="problematic" id="id2">`</span></a>-C “styles: [filled, rounded]” `</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-max-hops">
+<span class="sig-name descname"><span class="pre">--max-hops</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;max_hops&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-max-hops" title="Permalink to this definition"></a></dt>
+<dd><p>Trim nodes that are equal to or greater than this distance from terms</p>
 </dd></dl>
 
 <dl class="std option">
@@ -1864,6 +1937,16 @@ see <a class="reference external" href="https://incatools.github.io/ontology-acc
 <blockquote>
 <div><p>runoak -i sqlite:cl.db viz CL:4023094 -p i,p,RO:0002202</p>
 </div></blockquote>
+<p>With abbreviation:</p>
+<blockquote>
+<div><p>runoak -i sqlite:cl.db viz CL:4023094 -p i,p,d</p>
+</div></blockquote>
+<p>We can also limit the number of “hops” from the seed terms; for
+example, all is-a and develops-from ancestors of T-cell, limiting
+to a distance of 2:</p>
+<blockquote>
+<div><p>runoak -i sqlite:cl.db viz ‘T cell’ -p i,d –max-hops 2</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak viz <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1923,6 +2006,12 @@ see <a class="reference external" href="https://incatools.github.io/ontology-acc
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-C">
 <span id="cmdoption-runoak-viz-c"></span><span id="cmdoption-runoak-viz-configure"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--configure</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;configure&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-C" title="Permalink to this definition"></a></dt>
 <dd><p>overrides for stylemap, specified as yaml. E.g. <a href="#id3"><span class="problematic" id="id4">`</span></a>-C “styles: [filled, rounded]” `</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-viz-max-hops">
+<span class="sig-name descname"><span class="pre">--max-hops</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;max_hops&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-max-hops" title="Permalink to this definition"></a></dt>
+<dd><p>Trim nodes that are equal to or greater than this distance from terms</p>
 </dd></dl>
 
 <dl class="std option">
