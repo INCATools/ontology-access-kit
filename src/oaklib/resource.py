@@ -42,7 +42,7 @@ class OntologyResource:
     def valid(self) -> bool:
         return self.slug is not None or self.url is not None
 
-    def materialize(self, implementation: HintOrType["OntologyInterface"], **kwargs):
+    def materialize(self, implementation: HintOrType["OntologyInterface"], **kwargs) -> "OntologyInterface":
         """Materialize the ontology resource with the given implementation."""
         from .implementations import implementation_resolver
 
