@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
         </div>
@@ -81,8 +82,25 @@
   <section id="search-syntax">
 <span id="id1"></span><h1>Search Syntax<a class="headerlink" href="#search-syntax" title="Permalink to this headline"></a></h1>
 <p>The search syntax is used by the <a class="reference internal" href="intro/tutorial01.html#search"><span class="std std-ref">Search</span></a> interface</p>
-<section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>the current syntax is preliminary and will be fully documented once accepted.
+See the tutorial for current documentation.</p>
+</div>
+<section id="boolean-combinations">
+<h2>Boolean Combinations<a class="headerlink" href="#boolean-combinations" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>this feature is experimental and will be documented after acceptance</p>
+</div>
+<p>Multiple terms can be specified with boolean combinators:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SEARCH1</span> <span class="n">SEARCH2</span> <span class="o">.</span><span class="ow">not</span> <span class="n">SEARCH3</span>
+</pre></div>
+</div>
+<p>The implicit combinator is OR. This will take the union of search1 and search2 and subtract search3 results</p>
+</section>
+<section id="search-datamodel">
+<h2>Search Datamodel<a class="headerlink" href="#search-datamodel" title="Permalink to this headline"></a></h2>
 <span class="target" id="module-oaklib.datamodels.search"></span><dl class="py class">
 <dt class="sig sig-object py" id="oaklib.datamodels.search.SearchConfiguration">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.datamodels.search.</span></span><span class="sig-name descname"><span class="pre">SearchConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_if_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">jsonasobj2._jsonobj.JsonObj</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oaklib/datamodels/search.html#SearchConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.datamodels.search.SearchConfiguration" title="Permalink to this definition"></a></dt>
