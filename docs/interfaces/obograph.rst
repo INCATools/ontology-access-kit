@@ -1,3 +1,5 @@
+.. _obograph_interface:
+
 OboGraph Interface
 ------------------
 

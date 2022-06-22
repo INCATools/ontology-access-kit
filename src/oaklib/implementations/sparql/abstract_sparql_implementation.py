@@ -25,7 +25,6 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBO_PURL,
-    SKOS_EXACT_MATCH,
     SYNONYM_PREDICATES,
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate

@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any, Dict, Iterator, List, Tuple
+from typing import Any, Iterator, List, Tuple
 
 import rdflib
 from rdflib import URIRef
@@ -65,4 +65,3 @@ class RdfInterface(BasicOntologyInterface, ABC):
         :param map_to_curies:
         :return:
         """
-        pass

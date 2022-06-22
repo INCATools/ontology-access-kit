@@ -1,15 +1,14 @@
 import logging
-import math
 from abc import ABC
-from typing import Dict, Iterable, Iterator, List, Tuple
+from typing import Iterable, Iterator, List, Tuple
 
 import networkx as nx
 
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
-from oaklib.utilities.obograph_utils import as_digraph, as_multi_digraph
+from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.obograph_utils import as_digraph
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
 

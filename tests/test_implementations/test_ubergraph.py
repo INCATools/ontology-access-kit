@@ -140,7 +140,7 @@ class TestUbergraphImplementation(unittest.TestCase):
             assert len(g.nodes) > 0
             assert len(g.edges) > 0
             node_ids = [n.id for n in g.nodes]
-            edges = [(e.sub, e.pred, e.obj) for e in g.edges]
+            [(e.sub, e.pred, e.obj) for e in g.edges]
             assert VACUOLE in node_ids
             assert CELLULAR_COMPONENT in node_ids
             if preds == [IS_A]:

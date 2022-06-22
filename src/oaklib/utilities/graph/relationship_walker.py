@@ -5,8 +5,7 @@ Utilities for traversing Ontology Graphs
 
 """
 from copy import copy
-from dataclasses import dataclass
-from typing import Dict, Iterable, List, Tuple, Union
+from typing import Iterable, List, Union
 
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,

@@ -1,8 +1,4 @@
 import unittest
-from collections import Iterator
-
-from linkml_runtime.dumpers import yaml_dumper
-from sssom import Mapping
 
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
@@ -11,12 +7,8 @@ from oaklib.omk.omk_mapping_utils import (
     unreciprocated_mappings,
 )
 from oaklib.resource import OntologyResource
-from oaklib.utilities.lexical.lexical_indexer import (
-    create_lexical_index,
-    save_lexical_index,
-)
 from oaklib.utilities.mapping.sssom_utils import mappings_to_pairs
-from tests import INPUT_DIR, OUTPUT_DIR
+from tests import INPUT_DIR
 
 TEST_ONT = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_OWL = INPUT_DIR / "unreciprocated-mapping-test.owl"

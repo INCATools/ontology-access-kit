@@ -6,15 +6,24 @@ from pronto import Ontology
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.resource import OntologyResource
-from oaklib.utilities.graph.relationship_walker import walk_up
 from oaklib.utilities.obograph_utils import (
     as_multi_digraph,
     filter_by_predicates,
     graph_as_dict,
     graph_to_tree,
+    trim_graph,
 )
-from tests import INPUT_DIR, OUTPUT_DIR
+from tests import (
+    CELLULAR_ORGANISMS,
+    HUMAN,
+    IMBO,
+    INPUT_DIR,
+    NUCLEAR_MEMBRANE,
+    OUTPUT_DIR,
+    VACUOLE,
+)
 from tests.test_cli import NUCLEUS
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
@@ -37,7 +46,6 @@ class TestOboGraphUtils(unittest.TestCase):
 
     def test_as_networkx(self):
         mdg = as_multi_digraph(self.graph)
-        found = False
         self.assertIn(NUCLEUS, mdg.nodes)
         for e in mdg.edges(data=True):
             logging.info(f"SU={e}")
@@ -64,3 +72,34 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertIn("[i] BFO:0000015 ! process", t)
         self.assertIn("* [p] GO:0019209 ! kinase activator activity", t)
         self.assertGreater(len(lines), 100)
+
+    def test_trim_ancestors(self):
+        oi = self.oi
+        both = [IS_A, PART_OF]
+        expected_list = [
+            ([], 0, True, both, 0),
+            ([NUCLEUS], 0, True, both, 0),
+            ([NUCLEUS], 1, True, both, 1),
+            ([NUCLEUS, IMBO], 0, True, both, 1),
+            ([NUCLEUS, IMBO], 1, True, both, 5),
+            ([NUCLEUS, VACUOLE], 0, True, both, 0),
+            ([NUCLEUS, VACUOLE], 1, True, both, 3),
+            ([NUCLEUS, VACUOLE, IMBO], 1, True, both, 8),
+            ([NUCLEUS, VACUOLE, IMBO], 1, False, [IS_A], 4),
+            ([HUMAN, CELLULAR_ORGANISMS], 1, True, [IS_A], 8),
+            ([HUMAN, CELLULAR_ORGANISMS], 1, False, [IS_A], 2),
+        ]
+        if isinstance(oi, OboGraphInterface):
+            for ex in expected_list:
+                seeds, dist, include_intermediates, predicates, expected_len = ex
+                g = oi.ancestor_graph(seeds, predicates=predicates)
+                trimmed = trim_graph(
+                    g, seeds, distance=dist, include_intermediates=include_intermediates
+                )
+                if expected_len is not None:
+                    self.assertEqual(expected_len, len(trimmed.edges))
+                node_ids = [n.id for n in trimmed.nodes]
+                for seed in seeds:
+                    self.assertIn(seed, node_ids)
+        else:
+            raise NotImplementedError

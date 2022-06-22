@@ -1,6 +1,5 @@
 from abc import ABC
-from dataclasses import dataclass
-from typing import Dict, Iterable, List
+from typing import Iterable
 
 from oaklib.datamodels.validation_datamodel import (
     RepairConfiguration,

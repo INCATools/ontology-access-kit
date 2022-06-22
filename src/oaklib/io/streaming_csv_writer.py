@@ -1,10 +1,8 @@
 import csv
-import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Union
 
 from linkml_runtime import CurieNamespace
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib.io.streaming_writer import StreamingWriter

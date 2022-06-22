@@ -1,13 +1,12 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Dict, Iterator, List, Tuple
+from typing import Iterator, List
 
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
-    RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
-from oaklib.types import CURIE, LABEL, PRED_CURIE, URI
+from oaklib.types import CURIE, PRED_CURIE
 
 
 @dataclass
@@ -16,7 +15,7 @@ class SubsetStrategy:
 
 
 class SyntacticLocalityModuleExtraction(SubsetStrategy):
-    module_type: str  ## TODO enum
+    module_type: str  # TODO enum
 
 
 class GraphWalkExtraction(SubsetStrategy):

@@ -6,20 +6,15 @@ import unittest
 import yaml
 from click.testing import CliRunner
 
-from oaklib.cli import main, search
+from oaklib.cli import main
 from oaklib.datamodels.vocabulary import IN_TAXON
 from tests import (
     ATOM,
-    BACTERIA,
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
-    EUKARYOTA,
-    HUMAN,
     IMBO,
     INPUT_DIR,
-    INTERNEURON,
     INTRACELLULAR,
-    MAMMALIA,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEATED,
@@ -52,7 +47,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertIn("search", out)
         self.assertIn("subset", out)
         self.assertIn("validate", out)
@@ -63,8 +58,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"]
             )
-            out = result.stdout
-            err = result.stderr
+            result.stdout
+            result.stderr
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -74,8 +69,8 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x"]
             )
-            out = result.stdout
-            err = result.stderr
+            result.stdout
+            result.stderr
             self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 contents = "\n".join(file.readlines())
@@ -83,7 +78,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 self.assertIn("Wikipedia:Cell_nucleus", contents)
                 self.assertNotIn("A membrane-bounded organelle", contents)
 
-    ## OBOGRAPH
+    # OBOGRAPH
 
     def test_obograph_local(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
@@ -93,13 +88,13 @@ class TestCommandLineInterface(unittest.TestCase):
             )
             out = self._out()
             assert "GO:0043226" in out
-            result = self.runner.invoke(
+            self.runner.invoke(
                 main, ["-i", input_arg, "ancestors", "-p", "i", "plasma membrane", "-o", TEST_OUT]
             )
             out = self._out()
             assert "GO:0016020" in out
             assert "GO:0043226" not in out
-            result = self.runner.invoke(
+            self.runner.invoke(
                 main, ["-i", input_arg, "descendants", "-p", "i", "GO:0016020", "-o", TEST_OUT]
             )
             out = self._out()
@@ -126,8 +121,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 TEST_OUT,
             ],
         )
-        out = result.stdout
-        err = result.stderr
+        result.stdout
+        result.stderr
         self.assertEqual(0, result.exit_code)
         contents = self._out()
         self.assertIn(NUCLEUS, contents)
@@ -137,7 +132,7 @@ class TestCommandLineInterface(unittest.TestCase):
         with open(TEST_OUT) as f:
             g = json.load(f)
             nodes = g["nodes"]
-            edges = g["edges"]
+            g["edges"]
             [nucleus_node] = [n for n in nodes if n["id"] == NUCLEUS]
             self.assertEqual(nucleus_node["lbl"], "nucleus")
 
@@ -150,38 +145,38 @@ class TestCommandLineInterface(unittest.TestCase):
             out = result.stdout
             self.assertIn(NUCLEAR_ENVELOPE, out)
 
-    ## MAPPINGS
+    # MAPPINGS
 
     def test_mappings_local(self):
         result = self.runner.invoke(
             main, ["-i", str(TEST_ONT), "term-mappings", "GO:0016740", "-o", TEST_OUT]
         )
         out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
         self.assertIn("Reactome:R-HSA-1483089", out)
 
-    ## TAXON
+    # TAXON
 
     def test_taxon_constraints_local(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT]
             )
-            out = result.stdout
-            err = result.stderr
+            result.stdout
+            result.stderr
             self.assertEqual(0, result.exit_code)
             contents = self._out()
             self.assertIn("Eukaryota", contents)
 
-    ## SEARCH
+    # SEARCH
 
     def test_search_help(self):
         result = self.runner.invoke(main, ["search", "--help"])
         out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn("Usage:", out)
         self.assertIn("Example:", out)
@@ -288,12 +283,12 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
 
-    ## VALIDATE
+    # VALIDATE
 
     def test_validate_help(self):
         result = self.runner.invoke(main, ["validate", "--help"])
-        out = result.stdout
-        err = result.stderr
+        result.stdout
+        result.stderr
         self.assertEqual(0, result.exit_code)
 
     def test_validate_bad_ontology(self):
@@ -319,7 +314,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn(ATOM, out)
             self.assertEqual("", err)
 
-    ## LEXICAL
+    # LEXICAL
 
     def test_lexmatch_owl(self):
         outfile = f"{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv"
@@ -335,7 +330,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        out = result.stdout
+        result.stdout
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         with open(outfile) as stream:
@@ -358,7 +353,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 outfile,
             ],
         )
-        out = result.stdout
+        result.stdout
         err = result.stderr
         self.assertEqual("", err)
         self.assertEqual(0, result.exit_code)
@@ -375,7 +370,7 @@ class TestCommandLineInterface(unittest.TestCase):
             ["-i", TEST_DB, "similarity", NUCLEAR_MEMBRANE, VACUOLE, "-p", "i,p", "-o", TEST_OUT],
         )
         # out = result.stdout
-        err = result.stderr
+        result.stderr
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn(IMBO, out)

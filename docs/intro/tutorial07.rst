@@ -1,3 +1,5 @@
+.. _tutorial07:
+
 Part 7: SQLite files
 =============
 

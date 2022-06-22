@@ -9,7 +9,7 @@ from oaklib.datamodels.mapping_rules_datamodel import (
     Postcondition,
     Precondition,
 )
-from oaklib.datamodels.vocabulary import HAS_EXACT_SYNONYM, IS_A, SKOS_EXACT_MATCH
+from oaklib.datamodels.vocabulary import HAS_EXACT_SYNONYM, SKOS_EXACT_MATCH
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation

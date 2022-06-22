@@ -1,15 +1,10 @@
 import unittest
 
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 
 from oaklib.datamodels import search_datamodel
-from oaklib.datamodels.search import (
-    DEFAULT_SEARCH_PROPERTIES,
-    create_search_configuration,
-)
+from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from tests import NUCLEUS, output_path
 
 TEST_PROPS = [SearchProperty.LABEL, SearchProperty.ALIAS]
 

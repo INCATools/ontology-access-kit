@@ -1,7 +1,7 @@
 from linkml_runtime import CurieNamespace
 
 import oaklib.datamodels.ontology_metadata as omd
-from oaklib.datamodels.ontology_metadata import slots as omd_slots
+from oaklib.datamodels.ontology_metadata import slots as omd_slots  # noqa F401
 
 WIKIDATA = CurieNamespace("wikidata", "http://www.wikidata.org/entity/")
 WDP = CurieNamespace("wdp", "http://www.wikidata.org/prop/direct/")
@@ -37,6 +37,7 @@ RDF_TYPE = "rdf:type"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
 PART_OF = "BFO:0000050"
+DEVELOPS_FROM = "RO:0002202"
 HAS_PART = "BFO:0000051"
 ONLY_IN_TAXON = "RO:0002160"
 NEVER_IN_TAXON = "RO:0002161"

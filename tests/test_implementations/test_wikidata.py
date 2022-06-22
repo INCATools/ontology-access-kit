@@ -90,8 +90,8 @@ class TestWikidataImplementation(unittest.TestCase):
             print(yaml_dumper.dumps(g))
             assert len(g.nodes) > 0
             assert len(g.edges) > 0
-            node_ids = [n.id for n in g.nodes]
-            edges = [(e.sub, e.pred, e.obj) for e in g.edges]
+            [n.id for n in g.nodes]
+            [(e.sub, e.pred, e.obj) for e in g.edges]
 
     def test_extract_triples(self):
         oi = self.oi

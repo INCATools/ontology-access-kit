@@ -71,7 +71,6 @@ def unreciprocated_mappings(
     :return:
     """
     groups = group_mappings_by_source_pairs(subject_oi, object_oi)
-    cache = {}
     for m in subject_oi.all_sssom_mappings():
         subject_src = subject_source(m)
         object_src = object_source(m)

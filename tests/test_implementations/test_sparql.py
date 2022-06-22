@@ -6,7 +6,6 @@ from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import (
@@ -143,7 +142,7 @@ class TestSparqlImplementation(unittest.TestCase):
         pix = index_graph_edges_by_predicate(g)
         self.assertIn(v2c, pix[PART_OF])
         self.assertNotIn(v2c, pix[IS_A])
-        obj = graph_as_dict(g)
+        graph_as_dict(g)
         assert "nodes" in g
         assert "edges" in g
         # check is reflexive
