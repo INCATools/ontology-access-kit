@@ -79,19 +79,16 @@
              
   <h1>Source code for oaklib.interfaces.owl_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="c1"># TODO: add funowl to dependencies</span>
 <span class="kn">import</span> <span class="nn">funowl</span>
 <span class="kn">from</span> <span class="nn">funowl</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">IRI</span><span class="p">,</span>
-    <span class="n">Annotatable</span><span class="p">,</span>
     <span class="n">AnnotationAssertion</span><span class="p">,</span>
-    <span class="n">AnnotationAxiom</span><span class="p">,</span>
     <span class="n">Axiom</span><span class="p">,</span>
     <span class="n">Class</span><span class="p">,</span>
     <span class="n">ClassExpression</span><span class="p">,</span>
@@ -100,7 +97,6 @@
     <span class="n">Literal</span><span class="p">,</span>
     <span class="n">ObjectAllValuesFrom</span><span class="p">,</span>
     <span class="n">ObjectIntersectionOf</span><span class="p">,</span>
-    <span class="n">ObjectProperty</span><span class="p">,</span>
     <span class="n">ObjectPropertyExpression</span><span class="p">,</span>
     <span class="n">ObjectSomeValuesFrom</span><span class="p">,</span>
     <span class="n">ObjectUnionOf</span><span class="p">,</span>
@@ -109,7 +105,7 @@
 <span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">LABEL</span><span class="p">,</span> <span class="n">URI</span>
+<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
 
 <span class="k">class</span> <span class="nc">OwlProfile</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
