@@ -268,9 +268,13 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def _merge_graphs(self, graphs: List[Optional[Graph]]) -> Graph:
         g = Graph(id="merged")
+        node_ids = [n.id for n in g.nodes]
         for src in graphs:
             if src is not None:
-                g.nodes += src.nodes
+                for n in src.nodes:
+                    if n.id not in node_ids:
+                        g.nodes.append(n)
+                        node_ids.append(n.id)
         for src in graphs:
             if src is not None:
                 g.edges += src.edges
