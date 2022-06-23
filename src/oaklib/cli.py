@@ -1254,7 +1254,7 @@ def convert(output: str, output_type):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         resource = get_resource_from_shorthand(output, format=output_type)
-        curies = impl.store(resource)
+        # curies = impl.store(resource)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1576,13 +1576,13 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     impl = settings.impl
     writer = StreamingYamlWriter(output)
     if all:
-        if curies:
-            raise ValueError("Do not specify explicit curies with --all option")
-        curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
+        if terms:
+            raise ValueError("Do not specify explicit terms with --all option")
+        curies = query_terms_iterator(terms, impl)
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in query_terms_iterator(terms, impl):
+        for curie in curies:
             st = get_term_with_taxon_constraints(
                 impl,
                 curie,

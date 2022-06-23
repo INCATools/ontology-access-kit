@@ -13,7 +13,7 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
 
         that the operations provided here are similar to the graph-walking
         operations provided in :class:`.OboGraphInterface`.
-        The main difference is that a RG provides a more restricted 
+        The main difference is that a RG provides a more restricted
         and formally correct set of entailments.
     """
 

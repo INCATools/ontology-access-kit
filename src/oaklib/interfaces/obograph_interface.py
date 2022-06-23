@@ -173,7 +173,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[CURIE]:
         """
-        Descendants obtained from a walk downwards starting from start_curies 
+        Descendants obtained from a walk downwards starting from start_curies
         ending in roots, following only the specified predicates.
 
         .. note::
