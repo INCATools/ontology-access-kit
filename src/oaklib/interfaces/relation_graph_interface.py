@@ -11,8 +11,10 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
 
     .. note ::
 
-        that the operations provided here are similar to the graph-walking operations provided in :class:`.OboGraphInterface`.
-        The main difference is that a RG provides a more restricted and formally correct set of entailments
+        that the operations provided here are similar to the graph-walking
+        operations provided in :class:`.OboGraphInterface`.
+        The main difference is that a RG provides a more restricted 
+        and formally correct set of entailments.
     """
 
     def entailed_outgoing_relationships_by_curie(

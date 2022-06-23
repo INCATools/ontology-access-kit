@@ -366,7 +366,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             clauses.append(f'?s rdfs:label "{label}"@{self.preferred_language}')
         clauses_j = " UNION ".join([f"{{ {c} }}" for c in clauses])
         query = SparqlQuery(select=["?s"], where=[f"{{ {clauses_j} }}"])
-        #                            where=[f'{{ {{ ?s rdfs:label "{label}" }} UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
+        # where=[f'{{ {{ ?s rdfs:label "{label}" }} 
+        # UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
         bindings = self._query(query)
         return [self.uri_to_curie(row["s"]["value"]) for row in bindings]
 

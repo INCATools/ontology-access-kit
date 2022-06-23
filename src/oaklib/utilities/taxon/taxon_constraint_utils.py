@@ -126,7 +126,8 @@ def test_candidate_taxon_constraint(
                         candidate_tc.redundant = True
                         candidate_tc.redundant_with.append(existing_candidate_tc)
                         candidate_tc.comments.append(
-                            f"Redundant with pre-existing constraint {existing_candidate_tc.subject} // {existing_candidate_tc.taxon}"
+                            f"Redundant with pre-existing constraint \
+                            {existing_candidate_tc.subject} // {existing_candidate_tc.taxon}"
                         )
                         break
     # check for inconsistencies
