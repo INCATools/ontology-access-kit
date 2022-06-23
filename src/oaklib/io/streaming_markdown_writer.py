@@ -36,13 +36,13 @@ class StreamingMarkdownWriter(StreamingWriter):
         defn = oi.get_definition_by_curie(curie)
         if defn:
             self.file.write(f"_{defn}_\n\n")
-        self.file.write(f"### Xrefs\n\n")
+        self.file.write("### Xrefs\n\n")
 
         for _, x in oi.get_simple_mappings_by_curie(curie):
             self.file.write(f" * {x}\n")
         self.file.write("\n")
         if isinstance(oi, OboGraphInterface):
-            self.file.write(f"### Relationships\n\n")
+            self.file.write("### Relationships\n\n")
             for k, vs in oi.get_outgoing_relationship_map_by_curie(curie).items():
                 p = predicate_code_map.get(k, None)
                 if p is None:
@@ -53,7 +53,7 @@ class StreamingMarkdownWriter(StreamingWriter):
                 for v in vs:
                     self.file.write(f'    * {v} "{oi.get_label_by_curie(curie)}"\n')
         if "t" in self.display_options and isinstance(oi, OboGraphInterface):
-            self.file.write(f"### Taxon Constraints\n\n")
+            self.file.write("### Taxon Constraints\n\n")
             tc_subj = get_term_with_taxon_constraints(oi, curie)
             for tc in tc_subj.never_in:
                 self.file.write(f"* {tc}\n")

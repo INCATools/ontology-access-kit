@@ -118,7 +118,8 @@ def regex_to_sql_like(regex: str) -> str:
     """
     convert a regex to a LIKE
 
-    TODO: implement various different DBMS flavors https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit
+    TODO: implement various different DBMS flavors 
+    https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit
 
     :param regex:
     :return:
@@ -427,7 +428,7 @@ class SqlImplementation(
                 shutil.copyfile(self.resource.slug, resource.slug)
                 new_oi = type(self)(resource)
                 return new_oi
-        raise NotImplementedError(f"Can only clone sqlite to sqlite")
+        raise NotImplementedError("Can only clone sqlite to sqlite")
 
     def dump(self, path: str = None, syntax: str = None):
         if syntax is None or syntax == "ttl":
@@ -922,7 +923,7 @@ class SqlImplementation(
                         subject=patch.subject, predicate=patch.predicate, object=patch.object
                     )
                 )
-                logging.warning(f"entailed_edge is now stale")
+                logging.warning("entailed_edge is now stale")
             elif isinstance(patch, kgcl.EdgeDeletion):
                 self._execute(
                     delete(Statements).where(
@@ -933,13 +934,13 @@ class SqlImplementation(
                         )
                     )
                 )
-                logging.warning(f"entailed_edge is now stale")
+                logging.warning("entailed_edge is now stale")
             elif isinstance(patch, kgcl.NodeMove):
                 raise NotImplementedError
                 # self._execute(delete(Statements).where(and_(Statements.subject==patch.subject,
                 #                                            Statements.predicate==patch.predicate,
                 #                                            Statements.object==patch.object)))
-                logging.warning(f"entailed_edge is now stale")
+                logging.warning("entailed_edge is now stale")
             else:
                 raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         else:
@@ -948,7 +949,7 @@ class SqlImplementation(
     def save(
         self,
     ):
-        logging.info(f"Committing and flushing changes")
+        logging.info("Committing and flushing changes")
         self.session.commit()
         self.session.flush()
 

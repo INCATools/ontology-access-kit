@@ -35,7 +35,7 @@ class StreamingOboWriter(StreamingWriter):
             axioms = list(oi.statements_with_annotations(curie))
         else:
             axioms = []
-        self.line(f"[Term]")
+        self.line("[Term]")
         self.line(f"id: {curie}")
         self.tag_val("name", oi.get_label_by_curie(curie))
         defn = oi.get_definition_by_curie(curie)

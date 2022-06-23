@@ -45,7 +45,7 @@ class StreamingInfoWriter(StreamingWriter):
                     self.file.write(f" {p}: [")
                     for v in vs:
                         self.file.write(f' {v} "{oi.get_label_by_curie(curie)}"')
-                    self.file.write(f"]")
+                    self.file.write("]")
             if show_all or "d" in self.display_options:
                 defn = oi.get_definition_by_curie(curie)
                 if defn:

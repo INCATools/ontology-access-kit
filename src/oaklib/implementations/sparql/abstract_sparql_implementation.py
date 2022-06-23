@@ -158,7 +158,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def all_entity_curies(self) -> Iterable[CURIE]:
         query = SparqlQuery(
-            select=["?s"], distinct=True, where=[f"?s a ?cls", "FILTER (isIRI(?s))"]
+            select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"]
         )
         bindings = self._query(query.query_str())
         for row in bindings:
@@ -173,7 +173,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             yield (self.uri_to_curie(row["p"]["value"]), self.uri_to_curie(row["o"]["value"]))
 
     def all_ontology_curies(self) -> Iterable[CURIE]:
-        query = SparqlQuery(select=["?s"], where=[f"?s rdf:type owl:Ontology"])
+        query = SparqlQuery(select=["?s"], where=["?s rdf:type owl:Ontology"])
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
@@ -396,7 +396,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def dump(self, path: str = None, syntax: str = "turtle"):
         if self.named_graph is None and not self.graph:
-            raise ValueError(f"Must specify a named graph to dump for a remote triplestore")
+            raise ValueError("Must specify a named graph to dump for a remote triplestore")
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
         bindings = self._query(query)
         g = rdflib.Graph()
@@ -440,7 +440,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
                 filter_clause = f'regex(str(?v), "{search_term}", "i")'
             elif config.syntax == SearchTermSyntax(SearchTermSyntax.LUCENE):
-                raise NotImplementedError(f"Lucene not implemented")
+                raise NotImplementedError("Lucene not implemented")
             elif config.is_partial:
                 filter_clause = f'contains(str(?v), "{search_term}")'
             else:
@@ -453,7 +453,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         if len(preds) == 1:
             where = [f"?s {preds[0]} ?v "]
         else:
-            where = [f"?s ?p ?v ", f'VALUES ?p {{ {" ".join(preds)} }}']
+            where = ["?s ?p ?v ", f'VALUES ?p {{ {" ".join(preds)} }}']
         query = SparqlQuery(select=["?s"], where=where + [filter_clause])
         bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
@@ -475,7 +475,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         if not predicates or predicates != [IS_A]:
             return super().descendants(start_curies, predicates)
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
-        where = [f"?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
+        where = ["?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
         bindings = self._query(query.query_str())
         for row in bindings:
@@ -614,4 +614,4 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 format = "turtle"
             self.graph.serialize(destination=self.resource.local_path, format=format)
         else:
-            logging.debug(f"Save has no effect on remote triplestore")
+            logging.debug("Save has no effect on remote triplestore")

@@ -205,13 +205,13 @@ def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[
     """
     dg = as_digraph(graph)
     counts = defaultdict(int)
-    logging.info(f"Calculating visits")
+    logging.info("Calculating visits")
     for curie in curies:
         for a in set(list(nx.ancestors(dg, curie)) + [curie]):
             counts[a] += 1
-    logging.info(f"Calculating distance matrix")
+    logging.info("Calculating distance matrix")
     splens = dict(nx.all_pairs_shortest_path_length(dg))
-    logging.info(f"Getting final stats")
+    logging.info("Getting final stats")
     stats = {}
     for node in dg.nodes:
         stats[node] = dict(

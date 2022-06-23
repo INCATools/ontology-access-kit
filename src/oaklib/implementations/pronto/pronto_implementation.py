@@ -328,7 +328,6 @@ class ProntoImplementation(
         t = self._entity(curie)
         m = defaultdict(list)
         for ann in t.annotations:
-            p = ann.property
             if isinstance(ann, LiteralPropertyValue):
                 m[ann.property].append(ann.literal)
             elif isinstance(ann, ResourcePropertyValue):

@@ -1460,7 +1460,7 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     writer = StreamingYamlWriter(output)
     if all:
         if curies:
-            raise ValueError(f"Do not specify explicit curies with --all option")
+            raise ValueError("Do not specify explicit curies with --all option")
         curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
@@ -1634,7 +1634,7 @@ def validate_multiple(dbs, output, schema, cutoff: int):
                         logging.error(f"Could not dump {result} -- bad identifier?")
         except Exception as e:
             logging.error(e)
-            logging.error(f"Problem with db")
+            logging.error("Problem with db")
         for k, v in counts.items():
             print(f"{k}:: {v}")
 
@@ -1692,7 +1692,7 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
         k, v = p.split("=")
         curie_map[k] = v
     if not replace:
-        raise NotImplementedError(f"Must pass --replace as non-in-place updates not yet supported")
+        raise NotImplementedError("Must pass --replace as non-in-place updates not yet supported")
     if isinstance(impl, PatcherInterface):
         impl.migrate_curies(curie_map)
         if replace:
@@ -1808,10 +1808,10 @@ def diff_terms(output, other_ontology, terms):
         diff = impl.compare_term_in_two_ontologies(other_impl, term, other_curie=other_term)
         # THIS WILL CHANGE!!!
         left, right = diff
-        print(f"LEFT")
+        print("LEFT")
         for x in left:
             print(f" * {x}")
-        print(f"RIGHT")
+        print("RIGHT")
         for x in right:
             print(f" * {x}")
     else:
@@ -1871,7 +1871,7 @@ def set_obsolete(output, output_type, terms):
         for term in query_terms_iterator(terms, impl):
             impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=term))
         if not settings.autosave and not output:
-            logging.warning(f"--autosave not passed, changes are NOT saved")
+            logging.warning("--autosave not passed, changes are NOT saved")
         if output:
             impl.dump(output, output_type)
         # impl.save()

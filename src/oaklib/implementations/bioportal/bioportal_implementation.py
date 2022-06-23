@@ -153,7 +153,6 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     def _annotator_json_to_results(
         self, json_list: List[Any], text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
-        results = []
         seen = {}
         for obj in json_list:
             ac_obj = obj["annotatedClass"]

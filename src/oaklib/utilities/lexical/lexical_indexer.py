@@ -48,7 +48,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
     :param oi:
     :return:
     """
-    logging.info(f"Adding labels from URIs")
+    logging.info("Adding labels from URIs")
     curies = list(oi.all_entity_curies())
     for curie in curies:
         if not oi.get_label_by_curie(curie):

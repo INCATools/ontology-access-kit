@@ -20,6 +20,7 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
     _sparql_values,
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
+from oaklib.implementations.ubergraph.ubergraph_implementation import RelationGraphEnum
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP, RELATIONSHIP_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -130,7 +131,7 @@ class WikidataImplementation(
     ) -> Iterable[Tuple[CURIE, CURIE]]:
         query_uri = self.curie_to_sparql(curie)
         query = SparqlQuery(
-            select=["?p", "?o"], where=[f"{query_uri} ?p ?o", f"FILTER (isIRI(?o))"]
+            select=["?p", "?o"], where=[f"{query_uri} ?p ?o", "FILTER (isIRI(?o))"]
         )
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
@@ -263,7 +264,7 @@ class WikidataImplementation(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[CURIE]:
         if predicates is None:
-            raise NotImplementedError(f"Unbound predicates not supported for Wikidata")
+            raise NotImplementedError("Unbound predicates not supported for Wikidata")
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
@@ -281,7 +282,7 @@ class WikidataImplementation(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[CURIE]:
         if predicates is None:
-            raise NotImplementedError(f"Unbound predicates not supported for Wikidata")
+            raise NotImplementedError("Unbound predicates not supported for Wikidata")
         if not isinstance(start_curies, list):
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
@@ -304,7 +305,7 @@ class WikidataImplementation(
     ) -> Iterator[RELATIONSHIP]:
         # TODO: compare with https://api.triplydb.com/s/_mZ9q_-rg
         query_uris = [self.curie_to_sparql(curie) for curie in seed_curies]
-        where = [f"?s ?p ?o", _sparql_values("s", query_uris), _sparql_values("o", query_uris)]
+        where = ["?s ?p ?o", _sparql_values("s", query_uris), _sparql_values("o", query_uris)]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("p", pred_uris))
@@ -332,7 +333,7 @@ class WikidataImplementation(
     ) -> Iterable[CURIE]:
         s_uri = self.curie_to_sparql(subject)
         o_uri = self.curie_to_sparql(object)
-        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", f"?a a owl:Class"]
+        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", "?a a owl:Class"]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("sp", pred_uris))
@@ -347,8 +348,8 @@ class WikidataImplementation(
     ) -> Iterable[CURIE]:
         s_uri = self.curie_to_sparql(subject)
         o_uri = self.curie_to_sparql(object)
-        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", f"?a a owl:Class"]
-        where2 = [f"{s_uri} ?sp2 ?a2", f"{o_uri} ?op2 ?a2", f"?a2 ?ap2 ?a", f"FILTER( ?a != ?a2)"]
+        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", "?a a owl:Class"]
+        where2 = [f"{s_uri} ?sp2 ?a2", f"{o_uri} ?op2 ?a2", "?a2 ?ap2 ?a", "FILTER( ?a != ?a2)"]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("sp", pred_uris))
@@ -367,7 +368,7 @@ class WikidataImplementation(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ) -> float:
         if predicates is not None:
-            raise NotImplementedError(f"Only predetermined predicates allowed")
+            raise NotImplementedError("Only predetermined predicates allowed")
         ics = self._get_anns(curie, URIRef(RelationGraphEnum.normalizedInformationContent.value))
         if len(ics) > 1:
             raise ValueError(f"Multiple ICs for {curie} = {ics}")
@@ -381,7 +382,7 @@ class WikidataImplementation(
         where = [
             f"{s_uri} ?sp ?a",
             f"{o_uri} ?op ?a",
-            f"?a a owl:Class",
+            "?a a owl:Class",
             f"?a <{RelationGraphEnum.normalizedInformationContent.value}> ?ic",
         ]
         if predicates:

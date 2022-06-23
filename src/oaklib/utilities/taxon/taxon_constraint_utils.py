@@ -315,7 +315,7 @@ def parse_gain_loss_file(file: TextIO) -> Iterator[SubjectTerm]:
             else:
                 taxon = part
             if curr is None:
-                raise ValueError(f"Need to specify directive")
+                raise ValueError("Need to specify directive")
             import re
 
             match = re.search(r"(\S+)\((.*)\)", taxon)
