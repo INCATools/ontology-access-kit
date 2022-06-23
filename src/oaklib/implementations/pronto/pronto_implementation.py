@@ -328,7 +328,6 @@ class ProntoImplementation(
         t = self._entity(curie)
         m = defaultdict(list)
         for ann in t.annotations:
-            p = ann.property
             if isinstance(ann, LiteralPropertyValue):
                 m[ann.property].append(ann.literal)
             elif isinstance(ann, ResourcePropertyValue):
@@ -415,7 +414,7 @@ class ProntoImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        if config == None:
+        if config is None:
             config = SearchConfiguration()
         matches = []
         mfunc = None
@@ -435,7 +434,7 @@ class ProntoImplementation(
             if (
                 search_all
                 or SearchProperty(SearchProperty.LABEL)
-                or not config.properties in config.properties
+                or config.properties not in config.properties
             ):
                 if t.name and mfunc(t.name):
                     matches.append(t.id)

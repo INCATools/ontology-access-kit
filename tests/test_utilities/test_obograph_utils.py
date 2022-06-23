@@ -2,8 +2,6 @@ import json
 import logging
 import unittest
 
-from pronto import Ontology
-
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -15,15 +13,7 @@ from oaklib.utilities.obograph_utils import (
     graph_to_tree,
     trim_graph,
 )
-from tests import (
-    CELLULAR_ORGANISMS,
-    HUMAN,
-    IMBO,
-    INPUT_DIR,
-    NUCLEAR_MEMBRANE,
-    OUTPUT_DIR,
-    VACUOLE,
-)
+from tests import CELLULAR_ORGANISMS, HUMAN, IMBO, INPUT_DIR, OUTPUT_DIR, VACUOLE
 from tests.test_cli import NUCLEUS
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"

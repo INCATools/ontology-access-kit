@@ -29,13 +29,8 @@ class StreamingOboWriter(StreamingWriter):
         self.file.write("\n")
 
     def emit_curie(self, curie: CURIE):
-        file = self.file
         oi = self.ontology_interface
-        if isinstance(oi, MetadataInterface):
-            axioms = list(oi.statements_with_annotations(curie))
-        else:
-            axioms = []
-        self.line(f"[Term]")
+        self.line("[Term]")
         self.line(f"id: {curie}")
         self.tag_val("name", oi.get_label_by_curie(curie))
         defn = oi.get_definition_by_curie(curie)

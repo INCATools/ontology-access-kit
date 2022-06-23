@@ -357,7 +357,8 @@ class SearchProperty(EnumDefinitionImpl):
     )
     INFORMATIVE_TEXT = PermissibleValue(
         text="INFORMATIVE_TEXT",
-        description="Any informative text attached to the entity including comments, definitions, descriptions, examples",
+        description="Any informative text attached to the entity \
+            including comments, definitions, descriptions, examples",
     )
     ANYTHING = PermissibleValue(text="ANYTHING", meaning=RDF.Property)
 

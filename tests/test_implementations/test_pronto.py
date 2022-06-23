@@ -53,7 +53,10 @@ class TestProntoImplementation(unittest.TestCase):
         # TODO: pronto obo parsing excludes alt_ids
         # self.assertCountEqual(list(json_oi.all_entity_curies()), list(oi_src.all_entity_curies()))
         # TODO: workaround for https://github.com/althonos/pronto/issues/164
-        # json_oi.store(OntologyResource(slug='go-nucleus.from-json.obo', directory=OUTPUT_DIR, local=True, format='obo'))
+        # json_oi.store
+        # (
+        #     OntologyResource(slug='go-nucleus.from-json.obo', directory=OUTPUT_DIR, local=True, format='obo')
+        #     )
 
     def test_relationships(self):
         oi = self.oi
@@ -310,6 +313,6 @@ class TestProntoImplementation(unittest.TestCase):
             kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE")
         )
         oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
-        with self.assertRaises(ValueError) as e:
+        with self.assertRaises(ValueError):
             oi.apply_patch(kgcl.NodeObsoletion(id="x", about_node="NO SUCH TERM"))
         oi.dump(str(OUTPUT_DIR / "post-kgcl.obo"), syntax="obo")

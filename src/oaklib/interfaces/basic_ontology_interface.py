@@ -110,11 +110,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Contracts a URI
 
-        If strict conditions hold, then no URI can map to more than one CURIE (i.e one URI base should not start with another)
+        If strict conditions hold, then no URI can map to more than one CURIE
+        (i.e one URI base should not start with another).
 
-        :param uri:
-        :param strict:
-        :return:
+        :param uri: URI
+        :param strict: Boolean [default: True]
+        :return: CURIE
         """
         pm = self.get_prefix_map()
         for k, v in pm.items():

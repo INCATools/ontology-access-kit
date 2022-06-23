@@ -4,7 +4,8 @@ Command Line Interface to OAK
 
 Executed using "runoak" command
 """
-# TODO: order commands. See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+# TODO: order commands.
+# See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import logging
 import re
 import subprocess
@@ -13,7 +14,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, TextIO, Type, Union
+from typing import Any, Iterable, Iterator, List, Optional, TextIO, Type, Union
 
 import click
 import rdflib
@@ -128,7 +129,7 @@ output_option = click.option(
 output_type_option = click.option(
     "-O",
     "--output-type",
-    help=f"Desired output type",
+    help="Desired output type",
 )
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
 display_option = click.option(
@@ -136,7 +137,7 @@ display_option = click.option(
 )
 
 
-def _process_predicates_arg(preds_str: str) -> List[PRED_CURIE]:
+def _process_predicates_arg(preds_str: str) -> Optional[List[PRED_CURIE]]:
     if preds_str is None:
         return None
     inputs = preds_str.split(",")
@@ -294,7 +295,7 @@ def main(
         settings.impl = AggregatorImplementation(implementations=impls)
     if save_to:
         if autosave:
-            raise ValueError(f"Cannot specify both --save-to and --autosave")
+            raise ValueError("Cannot specify both --save-to and --autosave")
         settings.impl = settings.impl.clone(get_resource_from_shorthand(save_to))
         settings.autosave = True
 
@@ -393,7 +394,7 @@ def ontologies(output: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         for curie in impl.all_ontology_curies():
-            print(f"{curie}")
+            print(str(curie))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -462,10 +463,10 @@ def ontology_metadata(ontologies, output_type: str, output: str, all):
             if all:
                 ontologies = list(impl.all_ontology_curies())
             else:
-                raise ValueError(f"Must pass one or more ontologies OR --all")
+                raise ValueError("Must pass one or more ontologies OR --all")
         else:
             if all:
-                raise ValueError(f"--all should not be used in combination with an explicit lis")
+                raise ValueError("--all should not be used in combination with an explicit lis")
         for ont in list(ontologies):
             metadata = impl.ontology_metadata(ont)
             writer.emit(metadata)
@@ -573,7 +574,7 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
         else:
             raise ValueError(f"unknown writer: {output_type}")
         if words and text_file:
-            raise ValueError(f"Specify EITHER text-file OR a list of words as arguments")
+            raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
             for line in text_file.readlines():
                 line = line.strip()
@@ -703,7 +704,7 @@ def viz(
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
-            logging.info(f"Using gap-fill strategy")
+            logging.info("Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
                 rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
                 if isinstance(impl, OboGraphInterface):
@@ -812,7 +813,8 @@ def tree(
 
     Example:
 
-        runoak -i envo.db tree --add-mrcas --gap-fill 'pyroclastic shield volcano' 'subglacial volcano' 'mud volcano' -p i
+        runoak -i envo.db tree --add-mrcas --gap-fill 'pyroclastic shield volcano'\
+            'subglacial volcano' 'mud volcano' -p i
 
     This will fill in the term "volcano", as it is the most recent common ancestor of the specified terms
 
@@ -833,7 +835,7 @@ def tree(
     """
     impl = settings.impl
     if configure:
-        logging.warning(f"Configure is not yet supported")
+        logging.warning("Configure is not yet supported")
     if isinstance(impl, OboGraphInterface):
         curies = list(query_terms_iterator(terms, impl))
         if stylemap is None:
@@ -854,7 +856,7 @@ def tree(
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
-            logging.info(f"Using gap-fill strategy")
+            logging.info("Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
                 rels = impl.gap_fill_relationships(curies, predicates=actual_predicates)
                 if isinstance(impl, OboGraphInterface):
@@ -934,7 +936,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         if statistics:
             if isinstance(impl, OboGraphInterface):
                 graph = impl.ancestor_graph(curies, predicates=actual_predicates)
-                logging.info(f"Calculating graph stats")
+                logging.info("Calculating graph stats")
                 ancs_stats = ancestors_with_stats(graph, curies)
                 for n in graph.nodes:
                     kwargs = {}
@@ -1241,22 +1243,6 @@ def combine(terms, operation: str, output: TextIO, display: str, output_type: st
     logging.info(f"Result Terms={curies}")
     for curie in curies:
         writer.emit(curie)
-
-
-@main.command()
-# @output_option
-@click.option("-o", "--output", help="output file")
-@output_type_option
-def convert(output: str, output_type):
-    """
-    TODO
-    """
-    impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        resource = get_resource_from_shorthand(output, format=output_type)
-        curies = impl.store(resource)
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1576,9 +1562,9 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     impl = settings.impl
     writer = StreamingYamlWriter(output)
     if all:
-        if curies:
-            raise ValueError(f"Do not specify explicit curies with --all option")
-        curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
+        if terms:
+            raise ValueError("Do not specify explicit terms with --all option")
+        # curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
         actual_predicates = _process_predicates_arg(predicates)
@@ -1616,7 +1602,8 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
 
     Example:
 
-        runoak  -i db/go.db add-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759 never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
+        runoak  -i db/go.db add-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
+        never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
 
     """
     actual_predicates = _process_predicates_arg(predicates)
@@ -1751,7 +1738,7 @@ def validate_multiple(dbs, output, schema, cutoff: int):
                         logging.error(f"Could not dump {result} -- bad identifier?")
         except Exception as e:
             logging.error(e)
-            logging.error(f"Problem with db")
+            logging.error("Problem with db")
         for k, v in counts.items():
             print(f"{k}:: {v}")
 
@@ -1809,7 +1796,7 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
         k, v = p.split("=")
         curie_map[k] = v
     if not replace:
-        raise NotImplementedError(f"Must pass --replace as non-in-place updates not yet supported")
+        raise NotImplementedError("Must pass --replace as non-in-place updates not yet supported")
     if isinstance(impl, PatcherInterface):
         impl.migrate_curies(curie_map)
         if replace:
@@ -1925,10 +1912,10 @@ def diff_terms(output, other_ontology, terms):
         diff = impl.compare_term_in_two_ontologies(other_impl, term, other_curie=other_term)
         # THIS WILL CHANGE!!!
         left, right = diff
-        print(f"LEFT")
+        print("LEFT")
         for x in left:
             print(f" * {x}")
-        print(f"RIGHT")
+        print("RIGHT")
         for x in right:
             print(f" * {x}")
     else:
@@ -1988,7 +1975,7 @@ def set_obsolete(output, output_type, terms):
         for term in query_terms_iterator(terms, impl):
             impl.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=term))
         if not settings.autosave and not output:
-            logging.warning(f"--autosave not passed, changes are NOT saved")
+            logging.warning("--autosave not passed, changes are NOT saved")
         if output:
             impl.dump(output, output_type)
         # impl.save()
