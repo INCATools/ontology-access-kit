@@ -297,7 +297,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("https://github.com/althonos/pronto/issues/175")
+    @unittest.skip("https://github.com/althonos/pronto/issues/178")
     def test_dump(self):
         COPY = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)

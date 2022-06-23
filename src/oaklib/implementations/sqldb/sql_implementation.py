@@ -5,7 +5,18 @@ from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Type, Union
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Set,
+    Tuple,
+    Type,
+    Union,
+)
 
 import rdflib
 import requests
@@ -49,6 +60,7 @@ from oaklib.datamodels.search import SearchConfiguration
 
 # from oaklib import OntologyResource
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
@@ -175,6 +187,7 @@ class SqlImplementation(
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
     _prefix_map: PREFIX_MAP = None
+    _information_content_cache: Dict[Tuple[CURIE, Set[PRED_CURIE]], float] = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -514,6 +527,20 @@ class SqlImplementation(
         for row in q:
             yield row.object
 
+    def multi_ancestors(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Iterable[RELATIONSHIP]:
+        q = self.session.query(EntailedEdge)
+        if isinstance(start_curies, list):
+            q = q.filter(EntailedEdge.subject.in_(tuple(start_curies)))
+        else:
+            q = q.filter(EntailedEdge.subject == start_curies)
+        if predicates is not None:
+            q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        logging.debug(f"Ancestors query, start from {start_curies}: {q}")
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
     def descendants(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[CURIE]:
@@ -849,13 +876,45 @@ class SqlImplementation(
     def get_information_content(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ):
-        num_nodes = self.session.query(Node.id).count()
-        q = self.session.query(EntailedEdge.subject)
-        q = q.filter(EntailedEdge.object == curie)
-        if predicates:
-            q = q.filter(EntailedEdge.predicate.in_(predicates))
-        num_descs = q.count()
-        return -math.log(num_descs / num_nodes) / math.log(2)
+        if self._information_content_cache is None:
+            self._information_content_cache = {}
+        if predicates is None:
+            key = curie, None
+        else:
+            key = curie, set(predicates)
+        if key not in self._information_content_cache:
+            num_nodes = self.session.query(Node.id).count()
+            q = self.session.query(EntailedEdge.subject)
+            q = q.filter(EntailedEdge.object == curie)
+            if predicates:
+                q = q.filter(EntailedEdge.predicate.in_(predicates))
+            num_descs = q.count()
+            ic = -math.log(num_descs / num_nodes) / math.log(2)
+            self._information_content_cache[key] = ic
+        else:
+            logging.debug(f"Using cached value for {key}")
+        return self._information_content_cache[key]
+
+    def all_by_all_pairwise_similarity(
+        self,
+        subjects: Iterable[CURIE],
+        objects: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+    ) -> Iterator[TermPairwiseSimilarity]:
+        def tuples_to_map(relationships: Iterable[RELATIONSHIP]) -> Dict[CURIE, List[CURIE]]:
+            rmap = defaultdict(list)
+            for r in relationships:
+                rmap[r[0]].append(r[2])
+            return rmap
+
+        subjects_ancs = tuples_to_map(self.multi_ancestors(list(subjects), predicates=predicates))
+        objects_ancs = tuples_to_map(self.multi_ancestors(list(objects), predicates=predicates))
+        for s, s_ancs in subjects_ancs.items():
+            for o, o_ancs in objects_ancs.items():
+                logging.info(f"s={s} o={o}")
+                yield self.pairwise_similarity(
+                    s, o, predicates=predicates, subject_ancestors=s_ancs, object_ancestors=o_ancs
+                )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface
