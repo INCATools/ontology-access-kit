@@ -462,10 +462,10 @@ def ontology_metadata(ontologies, output_type: str, output: str, all):
             if all:
                 ontologies = list(impl.all_ontology_curies())
             else:
-                raise ValueError(f"Must pass one or more ontologies OR --all")
+                raise ValueError("Must pass one or more ontologies OR --all")
         else:
             if all:
-                raise ValueError(f"--all should not be used in combination with an explicit lis")
+                raise ValueError("--all should not be used in combination with an explicit lis")
         for ont in list(ontologies):
             metadata = impl.ontology_metadata(ont)
             writer.emit(metadata)
@@ -812,7 +812,8 @@ def tree(
 
     Example:
 
-        runoak -i envo.db tree --add-mrcas --gap-fill 'pyroclastic shield volcano' 'subglacial volcano' 'mud volcano' -p i
+        runoak -i envo.db tree --add-mrcas --gap-fill 'pyroclastic shield volcano'\
+            'subglacial volcano' 'mud volcano' -p i
 
     This will fill in the term "volcano", as it is the most recent common ancestor of the specified terms
 
@@ -833,7 +834,7 @@ def tree(
     """
     impl = settings.impl
     if configure:
-        logging.warning(f"Configure is not yet supported")
+        logging.warning("Configure is not yet supported")
     if isinstance(impl, OboGraphInterface):
         curies = list(query_terms_iterator(terms, impl))
         if stylemap is None:
@@ -1254,7 +1255,7 @@ def convert(output: str, output_type):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         resource = get_resource_from_shorthand(output, format=output_type)
-        # curies = impl.store(resource)
+        curies = impl.store(resource)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

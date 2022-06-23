@@ -148,7 +148,7 @@ def lexical_index_to_sssom(
     mappings = []
     logging.info("Converting lexical index to SSSOM")
     for term, grouping in lexical_index.groupings.items():
-        elements = set([r.element for r in grouping.relationships])
+        # elements = set([r.element for r in grouping.relationships])
         elementmap = defaultdict(list)
         for r in grouping.relationships:
             elementmap[r.element].append(r)

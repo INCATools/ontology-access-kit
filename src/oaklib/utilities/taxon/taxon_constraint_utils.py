@@ -97,11 +97,11 @@ def test_candidate_taxon_constraint(
     candidate_st = deepcopy(candidate_st)
     _fill_missing(candidate_st)
     curr_st = get_term_with_taxon_constraints(oi, candidate_st.id, predicates)
-    curr_only = [tc.taxon.id for tc in curr_st.only_in]
+    # curr_only = [tc.taxon.id for tc in curr_st.only_in]
     curr_never = [tc.taxon.id for tc in curr_st.never_in]
-    candidate_only = [tc.taxon.id for tc in candidate_st.only_in]
+    # candidate_only = [tc.taxon.id for tc in candidate_st.only_in]
     candidate_never = [tc.taxon.id for tc in candidate_st.never_in]
-    msgs = []
+    # msgs = []
     for candidate_tc in candidate_st.only_in:
         if not oi.get_label_by_curie(candidate_tc.taxon.id):
             raise ValueError(f"Unknown taxon: {candidate_tc.taxon.id}")
@@ -167,7 +167,7 @@ def test_candidate_taxon_constraint(
                     candidate_tc.comments.append(f"Redundant with candidate TC to {anc}")
                     break
         if not candidate_tc.redundant_with_only_in and not candidate_st.unsatisfiable:
-            candidate_tc.redundant_with_only_in = True  ## assume true
+            candidate_tc.redundant_with_only_in = True  # assume true
             tested = []
             for anc in oi.ancestors(candidate_tc.taxon.id, predicates):
                 for only_tc in curr_st.only_in + candidate_st.only_in:

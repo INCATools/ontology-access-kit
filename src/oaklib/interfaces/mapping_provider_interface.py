@@ -24,7 +24,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         :param object_source:
         :return:
         """
-        logging.info(f"Getting all mappings")
+        logging.info("Getting all mappings")
         for curie in self.all_entity_curies():
             logging.debug(f"Getting mappings for {curie}")
             for m in self.get_sssom_mappings_by_curie(curie):

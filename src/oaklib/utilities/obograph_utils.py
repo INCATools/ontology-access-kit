@@ -189,7 +189,7 @@ def as_digraph(
         if reverse:
             dg.add_edge(edge.obj, edge.sub, **edge_attrs)
         else:
-            mdg.add_edge(edge.sub, edge.obj, **edge_attrs)
+            dg.add_edge(edge.sub, edge.obj, **edge_attrs)
     return dg
 
 

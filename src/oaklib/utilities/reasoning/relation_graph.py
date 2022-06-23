@@ -14,7 +14,7 @@ class RelationGraphReasoner:
 
     def get_non_redundant_edges(self) -> Iterator[og.Edge]:
         ont = self.ontology
-        six = index_graph_edges_by_subject(ont.edges)
-        soix = index_graph_edges_by_subject_object(ont.edges)
+        # six = index_graph_edges_by_subject(ont.edges)
+        # soix = index_graph_edges_by_subject_object(ont.edges)
         for e in ont.edges:
             yield e

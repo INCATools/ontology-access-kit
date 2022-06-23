@@ -83,7 +83,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_obograph_local(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(
+            self.runner.invoke(
                 main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", TEST_OUT]
             )
             out = self._out()

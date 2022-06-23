@@ -120,7 +120,6 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
 
     def convert_payload(self, container: oxo.Container) -> Iterator[Mapping]:
         oxo_mappings = container._embedded.mappings
-        mappings: Mapping = []
         for oxo_mapping in oxo_mappings:
             oxo_s = oxo_mapping.fromTerm
             oxo_o = oxo_mapping.toTerm

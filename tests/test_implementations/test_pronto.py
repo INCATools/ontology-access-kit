@@ -313,6 +313,6 @@ class TestProntoImplementation(unittest.TestCase):
             kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE")
         )
         oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
-        with self.assertRaises(ValueError) as e:
+        with self.assertRaises(ValueError):
             oi.apply_patch(kgcl.NodeObsoletion(id="x", about_node="NO SUCH TERM"))
         oi.dump(str(OUTPUT_DIR / "post-kgcl.obo"), syntax="obo")
