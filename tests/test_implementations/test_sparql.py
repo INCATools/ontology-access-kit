@@ -188,7 +188,7 @@ class TestSparqlImplementation(unittest.TestCase):
         ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
         descendants = list(oi.descendants(NUCLEUS, predicates=preds))
 
-        def non_reflexive(l):
+        def non_reflexive(anc):
             return [a for a in ancestors if a != NUCLEUS and a != PART_OF and a != FAKE_PREDICATE]
 
         expected_ancs = non_reflexive(ancestors)

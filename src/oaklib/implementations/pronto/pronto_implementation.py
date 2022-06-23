@@ -414,7 +414,7 @@ class ProntoImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        if config == None:
+        if config is None:
             config = SearchConfiguration()
         matches = []
         mfunc = None

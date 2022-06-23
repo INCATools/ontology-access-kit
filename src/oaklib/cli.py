@@ -4,7 +4,8 @@ Command Line Interface to OAK
 
 Executed using "runoak" command
 """
-# TODO: order commands. See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+# TODO: order commands.
+# See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import logging
 import re
 import subprocess
@@ -1245,22 +1246,6 @@ def combine(terms, operation: str, output: TextIO, display: str, output_type: st
 
 
 @main.command()
-# @output_option
-@click.option("-o", "--output", help="output file")
-@output_type_option
-def convert(output: str, output_type):
-    """
-    TODO
-    """
-    impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        resource = get_resource_from_shorthand(output, format=output_type)
-        curies = impl.store(resource)
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
 @click.argument("terms", nargs=-1)
 @output_option
 def relationships(terms, output: str):
@@ -1579,11 +1564,11 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
     if all:
         if terms:
             raise ValueError("Do not specify explicit terms with --all option")
-        curies = query_terms_iterator(terms, impl)
+        # curies = [curie for curie in impl.all_entity_curies() if impl.get_label_by_curie(curie)]
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in curies:
+        for curie in query_terms_iterator(terms, impl):
             st = get_term_with_taxon_constraints(
                 impl,
                 curie,

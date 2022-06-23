@@ -478,7 +478,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
         descendants = list(oi.descendants(NUCLEUS, predicates=preds))
 
-        def non_reflexive(l):
+        def non_reflexive(anc):
             return [a for a in ancestors if a != NUCLEUS]
 
         expected_ancs = non_reflexive(ancestors)

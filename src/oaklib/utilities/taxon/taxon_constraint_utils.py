@@ -168,7 +168,7 @@ def test_candidate_taxon_constraint(
                     break
         if not candidate_tc.redundant_with_only_in and not candidate_st.unsatisfiable:
             candidate_tc.redundant_with_only_in = True  # assume true
-            tested = []
+
             for anc in oi.ancestors(candidate_tc.taxon.id, predicates):
                 for only_tc in curr_st.only_in + candidate_st.only_in:
                     # print(f'{candidate_tc.taxon.id} anc: {anc} / {only_tc.taxon.id}')

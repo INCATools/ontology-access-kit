@@ -399,7 +399,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
         bindings = self._query(query)
         g = rdflib.Graph()
-        n = 0
 
         bnodes = {}
 
@@ -430,7 +429,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         if ":" in search_term and " " not in search_term:
             logging.debug(f"Not performing search on what looks like a CURIE: {search_term}")
             return
-        search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
+
         if self._is_blazegraph():
             filter_clause = f'?v bds:search "{search_term}"'
         else:

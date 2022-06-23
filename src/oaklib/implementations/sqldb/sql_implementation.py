@@ -247,7 +247,7 @@ class SqlImplementation(
         return self._prefix_map
 
     def all_entity_curies(self) -> Iterable[CURIE]:
-        s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')
+        s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
         for row in self.engine.execute(s):
             yield row["id"]
 
@@ -415,7 +415,6 @@ class SqlImplementation(
         return rmap
 
     def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        m = defaultdict(list)
         for row in self.session.query(HasMappingStatement).filter(
             HasMappingStatement.subject == curie
         ):
@@ -574,7 +573,7 @@ class SqlImplementation(
                 yield mpg
             else:
                 if self.strict:
-                    raise ValueError(f"not a CURIE: {V}")
+                    raise ValueError(f"not a CURIE: {v}")
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
@@ -675,7 +674,6 @@ class SqlImplementation(
         :return:
         """
         sv = self.ontology_metadata_model
-        class_cls = sv.get_class(class_name)
         # for efficiency we map directly to table/view names rather
         # than querying over rdf:type; this allows for optimization via view materialization
         if class_name == "Class":
@@ -867,11 +865,11 @@ class SqlImplementation(
         for k, v in curie_map.items():
             for cls in [Statements, EntailedEdge]:
                 cmd = update(cls).where(cls.subject == k).values(subject=v)
-                r = self.session.execute(cmd)
+                self.session.execute(cmd)
                 cmd = update(cls).where(cls.predicate == k).values(predicate=v)
-                r = self.session.execute(cmd)
+                self.session.execute(cmd)
                 cmd = update(cls).where(cls.object == k).values(object=v)
-                r = self.session.execute(cmd)
+                self.session.execute(cmd)
         if self.autosave:
             self.save()
 
