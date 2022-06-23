@@ -157,9 +157,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         return uri
 
     def all_entity_curies(self) -> Iterable[CURIE]:
-        query = SparqlQuery(
-            select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"]
-        )
+        query = SparqlQuery(select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"])
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])

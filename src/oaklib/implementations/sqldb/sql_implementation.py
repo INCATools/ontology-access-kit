@@ -118,7 +118,7 @@ def regex_to_sql_like(regex: str) -> str:
     """
     convert a regex to a LIKE
 
-    TODO: implement various different DBMS flavors 
+    TODO: implement various different DBMS flavors
     https://stackoverflow.com/questions/20794860/regex-in-sql-to-detect-one-or-more-digit
 
     :param regex:

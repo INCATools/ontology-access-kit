@@ -130,9 +130,7 @@ class WikidataImplementation(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[CURIE, CURIE]]:
         query_uri = self.curie_to_sparql(curie)
-        query = SparqlQuery(
-            select=["?p", "?o"], where=[f"{query_uri} ?p ?o", "FILTER (isIRI(?o))"]
-        )
+        query = SparqlQuery(select=["?p", "?o"], where=[f"{query_uri} ?p ?o", "FILTER (isIRI(?o))"])
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             query.where.append(_sparql_values("p", pred_uris))
