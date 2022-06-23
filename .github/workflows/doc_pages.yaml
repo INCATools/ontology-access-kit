@@ -35,7 +35,7 @@ jobs:
 
     - name: Deploy documentation.
       if: ${{ github.event_name == 'pull_request' }}
-      uses: JamesIves/github-pages-deploy-action@v4.3.0
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
         branch: gh-pages
         force: true
