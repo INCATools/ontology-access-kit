@@ -54,6 +54,7 @@ SCHEME_DICT = {
     "prontolib": ProntoImplementation,
 }
 
+
 def get_implementation_from_shorthand(
     descriptor: str, format: str = None
 ) -> BasicOntologyInterface:
@@ -82,7 +83,10 @@ def get_implementation_class_from_scheme(scheme: str):
     else:
         return SCHEME_DICT[scheme]
 
-def get_resource_imp_class_from_suffix_descriptor(suffix: str, resource:OntologyResource, descriptor:str):
+
+def get_resource_imp_class_from_suffix_descriptor(
+    suffix: str, resource: OntologyResource, descriptor: str
+):
     if suffix == "db" or (format and format == "sqlite"):
         impl_class = SqlImplementation
         resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
@@ -98,8 +102,9 @@ def get_resource_imp_class_from_suffix_descriptor(suffix: str, resource:Ontology
     else:
         resource.local = True
         impl_class = ProntoImplementation
-    
+
     return impl_class, resource
+
 
 def get_resource_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
     """
@@ -147,7 +152,9 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
         else:
             logging.info(f"No schema: assuming file path {descriptor}")
             suffix = descriptor.split(".")[-1]
-            impl_class, resource = get_resource_imp_class_from_suffix_descriptor(suffix, resource, descriptor)
+            impl_class, resource = get_resource_imp_class_from_suffix_descriptor(
+                suffix, resource, descriptor
+            )
     else:
         raise ValueError("No descriptor")
 
