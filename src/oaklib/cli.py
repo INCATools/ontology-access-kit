@@ -1500,7 +1500,8 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
 
     Example:
 
-        runoak  -i db/go.db add-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759 never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
+        runoak  -i db/go.db add-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
+        never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
 
     """
     actual_predicates = _process_predicates_arg(predicates)
