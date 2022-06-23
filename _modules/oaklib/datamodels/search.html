@@ -116,7 +116,6 @@
         <span class="n">rest</span> <span class="o">=</span> <span class="n">term</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
         <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span><span class="p">:</span>
             <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">is_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">syntax</span> <span class="o">=</span> <span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">PLAINTEXT</span>
         <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
             <span class="n">cfg</span> <span class="o">=</span> <span class="n">SearchBaseConfiguration</span><span class="p">([</span><span class="n">rest</span><span class="p">],</span> <span class="n">syntax</span><span class="o">=</span><span class="n">SearchTermSyntax</span><span class="o">.</span><span class="n">REGULAR_EXPRESSION</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;@&quot;</span><span class="p">:</span>

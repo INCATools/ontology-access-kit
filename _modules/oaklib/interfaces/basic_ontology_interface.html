@@ -191,11 +191,12 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Contracts a URI</span>
 
-<span class="sd">        If strict conditions hold, then no URI can map to more than one CURIE (i.e one URI base should not start with another)</span>
+<span class="sd">        If strict conditions hold, then no URI can map to more than one CURIE</span>
+<span class="sd">        (i.e one URI base should not start with another).</span>
 
-<span class="sd">        :param uri:</span>
-<span class="sd">        :param strict:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param uri: URI</span>
+<span class="sd">        :param strict: Boolean [default: True]</span>
+<span class="sd">        :return: CURIE</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prefix_map</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pm</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

@@ -87,7 +87,6 @@
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">sssom</span> <span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">sssom.sssom_datamodel</span> <span class="kn">import</span> <span class="n">MatchTypeEnum</span>
-<span class="kn">from</span> <span class="nn">sssom.sssom_document</span> <span class="kn">import</span> <span class="n">MappingSetDocument</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">oxo</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.oxo</span> <span class="kn">import</span> <span class="n">ScopeEnum</span>
@@ -201,7 +200,6 @@
 
     <span class="k">def</span> <span class="nf">convert_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="n">oxo</span><span class="o">.</span><span class="n">Container</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
         <span class="n">oxo_mappings</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">_embedded</span><span class="o">.</span><span class="n">mappings</span>
-        <span class="n">mappings</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">oxo_mapping</span> <span class="ow">in</span> <span class="n">oxo_mappings</span><span class="p">:</span>
             <span class="n">oxo_s</span> <span class="o">=</span> <span class="n">oxo_mapping</span><span class="o">.</span><span class="n">fromTerm</span>
             <span class="n">oxo_o</span> <span class="o">=</span> <span class="n">oxo_mapping</span><span class="o">.</span><span class="n">toTerm</span>
@@ -218,29 +216,29 @@
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">oxo_s</span><span class="o">.</span><span class="n">curie</span><span class="p">,</span> <span class="n">oxo_s</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">oxo_o</span><span class="o">.</span><span class="n">curie</span><span class="p">,</span> <span class="n">oxo_o</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-            <span class="k">yield</span> <span class="n">mapping</span>
+            <span class="k">yield</span> <span class="n">mapping</span></div>
 
-    <span class="k">def</span> <span class="nf">fill_gaps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msdoc</span><span class="p">:</span> <span class="n">MappingSetDocument</span><span class="p">,</span> <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">curie_map</span> <span class="o">=</span> <span class="n">curie_to_uri_map</span><span class="p">(</span><span class="n">msdoc</span><span class="p">)</span>
-        <span class="c1"># inv_map = {v: k for k, v in curie_map.items()}</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">uri</span> <span class="ow">in</span> <span class="n">curie_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">pfx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">ancs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ancestors</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">ontology</span><span class="o">=</span><span class="n">pfx</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> ANCS = </span><span class="si">{</span><span class="n">ancs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">curie_map</span><span class="p">:</span>
-                    <span class="n">m</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">(</span>
-                        <span class="n">subject_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
-                        <span class="n">object_id</span><span class="o">=</span><span class="n">anc</span><span class="p">,</span>
-                        <span class="n">predicate_id</span><span class="o">=</span><span class="s2">&quot;rdfs:subClassOf&quot;</span><span class="p">,</span>
-                        <span class="n">confidence</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span>
-                        <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">HumanCurated</span><span class="p">,</span>
-                    <span class="p">)</span>
-                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gap filled link: </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">msdoc</span><span class="o">.</span><span class="n">mapping_set</span><span class="o">.</span><span class="n">mappings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-                    <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">n</span></div>
+    <span class="c1"># def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -&gt; int:</span>
+    <span class="c1">#     curie_map = curie_to_uri_map(msdoc)</span>
+    <span class="c1">#     # inv_map = {v: k for k, v in curie_map.items()}</span>
+    <span class="c1">#     n = 0</span>
+    <span class="c1">#     for curie, uri in curie_map.items():</span>
+    <span class="c1">#         pfx, _ = curie.split(&quot;:&quot;, 2)</span>
+    <span class="c1">#         ancs = self.get_ancestors(uri, ontology=pfx.lower())</span>
+    <span class="c1">#         logging.debug(f&quot;{curie} ANCS = {ancs}&quot;)</span>
+    <span class="c1">#         for anc in ancs:</span>
+    <span class="c1">#             if anc in curie_map:</span>
+    <span class="c1">#                 m = Mapping(</span>
+    <span class="c1">#                     subject_id=curie,</span>
+    <span class="c1">#                     object_id=anc,</span>
+    <span class="c1">#                     predicate_id=&quot;rdfs:subClassOf&quot;,</span>
+    <span class="c1">#                     confidence=confidence,</span>
+    <span class="c1">#                     match_type=MatchTypeEnum.HumanCurated,</span>
+    <span class="c1">#                 )</span>
+    <span class="c1">#                 logging.info(f&quot;Gap filled link: {m}&quot;)</span>
+    <span class="c1">#                 msdoc.mapping_set.mappings.append(m)</span>
+    <span class="c1">#                 n += 1</span>
+    <span class="c1">#     return n</span>
 </pre></div>
 
            </div>
