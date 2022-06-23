@@ -97,12 +97,13 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         print("npm install -g obographviz")
         print("Then set your path to include og2dot")
         raise Exception(
-            f"Cannot find {EXEC} on path. Install from https://github.com/cmungall/obographviz"
+            f"Cannot find {EXEC} on path. Install from https://github.com/INCATools/obographviz"
         )
     with tempfile.NamedTemporaryFile(dir="/tmp", mode="w") as tmpfile:
         style = {}
-        if seeds is not None:
-            style["highlightIds"] = seeds
+        logging.info(f"Seed nodes: {seeds}")
+        # if seeds is not None:
+        #    style["highlightIds"] = seeds
         if configure is not None:
             configure_obj = yaml.safe_load(configure)
             for k, v in configure_obj.items():
@@ -125,6 +126,9 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
         cmdtoks = [EXEC, "-S", style_json, "-t", "png", temp_file_name, "-o", imgfile]
         if stylemap is not None:
             cmdtoks += ["-s", stylemap]
+        if seeds is not None:
+            for seed in seeds:
+                cmdtoks += ["-H", seed]
         logging.debug(f"Run: {cmdtoks}")
         subprocess.run(cmdtoks)
         return imgfile
@@ -219,6 +223,69 @@ def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[
             distance=min([dist for k, dist in splens[node].items() if k in curies]),
         )
     return stats
+
+
+def remove_nodes_from_graph(graph: Graph, node_ids: List[CURIE]):
+    """
+    Remove the specified nodes from the graph, and cascade to any edges
+    that reference these nodes
+
+    Mutates the graph in-place
+    :param graph:
+    :param node_ids:
+    :return: None
+    """
+    graph.nodes = [n for n in graph.nodes if n.id not in node_ids]
+    graph.edges = [
+        e
+        for e in graph.edges
+        if e.sub not in node_ids and e.obj not in node_ids and e.pred not in node_ids
+    ]
+
+
+def trim_graph(
+    graph: Graph, seeds: List[CURIE], distance: int = 0, include_intermediates=False
+) -> Graph:
+    """
+    Remove all nodes more than a specified distance from a set of seed nodes
+
+    For each node in the graph, if the minimum distance between that node and one of the seed nodes
+    is greater than the distance threshold, then remove it
+
+    By default, this is determined using the ancestor relationship
+
+    :param graph: input graph (will not be modified)
+    :param seeds: seed nodes used to calculate distance for each ancestor
+    :param distance: threshold for minimum distance
+    :param include_intermediates: if true, always include nodes that are between two seed nodes
+    :return: trimmed graph
+    """
+    dg = as_digraph(graph)
+    all_ancs = set()
+    intermediates = set()
+    for seed in seeds:
+        ancs = list(nx.ancestors(dg, seed))
+        all_ancs.update(ancs)
+        for anc in ancs:
+            if anc in seeds:
+                intermediates.add(anc)
+            for anc_of_anc in nx.ancestors(dg, anc):
+                if anc_of_anc in seeds:
+                    intermediates.add(anc)
+    splens = dict(nx.all_pairs_shortest_path_length(dg))
+    nodes_to_trim = set()
+    for anc in all_ancs:
+        if include_intermediates and anc in intermediates:
+            continue
+        all_dists = [dist for k, dist in splens[anc].items() if k in seeds]
+        logging.debug(f"Anc: {anc} distances={all_dists}")
+        if all_dists:
+            min_dist = min(all_dists)
+            if min_dist > distance:
+                nodes_to_trim.add(anc)
+    new_graph = deepcopy(graph)
+    remove_nodes_from_graph(new_graph, list(nodes_to_trim))
+    return new_graph
 
 
 def index_graph_nodes(graph: Graph) -> Dict[CURIE, Node]:
@@ -344,10 +411,11 @@ def graph_to_tree(
         indent = 4 * " "
     else:
         indent = "."
-    todo = [(0, "", n) for n in roots]
+    todo = [([], "", n) for n in roots]
     counts = defaultdict(int)
     while len(todo) > 0:
-        depth, rel, n = todo.pop()
+        stack, rel, n = todo.pop()
+        depth = len(stack)
         counts[n] += 1
         logging.debug(f"Visited {n} {counts[n]} times (max = {max_paths})")
         if counts[n] > max_paths:
@@ -363,7 +431,9 @@ def graph_to_tree(
             code = rel
         output.write(depth * indent)
         output.write(f"* [{code}] ")
-        node_info = f"{n} ! {nix[n].lbl}"
+        node_info = f"{n}"
+        if n in nix and nix[n].lbl:
+            node_info += f" ! {nix[n].lbl}"
         if n in seeds:
             node_info = f"**{node_info}**"
         output.write(node_info)
@@ -371,6 +441,7 @@ def graph_to_tree(
         child_edges = children_ix.get(n, [])
         for child_edge in child_edges:
             if not reflexive(child_edge):
-                todo.append((depth + 1, child_edge.pred, child_edge.sub))
+                if child_edge.sub not in stack:
+                    todo.append((stack + [n], child_edge.pred, child_edge.sub))
     if is_str:
         return output.getvalue()

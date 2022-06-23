@@ -26,7 +26,7 @@ import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
-from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, PART_OF
+from oaklib.datamodels.vocabulary import DEVELOPS_FROM, EQUIVALENT_CLASS, IS_A, PART_OF
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -78,6 +78,7 @@ from oaklib.utilities.obograph_utils import (
     default_stylemap_path,
     graph_to_image,
     graph_to_tree,
+    trim_graph,
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.taxon.taxon_constraint_utils import (
@@ -150,6 +151,8 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return IS_A
     elif shorthand == "p":
         return PART_OF
+    elif shorthand == "d":
+        return DEVELOPS_FROM
     elif shorthand == "e":
         return EQUIVALENT_CLASS
     else:
@@ -417,10 +420,36 @@ def ontology_versions(ontologies, output: str):
 @main.command()
 @output_option
 @output_type_option
+@click.option(
+    "--all/--no-all",
+    default=False,
+    show_default=True,
+    help="If true, show all ontologies. Use in place of passing an explicit list",
+)
 @click.argument("ontologies", nargs=-1)
-def ontology_metadata(ontologies, output_type: str, output: str):
+def ontology_metadata(ontologies, output_type: str, output: str, all):
     """
     Shows ontology metadata
+
+    Example:
+
+        runoak -i bioportal: ontology-metadata obi uberon foodon
+
+    Use the ``--all`` option to show all ontologies
+
+    Example:
+
+        runoak -i bioportal: ontology-metadata --all
+
+    By default the output is YAML. You can get the results as TSV:
+
+    Example:
+
+        runoak -i bioportal: ontology-metadata --all -O csv
+
+    .. warning::
+
+        The output data model is not yet standardized -- this may change in future
     """
     impl = settings.impl
     if output_type is None or output_type == "yaml":
@@ -430,6 +459,14 @@ def ontology_metadata(ontologies, output_type: str, output: str):
     else:
         raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, BasicOntologyInterface):
+        if len(ontologies) == 0:
+            if all:
+                ontologies = list(impl.all_ontology_curies())
+            else:
+                raise ValueError(f"Must pass one or more ontologies OR --all")
+        else:
+            if all:
+                raise ValueError(f"--all should not be used in combination with an explicit lis")
         for ont in list(ontologies):
             metadata = impl.ontology_metadata(ont)
             writer.emit(metadata)
@@ -583,6 +620,11 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
     "--configure",
     help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
 )
+@click.option(
+    "--max-hops",
+    type=int,
+    help="Trim nodes that are equal to or greater than this distance from terms",
+)
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
@@ -594,6 +636,7 @@ def viz(
     predicates,
     down,
     gap_fill,
+    max_hops: int,
     add_mrcas,
     view,
     stylemap,
@@ -629,6 +672,16 @@ def viz(
     As above, including develops-from:
 
         runoak -i sqlite:cl.db viz CL:4023094 -p i,p,RO:0002202
+
+    With abbreviation:
+
+        runoak -i sqlite:cl.db viz CL:4023094 -p i,p,d
+
+    We can also limit the number of "hops" from the seed terms; for
+    example, all is-a and develops-from ancestors of T-cell, limiting
+    to a distance of 2:
+
+        runoak -i sqlite:cl.db viz 'T cell' -p i,d --max-hops 2
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -662,6 +715,9 @@ def viz(
                 raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
             graph = impl.ancestor_graph(curies, predicates=actual_predicates)
+        if max_hops is not None:
+            logging.info(f"Trimming graph, max_hops={max_hops}")
+            graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
         logging.info(f"Drawing graph seeded from {curies}")
         if output_type == "json":
             if output:
@@ -688,18 +744,18 @@ def viz(
 
 
 @main.command()
-@click.option(
-    "--view/--no-view",
-    default=True,
-    show_default=True,
-    help="if view is set then open the image after rendering",
-)
 @click.option("--down/--no-down", default=False, show_default=True, help="traverse down")
 @click.option(
     "--gap-fill/--no-gap-fill",
     default=False,
     show_default=True,
     help="If set then find the minimal graph that spans all input curies",
+)
+@click.option(
+    "--add-mrcas/--no-add-mrcas",
+    default=False,
+    show_default=True,
+    help="If set then extend input seed list to include all pairwise MRCAs",
 )
 @click.option(
     "-S",
@@ -711,12 +767,26 @@ def viz(
     "--configure",
     help='overrides for stylemap, specified as yaml. E.g. `-C "styles: [filled, rounded]" `',
 )
+@click.option(
+    "--max-hops",
+    type=int,
+    help="Trim nodes that are equal to or greater than this distance from terms",
+)
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
 @output_option
 def tree(
-    terms, predicates, down, gap_fill, view, stylemap, configure, output_type: str, output: TextIO
+    terms,
+    predicates,
+    down,
+    gap_fill,
+    max_hops,
+    add_mrcas,
+    stylemap,
+    configure,
+    output_type: str,
+    output: TextIO,
 ):
     """
     Display an ancestor graph as an ascii/markdown tree
@@ -725,18 +795,63 @@ def tree(
 
     Example:
 
-        runoak -i db/envo.db tree ENVO:00000372 -p i,p
+        runoak -i envo.db tree ENVO:00000372 -p i,p
 
     Note: for many ontologies the tree view will explode, especially if no predicates are specified.
-    To avoid this,
+    You may wish to start with the is-a tree.
+
+    You can use the --gap-fill option to create a minimal tree:
+
+    Example:
+
+        runoak -i envo.db tree --gap-fill 'pyroclastic shield volcano' 'subglacial volcano' volcano -p i
+
+    This will show the tree containing only these terms, and the most direct inferred relationships between them.
+
+    You can also give a list of leaf terms and specify --add-mrcas alongside --gap-fill to fill in
+    the most informative intermediate classes:
+
+    Example:
+
+        runoak -i envo.db tree --add-mrcas --gap-fill 'pyroclastic shield volcano' 'subglacial volcano' 'mud volcano' -p i
+
+    This will fill in the term "volcano", as it is the most recent common ancestor of the specified terms
+
+    The --max-hops option can control the distance
+
+        runoak -i envo.db tree 'pyroclastic shield volcano' 'subglacial volcano' --max-hops 1 -p i
+
+    This will generate:
+
+        * [] ENVO:00000247 ! volcano
+           * [i] ENVO:00000403 ! shield volcano
+              * [i] **ENVO:00000372 ! pyroclastic shield volcano**
+           * [i] **ENVO:00000407 ! subglacial volcano**
+
+    Note that 'volcano' is the root, even though it is 2 hops from one of the terms, it can be connected
+    to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 
     """
     impl = settings.impl
+    if configure:
+        logging.warning(f"Configure is not yet supported")
     if isinstance(impl, OboGraphInterface):
         curies = list(query_terms_iterator(terms, impl))
         if stylemap is None:
             stylemap = default_stylemap_path()
         actual_predicates = _process_predicates_arg(predicates)
+        if add_mrcas:
+            if isinstance(impl, SemanticSimilarityInterface):
+                curies_to_add = [
+                    lca
+                    for s, o, lca in impl.multiset_most_recent_common_ancestors(
+                        curies, predicates=actual_predicates
+                    )
+                ]
+                curies = list(set(curies + curies_to_add))
+                logging.info(f"Expanded CURIEs = {curies}")
+            else:
+                raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
         if down:
             graph = impl.subgraph(curies, predicates=actual_predicates)
         elif gap_fill:
@@ -754,6 +869,8 @@ def tree(
         logging.info(
             f"Drawing graph with {len(graph.nodes)} nodes seeded from {curies} // {output_type}"
         )
+        if max_hops is not None:
+            graph = trim_graph(graph, curies, distance=max_hops)
         graph_to_tree(
             graph,
             seeds=curies,

@@ -1,3 +1,5 @@
+.. _tutorial01:
+
 Part 1: Getting Started
 =======================
 

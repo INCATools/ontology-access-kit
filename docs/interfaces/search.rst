@@ -1,4 +1,4 @@
-.. _search:
+.. _search_interface:
 
 Search Interface
 ================
