@@ -88,7 +88,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             elif scheme == "ontobee":
                 impl_class = OntobeeImplementation
             elif scheme == "lov":
-                logging.warning(f"lov scheme may become plugin in future")
+                logging.warning("lov scheme may become plugin in future")
                 impl_class = LovImplementation
             elif scheme == "sparql":
                 impl_class = SparqlImplementation
@@ -117,7 +117,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 resource.local = False
                 resource.slug = rest
             elif scheme == "http" or scheme == "https":
-                raise NotImplementedError(f"Web requests not implemented yet")
+                raise NotImplementedError("Web requests not implemented yet")
             else:
                 for ext_name, ext_module in discovered_plugins.items():
                     try:
@@ -142,11 +142,11 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             elif suffix == "owl":
                 impl_class = SparqlImplementation
                 resource.format = "xml"
-                logging.warning(f"Using rdflib rdf/xml parser; this behavior may change in future")
+                logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
             else:
                 resource.local = True
                 impl_class = ProntoImplementation
     else:
-        raise ValueError(f"No descriptor")
+        raise ValueError("No descriptor")
     resource.implementation_class = impl_class
     return resource

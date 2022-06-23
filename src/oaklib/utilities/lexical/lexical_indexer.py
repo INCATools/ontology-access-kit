@@ -48,7 +48,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
     :param oi:
     :return:
     """
-    logging.info(f"Adding labels from URIs")
+    logging.info("Adding labels from URIs")
     curies = list(oi.all_entity_curies())
     for curie in curies:
         if not oi.get_label_by_curie(curie):
@@ -148,7 +148,7 @@ def lexical_index_to_sssom(
     mappings = []
     logging.info("Converting lexical index to SSSOM")
     for term, grouping in lexical_index.groupings.items():
-        elements = set([r.element for r in grouping.relationships])
+        # elements = set([r.element for r in grouping.relationships])
         elementmap = defaultdict(list)
         for r in grouping.relationships:
             elementmap[r.element].append(r)
