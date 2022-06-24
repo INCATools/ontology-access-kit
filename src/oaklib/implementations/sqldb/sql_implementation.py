@@ -200,7 +200,7 @@ class SqlImplementation(
                 # The selector 'sqlite:obo:ONTOLOGY' will use a pre-generated
                 # sqlite db of an OBO ontology after downloading from S3.
                 # Note: this can take some time
-                prefix = locator.removeprefix("obo:")
+                prefix = locator[len("obo:") :]
                 # Option 1 uses direct URL construction:
                 url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db"
                 db_path = OAKLIB_MODULE.ensure(url=url)
