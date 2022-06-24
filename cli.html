@@ -375,6 +375,26 @@ never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
 <h4>all-similarity<a class="headerlink" href="#runoak-all-similarity" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>All by all similarity</p>
+<p>This calculates a similarity matrix for two sets of terms.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i hp.db all-similarity -p i –set1-file HPO-TERMS1 –set2-file HPO-TERMS2 -O csv</p>
+</div></blockquote>
+<p>The .all term syntax can be used to select all terms in an ontology</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ma.db all-similarity -p i,p –set1 .all –set2 .all</p>
+</div></blockquote>
+<p>This can be mixed with other term selectors; for example to calculate the similarity of “neuron”
+vs all terms in CL:</p>
+<blockquote>
+<div><p>runoak -i cl.db all-similarity -p i,p –set1 .all –set2 neuron</p>
+</div></blockquote>
+<p>An example pipeline to do all by all over all phenotypes in HPO:</p>
+<blockquote>
+<div><p>runoak -i hp.db descendants -p i HP:0000118 &gt; HPO
+runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak all-similarity <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -399,9 +419,27 @@ never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-set1-file">
+<span class="sig-name descname"><span class="pre">--set1-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set1_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-set1-file" title="Permalink to this definition"></a></dt>
+<dd><p>ID file for set1</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-set2-file">
+<span class="sig-name descname"><span class="pre">--set2-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set2_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-set2-file" title="Permalink to this definition"></a></dt>
+<dd><p>ID file for set2</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-o">
 <span id="cmdoption-runoak-all-similarity-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-O">
+<span id="cmdoption-runoak-all-similarity-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
 </dd></dl>
 
 </section>
@@ -1469,6 +1507,10 @@ hard to interpret results.</p>
 </div></blockquote>
 <p>yields “fully formed stage” (i.e these are both found in the adult) as
 the MRCA</p>
+<p>For phenotype ontologies, UPHENO relationship types connect phenotype terms to anatomy, etc:</p>
+<blockquote>
+<div><p>runoak -i ubergraph: similarity MP:0010922 HP:0010616  -p i,p,UPHENO:0000001</p>
+</div></blockquote>
 <p>Background: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html</a></p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...

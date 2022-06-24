@@ -203,6 +203,16 @@ Accessible via AK Ubergraph <a class="reference internal" href="#term-Implementa
 <dt id="term-Semantic-SQL">Semantic SQL<a class="headerlink" href="#term-Semantic-SQL" title="Permalink to this term"></a></dt><dd><p>Semantic SQL is a proposed standardized schema for representing any RDF/OWL ontology, plus a set of tools for building
 a database conforming to this schema from RDF/OWL files. See <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic-SQL</a></p>
 </dd>
+<dt id="term-Semantic-Similarity">Semantic Similarity<a class="headerlink" href="#term-Semantic-Similarity" title="Permalink to this term"></a></dt><dd><p>A means of measuring similarity between either pairs of ontology concepts, or between entities annotated using ontology
+concepts. There is a wide variety of different methods for calculating semantic similarity, for example <span class="xref std std-term">Jaccard Similarity</span>
+and <a class="reference internal" href="#term-Information-Content"><span class="xref std std-term">Information Content</span></a> based measures.</p>
+</dd>
+<dt id="term-Information-Content">Information Content<a class="headerlink" href="#term-Information-Content" title="Permalink to this term"></a></dt><dd><p>A measure of how informative an ontology concept is; broader concepts are less informative as they encompass many things,
+whereas more specific concepts are more unique. This is usually measured as <code class="docutils literal notranslate"><span class="pre">-log2(Pr(term))</span></code>. The method of calculating
+the probability varies, depending on which predicates are taken into account (for many ontologies, it makes sense to
+use part-of as well as is-a), and whether the probability is the probability of observing a descendant term, or of an
+entity annotated using that term.</p>
+</dd>
 </dl>
 </section>
 
