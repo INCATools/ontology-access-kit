@@ -18,12 +18,9 @@ from typing import (
     Union,
 )
 
-import pystow
 import rdflib
-import requests
 import semsql.builder.builder as semsql_builder
 import sssom
-from appdirs import user_cache_dir
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -57,10 +54,9 @@ from sssom.sssom_datamodel import MatchTypeEnum
 
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
+from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.search import SearchConfiguration
-
-# from oaklib import OntologyResource
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import (
@@ -93,8 +89,6 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
-
-OAKLIB_MODULE = pystow.module("oaklib")
 
 
 def _curie_prefix(curie: CURIE) -> Optional[str]:
