@@ -11,6 +11,7 @@ __all__ = [
     "set_apikey_value",
 ]
 
+
 def get_apikey_value(system: str) -> str:
     """
     Gets the value of a specific API key
