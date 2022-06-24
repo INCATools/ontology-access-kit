@@ -47,8 +47,6 @@ from semsql.sqla.semsql import (
 )
 from sqlalchemy import and_, create_engine, delete, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
-
-# TODO: move to schemaview
 from sssom.sssom_datamodel import MatchTypeEnum
 
 import oaklib.datamodels.ontology_metadata as om
@@ -89,6 +87,12 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
+__all__ = [
+    "get_range_xsd_type",
+    "regex_to_sql_like",
+    "SqlImplementation",
+]
+
 
 def _curie_prefix(curie: CURIE) -> Optional[str]:
     if ":" in curie:
@@ -103,7 +107,6 @@ def _mapping(m: sssom.Mapping):
     m.subject_source = _curie_prefix(m.subject_id)
     m.object_source = _curie_prefix(m.object_id)
     return m
-
 
 
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
