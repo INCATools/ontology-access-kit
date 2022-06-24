@@ -25,7 +25,6 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from pystow.utils import download
 from semsql.sqla.semsql import (
     AnnotationPropertyNode,
     ClassNode,
@@ -105,10 +104,6 @@ def _mapping(m: sssom.Mapping):
     m.object_source = _curie_prefix(m.object_id)
     return m
 
-
-def download_file(url: str, local_filename: Path):
-    """Download a file using :func:`pystow.utils.download`."""
-    download(url=url, path=local_filename, backend="requests")
 
 
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
