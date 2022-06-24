@@ -4,30 +4,37 @@ Functions for managing and accessing API keys via :mod:`pystow`.
 
 import pystow
 
-from oaklib.datamodels.vocabulary import APP_NAME
-
 __all__ = [
     "get_apikey_value",
     "set_apikey_value",
 ]
 
+APP_NAME = "oak"
 
-def get_apikey_value(system: str) -> str:
+
+def get_apikey_value(key: str) -> str:
     """
-    Gets the value of a specific API key
+    Get the value of the given configuration key.
 
-    :param system: e.g "bioportal"
-    :return:
+    :param key: e.g "bioportal" for the BioPortal API token
+    :return: The API key associated with the system
+
+    Configuration can be set in the following ways:
+
+    1. Set `OAKLIB_{key}` in the environment
+    2. Create a configuration file `~/.config/oaklib.ini`
+       and set the `[oaklib]` section in it with the given key
+    3. Use the :func:`set_apikey_value` function to directly
+       create a configuration file
     """
-    return pystow.get_config(APP_NAME, system)
+    return pystow.get_config(APP_NAME, key)
 
 
-def set_apikey_value(system: str, val: str) -> None:
+def set_apikey_value(key: str, value: str) -> None:
     """
-    Sets the value for a specific API key
+    Set the value for a given configuration key.
 
-    :param system: e.g. "bioportal"
-    :param val: API key value
-    :return:
+    :param key: e.g. "bioportal"
+    :param value: API key value
     """
-    pystow.write_config(APP_NAME, system, val)
+    pystow.write_config(APP_NAME, key, value)
