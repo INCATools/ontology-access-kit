@@ -215,6 +215,18 @@ Same using pronto, fetching ontology from obolibrary
 runoak -i obolibrary:go.obo  viz GO:0005773
 ```
 
+## Configuration
+
+Configuration for an arbitrary `key` (e.g., `bioportal_api_token`)
+can be set in the following ways:
+
+1. Set `OAKLIB_<key>` in the environment
+2. Create a configuration file `~/.config/oaklib.ini`
+   and set the `[oaklib]` section in it with the given key-value pair like
+   `<key> = <value>`
+3. Use the CLI command `runoak set-apikey <key> <value>` to automatically create
+   and populate the appropriate configuration file.
+
 ## Potential Refactoring
 
 Currently all implementations exist in this repo/module, this results in a lot of dependencies

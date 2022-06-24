@@ -9,7 +9,7 @@ __all__ = [
     "set_apikey_value",
 ]
 
-APP_NAME = "oak"
+APP_NAME = "oaklib"
 
 
 def get_apikey_value(key: str) -> str:
