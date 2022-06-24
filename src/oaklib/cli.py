@@ -14,7 +14,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
 from pathlib import Path
-from typing import Any, Iterable, Iterator, List, Optional, TextIO, Type, Union
+from typing import IO, Any, Iterable, Iterator, List, Optional, TextIO, Type, Union
 
 import click
 import rdflib
@@ -159,6 +159,12 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return shorthand
 
 
+def curies_from_file(file: IO) -> Iterator[CURIE]:
+    for line in file.readlines():
+        m = re.match(r"^(\S+)", line)
+        yield m.group(1)
+
+
 def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iterator[CURIE]:
     """
     Turn list of tokens that represent a term query into an iterator for curies
@@ -188,9 +194,11 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
         term = terms[0]
         terms = terms[1:]
         if term == "-":
-            for line in sys.stdin.readlines():
-                m = re.match(r"^(\S+)", line)
-                iterators.append(m.group(1))
+            iterators += list(curies_from_file(sys.stdin))
+        elif term.startswith(".load="):
+            fn = term.replace(".load=", """""")
+            with open(fn) as file:
+                iterators += list(curies_from_file(file))
         elif re.match(r"^(\w+):(\S+)$", term):
             iterators.append(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
@@ -213,6 +221,8 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
         elif term == ".or":
             # or is implicit
             pass
+        elif term.startswith(".all"):
+            iterators.append(impl.all_entity_curies())
         elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
@@ -1105,6 +1115,10 @@ def similarity(terms, predicates, output: TextIO):
     yields "fully formed stage" (i.e these are both found in the adult) as
     the MRCA
 
+    For phenotype ontologies, UPHENO relationship types connect phenotype terms to anatomy, etc:
+
+       runoak -i ubergraph: similarity MP:0010922 HP:0010616  -p i,p,UPHENO:0000001
+
     Background: https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html
     """
     if len(terms) != 2:
@@ -1132,26 +1146,75 @@ def similarity(terms, predicates, output: TextIO):
     multiple=True,
     help="List of curies or curie queries for the second set. If empty uses all",
 )
+@click.option(
+    "--set1-file",
+    help="ID file for set1",
+)
+@click.option(
+    "--set2-file",
+    help="ID file for set2",
+)
 @output_option
-def all_similarity(predicates, set1, set2, output: TextIO):
+@output_type_option
+def all_similarity(predicates, set1, set2, set1_file, set2_file, output_type, output: TextIO):
     """
     All by all similarity
+
+    This calculates a similarity matrix for two sets of terms.
+
+    Example:
+
+        runoak -i hp.db all-similarity -p i --set1-file HPO-TERMS1 --set2-file HPO-TERMS2 -O csv
+
+    The .all term syntax can be used to select all terms in an ontology
+
+    Example:
+
+        runoak -i ma.db all-similarity -p i,p --set1 .all --set2 .all
+
+    This can be mixed with other term selectors; for example to calculate the similarity of "neuron"
+    vs all terms in CL:
+
+        runoak -i cl.db all-similarity -p i,p --set1 .all --set2 neuron
+
+    An example pipeline to do all by all over all phenotypes in HPO:
+
+        runoak -i hp.db descendants -p i HP:0000118 > HPO
+        runoak -i hp.db all-similarity -p i --set1-file HPO --set2-file HPO -O csv -o RESULTS.tsv
+
+
     """
     impl = settings.impl
+    if output_type is None or output_type == "yaml":
+        writer = StreamingYamlWriter(output)
+    elif output_type == "csv":
+        writer = StreamingCsvWriter(output)
+    else:
+        raise ValueError(f"No such format: {output_type}")
     if isinstance(impl, SemanticSimilarityInterface):
         if len(set1) == 0:
-            set1it = impl.all_entity_curies()
+            if set1_file:
+                logging.info(f"Getting set1 from {set1_file}")
+                with open(set1_file) as file:
+                    set1it = list(curies_from_file(file))
+            else:
+                set1it = impl.all_entity_curies()
         else:
             set1it = query_terms_iterator(set1, impl)
         if len(set2) == 0:
-            set2it = impl.all_entity_curies()
+            if set2_file:
+                logging.info(f"Getting set2 from {set2_file}")
+                with open(set2_file) as file:
+                    set2it = list(curies_from_file(file))
+            else:
+                set2it = impl.all_entity_curies()
         else:
             set2it = query_terms_iterator(set2, impl)
         actual_predicates = _process_predicates_arg(predicates)
         for sim in impl.all_by_all_pairwise_similarity(
             set1it, set2it, predicates=actual_predicates
         ):
-            output.write(yaml_dumper.dumps(sim))
+            writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
