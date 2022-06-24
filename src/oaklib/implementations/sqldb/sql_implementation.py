@@ -18,6 +18,7 @@ from typing import (
     Union,
 )
 
+import pystow
 import rdflib
 import requests
 import semsql.builder.builder as semsql_builder
@@ -92,6 +93,8 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
+
+OAKLIB_MODULE = pystow.module("oaklib")
 
 
 def _curie_prefix(curie: CURIE) -> Optional[str]:
@@ -197,18 +200,13 @@ class SqlImplementation(
                 # The selector 'sqlite:obo:ONTOLOGY' will use a pre-generated
                 # sqlite db of an OBO ontology after downloading from S3.
                 # Note: this can take some time
-                db_name = locator.replace("obo:", "") + ".db"
-                cache_dir = Path(user_cache_dir("oaklib"))
-                cache_dir.mkdir(parents=True, exist_ok=True)
-                logging.info(f"Using cache dir: {cache_dir}")
-                db_path = cache_dir / db_name
-                if not db_path.exists():
-                    url = f"https://s3.amazonaws.com/bbop-sqlite/{db_name}"
-                    logging.info(f"Downloading from {url} to {db_path}")
-                    download_file(url, db_path)
-                else:
-                    logging.info(f"Using cached db: {db_path}")
-                locator = f"sqlite:///{db_path}"
+                prefix = locator.removeprefix("obo:")
+                # Option 1 uses direct URL construction:
+                url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db"
+                db_path = OAKLIB_MODULE.ensure(url=url)
+                # Option 2 uses botocore to interface with the S3 API directly:
+                # db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket="bbop-sqlite", s3_key=f"{prefix}.db")
+                locator = f"sqlite:///{db_path.as_uri()}"
             if locator.endswith(".owl"):
                 # this is currently an "Easter Egg" feature. It allows you to specify a locator
                 # such as sqlite:/path/to/my.owl
