@@ -1,12 +1,10 @@
 from dataclasses import dataclass
-from typing import Any, Union
+from typing import Union
 
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
 from oaklib.datamodels.obograph import Node
-from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
-from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE

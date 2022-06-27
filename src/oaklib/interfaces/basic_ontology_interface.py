@@ -1,6 +1,5 @@
 import logging
 from abc import ABC
-from collections import defaultdict
 from dataclasses import field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
@@ -12,7 +11,6 @@ from oaklib.datamodels.vocabulary import (
     OWL_THING,
 )
 
-# from oaklib import OntologyResource
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 

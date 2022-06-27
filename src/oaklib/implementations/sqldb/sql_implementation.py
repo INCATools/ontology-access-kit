@@ -262,7 +262,8 @@ class SqlImplementation(
         return self._prefix_map
 
     def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
-        q = self.session.query(ClassNode).filter(ClassNode.id.notlike("\_:%"))
+        # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
+        q = self.session.query(ClassNode).filter(ClassNode.id.notlike("_:%"))
         if filter_obsoletes:
             obs_subq = self.session.query(DeprecatedNode.id)
             q = q.filter(ClassNode.id.not_in(obs_subq))
