@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Union
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
+from oaklib.datamodels.obograph import Node
 
 from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -13,12 +14,14 @@ from oaklib.types import CURIE
 @dataclass
 class StreamingOboWriter(StreamingWriter):
     """
-    A writer that emits one document at a time in one stream
+    A writer that emits one OBO stanza at a time in one stream
     """
 
-    def emit(self, obj: Union[YAMLRoot, str]):
-        if isinstance(obj, str):
+    def emit(self, obj: Union[YAMLRoot, CURIE]):
+        if isinstance(obj, CURIE):
             self.emit_curie(obj)
+        elif isinstance(obj, Node):
+            self.emit_curie(obj.id)
         else:
             raise NotImplementedError
 

@@ -1,9 +1,10 @@
 import logging
 from abc import ABC
+from collections import defaultdict
 from dataclasses import field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from oaklib.datamodels.vocabulary import BIOPORTAL_PURL, IS_A, OBO_PURL, OWL_THING
+from oaklib.datamodels.vocabulary import BIOPORTAL_PURL, IS_A, OBO_PURL, OWL_THING, OWL_NOTHING
 
 # from oaklib import OntologyResource
 from oaklib.interfaces.ontology_interface import OntologyInterface
@@ -167,31 +168,24 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self,  filter_obsoletes=True) -> Iterable[CURIE]:
         """
         returns iterator over all known entity CURIEs
 
+        :param filter_obsoletes: if True, exclude any obsolete/deprecated element
         :return: iterator
         """
         raise NotImplementedError
 
-    def all_relationships(self) -> Iterable[RELATIONSHIP]:
-        """
-        returns iterator over all known relationships
 
-        :return:
-        """
-        for curie in self.all_entity_curies():
-            for pred, fillers in self.get_outgoing_relationship_map_by_curie(curie).items():
-                for filler in fillers:
-                    yield curie, pred, filler
-
-    def roots(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True) -> Iterable[CURIE]:
+    def roots(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True, filter_obsoletes=True) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
         a relationship with one of the specified predicates
 
         :param predicates:
+        :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)
+        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
         all_curies = set(list(self.all_entity_curies()))
@@ -208,15 +202,23 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 if predicates is None or pred in predicates:
                     candidates.remove(subject)
                     logging.debug(f"Not a root: {subject} [{pred} {object}]")
+        if filter_obsoletes:
+            exclusion_list = list(self.all_obsolete_curies())
+        else:
+            exclusion_list = []
+        exclusion_list += [OWL_THING, OWL_NOTHING]
         for term in candidates:
-            yield term
+            if term not in exclusion_list:
+                yield term
 
-    def leafs(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True) -> Iterable[CURIE]:
+    def leafs(self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True) -> Iterable[CURIE]:
         """
         All leaf nodes, where root is defined as any node that is not the object of
         a relationship with one of the specified predicates
 
         :param predicates:
+        :param ignore_owl_nothing: do not consider artificial/trivial owl:Nothing when calculating (default=True)
+        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
         all_curies = set(list(self.all_entity_curies()))
@@ -225,12 +227,20 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         for subject, pred, object in self.all_relationships():
             if subject == object:
                 continue
+            if ignore_owl_nothing and subject == OWL_NOTHING:
+                continue
             if object in candidates:
                 if predicates is None or pred in predicates:
                     candidates.remove(object)
                     logging.debug(f"Not a leaf: {object} [inv({pred}) {subject}]")
+        if filter_obsoletes:
+            exclusion_list = list(self.all_obsolete_curies())
+        else:
+            exclusion_list = []
+        exclusion_list += [OWL_THING, OWL_NOTHING]
         for term in candidates:
-            yield term
+            if term not in exclusion_list:
+                yield term
 
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
         """
@@ -352,7 +362,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param curie:
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_incoming_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
@@ -369,6 +379,42 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 continue
             for v in vs:
                 yield p, v
+
+    def get_relationships(
+            self, subjects: List[CURIE] = None,
+            predicates: List[PRED_CURIE] = None,
+            objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Returns all matching relationships
+
+        :param subjects:
+        :param predicates:
+        :param objects:
+        :return:
+        """
+        if not subjects:
+            subjects = list(self.all_entity_curies())
+        logging.info(f'Subjects: {len(subjects)}')
+        for subject in subjects:
+            for this_predicate, this_objects in self.get_outgoing_relationship_map_by_curie(subject).items():
+                if predicates and this_predicate not in predicates:
+                    continue
+                for this_object in this_objects:
+                    if objects and this_object not in objects:
+                        continue
+                    yield subject, this_predicate, this_object
+
+    def all_relationships(self) -> Iterable[RELATIONSHIP]:
+        """
+        returns iterator over all known relationships
+
+        :return:
+        """
+        for curie in self.all_entity_curies():
+            for pred, fillers in self.get_outgoing_relationship_map_by_curie(curie).items():
+                for filler in fillers:
+                    yield curie, pred, filler
 
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
         """

@@ -181,14 +181,27 @@ class ProntoImplementation(
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self,  filter_obsoletes=True) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
+            if filter_obsoletes and t.obsolete:
+                continue
             yield t.id
         # note what Pronto calls "relationship" is actually "relationship type"
         for t in self.wrapped_ontology.relationships():
+            if filter_obsoletes and t.obsolete:
+                continue
             yield t.id
         for t in self.wrapped_ontology.synonym_types():
             yield t.id
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        for t in self.wrapped_ontology.terms():
+            if t.obsolete:
+                yield t.id
+        # note what Pronto calls "relationship" is actually "relationship type"
+        for t in self.wrapped_ontology.relationships():
+            if t.obsolete:
+                yield t.id
 
     def all_subset_curies(self) -> Iterable[CURIE]:
         subsets = set()

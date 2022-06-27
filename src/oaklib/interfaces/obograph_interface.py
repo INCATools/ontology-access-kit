@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Union
 
-from oaklib.datamodels.obograph import Edge, Graph, Node
+from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
@@ -21,6 +21,19 @@ class Distance(Enum):
     ZERO = "zero"
     DIRECT = "direct"
     TRANSITIVE = "transitive"
+
+
+def _edges_to_nodes(start_curies: Union[CURIE, List[CURIE]], edges: List[Edge], reflexive=True) -> Iterable[CURIE]:
+    node_ids = set()
+    for edge in edges:
+        node_ids.update([edge.sub, edge.obj])
+    if not isinstance(start_curies, list):
+        start_curies = [start_curies]
+    node_ids.update(start_curies)
+    for node_id in node_ids:
+        if not reflexive and node_id in start_curies:
+            continue
+        yield node_id
 
 
 @dataclass
@@ -89,6 +102,18 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    def synonym_property_values(self, subject: CURIE) -> List[SynonymPropertyValue]:
+        return self.synonym_map_for_curies(subject)[subject]
+
+    def synonym_map_for_curies(self, subject: Union[CURIE, List[CURIE]]) -> Dict[CURIE, List[SynonymPropertyValue]]:
+        """
+        Get a map of SynonymPropertyValue objects keyed by curie
+
+        :param subject: curie or list of curies
+        :return:
+        """
+        raise NotImplementedError
+
     def _graph(self, triples: Iterable[RELATIONSHIP]) -> Graph:
         node_map: Dict[str, Node] = {}
         edges = []
@@ -152,7 +177,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         return g
 
     def ancestors(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None, reflexive=True
     ) -> Iterable[CURIE]:
         """
         Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified
@@ -164,13 +189,13 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
+        :param reflexive: include self
         :return: all ancestor CURIEs
         """
-        for node in self.ancestor_graph(start_curies, predicates).nodes:
-            yield node.id
+        return _edges_to_nodes(start_curies, self.ancestor_graph(start_curies, predicates).edges, reflexive)
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None, reflexive=True
     ) -> Iterable[CURIE]:
         """
         Descendants obtained from a walk downwards starting from start_curies
@@ -182,10 +207,10 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
         :param start_curies: curie or curies to start the walk from
         :param predicates: only traverse over these (traverses over all if this is not set)
+        :param reflexive: include self
         :return: all descendant CURIEs
         """
-        for node in self.descendant_graph(start_curies, predicates).nodes:
-            yield node.id
+        return _edges_to_nodes(start_curies, self.descendant_graph(start_curies, predicates).edges, reflexive)
 
     def subgraph(
         self,

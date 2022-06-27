@@ -199,9 +199,8 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_local_advanced(self):
         """
         Tests boolean combinations of search results
-
-        :return:
         """
+        # tuples of (terms, complete, expected, excluded)
         search_tests = [
             (["nucleus"], True, [NUCLEUS], []),
             (["t^nucleus"], True, [NUCLEUS], []),
@@ -217,16 +216,37 @@ class TestCommandLineInterface(unittest.TestCase):
                 [TEST_OWL_RDF],
             ),
             (
-                [".predicates=i,p", ".desc", "nucleus"],
+                [".desc//p=i,p", "nucleus"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE, NUCLEAR_MEMBRANE],
-                [TEST_OWL_RDF, TEST_ONT],
+                [TEST_OWL_RDF],
             ),
             (
-                [".predicates=i,p", ".desc", "nucleus", ".not", "l~membrane"],
+                [".anc//p=i", "nucleus", ".not", ".anc//p=i", IMBO],
+                True,
+                [NUCLEUS],
+                [TEST_OWL_RDF],
+            ),
+            (
+                [".desc//p=i,p", "nucleus", ".not", "l~membrane"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE],
-                [TEST_OWL_RDF, TEST_ONT],
+                [TEST_OWL_RDF],
+            ),
+            (
+                [".anc//p=i",
+                 "nucleus",
+                 ".filter",
+                 "[x for x in terms if not impl.get_definition_by_curie(x)]"],
+                True,
+                ["CARO:0000000", "CARO:0030000"],
+                [TEST_OWL_RDF],
+            ),
+            (
+                [".all"],
+                False,
+                [NUCLEUS, NUCLEAR_ENVELOPE],
+                [TEST_OWL_RDF],
             ),
         ]
         inputs = [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]
@@ -256,7 +276,11 @@ class TestCommandLineInterface(unittest.TestCase):
                     if m:
                         curies.append(m.group(1))
                 logging.info(f"SEARCH: {terms} => {curies} // {input_arg}")
-                self.assertCountEqual(expected, curies)
+                if complete:
+                    self.assertCountEqual(expected, set(curies))
+                else:
+                    for e in expected:
+                        self.assertIn(e, curies)
 
     def test_search_pronto_obolibrary(self):
         result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "t~shape"])

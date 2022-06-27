@@ -13,8 +13,9 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
+from itertools import chain
 from pathlib import Path
-from typing import IO, Any, Iterable, Iterator, List, Optional, TextIO, Type, Union
+from typing import IO, Any, Iterable, Iterator, List, Optional, TextIO, Type, Union, Dict
 
 import click
 import rdflib
@@ -53,6 +54,7 @@ from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
+from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
@@ -89,6 +91,13 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
 
 
 @unique
+class Direction(Enum):
+    up = "up"
+    down = "down"
+    both = "both"
+
+
+@unique
 class SetOperation(Enum):
     intersection = "intersection"
     union = "union"
@@ -118,7 +127,24 @@ set_operation_option = click.option(
     type=click.Choice([x.value for x in SetOperation]),
     help="set operation, where left set is stdin list and right set is arguments.",
 )
+direction_option = click.option(
+    "--direction",
+    type=click.Choice([x.value for x in Direction]),
+    help="direction of traversal over edges, which up is subject to object, down is object to subject.",
+)
 input_type_option = click.option("-I", "--input-type", help="Input type.")
+autolabel_option = click.option(
+    "--autolabel/--no-autolabel",
+    default=True,
+    show_default=True,
+    help="If set, results will automatically have labels assigned"
+)
+filter_obsoletes_option = click.option(
+    "--filter-obsoletes/--no-filter-obsoletes",
+    default=True,
+    show_default=True,
+    help="If set, results will exclude obsoletes"
+)
 output_option = click.option(
     "-o",
     "--output",
@@ -133,14 +159,20 @@ output_type_option = click.option(
 )
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
 display_option = click.option(
-    "-D", "--display", default="", help="A comma-separated list of display options"
+    "-D",
+    "--display",
+    default="",
+    help="A comma-separated list of display options. Use 'all' for all"
 )
 
 
 def _process_predicates_arg(preds_str: str) -> Optional[List[PRED_CURIE]]:
     if preds_str is None:
         return None
-    inputs = preds_str.split(",")
+    if ',' in preds_str:
+        inputs = preds_str.split(",")
+    else:
+        inputs = preds_str.split("+")
     preds = [_shorthand_to_pred_curie(p) for p in inputs]
     return preds
 
@@ -182,8 +214,25 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
     if isinstance(terms, tuple):
         terms = list(terms)
 
-    def nxt(iterators) -> Iterator[CURIE]:
-        for it in iterators:
+    def _parse_params(s: str) -> Dict:
+        d = {}
+        m = re.match(r"\.\w+//(.+)", s)
+        if m:
+            for p in m.group(1).split('//'):
+                if '=' not in p:
+                    raise ValueError(f"All arguments must be of param=val form, got {p} in {s}")
+                [k, v] = p.split('=')
+                if k == 'p':
+                    k = 'predicates'
+                if k == 'predicates':
+                    v = _process_predicates_arg(v)
+                d[k] = v
+        return d
+
+    def next_curie(iterators) -> Iterator[CURIE]:
+        while len(iterators):
+            it = iterators[0]
+            iterators = iterators[1:]
             if isinstance(it, str):
                 yield it
             else:
@@ -202,21 +251,36 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
         elif re.match(r"^(\w+):(\S+)$", term):
             iterators.append(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
+            logging.warning("Deprecated: pass as parameter instead")
             m = re.match(r"^\.predicates=(\S*)$", term)
             predicates = _process_predicates_arg(m.group(1))
         elif re.match(r"^http(\S+)$", term):
             iterators.append(term)
         elif term == ".and":
             rest = list(query_terms_iterator(terms, impl))
-            for x in nxt(iterators):
+            for x in next_curie(iterators):
                 if x in rest:
                     yield x
             terms = []
-        elif term == ".not":
+            iterators = []
+        elif term == ".xor":
             rest = list(query_terms_iterator(terms, impl))
-            for x in nxt(iterators):
+            remaining = []
+            for x in next_curie(iterators):
                 if x not in rest:
                     yield x
+                else:
+                    remaining.append(x)
+            iterators = []
+            for x in rest:
+                if x not in remaining:
+                    yield x
+        elif term == ".not":
+            rest = list(query_terms_iterator(terms, impl))
+            for x in next_curie(iterators):
+                if x not in rest:
+                    yield x
+            iterators = []
             terms = []
         elif term == ".or":
             # or is implicit
@@ -227,18 +291,27 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
             subset = terms[0]
             terms = terms[1:]
             iterators.append(impl.curies_by_subset(subset))
+        elif term.startswith(".filter"):
+            expr = terms[0]
+            terms = terms[1:]
+            iterators.append(eval(expr, {'impl': impl,
+                                         'terms': next_curie(iterators)}))
         elif term.startswith(".desc"):
+            params = _parse_params(term)
+            this_predicates = params.get('predicates', predicates)
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
-                iterators.append(impl.descendants(rest, predicates=predicates))
+                iterators.append(impl.descendants(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         elif term.startswith(".anc"):
+            params = _parse_params(term)
+            this_predicates = params.get('predicates', predicates)
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
-                iterators.append(impl.ancestors(rest, predicates=predicates))
+                iterators.append(impl.ancestors(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         else:
@@ -247,7 +320,7 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
                 iterators.append(impl.basic_search(cfg.search_terms[0], config=cfg))
             else:
                 raise NotImplementedError
-    for x in nxt(iterators):
+    for x in next_curie(iterators):
         yield x
 
 
@@ -1154,9 +1227,19 @@ def similarity(terms, predicates, output: TextIO):
     "--set2-file",
     help="ID file for set2",
 )
+@click.option(
+    "--jaccard-minimum",
+    type=float,
+    help="Minimum value for jaccard score",
+)
+@click.option(
+    "--ic-minimum",
+    type=float,
+    help="Minimum value for information content",
+)
 @output_option
 @output_type_option
-def all_similarity(predicates, set1, set2, set1_file, set2_file, output_type, output: TextIO):
+def all_similarity(predicates, set1, set2, set1_file, set2_file, jaccard_minimum, ic_minimum, output_type, output: TextIO):
     """
     All by all similarity
 
@@ -1214,6 +1297,12 @@ def all_similarity(predicates, set1, set2, set1_file, set2_file, output_type, ou
         for sim in impl.all_by_all_pairwise_similarity(
             set1it, set2it, predicates=actual_predicates
         ):
+            if jaccard_minimum is not None:
+                if sim.jaccard_similarity < jaccard_minimum:
+                    continue
+            if ic_minimum is not None:
+                if sim.ancestor_information_content < ic_minimum:
+                    continue
             writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1245,6 +1334,10 @@ def info(terms, output: TextIO, display: str, output_type: str):
         writer = StreamingOboWriter(ontology_interface=impl)
     elif output_type == "md":
         writer = StreamingMarkdownWriter(ontology_interface=impl)
+    elif output_type == "obojson":
+        writer = StreamingOboJsonWriter(ontology_interface=impl)
+    elif output_type == "csv":
+        writer = StreamingCsvWriter(ontology_interface=impl)
     else:
         writer = StreamingInfoWriter(ontology_interface=impl)
     writer.display_options = display.split(",")
@@ -1310,8 +1403,12 @@ def combine(terms, operation: str, output: TextIO, display: str, output_type: st
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@predicates_option
+@direction_option
+@autolabel_option
+@output_type_option
 @output_option
-def relationships(terms, output: str):
+def relationships(terms, predicates: str, direction: str, autolabel: bool, output_type: str, output: str):
     """
     Show all relationships for a term or terms
 
@@ -1321,46 +1418,35 @@ def relationships(terms, output: str):
     Note: this subcommand will become redundant with other commands like info
     """
     impl = settings.impl
+    if output_type == "obo":
+        writer = StreamingOboWriter(ontology_interface=impl)
+    elif output_type == "csv":
+        writer = StreamingCsvWriter(ontology_interface=impl)
+    else:
+        writer = StreamingCsvWriter(ontology_interface=impl)
+    writer.autolabel = autolabel
+    actual_predicates = _process_predicates_arg(predicates)
     if isinstance(impl, BasicOntologyInterface):
         curies = list(query_terms_iterator(terms, impl))
-        for curie in curies:
-            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
-            for pred, fillers in impl.get_outgoing_relationship_map_by_curie(curie).items():
-                print(f"  PRED: {pred} ! {impl.get_label_by_curie(pred)}")
-                for filler in fillers:
-                    print(f"    * {filler} ! {impl.get_label_by_curie(filler)}")
+        up_it = impl.get_relationships(curies, predicates=actual_predicates)
+        down_it = impl.get_relationships(objects=curies, predicates=actual_predicates)
+        if direction is None or direction == Direction.up.value:
+            it = up_it
+        elif direction == Direction.down.value:
+            it = down_it
+        else:
+            it = chain(up_it, down_it)
+        for rel in it:
+            writer.emit(dict(subject=rel[0], predicate=rel[1], object=rel[2]),
+                        label_fields=['subject', 'predicate', 'object'])
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@output_type_option
+@filter_obsoletes_option
 @output_option
-def all_relationships(output: TextIO, output_type: str):
-    """
-    Show all relationships for all terms
-
-    Example:
-        runoak -i hp.db all-relationships
-
-    """
-    impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
-    if isinstance(impl, OboGraphInterface):
-        for s, p, o in impl.all_relationships():
-            writer.emit(dict(subject=s, predicate=p, object=o))
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
-@output_option
-def terms(output: str):
+def terms(output: str, filter_obsoletes: bool):
     """
     List all terms in the ontology
 
@@ -1370,7 +1456,7 @@ def terms(output: str):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.all_entity_curies():
+        for curie in impl.all_entity_curies(filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.get_label_by_curie(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1493,24 +1579,37 @@ def term_mappings(terms, output, output_type):
 
 
 @main.command()
+@click.option("--obo-model/--no-obo-model",
+              help="If true, assume the OBO synonym datamodel")
 @output_option
-def aliases(output):
+@click.argument("terms", nargs=-1)
+def aliases(terms, output, obo_model):
     """
     List all aliases in the ontology
 
     Example:
 
-        runoak -i db/envo.db aliases
+        runoak -i db/envo.db aliases .all
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
-    if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.all_entity_curies():
-            for pred, aliases in impl.alias_map_by_curie(curie).items():
-                for alias in aliases:
-                    writer.emit(dict(curie=curie, pred=pred, alias=alias))
+    if obo_model:
+        if isinstance(impl, OboGraphInterface):
+            curies = list(query_terms_iterator(terms, impl))
+            syn_map = impl.synonym_map_for_curies(curies)
+            for curie, spvs in syn_map.items():
+                for spv in spvs:
+                    writer.emit(dict(curie=curie, pred=spv.pred, value=spv.val, type=spv.synonymType, xrefs=spv.xrefs))
+        else:
+            raise NotImplementedError
     else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        if isinstance(impl, BasicOntologyInterface):
+            for curie in query_terms_iterator(terms, impl):
+                for pred, aliases in impl.alias_map_by_curie(curie).items():
+                    for alias in aliases:
+                        writer.emit(dict(curie=curie, pred=pred, alias=alias))
+        else:
+            raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()

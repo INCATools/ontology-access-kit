@@ -27,7 +27,7 @@ from tests import (
     NUCLEUS,
     OUTPUT_DIR,
     SHAPE,
-    VACUOLE,
+    VACUOLE, CELL_CORTEX,
 )
 
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
@@ -61,7 +61,7 @@ class TestSparqlImplementation(unittest.TestCase):
 
     @unittest.skip("TODO")
     def test_subontology(self):
-        oi = self.pato_graph_oi
+        oi = self.oi
         self.assertIsNotNone(oi.named_graph)
         label = oi.get_label_by_curie(DIGIT)
         self.assertIsNone(label)
@@ -74,7 +74,7 @@ class TestSparqlImplementation(unittest.TestCase):
         self.oi.dump(TEST_MUTABLE_RDF, "ttl")
 
     @unittest.skip("TODO")
-    def test_test_label(self):
+    def test_set_label(self):
         self.oi.set_label_for_curie(NUCLEUS, "foo")
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(TEST_MUTABLE_RDF, "ttl")
@@ -151,14 +151,22 @@ class TestSparqlImplementation(unittest.TestCase):
         assert VACUOLE in ancs
         assert CYTOPLASM in ancs
 
-    @unittest.skip("TODO")
-    def test_obograph_todo(self):
+    def test_descendants(self):
         descs = list(self.oi.descendants(CYTOPLASM, predicates=[IS_A, PART_OF]))
-        assert VACUOLE in descs
-        assert CYTOPLASM in descs
-        g = self.oi.ancestor_graph(CYTOPLASM)
-        # check is reflexive
-        self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
+        self.assertIn(VACUOLE, descs)
+        self.assertIn(CYTOPLASM, descs)
+        self.assertIn(CELL_CORTEX, descs)
+        for desc in descs:
+            self.assertIn(CYTOPLASM, list(self.oi.ancestors(desc, predicates=[IS_A, PART_OF])))
+        descs = list(self.oi.descendants(CYTOPLASM, predicates=[PART_OF]))
+        self.assertIn(VACUOLE, descs)
+        self.assertIn(CYTOPLASM, descs)
+        self.assertNotIn(CELL_CORTEX, descs)
+        descs = list(self.oi.descendants(CYTOPLASM, predicates=[IS_A]))
+        self.assertNotIn(VACUOLE, descs)
+        self.assertIn(CYTOPLASM, descs)
+        self.assertIn(CELL_CORTEX, descs)
+        self.assertEqual([NUCLEUS], list(self.oi.descendants(NUCLEUS, predicates=[IS_A])))
 
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
@@ -185,23 +193,17 @@ class TestSparqlImplementation(unittest.TestCase):
         label = oi.get_label_by_curie(NUCLEUS)
         preds = [IS_A, PART_OF]
         preds2 = [IS_A, FAKE_PREDICATE]
-        ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
-        descendants = list(oi.descendants(NUCLEUS, predicates=preds))
-
-        def non_reflexive(anc):
-            return [a for a in ancestors if a != NUCLEUS and a != PART_OF and a != FAKE_PREDICATE]
-
-        expected_ancs = non_reflexive(ancestors)
-        descendants_ancs = non_reflexive(descendants)
+        ancestors = list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+        descendants = list(oi.descendants(NUCLEUS, predicates=preds, reflexive=False))
         oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})
         self.assertEqual(label, oi.get_label_by_curie(FAKE_ID))
         self.assertIsNone(oi.get_label_by_curie(NUCLEUS))
         self.assertCountEqual(
-            expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2))
+            ancestors, oi.ancestors(FAKE_ID, predicates=preds2, reflexive=False)
         )
-        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds)))
+        self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False)))
         self.assertCountEqual(
-            descendants_ancs, non_reflexive(oi.descendants(FAKE_ID, predicates=preds2))
+            descendants, oi.descendants(FAKE_ID, predicates=preds2, reflexive=False)
         )
-        self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds)))
+        self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds, reflexive=False)))
         oi.save()

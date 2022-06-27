@@ -156,8 +156,14 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return uri.replace("_", ":")
         return uri
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s a ?cls", "FILTER (isIRI(?s))"])
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            yield self.uri_to_curie(row["s"]["value"])
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        query = SparqlQuery(select=["?s"], distinct=True, where=["?s owl:deprecated true"])
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
@@ -275,6 +281,16 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         bindings = self._query(query)
         return list(set([self.uri_to_curie(row["o"]["value"]) for row in bindings]))
 
+    def get_hierararchical_children_by_curie(
+            self, curie: CURIE, isa_only: bool = False
+    ) -> List[CURIE]:
+        uri = self.curie_to_uri(curie)
+        query = SparqlQuery(
+            select=["?s"], where=[f"?s <{RDFS.subClassOf}> <{uri}>", "FILTER (isIRI(?s))"]
+        )
+        bindings = self._query(query)
+        return list(set([self.uri_to_curie(row["s"]["value"]) for row in bindings]))
+
     def get_outgoing_relationship_map_by_curie(
         self, curie: CURIE, isa_only: bool = False
     ) -> RELATIONSHIP_MAP:
@@ -294,6 +310,29 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             obj = self.uri_to_curie(row["o"]["value"])
             if obj not in rels[pred]:
                 rels[pred].append(obj)
+        return rels
+
+    def get_incoming_relationship_map_by_curie(
+            self, curie: CURIE, isa_only: bool = False
+    ) -> RELATIONSHIP_MAP:
+        uri = self.curie_to_uri(curie)
+        rels = defaultdict(list)
+        logging.info(f"Getting incoming for: {curie}")
+        rels[IS_A] = self.get_hierararchical_children_by_curie(curie)
+        query = SparqlQuery(
+            select=["?s", "?p"],
+            where=[
+                f"?s <{RDFS.subClassOf}> [owl:onProperty ?p ; owl:someValuesFrom <{uri}>]",
+                "FILTER (isIRI(?s))",
+            ],
+        )
+        bindings = self._query(query)
+        for row in bindings:
+            pred = self.uri_to_curie(row["p"]["value"])
+            subj = self.uri_to_curie(row["s"]["value"])
+            if subj not in rels[pred]:
+                rels[pred].append(subj)
+        logging.info(f"Incoming for: {curie} => {rels}")
         return rels
 
     def _get_anns(self, curie: CURIE, pred: Union[URIRef, CURIE]):
@@ -467,11 +506,9 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         params = dict(id=curie, lbl=self.get_label_by_curie(curie))
         return obograph.Node(**params)
 
-    def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    def hierarchical_descendants(
+        self, start_curies: Union[CURIE, List[CURIE]]
     ) -> Iterable[CURIE]:
-        if not predicates or predicates != [IS_A]:
-            return super().descendants(start_curies, predicates)
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
