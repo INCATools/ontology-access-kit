@@ -17,6 +17,7 @@ from oaklib.utilities.obograph_utils import (
 )
 from tests import (
     CATALYTIC_ACTIVITY,
+    CELL_CORTEX,
     CELLULAR_COMPONENT,
     CYTOPLASM,
     DIGIT,
@@ -27,7 +28,7 @@ from tests import (
     NUCLEUS,
     OUTPUT_DIR,
     SHAPE,
-    VACUOLE, CELL_CORTEX,
+    VACUOLE,
 )
 
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
@@ -198,9 +199,7 @@ class TestSparqlImplementation(unittest.TestCase):
         oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})
         self.assertEqual(label, oi.get_label_by_curie(FAKE_ID))
         self.assertIsNone(oi.get_label_by_curie(NUCLEUS))
-        self.assertCountEqual(
-            ancestors, oi.ancestors(FAKE_ID, predicates=preds2, reflexive=False)
-        )
+        self.assertCountEqual(ancestors, oi.ancestors(FAKE_ID, predicates=preds2, reflexive=False))
         self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False)))
         self.assertCountEqual(
             descendants, oi.descendants(FAKE_ID, predicates=preds2, reflexive=False)

@@ -234,10 +234,12 @@ class TestCommandLineInterface(unittest.TestCase):
                 [TEST_OWL_RDF],
             ),
             (
-                [".anc//p=i",
-                 "nucleus",
-                 ".filter",
-                 "[x for x in terms if not impl.get_definition_by_curie(x)]"],
+                [
+                    ".anc//p=i",
+                    "nucleus",
+                    ".filter",
+                    "[x for x in terms if not impl.get_definition_by_curie(x)]",
+                ],
                 True,
                 ["CARO:0000000", "CARO:0030000"],
                 [TEST_OWL_RDF],

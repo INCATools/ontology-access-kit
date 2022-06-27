@@ -152,14 +152,12 @@ class UbergraphImplementation(
         return rmap
 
     def get_relationships(
-            self, subjects: List[CURIE] = None,
-            predicates: List[PRED_CURIE] = None,
-            objects: List[CURIE] = None,
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
     ) -> Iterator[RELATIONSHIP]:
-        query = SparqlQuery(
-            select=["?s", "?p", "?o"],
-            where=["?s ?p ?o"]
-        )
+        query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
         query.graph = RelationGraphEnum.nonredundant.value
         if subjects:
             query.where.append(_sparql_values("s", [self.curie_to_sparql(x) for x in subjects]))

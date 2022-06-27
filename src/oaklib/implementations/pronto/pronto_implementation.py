@@ -181,7 +181,7 @@ class ProntoImplementation(
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def all_entity_curies(self,  filter_obsoletes=True) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
             if filter_obsoletes and t.obsolete:
                 continue

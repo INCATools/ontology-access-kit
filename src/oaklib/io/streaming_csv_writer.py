@@ -1,13 +1,13 @@
 import csv
 from dataclasses import dataclass
-from typing import Any, Dict, Union, List
+from typing import Any, Dict, List, Union
 
 from linkml_runtime import CurieNamespace
 from linkml_runtime.utils.yamlutils import YAMLRoot
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, HAS_DBXREF, HAS_DEFINITION_CURIE
+
+from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
 
@@ -44,34 +44,36 @@ class StreamingCsvWriter(StreamingWriter):
                 curie = obj_as_dict.get(f, None)
                 if curie:
                     label = self.ontology_interface.get_label_by_curie(curie)
-                    obj_as_dict[f'{f}_label'] = label
+                    obj_as_dict[f"{f}_label"] = label
         if self.writer is None:
             # TODO: option to delay writing header, as not all keys may be populated in advance
             self.keys = list(obj_as_dict)
-            self.writer = csv.DictWriter(
-                self.file, delimiter=self.delimiter, fieldnames=self.keys
-            )
+            self.writer = csv.DictWriter(self.file, delimiter=self.delimiter, fieldnames=self.keys)
             self.writer.writeheader()
         self.writer.writerow({k: _keyval(v) for k, v in obj_as_dict.items() if k in self.keys})
 
     def _get_dict(self, curie: CURIE):
         oi = self.ontology_interface
-        d = dict(id=curie,
-                 label=oi.get_label_by_curie(curie),
-                 definition=oi.get_definition_by_curie(curie))
+        d = dict(
+            id=curie,
+            label=oi.get_label_by_curie(curie),
+            definition=oi.get_definition_by_curie(curie),
+        )
         for k, vs in oi.alias_map_by_curie(curie).items():
-            d[k] = '|'.join(vs)
+            d[k] = "|".join(vs)
         for _, x in oi.get_simple_mappings_by_curie(curie):
-            d['mappings'] = x
+            d["mappings"] = x
         for k, vs in oi.metadata_map_by_curie(curie).items():
             if k not in [HAS_DBXREF, HAS_DEFINITION_CURIE]:
                 d[k] = str(vs)
         if isinstance(oi, OboGraphInterface):
             for k, vs in oi.get_outgoing_relationship_map_by_curie(curie).items():
-                d[k] = '|'.join(vs)
-                d[f'{k}_label'] = '|'.join([oi.get_label_by_curie(v) for v in vs])
+                d[k] = "|".join(vs)
+                d[f"{k}_label"] = "|".join([oi.get_label_by_curie(v) for v in vs])
         if isinstance(oi, SemanticSimilarityInterface):
-            d['information_content_via_is_a'] = oi.get_information_content(curie, predicates=[IS_A])
-            d['information_content_via_is_a_part_of'] = oi.get_information_content(curie, predicates=[IS_A, PART_OF])
+            d["information_content_via_is_a"] = oi.get_information_content(curie, predicates=[IS_A])
+            d["information_content_via_is_a_part_of"] = oi.get_information_content(
+                curie, predicates=[IS_A, PART_OF]
+            )
 
         return d

@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from typing import Any, List, Union
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
+
 from oaklib import BasicOntologyInterface
 from oaklib.types import CURIE
 

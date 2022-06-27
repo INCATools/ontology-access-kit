@@ -282,7 +282,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         return list(set([self.uri_to_curie(row["o"]["value"]) for row in bindings]))
 
     def get_hierararchical_children_by_curie(
-            self, curie: CURIE, isa_only: bool = False
+        self, curie: CURIE, isa_only: bool = False
     ) -> List[CURIE]:
         uri = self.curie_to_uri(curie)
         query = SparqlQuery(
@@ -313,7 +313,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         return rels
 
     def get_incoming_relationship_map_by_curie(
-            self, curie: CURIE, isa_only: bool = False
+        self, curie: CURIE, isa_only: bool = False
     ) -> RELATIONSHIP_MAP:
         uri = self.curie_to_uri(curie)
         rels = defaultdict(list)
@@ -506,9 +506,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         params = dict(id=curie, lbl=self.get_label_by_curie(curie))
         return obograph.Node(**params)
 
-    def hierarchical_descendants(
-        self, start_curies: Union[CURIE, List[CURIE]]
-    ) -> Iterable[CURIE]:
+    def hierarchical_descendants(self, start_curies: Union[CURIE, List[CURIE]]) -> Iterable[CURIE]:
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = ["?s rdfs:subClassOf* ?o", _sparql_values("o", query_uris)]
         query = SparqlQuery(select=["?s"], distinct=True, where=where)

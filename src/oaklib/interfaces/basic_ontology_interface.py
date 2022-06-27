@@ -4,7 +4,13 @@ from collections import defaultdict
 from dataclasses import field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from oaklib.datamodels.vocabulary import BIOPORTAL_PURL, IS_A, OBO_PURL, OWL_THING, OWL_NOTHING
+from oaklib.datamodels.vocabulary import (
+    BIOPORTAL_PURL,
+    IS_A,
+    OBO_PURL,
+    OWL_NOTHING,
+    OWL_THING,
+)
 
 # from oaklib import OntologyResource
 from oaklib.interfaces.ontology_interface import OntologyInterface
@@ -168,7 +174,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def all_entity_curies(self,  filter_obsoletes=True) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
         """
         returns iterator over all known entity CURIEs
 
@@ -177,8 +183,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-
-    def roots(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True, filter_obsoletes=True) -> Iterable[CURIE]:
+    def roots(
+        self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True, filter_obsoletes=True
+    ) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
         a relationship with one of the specified predicates
@@ -211,7 +218,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             if term not in exclusion_list:
                 yield term
 
-    def leafs(self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True) -> Iterable[CURIE]:
+    def leafs(
+        self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True
+    ) -> Iterable[CURIE]:
         """
         All leaf nodes, where root is defined as any node that is not the object of
         a relationship with one of the specified predicates
@@ -381,9 +390,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 yield p, v
 
     def get_relationships(
-            self, subjects: List[CURIE] = None,
-            predicates: List[PRED_CURIE] = None,
-            objects: List[CURIE] = None,
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
@@ -395,9 +405,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         if not subjects:
             subjects = list(self.all_entity_curies())
-        logging.info(f'Subjects: {len(subjects)}')
+        logging.info(f"Subjects: {len(subjects)}")
         for subject in subjects:
-            for this_predicate, this_objects in self.get_outgoing_relationship_map_by_curie(subject).items():
+            for this_predicate, this_objects in self.get_outgoing_relationship_map_by_curie(
+                subject
+            ).items():
                 if predicates and this_predicate not in predicates:
                     continue
                 for this_object in this_objects:
