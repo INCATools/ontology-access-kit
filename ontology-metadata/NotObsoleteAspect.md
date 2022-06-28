@@ -33,6 +33,19 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 ## Usages
 
 
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [HasLifeCycle](HasLifeCycle.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [Term](Term.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [Class](Class.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [Property](Property.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [AnnotationProperty](AnnotationProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [ObjectProperty](ObjectProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [TransitiveProperty](TransitiveProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [NamedIndividual](NamedIndividual.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+| [Subset](Subset.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+
+
 
 ## Identifier and Mapping Information
 

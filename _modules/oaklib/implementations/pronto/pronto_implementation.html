@@ -105,6 +105,9 @@
     <span class="n">HAS_DBXREF</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
+    <span class="n">OIO_SUBSET_PROPERTY</span><span class="p">,</span>
+    <span class="n">OWL_CLASS</span><span class="p">,</span>
+    <span class="n">OWL_OBJECT_PROPERTY</span><span class="p">,</span>
     <span class="n">SCOPE_TO_SYNONYM_PRED_MAP</span><span class="p">,</span>
     <span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
 <span class="p">)</span>
@@ -262,14 +265,33 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">create_relationship</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">terms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">filter_obsoletes</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">obsolete</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">owl_type</span> <span class="ow">and</span> <span class="n">owl_type</span> <span class="o">!=</span> <span class="n">OWL_CLASS</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
         <span class="c1"># note what Pronto calls &quot;relationship&quot; is actually &quot;relationship type&quot;</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">filter_obsoletes</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">obsolete</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">owl_type</span> <span class="ow">and</span> <span class="n">owl_type</span> <span class="o">!=</span> <span class="n">OWL_OBJECT_PROPERTY</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">synonym_types</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">owl_type</span> <span class="ow">and</span> <span class="n">owl_type</span> <span class="o">!=</span> <span class="n">OIO_SUBSET_PROPERTY</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
+
+    <span class="k">def</span> <span class="nf">all_obsolete_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">terms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">obsolete</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
+        <span class="c1"># note what Pronto calls &quot;relationship&quot; is actually &quot;relationship type&quot;</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">obsolete</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">t</span><span class="o">.</span><span class="n">id</span>
 
     <span class="k">def</span> <span class="nf">all_subset_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">subsets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>

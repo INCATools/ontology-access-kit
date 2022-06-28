@@ -91,7 +91,7 @@ Name: Ontology-Metadata
 | [excluded_subClassOf](excluded_subClassOf.md) | None |
 | [excluded_synonym](excluded_synonym.md) | None |
 | [external_ontology](external_ontology.md) | None |
-| [has_alternative_id](has_alternative_id.md) | None |
+| [has_alternative_id](has_alternative_id.md) | Relates a live term to a deprecated ID that was merged in |
 | [has_axiom_label](has_axiom_label.md) | None |
 | [has_broad_synonym](has_broad_synonym.md) | None |
 | [has_curation_status](has_curation_status.md) | None |

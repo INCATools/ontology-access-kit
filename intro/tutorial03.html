@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Part 3: Ubergraph &mdash; oaklib  documentation</title>
+  <title>Part 3: Triplestore Backends &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -45,7 +45,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="tutorial01.html">Part 1: Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial02.html">Part 2: Basic Python</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Part 3: Ubergraph</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Part 3: Triplestore Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#triplestore-concepts">Triplestore Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ubergraph">Ubergraph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#connecting">Connecting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operations">Operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial04.html">Part 4: OboGraphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
@@ -82,7 +90,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Tutorial</a> &raquo;</li>
-      <li>Part 3: Ubergraph</li>
+      <li>Part 3: Triplestore Backends</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/intro/tutorial03.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -92,11 +100,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="part-3-ubergraph">
-<h1>Part 3: Ubergraph<a class="headerlink" href="#part-3-ubergraph" title="Permalink to this headline"></a></h1>
-<p>The <a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a> implementation allows for querying over any ontology in ubergraph.</p>
-<p>Previously we have been working with local ontology files in obo format</p>
-<p>TODO: fill this part of the tutorial in; for now see [test_ubergraph](<a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/tests/test_implementations/test_ubergraph.py">https://github.com/INCATools/ontology-access-kit/blob/main/tests/test_implementations/test_ubergraph.py</a>) is tests/test_implementations</p>
+  <section id="part-3-triplestore-backends">
+<h1>Part 3: Triplestore Backends<a class="headerlink" href="#part-3-triplestore-backends" title="Permalink to this headline"></a></h1>
+<p>Previously we have been working with <em>local</em> ontology files in <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>. We will now show how OAK
+can be used to access information in a local or remote <span class="xref std std-term">Triplestore</span>.</p>
+<section id="triplestore-concepts">
+<h2>Triplestore Concepts<a class="headerlink" href="#triplestore-concepts" title="Permalink to this headline"></a></h2>
+<p>There are a number of triplestores that include ontology content queryable using <span class="xref std std-term">SPARQL</span>.</p>
+<p>OAK includes built in support for a number of triplestores, including:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../glossary.html#term-Ubergraph"><span class="xref std std-term">Ubergraph</span></a>, an enriched triplestore containing a core set of biological ontologies</p></li>
+<li><p><span class="xref std std-term">Ontobee</span>, a triplestore including all <span class="xref std std-term">OBO Foundry</span> ontologies</p></li>
+<li><p><span class="xref std std-term">Wikidata</span>, a triplestore containing a broad set of knowledge encodes as triples</p></li>
+<li><p><span class="xref std std-term">LOV</span>, (Linked Open Vocabularies), a triplestore containing generic semantic web ontologies and ontology-like schemas</p></li>
+</ul>
+<p>Additionally, <strong>OAK is capable of treating any local RDF file on disk as if it were a triplestore</strong></p>
+<p>All triplestores are standardized in that they all conform to the SPARQL standard. However, triplestores differ in
+how they store ontologies, and different ontologies conform to different metadata standards. This means it can be challenging
+writing code with uniform behavior across different triplestores. OAK attempts to bridge these differences as far as possible</p>
+</section>
+<section id="ubergraph">
+<h2>Ubergraph<a class="headerlink" href="#ubergraph" title="Permalink to this headline"></a></h2>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../implementations/ubergraph.html#ubergraph-implementation"><span class="std std-ref">Ubergraph Endpoint</span></a></p></li>
+</ul>
+<section id="connecting">
+<h3>Connecting<a class="headerlink" href="#connecting" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">UbergraphImplementation</span>
+
+<span class="n">oi</span> <span class="o">=</span> <span class="n">UbergraphImplementation</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="operations">
+<h3>Operations<a class="headerlink" href="#operations" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">term_id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0002544&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Will write out “digit”</p>
+<blockquote>
+<div><dl class="simple">
+<dt>for rel in oi.entailed_outgoing_relationships_by_curie(term_id):</dt><dd><p>print(rel)</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</section>
 </section>
 
 

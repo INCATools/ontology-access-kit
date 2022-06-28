@@ -85,7 +85,7 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">Node</span><span class="p">,</span> <span class="n">SynonymPropertyValue</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">BasicOntologyInterface</span><span class="p">,</span>
@@ -102,6 +102,21 @@
     <span class="n">ZERO</span> <span class="o">=</span> <span class="s2">&quot;zero&quot;</span>
     <span class="n">DIRECT</span> <span class="o">=</span> <span class="s2">&quot;direct&quot;</span>
     <span class="n">TRANSITIVE</span> <span class="o">=</span> <span class="s2">&quot;transitive&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_edges_to_nodes</span><span class="p">(</span>
+    <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">],</span> <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+    <span class="n">node_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+        <span class="n">node_ids</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">edge</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">obj</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">start_curies</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_curies</span><span class="p">]</span>
+    <span class="n">node_ids</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">start_curies</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="n">node_ids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reflexive</span> <span class="ow">and</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="n">start_curies</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">yield</span> <span class="n">node_id</span>
 
 
 <div class="viewcode-block" id="TraversalConfiguration"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">[docs]</a><span class="nd">@dataclass</span>
@@ -170,6 +185,20 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
+    <span class="k">def</span> <span class="nf">synonym_property_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SynonymPropertyValue</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">synonym_map_for_curies</span><span class="p">(</span><span class="n">subject</span><span class="p">)[</span><span class="n">subject</span><span class="p">]</span>
+
+<div class="viewcode-block" id="OboGraphInterface.synonym_map_for_curies"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.synonym_map_for_curies">[docs]</a>    <span class="k">def</span> <span class="nf">synonym_map_for_curies</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">SynonymPropertyValue</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a map of SynonymPropertyValue objects keyed by curie</span>
+
+<span class="sd">        :param subject: curie or list of curies</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
     <span class="k">def</span> <span class="nf">_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">triples</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
         <span class="n">node_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Node</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
@@ -233,7 +262,10 @@
         <span class="k">return</span> <span class="n">g</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.ancestors"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestors">[docs]</a>    <span class="k">def</span> <span class="nf">ancestors</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified</span>
@@ -245,13 +277,18 @@
 
 <span class="sd">        :param start_curies: curie or curies to start the walk from</span>
 <span class="sd">        :param predicates: only traverse over these (traverses over all if this is not set)</span>
+<span class="sd">        :param reflexive: include self</span>
 <span class="sd">        :return: all ancestor CURIEs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span></div>
+        <span class="k">return</span> <span class="n">_edges_to_nodes</span><span class="p">(</span>
+            <span class="n">start_curies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ancestor_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">,</span> <span class="n">reflexive</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.descendants"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">[docs]</a>    <span class="k">def</span> <span class="nf">descendants</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Descendants obtained from a walk downwards starting from start_curies</span>
@@ -263,10 +300,12 @@
 
 <span class="sd">        :param start_curies: curie or curies to start the walk from</span>
 <span class="sd">        :param predicates: only traverse over these (traverses over all if this is not set)</span>
+<span class="sd">        :param reflexive: include self</span>
 <span class="sd">        :return: all descendant CURIEs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">descendant_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span></div>
+        <span class="k">return</span> <span class="n">_edges_to_nodes</span><span class="p">(</span>
+            <span class="n">start_curies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">descendant_graph</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">,</span> <span class="n">reflexive</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.subgraph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">[docs]</a>    <span class="k">def</span> <span class="nf">subgraph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

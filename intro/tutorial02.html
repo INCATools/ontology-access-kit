@@ -20,7 +20,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Part 3: Ubergraph" href="tutorial03.html" />
+    <link rel="next" title="Part 3: Triplestore Backends" href="tutorial03.html" />
     <link rel="prev" title="Part 1: Getting Started" href="tutorial01.html" /> 
 </head>
 
@@ -47,10 +47,11 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 2: Basic Python</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#install-poetry">Install Poetry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-project">Create a new project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-concepts">Basic Concepts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code-the-first-example">Code the first example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Ubergraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Triplestore Backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial04.html">Part 4: OboGraphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
@@ -114,6 +115,14 @@ the instructions.</p>
 </pre></div>
 </div>
 </section>
+<section id="basic-concepts">
+<h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline"></a></h2>
+<p>The two basic concepts you will learn here are:</p>
+<ul class="simple">
+<li><p>Implementations: How to create a connector object that can talk to a backend or work with a particular file format</p></li>
+<li><p>Interfaces: How to perform operations on a basic ontology interface, regardless of the backend</p></li>
+</ul>
+</section>
 <section id="code-the-first-example">
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
 <p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation.</p>
@@ -130,6 +139,10 @@ the instructions.</p>
 <li><p>We first import the general <code class="docutils literal notranslate"><span class="pre">OntologyResource</span></code> implementation which allows us to declare where to get the ontology from.</p></li>
 <li><p>We then load this resource using the <code class="docutils literal notranslate"><span class="pre">ProntoImplementation</span></code>, which allows us to perform all operations on the resource that we could do with <a class="reference external" href="https://github.com/althonos/pronto">pronto</a>.</p></li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The way in which a connection is made to a backend may change in the near future!</p>
+</div>
 <p>Next, let us use <a class="reference internal" href="../glossary.html#term-Pronto"><span class="xref std std-term">Pronto</span></a> to actually query the ontology:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
 
@@ -161,7 +174,7 @@ BFO:0000050 ! part_of
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="tutorial01.html" class="btn btn-neutral float-left" title="Part 1: Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tutorial03.html" class="btn btn-neutral float-right" title="Part 3: Ubergraph" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorial03.html" class="btn btn-neutral float-right" title="Part 3: Triplestore Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

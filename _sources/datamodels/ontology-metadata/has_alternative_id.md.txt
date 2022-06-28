@@ -1,4 +1,6 @@
 # Slot: has_alternative_id
+_Relates a live term to a deprecated ID that was merged in_
+
 
 URI: [http://www.geneontology.org/formats/oboInOwl#hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlternativeId)
 

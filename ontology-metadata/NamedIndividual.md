@@ -97,7 +97,7 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 | [has_obsolescence_reason](has_obsolescence_reason.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [term_replaced_by](term_replaced_by.md) | [Any](Any.md) | 0..1 | None  | . |
 | [consider](consider.md) | [Any](Any.md) | 0..* | None  | . |
-| [has_alternative_id](has_alternative_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
+| [has_alternative_id](has_alternative_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | Relates a live term to a deprecated ID that was merged in  | . |
 | [excluded_from_QC_check](excluded_from_QC_check.md) | [Thing](Thing.md) | 0..1 | None  | . |
 | [excluded_subClassOf](excluded_subClassOf.md) | [Class](Class.md) | 0..* | None  | . |
 | [excluded_synonym](excluded_synonym.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
@@ -307,6 +307,7 @@ attributes:
     aliases:
     - is obsolete
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: owl:deprecated
     alias: deprecated
     owner: NamedIndividual
@@ -319,6 +320,7 @@ attributes:
     - '{''RULE'': ''subject must be deprecated''}'
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: IAO:0000231
     alias: has_obsolescence_reason
     owner: NamedIndividual
@@ -335,6 +337,7 @@ attributes:
     exact_mappings:
     - dcterms:isReplacedBy
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: NamedIndividual
@@ -347,6 +350,7 @@ attributes:
     - go permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: oio:consider
     multivalued: true
     alias: consider
@@ -354,12 +358,18 @@ attributes:
     range: Any
   has_alternative_id:
     name: has_alternative_id
+    description: Relates a live term to a deprecated ID that was merged in
+    deprecated: This is deprecated as it is redundant with the inverse replaced_by
+      triple
     comments:
-    - '{''RULE'': ''object must be deprecated''}'
+    - '{''RULE'': ''object must NOT be deprecated''}'
     in_subset:
     - go permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    see_also:
+    - https://github.com/owlcs/owlapi/issues/317
     is_a: obsoletion_related_property
+    domain: NotObsoleteAspect
     slot_uri: oio:hasAlternativeId
     multivalued: true
     alias: has_alternative_id

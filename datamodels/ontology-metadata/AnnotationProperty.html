@@ -294,7 +294,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="has_alternative_id.html"><span class="doc std std-doc">has_alternative_id</span></a></p></td>
 <td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>0..*</p></td>
-<td><p>None</p></td>
+<td><p>Relates a live term to a deprecated ID that was merged in</p></td>
 <td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="excluded_from_QC_check.html"><span class="doc std std-doc">excluded_from_QC_check</span></a></p></td>
@@ -748,6 +748,7 @@ attributes:
     aliases:
     - is obsolete
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: owl:deprecated
     alias: deprecated
     owner: AnnotationProperty
@@ -760,6 +761,7 @@ attributes:
     - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: IAO:0000231
     alias: has_obsolescence_reason
     owner: AnnotationProperty
@@ -776,6 +778,7 @@ attributes:
     exact_mappings:
     - dcterms:isReplacedBy
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: AnnotationProperty
@@ -788,6 +791,7 @@ attributes:
     - go permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     is_a: obsoletion_related_property
+    domain: ObsoleteAspect
     slot_uri: oio:consider
     multivalued: true
     alias: consider
@@ -795,12 +799,18 @@ attributes:
     range: Any
   has_alternative_id:
     name: has_alternative_id
+    description: Relates a live term to a deprecated ID that was merged in
+    deprecated: This is deprecated as it is redundant with the inverse replaced_by
+      triple
     comments:
-    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;object must be deprecated&#39;&#39;}&#39;
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;object must NOT be deprecated&#39;&#39;}&#39;
     in_subset:
     - go permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    see_also:
+    - https://github.com/owlcs/owlapi/issues/317
     is_a: obsoletion_related_property
+    domain: NotObsoleteAspect
     slot_uri: oio:hasAlternativeId
     multivalued: true
     alias: has_alternative_id
