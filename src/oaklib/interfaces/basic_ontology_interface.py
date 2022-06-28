@@ -8,7 +8,7 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     OBO_PURL,
     OWL_NOTHING,
-    OWL_THING,
+    OWL_THING, OWL_CLASS,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
@@ -171,11 +171,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
         returns iterator over all known entity CURIEs
 
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
+        :param owl_type: e.g. owl:Class
         :return: iterator
         """
         raise NotImplementedError
@@ -192,7 +193,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
-        all_curies = set(list(self.all_entity_curies()))
+        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
         candidates = all_curies
         logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
@@ -227,7 +228,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
-        all_curies = set(list(self.all_entity_curies()))
+        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
         candidates = all_curies
         logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():

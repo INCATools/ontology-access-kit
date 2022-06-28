@@ -138,10 +138,10 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             result = self.runner.invoke(main, ["-i", input_arg, "roots", "-p", "i"])
             out = result.stdout
-            self.assertIn("CHEBI:36342", out)
+            assert "CHEBI:36342" in out
             result = self.runner.invoke(main, ["-i", input_arg, "leafs", "-p", "i"])
             out = result.stdout
-            self.assertIn(NUCLEAR_ENVELOPE, out)
+            assert NUCLEAR_ENVELOPE in out
 
     # MAPPINGS
 
@@ -150,7 +150,6 @@ class TestCommandLineInterface(unittest.TestCase):
             main, ["-i", str(TEST_ONT), "term-mappings", "GO:0016740", "-o", TEST_OUT]
         )
         out = result.stdout
-        result.stderr
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)

@@ -261,16 +261,22 @@ class SqlImplementation(
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
         return self._prefix_map
 
-    def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
         # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
         q = self.session.query(Node)
+        if owl_type:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == owl_type
+            )
+            q = q.filter(Node.id.in_(subquery))
         if filter_obsoletes:
             obs_subq = self.session.query(DeprecatedNode.id)
             q = q.filter(Node.id.not_in(obs_subq))
         for row in q:
-            if not row.id.startswith("_:"):
-                yield row.id
+            if row:
+                if not row.id.startswith("_:") and not row.id.startswith('<'):
+                    yield row.id
 
     def all_obsolete_curies(self) -> Iterable[CURIE]:
         for row in self.session.query(DeprecatedNode):
