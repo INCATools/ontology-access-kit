@@ -151,6 +151,27 @@ class UbergraphImplementation(
             rmap[pred].append(s)
         return rmap
 
+    def get_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
+        query.graph = RelationGraphEnum.nonredundant.value
+        if subjects:
+            query.where.append(_sparql_values("s", [self.curie_to_sparql(x) for x in subjects]))
+        if predicates:
+            query.where.append(_sparql_values("p", [self.curie_to_sparql(x) for x in predicates]))
+        if objects:
+            query.where.append(_sparql_values("o", [self.curie_to_sparql(x) for x in objects]))
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            sub = self.uri_to_curie(row["s"]["value"])
+            pred = self.uri_to_curie(row["p"]["value"])
+            obj = self.uri_to_curie(row["o"]["value"])
+            yield sub, pred, obj
+
     def entailed_outgoing_relationships_by_curie(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
@@ -204,8 +225,8 @@ class UbergraphImplementation(
             graph=graph,
             where=[
                 "?s ?p ?o",
-                self._values("s", subject_uris),
-                self._values("p", predicate_uris),
+                self._sparql_values("s", subject_uris),
+                self._sparql_values("p", predicate_uris),
             ]
             + where,
         )
