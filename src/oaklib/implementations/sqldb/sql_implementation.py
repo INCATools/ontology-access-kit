@@ -275,7 +275,7 @@ class SqlImplementation(
             q = q.filter(Node.id.not_in(obs_subq))
         for row in q:
             if row:
-                if not row.id.startswith("_:") and not row.id.startswith('<'):
+                if not row.id.startswith("_:") and not row.id.startswith("<"):
                     yield row.id
 
     def all_obsolete_curies(self) -> Iterable[CURIE]:

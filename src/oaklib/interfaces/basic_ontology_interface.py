@@ -7,8 +7,9 @@ from oaklib.datamodels.vocabulary import (
     BIOPORTAL_PURL,
     IS_A,
     OBO_PURL,
+    OWL_CLASS,
     OWL_NOTHING,
-    OWL_THING, OWL_CLASS,
+    OWL_THING,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI

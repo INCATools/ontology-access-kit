@@ -24,8 +24,11 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     IS_A,
     LABEL_PREDICATE,
+    OIO_SUBSET_PROPERTY,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
-    SKOS_CLOSE_MATCH, OWL_CLASS, OWL_OBJECT_PROPERTY, OIO_SUBSET_PROPERTY,
+    SKOS_CLOSE_MATCH,
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
