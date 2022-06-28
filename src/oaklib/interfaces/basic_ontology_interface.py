@@ -10,7 +10,6 @@ from oaklib.datamodels.vocabulary import (
     OWL_NOTHING,
     OWL_THING,
 )
-
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 
