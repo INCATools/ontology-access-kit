@@ -263,13 +263,11 @@ class SqlImplementation(
 
     def all_entity_curies(self, filter_obsoletes=True) -> Iterable[CURIE]:
         # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
-        q = self.session.query(ClassNode).filter(ClassNode.id.notlike("_:%"))
+        # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
+        q = self.session.query(Node)
         if filter_obsoletes:
             obs_subq = self.session.query(DeprecatedNode.id)
-            q = q.filter(ClassNode.id.not_in(obs_subq))
-        # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
-        # for row in self.engine.execute(s):
-        # print(q)
+            q = q.filter(Node.id.not_in(obs_subq))
         for row in q:
             if not row.id.startswith("_:"):
                 yield row.id
