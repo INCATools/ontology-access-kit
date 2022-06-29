@@ -258,6 +258,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 if input_arg in excluded:
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
                     continue
+                print(f"{input_arg} // {terms}")
                 result = self.runner.invoke(main, ["-i", str(input_arg), "search"] + terms)
                 out = result.stdout
                 err = result.stderr

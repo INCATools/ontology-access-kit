@@ -6,6 +6,7 @@ Executed using "runoak" command
 """
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+import itertools
 import logging
 import re
 import subprocess
@@ -220,7 +221,7 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
     :param impl:
     :return:
     """
-    iterators: List[Union[CURIE, Iterable[CURIE]]] = []
+    curie_iterator: Iterable[CURIE] = iter([])
     predicates = None
     if isinstance(terms, tuple):
         terms = list(terms)
@@ -240,55 +241,53 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
                 d[k] = v
         return d
 
-    def next_curie(iterators) -> Iterator[CURIE]:
-        while len(iterators):
-            it = iterators[0]
-            iterators = iterators[1:]
-            if isinstance(it, str):
-                yield it
-            else:
-                for x in it:
-                    yield x
+    def chain_it(v):
+        if isinstance(v, str):
+            v = iter([v])
+        nonlocal curie_iterator
+        curie_iterator = itertools.chain(curie_iterator, v)
 
     while len(terms) > 0:
         term = terms[0]
         terms = terms[1:]
         if term == "-":
-            iterators += list(curies_from_file(sys.stdin))
+            chain_it(curies_from_file(sys.stdin))
+        elif term == '[':
+            raise NotImplementedError
+        elif term == ']':
+            raise NotImplementedError
         elif term.startswith(".load="):
             fn = term.replace(".load=", """""")
             with open(fn) as file:
-                iterators += list(curies_from_file(file))
+                chain_it(curies_from_file(file))
         elif re.match(r"^(\w+):(\S+)$", term):
-            iterators.append(term)
+            chain_it(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
             logging.warning("Deprecated: pass as parameter instead")
             m = re.match(r"^\.predicates=(\S*)$", term)
             predicates = _process_predicates_arg(m.group(1))
         elif re.match(r"^http(\S+)$", term):
-            iterators.append(term)
+            chain_it(term)
         elif term == ".and":
             rest = list(query_terms_iterator(terms, impl))
-            for x in next_curie(iterators):
+            for x in curie_iterator:
                 if x in rest:
                     yield x
             terms = []
-            iterators = []
         elif term == ".xor":
             rest = list(query_terms_iterator(terms, impl))
             remaining = []
-            for x in next_curie(iterators):
+            for x in curie_iterator:
                 if x not in rest:
                     yield x
                 else:
                     remaining.append(x)
-            iterators = []
             for x in rest:
                 if x not in remaining:
                     yield x
         elif term == ".not":
             rest = list(query_terms_iterator(terms, impl))
-            for x in next_curie(iterators):
+            for x in curie_iterator:
                 if x not in rest:
                     yield x
             iterators = []
@@ -297,22 +296,22 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
             # or is implicit
             pass
         elif term.startswith(".all"):
-            iterators.append(impl.all_entity_curies())
+            chain_it(impl.all_entity_curies())
         elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
-            iterators.append(impl.curies_by_subset(subset))
+            chain_it(impl.curies_by_subset(subset))
         elif term.startswith(".filter"):
             expr = terms[0]
             terms = terms[1:]
-            iterators.append(eval(expr, {"impl": impl, "terms": next_curie(iterators)}))
+            chain_it(eval(expr, {"impl": impl, "terms": curie_iterator}))
         elif term.startswith(".desc"):
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
-                iterators.append(impl.descendants(rest, predicates=this_predicates))
+                chain_it(impl.descendants(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         elif term.startswith(".anc"):
@@ -321,16 +320,16 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
-                iterators.append(impl.ancestors(rest, predicates=this_predicates))
+                chain_it(impl.ancestors(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         else:
             if isinstance(impl, SearchInterface):
                 cfg = create_search_configuration(term)
-                iterators.append(impl.basic_search(cfg.search_terms[0], config=cfg))
+                chain_it(impl.basic_search(cfg.search_terms[0], config=cfg))
             else:
                 raise NotImplementedError
-    for x in next_curie(iterators):
+    for x in curie_iterator:
         yield x
 
 
