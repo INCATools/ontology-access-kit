@@ -185,10 +185,10 @@ Name: Ontology-Metadata
 
 | Subset | Description |
 | --- | --- |
-| allotrope permitted profile | None |
-| allotrope required profile | None |
-| go permitted profile | None |
-| go recommended profile | None |
-| go required profile | None |
-| obi permitted profile | None |
-| obi required profile | None |
+| [AllotropePermittedProfile](AllotropePermittedProfile.md) | None |
+| [AllotropeRequiredProfile](AllotropeRequiredProfile.md) | None |
+| [GoPermittedProfile](GoPermittedProfile.md) | None |
+| [GoRecommendedProfile](GoRecommendedProfile.md) | None |
+| [GoRequiredProfile](GoRequiredProfile.md) | None |
+| [ObiPermittedProfile](ObiPermittedProfile.md) | None |
+| [ObiRequiredProfile](ObiRequiredProfile.md) | None |
