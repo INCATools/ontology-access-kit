@@ -199,10 +199,10 @@ class UbergraphImplementation(
     def _from_subjects_chunked(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, **kwargs
     ):
-        SIZE = 10
+        size = 10
         while len(subjects) > 0:
-            next_subjects = subjects[0:SIZE]
-            subjects = subjects[SIZE:]
+            next_subjects = subjects[0:size]
+            subjects = subjects[size:]
             for r in self._from_subjects(next_subjects, predicates, **kwargs):
                 yield r
 

@@ -302,9 +302,9 @@ class TestProntoImplementation(unittest.TestCase):
 
     @unittest.skip("https://github.com/althonos/pronto/issues/178")
     def test_dump(self):
-        COPY = "go-nucleus.copy.obo"
+        copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
-        self.oi.dump(str(OUTPUT_DIR / COPY), syntax="obo")
+        self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
     def test_patcher(self):
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
