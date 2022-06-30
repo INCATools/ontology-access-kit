@@ -848,7 +848,7 @@ def viz(
                 if isinstance(impl, OboGraphInterface):
                     graph = impl.relationships_to_graph(rels)
                 else:
-                    assert False
+                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
             else:
                 raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
@@ -1000,7 +1000,7 @@ def tree(
                 if isinstance(impl, OboGraphInterface):
                     graph = impl.relationships_to_graph(rels)
                 else:
-                    assert False
+                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
             else:
                 raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:

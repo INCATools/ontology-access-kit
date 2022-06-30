@@ -597,7 +597,9 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # Implements: PatcherInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def _sparql_update(self, query: SparqlUpdate, prefixes: PREFIX_MAP = {}):
+    def _sparql_update(self, query: SparqlUpdate, prefixes: PREFIX_MAP = None):
+        if prefixes is None:
+            prefixes = {}
         ng = self.named_graph
         if ng:
             if query.graph is not None:
