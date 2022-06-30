@@ -15,7 +15,7 @@ def fix_json_payload(obj: Any) -> None:
     :return:
     """
     if isinstance(obj, dict):
-        for k, v in obj.items():
+        for _, v in obj.items():
             fix_json_payload(v)
         if "self" in obj:
             obj["link_to_self"] = obj["self"]

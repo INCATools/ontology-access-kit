@@ -253,7 +253,7 @@ class WikidataImplementation(
         for rel in relationships:
             node_ids.update(list(rel))
         nodes = {}
-        for s, p, o in self._from_subjects_chunked(
+        for s, _, o in self._from_subjects_chunked(
             list(node_ids), [RDFS.label], object_is_literal=True
         ):
             nodes[s] = obograph.Node(id=s, lbl=o)
