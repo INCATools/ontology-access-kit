@@ -368,7 +368,7 @@ def graph_to_tree(
     predicates: List[PRED_CURIE] = None,
     output: TextIO = None,
     start_curies: List[CURIE] = None,
-    seeds: List[CURIE] = [],
+    seeds: List[CURIE] = None,
     format: str = None,
     max_paths: int = 10,
     predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
@@ -388,6 +388,8 @@ def graph_to_tree(
     :param stylemap: kgviz stylemap (not yet used)
     :return:
     """
+    if seeds is None:
+        seeds = []
     if output is None:
         output = io.StringIO()
         is_str = True

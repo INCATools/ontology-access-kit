@@ -132,8 +132,10 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             term: str,
             only: List[TAXON_CURIE],
             never: List[TAXON_CURIE],
-            present: List[TAXON_CURIE] = [],
+            present: List[TAXON_CURIE] = None,
         ) -> SubjectTerm:
+            if present is None:
+                present = []
             return SubjectTerm(
                 id=term,
                 only_in=[TaxonConstraint(taxon=Taxon(t)) for t in only],

@@ -212,8 +212,10 @@ class UbergraphImplementation(
         predicates: List[PRED_CURIE] = None,
         graph: str = None,
         object_is_literal=False,
-        where=[],  # FIXME never leave mutable structures in kwargs
+        where=None,
     ) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+        if where is None:
+            where = []
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
             predicate_uris = [self.curie_to_sparql(curie) for curie in predicates]
