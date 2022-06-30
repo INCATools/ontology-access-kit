@@ -209,30 +209,35 @@ class TestCommandLineInterface(unittest.TestCase):
             (["t=protoplasm"], True, [INTRACELLULAR], []),
             ([".=protoplasm"], True, [INTRACELLULAR], []),
             (
+                # terms that start with "nucl" are in PATO, with one exception
                 ["t/^nucl", ".and", "i/^PATO", ".not", "PATO:0001404"],
                 True,
                 [NUCLEATED],
                 [TEST_OWL_RDF],
             ),
             (
+                # is-a descendants of nucleus
                 [".desc//p=i,p", "nucleus"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE, NUCLEAR_MEMBRANE],
                 [TEST_OWL_RDF],
             ),
             (
+                # is-a ancestors of nucleus that are not a particular term
                 [".anc//p=i", "nucleus", ".not", ".anc//p=i", IMBO],
                 True,
                 [NUCLEUS],
                 [TEST_OWL_RDF],
             ),
             (
+                # is-a/part-of descendants of nucleus are not found in a label search for "membrane"
                 [".desc//p=i,p", "nucleus", ".not", "l~membrane"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE],
                 [TEST_OWL_RDF],
             ),
             (
+                # filter query
                 [
                     ".anc//p=i",
                     "nucleus",
@@ -244,9 +249,17 @@ class TestCommandLineInterface(unittest.TestCase):
                 [TEST_OWL_RDF],
             ),
             (
+                # all terms
                 [".all"],
                 False,
                 [NUCLEUS, NUCLEAR_ENVELOPE],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # no terms
+                [".all", ".not", ".all"],
+                True,
+                [],
                 [TEST_OWL_RDF],
             ),
         ]
@@ -258,7 +271,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 if input_arg in excluded:
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
                     continue
-                print(f"{input_arg} // {terms}")
+                #print(f"{input_arg} // {terms}")
                 result = self.runner.invoke(main, ["-i", str(input_arg), "search"] + terms)
                 out = result.stdout
                 err = result.stderr

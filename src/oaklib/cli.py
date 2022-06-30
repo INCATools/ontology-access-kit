@@ -25,6 +25,7 @@ from typing import (
     List,
     Optional,
     TextIO,
+    Tuple,
     Type,
     Union,
 )
@@ -203,13 +204,59 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return shorthand
 
 
+# A list whose members are either strings (search terms, curies, or directives)
+# or nested lists.
+# TODO: Replace this with an explicit query model with boolean operations
+NESTED_LIST = Union[List[str], List["NESTED_LIST"]]
+
+
+def nest_list_of_terms(terms: List[str]) -> NESTED_LIST:
+    """
+    Gives a list of terms (typically passed on command line),
+    replace blocks between '[', ..., ']' with nested lists of the contents
+
+    :param terms:
+    :return:
+    """
+    nested, rest = _nest_list_of_terms(terms)
+    if rest:
+        raise ValueError(f"Unparsed: {rest}")
+    return nested
+
+
+def _nest_list_of_terms(terms: List[str]) -> Tuple[NESTED_LIST, List[str]]:
+    nested = []
+    while len(terms) > 0:
+        term = terms[0]
+        terms = terms[1:]
+        if term == "[":
+            nxt, rest = _nest_list_of_terms(terms)
+            terms = rest
+            nested.append(nxt)
+        elif term == "]":
+            return nested, terms
+        else:
+            nested.append(term)
+    return nested, []
+
+
 def curies_from_file(file: IO) -> Iterator[CURIE]:
+    """
+    yield an iterator over CURIEs by parsing a file.
+
+    The file can contain any content, so long as each line
+    starts with a CURIE followed by whitespace -- the remainder of the line
+    is ignored
+
+    :param file:
+    :return:
+    """
     for line in file.readlines():
         m = re.match(r"^(\S+)", line)
         yield m.group(1)
 
 
-def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iterator[CURIE]:
+def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
     """
     Turn list of tokens that represent a term query into an iterator for curies
 
@@ -247,15 +294,15 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
         nonlocal curie_iterator
         curie_iterator = itertools.chain(curie_iterator, v)
 
+    terms = nest_list_of_terms(terms)
+
     while len(terms) > 0:
         term = terms[0]
         terms = terms[1:]
         if term == "-":
             chain_it(curies_from_file(sys.stdin))
-        elif term == '[':
-            raise NotImplementedError
-        elif term == ']':
-            raise NotImplementedError
+        elif isinstance(term, list):
+            chain_it(query_terms_iterator(term, impl))
         elif term.startswith(".load="):
             fn = term.replace(".load=", """""")
             with open(fn) as file:
@@ -290,7 +337,6 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
             for x in curie_iterator:
                 if x not in rest:
                     yield x
-            iterators = []
             terms = []
         elif term == ".or":
             # or is implicit
@@ -1497,6 +1543,7 @@ def roots(output: str, predicates: str):
         runoak -i db/cob.db terms
 
     Note that the default is to return the roots of the relation graph over *all* predicates
+
 
     TODO: filter obsoletes
     """
