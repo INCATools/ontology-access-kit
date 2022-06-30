@@ -40,7 +40,7 @@ class StreamingOboWriter(StreamingWriter):
             else:
                 anns = []
             self.tag_val("def", f'"{defn}"', xrefs=[ann.object for ann in anns])
-        for prop, x in oi.get_simple_mappings_by_curie(curie):
+        for _, x in oi.get_simple_mappings_by_curie(curie):
             self.line(f"xref: {x}")
         amap = oi.alias_map_by_curie(curie)
         for a, vs in amap.items():
