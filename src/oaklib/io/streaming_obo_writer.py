@@ -1,9 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, Union
+from typing import Any
 
-from linkml_runtime.utils.yamlutils import YAMLRoot
-
-from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface

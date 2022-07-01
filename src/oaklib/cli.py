@@ -74,6 +74,7 @@ from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
 from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
+from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWriter
 from oaklib.io.streaming_rdf_writer import StreamingRdfWriter
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
@@ -119,12 +120,14 @@ JSONL_FORMAT = "jsonl"
 YAML_FORMAT = "yaml"
 INFO_FORMAT = "info"
 SSSOM_FORMAT = "sssom"
+OWLFUN_FORMAT = "ofn"
 
-ONT_FORMATS = [OBO_FORMAT, OBOJSON_FORMAT, RDF_FORMAT, JSON_FORMAT, YAML_FORMAT, CSV_FORMAT]
+ONT_FORMATS = [OBO_FORMAT, OBOJSON_FORMAT, OWLFUN_FORMAT, RDF_FORMAT, JSON_FORMAT, YAML_FORMAT, CSV_FORMAT]
 
 WRITERS = {
     OBO_FORMAT: StreamingOboWriter,
     RDF_FORMAT: StreamingRdfWriter,
+    OWLFUN_FORMAT: StreamingOwlFunctionalWriter,
     MD_FORMAT: StreamingMarkdownWriter,
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,

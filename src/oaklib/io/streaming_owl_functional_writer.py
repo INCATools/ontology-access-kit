@@ -5,18 +5,21 @@ from linkml_runtime.dumpers import rdflib_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 from rdflib.term import Node
 
+from funowl import OntologyDocument, Axiom, AnnotationAssertion, Literal, IRI, AnnotationProperty, AnnotationSubject, \
+    AnnotationValue
+
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
 
 
 @dataclass
-class StreamingRdfWriter(StreamingWriter):
+class StreamingOwlFunctionalWriter(StreamingWriter):
     """
-    A writer that emits one frame at a time in RDF
+    A writer that emits one axiom at a time in OWL
     """
 
-    graph: rdflib.Graph = None
+    ontology_document: OntologyDocument = None
     dialect: str = field(default_factory=lambda: "ttl")
 
     def emit_curie(self, curie: CURIE, label=None):
@@ -24,21 +27,16 @@ class StreamingRdfWriter(StreamingWriter):
         if label is None:
             label = oi.get_label_by_curie(curie)
         if label:
-            self.add_triple(
-                oi.curie_to_uri(curie), oi.curie_to_uri(LABEL_PREDICATE), rdflib.Literal(label)
+            ax = AnnotationAssertion(
+                property=AnnotationProperty(oi.curie_to_uri(LABEL_PREDICATE)),
+                subject=AnnotationSubject(IRI(oi.curie_to_uri(curie))),
+                value=AnnotationValue(Literal(label))
             )
+            self.emit_axiom(ax)
 
-    def emit_obj(self, obj: YAMLRoot):
-        if self.graph is None:
-            self.graph = rdflib.Graph()
-        g = rdflib_dumper.as_rdf_graph(obj, schemaview=self.schemaview)
-        for t in g:
-            self.graph.add(t)
 
-    def add_triple(self, s: str, p: str, o: Node):
-        if self.graph is None:
-            self.graph = rdflib.Graph()
-        self.graph.add((rdflib.URIRef(s), rdflib.URIRef(p), o))
+    def emit_axiom(self, axiom: Axiom):
+        self.file.write(axiom)
 
     def close(self):
         self.file.write(self.graph.serialize(format=self.dialect))
