@@ -12,23 +12,19 @@
             "color": "black",
             "penwidth": 3,
             "arrowhead": "open",
-            "label": ""
+            "label": "ⓘ"
         },
         "rdf:type": {
             "color": "blue",
             "arrowhead": "open",
-            "label": "type"
+            "label": "ⓣ"
         },
         "RO:0002473": {
             "color": "gray",
             "arrowhead": "box",
             "label": "composed primarily of"
-        },
-        "RO:0002220": {
-            "color": "gray",
-            "label": "A"
-        },
-        "RO:0001025": {
+        }, 
+       "RO:0001025": {
             "arrowhead": "diamond",
             "color": "green",
             "penwidth": 2,            
@@ -36,14 +32,40 @@
         },        
         "RO:0002202": {
             "color": "green",
-            "label": "DF"
+            "label": "ⓓ"
         },
         "BFO:0000050": {
             "arrowhead": "tee",
             "color": "blue",
             "penwidth": 3,            
-            "label": ""
-        }        
+            "label": "ⓟ"
+        },
+        "UPHENO:0000001": {
+            "color": "gray",
+            "label": "Ⓐ"
+        },
+        "UPHENO:0000003": {
+            "color": "gray",
+            "label": "Ⓔ"
+        },
+        "RO:0002087": {
+            "color": "cyan4",
+            "label": "›››"
+        },
+        "RO:0002213": {
+            "arrowhead": "diamond",
+            "color": "green",
+            "label": "⇧"
+        },
+        "RO:0002212": {
+            "arrowhead": "tee",
+            "color": "red",
+            "label": "⇩"
+        },
+        "RO:0002220": {
+            "color": "gray",
+            "label": "A"
+        }
     },
     "conditionalProperties": [
         {
@@ -78,6 +100,9 @@
         "ZFA": {
             "fillcolor": "black",
             "fontcolor": "white"
+        },
+        "FBdv": {
+            "fillcolor": "mediumturquoise"
         },
         "RO": {
             "fillcolor": "pink"

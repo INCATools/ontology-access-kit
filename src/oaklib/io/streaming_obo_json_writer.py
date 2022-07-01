@@ -16,16 +16,10 @@ class StreamingOboJsonWriter(StreamingWriter):
     A writer that emits one OBO Json one node at a time in one stream
     """
 
-    def emit(self, obj: Union[YAMLRoot, CURIE]):
-        if isinstance(obj, CURIE):
-            self.emit_curie(obj)
-        elif isinstance(obj, Node):
-            self.emit_curie(obj.id)
-        else:
-            raise NotImplementedError
-
-    def emit_curie(self, curie: CURIE):
+    def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
         if isinstance(oi, OboGraphInterface):
             node = oi.node(curie, include_annotations=True)
             self.line(json_dumper.dumps(node))
+        else:
+            raise NotImplementedError

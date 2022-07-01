@@ -8,7 +8,7 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
-from oaklib.io.streaming_writer import StreamingWriter
+from oaklib.io.streaming_writer import StreamingWriter, ID_KEY, LABEL_KEY
 from oaklib.types import CURIE
 
 
@@ -77,3 +77,6 @@ class StreamingCsvWriter(StreamingWriter):
             )
 
         return d
+
+    def emit_curie(self, curie: CURIE, label=None):
+        self.emit({ID_KEY:curie, LABEL_KEY:label})

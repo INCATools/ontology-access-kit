@@ -26,7 +26,7 @@ class StreamingInfoWriter(StreamingWriter):
     A writer that streams basic line by line reporting info
     """
 
-    def emit(self, curie, label=None, **kwargs):
+    def emit_curie(self, curie, label=None, **kwargs):
         oi = self.ontology_interface
         if label is None:
             label = oi.get_label_by_curie(curie)

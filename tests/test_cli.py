@@ -147,7 +147,7 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_local(self):
         result = self.runner.invoke(
-            main, ["-i", str(TEST_ONT), "term-mappings", "GO:0016740", "-o", TEST_OUT]
+            main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT]
         )
         out = result.stdout
         self.assertEqual(0, result.exit_code)

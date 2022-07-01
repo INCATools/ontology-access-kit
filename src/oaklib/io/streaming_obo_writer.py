@@ -7,7 +7,7 @@ from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.io.streaming_writer import StreamingWriter
+from oaklib.io.streaming_writer import StreamingWriter, ID_KEY, LABEL_KEY
 from oaklib.types import CURIE
 
 
@@ -17,25 +17,19 @@ class StreamingOboWriter(StreamingWriter):
     A writer that emits one OBO stanza at a time in one stream
     """
 
-    def emit(self, obj: Union[YAMLRoot, CURIE]):
-        if isinstance(obj, CURIE):
-            self.emit_curie(obj)
-        elif isinstance(obj, Node):
-            self.emit_curie(obj.id)
-        else:
-            raise NotImplementedError
-
     def tag_val(self, k: str, v: Any, xrefs=None):
         self.file.write(f"{k}: {v}")
         if xrefs is not None:
             self.file.write(f' [{", ".join(xrefs)}]')
         self.file.write("\n")
 
-    def emit_curie(self, curie: CURIE):
+    def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
         self.line("[Term]")
         self.line(f"id: {curie}")
-        self.tag_val("name", oi.get_label_by_curie(curie))
+        if label is None:
+            label = oi.get_label_by_curie(curie)
+        self.tag_val("name", label)
         defn = oi.get_definition_by_curie(curie)
         if defn:
             if isinstance(oi, MetadataInterface):
