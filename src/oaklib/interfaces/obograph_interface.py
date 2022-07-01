@@ -94,12 +94,13 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def node(self, curie: CURIE, strict=False) -> Node:
+    def node(self, curie: CURIE, strict=False, include_annotations=False) -> Node:
         """
         Look up a node object by CURIE
 
-        :param curie:
-        :param strict:
+        :param curie: identifier of node
+        :param strict: raise exception if node not found
+        :param include_annotations: include detailed metadata
         :return:
         """
         raise NotImplementedError

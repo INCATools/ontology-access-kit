@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from enum import Enum, unique
 from itertools import chain
 from pathlib import Path
+from types import ModuleType
 from typing import (
     IO,
     Any,
@@ -35,12 +36,20 @@ import rdflib
 import sssom.writers as sssom_writers
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.utils.introspection import package_schemaview
 
 import oaklib.datamodels.taxon_constraints as tcdm
+from oaklib import datamodels
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
-from oaklib.datamodels.vocabulary import DEVELOPS_FROM, EQUIVALENT_CLASS, IS_A, PART_OF
+from oaklib.datamodels.vocabulary import (
+    DEVELOPS_FROM,
+    EQUIVALENT_CLASS,
+    IS_A,
+    PART_OF,
+    RDF_TYPE,
+)
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -66,9 +75,13 @@ from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
+from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
 from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
+from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWriter
+from oaklib.io.streaming_rdf_writer import StreamingRdfWriter
+from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
 from oaklib.selector import (
@@ -101,6 +114,42 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     parse_gain_loss_file,
     test_candidate_taxon_constraint,
 )
+
+OBO_FORMAT = "obo"
+RDF_FORMAT = "rdf"
+MD_FORMAT = "md"
+OBOJSON_FORMAT = "obojson"
+CSV_FORMAT = "csv"
+JSON_FORMAT = "json"
+JSONL_FORMAT = "jsonl"
+YAML_FORMAT = "yaml"
+INFO_FORMAT = "info"
+SSSOM_FORMAT = "sssom"
+OWLFUN_FORMAT = "ofn"
+
+ONT_FORMATS = [
+    OBO_FORMAT,
+    OBOJSON_FORMAT,
+    OWLFUN_FORMAT,
+    RDF_FORMAT,
+    JSON_FORMAT,
+    YAML_FORMAT,
+    CSV_FORMAT,
+]
+
+WRITERS = {
+    OBO_FORMAT: StreamingOboWriter,
+    RDF_FORMAT: StreamingRdfWriter,
+    OWLFUN_FORMAT: StreamingOwlFunctionalWriter,
+    MD_FORMAT: StreamingMarkdownWriter,
+    OBOJSON_FORMAT: StreamingOboJsonWriter,
+    CSV_FORMAT: StreamingCsvWriter,
+    JSON_FORMAT: StreamingJsonWriter,
+    JSONL_FORMAT: StreamingJsonWriter,
+    YAML_FORMAT: StreamingYamlWriter,
+    SSSOM_FORMAT: StreamingSssomWriter,
+    INFO_FORMAT: StreamingInfoWriter,
+}
 
 
 @unique
@@ -170,6 +219,12 @@ output_type_option = click.option(
     "--output-type",
     help="Desired output type",
 )
+ontological_output_type_option = click.option(
+    "-O",
+    "--output-type",
+    type=click.Choice(ONT_FORMATS),
+    help="Desired output type",
+)
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
 display_option = click.option(
     "-D",
@@ -198,10 +253,31 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return PART_OF
     elif shorthand == "d":
         return DEVELOPS_FROM
+    elif shorthand == "t":
+        return RDF_TYPE
     elif shorthand == "e":
         return EQUIVALENT_CLASS
     else:
         return shorthand
+
+
+def _get_writer(
+    output_type: str,
+    impl: OntologyInterface,
+    default_type: Type[StreamingWriter] = StreamingInfoWriter,
+    datamodel: ModuleType = None,
+) -> StreamingWriter:
+    if output_type is None:
+        typ = default_type
+    else:
+        if output_type in WRITERS:
+            typ = WRITERS[output_type]
+        else:
+            raise ValueError(f"Unrecognized output type: {output_type}")
+    w = typ(ontology_interface=impl)
+    if isinstance(w, StreamingRdfWriter) and datamodel is not None:
+        w.schemaview = package_schemaview(datamodel.__name__)
+    return w
 
 
 # A list whose members are either strings (search terms, curies, or directives)
@@ -440,8 +516,9 @@ def main(
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@ontological_output_type_option
 @output_option
-def search(terms, output: str):
+def search(terms, output_type: str, output: TextIO):
     """
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
@@ -473,11 +550,14 @@ def search(terms, output: str):
 
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
+    writer.output = output
     if isinstance(impl, SearchInterface):
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             logging.info("** Next chunk:")
+            # TODO: move chunking logic to writer
             for curie, label in impl.get_labels_for_curies(curie_it):
-                print(f"{curie} ! {label}")
+                writer.emit(dict(id=curie, label=label))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -505,19 +585,23 @@ def all_subsets(output: str):
 
 
 @main.command()
+@ontological_output_type_option
 @output_option
-def all_obsoletes(output: str):
+def obsoletes(output_type: str, output: str):
     """
     Shows all obsolete nodes
 
     Example:
-        runoak -i obolibrary:go.obo all-obsoletes
+        runoak -i obolibrary:go.obo obsoletes
 
+    TODO: this command should be parameterizable
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
+    writer.output = output
     if isinstance(impl, BasicOntologyInterface):
         for term in impl.all_obsolete_curies():
-            print(f"{term} ! {impl.get_label_by_curie(term)}")
+            writer.emit_curie(term, label=impl.get_label_by_curie(term))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -703,14 +787,10 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
      - <https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html>_
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
+    writer.output = output
     if isinstance(impl, TextAnnotatorInterface):
         configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
-        if output_type is None or output_type == "yaml":
-            writer = StreamingYamlWriter(output)
-        elif output_type == "csv":
-            writer = StreamingCsvWriter(output)
-        else:
-            raise ValueError(f"unknown writer: {output_type}")
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
@@ -1064,7 +1144,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
-    writer = StreamingCsvWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     # writer.display_options = display.split(',')
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
@@ -1097,8 +1177,8 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
-@output_type_option
 @output_option
+@ontological_output_type_option
 def siblings(terms, predicates, output_type: str, output: str):
     """
     List all siblings
@@ -1110,10 +1190,7 @@ def siblings(terms, predicates, output_type: str, output: str):
     Note that ancestors is by default over ALL relationship types
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.file = output
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
@@ -1149,10 +1226,7 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
     if isinstance(impl, OboGraphInterface):
@@ -1333,12 +1407,7 @@ def all_similarity(
 
     """
     impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     if isinstance(impl, SemanticSimilarityInterface):
         if len(set1) == 0:
             if set1_file:
@@ -1395,16 +1464,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
         runoak -i cl.owl info CL:4023094 -D x,d
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    elif output_type == "md":
-        writer = StreamingMarkdownWriter(ontology_interface=impl)
-    elif output_type == "obojson":
-        writer = StreamingOboJsonWriter(ontology_interface=impl)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
     logging.info(f"Input Terms={terms}; w={writer}")
@@ -1414,56 +1474,26 @@ def info(terms, output: TextIO, display: str, output_type: str):
 
 @main.command()
 @click.argument("terms", nargs=-1)
-@click.option(
-    "--operation",
-    type=click.Choice([x.value for x in SetOperation]),
-    help="set operation, where left set is stdin list and right set is arguments",
-)
 @output_option
 @display_option
-@output_type_option
-def combine(terms, operation: str, output: TextIO, display: str, output_type: str):
+@ontological_output_type_option
+def labels(terms, output: TextIO, display: str, output_type: str):
     """
-    Perform set-wise combination operation on two sets of curies
+    Show labels for terms
 
-    The first set is provided on standard input; the second set is provided on the command line
+    Example:
 
-    For example, to intersect a term list with all PATO shapes:
+        runoak -i cl.owl labels CL:4023094
 
-        cat my_terms.txt | runoak -i ubergraph:pato combine --operation intersection t~shape
-
-    This can be used to implement boolean logic in queries:
-
-        alias uberon='runoak -d db/uberon.db'
-        uberon search t~bone | uberon combine --operation union t~cartilage
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
-    set1 = set()
-    for line in sys.stdin.readlines():
-        m = re.match(r"^(\S+)", line)
-        set1.add(m.group(1))
-    set2 = set(query_terms_iterator(terms, impl))
-    if operation == SetOperation.intersection.value:
-        curies = set1.intersection(set2)
-    elif operation == SetOperation.union.value:
-        curies = set1.union(set2)
-    elif operation == SetOperation.difference.value:
-        curies = set1.difference(set2)
-    elif operation == SetOperation.symmetric_difference.value:
-        curies = set1.symmetric_difference(set2)
-    elif operation == SetOperation.reverse_difference.value:
-        curies = set2.difference(set1)
-    else:
-        raise NotImplementedError
-    logging.info(f"Result Terms={curies}")
-    for curie in curies:
-        writer.emit(curie)
+    for curie_it in chunk(query_terms_iterator(terms, impl)):
+        logging.info("** Next chunk:")
+        for curie, label in impl.get_labels_for_curies(curie_it):
+            writer.emit(dict(id=curie, label=label))
 
 
 @main.command()
@@ -1584,7 +1614,8 @@ def leafs(output: str, predicates: str):
 @output_option
 @output_type_option
 @click.option("--maps-to-source")
-def mappings(maps_to_source, output, output_type):
+@click.argument("terms", nargs=-1)
+def mappings(terms, maps_to_source, output, output_type):
     """
     List all SSSOM mappings in the ontology
 
@@ -1595,55 +1626,16 @@ def mappings(maps_to_source, output, output_type):
     TODO: TSV
     """
     impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    elif output_type == "sssom":
-        writer = StreamingSssomWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
     if isinstance(impl, MappingProviderInterface):
-        for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
-            writer.emit(mapping)
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
-@output_option
-@output_type_option
-@click.argument("terms", nargs=-1)
-def term_mappings(terms, output, output_type):
-    """
-    List all SSSOM mappings for a term or terms
-
-    Example:
-
-        runoak -i bioportal: term-mappings  UBERON:0002101 -O sssom
-
-    Example:
-
-        runoak -i ols: term-mappings  UBERON:0002101 -O yaml
-
-    Example:
-
-        runoak -i db/uberon.db term-mappings  UBERON:0002101
-    """
-    impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    elif output_type == "sssom":
-        writer = StreamingSssomWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
-    if isinstance(impl, MappingProviderInterface):
-        for curie in query_terms_iterator(terms, impl):
-            for mapping in impl.get_sssom_mappings_by_curie(curie):
+        if len(terms) == 0:
+            for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
                 writer.emit(mapping)
-        writer.close()
+        else:
+            for curie in query_terms_iterator(terms, impl):
+                for mapping in impl.get_sssom_mappings_by_curie(curie):
+                    writer.emit(mapping)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2169,17 +2161,9 @@ def diff_ontologies(output, output_type, other_ontology):
     """
     EXPERIMENTAL
     """
-    if output_type is None or output_type == "json":
-        writer = StreamingJsonLinesWriter(output)
-    elif output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    elif output_type == "kgcl":
-        raise NotImplementedError
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    # TODO: include KGCL datamodel
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingJsonLinesWriter)
     other_impl = get_implementation_from_shorthand(other_ontology)
     if isinstance(impl, DifferInterface):
         for diff in impl.compare_ontology_term_lists(other_impl):

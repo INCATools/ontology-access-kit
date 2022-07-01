@@ -273,7 +273,6 @@ class WikidataImplementation(
         pred_uris_j = "|".join(pred_uris)
         where.append(f"?s ({pred_uris_j})* ?o")
         query = SparqlQuery(select=["?o"], distinct=True, where=where)
-        print(query.query_str())
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["o"]["value"])
