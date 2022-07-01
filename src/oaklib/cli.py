@@ -2161,8 +2161,8 @@ def diff_ontologies(output, output_type, other_ontology):
     EXPERIMENTAL
     """
     # TODO: include KGCL datamodel
-    writer = _get_writer(output_type, impl, StreamingJsonLinesWriter)
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingJsonLinesWriter)
     other_impl = get_implementation_from_shorthand(other_ontology)
     if isinstance(impl, DifferInterface):
         for diff in impl.compare_ontology_term_lists(other_impl):
