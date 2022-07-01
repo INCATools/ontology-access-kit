@@ -34,6 +34,7 @@ from typing import (
 import click
 import rdflib
 import sssom.writers as sssom_writers
+import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
@@ -89,6 +90,7 @@ from oaklib.selector import (
     get_resource_from_shorthand,
 )
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -109,6 +111,7 @@ from oaklib.utilities.obograph_utils import (
     trim_graph,
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
+from oaklib.utilities.table_filler import TableFiller, TableMetadata, ColumnDependency
 from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
@@ -383,6 +386,15 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             fn = term.replace(".load=", """""")
             with open(fn) as file:
                 chain_it(curies_from_file(file))
+        elif term.startswith(".idfile"):
+            fn = terms.pop(0)
+            with open(fn) as file:
+                chain_it(curies_from_file(file))
+        elif term.startswith(".termfile"):
+            fn = terms.pop(0)
+            with open(fn) as file:
+                lines = [line.strip() for line in file.readlines()]
+                terms = lines + terms
         elif re.match(r"^(\w+):(\S+)$", term):
             chain_it(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
@@ -2204,6 +2216,135 @@ def set_obsolete(output, output_type, terms):
         # impl.save()
     else:
         raise NotImplementedError
+
+@main.command()
+@click.option('--allow-missing/--no-allow-missing',
+              default=False,
+              show_default=True,
+              help="Allow some dependent values to be blank, post-processing"
+              )
+@click.option('--missing-value-token',
+              help="Populate all missing values with this token"
+              )
+@click.option('--schema',
+              help="Path to linkml schema"
+              )
+@click.option('--delimiter',
+              default="\t",
+              show_default=True,
+              help="Delimiter between columns in input and output")
+@click.option('--relation',
+              multiple=True,
+              help="Serialized YAML string corresponding to a normalized relation between two columns")
+@click.option('--relation-file',
+              type=click.File(mode="r"),
+              help="Path to YAML file corresponding to a list of normalized relation between two columns")
+@output_option
+@click.argument("table_file")
+def fill_table(table_file, output, delimiter, missing_value_token, allow_missing: bool, relation: tuple, relation_file: str, schema: str):
+    """
+    Fills missing values in a table of ontology elements
+
+    Given a TSV with a populated ID column, and unpopulated columns for definition, label, mappings, ancestors,
+    this will iterate through each row filling in each missing value by performing ontology lookups.
+
+    In some cases, this can also perform reverse lookups; i.e given a table with labels populated and blank IDs,
+    then fill in the IDs
+
+    In the most basic scenario, you have a table with two columns 'id' and 'label'. These are the "conventional" column
+    headers for a table of ontology elements (see later for configuration when you don't follow conventions)
+
+    Example:
+
+        runoak -i cl.owl.ttl fill-table my-table.tsv
+
+    (any implementation can be used)
+
+    The same command will work for the reverse scenario - when you have labels populated, but IDs are not populated
+
+    By default this will throw an error if a lookup is not successful; this can be relaxed
+
+    Relaxed:
+
+        runoak -i cl.owl.ttl fill-table --allow-missing my-table.tsv
+
+    In this case missing values that cannot be populated will remain empty
+
+    To explicitly populate a value:
+
+        runoak -i cl.owl.ttl fill-table --missing-value-token NO_DATA my-table.tsv
+
+    Currently the following columns are recognized:
+
+     - id -- the unique identifier of the element
+     - label -- the rdfs:label of the element
+     - definition -- the definition of the element
+     - mappings -- mappings for the element
+     - ancestors -- ancestors for the element (this can be parameterized)
+
+    The metadata inference procedure will also work for when you have denormalized TSV files
+    with columns such as "foo_id" and "foo_name". This will be recognized as an implicit normalized
+    label relation between id and name of a foo element.
+
+    You can be more explicit in one of two ways:
+
+     1. Pass in a YAML structure (on command line or in a YAML file) listing relations
+     2. Pass in a LinkML data definitions YAML file
+
+    For the first method, you can pass in multiple relations using the --relation arg. For example,
+    given a TSV with columns cl_identifier and cl_display_label you can say:
+
+    Example:
+
+        runoak -i cl.owl.ttl fill-table \
+          --relation "{primary_key: cl_identifier, dependent_column: cl_display_label, relation: label}"
+
+    You can also specify this in a YAML file
+
+    For the 2nd method, you need to specify a LinkML schema with a class where (1) at least one field is annotated
+    as being an identifier (2) one or more slots have slot_uri elements mapping them to standard metadata elements
+    such as rdfs:label.
+
+    For example, my-schema.yaml:
+
+            classes:
+              Person:
+                attributes:
+                  id:
+                    identifier: true
+                  name:
+                    slot_uri: rdfs:label
+
+    This is a powerful command with many ways of configuring it - we will add separate docs for this soon,
+    for now please file an issue on github with any questions
+
+    TODO: allow for an option that will perform fuzzy matches of labels
+    TODO: reverse lookup is not provided for all fields, such as definitions
+    TODO: add an option to detect inconsistencies
+    TODO: add logical for obsoletion/replaced by
+    TODO: use most optimized method for whichever backend
+    """
+    tf = TableFiller(settings.impl)
+    with open(table_file) as input_file:
+        input_table = table_filler.parse_table(input_file, delimiter=delimiter)
+        if schema:
+            metadata = tf.extract_metadata_from_linkml(schema)
+        elif relation or relation_file:
+            metadata = TableMetadata(dependencies=[])
+            if relation_file:
+                for d_args in yaml.safe_load(relation_file):
+                    metadata.dependencies.append(ColumnDependency(**d_args))
+            for d_str in list(relation):
+                d_args = yaml.safe_load(d_str)
+                metadata.dependencies.append(ColumnDependency(**d_args))
+        else:
+            metadata = tf.infer_metadata(input_table[0])
+        metadata.set_allow_missing_values(allow_missing)
+        metadata.set_missing_value_token(missing_value_token)
+        tf.fill_table(input_table, table_metadata=metadata)
+        table_filler.write_table(input_table, output, delimiter=delimiter)
+
+
 
 
 if __name__ == "__main__":
