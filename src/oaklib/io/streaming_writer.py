@@ -40,7 +40,7 @@ class StreamingWriter(ABC):
         self._output = value
         if self._output is not None:
             if isinstance(self._output, str):
-                self.file = open(self._output, 'w', encoding='UTF-8')
+                self.file = open(self._output, "w", encoding="UTF-8")
             else:
                 self.file = self._output
 
