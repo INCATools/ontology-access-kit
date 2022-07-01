@@ -117,12 +117,12 @@ EXPECTED = [
                     "label",
                     "label",
                     allow_missing_values=True,
-                    missing_value_token="fooz",
+                    missing_value_token="not a label",
                 )
             ]
         ),
         [
-            {"id": "FAKE:0001", "label": "fooz"},
+            {"id": "FAKE:0001", "label": "not a label"},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
         ],
         True,
