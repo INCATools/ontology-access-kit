@@ -111,7 +111,7 @@ from oaklib.utilities.obograph_utils import (
     trim_graph,
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-from oaklib.utilities.table_filler import TableFiller, TableMetadata, ColumnDependency
+from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
@@ -2217,31 +2217,44 @@ def set_obsolete(output, output_type, terms):
     else:
         raise NotImplementedError
 
+
 @main.command()
-@click.option('--allow-missing/--no-allow-missing',
-              default=False,
-              show_default=True,
-              help="Allow some dependent values to be blank, post-processing"
-              )
-@click.option('--missing-value-token',
-              help="Populate all missing values with this token"
-              )
-@click.option('--schema',
-              help="Path to linkml schema"
-              )
-@click.option('--delimiter',
-              default="\t",
-              show_default=True,
-              help="Delimiter between columns in input and output")
-@click.option('--relation',
-              multiple=True,
-              help="Serialized YAML string corresponding to a normalized relation between two columns")
-@click.option('--relation-file',
-              type=click.File(mode="r"),
-              help="Path to YAML file corresponding to a list of normalized relation between two columns")
+@click.option(
+    "--allow-missing/--no-allow-missing",
+    default=False,
+    show_default=True,
+    help="Allow some dependent values to be blank, post-processing",
+)
+@click.option("--missing-value-token", help="Populate all missing values with this token")
+@click.option("--schema", help="Path to linkml schema")
+@click.option(
+    "--delimiter",
+    default="\t",
+    show_default=True,
+    help="Delimiter between columns in input and output",
+)
+@click.option(
+    "--relation",
+    multiple=True,
+    help="Serialized YAML string corresponding to a normalized relation between two columns",
+)
+@click.option(
+    "--relation-file",
+    type=click.File(mode="r"),
+    help="Path to YAML file corresponding to a list of normalized relation between two columns",
+)
 @output_option
 @click.argument("table_file")
-def fill_table(table_file, output, delimiter, missing_value_token, allow_missing: bool, relation: tuple, relation_file: str, schema: str):
+def fill_table(
+    table_file,
+    output,
+    delimiter,
+    missing_value_token,
+    allow_missing: bool,
+    relation: tuple,
+    relation_file: str,
+    schema: str,
+):
     """
     Fills missing values in a table of ontology elements
 
@@ -2343,8 +2356,6 @@ def fill_table(table_file, output, delimiter, missing_value_token, allow_missing
         metadata.set_missing_value_token(missing_value_token)
         tf.fill_table(input_table, table_metadata=metadata)
         table_filler.write_table(input_table, output, delimiter=delimiter)
-
-
 
 
 if __name__ == "__main__":
