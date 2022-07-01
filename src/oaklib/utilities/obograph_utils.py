@@ -25,12 +25,12 @@ from linkml_runtime.dumpers import json_dumper
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
 from oaklib.datamodels.obograph import Edge, Graph, Node
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.types import CURIE, PRED_CURIE
 
 DEFAULT_STYLEMAP = "obograph-style.json"
 
-DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p"}
+DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p", RDF_TYPE: "t"}
 
 
 class TreeFormatEnum(Enum):

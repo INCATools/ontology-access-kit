@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass, field
 
 import rdflib
@@ -41,4 +42,7 @@ class StreamingRdfWriter(StreamingWriter):
         self.graph.add((rdflib.URIRef(s), rdflib.URIRef(p), o))
 
     def close(self):
-        self.file.write(self.graph.serialize(format=self.dialect))
+        if self.graph is None:
+            logging.warning("No triples found in graph")
+        else:
+            self.file.write(self.graph.serialize(format=self.dialect))

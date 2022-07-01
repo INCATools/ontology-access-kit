@@ -33,7 +33,6 @@ from typing import (
 
 import click
 import rdflib
-import sssom
 import sssom.writers as sssom_writers
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
@@ -44,7 +43,13 @@ from oaklib import datamodels
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
-from oaklib.datamodels.vocabulary import DEVELOPS_FROM, EQUIVALENT_CLASS, IS_A, PART_OF
+from oaklib.datamodels.vocabulary import (
+    DEVELOPS_FROM,
+    EQUIVALENT_CLASS,
+    IS_A,
+    PART_OF,
+    RDF_TYPE,
+)
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -122,7 +127,15 @@ INFO_FORMAT = "info"
 SSSOM_FORMAT = "sssom"
 OWLFUN_FORMAT = "ofn"
 
-ONT_FORMATS = [OBO_FORMAT, OBOJSON_FORMAT, OWLFUN_FORMAT, RDF_FORMAT, JSON_FORMAT, YAML_FORMAT, CSV_FORMAT]
+ONT_FORMATS = [
+    OBO_FORMAT,
+    OBOJSON_FORMAT,
+    OWLFUN_FORMAT,
+    RDF_FORMAT,
+    JSON_FORMAT,
+    YAML_FORMAT,
+    CSV_FORMAT,
+]
 
 WRITERS = {
     OBO_FORMAT: StreamingOboWriter,
@@ -240,6 +253,8 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return PART_OF
     elif shorthand == "d":
         return DEVELOPS_FROM
+    elif shorthand == "t":
+        return RDF_TYPE
     elif shorthand == "e":
         return EQUIVALENT_CLASS
     else:
@@ -260,7 +275,7 @@ def _get_writer(
         else:
             raise ValueError(f"Unrecognized output type: {output_type}")
     w = typ(ontology_interface=impl)
-    if isinstance(w, StreamingRdfWriter):
+    if isinstance(w, StreamingRdfWriter) and datamodel is not None:
         w.schemaview = package_schemaview(datamodel.__name__)
     return w
 

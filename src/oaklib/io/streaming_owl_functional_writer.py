@@ -1,12 +1,16 @@
 from dataclasses import dataclass, field
 
-import rdflib
-from linkml_runtime.dumpers import rdflib_dumper
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib.term import Node
-
-from funowl import OntologyDocument, Axiom, AnnotationAssertion, Literal, IRI, AnnotationProperty, AnnotationSubject, \
-    AnnotationValue
+from funowl import (
+    IRI,
+    AnnotationAssertion,
+    AnnotationProperty,
+    AnnotationSubject,
+    AnnotationValue,
+    Axiom,
+    Literal,
+    OntologyDocument,
+)
+from funowl.writers.FunctionalWriter import FunctionalWriter
 
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE
 from oaklib.io.streaming_writer import StreamingWriter
@@ -30,13 +34,11 @@ class StreamingOwlFunctionalWriter(StreamingWriter):
             ax = AnnotationAssertion(
                 property=AnnotationProperty(oi.curie_to_uri(LABEL_PREDICATE)),
                 subject=AnnotationSubject(IRI(oi.curie_to_uri(curie))),
-                value=AnnotationValue(Literal(label))
+                value=AnnotationValue(Literal(label)),
             )
             self.emit_axiom(ax)
 
-
     def emit_axiom(self, axiom: Axiom):
-        self.file.write(axiom)
-
-    def close(self):
-        self.file.write(self.graph.serialize(format=self.dialect))
+        w = FunctionalWriter()
+        self.file.write(str(axiom.to_functional(w)))
+        self.file.write("\n")
