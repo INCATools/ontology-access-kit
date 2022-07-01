@@ -26,9 +26,23 @@ class StreamingWriter(ABC):
     display_options: List[str] = None
     autolabel: bool = None
     schemaview: SchemaView = None
+    _output: Any = None
 
     def __post_init__(self):
         atexit.register(self.close)
+
+    @property
+    def output(self) -> str:
+        return self._output
+
+    @output.setter
+    def output(self, value) -> None:
+        self._output = value
+        if self._output is not None:
+            if isinstance(self._output, str):
+                self.file = open(self._output, 'w', encoding='UTF-8')
+            else:
+                self.file = self._output
 
     def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields=None):
         if isinstance(obj, CURIE):

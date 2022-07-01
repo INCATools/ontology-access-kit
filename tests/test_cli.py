@@ -147,7 +147,7 @@ class TestCommandLineInterface(unittest.TestCase):
 
     def test_mappings_local(self):
         result = self.runner.invoke(
-            main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT]
+            main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
         )
         out = result.stdout
         self.assertEqual(0, result.exit_code)
@@ -181,8 +181,8 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_local(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(main, ["-i", input_arg, "search", "l~nucl"])
-            out = result.stdout
+            result = self.runner.invoke(main, ["-i", input_arg, "search", "l~nucl", "-o", str(TEST_OUT)])
+            out = self._out()
             err = result.stderr
             if result.exit_code != 0:
                 print(f"INPUT: {input_arg} code = {result.exit_code}")
@@ -271,8 +271,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 if input_arg in excluded:
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
                     continue
-                result = self.runner.invoke(main, ["-i", str(input_arg), "search"] + terms)
-                out = result.stdout
+                result = self.runner.invoke(main, ["-i", str(input_arg), "search"] + terms + ["-o", str(TEST_OUT)])
+                out = self._out()
                 err = result.stderr
                 if result.exit_code != 0:
                     logging.error(f"INPUT: {input_arg} code = {result.exit_code}")
@@ -297,22 +297,23 @@ class TestCommandLineInterface(unittest.TestCase):
                         self.assertIn(e, curies)
 
     def test_search_pronto_obolibrary(self):
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "t~shape"])
-        out = result.stdout
+        TO_OUT = ["-o", str(TEST_OUT)]
+        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "t~shape"] + TO_OUT)
+        out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn(SHAPE, out)
         self.assertIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "l=shape"])
-        out = result.stdout
+        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "l=shape"] + TO_OUT)
+        out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn(SHAPE, out)
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "shape"])
-        out = result.stdout
+        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "shape"] + TO_OUT)
+        out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn(SHAPE, out)

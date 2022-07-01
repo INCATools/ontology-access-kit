@@ -1627,6 +1627,7 @@ def mappings(terms, maps_to_source, output, output_type):
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
     if isinstance(impl, MappingProviderInterface):
         if len(terms) == 0:
             for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
