@@ -7,7 +7,7 @@ from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.io.streaming_writer import StreamingWriter, ID_KEY, LABEL_KEY
+from oaklib.io.streaming_writer import ID_KEY, LABEL_KEY, StreamingWriter
 from oaklib.types import CURIE
 
 

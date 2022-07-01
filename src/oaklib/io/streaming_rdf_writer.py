@@ -3,12 +3,16 @@ from dataclasses import dataclass, field
 import rdflib
 from linkml_runtime.dumpers import rdflib_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
-
-from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP, LABEL_PREDICATE
-from oaklib.io.streaming_writer import StreamingWriter, ID_KEY, LABEL_KEY
-from oaklib.types import CURIE
 from rdflib import Literal
 from rdflib.term import Node
+
+from oaklib.datamodels.vocabulary import (
+    IS_A,
+    LABEL_PREDICATE,
+    SYNONYM_PRED_TO_SCOPE_MAP,
+)
+from oaklib.io.streaming_writer import ID_KEY, LABEL_KEY, StreamingWriter
+from oaklib.types import CURIE
 
 
 @dataclass
@@ -16,15 +20,18 @@ class StreamingRdfWriter(StreamingWriter):
     """
     A writer that emits one frame at a time in RDF
     """
+
     graph: rdflib.Graph = None
-    dialect: str = field(default_factory=lambda: 'ttl')
+    dialect: str = field(default_factory=lambda: "ttl")
 
     def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
         if label is None:
             label = oi.get_label_by_curie(curie)
         if label:
-            self.add_triple(oi.curie_to_uri(curie), oi.curie_to_uri(LABEL_PREDICATE), rdflib.Literal(label))
+            self.add_triple(
+                oi.curie_to_uri(curie), oi.curie_to_uri(LABEL_PREDICATE), rdflib.Literal(label)
+            )
 
     def emit_obj(self, obj: YAMLRoot):
         if self.graph is None:
@@ -40,4 +47,3 @@ class StreamingRdfWriter(StreamingWriter):
 
     def close(self):
         self.file.write(self.graph.serialize(format=self.dialect))
-

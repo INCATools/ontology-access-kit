@@ -11,9 +11,8 @@ from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import Node
 from oaklib.types import CURIE
 
-
-ID_KEY = 'id'
-LABEL_KEY = 'label'
+ID_KEY = "id"
+LABEL_KEY = "label"
 
 
 @dataclass

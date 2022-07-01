@@ -37,9 +37,9 @@ import sssom
 import sssom.writers as sssom_writers
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.utils.introspection import package_schemaview
 
 import oaklib.datamodels.taxon_constraints as tcdm
-from linkml_runtime.utils.introspection import package_schemaview
 from oaklib import datamodels
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
@@ -109,17 +109,16 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     test_candidate_taxon_constraint,
 )
 
-
-OBO_FORMAT = 'obo'
-RDF_FORMAT = 'rdf'
-MD_FORMAT = 'md'
-OBOJSON_FORMAT = 'obojson'
-CSV_FORMAT = 'csv'
-JSON_FORMAT = 'json'
-JSONL_FORMAT = 'jsonl'
-YAML_FORMAT = 'yaml'
-INFO_FORMAT = 'info'
-SSSOM_FORMAT = 'sssom'
+OBO_FORMAT = "obo"
+RDF_FORMAT = "rdf"
+MD_FORMAT = "md"
+OBOJSON_FORMAT = "obojson"
+CSV_FORMAT = "csv"
+JSON_FORMAT = "json"
+JSONL_FORMAT = "jsonl"
+YAML_FORMAT = "yaml"
+INFO_FORMAT = "info"
+SSSOM_FORMAT = "sssom"
 
 ONT_FORMATS = [OBO_FORMAT, OBOJSON_FORMAT, RDF_FORMAT, JSON_FORMAT, YAML_FORMAT, CSV_FORMAT]
 
@@ -244,8 +243,12 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return shorthand
 
 
-def _get_writer(output_type: str, impl: OntologyInterface, default_type: Type[StreamingWriter] = StreamingInfoWriter,
-                datamodel: ModuleType = None) -> StreamingWriter:
+def _get_writer(
+    output_type: str,
+    impl: OntologyInterface,
+    default_type: Type[StreamingWriter] = StreamingInfoWriter,
+    datamodel: ModuleType = None,
+) -> StreamingWriter:
     if output_type is None:
         typ = default_type
     else:
