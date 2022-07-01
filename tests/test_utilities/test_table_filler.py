@@ -1,4 +1,3 @@
-import csv
 import logging
 import unittest
 from copy import deepcopy
@@ -10,7 +9,7 @@ from linkml_runtime.linkml_model import SlotDefinition
 from linkml_runtime.utils.introspection import package_schemaview
 
 import oaklib.datamodels.ontology_metadata as om
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations import SqlImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.resource import OntologyResource
@@ -21,7 +20,7 @@ from oaklib.utilities.table_filler import (
     parse_table,
     write_table,
 )
-from tests import BACTERIA, IMBO, INPUT_DIR, NUCLEAR_ENVELOPE, NUCLEUS, OUTPUT_DIR
+from tests import IMBO, INPUT_DIR, NUCLEAR_ENVELOPE, NUCLEUS, OUTPUT_DIR
 
 DB = INPUT_DIR / "go-nucleus.db"
 FBBT_SUBSET = INPUT_DIR / "fbbt-cl-subset.owl.ttl"
@@ -118,12 +117,12 @@ EXPECTED = [
                     "label",
                     "label",
                     allow_missing_values=True,
-                    missing_value_token="NO_VALUE",
+                    missing_value_token="fooz",
                 )
             ]
         ),
         [
-            {"id": "FAKE:0001", "label": "NO_VALUE"},
+            {"id": "FAKE:0001", "label": "fooz"},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
         ],
         True,
