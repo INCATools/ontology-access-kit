@@ -26,8 +26,8 @@ DB = INPUT_DIR / "go-nucleus.db"
 FBBT_SUBSET = INPUT_DIR / "fbbt-cl-subset.owl.ttl"
 TMP = OUTPUT_DIR / "tmp.tsv"
 TMP2 = OUTPUT_DIR / "tmp2.tsv"
-SSSOM_YAML = INPUT_DIR / 'fill-sssom-table-relations.yaml'
-EXAMPLE_SSSOM = INPUT_DIR / 'cl-fbbt.sssom.tsv'
+SSSOM_YAML = INPUT_DIR / "fill-sssom-table-relations.yaml"
+EXAMPLE_SSSOM = INPUT_DIR / "cl-fbbt.sssom.tsv"
 
 
 EXPECTED = [
@@ -210,9 +210,9 @@ class TestTableFiller(unittest.TestCase):
                 tm.dependencies.append(ColumnDependency(**dep))
         tm.set_allow_missing_values(True)
         tf.fill_table(input_table, table_metadata=tm)
-        labels = {row.get('object_name') for row in input_table}
-        self.assertIn('spermatozoon', labels)
-        self.assertIn('oocyte', labels)
+        labels = {row.get("object_name") for row in input_table}
+        self.assertIn("spermatozoon", labels)
+        self.assertIn("oocyte", labels)
 
     def test_infer_metadata_from_row(self):
         tf = self.table_filler
