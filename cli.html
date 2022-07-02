@@ -69,6 +69,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-subset">extract-subset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-fill-table">fill-table</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-filter-axioms">filter-axioms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-labels">labels</a></li>
@@ -820,6 +821,151 @@ to have performance issues with the query</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-extract-triples-arg-TERMS">
 <span id="cmdoption-runoak-extract-triples-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-triples-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-fill-table">
+<h4>fill-table<a class="headerlink" href="#runoak-fill-table" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Fills missing values in a table of ontology elements</p>
+<p>Given a TSV with a populated ID column, and unpopulated columns for definition, label, mappings, ancestors,
+this will iterate through each row filling in each missing value by performing ontology lookups.</p>
+<p>In some cases, this can also perform reverse lookups; i.e given a table with labels populated and blank IDs,
+then fill in the IDs</p>
+<p>In the most basic scenario, you have a table with two columns ‘id’ and ‘label’. These are the “conventional” column
+headers for a table of ontology elements (see later for configuration when you don’t follow conventions)</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i cl.owl.ttl fill-table my-table.tsv</p>
+</div></blockquote>
+<p>(any implementation can be used)</p>
+<p>The same command will work for the reverse scenario - when you have labels populated, but IDs are not populated</p>
+<p>By default this will throw an error if a lookup is not successful; this can be relaxed</p>
+<p>Relaxed:</p>
+<blockquote>
+<div><p>runoak -i cl.owl.ttl fill-table –allow-missing my-table.tsv</p>
+</div></blockquote>
+<p>In this case missing values that cannot be populated will remain empty</p>
+<p>To explicitly populate a value:</p>
+<blockquote>
+<div><p>runoak -i cl.owl.ttl fill-table –missing-value-token NO_DATA my-table.tsv</p>
+</div></blockquote>
+<p>Currently the following columns are recognized:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>id – the unique identifier of the element</p></li>
+<li><p>label – the rdfs:label of the element</p></li>
+<li><p>definition – the definition of the element</p></li>
+<li><p>mappings – mappings for the element</p></li>
+<li><p>ancestors – ancestors for the element (this can be parameterized)</p></li>
+</ul>
+</div></blockquote>
+<p>The metadata inference procedure will also work for when you have denormalized TSV files
+with columns such as “foo_id” and “foo_name”. This will be recognized as an implicit normalized
+label relation between id and name of a foo element.</p>
+<p>You can be more explicit in one of two ways:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Pass in a YAML structure (on command line or in a YAML file) listing relations</p></li>
+<li><p>Pass in a LinkML data definitions YAML file</p></li>
+</ol>
+</div></blockquote>
+<p>For the first method, you can pass in multiple relations using the –relation arg. For example,
+given a TSV with columns cl_identifier and cl_display_label you can say:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i cl.owl.ttl fill-table           –relation “{primary_key: cl_identifier, dependent_column: cl_display_label, relation: label}”</p>
+</div></blockquote>
+<p>You can also specify this in a YAML file</p>
+<p>For the 2nd method, you need to specify a LinkML schema with a class where (1) at least one field is annotated
+as being an identifier (2) one or more slots have slot_uri elements mapping them to standard metadata elements
+such as rdfs:label.</p>
+<p>For example, my-schema.yaml:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>classes:</dt><dd><dl class="simple">
+<dt>Person:</dt><dd><dl class="simple">
+<dt>attributes:</dt><dd><dl class="simple">
+<dt>id:</dt><dd><p>identifier: true</p>
+</dd>
+<dt>name:</dt><dd><p>slot_uri: rdfs:label</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>This is a powerful command with many ways of configuring it - we will add separate docs for this soon,
+for now please file an issue on github with any questions</p>
+<p>TODO: allow for an option that will perform fuzzy matches of labels
+TODO: reverse lookup is not provided for all fields, such as definitions
+TODO: add an option to detect inconsistencies
+TODO: add logical for obsoletion/replaced by
+TODO: use most optimized method for whichever backend</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak fill-table <span class="o">[</span>OPTIONS<span class="o">]</span> TABLE_FILE
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-allow-missing">
+<span id="cmdoption-runoak-fill-table-no-allow-missing"></span><span class="sig-name descname"><span class="pre">--allow-missing</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-allow-missing</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-fill-table-allow-missing" title="Permalink to this definition"></a></dt>
+<dd><p>Allow some dependent values to be blank, post-processing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-missing-value-token">
+<span class="sig-name descname"><span class="pre">--missing-value-token</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;missing_value_token&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-missing-value-token" title="Permalink to this definition"></a></dt>
+<dd><p>Populate all missing values with this token</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-schema">
+<span class="sig-name descname"><span class="pre">--schema</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;schema&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-schema" title="Permalink to this definition"></a></dt>
+<dd><p>Path to linkml schema</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-delimiter">
+<span class="sig-name descname"><span class="pre">--delimiter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;delimiter&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-delimiter" title="Permalink to this definition"></a></dt>
+<dd><p>Delimiter between columns in input and output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-relation">
+<span class="sig-name descname"><span class="pre">--relation</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;relation&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-relation" title="Permalink to this definition"></a></dt>
+<dd><p>Serialized YAML string corresponding to a normalized relation between two columns</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-relation-file">
+<span class="sig-name descname"><span class="pre">--relation-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;relation_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-relation-file" title="Permalink to this definition"></a></dt>
+<dd><p>Path to YAML file corresponding to a list of normalized relation between two columns</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-o">
+<span id="cmdoption-runoak-fill-table-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-fill-table-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-fill-table-arg-TABLE_FILE">
+<span id="cmdoption-runoak-fill-table-arg-table-file"></span><span class="sig-name descname"><span class="pre">TABLE_FILE</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-fill-table-arg-TABLE_FILE" title="Permalink to this definition"></a></dt>
+<dd><p>Required argument</p>
 </dd></dl>
 
 </section>
