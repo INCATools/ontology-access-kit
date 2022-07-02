@@ -297,6 +297,11 @@ class SqlImplementation(
         ):
             yield row.subject, row.value
 
+    def get_curies_by_label(self, label: str) -> List[CURIE]:
+        q = self.session.query(RdfsLabelStatement)
+        q = q.filter(RdfsLabelStatement.value == label)
+        return [row.subject for row in q]
+
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         m = defaultdict(list)
         m[LABEL_PREDICATE] = [self.get_label_by_curie(curie)]
