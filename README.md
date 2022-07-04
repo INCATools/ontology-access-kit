@@ -215,7 +215,17 @@ Same using pronto, fetching ontology from obolibrary
 runoak -i obolibrary:go.obo  viz GO:0005773
 ```
 
-## Potential Refactoring
+## Developer notes
+### Local project setup
+Prerequisites:
+1. Python 3.10+
+2. [Poetry](https://python-poetry.org/)
+
+Setup steps:
+1. Clone this repository.
+2. From the repo directory, run: `poetry install`
+
+### Potential Refactoring
 
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
 
