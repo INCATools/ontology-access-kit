@@ -215,10 +215,20 @@ Same using pronto, fetching ontology from obolibrary
 runoak -i obolibrary:go.obo  viz GO:0005773
 ```
 
-## Potential Refactoring
+## Developer notes
+### Local project setup
+Prerequisites:
+1. Python 3.9+
+2. [Poetry](https://python-poetry.org/)
 
+Setup steps:
+```shell
+git clone https://github.com/INCATools/ontology-access-kit.git
+cd ontology-access-kit
+poetry install
+```
+
+### Potential Refactoring
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
 
 One possibility is to split out each implementation into its own repo and use a plugin architecture
-
-
