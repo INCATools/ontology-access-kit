@@ -73,6 +73,7 @@ from oaklib.datamodels.vocabulary import (
     SYNONYM_PREDICATES,
     omd_slots,
 )
+from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
@@ -396,7 +397,7 @@ class SqlImplementation(
         self._execute(stmt)
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         preds = []
         preds.append(omd_slots.label.curie)
