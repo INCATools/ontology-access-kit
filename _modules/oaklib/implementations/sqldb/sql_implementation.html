@@ -100,10 +100,8 @@
 <span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">rdflib</span>
-<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">semsql.builder.builder</span> <span class="k">as</span> <span class="nn">semsql_builder</span>
 <span class="kn">import</span> <span class="nn">sssom</span>
-<span class="kn">from</span> <span class="nn">appdirs</span> <span class="kn">import</span> <span class="n">user_cache_dir</span>
 <span class="kn">from</span> <span class="nn">kgcl_schema.datamodel</span> <span class="kn">import</span> <span class="n">kgcl</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime</span> <span class="kn">import</span> <span class="n">SchemaView</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.introspection</span> <span class="kn">import</span> <span class="n">package_schemaview</span>
@@ -130,16 +128,13 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">insert</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">update</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">aliased</span><span class="p">,</span> <span class="n">sessionmaker</span>
-
-<span class="c1"># TODO: move to schemaview</span>
 <span class="kn">from</span> <span class="nn">sssom.sssom_datamodel</span> <span class="kn">import</span> <span class="n">MatchTypeEnum</span>
 
 <span class="kn">import</span> <span class="nn">oaklib.datamodels.ontology_metadata</span> <span class="k">as</span> <span class="nn">om</span>
 <span class="kn">import</span> <span class="nn">oaklib.datamodels.validation_datamodel</span> <span class="k">as</span> <span class="nn">vdm</span>
+<span class="kn">from</span> <span class="nn">oaklib.constants</span> <span class="kn">import</span> <span class="n">OAKLIB_MODULE</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span><span class="p">,</span> <span class="n">ontology_metadata</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
-
-<span class="c1"># from oaklib import OntologyResource</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="n">TermPairwiseSimilarity</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
@@ -176,6 +171,12 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;get_range_xsd_type&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;regex_to_sql_like&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SqlImplementation&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
 
 <span class="k">def</span> <span class="nf">_curie_prefix</span><span class="p">(</span><span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">curie</span><span class="p">:</span>
@@ -190,14 +191,6 @@
     <span class="n">m</span><span class="o">.</span><span class="n">subject_source</span> <span class="o">=</span> <span class="n">_curie_prefix</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">subject_id</span><span class="p">)</span>
     <span class="n">m</span><span class="o">.</span><span class="n">object_source</span> <span class="o">=</span> <span class="n">_curie_prefix</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">object_id</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">m</span>
-
-
-<span class="c1"># https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests</span>
-<span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local_filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
-        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_range_xsd_type</span><span class="p">(</span><span class="n">sv</span><span class="p">:</span> <span class="n">SchemaView</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">URIorCURIE</span><span class="p">]:</span>
@@ -283,18 +276,13 @@
                 <span class="c1"># The selector &#39;sqlite:obo:ONTOLOGY&#39; will use a pre-generated</span>
                 <span class="c1"># sqlite db of an OBO ontology after downloading from S3.</span>
                 <span class="c1"># Note: this can take some time</span>
-                <span class="n">db_name</span> <span class="o">=</span> <span class="n">locator</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;obo:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.db&quot;</span>
-                <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">user_cache_dir</span><span class="p">(</span><span class="s2">&quot;oaklib&quot;</span><span class="p">))</span>
-                <span class="n">cache_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using cache dir: </span><span class="si">{</span><span class="n">cache_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">db_path</span> <span class="o">=</span> <span class="n">cache_dir</span> <span class="o">/</span> <span class="n">db_name</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">db_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://s3.amazonaws.com/bbop-sqlite/</span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">db_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">db_path</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using cached db: </span><span class="si">{</span><span class="n">db_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">db_path</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="n">locator</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;obo:&quot;</span><span class="p">)</span> <span class="p">:]</span>
+                <span class="c1"># Option 1 uses direct URL construction:</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://s3.amazonaws.com/bbop-sqlite/</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.db&quot;</span>
+                <span class="n">db_path</span> <span class="o">=</span> <span class="n">OAKLIB_MODULE</span><span class="o">.</span><span class="n">ensure</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+                <span class="c1"># Option 2 uses botocore to interface with the S3 API directly:</span>
+                <span class="c1"># db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket=&quot;bbop-sqlite&quot;, s3_key=f&quot;{prefix}.db&quot;)</span>
+                <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">db_path</span><span class="o">.</span><span class="n">as_uri</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="n">locator</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.owl&quot;</span><span class="p">):</span>
                 <span class="c1"># this is currently an &quot;Easter Egg&quot; feature. It allows you to specify a locator</span>
                 <span class="c1"># such as sqlite:/path/to/my.owl</span>
