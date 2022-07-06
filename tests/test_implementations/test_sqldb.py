@@ -116,6 +116,15 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert n.lbl == "cellular_component"
         assert n.meta.definition.val.startswith("A location, ")
 
+    # TODO
+    def test_obograph_synonyms(self):
+        oi = self.oi
+        m = oi.synonym_map_for_curies([NUCLEUS, NUCLEAR_ENVELOPE])
+        for k, vs in m.items():
+            print(k)
+            for v in vs:
+                print(yaml_dumper.dumps(v))
+
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
         graph_as_dict(g)
@@ -478,7 +487,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
         descendants = list(oi.descendants(NUCLEUS, predicates=preds))
 
-        def non_reflexive(l):
+        def non_reflexive(anc):
             return [a for a in ancestors if a != NUCLEUS]
 
         expected_ancs = non_reflexive(ancestors)

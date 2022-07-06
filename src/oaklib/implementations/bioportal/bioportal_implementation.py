@@ -9,6 +9,7 @@ from sssom.sssom_datamodel import MatchTypeEnum
 
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
+from oaklib.implementations.bioportal import SEARCH_CONFIG
 from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -153,7 +154,6 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     def _annotator_json_to_results(
         self, json_list: List[Any], text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
-        results = []
         seen = {}
         for obj in json_list:
             ac_obj = obj["annotatedClass"]
@@ -194,7 +194,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         params = {"q": search_term, "include": ["prefLabel"]}
         if self.focus_ontology:

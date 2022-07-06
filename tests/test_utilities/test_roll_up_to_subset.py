@@ -31,7 +31,7 @@ class TestSubsetUtils(unittest.TestCase):
             # print(f'SUBSET: {subset}')
             m = roll_up_to_named_subset(self.oi, subset, term_curies, predicates=[IS_A, PART_OF])
             n = 0
-            for term, mapped_to in m.items():
+            for _, mapped_to in m.items():
                 # print(f'm[{term}] == {mapped_to}')
                 n += len(mapped_to)
             if subset.startswith("chebi"):

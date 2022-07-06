@@ -27,6 +27,11 @@ from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import transitive_reduction_by_predicate
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
+__all__ = [
+    "RelationGraphEnum",
+    "UbergraphImplementation",
+]
+
 
 class RelationGraphEnum(Enum):
     """
@@ -98,7 +103,7 @@ class UbergraphImplementation(
         query_uri = self.curie_to_sparql(curie)
         query = SparqlQuery(
             select=["?p", "?o"],
-            where=[f"GRAPH <{graph.value}> {{ {query_uri} ?p ?o }}", f"?o a owl:Class"],
+            where=[f"GRAPH <{graph.value}> {{ {query_uri} ?p ?o }}", "?o a owl:Class"],
         )
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
@@ -115,7 +120,7 @@ class UbergraphImplementation(
         query_uri = self.curie_to_sparql(curie)
         query = SparqlQuery(
             select=["?s", "?p"],
-            where=[f"GRAPH <{graph.value}> {{ ?s ?p {query_uri}  }}", f"?s a owl:Class"],
+            where=[f"GRAPH <{graph.value}> {{ ?s ?p {query_uri}  }}", "?s a owl:Class"],
         )
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
@@ -146,6 +151,27 @@ class UbergraphImplementation(
             rmap[pred].append(s)
         return rmap
 
+    def get_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
+        query.graph = RelationGraphEnum.nonredundant.value
+        if subjects:
+            query.where.append(_sparql_values("s", [self.curie_to_sparql(x) for x in subjects]))
+        if predicates:
+            query.where.append(_sparql_values("p", [self.curie_to_sparql(x) for x in predicates]))
+        if objects:
+            query.where.append(_sparql_values("o", [self.curie_to_sparql(x) for x in objects]))
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            sub = self.uri_to_curie(row["s"]["value"])
+            pred = self.uri_to_curie(row["p"]["value"])
+            obj = self.uri_to_curie(row["o"]["value"])
+            yield sub, pred, obj
+
     def entailed_outgoing_relationships_by_curie(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
@@ -173,10 +199,10 @@ class UbergraphImplementation(
     def _from_subjects_chunked(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, **kwargs
     ):
-        SIZE = 10
+        size = 10
         while len(subjects) > 0:
-            next_subjects = subjects[0:SIZE]
-            subjects = subjects[SIZE:]
+            next_subjects = subjects[0:size]
+            subjects = subjects[size:]
             for r in self._from_subjects(next_subjects, predicates, **kwargs):
                 yield r
 
@@ -186,8 +212,10 @@ class UbergraphImplementation(
         predicates: List[PRED_CURIE] = None,
         graph: str = None,
         object_is_literal=False,
-        where=[],
+        where=None,
     ) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+        if where is None:
+            where = []
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
             predicate_uris = [self.curie_to_sparql(curie) for curie in predicates]
@@ -199,8 +227,8 @@ class UbergraphImplementation(
             graph=graph,
             where=[
                 "?s ?p ?o",
-                self._values("s", subject_uris),
-                self._values("p", predicate_uris),
+                self._sparql_values("s", subject_uris),
+                self._sparql_values("p", predicate_uris),
             ]
             + where,
         )
@@ -240,7 +268,7 @@ class UbergraphImplementation(
         for rel in relationships:
             node_ids.update(list(rel))
         nodes = {}
-        for s, p, o in self._from_subjects_chunked(
+        for s, _, o in self._from_subjects_chunked(
             list(node_ids), [RDFS.label], object_is_literal=True
         ):
             nodes[s] = obograph.Node(id=s, lbl=o)
@@ -255,8 +283,8 @@ class UbergraphImplementation(
             start_curies = [start_curies]
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
         where = [
-            f"?s ?p ?o",
-            f"?o a owl:Class",
+            "?s ?p ?o",
+            "?o a owl:Class",
             # f'?p a owl:ObjectProperty',
             _sparql_values("s", query_uris),
         ]
@@ -273,7 +301,7 @@ class UbergraphImplementation(
     ) -> Iterable[CURIE]:
         # TODO: DRY
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
-        where = [f"?s ?p ?o", f"?s a owl:Class", f'VALUES ?o {{ {" ".join(query_uris)} }}']
+        where = ["?s ?p ?o", "?s a owl:Class", f'VALUES ?o {{ {" ".join(query_uris)} }}']
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(f'VALUES ?p {{ {" ".join(pred_uris)} }}')
@@ -283,7 +311,7 @@ class UbergraphImplementation(
             yield self.uri_to_curie(row["s"]["value"])
 
     def dump(self, path: str = None, syntax: str = None):
-        raise NotImplemented(f"Dump not allowed on ubergraph")
+        raise NotImplementedError("Dump not allowed on ubergraph")
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: Subsetter
@@ -294,7 +322,7 @@ class UbergraphImplementation(
     ) -> Iterator[RELATIONSHIP]:
         # TODO: compare with https://api.triplydb.com/s/_mZ9q_-rg
         query_uris = [self.curie_to_sparql(curie) for curie in seed_curies]
-        where = [f"?s ?p ?o", _sparql_values("s", query_uris), _sparql_values("o", query_uris)]
+        where = ["?s ?p ?o", _sparql_values("s", query_uris), _sparql_values("o", query_uris)]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("p", pred_uris))
@@ -322,7 +350,7 @@ class UbergraphImplementation(
     ) -> Iterable[CURIE]:
         s_uri = self.curie_to_sparql(subject)
         o_uri = self.curie_to_sparql(object)
-        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", f"?a a owl:Class"]
+        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", "?a a owl:Class"]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("sp", pred_uris))
@@ -337,8 +365,8 @@ class UbergraphImplementation(
     ) -> Iterable[CURIE]:
         s_uri = self.curie_to_sparql(subject)
         o_uri = self.curie_to_sparql(object)
-        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", f"?a a owl:Class"]
-        where2 = [f"{s_uri} ?sp2 ?a2", f"{o_uri} ?op2 ?a2", f"?a2 ?ap2 ?a", f"FILTER( ?a != ?a2)"]
+        where = [f"{s_uri} ?sp ?a", f"{o_uri} ?op ?a", "?a a owl:Class"]
+        where2 = [f"{s_uri} ?sp2 ?a2", f"{o_uri} ?op2 ?a2", "?a2 ?ap2 ?a", "FILTER( ?a != ?a2)"]
         if predicates:
             pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
             where.append(_sparql_values("sp", pred_uris))
@@ -357,7 +385,7 @@ class UbergraphImplementation(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ) -> float:
         if predicates is not None:
-            raise NotImplementedError(f"Only predetermined predicates allowed")
+            raise NotImplementedError("Only predetermined predicates allowed")
         ics = self._get_anns(curie, URIRef(RelationGraphEnum.normalizedInformationContent.value))
         if len(ics) > 1:
             raise ValueError(f"Multiple ICs for {curie} = {ics}")
@@ -371,7 +399,7 @@ class UbergraphImplementation(
         where = [
             f"{s_uri} ?sp ?a",
             f"{o_uri} ?op ?a",
-            f"?a a owl:Class",
+            "?a a owl:Class",
             f"?a <{RelationGraphEnum.normalizedInformationContent.value}> ?ic",
         ]
         if predicates:

@@ -639,6 +639,7 @@ slots:
     aliases:
       - is obsolete
     slot_uri: owl:deprecated
+    domain: ObsoleteAspect
     range: boolean
     in_subset:
       - allotrope permitted profile
@@ -647,6 +648,7 @@ slots:
   term_replaced_by:
     is_a: obsoletion_related_property
     slot_uri: IAO:0100001
+    domain: ObsoleteAspect
     range: Any ## TODO
     comments:
       - RULE: subject must be deprecated
@@ -659,6 +661,7 @@ slots:
   has_obsolescence_reason:
     is_a: obsoletion_related_property
     slot_uri: IAO:0000231
+    domain: ObsoleteAspect
     comments:
       - RULE: subject must be deprecated
     todos:
@@ -666,6 +669,7 @@ slots:
   consider:
     is_a: obsoletion_related_property
     slot_uri: oio:consider
+    domain: ObsoleteAspect
     multivalued: true
     comments:
       - RULE: subject must be deprecated
@@ -673,14 +677,20 @@ slots:
       - go permitted profile
     range: Any  ## TODO
   has_alternative_id:
+    description: >-
+      Relates a live term to a deprecated ID that was merged in
+    deprecated: This is deprecated as it is redundant with the inverse replaced_by triple
     is_a: obsoletion_related_property
     slot_uri: oio:hasAlternativeId
     multivalued: true
+    domain: NotObsoleteAspect
     range: uriorcurie
     comments:
-      - RULE: object must be deprecated
+      - RULE: object must NOT be deprecated
     in_subset:
       - go permitted profile
+    see_also:
+      - https://github.com/owlcs/owlapi/issues/317
     
   temporal_interpretation:
     slot_uri: RO:0001900

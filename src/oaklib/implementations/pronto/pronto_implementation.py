@@ -24,6 +24,9 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     IS_A,
     LABEL_PREDICATE,
+    OIO_SUBSET_PROPERTY,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SKOS_CLOSE_MATCH,
 )
@@ -181,14 +184,33 @@ class ProntoImplementation(
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
+            if filter_obsoletes and t.obsolete:
+                continue
+            if owl_type and owl_type != OWL_CLASS:
+                continue
             yield t.id
         # note what Pronto calls "relationship" is actually "relationship type"
         for t in self.wrapped_ontology.relationships():
+            if filter_obsoletes and t.obsolete:
+                continue
+            if owl_type and owl_type != OWL_OBJECT_PROPERTY:
+                continue
             yield t.id
         for t in self.wrapped_ontology.synonym_types():
+            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+                continue
             yield t.id
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        for t in self.wrapped_ontology.terms():
+            if t.obsolete:
+                yield t.id
+        # note what Pronto calls "relationship" is actually "relationship type"
+        for t in self.wrapped_ontology.relationships():
+            if t.obsolete:
+                yield t.id
 
     def all_subset_curies(self) -> Iterable[CURIE]:
         subsets = set()
@@ -328,7 +350,6 @@ class ProntoImplementation(
         t = self._entity(curie)
         m = defaultdict(list)
         for ann in t.annotations:
-            p = ann.property
             if isinstance(ann, LiteralPropertyValue):
                 m[ann.property].append(ann.literal)
             elif isinstance(ann, ResourcePropertyValue):
@@ -415,7 +436,7 @@ class ProntoImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        if config == None:
+        if config is None:
             config = SearchConfiguration()
         matches = []
         mfunc = None
@@ -435,7 +456,7 @@ class ProntoImplementation(
             if (
                 search_all
                 or SearchProperty(SearchProperty.LABEL)
-                or not config.properties in config.properties
+                or config.properties not in config.properties
             ):
                 if t.name and mfunc(t.name):
                     matches.append(t.id)

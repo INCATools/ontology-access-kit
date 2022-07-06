@@ -83,9 +83,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_obograph_local(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(
-                main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", TEST_OUT]
-            )
+            self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", TEST_OUT])
             out = self._out()
             assert "GO:0043226" in out
             self.runner.invoke(
@@ -140,19 +138,18 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             result = self.runner.invoke(main, ["-i", input_arg, "roots", "-p", "i"])
             out = result.stdout
-            self.assertIn("CHEBI:36342", out)
+            assert "CHEBI:36342" in out
             result = self.runner.invoke(main, ["-i", input_arg, "leafs", "-p", "i"])
             out = result.stdout
-            self.assertIn(NUCLEAR_ENVELOPE, out)
+            assert NUCLEAR_ENVELOPE in out
 
     # MAPPINGS
 
     def test_mappings_local(self):
         result = self.runner.invoke(
-            main, ["-i", str(TEST_ONT), "term-mappings", "GO:0016740", "-o", TEST_OUT]
+            main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
         )
         out = result.stdout
-        result.stderr
         self.assertEqual(0, result.exit_code)
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
@@ -184,8 +181,10 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_local(self):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(main, ["-i", input_arg, "search", "l~nucl"])
-            out = result.stdout
+            result = self.runner.invoke(
+                main, ["-i", input_arg, "search", "l~nucl", "-o", str(TEST_OUT)]
+            )
+            out = self._out()
             err = result.stderr
             if result.exit_code != 0:
                 print(f"INPUT: {input_arg} code = {result.exit_code}")
@@ -201,46 +200,85 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_local_advanced(self):
         """
         Tests boolean combinations of search results
-
-        :return:
         """
+        # tuples of (terms, complete, expected, excluded)
         search_tests = [
             (["nucleus"], True, [NUCLEUS], []),
             (["t^nucleus"], True, [NUCLEUS], []),
             (["t/^n.....s$"], True, [NUCLEUS], []),
             (["t~nucleus"], True, [NUCLEUS, CHEBI_NUCLEUS], []),
-            (["l=protoplasm"], True, [], []),
+            # TODO: empty files
+            # (["l=protoplasm"], True, [], []),
             (["t=protoplasm"], True, [INTRACELLULAR], []),
             ([".=protoplasm"], True, [INTRACELLULAR], []),
             (
+                # terms that start with "nucl" are in PATO, with one exception
                 ["t/^nucl", ".and", "i/^PATO", ".not", "PATO:0001404"],
                 True,
                 [NUCLEATED],
                 [TEST_OWL_RDF],
             ),
             (
-                [".predicates=i,p", ".desc", "nucleus"],
+                # is-a descendants of nucleus
+                [".desc//p=i,p", "nucleus"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE, NUCLEAR_MEMBRANE],
-                [TEST_OWL_RDF, TEST_ONT],
+                [TEST_OWL_RDF],
             ),
             (
-                [".predicates=i,p", ".desc", "nucleus", ".not", "l~membrane"],
+                # is-a ancestors of nucleus that are not a particular term
+                [".anc//p=i", "nucleus", ".not", ".anc//p=i", IMBO],
+                True,
+                [NUCLEUS],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # is-a/part-of descendants of nucleus are not found in a label search for "membrane"
+                [".desc//p=i,p", "nucleus", ".not", "l~membrane"],
                 True,
                 [NUCLEUS, NUCLEAR_ENVELOPE],
-                [TEST_OWL_RDF, TEST_ONT],
+                [TEST_OWL_RDF],
             ),
+            (
+                # filter query
+                [
+                    ".anc//p=i",
+                    "nucleus",
+                    ".filter",
+                    "[x for x in terms if not impl.get_definition_by_curie(x)]",
+                ],
+                True,
+                ["CARO:0000000", "CARO:0030000"],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # all terms
+                [".all"],
+                False,
+                [NUCLEUS, NUCLEAR_ENVELOPE],
+                [TEST_OWL_RDF],
+            ),
+            # (
+            #    # no terms
+            #    [".all", ".not", ".all"],
+            #    True,
+            #    [],
+            #    [TEST_OWL_RDF],
+            # ),
         ]
         inputs = [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]
         for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
             for t in search_tests:
+                print(f"{input_arg} // {t}")
                 terms, complete, expected, excluded = t
                 if input_arg in excluded:
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
                     continue
-                result = self.runner.invoke(main, ["-i", str(input_arg), "search"] + terms)
-                out = result.stdout
+                result = self.runner.invoke(
+                    main, ["-i", str(input_arg), "search"] + terms + ["-o", str(TEST_OUT)]
+                )
+                out = self._out()
                 err = result.stderr
                 if result.exit_code != 0:
                     logging.error(f"INPUT: {input_arg} code = {result.exit_code}")
@@ -258,25 +296,34 @@ class TestCommandLineInterface(unittest.TestCase):
                     if m:
                         curies.append(m.group(1))
                 logging.info(f"SEARCH: {terms} => {curies} // {input_arg}")
-                self.assertCountEqual(expected, curies)
+                if complete:
+                    self.assertCountEqual(expected, set(curies))
+                else:
+                    for e in expected:
+                        self.assertIn(e, curies)
 
     def test_search_pronto_obolibrary(self):
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "t~shape"])
-        out = result.stdout
+        to_out = ["-o", str(TEST_OUT)]
+        result = self.runner.invoke(
+            main, ["-i", "obolibrary:pato.obo", "search", "t~shape"] + to_out
+        )
+        out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn(SHAPE, out)
         self.assertIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "l=shape"])
-        out = result.stdout
+        result = self.runner.invoke(
+            main, ["-i", "obolibrary:pato.obo", "search", "l=shape"] + to_out
+        )
+        out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn(SHAPE, out)
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "shape"])
-        out = result.stdout
+        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "shape"] + to_out)
+        out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)
         self.assertIn(SHAPE, out)

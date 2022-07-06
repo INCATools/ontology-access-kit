@@ -6,13 +6,13 @@ from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 import requests
 from sssom import Mapping
 from sssom.sssom_datamodel import MatchTypeEnum
-from sssom.sssom_document import MappingSetDocument
 
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.datamodels.vocabulary import IS_A
+from oaklib.implementations.ols import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -104,7 +104,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         raise NotImplementedError
 
@@ -120,7 +120,6 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
 
     def convert_payload(self, container: oxo.Container) -> Iterator[Mapping]:
         oxo_mappings = container._embedded.mappings
-        mappings: Mapping = []
         for oxo_mapping in oxo_mappings:
             oxo_s = oxo_mapping.fromTerm
             oxo_o = oxo_mapping.toTerm
@@ -139,24 +138,24 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
             self.add_prefix(oxo_o.curie, oxo_o.uri)
             yield mapping
 
-    def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -> int:
-        curie_map = curie_to_uri_map(msdoc)
-        # inv_map = {v: k for k, v in curie_map.items()}
-        n = 0
-        for curie, uri in curie_map.items():
-            pfx, _ = curie.split(":", 2)
-            ancs = self.get_ancestors(uri, ontology=pfx.lower())
-            logging.debug(f"{curie} ANCS = {ancs}")
-            for anc in ancs:
-                if anc in curie_map:
-                    m = Mapping(
-                        subject_id=curie,
-                        object_id=anc,
-                        predicate_id="rdfs:subClassOf",
-                        confidence=confidence,
-                        match_type=MatchTypeEnum.HumanCurated,
-                    )
-                    logging.info(f"Gap filled link: {m}")
-                    msdoc.mapping_set.mappings.append(m)
-                    n += 1
-        return n
+    # def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -> int:
+    #     curie_map = curie_to_uri_map(msdoc)
+    #     # inv_map = {v: k for k, v in curie_map.items()}
+    #     n = 0
+    #     for curie, uri in curie_map.items():
+    #         pfx, _ = curie.split(":", 2)
+    #         ancs = self.get_ancestors(uri, ontology=pfx.lower())
+    #         logging.debug(f"{curie} ANCS = {ancs}")
+    #         for anc in ancs:
+    #             if anc in curie_map:
+    #                 m = Mapping(
+    #                     subject_id=curie,
+    #                     object_id=anc,
+    #                     predicate_id="rdfs:subClassOf",
+    #                     confidence=confidence,
+    #                     match_type=MatchTypeEnum.HumanCurated,
+    #                 )
+    #                 logging.info(f"Gap filled link: {m}")
+    #                 msdoc.mapping_set.mappings.append(m)
+    #                 n += 1
+    #     return n

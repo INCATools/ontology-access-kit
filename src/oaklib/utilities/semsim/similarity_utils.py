@@ -44,8 +44,8 @@ def compute_all_pairs(sets: Dict[str, List]) -> Iterable[ListPair]:
     :param sets:
     :return:
     """
-    for k1, list1 in sets.items():
-        for k2, list2 in sets.items():
+    for k1, _ in sets.items():
+        for k2, _ in sets.items():
             r = ListPair(k1, k2)
             compute_list_pair_statistics(r)
             yield r

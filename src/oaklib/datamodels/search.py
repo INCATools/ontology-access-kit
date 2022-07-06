@@ -35,7 +35,6 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
         rest = term[2:]
         if code == "~":
             cfg = SearchBaseConfiguration([rest], is_partial=True)
-            syntax = SearchTermSyntax.PLAINTEXT
         elif code == "/":
             cfg = SearchBaseConfiguration([rest], syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         elif code == "@":

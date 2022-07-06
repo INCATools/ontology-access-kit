@@ -4,6 +4,7 @@ from typing import Any
 from linkml_runtime import CurieNamespace
 
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.utilities.obograph_utils import DEFAULT_PREDICATE_CODE_MAP
 
@@ -25,7 +26,7 @@ class StreamingInfoWriter(StreamingWriter):
     A writer that streams basic line by line reporting info
     """
 
-    def emit(self, curie, label=None, **kwargs):
+    def emit_curie(self, curie, label=None, **kwargs):
         oi = self.ontology_interface
         if label is None:
             label = oi.get_label_by_curie(curie)
@@ -45,10 +46,17 @@ class StreamingInfoWriter(StreamingWriter):
                     self.file.write(f" {p}: [")
                     for v in vs:
                         self.file.write(f' {v} "{oi.get_label_by_curie(curie)}"')
-                    self.file.write(f"]")
+                    self.file.write("]")
             if show_all or "d" in self.display_options:
                 defn = oi.get_definition_by_curie(curie)
                 if defn:
                     self.file.write(f' "{defn}"')
+            if (
+                show_all
+                or "ic" in self.display_options
+                and isinstance(oi, SemanticSimilarityInterface)
+            ):
+                ic = oi.get_information_content(curie)
+                self.file.write(f" IC: {ic}")
 
         self.file.write("\n")

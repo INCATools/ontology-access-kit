@@ -3,9 +3,7 @@ import unittest
 
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.ubergraph.ubergraph_implementation import (
-    UbergraphImplementation,
-)
+from oaklib.implementations import UbergraphImplementation
 from tests import (
     CELL,
     CELLULAR_ANATOMICAL_ENTITY,
@@ -35,6 +33,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = UbergraphImplementation()
         self.oi = oi
 
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_relationships(self):
         ont = self.oi
         rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
@@ -43,6 +42,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn(CYTOPLASM, rels[PART_OF])
 
+    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships_by_curie(VACUOLE))
@@ -52,11 +52,13 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn((PART_OF, CYTOPLASM), rels)
         self.assertIn((PART_OF, CELL), rels)
 
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_labels(self):
         label = self.oi.get_label_by_curie(DIGIT)
         self.assertEqual(label, "digit")
         self.assertIn(DIGIT, self.oi.get_curies_by_label(label))
 
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         logging.info(syns)
@@ -77,12 +79,13 @@ class TestUbergraphImplementation(unittest.TestCase):
             ],
         )
 
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_definition(self):
         defn = self.oi.get_definition_by_curie("GO:0005575")
         logging.info(defn)
         assert defn
 
-    # @unittest.skip('Too slow')
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_search(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("limb", config=config))
@@ -90,7 +93,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         assert "UBERON:0002101" in curies
 
     # OboGraph
-
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors([VACUOLE]))
@@ -119,6 +122,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         # self.assertIn(VACUOLE, ancs)
         self.assertIn(CELL, ancs)
 
+    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_descendants(self):
         oi = self.oi
         descs = list(oi.descendants([CYTOPLASM]))
@@ -132,6 +136,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn(CYTOPLASM, descs)
         self.assertNotIn(VACUOLE, descs)
 
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestor_graph(self):
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
@@ -148,6 +153,7 @@ class TestUbergraphImplementation(unittest.TestCase):
             else:
                 assert CELL in node_ids
 
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_gap_fill(self):
         oi = self.oi
         rels = list(
@@ -197,6 +203,7 @@ class TestUbergraphImplementation(unittest.TestCase):
                 self.assertIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
 
+    @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
         """
         Tests semantic similarity
@@ -235,6 +242,7 @@ class TestUbergraphImplementation(unittest.TestCase):
                         # TODO: determine by more specific class is not returned
                         # self.assertEqual(sim.ancestor_id, NUCLEUS)
 
+    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_extract_triples(self):
         oi = self.oi
         for t in oi.extract_triples([SHAPE]):
