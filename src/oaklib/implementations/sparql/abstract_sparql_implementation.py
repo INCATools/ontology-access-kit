@@ -7,6 +7,9 @@ from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 import rdflib
 import SPARQLWrapper
 import sssom
+from kgcl_schema.datamodel.kgcl import Change
+import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
+import kgcl_rdflib.kgcl_diff as kgcl_diff
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
@@ -32,7 +35,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     PRED_CURIE,
     PREFIX_MAP,
-    RELATIONSHIP_MAP,
+    RELATIONSHIP_MAP, BasicOntologyInterface,
 )
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
@@ -420,12 +423,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
         raise NotImplementedError
 
-    def get_definition_by_curie(self, curie: CURIE) -> str:
+    def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
         """
 
         :param curie:
         :return:
         """
+        # TODO: allow this to be configured to use different predicates
         labels = self._get_anns(curie, HAS_DEFINITION_URI)
         if labels:
             if len(labels) > 1:
@@ -642,6 +646,27 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             where=["?s ?p ?o", self._curie_dict_to_values("p", "p_new", curie_map)],
         )
         self._sparql_update(q)
+
+    def apply_patch(self, patch: Change) -> None:
+        if self.graph:
+            logging.info(f"Applying: {patch} to {self.graph}")
+            kgcl_patcher.apply_patch([patch], self.graph)
+        else:
+            raise NotImplementedError(f"Apply patch is only implemented for local graphs")
+
+    def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
+        if self.graph:
+            if isinstance(other_ontology, AbstractSparqlImplementation):
+                if other_ontology.graph:
+                    for change in kgcl_diff.diff(self.graph, other_ontology.graph):
+                        yield change
+                else:
+                    raise NotImplementedError(f"Diff is only implemented for local graphs")
+            else:
+                raise NotImplementedError(f"Second ontology must implement sparql interface")
+        else:
+            raise NotImplementedError(f"Diff is only implemented for local graphs")
+
 
     def save(self):
         if self.graph:
