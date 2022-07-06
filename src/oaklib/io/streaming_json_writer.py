@@ -20,17 +20,15 @@ def _keyval(x: Any) -> str:
 
 
 @dataclass
-class StreamingJsonLinesWriter(StreamingWriter):
+class StreamingJsonWriter(StreamingWriter):
     """
     A writer that emits one document at a time in one stream
 
-    TODO: use jsonlines library
-    https://jsonlines.readthedocs.io/en/latest/
     """
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
         if isinstance(obj, dict):
-            self.file.write(json.dump(obj))
+            self.file.write(json.dumps(obj))
         else:
             self.file.write(json_dumper.dumps(obj))
         self.file.write("\n")

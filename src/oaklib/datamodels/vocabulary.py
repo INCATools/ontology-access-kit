@@ -30,7 +30,10 @@ SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
 
 
+OWL_CLASS = "owl:Class"
+OWL_OBJECT_PROPERTY = "owl:ObjectProperty"
 OWL_THING = "owl:Thing"
+OWL_NOTHING = "owl:Nothing"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 RDF_TYPE = "rdf:type"
@@ -63,6 +66,8 @@ SKOS_MATCH_PREDICATES = [
     SKOS_RELATED_MATCH,
 ]
 HAS_DBXREF = omd.slots.database_cross_reference.curie
+HAS_SYNONYM_TYPE = "oio:hasSynonymType"
+OIO_SUBSET_PROPERTY = "oio:SubsetProperty"
 ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie

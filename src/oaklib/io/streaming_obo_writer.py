@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Union
-
-from linkml_runtime.utils.yamlutils import YAMLRoot
+from typing import Any
 
 from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -13,14 +11,8 @@ from oaklib.types import CURIE
 @dataclass
 class StreamingOboWriter(StreamingWriter):
     """
-    A writer that emits one document at a time in one stream
+    A writer that emits one OBO stanza at a time in one stream
     """
-
-    def emit(self, obj: Union[YAMLRoot, str]):
-        if isinstance(obj, str):
-            self.emit_curie(obj)
-        else:
-            raise NotImplementedError
 
     def tag_val(self, k: str, v: Any, xrefs=None):
         self.file.write(f"{k}: {v}")
@@ -28,11 +20,13 @@ class StreamingOboWriter(StreamingWriter):
             self.file.write(f' [{", ".join(xrefs)}]')
         self.file.write("\n")
 
-    def emit_curie(self, curie: CURIE):
+    def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
         self.line("[Term]")
         self.line(f"id: {curie}")
-        self.tag_val("name", oi.get_label_by_curie(curie))
+        if label is None:
+            label = oi.get_label_by_curie(curie)
+        self.tag_val("name", label)
         defn = oi.get_definition_by_curie(curie)
         if defn:
             if isinstance(oi, MetadataInterface):
@@ -40,7 +34,7 @@ class StreamingOboWriter(StreamingWriter):
             else:
                 anns = []
             self.tag_val("def", f'"{defn}"', xrefs=[ann.object for ann in anns])
-        for prop, x in oi.get_simple_mappings_by_curie(curie):
+        for _, x in oi.get_simple_mappings_by_curie(curie):
             self.line(f"xref: {x}")
         amap = oi.alias_map_by_curie(curie)
         for a, vs in amap.items():

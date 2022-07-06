@@ -21,6 +21,7 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.implementations.ubergraph.ubergraph_implementation import RelationGraphEnum
+from oaklib.implementations.wikidata import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP, RELATIONSHIP_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -96,7 +97,7 @@ class WikidataImplementation(
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         if ":" in search_term and " " not in search_term:
             logging.debug(f"Not performing search on what looks like a CURIE: {search_term}")
@@ -180,10 +181,10 @@ class WikidataImplementation(
     def _from_subjects_chunked(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, **kwargs
     ):
-        SIZE = 10
+        size = 10
         while len(subjects) > 0:
-            next_subjects = subjects[0:SIZE]
-            subjects = subjects[SIZE:]
+            next_subjects = subjects[0:size]
+            subjects = subjects[size:]
             for r in self._from_subjects(next_subjects, predicates, **kwargs):
                 yield r
 
@@ -194,8 +195,10 @@ class WikidataImplementation(
         graph: str = None,
         object_is_literal=False,
         object_is_language_tagged=False,
-        where=[],
+        where=None,
     ) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+        if where is None:
+            where = []
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
             predicate_uris = [self.curie_to_sparql(curie) for curie in predicates]
@@ -251,7 +254,7 @@ class WikidataImplementation(
         for rel in relationships:
             node_ids.update(list(rel))
         nodes = {}
-        for s, p, o in self._from_subjects_chunked(
+        for s, _, o in self._from_subjects_chunked(
             list(node_ids), [RDFS.label], object_is_literal=True
         ):
             nodes[s] = obograph.Node(id=s, lbl=o)
@@ -271,7 +274,6 @@ class WikidataImplementation(
         pred_uris_j = "|".join(pred_uris)
         where.append(f"?s ({pred_uris_j})* ?o")
         query = SparqlQuery(select=["?o"], distinct=True, where=where)
-        print(query.query_str())
         bindings = self._query(query.query_str())
         for row in bindings:
             yield self.uri_to_curie(row["o"]["value"])

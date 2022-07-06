@@ -6,6 +6,7 @@ Executed using "runoak" command
 """
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+import itertools
 import logging
 import re
 import subprocess
@@ -13,20 +14,43 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
+from itertools import chain
 from pathlib import Path
-from typing import IO, Any, Iterable, Iterator, List, Optional, TextIO, Type, Union
+from types import ModuleType
+from typing import (
+    IO,
+    Any,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    TextIO,
+    Tuple,
+    Type,
+    Union,
+)
 
 import click
 import rdflib
 import sssom.writers as sssom_writers
+import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.utils.introspection import package_schemaview
 
 import oaklib.datamodels.taxon_constraints as tcdm
+from oaklib import datamodels
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
-from oaklib.datamodels.vocabulary import DEVELOPS_FROM, EQUIVALENT_CLASS, IS_A, PART_OF
+from oaklib.datamodels.vocabulary import (
+    DEVELOPS_FROM,
+    EQUIVALENT_CLASS,
+    IS_A,
+    PART_OF,
+    RDF_TYPE,
+)
 from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -52,8 +76,13 @@ from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
+from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
+from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
+from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWriter
+from oaklib.io.streaming_rdf_writer import StreamingRdfWriter
+from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.resource import OntologyResource
 from oaklib.selector import (
@@ -61,6 +90,7 @@ from oaklib.selector import (
     get_resource_from_shorthand,
 )
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -81,11 +111,55 @@ from oaklib.utilities.obograph_utils import (
     trim_graph,
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
+from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
     test_candidate_taxon_constraint,
 )
+
+OBO_FORMAT = "obo"
+RDF_FORMAT = "rdf"
+MD_FORMAT = "md"
+OBOJSON_FORMAT = "obojson"
+CSV_FORMAT = "csv"
+JSON_FORMAT = "json"
+JSONL_FORMAT = "jsonl"
+YAML_FORMAT = "yaml"
+INFO_FORMAT = "info"
+SSSOM_FORMAT = "sssom"
+OWLFUN_FORMAT = "ofn"
+
+ONT_FORMATS = [
+    OBO_FORMAT,
+    OBOJSON_FORMAT,
+    OWLFUN_FORMAT,
+    RDF_FORMAT,
+    JSON_FORMAT,
+    YAML_FORMAT,
+    CSV_FORMAT,
+]
+
+WRITERS = {
+    OBO_FORMAT: StreamingOboWriter,
+    RDF_FORMAT: StreamingRdfWriter,
+    OWLFUN_FORMAT: StreamingOwlFunctionalWriter,
+    MD_FORMAT: StreamingMarkdownWriter,
+    OBOJSON_FORMAT: StreamingOboJsonWriter,
+    CSV_FORMAT: StreamingCsvWriter,
+    JSON_FORMAT: StreamingJsonWriter,
+    JSONL_FORMAT: StreamingJsonWriter,
+    YAML_FORMAT: StreamingYamlWriter,
+    SSSOM_FORMAT: StreamingSssomWriter,
+    INFO_FORMAT: StreamingInfoWriter,
+}
+
+
+@unique
+class Direction(Enum):
+    up = "up"
+    down = "down"
+    both = "both"
 
 
 @unique
@@ -118,7 +192,24 @@ set_operation_option = click.option(
     type=click.Choice([x.value for x in SetOperation]),
     help="set operation, where left set is stdin list and right set is arguments.",
 )
+direction_option = click.option(
+    "--direction",
+    type=click.Choice([x.value for x in Direction]),
+    help="direction of traversal over edges, which up is subject to object, down is object to subject.",
+)
 input_type_option = click.option("-I", "--input-type", help="Input type.")
+autolabel_option = click.option(
+    "--autolabel/--no-autolabel",
+    default=True,
+    show_default=True,
+    help="If set, results will automatically have labels assigned",
+)
+filter_obsoletes_option = click.option(
+    "--filter-obsoletes/--no-filter-obsoletes",
+    default=True,
+    show_default=True,
+    help="If set, results will exclude obsoletes",
+)
 output_option = click.option(
     "-o",
     "--output",
@@ -131,16 +222,28 @@ output_type_option = click.option(
     "--output-type",
     help="Desired output type",
 )
+ontological_output_type_option = click.option(
+    "-O",
+    "--output-type",
+    type=click.Choice(ONT_FORMATS),
+    help="Desired output type",
+)
 predicates_option = click.option("-p", "--predicates", help="A comma-separated list of predicates")
 display_option = click.option(
-    "-D", "--display", default="", help="A comma-separated list of display options"
+    "-D",
+    "--display",
+    default="",
+    help="A comma-separated list of display options. Use 'all' for all",
 )
 
 
 def _process_predicates_arg(preds_str: str) -> Optional[List[PRED_CURIE]]:
     if preds_str is None:
         return None
-    inputs = preds_str.split(",")
+    if "," in preds_str:
+        inputs = preds_str.split(",")
+    else:
+        inputs = preds_str.split("+")
     preds = [_shorthand_to_pred_curie(p) for p in inputs]
     return preds
 
@@ -153,19 +256,86 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return PART_OF
     elif shorthand == "d":
         return DEVELOPS_FROM
+    elif shorthand == "t":
+        return RDF_TYPE
     elif shorthand == "e":
         return EQUIVALENT_CLASS
     else:
         return shorthand
 
 
+def _get_writer(
+    output_type: str,
+    impl: OntologyInterface,
+    default_type: Type[StreamingWriter] = StreamingInfoWriter,
+    datamodel: ModuleType = None,
+) -> StreamingWriter:
+    if output_type is None:
+        typ = default_type
+    else:
+        if output_type in WRITERS:
+            typ = WRITERS[output_type]
+        else:
+            raise ValueError(f"Unrecognized output type: {output_type}")
+    w = typ(ontology_interface=impl)
+    if isinstance(w, StreamingRdfWriter) and datamodel is not None:
+        w.schemaview = package_schemaview(datamodel.__name__)
+    return w
+
+
+# A list whose members are either strings (search terms, curies, or directives)
+# or nested lists.
+# TODO: Replace this with an explicit query model with boolean operations
+NESTED_LIST = Union[List[str], List["NESTED_LIST"]]
+
+
+def nest_list_of_terms(terms: List[str]) -> NESTED_LIST:
+    """
+    Gives a list of terms (typically passed on command line),
+    replace blocks between '[', ..., ']' with nested lists of the contents
+
+    :param terms:
+    :return:
+    """
+    nested, rest = _nest_list_of_terms(terms)
+    if rest:
+        raise ValueError(f"Unparsed: {rest}")
+    return nested
+
+
+def _nest_list_of_terms(terms: List[str]) -> Tuple[NESTED_LIST, List[str]]:
+    nested = []
+    while len(terms) > 0:
+        term = terms[0]
+        terms = terms[1:]
+        if term == "[":
+            nxt, rest = _nest_list_of_terms(terms)
+            terms = rest
+            nested.append(nxt)
+        elif term == "]":
+            return nested, terms
+        else:
+            nested.append(term)
+    return nested, []
+
+
 def curies_from_file(file: IO) -> Iterator[CURIE]:
+    """
+    yield an iterator over CURIEs by parsing a file.
+
+    The file can contain any content, so long as each line
+    starts with a CURIE followed by whitespace -- the remainder of the line
+    is ignored
+
+    :param file:
+    :return:
+    """
     for line in file.readlines():
         m = re.match(r"^(\S+)", line)
         yield m.group(1)
 
 
-def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iterator[CURIE]:
+def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
     """
     Turn list of tokens that represent a term query into an iterator for curies
 
@@ -177,44 +347,82 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
     :param impl:
     :return:
     """
-    iterators: List[Union[CURIE, Iterable[CURIE]]] = []
+    curie_iterator: Iterable[CURIE] = iter([])
     predicates = None
     if isinstance(terms, tuple):
         terms = list(terms)
 
-    def nxt(iterators) -> Iterator[CURIE]:
-        for it in iterators:
-            if isinstance(it, str):
-                yield it
-            else:
-                for x in it:
-                    yield x
+    def _parse_params(s: str) -> Dict:
+        d = {}
+        m = re.match(r"\.\w+//(.+)", s)
+        if m:
+            for p in m.group(1).split("//"):
+                if "=" not in p:
+                    raise ValueError(f"All arguments must be of param=val form, got {p} in {s}")
+                [k, v] = p.split("=")
+                if k == "p":
+                    k = "predicates"
+                if k == "predicates":
+                    v = _process_predicates_arg(v)
+                d[k] = v
+        return d
+
+    def chain_it(v):
+        if isinstance(v, str):
+            v = iter([v])
+        nonlocal curie_iterator
+        curie_iterator = itertools.chain(curie_iterator, v)
+
+    terms = nest_list_of_terms(terms)
 
     while len(terms) > 0:
         term = terms[0]
         terms = terms[1:]
         if term == "-":
-            iterators += list(curies_from_file(sys.stdin))
+            chain_it(curies_from_file(sys.stdin))
+        elif isinstance(term, list):
+            chain_it(query_terms_iterator(term, impl))
         elif term.startswith(".load="):
             fn = term.replace(".load=", """""")
             with open(fn) as file:
-                iterators += list(curies_from_file(file))
+                chain_it(curies_from_file(file))
+        elif term.startswith(".idfile"):
+            fn = terms.pop(0)
+            with open(fn) as file:
+                chain_it(curies_from_file(file))
+        elif term.startswith(".termfile"):
+            fn = terms.pop(0)
+            with open(fn) as file:
+                lines = [line.strip() for line in file.readlines()]
+                terms = lines + terms
         elif re.match(r"^(\w+):(\S+)$", term):
-            iterators.append(term)
+            chain_it(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
+            logging.warning("Deprecated: pass as parameter instead")
             m = re.match(r"^\.predicates=(\S*)$", term)
             predicates = _process_predicates_arg(m.group(1))
         elif re.match(r"^http(\S+)$", term):
-            iterators.append(term)
+            chain_it(term)
         elif term == ".and":
             rest = list(query_terms_iterator(terms, impl))
-            for x in nxt(iterators):
+            for x in curie_iterator:
                 if x in rest:
                     yield x
             terms = []
+        elif term == ".xor":
+            rest = list(query_terms_iterator(terms, impl))
+            remaining = []
+            for x in curie_iterator:
+                if x not in rest:
+                    yield x
+                else:
+                    remaining.append(x)
+            for x in rest:
+                if x not in remaining:
+                    yield x
         elif term == ".not":
             rest = list(query_terms_iterator(terms, impl))
-            for x in nxt(iterators):
+            for x in curie_iterator:
                 if x not in rest:
                     yield x
             terms = []
@@ -222,32 +430,40 @@ def query_terms_iterator(terms: List[str], impl: BasicOntologyInterface) -> Iter
             # or is implicit
             pass
         elif term.startswith(".all"):
-            iterators.append(impl.all_entity_curies())
+            chain_it(impl.all_entity_curies())
         elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
-            iterators.append(impl.curies_by_subset(subset))
+            chain_it(impl.curies_by_subset(subset))
+        elif term.startswith(".filter"):
+            expr = terms[0]
+            terms = terms[1:]
+            chain_it(eval(expr, {"impl": impl, "terms": curie_iterator}))
         elif term.startswith(".desc"):
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
-                iterators.append(impl.descendants(rest, predicates=predicates))
+                chain_it(impl.descendants(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         elif term.startswith(".anc"):
+            params = _parse_params(term)
+            this_predicates = params.get("predicates", predicates)
             rest = list(query_terms_iterator([terms[0]], impl))
             terms = terms[1:]
             if isinstance(impl, OboGraphInterface):
-                iterators.append(impl.ancestors(rest, predicates=predicates))
+                chain_it(impl.ancestors(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         else:
             if isinstance(impl, SearchInterface):
                 cfg = create_search_configuration(term)
-                iterators.append(impl.basic_search(cfg.search_terms[0], config=cfg))
+                chain_it(impl.basic_search(cfg.search_terms[0], config=cfg))
             else:
                 raise NotImplementedError
-    for x in nxt(iterators):
+    for x in curie_iterator:
         yield x
 
 
@@ -312,8 +528,9 @@ def main(
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@ontological_output_type_option
 @output_option
-def search(terms, output: str):
+def search(terms, output_type: str, output: TextIO):
     """
     Searches ontology for entities that have a label, alias, or other property matching a search term.
 
@@ -345,11 +562,14 @@ def search(terms, output: str):
 
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
+    writer.output = output
     if isinstance(impl, SearchInterface):
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             logging.info("** Next chunk:")
+            # TODO: move chunking logic to writer
             for curie, label in impl.get_labels_for_curies(curie_it):
-                print(f"{curie} ! {label}")
+                writer.emit(dict(id=curie, label=label))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -377,19 +597,23 @@ def all_subsets(output: str):
 
 
 @main.command()
+@ontological_output_type_option
 @output_option
-def all_obsoletes(output: str):
+def obsoletes(output_type: str, output: str):
     """
     Shows all obsolete nodes
 
     Example:
-        runoak -i obolibrary:go.obo all-obsoletes
+        runoak -i obolibrary:go.obo obsoletes
 
+    TODO: this command should be parameterizable
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
+    writer.output = output
     if isinstance(impl, BasicOntologyInterface):
         for term in impl.all_obsolete_curies():
-            print(f"{term} ! {impl.get_label_by_curie(term)}")
+            writer.emit_curie(term, label=impl.get_label_by_curie(term))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -575,14 +799,10 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
      - <https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html>_
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
+    writer.output = output
     if isinstance(impl, TextAnnotatorInterface):
         configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
-        if output_type is None or output_type == "yaml":
-            writer = StreamingYamlWriter(output)
-        elif output_type == "csv":
-            writer = StreamingCsvWriter(output)
-        else:
-            raise ValueError(f"unknown writer: {output_type}")
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
@@ -720,7 +940,7 @@ def viz(
                 if isinstance(impl, OboGraphInterface):
                     graph = impl.relationships_to_graph(rels)
                 else:
-                    assert False
+                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
             else:
                 raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
@@ -872,7 +1092,7 @@ def tree(
                 if isinstance(impl, OboGraphInterface):
                     graph = impl.relationships_to_graph(rels)
                 else:
-                    assert False
+                    raise AssertionError(f"{impl} needs to of type OboGraphInterface")
             else:
                 raise NotImplementedError(f"{impl} needs to implement Subsetter for --gap-fill")
         else:
@@ -936,7 +1156,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
-    writer = StreamingCsvWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     # writer.display_options = display.split(',')
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
@@ -969,8 +1189,8 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @main.command()
 @click.argument("terms", nargs=-1)
 @predicates_option
-@output_type_option
 @output_option
+@ontological_output_type_option
 def siblings(terms, predicates, output_type: str, output: str):
     """
     List all siblings
@@ -982,10 +1202,7 @@ def siblings(terms, predicates, output_type: str, output: str):
     Note that ancestors is by default over ALL relationship types
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.file = output
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
@@ -1021,10 +1238,7 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
     if isinstance(impl, OboGraphInterface):
@@ -1154,9 +1368,29 @@ def similarity(terms, predicates, output: TextIO):
     "--set2-file",
     help="ID file for set2",
 )
+@click.option(
+    "--jaccard-minimum",
+    type=float,
+    help="Minimum value for jaccard score",
+)
+@click.option(
+    "--ic-minimum",
+    type=float,
+    help="Minimum value for information content",
+)
 @output_option
 @output_type_option
-def all_similarity(predicates, set1, set2, set1_file, set2_file, output_type, output: TextIO):
+def all_similarity(
+    predicates,
+    set1,
+    set2,
+    set1_file,
+    set2_file,
+    jaccard_minimum,
+    ic_minimum,
+    output_type,
+    output: TextIO,
+):
     """
     All by all similarity
 
@@ -1185,12 +1419,7 @@ def all_similarity(predicates, set1, set2, set1_file, set2_file, output_type, ou
 
     """
     impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
     if isinstance(impl, SemanticSimilarityInterface):
         if len(set1) == 0:
             if set1_file:
@@ -1214,6 +1443,12 @@ def all_similarity(predicates, set1, set2, set1_file, set2_file, output_type, ou
         for sim in impl.all_by_all_pairwise_similarity(
             set1it, set2it, predicates=actual_predicates
         ):
+            if jaccard_minimum is not None:
+                if sim.jaccard_similarity < jaccard_minimum:
+                    continue
+            if ic_minimum is not None:
+                if sim.ancestor_information_content < ic_minimum:
+                    continue
             writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1241,12 +1476,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
         runoak -i cl.owl info CL:4023094 -D x,d
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    elif output_type == "md":
-        writer = StreamingMarkdownWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.display_options = display.split(",")
     writer.file = output
     logging.info(f"Input Terms={terms}; w={writer}")
@@ -1256,62 +1486,38 @@ def info(terms, output: TextIO, display: str, output_type: str):
 
 @main.command()
 @click.argument("terms", nargs=-1)
-@click.option(
-    "--operation",
-    type=click.Choice([x.value for x in SetOperation]),
-    help="set operation, where left set is stdin list and right set is arguments",
-)
 @output_option
 @display_option
-@output_type_option
-def combine(terms, operation: str, output: TextIO, display: str, output_type: str):
+@ontological_output_type_option
+def labels(terms, output: TextIO, display: str, output_type: str):
     """
-    Perform set-wise combination operation on two sets of curies
+    Show labels for terms
 
-    The first set is provided on standard input; the second set is provided on the command line
+    Example:
 
-    For example, to intersect a term list with all PATO shapes:
+        runoak -i cl.owl labels CL:4023094
 
-        cat my_terms.txt | runoak -i ubergraph:pato combine --operation intersection t~shape
-
-    This can be used to implement boolean logic in queries:
-
-        alias uberon='runoak -d db/uberon.db'
-        uberon search t~bone | uberon combine --operation union t~cartilage
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    else:
-        writer = StreamingInfoWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
-    set1 = set()
-    for line in sys.stdin.readlines():
-        m = re.match(r"^(\S+)", line)
-        set1.add(m.group(1))
-    set2 = set(query_terms_iterator(terms, impl))
-    if operation == SetOperation.intersection.value:
-        curies = set1.intersection(set2)
-    elif operation == SetOperation.union.value:
-        curies = set1.union(set2)
-    elif operation == SetOperation.difference.value:
-        curies = set1.difference(set2)
-    elif operation == SetOperation.symmetric_difference.value:
-        curies = set1.symmetric_difference(set2)
-    elif operation == SetOperation.reverse_difference.value:
-        curies = set2.difference(set1)
-    else:
-        raise NotImplementedError
-    logging.info(f"Result Terms={curies}")
-    for curie in curies:
-        writer.emit(curie)
+    for curie_it in chunk(query_terms_iterator(terms, impl)):
+        logging.info("** Next chunk:")
+        for curie, label in impl.get_labels_for_curies(curie_it):
+            writer.emit(dict(id=curie, label=label))
 
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@predicates_option
+@direction_option
+@autolabel_option
+@output_type_option
 @output_option
-def relationships(terms, output: str):
+def relationships(
+    terms, predicates: str, direction: str, autolabel: bool, output_type: str, output: str
+):
     """
     Show all relationships for a term or terms
 
@@ -1321,46 +1527,37 @@ def relationships(terms, output: str):
     Note: this subcommand will become redundant with other commands like info
     """
     impl = settings.impl
+    if output_type == "obo":
+        writer = StreamingOboWriter(ontology_interface=impl)
+    elif output_type == "csv":
+        writer = StreamingCsvWriter(ontology_interface=impl)
+    else:
+        writer = StreamingCsvWriter(ontology_interface=impl)
+    writer.autolabel = autolabel
+    actual_predicates = _process_predicates_arg(predicates)
     if isinstance(impl, BasicOntologyInterface):
         curies = list(query_terms_iterator(terms, impl))
-        for curie in curies:
-            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
-            for pred, fillers in impl.get_outgoing_relationship_map_by_curie(curie).items():
-                print(f"  PRED: {pred} ! {impl.get_label_by_curie(pred)}")
-                for filler in fillers:
-                    print(f"    * {filler} ! {impl.get_label_by_curie(filler)}")
+        up_it = impl.get_relationships(curies, predicates=actual_predicates)
+        down_it = impl.get_relationships(objects=curies, predicates=actual_predicates)
+        if direction is None or direction == Direction.up.value:
+            it = up_it
+        elif direction == Direction.down.value:
+            it = down_it
+        else:
+            it = chain(up_it, down_it)
+        for rel in it:
+            writer.emit(
+                dict(subject=rel[0], predicate=rel[1], object=rel[2]),
+                label_fields=["subject", "predicate", "object"],
+            )
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
-@output_type_option
+@filter_obsoletes_option
 @output_option
-def all_relationships(output: TextIO, output_type: str):
-    """
-    Show all relationships for all terms
-
-    Example:
-        runoak -i hp.db all-relationships
-
-    """
-    impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
-    if isinstance(impl, OboGraphInterface):
-        for s, p, o in impl.all_relationships():
-            writer.emit(dict(subject=s, predicate=p, object=o))
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
-@output_option
-def terms(output: str):
+def terms(output: str, filter_obsoletes: bool):
     """
     List all terms in the ontology
 
@@ -1370,7 +1567,7 @@ def terms(output: str):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.all_entity_curies():
+        for curie in impl.all_entity_curies(filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.get_label_by_curie(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1388,6 +1585,7 @@ def roots(output: str, predicates: str):
         runoak -i db/cob.db terms
 
     Note that the default is to return the roots of the relation graph over *all* predicates
+
 
     TODO: filter obsoletes
     """
@@ -1428,7 +1626,8 @@ def leafs(output: str, predicates: str):
 @output_option
 @output_type_option
 @click.option("--maps-to-source")
-def mappings(maps_to_source, output, output_type):
+@click.argument("terms", nargs=-1)
+def mappings(terms, maps_to_source, output, output_type):
     """
     List all SSSOM mappings in the ontology
 
@@ -1439,78 +1638,59 @@ def mappings(maps_to_source, output, output_type):
     TODO: TSV
     """
     impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    elif output_type == "sssom":
-        writer = StreamingSssomWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
     if isinstance(impl, MappingProviderInterface):
-        for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
-            writer.emit(mapping)
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
-@output_option
-@output_type_option
-@click.argument("terms", nargs=-1)
-def term_mappings(terms, output, output_type):
-    """
-    List all SSSOM mappings for a term or terms
-
-    Example:
-
-        runoak -i bioportal: term-mappings  UBERON:0002101 -O sssom
-
-    Example:
-
-        runoak -i ols: term-mappings  UBERON:0002101 -O yaml
-
-    Example:
-
-        runoak -i db/uberon.db term-mappings  UBERON:0002101
-    """
-    impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    elif output_type == "sssom":
-        writer = StreamingSssomWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
-    if isinstance(impl, MappingProviderInterface):
-        for curie in query_terms_iterator(terms, impl):
-            for mapping in impl.get_sssom_mappings_by_curie(curie):
+        if len(terms) == 0:
+            for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
                 writer.emit(mapping)
-        writer.close()
+        else:
+            for curie in query_terms_iterator(terms, impl):
+                for mapping in impl.get_sssom_mappings_by_curie(curie):
+                    writer.emit(mapping)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
+@click.option("--obo-model/--no-obo-model", help="If true, assume the OBO synonym datamodel")
 @output_option
-def aliases(output):
+@click.argument("terms", nargs=-1)
+def aliases(terms, output, obo_model):
     """
     List all aliases in the ontology
 
     Example:
 
-        runoak -i db/envo.db aliases
+        runoak -i db/envo.db aliases .all
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
-    if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.all_entity_curies():
-            for pred, aliases in impl.alias_map_by_curie(curie).items():
-                for alias in aliases:
-                    writer.emit(dict(curie=curie, pred=pred, alias=alias))
+    if obo_model:
+        if isinstance(impl, OboGraphInterface):
+            curies = list(query_terms_iterator(terms, impl))
+            syn_map = impl.synonym_map_for_curies(curies)
+            for curie, spvs in syn_map.items():
+                for spv in spvs:
+                    writer.emit(
+                        dict(
+                            curie=curie,
+                            pred=spv.pred,
+                            value=spv.val,
+                            type=spv.synonymType,
+                            xrefs=spv.xrefs,
+                        )
+                    )
+        else:
+            raise NotImplementedError
     else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        if isinstance(impl, BasicOntologyInterface):
+            for curie in query_terms_iterator(terms, impl):
+                for pred, aliases in impl.alias_map_by_curie(curie).items():
+                    for alias in aliases:
+                        writer.emit(dict(curie=curie, pred=pred, alias=alias))
+        else:
+            raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
 
 @main.command()
@@ -1993,17 +2173,9 @@ def diff_ontologies(output, output_type, other_ontology):
     """
     EXPERIMENTAL
     """
-    if output_type is None or output_type == "json":
-        writer = StreamingJsonLinesWriter(output)
-    elif output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    elif output_type == "kgcl":
-        raise NotImplementedError
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    # TODO: include KGCL datamodel
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingJsonLinesWriter)
     other_impl = get_implementation_from_shorthand(other_ontology)
     if isinstance(impl, DifferInterface):
         for diff in impl.compare_ontology_term_lists(other_impl):
@@ -2044,6 +2216,146 @@ def set_obsolete(output, output_type, terms):
         # impl.save()
     else:
         raise NotImplementedError
+
+
+@main.command()
+@click.option(
+    "--allow-missing/--no-allow-missing",
+    default=False,
+    show_default=True,
+    help="Allow some dependent values to be blank, post-processing",
+)
+@click.option("--missing-value-token", help="Populate all missing values with this token")
+@click.option("--schema", help="Path to linkml schema")
+@click.option(
+    "--delimiter",
+    default="\t",
+    show_default=True,
+    help="Delimiter between columns in input and output",
+)
+@click.option(
+    "--relation",
+    multiple=True,
+    help="Serialized YAML string corresponding to a normalized relation between two columns",
+)
+@click.option(
+    "--relation-file",
+    type=click.File(mode="r"),
+    help="Path to YAML file corresponding to a list of normalized relation between two columns",
+)
+@output_option
+@click.argument("table_file")
+def fill_table(
+    table_file,
+    output,
+    delimiter,
+    missing_value_token,
+    allow_missing: bool,
+    relation: tuple,
+    relation_file: str,
+    schema: str,
+):
+    """
+    Fills missing values in a table of ontology elements
+
+    Given a TSV with a populated ID column, and unpopulated columns for definition, label, mappings, ancestors,
+    this will iterate through each row filling in each missing value by performing ontology lookups.
+
+    In some cases, this can also perform reverse lookups; i.e given a table with labels populated and blank IDs,
+    then fill in the IDs
+
+    In the most basic scenario, you have a table with two columns 'id' and 'label'. These are the "conventional" column
+    headers for a table of ontology elements (see later for configuration when you don't follow conventions)
+
+    Example:
+
+        runoak -i cl.owl.ttl fill-table my-table.tsv
+
+    (any implementation can be used)
+
+    The same command will work for the reverse scenario - when you have labels populated, but IDs are not populated
+
+    By default this will throw an error if a lookup is not successful; this can be relaxed
+
+    Relaxed:
+
+        runoak -i cl.owl.ttl fill-table --allow-missing my-table.tsv
+
+    In this case missing values that cannot be populated will remain empty
+
+    To explicitly populate a value:
+
+        runoak -i cl.owl.ttl fill-table --missing-value-token NO_DATA my-table.tsv
+
+    Currently the following columns are recognized:
+
+     - id -- the unique identifier of the element
+     - label -- the rdfs:label of the element
+     - definition -- the definition of the element
+     - mappings -- mappings for the element
+     - ancestors -- ancestors for the element (this can be parameterized)
+
+    The metadata inference procedure will also work for when you have denormalized TSV files
+    with columns such as "foo_id" and "foo_name". This will be recognized as an implicit normalized
+    label relation between id and name of a foo element.
+
+    You can be more explicit in one of two ways:
+
+     1. Pass in a YAML structure (on command line or in a YAML file) listing relations
+     2. Pass in a LinkML data definitions YAML file
+
+    For the first method, you can pass in multiple relations using the --relation arg. For example,
+    given a TSV with columns cl_identifier and cl_display_label you can say:
+
+    Example:
+
+        runoak -i cl.owl.ttl fill-table \
+          --relation "{primary_key: cl_identifier, dependent_column: cl_display_label, relation: label}"
+
+    You can also specify this in a YAML file
+
+    For the 2nd method, you need to specify a LinkML schema with a class where (1) at least one field is annotated
+    as being an identifier (2) one or more slots have slot_uri elements mapping them to standard metadata elements
+    such as rdfs:label.
+
+    For example, my-schema.yaml:
+
+            classes:
+              Person:
+                attributes:
+                  id:
+                    identifier: true
+                  name:
+                    slot_uri: rdfs:label
+
+    This is a powerful command with many ways of configuring it - we will add separate docs for this soon,
+    for now please file an issue on github with any questions
+
+    TODO: allow for an option that will perform fuzzy matches of labels
+    TODO: reverse lookup is not provided for all fields, such as definitions
+    TODO: add an option to detect inconsistencies
+    TODO: add logical for obsoletion/replaced by
+    TODO: use most optimized method for whichever backend
+    """
+    tf = TableFiller(settings.impl)
+    with open(table_file) as input_file:
+        input_table = table_filler.parse_table(input_file, delimiter=delimiter)
+        if schema:
+            metadata = tf.extract_metadata_from_linkml(schema)
+        elif relation or relation_file:
+            metadata = TableMetadata(dependencies=[])
+            if relation_file:
+                for d_args in yaml.safe_load(relation_file):
+                    metadata.dependencies.append(ColumnDependency(**d_args))
+            for d_str in list(relation):
+                d_args = yaml.safe_load(d_str)
+                metadata.dependencies.append(ColumnDependency(**d_args))
+        else:
+            metadata = tf.infer_metadata(input_table[0])
+        metadata.set_allow_missing_values(allow_missing)
+        metadata.set_missing_value_token(missing_value_token)
+        tf.fill_table(input_table, table_metadata=metadata)
+        table_filler.write_table(input_table, output, delimiter=delimiter)
 
 
 if __name__ == "__main__":

@@ -24,6 +24,9 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     IS_A,
     LABEL_PREDICATE,
+    OIO_SUBSET_PROPERTY,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SKOS_CLOSE_MATCH,
 )
@@ -181,14 +184,33 @@ class ProntoImplementation(
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
+            if filter_obsoletes and t.obsolete:
+                continue
+            if owl_type and owl_type != OWL_CLASS:
+                continue
             yield t.id
         # note what Pronto calls "relationship" is actually "relationship type"
         for t in self.wrapped_ontology.relationships():
+            if filter_obsoletes and t.obsolete:
+                continue
+            if owl_type and owl_type != OWL_OBJECT_PROPERTY:
+                continue
             yield t.id
         for t in self.wrapped_ontology.synonym_types():
+            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+                continue
             yield t.id
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        for t in self.wrapped_ontology.terms():
+            if t.obsolete:
+                yield t.id
+        # note what Pronto calls "relationship" is actually "relationship type"
+        for t in self.wrapped_ontology.relationships():
+            if t.obsolete:
+                yield t.id
 
     def all_subset_curies(self) -> Iterable[CURIE]:
         subsets = set()
