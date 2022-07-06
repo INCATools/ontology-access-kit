@@ -35,6 +35,7 @@ import click
 import rdflib
 import sssom.writers as sssom_writers
 import yaml
+import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
@@ -1497,6 +1498,12 @@ def labels(terms, output: TextIO, display: str, output_type: str):
 
         runoak -i cl.owl labels CL:4023094
 
+    You can use the ".all" selector to show all labels:
+
+    Example:
+
+        runoak -i cl.owl labels .all
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -1506,6 +1513,36 @@ def labels(terms, output: TextIO, display: str, output_type: str):
         logging.info("** Next chunk:")
         for curie, label in impl.get_labels_for_curies(curie_it):
             writer.emit(dict(id=curie, label=label))
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@output_option
+@display_option
+@ontological_output_type_option
+def definitions(terms, output: TextIO, display: str, output_type: str):
+    """
+    Show definitions for terms
+
+    Example:
+
+        runoak -i sqlite:obo:envo definitions 'tropical biome' 'temperate biome'
+
+    You can use the ".all" selector to show all definitions:
+
+    Example:
+
+        runoak -i sqlite:obo:envo definitions .all
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.display_options = display.split(",")
+    writer.file = output
+    for curie in query_terms_iterator(terms, impl):
+        if isinstance(impl, BasicOntologyInterface):
+            defn = impl.get_definition_by_curie(curie)
+            writer.emit(dict(id=curie, definition=defn))
 
 
 @main.command()
@@ -1658,7 +1695,11 @@ def mappings(terms, maps_to_source, output, output_type):
 @click.argument("terms", nargs=-1)
 def aliases(terms, output, obo_model):
     """
-    List all aliases in the ontology
+    List aliases for a term or set of terms
+
+    Example:
+
+        runoak -i ubergraph:uberon aliases UBERON:0001988
 
     Example:
 
@@ -1728,11 +1769,11 @@ def subset_rollups(subsets: list, output):
 @main.command()
 @output_option
 @output_type_option
-def axioms(output: str, output_type: str):
+def all_axioms(output: str, output_type: str):
     """
     List all axioms
 
-    EXPERIMENTAL
+    TODO: this will be replaced by "axioms" command
     """
     impl = settings.impl
     if isinstance(impl, OwlInterface):
@@ -1751,14 +1792,19 @@ def axioms(output: str, output_type: str):
 @click.option("--axiom-type", help="Type of axiom, e.g. SubClassOf")
 @click.option("--about", help="CURIE that the axiom is about")
 @click.option("--references", multiple=True, help="CURIEs that the axiom references")
-def filter_axioms(output: str, output_type: str, axiom_type: str, about: str, references: tuple):
+@click.argument("terms", nargs=-1)
+def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, references: tuple):
     """
     Filters axioms
 
     """
     impl = settings.impl
+    if terms:
+        curies = [curie for curie in query_terms_iterator(terms, impl)]
+    else:
+        curies = None
     if isinstance(impl, OwlInterface):
-        conditions = AxiomFilter(about=about)
+        conditions = AxiomFilter(about=curies)
         if references:
             conditions.references = list(references)
         if axiom_type:
@@ -2166,20 +2212,82 @@ def diff_terms(output, other_ontology, terms):
 
 
 @main.command()
-@click.option("--other-ontology", help="other ontology")
+@click.option("-X",
+              "--other-ontology",
+              help="other ontology")
+@click.option("--simple/--no-simple",
+              default=False,
+              show_default=True,
+              help="perform a quick difference showing only terms that differ")
 @output_option
 @output_type_option
-def diff_ontologies(output, output_type, other_ontology):
+def diff(simple: bool, output, output_type, other_ontology):
     """
-    EXPERIMENTAL
+    Diff between two ontologies
+
+    The --simple option will compare the lists of terms in each ontology. This is currently
+    implemented for most endpoints.
+
+    If --simple is not set, then this will do a complete diff, and return the diff as KGCL
+    change commands.
+
+    Current limitations
+
+    - complete diffs can only be done using local RDF files
+    - Parsing using rdflib can be slow
+    - Currently the return format is ONLY the KGCL change DSL. In future YAML, JSON, RDF will be an option
     """
-    # TODO: include KGCL datamodel
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingJsonLinesWriter)
+    writer.output = output
     other_impl = get_implementation_from_shorthand(other_ontology)
     if isinstance(impl, DifferInterface):
-        for diff in impl.compare_ontology_term_lists(other_impl):
-            writer.emit(diff)
+        if simple:
+            for change in impl.compare_ontology_term_lists(other_impl):
+                writer.emit(change)
+        else:
+            for change in impl.diff(other_impl):
+                print(change)
+                #writer.emit(change)
+    else:
+        raise NotImplementedError
+
+
+@main.command()
+@click.option("--output", "-o")
+@output_type_option
+@click.argument("commands", nargs=-1)
+def apply(commands, output, output_type):
+    """
+    Applies a patch to an ontology
+
+    Example:
+
+        runoak -i cl.owl.ttl apply "rename CL:0000561 to 'amacrine neuron'"  -o cl.owl.ttl -O ttl
+
+    With URIs:
+
+        runoak -i cl.owl.ttl apply \
+          "rename <http://purl.obolibrary.org/obo/CL_0000561> from 'amacrine cell' to 'amacrine neuron'" \
+           -o cl.owl.ttl -O ttl
+
+    WARNING:
+
+    This command is still experimental. Some things to bear in mind:
+
+    - for some ontologies, CURIEs may not work, instead specify a full URI surrounded by <>s
+    """
+    impl = settings.impl
+    if isinstance(impl, PatcherInterface):
+        impl.autosave = settings.autosave
+        for command in commands:
+            change = kgcl_parser.parse_statement(command)
+            logging.info(f"Change: {change}")
+            impl.apply_patch(change)
+        if not settings.autosave and not output:
+            logging.warning("--autosave not passed, changes are NOT saved")
+        if output:
+            impl.dump(output, output_type)
     else:
         raise NotImplementedError
 
@@ -2188,7 +2296,7 @@ def diff_ontologies(output, output_type, other_ontology):
 @click.option("--output", "-o")
 @output_type_option
 @click.argument("terms", nargs=-1)
-def set_obsolete(output, output_type, terms):
+def apply_obsolete(output, output_type, terms):
     """
     Sets an ontology element to be obsolete
 
@@ -2197,12 +2305,12 @@ def set_obsolete(output, output_type, terms):
 
     Example:
 
-        runoak -i my.obo set-obsolete MY:0002200 -o my-modified.obo
+        runoak -i my.obo apply-obsolete MY:0002200 -o my-modified.obo
 
     This may be chained, for example to take all terms matching a search query and then
     obsolete them all:
 
-        runoak -i my.db search 'l/^Foo/` | runoak -i my.db --autosave set-obsolete -
+        runoak -i my.db search 'l/^Foo/` | runoak -i my.db --autosave apply-obsolete -
     """
     impl = settings.impl
     if isinstance(impl, PatcherInterface):
