@@ -24,7 +24,7 @@ from tests import (
     INPUT_DIR,
     NUCLEUS,
     OUTPUT_DIR,
-    VACUOLE,
+    VACUOLE, NUCLEAR_ENVELOPE, CELLULAR_COMPONENT,
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
@@ -42,7 +42,6 @@ class TestProntoImplementation(unittest.TestCase):
     def test_obo_json(self) -> None:
         resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
         json_oi = ProntoImplementation(resource)
-        self.oi
         curies = list(json_oi.all_entity_curies())
         # for e in curies:
         #    print(e)
@@ -315,4 +314,20 @@ class TestProntoImplementation(unittest.TestCase):
         oi.apply_patch(kgcl.NodeObsoletion(id=generate_change_id(), about_node=NUCLEUS))
         with self.assertRaises(ValueError):
             oi.apply_patch(kgcl.NodeObsoletion(id="x", about_node="NO SUCH TERM"))
-        oi.dump(str(OUTPUT_DIR / "post-kgcl.obo"), syntax="obo")
+        #oi.apply_patch(kgcl.NodeDeletion(id=generate_change_id(), about_node=NUCLEAR_ENVELOPE))
+        oi.apply_patch(kgcl.SynonymReplacement(id="x",
+                                               about_node=CELLULAR_COMPONENT,
+                                               old_value="subcellular entity",
+                                               new_value="foo bar"))
+        out_file = str(OUTPUT_DIR / "post-kgcl.obo")
+        oi.dump(out_file, syntax="obo")
+        resource = OntologyResource(slug=out_file, local=True)
+        oi2 = ProntoImplementation(resource)
+        self.assertCountEqual(["cell or subcellular entity",
+                               "cellular component",
+                               "cellular_component",
+                               "foo bar"],
+                              oi2.aliases_by_curie(CELLULAR_COMPONENT))
+
+
+
