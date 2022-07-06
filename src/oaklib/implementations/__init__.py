@@ -25,6 +25,5 @@ __all__ = [
 
 implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
     OntologyInterface,
-    default=SqlImplementation,
     suffix="Implementation",
 )
