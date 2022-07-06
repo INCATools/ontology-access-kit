@@ -19,15 +19,23 @@ Create a new project
     cd my-oak-demo
     poetry add oaklib
 
+Basic Concepts
+-------------
+
+The two basic concepts you will learn here are:
+
+- Implementations: How to create a connector object that can talk to a backend or work with a particular file format
+- Interfaces: How to perform operations on a basic ontology interface, regardless of the backend
+
 Code the first example
 ----------
 
 We are going to use an example from the :ref:`BasicOntologyInterface`, using a :ref:`pronto` implementation.
 
+
 As preparation, we expect ``fbbt.obo`` to exist in the top level directory.
 
 :code:`fbbt.obo` can be downloaded here: http://purl.obolibrary.org/obo/fbbt.obo
-
 
 Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
@@ -40,6 +48,10 @@ Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
 - We first import the general ``OntologyResource`` implementation which allows us to declare where to get the ontology from.
 - We then load this resource using the ``ProntoImplementation``, which allows us to perform all operations on the resource that we could do with `pronto <https://github.com/althonos/pronto>`_.
+
+.. warning::
+
+    The way in which a connection is made to a backend may change in the near future!
 
 Next, let us use :term:`Pronto` to actually query the ontology:
 
