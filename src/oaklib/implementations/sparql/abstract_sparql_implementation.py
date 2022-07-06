@@ -30,6 +30,7 @@ from oaklib.datamodels.vocabulary import (
     OBO_PURL,
     SYNONYM_PREDICATES,
 )
+from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
@@ -469,7 +470,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         if ":" in search_term and " " not in search_term:
             logging.debug(f"Not performing search on what looks like a CURIE: {search_term}")
