@@ -87,10 +87,11 @@ def get_implementation_class_from_scheme(scheme: str):
 def get_resource_imp_class_from_suffix_descriptor(
     suffix: str, resource: OntologyResource, descriptor: str
 ):
-    if suffix == "db" or (format and format == "sqlite"):
+
+    if suffix == "db" or (resource.format and resource.format == "sqlite"):
         impl_class = SqlImplementation
         resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
-    elif format and format in RDF_SUFFIX_TO_FORMAT.values():
+    elif resource.format and resource.format in RDF_SUFFIX_TO_FORMAT.values():
         impl_class = SparqlImplementation
     elif suffix in RDF_SUFFIX_TO_FORMAT:
         impl_class = SparqlImplementation
