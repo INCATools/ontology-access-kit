@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Iterable, Iterator
+from typing import Iterable, Optional
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import SearchInterface
@@ -40,8 +40,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     """
 
     def annotate_text(
-        self, text: TEXT, configuration: TextAnnotationConfiguration = None
-    ) -> Iterator[TextAnnotation]:
+        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+    ) -> Iterable[TextAnnotation]:
         """
         Annotate a piece of text
 

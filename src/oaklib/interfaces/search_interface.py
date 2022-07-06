@@ -1,9 +1,13 @@
 from abc import ABC
-from typing import Iterable, List
+from typing import Iterable, List, Optional
 
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
+
+__all__ = [
+    "SearchConfiguration",
+]
 
 
 class SearchInterface(BasicOntologyInterface, ABC):
@@ -11,7 +15,9 @@ class SearchInterface(BasicOntologyInterface, ABC):
     An Ontology Interface that supports text-based search
     """
 
-    def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
+    def basic_search(
+        self, search_term: str, config: Optional[SearchConfiguration] = None
+    ) -> Iterable[CURIE]:
         """
         Search over ontology using the specified search term.
 
@@ -24,7 +30,7 @@ class SearchInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def multiterm_search(
-        self, search_terms: List[str], config: SearchConfiguration = None
+        self, search_terms: List[str], config: Optional[SearchConfiguration] = None
     ) -> Iterable[CURIE]:
         """
         As basic_search, using multiple terms
@@ -38,7 +44,7 @@ class SearchInterface(BasicOntologyInterface, ABC):
             if ":" in t:
                 yield t
             else:
-                for curie in self.basic_search(t):
+                for curie in self.basic_search(t, config=config):
                     if curie in seen:
                         continue
                     seen.add(curie)
