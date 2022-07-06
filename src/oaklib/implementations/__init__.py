@@ -14,9 +14,6 @@ from oaklib.implementations.sparql.lov_implementation import LovImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
-from oaklib.implementations.ubergraph.ubergraph_implementation import (
-    UbergraphImplementation,
-)
 from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )

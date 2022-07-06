@@ -4,16 +4,8 @@ import pkgutil
 from pathlib import Path
 from typing import Optional, Type
 
-from oaklib import BasicOntologyInterface
-from oaklib.implementations import (
-    LovImplementation,
-    ProntoImplementation,
-    SparqlImplementation,
-    SqlImplementation,
-    implementation_resolver,
-)
+from oaklib import BasicOntologyInterface, OntologyResource
 from oaklib.interfaces import OntologyInterface
-from oaklib.resource import OntologyResource
 
 discovered_plugins = {
     name: importlib.import_module(name)
@@ -54,12 +46,21 @@ def get_implementation_from_shorthand(
 def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]:
     if scheme == "http" or scheme == "https":
         raise NotImplementedError("Web requests not implemented yet")
+
+    from oaklib.implementations import implementation_resolver
+
     return implementation_resolver.lookup(scheme)
 
 
 def get_resource_imp_class_from_suffix_descriptor(
     suffix: str, resource: OntologyResource, descriptor: str
 ):
+    from oaklib.implementations import (
+        ProntoImplementation,
+        SparqlImplementation,
+        SqlImplementation,
+    )
+
     if suffix == "db" or (resource.format and resource.format == "sqlite"):
         impl_class = SqlImplementation
         resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
@@ -87,6 +88,12 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
     :param format:
     :return:
     """
+    from oaklib.implementations import (
+        LovImplementation,
+        ProntoImplementation,
+        SparqlImplementation,
+    )
+
     resource = OntologyResource(format=format)
     resource.slug = descriptor
     impl_class: Optional[Type[OntologyInterface]] = None
