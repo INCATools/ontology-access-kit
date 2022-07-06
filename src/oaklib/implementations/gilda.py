@@ -1,8 +1,11 @@
 """A text annotator based on Gilda."""
 
 from dataclasses import dataclass
+from typing import Iterator
 
+from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import TextAnnotatorInterface
+from oaklib.interfaces.text_annotator_interface import TEXT, nen_annotation
 
 __all__ = [
     "GildaImplementation",
@@ -19,4 +22,18 @@ class GildaImplementation(TextAnnotatorInterface):
         *Bioinformatics Advances*, Volume 2, Issue 1, 2022, vbac034,
     """
 
-    # TODO implement
+    def annotate_text(
+        self, text: TEXT, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
+        if not configuration:
+            raise NotImplementedError
+        if not configuration.matches_whole_text:
+            raise NotImplementedError
+
+        import gilda
+
+        matches = gilda.ground(text)
+        for match in matches:
+            curie = f"{match.term.db}:{match.term.id}"
+            label = match.term.entry_name
+            yield nen_annotation(text=text, curie=curie, label=label)
