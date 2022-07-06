@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 
-from oaklib.implementations import BioportalImplementation
+from oaklib.implementations.bioportal.bioportal_implementation import (
+    BioportalImplementation,
+)
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
