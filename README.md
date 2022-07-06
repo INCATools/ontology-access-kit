@@ -35,7 +35,7 @@ These interfaces are *separated* from any particular [backend](https://incatools
 See the contribution guidelines at [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 All contributors are expected to uphold our [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
-## Example
+## Usage
 
 ```python
 from src.oaklib.resource import OntologyResource
@@ -55,7 +55,7 @@ For more examples, see
 
 - [demo notebook](https://github.com/incatools/ontology-access-kit/blob/main/notebooks/basic-demo.ipynb)
 
-## Command Line
+### Command Line
 
 Documentation here is incomplete.
 
@@ -215,7 +215,14 @@ Same using pronto, fetching ontology from obolibrary
 runoak -i obolibrary:go.obo  viz GO:0005773
 ```
 
+## Configuration
+
+OAK uses [`pystow`](https://github.com/cthoyt/pystow) for caching. By default,
+this goes inside `~/.data/`, but can be configured following
+[these instructions](https://github.com/cthoyt/pystow#%EF%B8%8F%EF%B8%8F-configuration).
+
 ## Developer notes
+
 ### Local project setup
 Prerequisites:
 1. Python 3.9+

@@ -21,6 +21,7 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
 from oaklib.implementations.ubergraph.ubergraph_implementation import RelationGraphEnum
+from oaklib.implementations.wikidata import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP, RELATIONSHIP_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -96,7 +97,7 @@ class WikidataImplementation(
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         if ":" in search_term and " " not in search_term:
             logging.debug(f"Not performing search on what looks like a CURIE: {search_term}")
