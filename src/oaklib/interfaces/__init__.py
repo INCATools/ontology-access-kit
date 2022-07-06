@@ -4,6 +4,7 @@ from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.subsetter_interface import SubsetterInterface
+from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     "SearchInterface",
     "SubsetterInterface",
     "ValidatorInterface",
+    "TextAnnotatorInterface",
 ]
