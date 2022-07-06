@@ -151,6 +151,27 @@ class UbergraphImplementation(
             rmap[pred].append(s)
         return rmap
 
+    def get_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
+        query.graph = RelationGraphEnum.nonredundant.value
+        if subjects:
+            query.where.append(_sparql_values("s", [self.curie_to_sparql(x) for x in subjects]))
+        if predicates:
+            query.where.append(_sparql_values("p", [self.curie_to_sparql(x) for x in predicates]))
+        if objects:
+            query.where.append(_sparql_values("o", [self.curie_to_sparql(x) for x in objects]))
+        bindings = self._query(query.query_str())
+        for row in bindings:
+            sub = self.uri_to_curie(row["s"]["value"])
+            pred = self.uri_to_curie(row["p"]["value"])
+            obj = self.uri_to_curie(row["o"]["value"])
+            yield sub, pred, obj
+
     def entailed_outgoing_relationships_by_curie(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
@@ -178,10 +199,10 @@ class UbergraphImplementation(
     def _from_subjects_chunked(
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, **kwargs
     ):
-        SIZE = 10
+        size = 10
         while len(subjects) > 0:
-            next_subjects = subjects[0:SIZE]
-            subjects = subjects[SIZE:]
+            next_subjects = subjects[0:size]
+            subjects = subjects[size:]
             for r in self._from_subjects(next_subjects, predicates, **kwargs):
                 yield r
 
@@ -191,8 +212,10 @@ class UbergraphImplementation(
         predicates: List[PRED_CURIE] = None,
         graph: str = None,
         object_is_literal=False,
-        where=[],  # FIXME never leave mutable structures in kwargs
+        where=None,
     ) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+        if where is None:
+            where = []
         subject_uris = [self.curie_to_sparql(curie) for curie in subjects]
         if predicates:
             predicate_uris = [self.curie_to_sparql(curie) for curie in predicates]
@@ -204,8 +227,8 @@ class UbergraphImplementation(
             graph=graph,
             where=[
                 "?s ?p ?o",
-                self._values("s", subject_uris),
-                self._values("p", predicate_uris),
+                self._sparql_values("s", subject_uris),
+                self._sparql_values("p", predicate_uris),
             ]
             + where,
         )
@@ -245,7 +268,7 @@ class UbergraphImplementation(
         for rel in relationships:
             node_ids.update(list(rel))
         nodes = {}
-        for s, p, o in self._from_subjects_chunked(
+        for s, _, o in self._from_subjects_chunked(
             list(node_ids), [RDFS.label], object_is_literal=True
         ):
             nodes[s] = obograph.Node(id=s, lbl=o)

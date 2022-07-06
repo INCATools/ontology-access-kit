@@ -1,0 +1,6 @@
+- primary_key: subject_id
+  dependent_column: subject_name
+  relation: label
+- primary_key: object_id
+  dependent_column: object_name
+  relation: label

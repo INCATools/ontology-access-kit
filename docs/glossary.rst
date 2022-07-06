@@ -150,3 +150,15 @@ Glossary
    Semantic SQL
     Semantic SQL is a proposed standardized schema for representing any RDF/OWL ontology, plus a set of tools for building
     a database conforming to this schema from RDF/OWL files. See `Semantic-SQL <https://github.com/INCATools/semantic-sql>`_
+
+   Semantic Similarity
+    A means of measuring similarity between either pairs of ontology concepts, or between entities annotated using ontology
+    concepts. There is a wide variety of different methods for calculating semantic similarity, for example :term:`Jaccard Similarity`
+    and :term:`Information Content` based measures.
+
+   Information Content
+    A measure of how informative an ontology concept is; broader concepts are less informative as they encompass many things,
+    whereas more specific concepts are more unique. This is usually measured as ``-log2(Pr(term))``. The method of calculating
+    the probability varies, depending on which predicates are taken into account (for many ontologies, it makes sense to
+    use part-of as well as is-a), and whether the probability is the probability of observing a descendant term, or of an
+    entity annotated using that term.

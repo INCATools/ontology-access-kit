@@ -5,7 +5,18 @@ from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Type, Union
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Set,
+    Tuple,
+    Type,
+    Union,
+)
 
 import rdflib
 import requests
@@ -49,16 +60,20 @@ from oaklib.datamodels.search import SearchConfiguration
 
 # from oaklib import OntologyResource
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
+    HAS_DBXREF,
     HAS_EXACT_SYNONYM,
+    HAS_SYNONYM_TYPE,
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
     SYNONYM_PREDICATES,
     omd_slots,
 )
+from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
@@ -176,6 +191,7 @@ class SqlImplementation(
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
     _prefix_map: PREFIX_MAP = None
+    _information_content_cache: Dict[Tuple[CURIE, Set[PRED_CURIE]], float] = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -246,10 +262,22 @@ class SqlImplementation(
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
         return self._prefix_map
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
-        s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
-        for row in self.engine.execute(s):
-            yield row["id"]
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+        # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
+        # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
+        q = self.session.query(Node)
+        if owl_type:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == owl_type
+            )
+            q = q.filter(Node.id.in_(subquery))
+        if filter_obsoletes:
+            obs_subq = self.session.query(DeprecatedNode.id)
+            q = q.filter(Node.id.not_in(obs_subq))
+        for row in q:
+            if row:
+                if not row.id.startswith("_:") and not row.id.startswith("<"):
+                    yield row.id
 
     def all_obsolete_curies(self) -> Iterable[CURIE]:
         for row in self.session.query(DeprecatedNode):
@@ -269,6 +297,11 @@ class SqlImplementation(
             RdfsLabelStatement.subject.in_(tuple(list(curies)))
         ):
             yield row.subject, row.value
+
+    def get_curies_by_label(self, label: str) -> List[CURIE]:
+        q = self.session.query(RdfsLabelStatement)
+        q = q.filter(RdfsLabelStatement.value == label)
+        return [row.subject for row in q]
 
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         m = defaultdict(list)
@@ -364,7 +397,7 @@ class SqlImplementation(
         self._execute(stmt)
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         preds = []
         preds.append(omd_slots.label.curie)
@@ -413,6 +446,22 @@ class SqlImplementation(
         for row in self.session.query(Edge).filter(Edge.object == curie):
             rmap[row.predicate].append(row.subject)
         return rmap
+
+    def get_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        q = self.session.query(Edge)
+        if subjects:
+            q = q.filter(Edge.subject.in_(tuple(subjects)))
+        if predicates:
+            q = q.filter(Edge.predicate.in_(tuple(predicates)))
+        if objects:
+            q = q.filter(Edge.object.in_(tuple(objects)))
+        for row in q:
+            yield row.subject, row.predicate, row.object
 
     def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(HasMappingStatement).filter(
@@ -467,6 +516,17 @@ class SqlImplementation(
         meta = obograph.Meta()
         n = obograph.Node(id=curie, meta=meta)
         rows = list(self.session.query(Statements).filter(Statements.subject == curie))
+
+        def _anns_to_xrefs_and_meta(parent_pv: obograph.PropertyValue, anns: List[om.Annotation]):
+            parent_pv.xrefs = [ann.object for ann in anns if ann.predicate == HAS_DBXREF]
+            pvs = [
+                obograph.BasicPropertyValue(pred=ann.predicate, val=ann.object)
+                for ann in anns
+                if ann.predicate != HAS_DBXREF
+            ]
+            if pvs:
+                parent_pv.meta = obograph.Meta(basicPropertyValues=pvs)
+
         for row in rows:
             if row.value is not None:
                 v = row.value
@@ -483,13 +543,37 @@ class SqlImplementation(
                 else:
                     anns = []
                 if pred == omd_slots.definition.curie:
-                    meta.definition = obograph.DefinitionPropertyValue(
-                        val=v, xrefs=[ann.object for ann in anns]
-                    )
+                    meta.definition = obograph.DefinitionPropertyValue(val=v)
+                    _anns_to_xrefs_and_meta(meta.definition, anns)
+                else:
+                    pv = obograph.BasicPropertyValue(pred=pred, val=v)
+                    _anns_to_xrefs_and_meta(pv, anns)
+                    meta.basicPropertyValues.append(pv)
         return n
 
+    def synonym_map_for_curies(
+        self, subject: Union[CURIE, List[CURIE]]
+    ) -> Dict[CURIE, List[obograph.SynonymPropertyValue]]:
+        if isinstance(subject, CURIE):
+            subject = [subject]
+        q = self.session.query(Statements).filter(Statements.subject.in_(tuple(subject)))
+        q = q.filter(Statements.predicate.in_(SYNONYM_PREDICATES))
+        syn_rows = list(q)
+        logging.info(f"Fetching info on {len(syn_rows)} synonyms")
+        d = defaultdict(list)
+        for row in syn_rows:
+            spv = obograph.SynonymPropertyValue(pred=row.predicate, val=row.value)
+            d[row.subject].append(spv)
+            anns = self._axiom_annotations(row.subject, row.predicate, value=row.value)
+            for ann in anns:
+                if ann.predicate == HAS_SYNONYM_TYPE:
+                    spv.synonymType = ann.object
+                if ann.predicate == HAS_DBXREF:
+                    spv.xrefs.append(ann.object)
+        return d
+
     def _axiom_annotations(
-        self, subject: CURIE, predicate: CURIE, object: CURIE, value: Any
+        self, subject: CURIE, predicate: CURIE, object: CURIE = None, value: Any = None
     ) -> List[om.Annotation]:
         q = self.session.query(OwlAxiomAnnotation)
         q = q.filter(OwlAxiomAnnotation.subject == subject)
@@ -497,8 +581,14 @@ class SqlImplementation(
         if object:
             q = q.filter(OwlAxiomAnnotation.object == object)
         if value:
-            q = q.filter(OwlAxiomAnnotation.object == value)
-        return [om.Annotation(row.annotation_predicate, row.annotation_object) for row in q]
+            q = q.filter(OwlAxiomAnnotation.value == value)
+        return [
+            om.Annotation(
+                row.annotation_predicate,
+                row.annotation_value if row.annotation_value is not None else row.annotation_object,
+            )
+            for row in q
+        ]
 
     def ancestors(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
@@ -513,6 +603,20 @@ class SqlImplementation(
         logging.debug(f"Ancestors query: {q}")
         for row in q:
             yield row.object
+
+    def multi_ancestors(
+        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+    ) -> Iterable[RELATIONSHIP]:
+        q = self.session.query(EntailedEdge)
+        if isinstance(start_curies, list):
+            q = q.filter(EntailedEdge.subject.in_(tuple(start_curies)))
+        else:
+            q = q.filter(EntailedEdge.subject == start_curies)
+        if predicates is not None:
+            q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        logging.debug(f"Ancestors query, start from {start_curies}: {q}")
+        for row in q:
+            yield row.subject, row.predicate, row.object
 
     def descendants(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
@@ -848,13 +952,45 @@ class SqlImplementation(
     def get_information_content(
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ):
-        num_nodes = self.session.query(Node.id).count()
-        q = self.session.query(EntailedEdge.subject)
-        q = q.filter(EntailedEdge.object == curie)
-        if predicates:
-            q = q.filter(EntailedEdge.predicate.in_(predicates))
-        num_descs = q.count()
-        return -math.log(num_descs / num_nodes) / math.log(2)
+        if self._information_content_cache is None:
+            self._information_content_cache = {}
+        if predicates is None:
+            key = curie, None
+        else:
+            key = curie, tuple(set(predicates))
+        if key not in self._information_content_cache:
+            num_nodes = self.session.query(Node.id).count()
+            q = self.session.query(EntailedEdge.subject)
+            q = q.filter(EntailedEdge.object == curie)
+            if predicates:
+                q = q.filter(EntailedEdge.predicate.in_(predicates))
+            num_descs = q.count()
+            ic = -math.log(num_descs / num_nodes) / math.log(2)
+            self._information_content_cache[key] = ic
+        else:
+            logging.debug(f"Using cached value for {key}")
+        return self._information_content_cache[key]
+
+    def all_by_all_pairwise_similarity(
+        self,
+        subjects: Iterable[CURIE],
+        objects: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+    ) -> Iterator[TermPairwiseSimilarity]:
+        def tuples_to_map(relationships: Iterable[RELATIONSHIP]) -> Dict[CURIE, List[CURIE]]:
+            rmap = defaultdict(list)
+            for r in relationships:
+                rmap[r[0]].append(r[2])
+            return rmap
+
+        subjects_ancs = tuples_to_map(self.multi_ancestors(list(subjects), predicates=predicates))
+        objects_ancs = tuples_to_map(self.multi_ancestors(list(objects), predicates=predicates))
+        for s, s_ancs in subjects_ancs.items():
+            for o, o_ancs in objects_ancs.items():
+                logging.info(f"s={s} o={o}")
+                yield self.pairwise_similarity(
+                    s, o, predicates=predicates, subject_ancestors=s_ancs, object_ancestors=o_ancs
+                )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface

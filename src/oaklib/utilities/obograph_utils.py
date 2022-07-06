@@ -25,12 +25,12 @@ from linkml_runtime.dumpers import json_dumper
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 from oaklib import conf as conf_package
 from oaklib.datamodels.obograph import Edge, Graph, Node
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.types import CURIE, PRED_CURIE
 
 DEFAULT_STYLEMAP = "obograph-style.json"
 
-DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p"}
+DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p", RDF_TYPE: "t"}
 
 
 class TreeFormatEnum(Enum):
@@ -89,15 +89,15 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
     """
     g = {"graphs": [graph_as_dict(graph)]}
     logging.debug(f"graph = {g}")
-    EXEC = "og2dot"
-    if shutil.which(EXEC) is None:
-        logging.error(f"No {EXEC}")
+    exec = "og2dot"
+    if shutil.which(exec) is None:
+        logging.error(f"No {exec}")
         print("You need to install a node package to be able to visualize results")
         print("")
         print("npm install -g obographviz")
         print("Then set your path to include og2dot")
         raise Exception(
-            f"Cannot find {EXEC} on path. Install from https://github.com/INCATools/obographviz"
+            f"Cannot find {exec} on path. Install from https://github.com/INCATools/obographviz"
         )
     with tempfile.NamedTemporaryFile(dir="/tmp", mode="w") as tmpfile:
         style = {}
@@ -123,7 +123,7 @@ def graph_to_image(graph: Graph, seeds=None, configure=None, stylemap=None, imgf
             imgfile = f"{temp_file_name}.png"
         style_json = json.dumps(style).replace("'", "\\'")
         logging.debug(f"Style = {style_json}")
-        cmdtoks = [EXEC, "-S", style_json, "-t", "png", temp_file_name, "-o", imgfile]
+        cmdtoks = [exec, "-S", style_json, "-t", "png", temp_file_name, "-o", imgfile]
         if stylemap is not None:
             cmdtoks += ["-s", stylemap]
         if seeds is not None:
@@ -368,7 +368,7 @@ def graph_to_tree(
     predicates: List[PRED_CURIE] = None,
     output: TextIO = None,
     start_curies: List[CURIE] = None,
-    seeds: List[CURIE] = [],
+    seeds: List[CURIE] = None,
     format: str = None,
     max_paths: int = 10,
     predicate_code_map=DEFAULT_PREDICATE_CODE_MAP,
@@ -388,6 +388,8 @@ def graph_to_tree(
     :param stylemap: kgviz stylemap (not yet used)
     :return:
     """
+    if seeds is None:
+        seeds = []
     if output is None:
         output = io.StringIO()
         is_str = True

@@ -1,0 +1,381 @@
+@prefix : <http://purl.obolibrary.org/obo/TEMP#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://purl.obolibrary.org/obo/TEMP> .
+
+<http://purl.obolibrary.org/obo/TEMP> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.obolibrary.org/obo/IAO_0000115
+<http://purl.obolibrary.org/obo/IAO_0000115> rdf:type owl:AnnotationProperty ;
+                                             rdfs:label "definition"^^xsd:string .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasDbXref
+<http://www.geneontology.org/formats/oboInOwl#hasDbXref> rdf:type owl:AnnotationProperty ;
+                                                         rdfs:label "database_cross_reference"^^xsd:string .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
+<http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> rdf:type owl:AnnotationProperty ;
+                                                               rdfs:label "has_exact_synonym"^^xsd:string .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym
+<http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> rdf:type owl:AnnotationProperty ;
+                                                                 rdfs:label "has_related_synonym"^^xsd:string .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#id
+<http://www.geneontology.org/formats/oboInOwl#id> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2000/01/rdf-schema#label
+rdfs:label rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.obolibrary.org/obo/BFO_0000002
+<http://purl.obolibrary.org/obo/BFO_0000002> rdf:type owl:Class ;
+                                             <http://purl.obolibrary.org/obo/IAO_0000115> "An entity that exists in full at any time in which it exists at all, persists through time while maintaining its identity and has no temporal parts."^^xsd:string ;
+                                             <http://www.geneontology.org/formats/oboInOwl#id> "BFO:0000002"^^xsd:string ;
+                                             rdfs:label "continuant"^^xsd:string .
+
+
+###  http://purl.obolibrary.org/obo/BFO_0000004
+<http://purl.obolibrary.org/obo/BFO_0000004> rdf:type owl:Class ;
+                                             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000002> ;
+                                             <http://purl.obolibrary.org/obo/IAO_0000115> "A continuant that is a bearer of quality and realizable entity entities, in which other entities inhere and which itself cannot inhere in anything."^^xsd:string ;
+                                             <http://www.geneontology.org/formats/oboInOwl#id> "BFO:0000004"^^xsd:string ;
+                                             rdfs:label "independent continuant"^^xsd:string .
+
+
+###  http://purl.obolibrary.org/obo/CARO_0000000
+<http://purl.obolibrary.org/obo/CARO_0000000> rdf:type owl:Class ;
+                                              rdfs:subClassOf <http://purl.obolibrary.org/obo/CARO_0030000> ;
+                                              <http://www.geneontology.org/formats/oboInOwl#id> "CARO:0000000"^^xsd:string ;
+                                              rdfs:label "anatomical entity"^^xsd:string .
+
+
+###  http://purl.obolibrary.org/obo/CARO_0030000
+<http://purl.obolibrary.org/obo/CARO_0030000> rdf:type owl:Class ;
+                                              rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000004> ;
+                                              <http://www.geneontology.org/formats/oboInOwl#id> "CARO:0030000"^^xsd:string ;
+                                              rdfs:label "biological entity"^^xsd:string .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004860
+<http://purl.obolibrary.org/obo/FBbt_00004860> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00007002> ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "germ cell"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004860"^^xsd:string ;
+                                               rdfs:label "germline cell"^^xsd:string .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004861
+<http://purl.obolibrary.org/obo/FBbt_00004861> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00004860> ,
+                                                               <http://purl.obolibrary.org/obo/FBbt_00007014> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Stem cell that is the precursor of gametes."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000086"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "GSC"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004861"^^xsd:string ;
+                                               rdfs:label "germline stem cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004861> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Stem cell that is the precursor of gametes."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:DOS"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004873
+<http://purl.obolibrary.org/obo/FBbt_00004873> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00004861> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Female germline cell and stem cell from which all other female germline cells develop. Each of its divisions gives rise to one cystoblast and one female germline stem cell."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000022"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "female GSC"^^xsd:string ,
+                                                                                                              "oogonial cell"^^xsd:string ,
+                                                                                                              "oogonium"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004873"^^xsd:string ;
+                                               rdfs:label "female germline stem cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004873> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Female germline cell and stem cell from which all other female germline cells develop. Each of its divisions gives rise to one cystoblast and one female germline stem cell."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:DOS"^^xsd:string ,
+                                                            "FlyBase:FBrf0017959"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004886
+<http://purl.obolibrary.org/obo/FBbt_00004886> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00057012> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Female germline cell that develops from one of the 16 cyst cells (the presumptive oocyte) produced by a cystoblast. It matures in an egg chamber of the ovariole and will be released from the ovary as an egg."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000023"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004886"^^xsd:string ;
+                                               rdfs:label "oocyte"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004886> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Female germline cell that develops from one of the 16 cyst cells (the presumptive oocyte) produced by a cystoblast. It matures in an egg chamber of the ovariole and will be released from the ovary as an egg."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FlyBase:FBrf0021038"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004934
+<http://purl.obolibrary.org/obo/FBbt_00004934> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00004935> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Daughter of a male germline stem cell. Unlike its sister, which will remain a stem cell, the primary gonial cell is displaced laterally from the hub cells, where it becomes enclosed by two 'cyst cells'. Morphology is much like its stem cell sister."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000020"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "gonialblast"^^xsd:string ,
+                                                                                                              "primary spermatogonial cell"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004934"^^xsd:string ;
+                                               rdfs:label "primary gonial cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004934> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Daughter of a male germline stem cell. Unlike its sister, which will remain a stem cell, the primary gonial cell is displaced laterally from the hub cells, where it becomes enclosed by two 'cyst cells'. Morphology is much like its stem cell sister."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FlyBase:FBrf0064778"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004935
+<http://purl.obolibrary.org/obo/FBbt_00004935> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00057011> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Male germline cell found in the spermatogonial cyst. It specifically expresses bag of marbles (bam), which is required for its differentiation (Witt et al., 2019)."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000020"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004935"^^xsd:string ;
+                                               rdfs:label "spermatogonium"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004935> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Male germline cell found in the spermatogonial cyst. It specifically expresses bag of marbles (bam), which is required for its differentiation (Witt et al., 2019)."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FlyBase:FBrf0064778"^^xsd:string ,
+                                                            "FlyBase:FBrf0243241"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004936
+<http://purl.obolibrary.org/obo/FBbt_00004936> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00057011> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Male germline cell that is part of the 16-cell spermatocyte cyst. It expresses twine, which regulates the meiotic cycle (Witt et al., 2019)."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000017"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004936"^^xsd:string ;
+                                               rdfs:label "spermatocyte"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004936> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Male germline cell that is part of the 16-cell spermatocyte cyst. It expresses twine, which regulates the meiotic cycle (Witt et al., 2019)."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FlyBase:FBrf0064778"^^xsd:string ,
+                                                            "FlyBase:FBrf0243241"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004942
+<http://purl.obolibrary.org/obo/FBbt_00004942> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00057011> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "One of 64, post meiotic, haploid male germ cells in a spermatid cyst, connected to other spermatids by cytoplasmic bridges. The loss of these cytoplasmic bridge (individualisation) marks the end of the spermatid stage."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000018"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004942"^^xsd:string ;
+                                               rdfs:label "spermatid"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004942> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "One of 64, post meiotic, haploid male germ cells in a spermatid cyst, connected to other spermatids by cytoplasmic bridges. The loss of these cytoplasmic bridge (individualisation) marks the end of the spermatid stage."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FlyBase:FBrf0064778"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00004954
+<http://purl.obolibrary.org/obo/FBbt_00004954> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00005412> ,
+                                                               <http://purl.obolibrary.org/obo/FBbt_00057011> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "A mature, haploid male gamete."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000019"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "sperm"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00004954"^^xsd:string ;
+                                               rdfs:label "spermatozoon"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00004954> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "A mature, haploid male gamete."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FlyBase:FBrf0064778"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00005412
+<http://purl.obolibrary.org/obo/FBbt_00005412> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00004860> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "A mature reproductive cell containing a single set of chromosomes."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000300"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00005412"^^xsd:string ;
+                                               rdfs:label "gamete"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00005412> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "A mature reproductive cell containing a single set of chromosomes."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:MMC"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00007001
+<http://purl.obolibrary.org/obo/FBbt_00007001> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00007016> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Material anatomical entity that has inherent 3D shape, whose parts are all connected and that is generated by coordinated expression of the organism's own genome."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CARO:0000003"^^xsd:string ,
+                                                                                                        "UBERON:0000061"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00007001"^^xsd:string ;
+                                               rdfs:label "anatomical structure"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00007001> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Material anatomical entity that has inherent 3D shape, whose parts are all connected and that is generated by coordinated expression of the organism's own genome."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CARO:MAH"^^xsd:string ,
+                                                            "FBC:DOS"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00007002
+<http://purl.obolibrary.org/obo/FBbt_00007002> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00007001> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Anatomical structure that has as its parts a maximally connected cell compartment surrounded by a plasma membrane."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CARO:0000013"^^xsd:string ,
+                                                                                                        "CL:0000000"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00007002"^^xsd:string ;
+                                               rdfs:label "cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00007002> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Anatomical structure that has as its parts a maximally connected cell compartment surrounded by a plasma membrane."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CARO:MAH"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00007014
+<http://purl.obolibrary.org/obo/FBbt_00007014> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00007002> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Undifferentiated cell which retains its identity while budding off cells which differentiate."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00007014"^^xsd:string ;
+                                               rdfs:label "stem cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00007014> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Undifferentiated cell which retains its identity while budding off cells which differentiate."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:DOS"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00007016
+<http://purl.obolibrary.org/obo/FBbt_00007016> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_10000000> ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CARO:0000006"^^xsd:string ,
+                                                                                                        "UBERON:0000465"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00007016"^^xsd:string ;
+                                               rdfs:label "material anatomical entity"^^xsd:string .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00048490
+<http://purl.obolibrary.org/obo/FBbt_00048490> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_10000000> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Anatomical entity of the male that is not found in the same form in the female. If there is a counterpart in the female, the male and female types are substantially different."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00048490"^^xsd:string ;
+                                               rdfs:label "male-specific anatomical entity"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00048490> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Anatomical entity of the male that is not found in the same form in the female. If there is a counterpart in the female, the male and female types are substantially different."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:CP"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00048491
+<http://purl.obolibrary.org/obo/FBbt_00048491> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_10000000> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Anatomical entity of the female that is not found in the same form in the male. If there is a counterpart in the male, the male and female types are substantially different."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00048491"^^xsd:string ;
+                                               rdfs:label "female-specific anatomical entity"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00048491> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Anatomical entity of the female that is not found in the same form in the male. If there is a counterpart in the male, the male and female types are substantially different."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:CP"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00057011
+<http://purl.obolibrary.org/obo/FBbt_00057011> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00004860> ,
+                                                               <http://purl.obolibrary.org/obo/FBbt_00048490> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Cell that develops into or is itself a spermatozoon."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00057011"^^xsd:string ;
+                                               rdfs:label "male germline cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00057011> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Cell that develops into or is itself a spermatozoon."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:DOS"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_00057012
+<http://purl.obolibrary.org/obo/FBbt_00057012> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/FBbt_00004860> ,
+                                                               <http://purl.obolibrary.org/obo/FBbt_00048491> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Cell that develops into or is itself an egg."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CL:0000025"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "female germ cell"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:00057012"^^xsd:string ;
+                                               rdfs:label "female germline cell"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_00057012> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Cell that develops into or is itself an egg."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "FBC:MMC"^^xsd:string ,
+                                                            "FlyBase:FBrf0247148"^^xsd:string
+ ] .
+
+
+###  http://purl.obolibrary.org/obo/FBbt_10000000
+<http://purl.obolibrary.org/obo/FBbt_10000000> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/CARO_0000000> ;
+                                               <http://purl.obolibrary.org/obo/IAO_0000115> "Anatomical entity which is part_of Drosophila melanogaster."^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "UBERON:0001062"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "Drosophila"^^xsd:string ;
+                                               <http://www.geneontology.org/formats/oboInOwl#id> "FBbt:10000000"^^xsd:string ;
+                                               rdfs:label "anatomical entity"^^xsd:string .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://purl.obolibrary.org/obo/FBbt_10000000> ;
+   owl:annotatedProperty <http://purl.obolibrary.org/obo/IAO_0000115> ;
+   owl:annotatedTarget "Anatomical entity which is part_of Drosophila melanogaster."^^xsd:string ;
+   <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "CARO:MAH"^^xsd:string
+ ] .
+
+
+###  Generated by the OWL API (version 4.5.6) https://github.com/owlcs/owlapi
