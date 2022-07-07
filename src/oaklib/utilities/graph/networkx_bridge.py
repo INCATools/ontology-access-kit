@@ -4,9 +4,9 @@ Utilities for working with networkx
 
 NetworkX is a popular python package for working with graphs
 """
-from typing import Dict, List, Mapping, Tuple
+from typing import Dict, List, Tuple
 
-from sssom import Mapping
+from sssom_schema import Mapping
 
 from oaklib.types import CURIE, PRED_CURIE
 

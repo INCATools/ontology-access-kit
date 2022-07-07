@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
 import kgcl_rdflib.kgcl_diff as kgcl_diff
