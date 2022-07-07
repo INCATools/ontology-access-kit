@@ -1,5 +1,7 @@
 from abc import ABC
-from typing import Dict, List, Iterable, Any
+from typing import Dict
+
+from kgcl_schema.datamodel.kgcl import Change
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
@@ -9,10 +11,10 @@ class PatcherInterface(BasicOntologyInterface, ABC):
     """
     Applies diffs
 
-    See `KGCL <https://github.com/cmungall/knowledge-graph-change-language>`_
+    See `KGCL <https://github.com/INCATools/kgcl>`_
     """
 
-    def apply_patch(self, patch: Any) -> None:
+    def apply_patch(self, patch: Change) -> None:
         """
         Applies a change description
 
@@ -32,5 +34,3 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
     def save(self):
         pass
-
-

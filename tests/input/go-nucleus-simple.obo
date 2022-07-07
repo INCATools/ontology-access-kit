@@ -1,0 +1,810 @@
+[Term]
+id: GO:0003674
+name: molecular_function
+def: "A molecular process that can be carried out by the action of a single macromolecular machine, usually via direct physical interactions with other molecular entities. Function in this sense denotes an action, or activity, that a gene product (or a complex) performs. These actions are described from two distinct but related perspectives: (1) biochemical activity, and (2) role as a component in a larger system/process." []
+synonym: "molecular function" EXACT []
+
+
+[Term]
+id: GO:0003824
+name: catalytic activity
+def: "Catalysis of a biochemical reaction at physiological temperatures. In biologically catalyzed reactions, the reactants are known as substrates, and the catalysts are naturally occurring macromolecular substances known as enzymes. Enzymes possess specific binding sites for substrates, and are usually composed wholly or largely of protein, but RNA that has catalytic activity (ribozyme) is often also regarded as enzymatic." []
+xref: Wikipedia:Enzyme
+synonym: "enzyme activity" EXACT []
+is_a: GO:0003674 ! molecular_function
+
+
+[Term]
+id: GO:0004857
+name: enzyme inhibitor activity
+def: "Binds to and stops, prevents or reduces the activity of an enzyme." []
+synonym: "metalloenzyme inhibitor activity" NARROW []
+is_a: GO:0003674 ! molecular_function
+relationship: BFO:0000050 GO:0043086 ! negative regulation of catalytic activity
+
+
+[Term]
+id: GO:0005575
+name: cellular_component
+def: "A location, relative to cellular compartments and structures, occupied by a macromolecular machine when it carries out a molecular function. There are two ways in which the gene ontology describes locations of gene products: (1) relative to cellular structures (e.g., cytoplasmic side of plasma membrane) or compartments (e.g., mitochondrion), and (2) the stable macromolecular complexes of which they are parts (e.g., the ribosome)." []
+xref: NIF_Subcellular:sao1337158144
+synonym: "subcellular entity" RELATED []
+synonym: "cellular component" EXACT []
+synonym: "cell or subcellular entity" EXACT []
+
+
+[Term]
+id: GO:0005622
+name: intracellular anatomical structure
+def: "A component of a cell contained within (but not including) the plasma membrane. In eukaryotes it includes the nucleus and cytoplasm." []
+xref: Wikipedia:Intracellular
+synonym: "protoplast" RELATED []
+synonym: "nucleocytoplasm" RELATED []
+synonym: "protoplasm" EXACT []
+synonym: "intracellular" EXACT []
+synonym: "internal to cell" EXACT []
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: BFO:0000050 CL:0000000 ! cell
+
+
+[Term]
+id: GO:0005634
+name: nucleus
+def: "A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell's chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent." []
+xref: Wikipedia:Cell_nucleus
+xref: NIF_Subcellular:sao1702920020
+synonym: "horsetail nucleus" NARROW []
+synonym: "cell nucleus" EXACT []
+is_a: GO:0043231 ! intracellular membrane-bounded organelle
+
+
+[Term]
+id: GO:0005635
+name: nuclear envelope
+def: "The double lipid bilayer enclosing the nucleus and separating its contents from the rest of the cytoplasm; includes the intermembrane space, a gap of width 20-40 nm (also called the perinuclear space)." []
+xref: Wikipedia:Nuclear_envelope
+is_a: GO:0031967 ! organelle envelope
+relationship: BFO:0000050 GO:0005634 ! nucleus
+relationship: BFO:0000050 GO:0012505 ! endomembrane system
+
+
+[Term]
+id: GO:0005737
+name: cytoplasm
+def: "All of the contents of a cell excluding the plasma membrane and nucleus, but including other subcellular structures." []
+xref: Wikipedia:Cytoplasm
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: BFO:0000050 GO:0005622 ! intracellular anatomical structure
+
+
+[Term]
+id: GO:0009579
+name: thylakoid
+def: "A membranous cellular structure that bears the photosynthetic pigments in plants, algae, and cyanobacteria. In cyanobacteria thylakoids are of various shapes and are attached to, or continuous with, the plasma membrane. In eukaryotes they are flattened, membrane-bounded disk-like structures located in the chloroplasts; in the chloroplasts of higher plants the thylakoids form dense stacks called grana. Isolated thylakoid preparations can carry out photosynthetic electron transport and the associated phosphorylation." []
+xref: Wikipedia:Thylakoid
+synonym: "photosynthetic membrane" RELATED []
+is_a: GO:0005622 ! intracellular anatomical structure
+
+
+[Term]
+id: GO:0005773
+name: vacuole
+def: "A closed structure, found only in eukaryotic cells, that is completely surrounded by unit membrane and contains liquid material. Cells contain one or several vacuoles, that may have different functions from each other. Vacuoles have a diverse array of functions. They can act as a storage organelle for nutrients or waste products, as a degradative compartment, as a cost-effective way of increasing cell size, and as a homeostatic regulator controlling both turgor pressure and pH of the cytosol." []
+xref: Wikipedia:Vacuole
+synonym: "vacuolar carboxypeptidase Y" RELATED []
+is_a: GO:0043231 ! intracellular membrane-bounded organelle
+relationship: BFO:0000050 GO:0005737 ! cytoplasm
+
+
+[Term]
+id: GO:0005886
+name: plasma membrane
+def: "The membrane surrounding a cell that separates the cell from its external environment. It consists of a phospholipid bilayer and associated proteins." []
+xref: Wikipedia:Cell_membrane
+xref: NIF_Subcellular:sao1663586795
+synonym: "cytoplasmic membrane" EXACT []
+synonym: "cellular membrane" EXACT []
+synonym: "cell membrane" EXACT []
+synonym: "plasmalemma" EXACT []
+synonym: "juxtamembrane" BROAD []
+synonym: "bacterial inner membrane" NARROW []
+synonym: "inner endospore membrane" NARROW []
+synonym: "plasma membrane lipid bilayer" NARROW []
+is_a: GO:0016020 ! membrane
+relationship: BFO:0000050 GO:0071944 ! cell periphery
+
+
+[Term]
+id: GO:0005938
+name: cell cortex
+def: "The region of a cell that lies just beneath the plasma membrane and often, but not always, contains a network of actin filaments and associated proteins." []
+xref: Wikipedia:Cell_cortex
+synonym: "peripheral cytoplasm" RELATED []
+synonym: "cell periphery" RELATED []
+is_a: GO:0005737 ! cytoplasm
+relationship: BFO:0000050 GO:0071944 ! cell periphery
+
+
+[Term]
+id: GO:0006793
+name: phosphorus metabolic process
+def: "The chemical reactions and pathways involving the nonmetallic element phosphorus or compounds that contain phosphorus, usually in the form of a phosphate group (PO4)." []
+synonym: "phosphorus metabolism" EXACT []
+is_a: GO:0044237 ! cellular metabolic process
+
+
+[Term]
+id: GO:0015979
+name: photosynthesis
+def: "The synthesis by organisms of organic chemical compounds, especially carbohydrates, from carbon dioxide (CO2) using energy obtained from light rather than from the oxidation of chemical compounds." []
+xref: Wikipedia:Photosynthesis
+is_a: GO:0044237 ! cellular metabolic process
+
+
+[Term]
+id: GO:0006796
+name: phosphate-containing compound metabolic process
+def: "The chemical reactions and pathways involving the phosphate group, the anion or salt of any phosphoric acid." []
+synonym: "phosphate metabolic process" RELATED []
+synonym: "phosphate metabolism" EXACT []
+is_a: GO:0006793 ! phosphorus metabolic process
+
+
+[Term]
+id: GO:0008047
+name: enzyme activator activity
+def: "Binds to and increases the activity of an enzyme." []
+synonym: "metalloenzyme activator activity" NARROW []
+is_a: GO:0003674 ! molecular_function
+
+
+[Term]
+id: GO:0008150
+name: biological_process
+def: "A biological process represents a specific objective that the organism is genetically programmed to achieve. Biological processes are often described by their outcome or ending state, e.g., the biological process of cell division results in the creation of two daughter cells (a divided cell) from a single parent cell. A biological process is accomplished by a particular set of molecular functions carried out by specific gene products (or macromolecular complexes), often in a highly regulated manner and in a particular temporal sequence." []
+xref: Wikipedia:Biological_process
+synonym: "physiological process" EXACT []
+synonym: "biological process" EXACT []
+synonym: "single organism process" RELATED []
+synonym: "single-organism process" RELATED []
+
+
+[Term]
+id: GO:0008152
+name: metabolic process
+def: "The chemical reactions and pathways, including anabolism and catabolism, by which living organisms transform chemical substances. Metabolic processes typically transform small molecules, but also include macromolecular processes such as DNA repair and replication, and protein synthesis and degradation." []
+xref: Wikipedia:Metabolism
+synonym: "metabolism" EXACT []
+synonym: "metabolism resulting in cell growth" NARROW []
+synonym: "multicellular organism metabolic process" NARROW []
+synonym: "metabolic process resulting in cell growth" NARROW []
+synonym: "single-organism metabolic process" RELATED []
+is_a: GO:0008150 ! biological_process
+
+
+[Term]
+id: GO:0009892
+name: negative regulation of metabolic process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." []
+synonym: "negative regulation of metabolism" EXACT []
+synonym: "down regulation of metabolic process" EXACT []
+synonym: "negative regulation of organismal metabolism" EXACT []
+synonym: "downregulation of metabolic process" EXACT []
+synonym: "down-regulation of metabolic process" EXACT []
+synonym: "negative regulation of multicellular organismal metabolic process" NARROW []
+synonym: "inhibition of organismal metabolic process" NARROW []
+synonym: "inhibition of metabolic process" NARROW []
+is_a: GO:0019222 ! regulation of metabolic process
+is_a: GO:0048519 ! negative regulation of biological process
+
+
+[Term]
+id: GO:0009893
+name: positive regulation of metabolic process
+def: "Any process that activates or increases the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." []
+synonym: "positive regulation of multicellular organismal metabolic process" NARROW []
+synonym: "stimulation of metabolic process" NARROW []
+synonym: "activation of metabolic process" NARROW []
+synonym: "up-regulation of organismal metabolic process" NARROW []
+synonym: "stimulation of organismal metabolic process" NARROW []
+synonym: "positive regulation of organismal metabolism" NARROW []
+synonym: "up-regulation of metabolic process" EXACT []
+synonym: "up regulation of metabolic process" EXACT []
+synonym: "upregulation of metabolic process" EXACT []
+synonym: "positive regulation of metabolism" EXACT []
+is_a: GO:0019222 ! regulation of metabolic process
+is_a: GO:0048518 ! positive regulation of biological process
+
+
+[Term]
+id: GO:0009987
+name: cellular process
+def: "Any process that is carried out at the cellular level, but not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." []
+synonym: "cell growth and/or maintenance" NARROW []
+synonym: "cell physiology" EXACT []
+synonym: "cellular physiological process" EXACT []
+synonym: "single-organism cellular process" RELATED []
+is_a: GO:0008150 ! biological_process
+
+
+[Term]
+id: GO:0010562
+name: positive regulation of phosphorus metabolic process
+def: "Any process that increases the frequency, rate or extent of the chemical reactions and pathways involving phosphorus or compounds containing phosphorus." []
+is_a: GO:0031325 ! positive regulation of cellular metabolic process
+is_a: GO:0051174 ! regulation of phosphorus metabolic process
+
+
+[Term]
+id: GO:0010563
+name: negative regulation of phosphorus metabolic process
+def: "Any process that decreases the frequency, rate or extent of the chemical reactions and pathways involving phosphorus or compounds containing phosphorus." []
+is_a: GO:0031324 ! negative regulation of cellular metabolic process
+is_a: GO:0051174 ! regulation of phosphorus metabolic process
+
+
+[Term]
+id: GO:0012505
+name: endomembrane system
+def: "A collection of membranous structures involved in transport within the cell. The main components of the endomembrane system are endoplasmic reticulum, Golgi bodies, vesicles, cell membrane and nuclear envelope. Members of the endomembrane system pass materials through each other or though the use of vesicles." []
+xref: Wikipedia:Endomembrane_system
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: BFO:0000050 CL:0000000 ! cell
+
+
+[Term]
+id: GO:0016020
+name: membrane
+def: "A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it." []
+xref: Wikipedia:Biological_membrane
+synonym: "membrane region" NARROW []
+synonym: "region of membrane" NARROW []
+synonym: "whole membrane" NARROW []
+is_a: GO:0110165 ! cellular anatomical entity
+
+
+[Term]
+id: GO:0016301
+name: kinase activity
+def: "Catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." []
+xref: Reactome:R-HSA-6788855
+xref: Reactome:R-HSA-6788867
+synonym: "phosphokinase activity" EXACT []
+is_a: GO:0016772 ! transferase activity, transferring phosphorus-containing groups
+relationship: BFO:0000050 GO:0016310 ! phosphorylation
+
+
+[Term]
+id: GO:0016310
+name: phosphorylation
+def: "The process of introducing a phosphate group into a molecule, usually with the formation of a phosphoric ester, a phosphoric anhydride or a phosphoric amide." []
+xref: Wikipedia:Phosphorylation
+is_a: GO:0006796 ! phosphate-containing compound metabolic process
+
+
+[Term]
+id: GO:0016740
+name: transferase activity
+def: "Catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from one compound (generally regarded as the donor) to another compound (generally regarded as the acceptor). Transferase is the systematic name for any enzyme of EC class 2." []
+xref: Reactome:R-HSA-1483186
+xref: Reactome:R-HSA-1483089
+xref: EC:2.-.-.-
+xref: Reactome:R-HSA-5668414
+xref: Reactome:R-HSA-8868783
+is_a: GO:0003824 ! catalytic activity
+
+
+[Term]
+id: GO:0019207
+name: kinase regulator activity
+def: "Modulates the activity of a kinase, an enzyme which catalyzes of the transfer of a phosphate group, usually from ATP, to a substrate molecule." []
+is_a: GO:0003674 ! molecular_function
+
+
+[Term]
+id: GO:0019209
+name: kinase activator activity
+def: "Binds to and increases the activity of a kinase, an enzyme which catalyzes of the transfer of a phosphate group, usually from ATP, to a substrate molecule." []
+is_a: GO:0008047 ! enzyme activator activity
+is_a: GO:0019207 ! kinase regulator activity
+relationship: BFO:0000050 GO:0042327 ! positive regulation of phosphorylation
+relationship: BFO:0000050 GO:0033674 ! positive regulation of kinase activity
+
+
+[Term]
+id: GO:0019210
+name: kinase inhibitor activity
+def: "Binds to and stops, prevents or reduces the activity of a kinase." []
+is_a: GO:0004857 ! enzyme inhibitor activity
+is_a: GO:0019207 ! kinase regulator activity
+
+
+[Term]
+id: GO:0019220
+name: regulation of phosphate metabolic process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving phosphates." []
+synonym: "regulation of phosphate metabolism" EXACT []
+is_a: GO:0051174 ! regulation of phosphorus metabolic process
+
+
+[Term]
+id: GO:0019222
+name: regulation of metabolic process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism." []
+synonym: "regulation of organismal metabolic process" NARROW []
+synonym: "regulation of multicellular organismal metabolic process" NARROW []
+synonym: "regulation of metabolism" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+
+
+[Term]
+id: GO:0031090
+name: organelle membrane
+def: "A membrane that is one of the two lipid bilayers of an organelle envelope or the outermost membrane of single membrane bound organelle." []
+xref: NIF_Subcellular:sao830981606
+synonym: "intracellular membrane" RELATED []
+is_a: GO:0016020 ! membrane
+relationship: BFO:0000050 GO:0043227 ! membrane-bounded organelle
+
+
+[Term]
+id: GO:0031323
+name: regulation of cellular metabolic process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." []
+synonym: "regulation of cellular metabolism" EXACT []
+is_a: GO:0019222 ! regulation of metabolic process
+is_a: GO:0050794 ! regulation of cellular process
+
+
+[Term]
+id: GO:0031324
+name: negative regulation of cellular metabolic process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." []
+synonym: "inhibition of cellular metabolic process" NARROW []
+synonym: "down regulation of cellular metabolic process" EXACT []
+synonym: "downregulation of cellular metabolic process" EXACT []
+synonym: "negative regulation of cellular metabolism" EXACT []
+synonym: "down-regulation of cellular metabolic process" EXACT []
+is_a: GO:0009892 ! negative regulation of metabolic process
+is_a: GO:0031323 ! regulation of cellular metabolic process
+is_a: GO:0048523 ! negative regulation of cellular process
+
+
+[Term]
+id: GO:0031325
+name: positive regulation of cellular metabolic process
+def: "Any process that activates or increases the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances." []
+synonym: "activation of cellular metabolic process" NARROW []
+synonym: "stimulation of cellular metabolic process" NARROW []
+synonym: "positive regulation of cellular metabolism" EXACT []
+synonym: "upregulation of cellular metabolic process" EXACT []
+synonym: "up regulation of cellular metabolic process" EXACT []
+synonym: "up-regulation of cellular metabolic process" EXACT []
+is_a: GO:0009893 ! positive regulation of metabolic process
+is_a: GO:0031323 ! regulation of cellular metabolic process
+is_a: GO:0048522 ! positive regulation of cellular process
+
+
+[Term]
+id: GO:0031965
+name: nuclear membrane
+def: "Either of the lipid bilayers that surround the nucleus and form the nuclear envelope; excludes the intermembrane space." []
+xref: NIF_Subcellular:sao1687101204
+is_a: GO:0031090 ! organelle membrane
+relationship: BFO:0000050 GO:0005634 ! nucleus
+relationship: BFO:0000050 GO:0005635 ! nuclear envelope
+
+
+[Term]
+id: GO:0031967
+name: organelle envelope
+def: "A double membrane structure enclosing an organelle, including two lipid bilayers and the region between them. In some cases, an organelle envelope may have more than two membranes." []
+is_a: GO:0031975 ! envelope
+relationship: BFO:0000050 GO:0043227 ! membrane-bounded organelle
+relationship: BFO:0000050 GO:0043229 ! intracellular organelle
+
+
+[Term]
+id: GO:0031975
+name: envelope
+def: "A multilayered structure surrounding all or part of a cell; encompasses one or more lipid bilayers, and may include a cell wall layer; also includes the space between layers." []
+is_a: GO:0110165 ! cellular anatomical entity
+relationship: BFO:0000050 CL:0000000 ! cell
+
+
+[Term]
+id: GO:0033673
+name: negative regulation of kinase activity
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of kinase activity, the catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." []
+synonym: "downregulation of kinase activity" EXACT []
+synonym: "down regulation of kinase activity" EXACT []
+synonym: "down-regulation of kinase activity" EXACT []
+synonym: "inhibition of kinase activity" NARROW []
+synonym: "kinase inhibitor" NARROW []
+is_a: GO:0042326 ! negative regulation of phosphorylation
+is_a: GO:0043549 ! regulation of kinase activity
+is_a: GO:0051348 ! negative regulation of transferase activity
+
+
+[Term]
+id: GO:0033674
+name: positive regulation of kinase activity
+def: "Any process that activates or increases the frequency, rate or extent of kinase activity, the catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." []
+synonym: "up-regulation of kinase activity" EXACT []
+synonym: "upregulation of kinase activity" EXACT []
+synonym: "up regulation of kinase activity" EXACT []
+synonym: "kinase activator" NARROW []
+synonym: "stimulation of kinase activity" NARROW []
+is_a: GO:0042327 ! positive regulation of phosphorylation
+is_a: GO:0043549 ! regulation of kinase activity
+is_a: GO:0051347 ! positive regulation of transferase activity
+
+
+[Term]
+id: GO:0042325
+name: regulation of phosphorylation
+def: "Any process that modulates the frequency, rate or extent of addition of phosphate groups into a molecule." []
+is_a: GO:0019220 ! regulation of phosphate metabolic process
+
+
+[Term]
+id: GO:0042326
+name: negative regulation of phosphorylation
+def: "Any process that stops, prevents or decreases the rate of addition of phosphate groups to a molecule." []
+synonym: "down-regulation of phosphorylation" EXACT []
+synonym: "down regulation of phosphorylation" EXACT []
+synonym: "downregulation of phosphorylation" EXACT []
+synonym: "inhibition of phosphorylation" NARROW []
+is_a: GO:0042325 ! regulation of phosphorylation
+is_a: GO:0045936 ! negative regulation of phosphate metabolic process
+
+
+[Term]
+id: GO:0042327
+name: positive regulation of phosphorylation
+def: "Any process that activates or increases the frequency, rate or extent of addition of phosphate groups to a molecule." []
+synonym: "stimulation of phosphorylation" NARROW []
+synonym: "activation of phosphorylation" NARROW []
+synonym: "upregulation of phosphorylation" EXACT []
+synonym: "up-regulation of phosphorylation" EXACT []
+synonym: "up regulation of phosphorylation" EXACT []
+is_a: GO:0042325 ! regulation of phosphorylation
+is_a: GO:0045937 ! positive regulation of phosphate metabolic process
+
+
+[Term]
+id: GO:0043085
+name: positive regulation of catalytic activity
+def: "Any process that activates or increases the activity of an enzyme." []
+synonym: "up-regulation of enzyme activity" EXACT []
+synonym: "positive regulation of enzyme activity" EXACT []
+synonym: "upregulation of enzyme activity" EXACT []
+synonym: "up regulation of enzyme activity" EXACT []
+synonym: "upregulation of metalloenzyme activity" NARROW []
+synonym: "up regulation of metalloenzyme activity" NARROW []
+synonym: "up-regulation of metalloenzyme activity" NARROW []
+synonym: "stimulation of enzyme activity" NARROW []
+synonym: "activation of enzyme activity" NARROW []
+synonym: "activation of metalloenzyme activity" NARROW []
+synonym: "positive regulation of metalloenzyme activity" NARROW []
+synonym: "stimulation of metalloenzyme activity" NARROW []
+is_a: GO:0044093 ! positive regulation of molecular function
+is_a: GO:0050790 ! regulation of catalytic activity
+
+
+[Term]
+id: GO:0043086
+name: negative regulation of catalytic activity
+def: "Any process that stops or reduces the activity of an enzyme." []
+synonym: "down regulation of enzyme activity" EXACT []
+synonym: "downregulation of enzyme activity" EXACT []
+synonym: "down-regulation of enzyme activity" EXACT []
+synonym: "down-regulation of metalloenzyme activity" EXACT []
+synonym: "negative regulation of enzyme activity" EXACT []
+synonym: "inhibition of enzyme activity" NARROW []
+synonym: "downregulation of metalloenzyme activity" NARROW []
+synonym: "inhibition of metalloenzyme activity" NARROW []
+synonym: "down regulation of metalloenzyme activity" NARROW []
+synonym: "negative regulation of metalloenzyme activity" NARROW []
+is_a: GO:0044092 ! negative regulation of molecular function
+is_a: GO:0050790 ! regulation of catalytic activity
+
+
+[Term]
+id: GO:0043226
+name: organelle
+def: "Organized structure of distinctive morphology and function. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton, and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes the plasma membrane." []
+xref: Wikipedia:Organelle
+xref: NIF_Subcellular:sao1539965131
+is_a: GO:0110165 ! cellular anatomical entity
+
+
+[Term]
+id: GO:0043227
+name: membrane-bounded organelle
+def: "Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane." []
+xref: NIF_Subcellular:sao414196390
+synonym: "membrane-enclosed organelle" EXACT []
+is_a: GO:0043226 ! organelle
+
+
+[Term]
+id: GO:0043229
+name: intracellular organelle
+def: "Organized structure of distinctive morphology and function, occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton. Excludes the plasma membrane." []
+is_a: GO:0043226 ! organelle
+relationship: BFO:0000050 GO:0005622 ! intracellular anatomical structure
+
+
+[Term]
+id: GO:0043231
+name: intracellular membrane-bounded organelle
+def: "Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane and occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane." []
+synonym: "intracellular membrane-enclosed organelle" EXACT []
+is_a: GO:0043227 ! membrane-bounded organelle
+is_a: GO:0043229 ! intracellular organelle
+relationship: BFO:0000050 GO:0005622 ! intracellular anatomical structure
+
+
+[Term]
+id: GO:0043549
+name: regulation of kinase activity
+def: "Any process that modulates the frequency, rate or extent of kinase activity, the catalysis of the transfer of a phosphate group, usually from ATP, to a substrate molecule." []
+is_a: GO:0042325 ! regulation of phosphorylation
+is_a: GO:0051338 ! regulation of transferase activity
+
+
+[Term]
+id: GO:0044092
+name: negative regulation of molecular function
+def: "Any process that stops or reduces the rate or extent of a molecular function, an elemental biological activity occurring at the molecular level, such as catalysis or binding." []
+is_a: GO:0065009 ! regulation of molecular function
+
+
+[Term]
+id: GO:0044093
+name: positive regulation of molecular function
+def: "Any process that activates or increases the rate or extent of a molecular function, an elemental biological activity occurring at the molecular level, such as catalysis or binding." []
+is_a: GO:0065009 ! regulation of molecular function
+
+
+[Term]
+id: GO:0044237
+name: cellular metabolic process
+def: "The chemical reactions and pathways by which individual cells transform chemical substances." []
+synonym: "intermediary metabolism" RELATED []
+synonym: "cellular metabolism" EXACT []
+is_a: GO:0008152 ! metabolic process
+is_a: GO:0009987 ! cellular process
+
+
+[Term]
+id: GO:0034357
+name: photosynthetic membrane
+def: "A membrane enriched in complexes formed of reaction centers, accessory pigments and electron carriers, in which photosynthetic reactions take place." []
+is_a: GO:0016020 ! membrane
+relationship: BFO:0000050 GO:0009579 ! thylakoid
+
+
+[Term]
+id: GO:0045936
+name: negative regulation of phosphate metabolic process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of the chemical reactions and pathways involving phosphates." []
+synonym: "down regulation of phosphate metabolic process" EXACT []
+synonym: "down-regulation of phosphate metabolic process" EXACT []
+synonym: "negative regulation of phosphate metabolism" EXACT []
+synonym: "downregulation of phosphate metabolic process" EXACT []
+synonym: "inhibition of phosphate metabolic process" NARROW []
+is_a: GO:0010563 ! negative regulation of phosphorus metabolic process
+is_a: GO:0019220 ! regulation of phosphate metabolic process
+
+
+[Term]
+id: GO:0045937
+name: positive regulation of phosphate metabolic process
+def: "Any process that activates or increases the frequency, rate or extent of the chemical reactions and pathways involving phosphates." []
+synonym: "upregulation of phosphate metabolic process" EXACT []
+synonym: "up-regulation of phosphate metabolic process" EXACT []
+synonym: "positive regulation of phosphate metabolism" EXACT []
+synonym: "up regulation of phosphate metabolic process" EXACT []
+synonym: "stimulation of phosphate metabolic process" NARROW []
+synonym: "activation of phosphate metabolic process" NARROW []
+is_a: GO:0010562 ! positive regulation of phosphorus metabolic process
+is_a: GO:0019220 ! regulation of phosphate metabolic process
+
+
+[Term]
+id: GO:0048518
+name: positive regulation of biological process
+def: "Any process that activates or increases the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." []
+synonym: "up regulation of biological process" EXACT []
+synonym: "up-regulation of biological process" EXACT []
+synonym: "upregulation of biological process" EXACT []
+synonym: "positive regulation of physiological process" EXACT []
+synonym: "activation of biological process" NARROW []
+synonym: "stimulation of biological process" NARROW []
+is_a: GO:0050789 ! regulation of biological process
+
+
+[Term]
+id: GO:0048519
+name: negative regulation of biological process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." []
+synonym: "inhibition of biological process" NARROW []
+synonym: "negative regulation of physiological process" EXACT []
+synonym: "downregulation of biological process" EXACT []
+synonym: "down-regulation of biological process" EXACT []
+synonym: "down regulation of biological process" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+
+
+[Term]
+id: GO:0048522
+name: positive regulation of cellular process
+def: "Any process that activates or increases the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." []
+synonym: "positive regulation of cellular physiological process" EXACT []
+synonym: "up-regulation of cellular process" EXACT []
+synonym: "upregulation of cellular process" EXACT []
+synonym: "up regulation of cellular process" EXACT []
+synonym: "stimulation of cellular process" NARROW []
+synonym: "activation of cellular process" NARROW []
+is_a: GO:0048518 ! positive regulation of biological process
+is_a: GO:0050794 ! regulation of cellular process
+
+
+[Term]
+id: GO:0048523
+name: negative regulation of cellular process
+def: "Any process that stops, prevents, or reduces the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." []
+synonym: "inhibition of cellular process" NARROW []
+synonym: "down-regulation of cellular process" EXACT []
+synonym: "negative regulation of cellular physiological process" EXACT []
+synonym: "downregulation of cellular process" EXACT []
+synonym: "down regulation of cellular process" EXACT []
+is_a: GO:0048519 ! negative regulation of biological process
+is_a: GO:0050794 ! regulation of cellular process
+
+
+[Term]
+id: GO:0050789
+name: regulation of biological process
+def: "Any process that modulates the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule." []
+synonym: "regulation of physiological process" EXACT []
+is_a: GO:0065007 ! biological regulation
+
+
+[Term]
+id: GO:0050790
+name: regulation of catalytic activity
+def: "Any process that modulates the activity of an enzyme." []
+synonym: "regulation of enzyme activity" EXACT []
+synonym: "regulation of metalloenzyme activity" NARROW []
+is_a: GO:0065009 ! regulation of molecular function
+
+
+[Term]
+id: GO:0050794
+name: regulation of cellular process
+def: "Any process that modulates the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level." []
+synonym: "regulation of cellular physiological process" EXACT []
+is_a: GO:0050789 ! regulation of biological process
+
+
+[Term]
+id: GO:0051174
+name: regulation of phosphorus metabolic process
+def: "Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving phosphorus or compounds containing phosphorus." []
+synonym: "regulation of phosphorus metabolism" EXACT []
+is_a: GO:0031323 ! regulation of cellular metabolic process
+
+
+[Term]
+id: GO:0051338
+name: regulation of transferase activity
+def: "Any process that modulates the frequency, rate or extent of transferase activity, the catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from one compound (generally regarded as the donor) to another compound (generally regarded as the acceptor). Transferase is the systematic name for any enzyme of EC class 2." []
+synonym: "transferase regulator" EXACT []
+is_a: GO:0050790 ! regulation of catalytic activity
+
+
+[Term]
+id: GO:0051347
+name: positive regulation of transferase activity
+def: "Any process that activates or increases the frequency, rate or extent of transferase activity, the catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from a donor compound to an acceptor." []
+synonym: "transferase activator" EXACT []
+synonym: "up regulation of transferase activity" EXACT []
+synonym: "upregulation of transferase activity" EXACT []
+synonym: "up-regulation of transferase activity" EXACT []
+synonym: "activation of transferase activity" NARROW []
+synonym: "stimulation of transferase activity" NARROW []
+is_a: GO:0043085 ! positive regulation of catalytic activity
+is_a: GO:0051338 ! regulation of transferase activity
+
+
+[Term]
+id: GO:0051348
+name: negative regulation of transferase activity
+def: "Any process that stops or reduces the rate of transferase activity, the catalysis of the transfer of a group, e.g. a methyl group, glycosyl group, acyl group, phosphorus-containing, or other groups, from a donor compound to an acceptor." []
+synonym: "down regulation of transferase activity" EXACT []
+synonym: "downregulation of transferase activity" EXACT []
+synonym: "transferase inhibitor" EXACT []
+synonym: "down-regulation of transferase activity" EXACT []
+synonym: "inhibition of transferase activity" NARROW []
+is_a: GO:0043086 ! negative regulation of catalytic activity
+is_a: GO:0051338 ! regulation of transferase activity
+
+
+[Term]
+id: GO:0065007
+name: biological regulation
+def: "Any process that modulates a measurable attribute of any biological process, quality or function." []
+synonym: "regulation" BROAD []
+is_a: GO:0008150 ! biological_process
+
+
+[Term]
+id: GO:0065009
+name: regulation of molecular function
+def: "Any process that modulates the frequency, rate or extent of a molecular function, an elemental biological activity occurring at the molecular level, such as catalysis or binding." []
+synonym: "regulation of a molecular function" EXACT []
+is_a: GO:0065007 ! biological regulation
+
+
+[Term]
+id: GO:0071944
+name: cell periphery
+def: "The part of a cell encompassing the cell cortex, the plasma membrane, and any external encapsulating structures." []
+is_a: GO:0110165 ! cellular anatomical entity
+
+
+[Term]
+id: GO:0098590
+name: plasma membrane region
+def: "A membrane that is a (regional) part of the plasma membrane." []
+synonym: "region of plasma membrane" EXACT []
+is_a: GO:0016020 ! membrane
+relationship: BFO:0000050 GO:0005886 ! plasma membrane
+
+
+[Term]
+id: GO:0099568
+name: cytoplasmic region
+def: "Any (proper) part of the cytoplasm of a single cell of sufficient size to still be considered cytoplasm." []
+is_a: GO:0005737 ! cytoplasm
+relationship: BFO:0000050 GO:0005737 ! cytoplasm
+
+
+[Term]
+id: GO:0099738
+name: cell cortex region
+def: "The complete extent of cell cortex that underlies some some region of the plasma membrane." []
+synonym: "perimembrane region" EXACT []
+is_a: GO:0005938 ! cell cortex
+is_a: GO:0099568 ! cytoplasmic region
+relationship: BFO:0000050 GO:0005938 ! cell cortex
+
+
+[Term]
+id: GO:0110165
+name: cellular anatomical entity
+def: "A part of a cellular organism that is either an immaterial entity or a material entity with granularity above the level of a protein complex but below that of an anatomical system. Or, a substance produced by a cellular organism with granularity above the level of a protein complex." []
+is_a: GO:0005575 ! cellular_component
+
+
+[Term]
+id: GO:0031150
+name: sorocarp stalk development
+def: "The process whose specific outcome is the progression of the sorocarp stalk over time, from its formation to the mature structure. The sorocarp stalk is a tubular structure that consists of cellulose-covered cells stacked on top of each other and surrounded by an acellular stalk tube composed of cellulose and glycoprotein. An example of this process is found in Dictyostelium discoideum." []
+synonym: "sorophore development" EXACT []
+synonym: "stalk formation" BROAD []
+synonym: "stalk development" BROAD []
+is_a: GO:0008150 ! biological_process
+
+
+[Term]
+id: GO:0016772
+name: transferase activity, transferring phosphorus-containing groups
+def: "Catalysis of the transfer of a phosphorus-containing group from one compound (donor) to another (acceptor)." []
+xref: EC:2.7.-.-
+is_a: GO:0016740 ! transferase activity
+
+

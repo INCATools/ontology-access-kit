@@ -23,3 +23,12 @@ URI: TransformationType
 
 
 
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/lexical_index
+
+
+

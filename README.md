@@ -7,6 +7,7 @@ Python lib for common ontology operations over a variety of backends.
 [![badge](https://img.shields.io/badge/launch-binder-579ACA.svg)](https://mybinder.org/v2/gh/incatools/ontology-access-kit/main?filepath=notebooks)
 [![Downloads](https://pepy.tech/badge/oaklib/week)](https://pepy.tech/project/oaklib)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6456239.svg)](https://doi.org/10.5281/zenodo.6456239)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md) 
 
 This library provides a collection of different [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for different kinds of ontology operations, including:
 
@@ -29,8 +30,12 @@ These interfaces are *separated* from any particular [backend](https://incatools
 
 - [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
 
+## Contributing
 
-## Example
+See the contribution guidelines at [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+All contributors are expected to uphold our [Code of Conduct](.github/CODE_OF_CONDUCT.md).
+
+## Usage
 
 ```python
 from src.oaklib.resource import OntologyResource
@@ -40,7 +45,7 @@ resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
 oi = SqlImplementation(resource)
 for curie in oi.basic_search("cell"):
     print(f'{curie} ! {oi.get_label_by_curie(curie)}')
-    for rel, fillers in oi.get_outgoing_relationships_by_curie(curie).items():
+    for rel, fillers in oi.get_outgoing_relationship_map_by_curie(curie).items():
         print(f'  RELATION: {rel} ! {oi.get_label_by_curie(rel)}')
         for filler in fillers:
             print(f'     * {filler} ! {oi.get_label_by_curie(filler)}')
@@ -50,7 +55,7 @@ For more examples, see
 
 - [demo notebook](https://github.com/incatools/ontology-access-kit/blob/main/notebooks/basic-demo.ipynb)
 
-## Command Line
+### Command Line
 
 Documentation here is incomplete.
 
@@ -119,6 +124,7 @@ http://purl.obolibrary.org/obo/CEPH_0000258 ! tentacle pad
 ```
 
 Searching over a broader set of ontologies in bioportal (requires API KEY)
+(https://www.bioontology.org/wiki/BioPortal_Help#Getting_an_API_key)
 
 ```bash
 runoak set-apikey bioportal YOUR-KEY-HERE
@@ -209,14 +215,27 @@ Same using pronto, fetching ontology from obolibrary
 runoak -i obolibrary:go.obo  viz GO:0005773
 ```
 
-## Documentation
+## Configuration
 
-- [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
+OAK uses [`pystow`](https://github.com/cthoyt/pystow) for caching. By default,
+this goes inside `~/.data/`, but can be configured following
+[these instructions](https://github.com/cthoyt/pystow#%EF%B8%8F%EF%B8%8F-configuration).
 
-## Potential Refactoring
+## Developer notes
 
+### Local project setup
+Prerequisites:
+1. Python 3.9+
+2. [Poetry](https://python-poetry.org/)
+
+Setup steps:
+```shell
+git clone https://github.com/INCATools/ontology-access-kit.git
+cd ontology-access-kit
+poetry install
+```
+
+### Potential Refactoring
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
 
 One possibility is to split out each implementation into its own repo and use a plugin architecture
-
-

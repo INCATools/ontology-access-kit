@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/search_datamodel/syntax](https://w3id.org/linkml/s
 
 ## Properties
 
- * Range: SearchTermSyntax
+ * Range: [SearchTermSyntax](SearchTermSyntax.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
 
 
 

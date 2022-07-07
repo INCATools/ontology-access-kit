@@ -1,35 +1,63 @@
 import logging
-import tempfile
 import re
+import tempfile
+
+# https://github.com/althonos/pronto/issues/173
+import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Iterable, Iterator, Union, Tuple
+from typing import Dict, Iterable, Iterator, List, Tuple, Union
 
 import pronto
 import sssom_schema as sssom
 from deprecated import deprecated
+from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
-from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP_MAP, PRED_CURIE, ALIAS_MAP, \
-    METADATA_MAP, PREFIX_MAP
-from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
-from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.interfaces.search_interface import SearchInterface
-from oaklib.datamodels.search import SearchConfiguration
-from oaklib.interfaces.validator_interface import ValidatorInterface
-from oaklib.interfaces.rdf_interface import RdfInterface
-from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
-from oaklib.resource import OntologyResource
-from oaklib.types import CURIE, SUBSET_CURIE
+from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
+from sssom.sssom_datamodel import MatchTypeEnum
+
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
-from oaklib.datamodels.vocabulary import LABEL_PREDICATE, IS_A, HAS_DBXREF, SCOPE_TO_SYNONYM_PRED_MAP, SEMAPV, SKOS_CLOSE_MATCH
-from pronto import Ontology, LiteralPropertyValue, ResourcePropertyValue, Term
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.datamodels.vocabulary import (
+    HAS_DBXREF,
+    IS_A,
+    LABEL_PREDICATE,
+    OIO_SUBSET_PROPERTY,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
+    SCOPE_TO_SYNONYM_PRED_MAP,
+    SKOS_CLOSE_MATCH,
+)
+from oaklib.interfaces.basic_ontology_interface import (
+    ALIAS_MAP,
+    METADATA_MAP,
+    PRED_CURIE,
+    PREFIX_MAP,
+    RELATIONSHIP_MAP,
+)
+from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.patcher_interface import PatcherInterface
+from oaklib.interfaces.rdf_interface import RdfInterface
+from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.validator_interface import ValidatorInterface
+from oaklib.resource import OntologyResource
+from oaklib.types import CURIE, SUBSET_CURIE
+
+warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
 
 
 @dataclass
-class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, SearchInterface,
-                           MappingProviderInterface):
+class ProntoImplementation(
+    ValidatorInterface,
+    RdfInterface,
+    OboGraphInterface,
+    SearchInterface,
+    MappingProviderInterface,
+    PatcherInterface,
+):
     """
     Pronto wraps local-file based ontologies in the following formats:
 
@@ -63,11 +91,13 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
 
 
     """
+
     wrapped_ontology: Ontology = None
 
     def __post_init__(self):
         if self.wrapped_ontology is None:
             resource = self.resource
+            logging.info(f"Pronto using resource: {resource}")
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
@@ -77,7 +107,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             self.wrapped_ontology = ontology
 
     @classmethod
-    @deprecated('old style')
+    @deprecated("old style")
     def create(cls, resource: OntologyResource = None) -> "ProntoImplementation":
         return ProntoImplementation(resource=resource)
 
@@ -86,10 +116,10 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             resource = self.resource
         ontology = self.wrapped_ontology
         if resource.local:
-            with open(str(resource.local_path), 'wb') as f:
+            with open(str(resource.local_path), "wb") as f:
                 ontology.dump(f, format=resource.format)
         else:
-            raise NotImplementedError(f'Cannot dump to {resource}')
+            raise NotImplementedError(f"Cannot dump to {resource}")
 
     def load_graph(self, graph: Graph, replace: True) -> None:
         if replace:
@@ -105,20 +135,19 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         for e in graph.edges:
             self.add_relationship(e.sub, e.pred, e.obj)
 
-    @deprecated('Use this when we fix https://github.com/fastobo/fastobo/issues/42')
+    @deprecated("Use this when we fix https://github.com/fastobo/fastobo/issues/42")
     def load_graph_using_jsondoc(self, graph: Graph, replace: True) -> None:
         tf = tempfile.NamedTemporaryFile()
-        tf_name = '/tmp/tf.json'
+        tf_name = "/tmp/tf.json"
         gd = GraphDocument(graphs=[graph])
         json_dumper.dump(gd, to_file=tf_name)
         tf.flush()
-        print(f'{tf_name}')
+        print(f"{tf_name}")
         ont = Ontology(tf_name)
         if replace:
             self.wrapped_ontology = ont
         else:
             raise NotImplementedError
-
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
@@ -127,41 +156,62 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
     def get_prefix_map(self) -> PREFIX_MAP:
         return {}
 
-    def _entity(self, curie: CURIE):
+    def _entity(self, curie: CURIE, strict=False):
         for r in self.wrapped_ontology.relationships():
             # see https://owlcollab.github.io/oboformat/doc/obo-syntax.html#4.4.1
             # pronto gives relations shorthand IDs for RO and BFO, as it is providing
             # oboformat as a level of abstraction. We want to map these back to the CURIEs
             if r.id == curie:
                 return r
-            if curie.startswith('RO:') or curie.startswith('BFO:'):
+            if curie.startswith("RO:") or curie.startswith("BFO:"):
                 if any(x for x in r.xrefs if x.id == curie):
                     return r
         if curie in self.wrapped_ontology:
             return self.wrapped_ontology[curie]
         else:
+            if strict:
+                raise ValueError(f"No such CURIE: {curie}")
             return None
 
-    def _create(self, curie: CURIE, exist_ok = True):
+    def _create(self, curie: CURIE, exist_ok=True):
         if curie in self.wrapped_ontology:
             return self.wrapped_ontology[curie]
         else:
             return self.wrapped_ontology.create_term(curie)
 
-    def _create_pred(self, curie: CURIE, exist_ok = True):
+    def _create_pred(self, curie: CURIE, exist_ok=True):
         if curie in self.wrapped_ontology:
             return self.wrapped_ontology[curie]
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
+            if filter_obsoletes and t.obsolete:
+                continue
+            if owl_type and owl_type != OWL_CLASS:
+                continue
             yield t.id
         # note what Pronto calls "relationship" is actually "relationship type"
         for t in self.wrapped_ontology.relationships():
+            if filter_obsoletes and t.obsolete:
+                continue
+            if owl_type and owl_type != OWL_OBJECT_PROPERTY:
+                continue
             yield t.id
         for t in self.wrapped_ontology.synonym_types():
+            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+                continue
             yield t.id
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        for t in self.wrapped_ontology.terms():
+            if t.obsolete:
+                yield t.id
+        # note what Pronto calls "relationship" is actually "relationship type"
+        for t in self.wrapped_ontology.relationships():
+            if t.obsolete:
+                yield t.id
 
     def all_subset_curies(self) -> Iterable[CURIE]:
         subsets = set()
@@ -181,7 +231,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             return t.name
         else:
             if curie == IS_A:
-                return 'subClassOf'
+                return "subClassOf"
             else:
                 return None
 
@@ -200,12 +250,13 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
 
     def _get_pronto_relationship_type_curie(self, rel_type: pronto.Relationship) -> CURIE:
         for x in rel_type.xrefs:
-            if x.id.startswith('BFO:') or x.id.startswith('RO:'):
+            if x.id.startswith("BFO:") or x.id.startswith("RO:"):
                 return x.id
         return rel_type.id
 
-
-    def get_outgoing_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(
+        self, curie: CURIE, isa_only: bool = False
+    ) -> RELATIONSHIP_MAP:
         # See: https://github.com/althonos/pronto/issues/119
         term = self._entity(curie)
         if isinstance(term, Term):
@@ -218,7 +269,9 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             rels = {}
         return rels
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def get_incoming_relationship_map_by_curie(
+        self, curie: CURIE, isa_only: bool = False
+    ) -> RELATIONSHIP_MAP:
         term = self._entity(curie)
         if isinstance(term, Term):
             # only "Terms" in pronto have relationships
@@ -235,8 +288,9 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             rels = {}
         return rels
 
-
-    def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
+    def create_entity(
+        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+    ) -> CURIE:
         ont = self.wrapped_ontology
         t = ont.create_term(curie)
         t.name = label
@@ -271,7 +325,7 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             if scope in SCOPE_TO_SYNONYM_PRED_MAP:
                 pred = SCOPE_TO_SYNONYM_PRED_MAP[scope]
             else:
-                raise ValueError(f'Unknown scope: {scope}')
+                raise ValueError(f"Unknown scope: {scope}")
             m[pred].append(s.description)
         return m
 
@@ -281,14 +335,14 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         if t is None:
             return m
         for s in t.xrefs:
-            #m[HAS_DBXREF].append(s.id)
+            # m[HAS_DBXREF].append(s.id)
             yield HAS_DBXREF, s.id
         for s in t.annotations:
             # TODO: less hacky
-            if s.property.startswith('skos'):
+            if s.property.startswith("skos"):
                 if isinstance(s, LiteralPropertyValue):
                     v = s.literal
-                    #m[s.property].append(v)
+                    # m[s.property].append(v)
                     yield s.property, v
                 elif isinstance(s, ResourcePropertyValue):
                     yield s.property, self.uri_to_curie(s.resource)
@@ -297,7 +351,6 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         t = self._entity(curie)
         m = defaultdict(list)
         for ann in t.annotations:
-            p = ann.property
             if isinstance(ann, LiteralPropertyValue):
                 m[ann.property].append(ann.literal)
             elif isinstance(ann, ResourcePropertyValue):
@@ -314,6 +367,13 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
             # TODO - complete object
         return ProntoImplementation(wrapped_ontology=subontology)
 
+    def dump(self, path: str = None, syntax: str = None):
+        if isinstance(path, str):
+            with open(path, "wb") as file:
+                self.wrapped_ontology.dump(file, format=syntax)
+        else:
+            self.wrapped_ontology.dump(path, format=syntax)
+
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -322,20 +382,24 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         t = self._entity(curie)
         if t:
             for x in t.xrefs:
-                yield sssom.Mapping(subject_id=curie,
-                                    predicate_id=SKOS_CLOSE_MATCH,
-                                    object_id=x.id,
-                                    mapping_justification=SEMAPV.UnspecifiedMatching.value)
+                yield sssom.Mapping(
+                    subject_id=curie,
+                    predicate_id=SKOS_CLOSE_MATCH,
+                    object_id=x.id,
+                    match_type=MatchTypeEnum.Unspecified,
+                )
         # TODO: use a cache to avoid re-calculating
         for e in self.all_entity_curies():
             t = self._entity(e)
             if t:
                 for x in t.xrefs:
                     if x.id == curie:
-                        yield sssom.Mapping(subject_id=e,
-                                            predicate_id=SKOS_CLOSE_MATCH,
-                                            object_id=curie,
-                                            mapping_justification=SEMAPV.UnspecifiedMatching.value)
+                        yield sssom.Mapping(
+                            subject_id=e,
+                            predicate_id=SKOS_CLOSE_MATCH,
+                            object_id=curie,
+                            match_type=MatchTypeEnum.Unspecified,
+                        )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
@@ -355,27 +419,25 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
                 t_id = t.id
             if isinstance(t, pronto.Relationship):
                 for x in t.xrefs:
-                    if x.id.startswith('RO:') or x.id.startswith('BFO:'):
+                    if x.id.startswith("RO:") or x.id.startswith("BFO:"):
                         t_id = x.id
-            #for s in t.synonyms:
+            # for s in t.synonyms:
             #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
             #                                                       scope=s.scope.lower(),
             #                                                      xrefs=[x.id for x in s.xrefs]))
-            return obograph.Node(id=t_id,
-                                 lbl=t.name,
-                                 meta=meta)
+            return obograph.Node(id=t_id, lbl=t.name, meta=meta)
 
     def as_obograph(self) -> Graph:
         nodes = [self.node(curie) for curie in self.all_entity_curies()]
         edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
-        return Graph(id='TODO', nodes=nodes, edges=edges)
+        return Graph(id="TODO", nodes=nodes, edges=edges)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        if config == None:
+        if config is None:
             config = SearchConfiguration()
         matches = []
         mfunc = None
@@ -389,25 +451,54 @@ class ProntoImplementation(ValidatorInterface, RdfInterface, OboGraphInterface, 
         else:
             mfunc = lambda label: label == search_term
         search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
-        logging.info(f'SEARCH={search_term}')
+        logging.info(f"SEARCH={search_term}")
         for t in self.wrapped_ontology.terms():
-            logging.debug(f'T={t} // {config}')
-            if search_all or SearchProperty(SearchProperty.LABEL) or not config.properties in config.properties:
+            logging.debug(f"T={t} // {config}")
+            if (
+                search_all
+                or SearchProperty(SearchProperty.LABEL)
+                or config.properties not in config.properties
+            ):
                 if t.name and mfunc(t.name):
                     matches.append(t.id)
-                    logging.info(f'Name match to {t.id}')
+                    logging.info(f"Name match to {t.id}")
                     continue
             if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
                 if mfunc(t.id):
                     matches.append(t.id)
-                    logging.info(f'identifier match to {t.id}')
+                    logging.info(f"identifier match to {t.id}")
                     continue
             if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in t.synonyms:
                     if mfunc(syn.description):
-                        logging.info(f'Syn match to {t.id}')
+                        logging.info(f"Syn match to {t.id}")
                         matches.append(t.id)
                         continue
         for m in matches:
             yield m
 
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: PatcherInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
+        pass
+
+    def apply_patch(self, patch: kgcl.Change) -> None:
+        if isinstance(patch, kgcl.NodeRename):
+            self.set_label_for_curie(patch.about_node, patch.new_value)
+        elif isinstance(patch, kgcl.NodeObsoletion):
+            t = self._entity(patch.about_node, strict=True)
+            t.obsolete = True
+        elif isinstance(patch, kgcl.NodeDeletion):
+            t = self._entity(patch.about_node, strict=True)
+            raise NotImplementedError
+        elif isinstance(patch, kgcl.NodeCreation):
+            self.create_entity(patch.about_node, patch.name)
+        elif isinstance(patch, kgcl.SynonymReplacement):
+            t = self._entity(patch.about_node, strict=True)
+            for syn in t.synonyms:
+                if syn.description == patch.old_value:
+                    syn.description = patch.new_value
+        else:
+            raise NotImplementedError

@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/postconditions](https://w3
 
 ## Properties
 
- * Range: Postcondition
+ * Range: [Postcondition](Postcondition.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/mapping_rules_datamodel
 
 
 

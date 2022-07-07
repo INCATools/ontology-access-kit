@@ -1,10 +1,13 @@
-from typing import List, Tuple, Dict, Iterable
+from typing import Dict, Iterable, List, Tuple
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.interfaces import OntologyInterface, BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.types import SUBSET_CURIE, PRED_CURIE, CURIE
-from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity, compute_all_pairs, ListPair
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
+from oaklib.utilities.semsim.similarity_utils import (
+    ListPair,
+    compute_all_pairs,
+    setwise_jaccard_similarity,
+)
 
 SUBSET_DICT = Dict[SUBSET_CURIE, List[CURIE]]
 DEFAULT_PREDICATES = [IS_A, PART_OF]
@@ -19,8 +22,14 @@ def get_subset_dict(oi: OboGraphInterface) -> SUBSET_DICT:
     """
     return {s: list(oi.curies_by_subset(s)) for s in oi.all_subset_curies()}
 
-def terms_by_subsets(oi: OboGraphInterface, remove_empty: bool = True, subsumed_score: float = None, min_subsets: int = None,
-                     prefix: str = None) -> Iterable[Tuple]:
+
+def terms_by_subsets(
+    oi: OboGraphInterface,
+    remove_empty: bool = True,
+    subsumed_score: float = None,
+    min_subsets: int = None,
+    prefix: str = None,
+) -> Iterable[Tuple]:
     subsets = get_subset_dict(oi)
     subsets = filter_by_prefix(subsets, prefix)
     if remove_empty:
@@ -44,7 +53,7 @@ def terms_by_subsets(oi: OboGraphInterface, remove_empty: bool = True, subsumed_
                 n += 1
             else:
                 if subsumed_score is not None:
-                    #if len(set(oi.ancestors(curie, predicates=predicates)).intersection(subset_curies)) > 0:
+                    # if len(set(oi.ancestors(curie, predicates=predicates)).intersection(subset_curies)) > 0:
                     if subset in subset_ancs and curie in subset_ancs[subset]:
                         v = subsumed_score
             tups.append((curie, label_map[curie], subset, v))
@@ -56,14 +65,18 @@ def terms_by_subsets(oi: OboGraphInterface, remove_empty: bool = True, subsumed_
 
 def filter_by_prefix(subsets: SUBSET_DICT, prefix: str) -> SUBSET_DICT:
     if prefix:
+
         def include(x: str):
-            return x.startswith(f'{prefix}:')
+            return x.startswith(f"{prefix}:")
+
         return {k: [x for x in v if include(x)] for k, v in subsets.items()}
     else:
         return subsets
 
 
-def compare_all_subsets(oi: OboGraphInterface, extend_down: bool = False, remove_empty: bool = True, prefix: str = None) -> Iterable[ListPair]:
+def compare_all_subsets(
+    oi: OboGraphInterface, extend_down: bool = False, remove_empty: bool = True, prefix: str = None
+) -> Iterable[ListPair]:
     """
 
     :param oi:
@@ -73,14 +86,19 @@ def compare_all_subsets(oi: OboGraphInterface, extend_down: bool = False, remove
     if extend_down:
         subsets = extend_subsets_down(oi)
     if prefix:
+
         def include(x: str):
-            return x.startswith(f'{prefix}:')
+            return x.startswith(f"{prefix}:")
+
         subsets = {k: [x for x in v if include(x)] for k, v in subsets.items()}
     if remove_empty:
         subsets = {k: v for k, v in subsets.items() if v != []}
     return compute_all_pairs(subsets)
 
-def extend_subsets_down(oi: OboGraphInterface, predicates: List[PRED_CURIE] = DEFAULT_PREDICATES) -> SUBSET_DICT:
+
+def extend_subsets_down(
+    oi: OboGraphInterface, predicates: List[PRED_CURIE] = DEFAULT_PREDICATES
+) -> SUBSET_DICT:
     subsets = get_subset_dict(oi)
     all_curies = set()
     for curies in subsets.values():
@@ -91,7 +109,13 @@ def extend_subsets_down(oi: OboGraphInterface, predicates: List[PRED_CURIE] = DE
         new_subsets[subset] = list(extended_set)
     return new_subsets
 
-def subset_overlap(oi: OboGraphInterface, subset1: SUBSET_CURIE, subset2: SUBSET_CURIE, predicates: List[PRED_CURIE] = None) -> float:
+
+def subset_overlap(
+    oi: OboGraphInterface,
+    subset1: SUBSET_CURIE,
+    subset2: SUBSET_CURIE,
+    predicates: List[PRED_CURIE] = None,
+) -> float:
     curies1 = list(oi.curies_by_subset(subset1))
     curies2 = list(oi.curies_by_subset(subset2))
     if predicates is None:
@@ -99,6 +123,7 @@ def subset_overlap(oi: OboGraphInterface, subset1: SUBSET_CURIE, subset2: SUBSET
     descs1 = oi.descendants(curies1, predicates=predicates)
     descs2 = oi.descendants(curies2, predicates=predicates)
     return setwise_jaccard_similarity(descs1, descs2)
+
 
 def all_subsets_overlap(oi: OboGraphInterface) -> List[Tuple[float, SUBSET_CURIE, SUBSET_CURIE]]:
     subsets = list(oi.all_subset_curies())
@@ -112,6 +137,5 @@ def all_subsets_overlap(oi: OboGraphInterface) -> List[Tuple[float, SUBSET_CURIE
                 results.append((1.0, s1, s2))
             elif s1 > s2:
                 results.append((setwise_jaccard_similarity(dmap[s1], dmap[s2]), s1, s2))
-    results.sort(key=lambda tup: 1-tup[0])
+    results.sort(key=lambda tup: 1 - tup[0])
     return results
-

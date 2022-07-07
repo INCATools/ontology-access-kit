@@ -1,13 +1,15 @@
 from abc import ABC
-from typing import Dict, List, Tuple, Any, Iterator
+from typing import Any, Iterator, List, Tuple
+
+import rdflib
+from rdflib import URIRef
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-import rdflib
 from oaklib.types import CURIE, PRED_CURIE
-from rdflib import URIRef
 
 TRIPLE = Tuple[CURIE, PRED_CURIE, Any]
 RDF_TRIPLE = Tuple[URIRef, URIRef, Any]
+
 
 class RdfInterface(BasicOntologyInterface, ABC):
     """
@@ -47,8 +49,13 @@ class RdfInterface(BasicOntologyInterface, ABC):
             else:
                 yield obj
 
-    def extract_triples(self, seed_curies: List[CURIE], predicates: List[PRED_CURIE] = None, strategy: str = None,
-                        map_to_curies=True) -> Iterator[TRIPLE]:
+    def extract_triples(
+        self,
+        seed_curies: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        strategy: str = None,
+        map_to_curies=True,
+    ) -> Iterator[TRIPLE]:
         """
         Finds all triples reachable from a seed set
 
@@ -58,5 +65,3 @@ class RdfInterface(BasicOntologyInterface, ABC):
         :param map_to_curies:
         :return:
         """
-        pass
-

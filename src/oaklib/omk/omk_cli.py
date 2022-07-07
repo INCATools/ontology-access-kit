@@ -4,28 +4,23 @@ Command Line Interface to OMK
 
 """
 import logging
-import os
-import subprocess
-import sys
-from collections import defaultdict
-from dataclasses import dataclass
-from pathlib import Path
-from typing import Dict, List, Sequence, TextIO, Tuple, Any, Type
+from typing import List, Type
 
 import click
-from linkml_runtime.dumpers import yaml_dumper
-from oaklib.implementations.aggregator.aggregator_implementation import AggregatorImplementation
-from oaklib.interfaces import BasicOntologyInterface, OntologyInterface, ValidatorInterface, SubsetterInterface
-from oaklib.io.streaming_csv_writer import StreamingCsvWriter
-from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
+
+from oaklib.cli import Settings, add_option, input_option, input_type_option
+from oaklib.implementations.aggregator.aggregator_implementation import (
+    AggregatorImplementation,
+)
+from oaklib.interfaces import OntologyInterface
 from oaklib.omk.omk_mapping_utils import calculate_pairwise_relational_diff
 from oaklib.resource import OntologyResource
-from oaklib.selector import get_resource_from_shorthand, get_implementation_from_shorthand
-from oaklib.cli import input_option, output_option, output_type_option, add_option, input_type_option, Settings
-import oaklib.cli as oak_cli
+from oaklib.selector import (
+    get_implementation_from_shorthand,
+    get_resource_from_shorthand,
+)
 
 settings = Settings()
-
 
 
 @click.group()
@@ -63,7 +58,7 @@ def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
         impl_class: Type[OntologyInterface]
         resource = get_resource_from_shorthand(input, format=input_type)
         impl_class = resource.implementation_class
-        logging.info(f'RESOURCE={resource}')
+        logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)
     if add:
         impls = [get_implementation_from_shorthand(d) for d in add]
@@ -73,14 +68,10 @@ def main(verbose: int, quiet: bool, input: str, input_type: str, add: List):
 
 
 @main.command()
-@click.option('-S', '--source',
-              multiple=True,
-              help="ontology prefixes  e.g. HP, MP")
-@click.option('--other-input',
-              help="Additional input file")
-@click.option('--other-input-type',
-              help="Type of additional input file")
-#@output_option
+@click.option("-S", "--source", multiple=True, help="ontology prefixes  e.g. HP, MP")
+@click.option("--other-input", help="Additional input file")
+@click.option("--other-input-type", help="Type of additional input file")
+# @output_option
 def mdiff(source, other_input, other_input_type):
     oi = settings.impl
     if other_input:

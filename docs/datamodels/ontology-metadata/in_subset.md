@@ -11,13 +11,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#inSubset](http://www.geneonto
 
 ## Properties
 
- * Range: Subset
+ * Range: [Subset](Subset.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

@@ -11,8 +11,17 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class ObsoleteAspect
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
@@ -33,10 +42,27 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
 
 
 ## Rules
 
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:ObsoleteAspect'] |
+| native | ['omoschema:ObsoleteAspect'] |
 
 
 ## LinkML Specification

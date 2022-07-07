@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 
-from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation
+from oaklib.implementations.sparql.abstract_sparql_implementation import (
+    AbstractSparqlImplementation,
+)
 from oaklib.interfaces.owl_interface import OwlInterface
 
 
@@ -15,10 +17,3 @@ class OwleryImplementation(OwlInterface, AbstractSparqlImplementation):
 
       Not implemented
     """
-
-
-
-
-
-
-

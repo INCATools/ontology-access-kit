@@ -7,18 +7,31 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class TextualElement
+      TextualElement : id
+      TextualElement : parent_document
+      TextualElement : source_text
+      TextualElement : text
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [id](id.md) | [uriorcurie](uriorcurie.md) | 0..1 | None  | . |
-| [text](text.md) | [string](string.md) | 0..1 | None  | . |
-| [source_text](source_text.md) | [string](string.md) | 0..1 | None  | . |
-| [parent_document](parent_document.md) | [uriorcurie](uriorcurie.md) | 0..1 | None  | . |
+| [id](id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
+| [text](text.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [source_text](source_text.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [parent_document](parent_document.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
 
 
 ## Usages
@@ -39,6 +52,23 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/text_annotator
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['ann:TextualElement'] |
+| native | ['ann:TextualElement'] |
 
 
 ## LinkML Specification

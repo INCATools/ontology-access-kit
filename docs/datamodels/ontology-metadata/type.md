@@ -14,13 +14,22 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#type](http://www.w3.org/1999/02
 
 ## Properties
 
- * Range: uriorcurie
+ * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

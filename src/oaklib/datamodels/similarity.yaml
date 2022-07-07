@@ -2,7 +2,7 @@ id: https://w3id.org/linkml/similarity
 title: Semantic Similarity
 name: similarity
 description: >-
-  A datamodel for representing similarity between terms or lists of terms.
+  A datamodel for representing semantic similarity between terms or lists of terms.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
@@ -39,6 +39,8 @@ imports:
 classes:
   PairwiseSimilarity:
     abstract: true
+    description: >-
+      Abstract grouping for representing individual pairwise similarities
     slots:
       - subject_id
       - subject_label
@@ -58,10 +60,13 @@ classes:
 
   TermPairwiseSimilarity:
     is_a: PairwiseSimilarity
+    description: >-
+      A simple pairwise similarity between two atomic concepts/terms
 
   TermSetPairwiseSimilarity:
     is_a: PairwiseSimilarity
-
+    description: >-
+      A simple pairwise similarity between two sets of concepts/terms
 
 types:
   ZeroToOne:
@@ -81,42 +86,65 @@ types:
 slots:
   subject_id:
     slot_uri: sssom:subject_id
+    required: true
     range: uriorcurie
+    description: The first of the two entities being compared
   subject_label:
     slot_uri: sssom:subject_label
+    description: the label or name for the first entity
   subject_source:
     slot_uri: sssom:subject_source
+    description: the source for the first entity
   object_id:
     slot_uri: sssom:object_id
     range: uriorcurie
+    description: The second of the two entities being compared
   object_label:
     slot_uri: sssom:object_label
+    description: the label or name for the second entity
   object_source:
     slot_uri: sssom:object_source
+    description: the source for the second entity
   ancestor_id:
     range: uriorcurie
+    description: >-
+      the most recent common ancestor of the two compared entities. If there are multiple MRCAs then
+      the most informative one is selected
+    todos:
+      - decide on what to do when there are multiple possible ancestos
   ancestor_label:
+    description: the name or label of the ancestor concept
   ancestor_source:
   score:
     abstract: true
+    description: Abstract base slot for different kinds of scores
   information_content:
+    abstract: true
+    aliases:
+      - IC
     is_a: score
     range: NegativeLogValue
+    description: The IC is the negative log of the probability of the concept
   subject_information_content:
     is_a: information_content
+    description: The IC of the subject
   object_information_content:
     is_a: information_content
+    description: The IC of the object
   ancestor_information_content:
     is_a: information_content
+    description: The IC of the object
   jaccard_similarity:
     is_a: score
     range: ZeroToOne
+    description: The number of concepts in the intersection divided by the number in the union
   dice_similarity:
     is_a: score
     range: ZeroToOne
   phenodigm_score:
     is_a: score
     range: NonNegativeFloat
+    description: the geometric mean of the jaccard similarity and the information content
     equals_expression: sqrt({jaccard_similarity} * {information_content})
   overlap_coefficient:
     is_a: score

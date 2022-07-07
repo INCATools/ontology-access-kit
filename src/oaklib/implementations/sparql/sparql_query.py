@@ -15,6 +15,7 @@ class SparqlQuery:
     """
     Represents a SPARQL query
     """
+
     distinct: bool = None
     select: List[VAR_NAME] = None
     graph: Optional[Union[URI, List[URI]]] = None
@@ -22,16 +23,16 @@ class SparqlQuery:
     limit: int = None
 
     def add_not_in(self, subquery: "SparqlQuery"):
-        self.where.append(f'FILTER NOT EXISTS {{ {subquery.where_str()} }}')
+        self.where.append(f"FILTER NOT EXISTS {{ {subquery.where_str()} }}")
 
     def add_filter(self, cond: str):
-        self.where.append(f'FILTER ( {cond} )')
+        self.where.append(f"FILTER ( {cond} )")
 
     def add_values(self, var: str, vals: List[str]):
         self.where.append(f'VALUES ?{var} {{ {" ".join(vals)} }}')
 
     def select_str(self):
-        distinct = 'DISTINCT ' if self.distinct else ''
+        distinct = "DISTINCT " if self.distinct else ""
         return f'{distinct}{" ".join(self.select)} '
 
     def where_str(self):
@@ -47,14 +48,14 @@ class SparqlQuery:
             if isinstance(self.graph, list):
                 # clone to avoid mutation
                 q = deepcopy(self)
-                q.add_values('g', [f'<{g}>' for g in self.graph])
+                q.add_values("g", [f"<{g}>" for g in self.graph])
                 w = q.where_str()
-                w = f'GRAPH ?g {{ {w} }}'
+                w = f"GRAPH ?g {{ {w} }}"
             else:
-                w = f'GRAPH <{self.graph}> {{ {w} }}'
-        q = f'SELECT {self.select_str()} WHERE {{ {w} }}'
+                w = f"GRAPH <{self.graph}> {{ {w} }}"
+        q = f"SELECT {self.select_str()} WHERE {{ {w} }}"
         if self.limit is not None:
-            q += f' LIMIT {self.limit}'
+            q += f" LIMIT {self.limit}"
         return q
 
 
@@ -74,12 +75,12 @@ class SparqlUpdate(SparqlQuery):
         Generate the SPARQL update string
         :return:
         """
-        w = self.where_str()
+
         q = f"""
         DELETE {{ {self.delete_str()} }}
         INSERT {{ {self.insert_str()} }}
         WHERE {{ {self.where_str()} }}
         """
         if self.graph:
-            q = f'WITH <{self.graph}> {q}'
+            q = f"WITH <{self.graph}> {q}"
         return q

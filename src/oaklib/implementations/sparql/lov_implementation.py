@@ -1,14 +1,18 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from oaklib.implementations.sparql.abstract_sparql_implementation import AbstractSparqlImplementation
+from oaklib.implementations.sparql.abstract_sparql_implementation import (
+    AbstractSparqlImplementation,
+)
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 
 
 @dataclass
-class LovImplementation(AbstractSparqlImplementation, SearchInterface, MappingProviderInterface, OboGraphInterface):
+class LovImplementation(
+    AbstractSparqlImplementation, SearchInterface, MappingProviderInterface, OboGraphInterface
+):
     """
     Wraps the LOV SPARQL endpoint
 
@@ -25,14 +29,3 @@ class LovImplementation(AbstractSparqlImplementation, SearchInterface, MappingPr
             return None
         else:
             return self.resource.slug
-
-
-
-
-
-
-
-
-
-
-

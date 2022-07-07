@@ -1,11 +1,10 @@
 from abc import ABC
-from dataclasses import dataclass
-from typing import Dict, List, Tuple, Any
+from typing import Any, Dict
 
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-#import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 
+# import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots
+from oaklib.types import CURIE
 
 SUMMARY_STATISTICS_MAP = Dict[str, Any]
 
@@ -44,4 +43,3 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
-

@@ -1,5 +1,5 @@
 # Class: ValidationReport
-_A report object_
+_A report that consists of validation results_
 
 
 
@@ -9,7 +9,23 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
-<!-- no inheritance hierarchy -->
+
+```{mermaid}
+ classDiagram
+      Report <|-- ValidationReport
+      
+      ValidationReport : results
+      
+
+```
+
+
+
+
+
+## Inheritance
+* [Report](Report.md)
+    * **ValidationReport**
 
 
 
@@ -17,7 +33,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [results](results.md) | [ValidationResult](ValidationResult.md) | 0..* | None  | . |
+| [results](results.md) | [ValidationResult](ValidationResult.md) | 0..* | collection of results  | . |
 
 
 ## Usages
@@ -32,6 +48,23 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/validation_results
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['sh:ValidationReport'] |
+| native | ['vm:ValidationReport'] |
 
 
 ## LinkML Specification
@@ -43,16 +76,14 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 <details>
 ```yaml
 name: ValidationReport
-description: A report object
+description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
-attributes:
+is_a: Report
+slot_usage:
   results:
     name: results
-    from_schema: https://w3id.org/linkml/validation_results
-    slot_uri: sh:result
-    multivalued: true
     range: ValidationResult
 class_uri: sh:ValidationReport
 
@@ -64,19 +95,27 @@ class_uri: sh:ValidationReport
 <details>
 ```yaml
 name: ValidationReport
-description: A report object
+description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+is_a: Report
+slot_usage:
+  results:
+    name: results
+    range: ValidationResult
 attributes:
   results:
     name: results
+    description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: ValidationReport
     range: ValidationResult
+    inlined: true
+    inlined_as_list: true
 class_uri: sh:ValidationReport
 
 ```

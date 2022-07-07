@@ -10,11 +10,29 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      AnnotationPropertyMixin <|-- HasUserInformation
+      
+      HasUserInformation : comment
+      HasUserInformation : curator_note
+      HasUserInformation : depicted_by
+      HasUserInformation : example_of_usage
+      HasUserInformation : has_curation_status
+      HasUserInformation : image
+      HasUserInformation : page
+      HasUserInformation : seeAlso
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasUserInformation**
-
 
 
 
@@ -22,14 +40,14 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [comment](comment.md) | [string](string.md) | 0..* | None  | . |
+| [comment](comment.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 | [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
 | [image](image.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [example_of_usage](example_of_usage.md) | [string](string.md) | 0..* | None  | . |
-| [curator_note](curator_note.md) | [string](string.md) | 0..* | None  | . |
-| [has_curation_status](has_curation_status.md) | [string](string.md) | 0..1 | None  | . |
-| [depicted_by](depicted_by.md) | [string](string.md) | 0..* | None  | . |
-| [page](page.md) | [string](string.md) | 0..* | None  | . |
+| [example_of_usage](example_of_usage.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [curator_note](curator_note.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [has_curation_status](has_curation_status.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [depicted_by](depicted_by.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [page](page.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
 
 
 ## Usages
@@ -44,6 +62,23 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:HasUserInformation'] |
+| native | ['omoschema:HasUserInformation'] |
 
 
 ## LinkML Specification
@@ -111,11 +146,11 @@ attributes:
     range: Thing
   example_of_usage:
     name: example_of_usage
-    exact_mappings:
-    - skos:example
     in_subset:
     - allotrope permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:example
     is_a: informative_property
     slot_uri: IAO:0000112
     multivalued: true

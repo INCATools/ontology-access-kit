@@ -7,23 +7,21 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import sys
-import re
-from jsonasobj2 import JsonObj, as_dict
-from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from rdflib import Namespace, URIRef
+from jsonasobj2 import as_dict
+from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
+from linkml_runtime.linkml_model.types import String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
-from linkml_runtime.utils.metamodelcore import URIorCURIE
+from linkml_runtime.utils.dataclass_extensions_376 import (
+    dataclasses_init_fn_with_kwargs,
+)
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.metamodelcore import empty_list
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
+from rdflib import URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -32,9 +30,9 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OXO = CurieNamespace('oxo', 'https://w3id.org/sssom/oxo/')
-XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
+LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+OXO = CurieNamespace("oxo", "https://w3id.org/sssom/oxo/")
+XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
 DEFAULT_ = OXO
 
 
@@ -104,7 +102,9 @@ class Datasource(YAMLRoot):
             self.idorgNamespace = str(self.idorgNamespace)
 
         if not isinstance(self.alternatePrefix, list):
-            self.alternatePrefix = [self.alternatePrefix] if self.alternatePrefix is not None else []
+            self.alternatePrefix = (
+                [self.alternatePrefix] if self.alternatePrefix is not None else []
+            )
         self.alternatePrefix = [v if isinstance(v, str) else str(v) for v in self.alternatePrefix]
 
         if not isinstance(self.alternateIris, list):
@@ -296,7 +296,9 @@ class Embedded(YAMLRoot):
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.mappings, list):
             self.mappings = [self.mappings] if self.mappings is not None else []
-        self.mappings = [v if isinstance(v, Mapping) else Mapping(**as_dict(v)) for v in self.mappings]
+        self.mappings = [
+            v if isinstance(v, Mapping) else Mapping(**as_dict(v)) for v in self.mappings
+        ]
 
         super().__post_init__(**kwargs)
 
@@ -367,6 +369,7 @@ class SourceEnum(EnumDefinitionImpl):
         name="SourceEnum",
     )
 
+
 class ScopeEnum(EnumDefinitionImpl):
 
     RELATED = PermissibleValue(text="RELATED")
@@ -379,138 +382,404 @@ class ScopeEnum(EnumDefinitionImpl):
         name="ScopeEnum",
     )
 
+
 # Slots
 class slots:
     pass
 
-slots.prefix = Slot(uri=OXO.prefix, name="prefix", curie=OXO.curie('prefix'),
-                   model_uri=OXO.prefix, domain=None, range=Optional[str])
 
-slots.preferredPrefix = Slot(uri=OXO.preferredPrefix, name="preferredPrefix", curie=OXO.curie('preferredPrefix'),
-                   model_uri=OXO.preferredPrefix, domain=None, range=Optional[str])
+slots.prefix = Slot(
+    uri=OXO.prefix,
+    name="prefix",
+    curie=OXO.curie("prefix"),
+    model_uri=OXO.prefix,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.idorgNamespace = Slot(uri=OXO.idorgNamespace, name="idorgNamespace", curie=OXO.curie('idorgNamespace'),
-                   model_uri=OXO.idorgNamespace, domain=None, range=Optional[str])
+slots.preferredPrefix = Slot(
+    uri=OXO.preferredPrefix,
+    name="preferredPrefix",
+    curie=OXO.curie("preferredPrefix"),
+    model_uri=OXO.preferredPrefix,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.alternatePrefix = Slot(uri=OXO.alternatePrefix, name="alternatePrefix", curie=OXO.curie('alternatePrefix'),
-                   model_uri=OXO.alternatePrefix, domain=None, range=Optional[Union[str, List[str]]])
+slots.idorgNamespace = Slot(
+    uri=OXO.idorgNamespace,
+    name="idorgNamespace",
+    curie=OXO.curie("idorgNamespace"),
+    model_uri=OXO.idorgNamespace,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.alternateIris = Slot(uri=OXO.alternateIris, name="alternateIris", curie=OXO.curie('alternateIris'),
-                   model_uri=OXO.alternateIris, domain=None, range=Optional[Union[str, List[str]]])
+slots.alternatePrefix = Slot(
+    uri=OXO.alternatePrefix,
+    name="alternatePrefix",
+    curie=OXO.curie("alternatePrefix"),
+    model_uri=OXO.alternatePrefix,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
 
-slots.name = Slot(uri=OXO.name, name="name", curie=OXO.curie('name'),
-                   model_uri=OXO.name, domain=None, range=Optional[str])
+slots.alternateIris = Slot(
+    uri=OXO.alternateIris,
+    name="alternateIris",
+    curie=OXO.curie("alternateIris"),
+    model_uri=OXO.alternateIris,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
 
-slots.orcid = Slot(uri=OXO.orcid, name="orcid", curie=OXO.curie('orcid'),
-                   model_uri=OXO.orcid, domain=None, range=Optional[str])
+slots.name = Slot(
+    uri=OXO.name,
+    name="name",
+    curie=OXO.curie("name"),
+    model_uri=OXO.name,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.description = Slot(uri=OXO.description, name="description", curie=OXO.curie('description'),
-                   model_uri=OXO.description, domain=None, range=Optional[str])
+slots.orcid = Slot(
+    uri=OXO.orcid,
+    name="orcid",
+    curie=OXO.curie("orcid"),
+    model_uri=OXO.orcid,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.source = Slot(uri=OXO.source, name="source", curie=OXO.curie('source'),
-                   model_uri=OXO.source, domain=None, range=Optional[Union[str, "SourceEnum"]])
+slots.description = Slot(
+    uri=OXO.description,
+    name="description",
+    curie=OXO.curie("description"),
+    model_uri=OXO.description,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.licence = Slot(uri=OXO.licence, name="licence", curie=OXO.curie('licence'),
-                   model_uri=OXO.licence, domain=None, range=Optional[Union[str, HttpsIdentifier]])
+slots.source = Slot(
+    uri=OXO.source,
+    name="source",
+    curie=OXO.curie("source"),
+    model_uri=OXO.source,
+    domain=None,
+    range=Optional[Union[str, "SourceEnum"]],
+)
 
-slots.versionInfo = Slot(uri=OXO.versionInfo, name="versionInfo", curie=OXO.curie('versionInfo'),
-                   model_uri=OXO.versionInfo, domain=None, range=Optional[str])
+slots.licence = Slot(
+    uri=OXO.licence,
+    name="licence",
+    curie=OXO.curie("licence"),
+    model_uri=OXO.licence,
+    domain=None,
+    range=Optional[Union[str, HttpsIdentifier]],
+)
 
-slots.curie = Slot(uri=OXO.curie, name="curie", curie=OXO.curie('curie'),
-                   model_uri=OXO.curie, domain=None, range=URIRef)
+slots.versionInfo = Slot(
+    uri=OXO.versionInfo,
+    name="versionInfo",
+    curie=OXO.curie("versionInfo"),
+    model_uri=OXO.versionInfo,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.identifier = Slot(uri=OXO.identifier, name="identifier", curie=OXO.curie('identifier'),
-                   model_uri=OXO.identifier, domain=None, range=Optional[str])
+slots.curie = Slot(
+    uri=OXO.curie,
+    name="curie",
+    curie=OXO.curie("curie"),
+    model_uri=OXO.curie,
+    domain=None,
+    range=URIRef,
+)
 
-slots.uri = Slot(uri=OXO.uri, name="uri", curie=OXO.curie('uri'),
-                   model_uri=OXO.uri, domain=None, range=Optional[Union[str, HttpIdentifier]])
+slots.identifier = Slot(
+    uri=OXO.identifier,
+    name="identifier",
+    curie=OXO.curie("identifier"),
+    model_uri=OXO.identifier,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.label = Slot(uri=OXO.label, name="label", curie=OXO.curie('label'),
-                   model_uri=OXO.label, domain=None, range=Optional[str])
+slots.uri = Slot(
+    uri=OXO.uri,
+    name="uri",
+    curie=OXO.curie("uri"),
+    model_uri=OXO.uri,
+    domain=None,
+    range=Optional[Union[str, HttpIdentifier]],
+)
 
-slots.datasource = Slot(uri=OXO.datasource, name="datasource", curie=OXO.curie('datasource'),
-                   model_uri=OXO.datasource, domain=None, range=Optional[Union[dict, Datasource]])
+slots.label = Slot(
+    uri=OXO.label,
+    name="label",
+    curie=OXO.curie("label"),
+    model_uri=OXO.label,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.href = Slot(uri=OXO.href, name="href", curie=OXO.curie('href'),
-                   model_uri=OXO.href, domain=None, range=Optional[Union[str, HttpsIdentifier]])
+slots.datasource = Slot(
+    uri=OXO.datasource,
+    name="datasource",
+    curie=OXO.curie("datasource"),
+    model_uri=OXO.datasource,
+    domain=None,
+    range=Optional[Union[dict, Datasource]],
+)
 
-slots.first = Slot(uri=OXO.first, name="first", curie=OXO.curie('first'),
-                   model_uri=OXO.first, domain=None, range=Optional[Union[dict, Link]])
+slots.href = Slot(
+    uri=OXO.href,
+    name="href",
+    curie=OXO.curie("href"),
+    model_uri=OXO.href,
+    domain=None,
+    range=Optional[Union[str, HttpsIdentifier]],
+)
 
-slots.next = Slot(uri=OXO.next, name="next", curie=OXO.curie('next'),
-                   model_uri=OXO.next, domain=None, range=Optional[Union[dict, Link]])
+slots.first = Slot(
+    uri=OXO.first,
+    name="first",
+    curie=OXO.curie("first"),
+    model_uri=OXO.first,
+    domain=None,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.last = Slot(uri=OXO.last, name="last", curie=OXO.curie('last'),
-                   model_uri=OXO.last, domain=None, range=Optional[Union[dict, Link]])
+slots.next = Slot(
+    uri=OXO.next,
+    name="next",
+    curie=OXO.curie("next"),
+    model_uri=OXO.next,
+    domain=None,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.link_to_self = Slot(uri=OXO.link_to_self, name="link_to_self", curie=OXO.curie('link_to_self'),
-                   model_uri=OXO.link_to_self, domain=None, range=Optional[Union[dict, Link]])
+slots.last = Slot(
+    uri=OXO.last,
+    name="last",
+    curie=OXO.curie("last"),
+    model_uri=OXO.last,
+    domain=None,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.fromTerm = Slot(uri=OXO.fromTerm, name="fromTerm", curie=OXO.curie('fromTerm'),
-                   model_uri=OXO.fromTerm, domain=None, range=Optional[Union[str, TermCurie]])
+slots.link_to_self = Slot(
+    uri=OXO.link_to_self,
+    name="link_to_self",
+    curie=OXO.curie("link_to_self"),
+    model_uri=OXO.link_to_self,
+    domain=None,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.toTerm = Slot(uri=OXO.toTerm, name="toTerm", curie=OXO.curie('toTerm'),
-                   model_uri=OXO.toTerm, domain=None, range=Optional[Union[str, TermCurie]])
+slots.fromTerm = Slot(
+    uri=OXO.fromTerm,
+    name="fromTerm",
+    curie=OXO.curie("fromTerm"),
+    model_uri=OXO.fromTerm,
+    domain=None,
+    range=Optional[Union[str, TermCurie]],
+)
 
-slots.mappingId = Slot(uri=OXO.mappingId, name="mappingId", curie=OXO.curie('mappingId'),
-                   model_uri=OXO.mappingId, domain=None, range=Optional[int])
+slots.toTerm = Slot(
+    uri=OXO.toTerm,
+    name="toTerm",
+    curie=OXO.curie("toTerm"),
+    model_uri=OXO.toTerm,
+    domain=None,
+    range=Optional[Union[str, TermCurie]],
+)
 
-slots.sourcePrefix = Slot(uri=OXO.sourcePrefix, name="sourcePrefix", curie=OXO.curie('sourcePrefix'),
-                   model_uri=OXO.sourcePrefix, domain=None, range=Optional[str])
+slots.mappingId = Slot(
+    uri=OXO.mappingId,
+    name="mappingId",
+    curie=OXO.curie("mappingId"),
+    model_uri=OXO.mappingId,
+    domain=None,
+    range=Optional[int],
+)
 
-slots.sourceType = Slot(uri=OXO.sourceType, name="sourceType", curie=OXO.curie('sourceType'),
-                   model_uri=OXO.sourceType, domain=None, range=Optional[Union[str, "SourceEnum"]])
+slots.sourcePrefix = Slot(
+    uri=OXO.sourcePrefix,
+    name="sourcePrefix",
+    curie=OXO.curie("sourcePrefix"),
+    model_uri=OXO.sourcePrefix,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.predicate = Slot(uri=OXO.predicate, name="predicate", curie=OXO.curie('predicate'),
-                   model_uri=OXO.predicate, domain=None, range=Optional[str])
+slots.sourceType = Slot(
+    uri=OXO.sourceType,
+    name="sourceType",
+    curie=OXO.curie("sourceType"),
+    model_uri=OXO.sourceType,
+    domain=None,
+    range=Optional[Union[str, "SourceEnum"]],
+)
 
-slots.scope = Slot(uri=OXO.scope, name="scope", curie=OXO.curie('scope'),
-                   model_uri=OXO.scope, domain=None, range=Optional[Union[str, "ScopeEnum"]])
+slots.predicate = Slot(
+    uri=OXO.predicate,
+    name="predicate",
+    curie=OXO.curie("predicate"),
+    model_uri=OXO.predicate,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.date = Slot(uri=OXO.date, name="date", curie=OXO.curie('date'),
-                   model_uri=OXO.date, domain=None, range=Optional[str])
+slots.scope = Slot(
+    uri=OXO.scope,
+    name="scope",
+    curie=OXO.curie("scope"),
+    model_uri=OXO.scope,
+    domain=None,
+    range=Optional[Union[str, "ScopeEnum"]],
+)
 
-slots._links = Slot(uri=OXO._links, name="_links", curie=OXO.curie('_links'),
-                   model_uri=OXO._links, domain=None, range=Optional[Union[dict, LinkSet]])
+slots.date = Slot(
+    uri=OXO.date,
+    name="date",
+    curie=OXO.curie("date"),
+    model_uri=OXO.date,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.mappings = Slot(uri=OXO.mappings, name="mappings", curie=OXO.curie('mappings'),
-                   model_uri=OXO.mappings, domain=None, range=Optional[Union[Union[dict, Mapping], List[Union[dict, Mapping]]]])
+slots._links = Slot(
+    uri=OXO._links,
+    name="_links",
+    curie=OXO.curie("_links"),
+    model_uri=OXO._links,
+    domain=None,
+    range=Optional[Union[dict, LinkSet]],
+)
 
-slots.size = Slot(uri=OXO.size, name="size", curie=OXO.curie('size'),
-                   model_uri=OXO.size, domain=None, range=Optional[int])
+slots.mappings = Slot(
+    uri=OXO.mappings,
+    name="mappings",
+    curie=OXO.curie("mappings"),
+    model_uri=OXO.mappings,
+    domain=None,
+    range=Optional[Union[Union[dict, Mapping], List[Union[dict, Mapping]]]],
+)
 
-slots.totalElements = Slot(uri=OXO.totalElements, name="totalElements", curie=OXO.curie('totalElements'),
-                   model_uri=OXO.totalElements, domain=None, range=Optional[int])
+slots.size = Slot(
+    uri=OXO.size,
+    name="size",
+    curie=OXO.curie("size"),
+    model_uri=OXO.size,
+    domain=None,
+    range=Optional[int],
+)
 
-slots.totalPages = Slot(uri=OXO.totalPages, name="totalPages", curie=OXO.curie('totalPages'),
-                   model_uri=OXO.totalPages, domain=None, range=Optional[int])
+slots.totalElements = Slot(
+    uri=OXO.totalElements,
+    name="totalElements",
+    curie=OXO.curie("totalElements"),
+    model_uri=OXO.totalElements,
+    domain=None,
+    range=Optional[int],
+)
 
-slots.number = Slot(uri=OXO.number, name="number", curie=OXO.curie('number'),
-                   model_uri=OXO.number, domain=None, range=Optional[int])
+slots.totalPages = Slot(
+    uri=OXO.totalPages,
+    name="totalPages",
+    curie=OXO.curie("totalPages"),
+    model_uri=OXO.totalPages,
+    domain=None,
+    range=Optional[int],
+)
 
-slots._embedded = Slot(uri=OXO._embedded, name="_embedded", curie=OXO.curie('_embedded'),
-                   model_uri=OXO._embedded, domain=None, range=Optional[Union[dict, Embedded]])
+slots.number = Slot(
+    uri=OXO.number,
+    name="number",
+    curie=OXO.curie("number"),
+    model_uri=OXO.number,
+    domain=None,
+    range=Optional[int],
+)
 
-slots.page = Slot(uri=OXO.page, name="page", curie=OXO.curie('page'),
-                   model_uri=OXO.page, domain=None, range=Optional[str])
+slots._embedded = Slot(
+    uri=OXO._embedded,
+    name="_embedded",
+    curie=OXO.curie("_embedded"),
+    model_uri=OXO._embedded,
+    domain=None,
+    range=Optional[Union[dict, Embedded]],
+)
 
-slots.LinkSet_fromTerm = Slot(uri=OXO.fromTerm, name="LinkSet_fromTerm", curie=OXO.curie('fromTerm'),
-                   model_uri=OXO.LinkSet_fromTerm, domain=LinkSet, range=Optional[Union[dict, Link]])
+slots.page = Slot(
+    uri=OXO.page,
+    name="page",
+    curie=OXO.curie("page"),
+    model_uri=OXO.page,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.LinkSet_toTerm = Slot(uri=OXO.toTerm, name="LinkSet_toTerm", curie=OXO.curie('toTerm'),
-                   model_uri=OXO.LinkSet_toTerm, domain=LinkSet, range=Optional[Union[dict, Link]])
+slots.LinkSet_fromTerm = Slot(
+    uri=OXO.fromTerm,
+    name="LinkSet_fromTerm",
+    curie=OXO.curie("fromTerm"),
+    model_uri=OXO.LinkSet_fromTerm,
+    domain=LinkSet,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.LinkSet_first = Slot(uri=OXO.first, name="LinkSet_first", curie=OXO.curie('first'),
-                   model_uri=OXO.LinkSet_first, domain=LinkSet, range=Optional[Union[dict, Link]])
+slots.LinkSet_toTerm = Slot(
+    uri=OXO.toTerm,
+    name="LinkSet_toTerm",
+    curie=OXO.curie("toTerm"),
+    model_uri=OXO.LinkSet_toTerm,
+    domain=LinkSet,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.LinkSet_next = Slot(uri=OXO.next, name="LinkSet_next", curie=OXO.curie('next'),
-                   model_uri=OXO.LinkSet_next, domain=LinkSet, range=Optional[Union[dict, Link]])
+slots.LinkSet_first = Slot(
+    uri=OXO.first,
+    name="LinkSet_first",
+    curie=OXO.curie("first"),
+    model_uri=OXO.LinkSet_first,
+    domain=LinkSet,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.LinkSet_last = Slot(uri=OXO.last, name="LinkSet_last", curie=OXO.curie('last'),
-                   model_uri=OXO.LinkSet_last, domain=LinkSet, range=Optional[Union[dict, Link]])
+slots.LinkSet_next = Slot(
+    uri=OXO.next,
+    name="LinkSet_next",
+    curie=OXO.curie("next"),
+    model_uri=OXO.LinkSet_next,
+    domain=LinkSet,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.Mapping_fromTerm = Slot(uri=OXO.fromTerm, name="Mapping_fromTerm", curie=OXO.curie('fromTerm'),
-                   model_uri=OXO.Mapping_fromTerm, domain=Mapping, range=Optional[Union[dict, Term]])
+slots.LinkSet_last = Slot(
+    uri=OXO.last,
+    name="LinkSet_last",
+    curie=OXO.curie("last"),
+    model_uri=OXO.LinkSet_last,
+    domain=LinkSet,
+    range=Optional[Union[dict, Link]],
+)
 
-slots.Mapping_toTerm = Slot(uri=OXO.toTerm, name="Mapping_toTerm", curie=OXO.curie('toTerm'),
-                   model_uri=OXO.Mapping_toTerm, domain=Mapping, range=Optional[Union[dict, Term]])
+slots.Mapping_fromTerm = Slot(
+    uri=OXO.fromTerm,
+    name="Mapping_fromTerm",
+    curie=OXO.curie("fromTerm"),
+    model_uri=OXO.Mapping_fromTerm,
+    domain=Mapping,
+    range=Optional[Union[dict, Term]],
+)
+
+slots.Mapping_toTerm = Slot(
+    uri=OXO.toTerm,
+    name="Mapping_toTerm",
+    curie=OXO.curie("toTerm"),
+    model_uri=OXO.Mapping_toTerm,
+    domain=Mapping,
+    range=Optional[Union[dict, Term]],
+)

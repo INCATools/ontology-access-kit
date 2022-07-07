@@ -20,3 +20,12 @@ URI: PredsEnum
 
 
 
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+

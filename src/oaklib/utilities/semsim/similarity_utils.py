@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Set, Union, Dict, Tuple, Iterable
+from typing import Dict, Iterable, List, Set, Tuple, Union
 
 
 @dataclass
@@ -19,9 +19,9 @@ class ListPair:
     subsumed_by_score: float = None
 
 
-
 NAMED_COLLECTION = Tuple[str, List]
 LIST_OR_SET = Union[List, Set]
+
 
 def compute_list_pair_statistics(pair: ListPair):
     set1 = set(pair.set1_id)
@@ -37,7 +37,6 @@ def compute_list_pair_statistics(pair: ListPair):
     pair.subsumes_score = pair.intersection_len / pair.list2_len
 
 
-
 def compute_all_pairs(sets: Dict[str, List]) -> Iterable[ListPair]:
     """
     compute statistics on all pairs of sets
@@ -45,16 +44,15 @@ def compute_all_pairs(sets: Dict[str, List]) -> Iterable[ListPair]:
     :param sets:
     :return:
     """
-    for k1, list1 in sets.items():
-        for k2, list2 in sets.items():
+    for k1, _ in sets.items():
+        for k2, _ in sets.items():
             r = ListPair(k1, k2)
             compute_list_pair_statistics(r)
             yield r
 
 
-
 def setwise_jaccard_similarity(set1: LIST_OR_SET, set2: LIST_OR_SET) -> float:
     set1 = set(set1)
     set2 = set(set2)
-    #print(f'T = {len(set1)} / {len(set2)} == {set1} / {set2}')
+    # print(f'T = {len(set1)} / {len(set2)} == {set1} / {set2}')
     return len(set1.intersection(set2)) / len(set1.union(set2))

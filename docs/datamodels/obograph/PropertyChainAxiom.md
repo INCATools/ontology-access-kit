@@ -8,11 +8,22 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      Axiom <|-- PropertyChainAxiom
+      
+      PropertyChainAxiom : meta
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [Axiom](Axiom.md)
     * **PropertyChainAxiom**
-
 
 
 
@@ -40,6 +51,23 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:PropertyChainAxiom'] |
+| native | ['og:PropertyChainAxiom'] |
 
 
 ## LinkML Specification

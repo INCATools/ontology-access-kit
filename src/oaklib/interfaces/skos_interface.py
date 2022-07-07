@@ -1,9 +1,8 @@
 from abc import ABC
-from typing import Dict, List, Tuple, Iterable
+from typing import Iterable
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.types import CURIE, LABEL, URI
-from rdflib import Graph
+from oaklib.types import CURIE
 
 
 class SkosInterface(BasicOntologyInterface, ABC):
@@ -51,5 +50,3 @@ class SkosInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
-
-

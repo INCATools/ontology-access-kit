@@ -1,4 +1,4 @@
-.. sparql:
+.. sparql_implementation:
 
 Sparql Endpoint
 ==================
@@ -7,8 +7,8 @@ This is an abstract base class for any SPARQL endpoint, whether they are remote 
 
 Currently there are two main implementations:
 
-- :ref:`ontobee`
-- :ref:`ubergraph`
+- :ref:`ontobee_implementation`
+- :ref:`ubergraph_implementation`
 
 Code
 ----

@@ -1,9 +1,8 @@
 from abc import ABC
-from typing import Dict, List, Tuple, Iterable, Union
+from typing import Iterable, List, Tuple
 
-from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface, RELATIONSHIP_MAP, RELATIONSHIP
-from oaklib.types import CURIE, LABEL, URI, PRED_CURIE
-from oaklib.utilities.graph.relationship_walker import walk_up
+from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
+from oaklib.types import CURIE, PRED_CURIE
 
 
 class RelationGraphInterface(BasicOntologyInterface, ABC):
@@ -12,12 +11,15 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
 
     .. note ::
 
-        that the operations provided here are similar to the graph-walking operations provided in :class:`.OboGraphInterface`.
-        The main difference is that a RG provides a more restricted and formally correct set of entailments
+        that the operations provided here are similar to the graph-walking
+        operations provided in :class:`.OboGraphInterface`.
+        The main difference is that a RG provides a more restricted
+        and formally correct set of entailments.
     """
 
-    def entailed_outgoing_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    def entailed_outgoing_relationships_by_curie(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -33,8 +35,9 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def entailed_incoming_relationships_by_curie(self, curie: CURIE,
-                                                 predicates: List[PRED_CURIE] = None) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    def entailed_incoming_relationships_by_curie(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -59,8 +62,3 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
-
-
-
-
-

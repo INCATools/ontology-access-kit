@@ -1,18 +1,25 @@
 import logging
 from abc import ABC
-from dataclasses import dataclass, field
-from typing import Dict, List, Iterable, Tuple, Optional, Any, Iterator
+from dataclasses import field
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
+from oaklib.datamodels.vocabulary import (
+    BIOPORTAL_PURL,
+    IS_A,
+    OBO_PURL,
+    OWL_CLASS,
+    OWL_NOTHING,
+    OWL_THING,
+)
 from oaklib.interfaces.ontology_interface import OntologyInterface
-from oaklib.types import CURIE, URI, PRED_CURIE, SUBSET_CURIE
-from oaklib.datamodels.vocabulary import IS_A, OBO_PURL, BIOPORTAL_PURL, OWL_THING
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
 ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
-#ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
+# ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
 
 
@@ -67,9 +74,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     in which case URIs may be used
 
     """
-    strict: bool = False
-    autosave: bool = field(default_factory= lambda: True)
 
+    strict: bool = False
+    autosave: bool = field(default_factory=lambda: True)
 
     def get_prefix_map(self) -> PREFIX_MAP:
         """
@@ -87,40 +94,47 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict:
         :return:
         """
-        if curie.startswith('http'):
+        if curie.startswith("http"):
             return curie
         pm = self.get_prefix_map()
-        pfx, local_id = curie.split(':')
+        parts = curie.split(":")
+        if len(parts) == 2:
+            pfx, local_id = parts
+        else:
+            if strict:
+                raise ValueError(f"Bad CURIE: {curie} parts: {parts}")
+            else:
+                return curie
         if pfx in pm:
-            return f'{pm[pfx]}{local_id}'
+            return f"{pm[pfx]}{local_id}"
         else:
             # TODO: not hardcode
-            return f'{OBO_PURL}{pfx}_{local_id}'
+            return f"{OBO_PURL}{pfx}_{local_id}"
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         """
         Contracts a URI
 
-        If strict conditions hold, then no URI can map to more than one CURIE (i.e one URI base should not start with another)
+        If strict conditions hold, then no URI can map to more than one CURIE
+        (i.e one URI base should not start with another).
 
-        :param uri:
-        :param strict:
-        :return:
+        :param uri: URI
+        :param strict: Boolean [default: True]
+        :return: CURIE
         """
         pm = self.get_prefix_map()
         for k, v in pm.items():
             if uri.startswith(v):
-                return uri.replace(v, f'{k}:')
+                return uri.replace(v, f"{k}:")
         if uri.startswith(OBO_PURL):
             # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f'{OBO_PURL}', "")
-            return uri.replace('_', ':')
+            uri = uri.replace(f"{OBO_PURL}", "")
+            return uri.replace("_", ":")
         if uri.startswith(BIOPORTAL_PURL):
             # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f'{BIOPORTAL_PURL}', "")
-            return uri.replace('_', ':')
+            uri = uri.replace(f"{BIOPORTAL_PURL}", "")
+            return uri.replace("_", ":")
         return uri
-
 
     def all_ontology_curies(self) -> Iterable[CURIE]:
         """
@@ -128,6 +142,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
         Even when a single ontology is wrapped, there may be multiple ontologies included as imports
+
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        """
+        returns iterator over all known CURIEs that are obsolete
 
         :return: iterator
         """
@@ -150,71 +172,83 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
         returns iterator over all known entity CURIEs
 
+        :param filter_obsoletes: if True, exclude any obsolete/deprecated element
+        :param owl_type: e.g. owl:Class
         :return: iterator
         """
         raise NotImplementedError
 
-    def all_relationships(self) -> Iterable[RELATIONSHIP]:
-        """
-        returns iterator over all known relationships
-
-        :return:
-        """
-        for curie in self.all_entity_curies():
-            for pred, fillers in self.get_outgoing_relationships_by_curie(curie).items():
-                for filler in fillers:
-                    yield curie, pred, filler
-
-
-    def roots(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing = True) -> Iterable[CURIE]:
+    def roots(
+        self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True, filter_obsoletes=True
+    ) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
         a relationship with one of the specified predicates
 
         :param predicates:
+        :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)
+        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
-        all_curies = set(list(self.all_entity_curies()))
+        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
         candidates = all_curies
-        logging.info(f'Candidates: {len(candidates)}')
+        logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
             if subject == object:
                 continue
             if ignore_owl_thing and object == OWL_THING:
                 continue
-            #if object not in all_curies:
+            # if object not in all_curies:
             #    continue
             if subject in candidates:
                 if predicates is None or pred in predicates:
                     candidates.remove(subject)
-                    logging.debug(f'Not a root: {subject} [{pred} {object}]')
+                    logging.debug(f"Not a root: {subject} [{pred} {object}]")
+        if filter_obsoletes:
+            exclusion_list = list(self.all_obsolete_curies())
+        else:
+            exclusion_list = []
+        exclusion_list += [OWL_THING, OWL_NOTHING]
         for term in candidates:
-            yield term
+            if term not in exclusion_list:
+                yield term
 
-    def leafs(self, predicates: List[PRED_CURIE] = None, ignore_owl_thing = True) -> Iterable[CURIE]:
+    def leafs(
+        self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True
+    ) -> Iterable[CURIE]:
         """
         All leaf nodes, where root is defined as any node that is not the object of
         a relationship with one of the specified predicates
 
         :param predicates:
+        :param ignore_owl_nothing: do not consider artificial/trivial owl:Nothing when calculating (default=True)
+        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
-        all_curies = set(list(self.all_entity_curies()))
+        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
         candidates = all_curies
-        logging.info(f'Candidates: {len(candidates)}')
+        logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
             if subject == object:
+                continue
+            if ignore_owl_nothing and subject == OWL_NOTHING:
                 continue
             if object in candidates:
                 if predicates is None or pred in predicates:
                     candidates.remove(object)
-                    logging.debug(f'Not a leaf: {object} [inv({pred}) {subject}]')
+                    logging.debug(f"Not a leaf: {object} [inv({pred}) {subject}]")
+        if filter_obsoletes:
+            exclusion_list = list(self.all_obsolete_curies())
+        else:
+            exclusion_list = []
+        exclusion_list += [OWL_THING, OWL_NOTHING]
         for term in candidates:
-            yield term
+            if term not in exclusion_list:
+                yield term
 
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
         """
@@ -278,7 +312,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_parents_by_curie(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
+    def get_hierararchical_parents_by_curie(
+        self, curie: CURIE, isa_only: bool = False
+    ) -> List[CURIE]:
         """
         Returns all hierarchical parents
 
@@ -295,9 +331,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param isa_only: restrict hierarchical parents to isa only
         :return:
         """
-        return self.get_outgoing_relationships_by_curie(curie)[IS_A]
+        return self.get_outgoing_relationship_map_by_curie(curie)[IS_A]
 
-    def get_outgoing_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -312,13 +348,84 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_incoming_relationships_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def get_outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        """
+        Returns relationships where curie in the subject
+
+        :param curie:
+        :param predicates: if None, do not filter
+        :return:
+        """
+        for p, vs in self.get_outgoing_relationship_map_by_curie(curie).items():
+            if predicates is None or p not in predicates:
+                continue
+            for v in vs:
+                yield p, v
+
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
 
         :param curie:
         :return:
         """
-        raise NotImplementedError()
+        raise NotImplementedError
+
+    def get_incoming_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        """
+        Returns relationships where curie in the object
+
+        :param curie:
+        :param predicates: if None, do not filter
+        :return:
+        """
+        for p, vs in self.get_incoming_relationship_map_by_curie(curie).items():
+            if predicates is None or p not in predicates:
+                continue
+            for v in vs:
+                yield p, v
+
+    def get_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Returns all matching relationships
+
+        :param subjects:
+        :param predicates:
+        :param objects:
+        :return:
+        """
+        if not subjects:
+            subjects = list(self.all_entity_curies())
+        logging.info(f"Subjects: {len(subjects)}")
+        for subject in subjects:
+            for this_predicate, this_objects in self.get_outgoing_relationship_map_by_curie(
+                subject
+            ).items():
+                if predicates and this_predicate not in predicates:
+                    continue
+                for this_object in this_objects:
+                    if objects and this_object not in objects:
+                        continue
+                    yield subject, this_predicate, this_object
+
+    def all_relationships(self) -> Iterable[RELATIONSHIP]:
+        """
+        returns iterator over all known relationships
+
+        :return:
+        """
+        for curie in self.all_entity_curies():
+            for pred, fillers in self.get_outgoing_relationship_map_by_curie(curie).items():
+                for filler in fillers:
+                    yield curie, pred, filler
 
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
         """
@@ -356,7 +463,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         - The alias map MUST include rdfs:label annotations
         - The alias map MAY include other properties the implementation deems to serve an alias role
-        
+
         :param curie:
         :return:
         """
@@ -374,7 +481,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def create_entity(self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None) -> CURIE:
+    def create_entity(
+        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+    ) -> CURIE:
         """
         Adds an entity to the resource
 
@@ -389,6 +498,25 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Saves current state
 
+        :return:
+        """
+        raise NotImplementedError
+
+    def dump(self, path: str = None, syntax: str = None):
+        """
+        Exports current state
+
+        :param path:
+        :param syntax:
+        :return:
+        """
+        raise NotImplementedError
+
+    def clone(self, resource: Any) -> None:
+        """
+        Clones the ontology interface to a new resource
+
+        :param resource:
         :return:
         """
         raise NotImplementedError

@@ -1,14 +1,18 @@
 from dataclasses import dataclass
 from typing import List
-from lark import Lark, Transformer
-
 
 from deprecated.classic import deprecated
-from oaklib.datamodels.search_datamodel import SearchBaseConfiguration, SearchProperty, SearchTermSyntax
+
+from oaklib.datamodels.search_datamodel import (
+    SearchBaseConfiguration,
+    SearchProperty,
+    SearchTermSyntax,
+)
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE, SYNONYM_PREDICATES
 from oaklib.types import PRED_CURIE
 
 DEFAULT_SEARCH_PROPERTIES = [SearchProperty.LABEL, SearchProperty.ALIAS]
+
 
 def create_search_configuration(term: str) -> "SearchConfiguration":
     """
@@ -29,40 +33,35 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
         prop = term[0]
         code = term[1]
         rest = term[2:]
-        if code == '~':
-            cfg = SearchBaseConfiguration([rest],
-                                          is_partial=True)
-            syntax = SearchTermSyntax.PLAINTEXT
-        elif code == '/':
-            cfg = SearchBaseConfiguration([rest],
-                                          syntax=SearchTermSyntax.REGULAR_EXPRESSION)
-        elif code == '@':
-            cfg = SearchBaseConfiguration([rest],
-                                          syntax=SearchTermSyntax.SQL)
-        elif code == '=':
-            cfg = SearchBaseConfiguration([rest],
-                                          is_partial=False)
-        elif code == '^':
-            cfg = SearchBaseConfiguration([rest],
-                                          syntax=SearchTermSyntax.STARTS_WITH)
+        if code == "~":
+            cfg = SearchBaseConfiguration([rest], is_partial=True)
+        elif code == "/":
+            cfg = SearchBaseConfiguration([rest], syntax=SearchTermSyntax.REGULAR_EXPRESSION)
+        elif code == "@":
+            cfg = SearchBaseConfiguration([rest], syntax=SearchTermSyntax.SQL)
+        elif code == "=":
+            cfg = SearchBaseConfiguration([rest], is_partial=False)
+        elif code == "^":
+            cfg = SearchBaseConfiguration([rest], syntax=SearchTermSyntax.STARTS_WITH)
         else:
             cfg = SearchBaseConfiguration([term], properties=DEFAULT_SEARCH_PROPERTIES)
             prop = None
         if prop:
-            if prop == 't':
+            if prop == "t":
                 props = [SearchProperty.LABEL, SearchProperty.ALIAS]
-            elif prop == '.':
+            elif prop == ".":
                 props = [SearchProperty.ANYTHING]
-            elif prop == 'l':
+            elif prop == "l":
                 props = [SearchProperty.LABEL]
-            elif prop == 'i':
+            elif prop == "i":
                 props = [SearchProperty.IDENTIFIER]
             else:
-                raise ValueError(f'Unknown property code: {prop}')
+                raise ValueError(f"Unknown property code: {prop}")
             cfg.properties = [SearchProperty(p) for p in props]
         return cfg
     else:
         return SearchConfiguration([term], properties=DEFAULT_SEARCH_PROPERTIES)
+
 
 def search_properties_to_predicates(props: List[SearchProperty]) -> List[PRED_CURIE]:
     preds = set()
@@ -76,6 +75,7 @@ def search_properties_to_predicates(props: List[SearchProperty]) -> List[PRED_CU
         else:
             raise ValueError(p)
     return list(preds)
+
 
 @dataclass
 class SearchConfiguration(SearchBaseConfiguration):
@@ -95,6 +95,7 @@ class SearchConfiguration(SearchBaseConfiguration):
         self.include_aliases = False
         self.properties = [SearchProperty.LABEL]
         return self
+
 
 query_grammar = r"""
 query: disj | conj

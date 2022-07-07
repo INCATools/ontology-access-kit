@@ -19,7 +19,7 @@ The most mature implementations are:
    :maxdepth: 3
    :caption: Contents:
 
-   obofiles
+   pronto
    sqldb
    robot
    funowl
@@ -30,7 +30,5 @@ The most mature implementations are:
    ubergraph
    ontobee
    ols
-   bioportal
-   kgx
    aggregator
    

@@ -10,11 +10,25 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 
 
-## Inheritance
+```{mermaid}
+ classDiagram
+      AnnotationPropertyMixin <|-- HasCategory
+      
+      HasCategory : category
+      HasCategory : conformsTo
+      HasCategory : has_obo_namespace
+      HasCategory : in_subset
+      
 
+```
+
+
+
+
+
+## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasCategory**
-
 
 
 
@@ -22,8 +36,8 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [has_obo_namespace](has_obo_namespace.md) | [string](string.md) | 0..* | None  | . |
-| [category](category.md) | [string](string.md) | 0..1 | None  | . |
+| [has_obo_namespace](has_obo_namespace.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| [category](category.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [in_subset](in_subset.md) | [Subset](Subset.md) | 0..* | Maps an ontology element to a subset it belongs to  | . |
 | [conformsTo](conformsTo.md) | [Thing](Thing.md) | 0..* | None  | . |
 
@@ -40,6 +54,23 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 
 
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['omoschema:HasCategory'] |
+| native | ['omoschema:HasCategory'] |
 
 
 ## LinkML Specification

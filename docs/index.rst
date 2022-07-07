@@ -23,6 +23,7 @@ Ontology Access Kit (OAK) Documentation
    notebooks
    concepts
    glossary
+   faq
 
 Indices and tables
 ==================

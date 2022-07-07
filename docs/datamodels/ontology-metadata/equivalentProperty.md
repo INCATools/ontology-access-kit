@@ -14,13 +14,22 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 
 ## Properties
 
- * Range: Property
+ * Range: [Property](Property.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
 

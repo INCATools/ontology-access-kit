@@ -9,18 +9,21 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 nxontology = "^0.4.0"
-pronto = "^2.4.5"
+pronto = "^2.4.6"
 SPARQLWrapper = "*"
 SQLAlchemy = "^1.4.32"
 linkml-runtime = "^1.2.15"
 networkx = "^2.7.1"
+sssom-schema = "^0.9.3"
+sssom = "^0.3.11"
 ratelimit = "^2.2.1"
 appdirs = "^1.4.4"
 semsql = "^0.1.6"
 lark = "^1.1.2"
-kgcl = "^0.1.0"
-sssom-schema = "^0.9.3"
-sssom = "^0.3.11"
+kgcl-schema = "^0.2.0"
+funowl = "^0.1.12"
+kgcl-rdflib = "^0.2.0"
+pystow = "^0.4.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -29,7 +32,7 @@ jupyter = "^1.0.0"
 sphinx-rtd-theme = "^1.0.0"
 sphinx-click = "^3.1.0"
 myst-parser = "^0.17.0"
-linkml = "^1.2.12"
+linkml = "^1.2.14"
 sphinxcontrib-mermaid = "^0.7.1"
 coverage = "^6.3.2"
 
@@ -43,3 +46,13 @@ omk = "oaklib.omk.omk_cli:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+reverse_relative = true

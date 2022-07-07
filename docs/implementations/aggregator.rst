@@ -1,4 +1,4 @@
-.. aggregator:
+.. _aggregator_implementation:
 
 Aggregator Implementation
 ==================

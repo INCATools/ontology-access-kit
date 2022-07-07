@@ -1,3 +1,5 @@
+.. _tutorial01:
+
 Part 1: Getting Started
 =======================
 
@@ -6,6 +8,9 @@ querying the Drosophila anatomy ontology (`fbbt <http://obofoundry.org/ontology/
 
 Installation
 -------------
+
+Install from PyPI
+^^^^^^^^^^^
 
 First, create a directory:
 
@@ -31,12 +36,14 @@ Then install:
 
     pip install oaklib
 
+Run the OAK command
+^^^^^^^^^^^
+
 After successful installation, try invoking OAK via ``runoak``:
 
 .. code-block::
 
     runoak --help
-
 
 You should see a list of all commands that are supported by OAK.
 
@@ -48,9 +55,11 @@ You can get help on a specific command:
 
 See also the :ref:`cli` section of this documentation
 
+Basics
+-------
 
 Query the OBO Library
----------------------
+^^^^^^^^^^^^^^^^^^
 
 Next try using the `info command <https://incatools.github.io/ontology-access-kit/cli.html#runoak-info>`_
 to search for a term in the *Drosophila* (fruitfly) anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
@@ -64,7 +73,7 @@ To do a basic lookup, using either a name or ID:
 
 .. code-block::
 
-    runoak -input prontolib:fbbt.obo info 'wing vein'
+    runoak --input prontolib:fbbt.obo info 'wing vein'
 
 The first time you run this there will be a lag as the file is downloaded, but after that it will be cached. (This is using the Pronto
 library under the hood). The results should be:
@@ -86,7 +95,7 @@ You get the same results by specifying the :term:`CURIE`:
    can parse them very quickly. Later on we will learn about different :term:`implementation`s
 
 Search
-------
+^^^^^^^^
 
 You can use the `search command <https://incatools.github.io/ontology-access-kit/cli.html#runoak-search>`_ to search for terms.
 You can also use a special search syntax like this:
@@ -152,7 +161,7 @@ You can use the ``/`` symbol to perform a :term:`regular expression` search:
 
 
 Working with local files
-------------------------
+^^^^^^^^^^^^^^^^^^
 
 To work with a local ontology file, you can provide the filename as input:
 
@@ -175,8 +184,11 @@ specific about the method in which a file is parsed:
     runoak --input pronto:fbbt.obo search 'wing vein'
 
 
-Introduction to graphs: Fetching ancestors
+Introduction to graphs and trees
 ------------------
+
+Fetching ancestors
+^^^^^^^^^^^^^^^^^^
 
 Next we will try a different command, plugging in an ID (:term:`CURIE`) we got from the previous search.
 
@@ -239,7 +251,8 @@ This generates a TSV table that shows all ancestors plus (a) the number of input
 
 
 Oak Trees
--------------
+^^^^^^^^
+
 
 The :ref:`tree` command will generate an ascii tree for a term
 
@@ -260,12 +273,16 @@ The :ref:`tree` command will generate an ascii tree for a term
 For this example, we show only the is-a tree. You can try other predicates, or even leaving the predicate option unbounded.
 This will generate large tree displays, due to the facts there are multiple :term:`paths to root`.
 
+
 .. warning::
 
     you may be tempted to pass in only the ``p`` predicate to see *just* the partonomy. However, this will likely generate
     a truncated tree, since many parts of are not :term:`directly asserted`, they must be :term:`inferred` from an is-a parent.
     Later on we will see how to better incorporate reasoning, but for now it is recommended that you always include is-a
     as a predicate
+
+Advanced Search
+---------------
 
 Using search terms as parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -326,7 +343,7 @@ In fact, OAK allows a number of other backends (also called :term:`Implementatio
 
 
 Using Ubergraph
-~~~~~~~~~~~~~~~
+^^^^^^^^^^
 
 :term:`Ubergraph` is an integrated ontology store that contains a merged set of mutually referential OBO ontologies.
 
@@ -373,9 +390,19 @@ generates obo:
     xref: CAS:3374-22-9
     ...
 
+Using Ontobee
+^^^^^^^^^^
+
+Another triplestore you can use is ontobee
+
+.. code-block::
+
+    runoak -i ontobee:chebi info CHEBI:15356 -O obo
+
+Currently the ontobee implementation does not handle non-isa hierarchical queries.
 
 Using BioPortal
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^
 
 :term:`BioPortal` is a comprehensive repository of biomedical ontologies.
 
@@ -409,8 +436,55 @@ as yaml or TSV:
 
     runoak -i bioportal:chebi term-mappings CHEBI:15356 -O sssom
 
+The Bioportal endpoint can also be used to :term:`Annotate` sections of text, for example:
+
+.. code-block::
+
+    runoak -i bioportal:cl annotate "interneuron of forebrain"
+
+Gives results:
+
+.. code-block::
+
+    object_id: CL:0000099
+    object_label: interneuron
+    object_source: https://data.bioontology.org/ontologies/CL
+    match_type: PREF
+    subject_start: 1
+    subject_end: 11
+    subject_label: INTERNEURON
+
+    ---
+    object_id: UBERON:0001890
+    object_label: forebrain
+    object_source: https://data.bioontology.org/ontologies/CL
+    match_type: PREF
+    subject_start: 16
+    subject_end: 24
+    subject_label: FOREBRAIN
+
+Note that the results here are in :term:`YAML` syntax, with each result being a YAML document.
+The results of the annotate command conform to the annotate :term:`Datamodel`. We will return to
+the concept of datamodels later on, for now you can look at the `Text Annotator Datamodel docs <https://incatools.github.io/ontology-access-kit/datamodels/text-annotator/index.html>`_.
+
+Some datamodels can also be expressed as TSVs:
+
+.. code-block::
+
+    runoak -i bioportal:cl annotate "interneuron of forebrain" -O csv
+
+Gives back a TSV table:
+
+.. csv-table:: Annotate results
+    :header: predicate_id,object_id,object_label,object_source,confidence,match_string,is_longest_match,matches_whole_text,match_type,info,subject_start,subject_end,subject_label
+
+    CL:0000099,interneuron,https://data.bioontology.org/ontologies/CL,None,None,None,None,PREF,None,1,11,INTERNEURON
+    UBERON:0001890,forebrain,https://data.bioontology.org/ontologies/CL,None,None,None,None,PREF,None,16,24,FOREBRAIN
+
+Any other implementation that implements the annotate interface will *conform* to this same datamodel and format.
+
 Using OLS
-~~~~~~~~~
+^^^^^^^^^^
 
 :term:`OLS` is a repository of high quality ontologies. It has less breadth than BioPortal. Currently OAK offers very limited functionality with OLS
 but this will be improved in future.
@@ -433,6 +507,21 @@ OLS also aggregates curated mappings, these can be exported in the same way:
     CHEBI:15356,cysteine,skos:closeMatch,Wikipedia:Cysteine,Unspecified,CHEBI,Wikipedia,ZP
 
 
+Using SQLIte
+^^^^^^^^^^
+
+The SQLite backend will be covered fully in part 7
+
+But if you want to jump ahead and start using SQLite you can do this with any existing OBO ontology:
+
+.. code-block::
+
+    runoak -i sqlite:obo:iao search t~information
+
+Here we are searching IAO for any term loosely matching "information"
+
+Note there is an initial lag as the sqlite database is downloaded from S3. These can be quite
+large as they include pre-cached relation graphs. Once downloaded, responsivity will be fast.
 
 Next steps
 ----------

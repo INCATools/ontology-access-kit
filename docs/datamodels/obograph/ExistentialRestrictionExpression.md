@@ -7,16 +7,27 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class ExistentialRestrictionExpression
+      ExistentialRestrictionExpression : fillerId
+      ExistentialRestrictionExpression : propertyId
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [fillerId](fillerId.md) | [string](string.md) | 0..1 | None  | . |
-| [propertyId](propertyId.md) | [string](string.md) | 0..1 | None  | . |
+| [fillerId](fillerId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [propertyId](propertyId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 
 
 ## Usages
@@ -31,6 +42,23 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:ExistentialRestrictionExpression'] |
+| native | ['og:ExistentialRestrictionExpression'] |
 
 
 ## LinkML Specification

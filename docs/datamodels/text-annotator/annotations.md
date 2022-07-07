@@ -11,13 +11,22 @@ URI: [https://w3id.org/linkml/text_annotator/annotations](https://w3id.org/linkm
 
 ## Properties
 
- * Range: TextAnnotation
+ * Range: [TextAnnotation](TextAnnotation.md)
 
 
 
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/text_annotator
 
 
 

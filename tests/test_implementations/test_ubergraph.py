@@ -1,32 +1,48 @@
 import logging
 import unittest
 
-from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.implementations import UbergraphImplementation
+from tests import (
+    CELL,
+    CELLULAR_ANATOMICAL_ENTITY,
+    CELLULAR_COMPONENT,
+    CYTOPLASM,
+    DIGIT,
+    INPUT_DIR,
+    INTRACELLULAR,
+    NEURON,
+    NUCLEAR_ENVELOPE,
+    NUCLEUS,
+    OUTPUT_DIR,
+    PHOTORECEPTOR_OUTER_SEGMENT,
+    SHAPE,
+    THYLAKOID,
+    VACUOLE,
+)
 
-from tests import OUTPUT_DIR, INPUT_DIR, VACUOLE, DIGIT, CYTOPLASM, CELLULAR_COMPONENT, CELL, SHAPE, NEURON, \
-    PHOTORECEPTOR_OUTER_SEGMENT, NUCLEUS, THYLAKOID, NUCLEAR_ENVELOPE, CELLULAR_ANATOMICAL_ENTITY, INTRACELLULAR
+TEST_ONT = INPUT_DIR / "go-nucleus.obo"
+TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
 
-TEST_ONT = INPUT_DIR / 'go-nucleus.obo'
-TEST_OUT = OUTPUT_DIR / 'go-nucleus.saved.owl'
+ICMBO = "GO:0043231"
 
-ICMBO = 'GO:0043231'
 
 class TestUbergraphImplementation(unittest.TestCase):
-
     def setUp(self) -> None:
         oi = UbergraphImplementation()
         self.oi = oi
 
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_relationships(self):
         ont = self.oi
-        rels = ont.get_outgoing_relationships_by_curie(VACUOLE)
+        rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
         for k, v in rels.items():
-            logging.info(f'{k} = {v}')
-        self.assertIn('GO:0043231', rels[IS_A])
+            logging.info(f"{k} = {v}")
+        self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn(CYTOPLASM, rels[PART_OF])
 
+    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships_by_curie(VACUOLE))
@@ -36,92 +52,100 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn((PART_OF, CYTOPLASM), rels)
         self.assertIn((PART_OF, CELL), rels)
 
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_labels(self):
         label = self.oi.get_label_by_curie(DIGIT)
-        self.assertEqual(label, 'digit')
+        self.assertEqual(label, "digit")
         self.assertIn(DIGIT, self.oi.get_curies_by_label(label))
 
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_synonyms(self):
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         logging.info(syns)
-        assert 'cellular component' in syns
+        assert "cellular component" in syns
 
-    @unittest.skip('This test is too rigid as synonyms are liable to change')
+    @unittest.skip("This test is too rigid as synonyms are liable to change")
     def test_synonyms_granular(self):
         syns = self.oi.aliases_by_curie(NUCLEUS)
         logging.info(syns)
-        self.assertCountEqual(syns, ['nucleus', 'cell nucleus', 'horsetail nucleus'])
+        self.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
         syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
-        self.assertCountEqual(syn_pairs,
-                              [('oio:hasExactSynonym', ['cell nucleus']),
-                               ('oio:hasNarrowSynonym', ['horsetail nucleus']),
-                               ('rdfs:label', ['nucleus'])])
+        self.assertCountEqual(
+            syn_pairs,
+            [
+                ("oio:hasExactSynonym", ["cell nucleus"]),
+                ("oio:hasNarrowSynonym", ["horsetail nucleus"]),
+                ("rdfs:label", ["nucleus"]),
+            ],
+        )
 
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_definition(self):
-        defn = self.oi.get_definition_by_curie('GO:0005575')
+        defn = self.oi.get_definition_by_curie("GO:0005575")
         logging.info(defn)
         assert defn
 
-    #@unittest.skip('Too slow')
+    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_search(self):
         config = SearchConfiguration(is_partial=False)
-        curies = list(self.oi.basic_search('limb', config=config))
+        curies = list(self.oi.basic_search("limb", config=config))
         print(curies)
-        assert 'UBERON:0002101' in curies
+        assert "UBERON:0002101" in curies
 
     # OboGraph
-
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors([VACUOLE]))
-        #for a in ancs:
+        # for a in ancs:
         #    print(a)
         self.assertIn(VACUOLE, ancs)
         self.assertIn(CYTOPLASM, ancs)
         self.assertIn(CELL, ancs)
         self.assertIn(CELLULAR_COMPONENT, ancs)
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A]))
-        #for a in ancs:
+        # for a in ancs:
         #    print(a)
         self.assertIn(VACUOLE, ancs)
         self.assertNotIn(CYTOPLASM, ancs)
         self.assertNotIn(CELL, ancs)
         self.assertIn(CELLULAR_COMPONENT, ancs)
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A, PART_OF]))
-        #for a in ancs:
+        # for a in ancs:
         #    print(a)
-        self.assertIn(VACUOLE, ancs) # reflexive
+        self.assertIn(VACUOLE, ancs)  # reflexive
         self.assertIn(CYTOPLASM, ancs)
         self.assertIn(CELL, ancs)
         self.assertIn(CELLULAR_COMPONENT, ancs)
         ancs = list(oi.ancestors([VACUOLE], predicates=[PART_OF]))
         # NOT reflexive
-        #self.assertIn(VACUOLE, ancs)
+        # self.assertIn(VACUOLE, ancs)
         self.assertIn(CELL, ancs)
 
-
+    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_descendants(self):
         oi = self.oi
         descs = list(oi.descendants([CYTOPLASM]))
-        #for a in descs:
+        # for a in descs:
         #    print(a)
         self.assertIn(VACUOLE, descs)
         self.assertIn(CYTOPLASM, descs)
         descs = list(oi.descendants([CYTOPLASM], predicates=[IS_A]))
-        #for a in descs:
+        # for a in descs:
         #    print(f'IS_A DESC: {a}')
         self.assertIn(CYTOPLASM, descs)
         self.assertNotIn(VACUOLE, descs)
 
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestor_graph(self):
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
             g = oi.ancestor_graph([VACUOLE], predicates=preds)
-            #print(yaml_dumper.dumps(g))
+            # print(yaml_dumper.dumps(g))
             assert len(g.nodes) > 0
             assert len(g.edges) > 0
             node_ids = [n.id for n in g.nodes]
-            edges = [(e.sub, e.pred, e.obj) for e in g.edges]
+            [(e.sub, e.pred, e.obj) for e in g.edges]
             assert VACUOLE in node_ids
             assert CELLULAR_COMPONENT in node_ids
             if preds == [IS_A]:
@@ -129,22 +153,32 @@ class TestUbergraphImplementation(unittest.TestCase):
             else:
                 assert CELL in node_ids
 
+    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_gap_fill(self):
         oi = self.oi
-        rels = list(oi.gap_fill_relationships([NEURON, PHOTORECEPTOR_OUTER_SEGMENT, CELLULAR_COMPONENT], predicates=[IS_A, PART_OF]))
+        rels = list(
+            oi.gap_fill_relationships(
+                [NEURON, PHOTORECEPTOR_OUTER_SEGMENT, CELLULAR_COMPONENT],
+                predicates=[IS_A, PART_OF],
+            )
+        )
         for rel in rels:
             logging.info(rel)
-        self.assertEqual(rels,
-                         [('GO:0001750', 'BFO:0000050', 'CL:0000540'),
-                          ('GO:0001750', 'BFO:0000050', 'GO:0005575'),
-                          ('GO:0001750', 'rdfs:subClassOf', 'GO:0005575')])
+        self.assertEqual(
+            rels,
+            [
+                ("GO:0001750", "BFO:0000050", "CL:0000540"),
+                ("GO:0001750", "BFO:0000050", "GO:0005575"),
+                ("GO:0001750", "rdfs:subClassOf", "GO:0005575"),
+            ],
+        )
 
-    @unittest.skip('Too rigid')
+    @unittest.skip("Too rigid")
     def test_common_ancestors(self):
         oi = self.oi
         for preds in [None, [IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.common_ancestors(NUCLEUS, THYLAKOID, preds))
-            print(f'{preds} ==> {ancs}')
+            print(f"{preds} ==> {ancs}")
             if preds == [PART_OF]:
                 self.assertEqual(ancs, [CELL])
             elif preds == [IS_A]:
@@ -154,12 +188,12 @@ class TestUbergraphImplementation(unittest.TestCase):
                 self.assertIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
 
-    @unittest.skip('Too slow')
+    @unittest.skip("Too slow")
     def test_most_recent_common_ancestors(self):
         oi = self.oi
         for preds in [[IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.most_recent_common_ancestors(NUCLEUS, THYLAKOID, preds))
-            print(f'{preds} ==> {ancs}')
+            print(f"{preds} ==> {ancs}")
             if preds == [PART_OF]:
                 self.assertEqual(ancs, [CELL])
             elif preds == [IS_A]:
@@ -169,6 +203,7 @@ class TestUbergraphImplementation(unittest.TestCase):
                 self.assertIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
 
+    @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
         """
         Tests semantic similarity
@@ -180,12 +215,17 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         ic = oi.get_information_content(NEURON)
         self.assertGreater(ic, 2.0)
-        pairs = [(NUCLEUS, THYLAKOID), (NUCLEAR_ENVELOPE, THYLAKOID), (NUCLEAR_ENVELOPE, NUCLEUS), (NUCLEUS, NUCLEUS)]
+        pairs = [
+            (NUCLEUS, THYLAKOID),
+            (NUCLEAR_ENVELOPE, THYLAKOID),
+            (NUCLEAR_ENVELOPE, NUCLEUS),
+            (NUCLEUS, NUCLEUS),
+        ]
         for s, o in pairs:
             for preds in [[IS_A], [IS_A, PART_OF], [PART_OF]]:
                 sim = oi.pairwise_similarity(s, o, predicates=preds)
-                #print(preds)
-                #print(yaml_dumper.dumps(sim))
+                # print(preds)
+                # print(yaml_dumper.dumps(sim))
                 if (s, o) == (NUCLEUS, THYLAKOID):
                     if preds == [IS_A]:
                         self.assertEqual(sim.ancestor_id, CELLULAR_ANATOMICAL_ENTITY)
@@ -195,14 +235,14 @@ class TestUbergraphImplementation(unittest.TestCase):
                     if preds == [IS_A, PART_OF]:
                         assert sim.ancestor_id == NUCLEUS or sim.ancestor_id == INTRACELLULAR
                         # TODO: determine by more specific class is not returned
-                        #self.assertEqual(sim.ancestor_id, NUCLEUS)
+                        # self.assertEqual(sim.ancestor_id, NUCLEUS)
                 elif (s, o) == (NUCLEUS, NUCLEUS):
                     if IS_A in preds:
                         assert sim.ancestor_id == NUCLEUS or sim.ancestor_id == INTRACELLULAR
                         # TODO: determine by more specific class is not returned
-                        #self.assertEqual(sim.ancestor_id, NUCLEUS)
+                        # self.assertEqual(sim.ancestor_id, NUCLEUS)
 
-
+    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_extract_triples(self):
         oi = self.oi
         for t in oi.extract_triples([SHAPE]):

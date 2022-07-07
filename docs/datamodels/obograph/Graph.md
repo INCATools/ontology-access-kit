@@ -7,16 +7,34 @@ URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
 
 
 
-<!-- no inheritance hierarchy -->
 
+```{mermaid}
+ classDiagram
+    class Graph
+      Graph : domainRangeAxioms
+      Graph : edges
+      Graph : equivalentNodesSets
+      Graph : id
+      Graph : lbl
+      Graph : logicalDefinitionAxioms
+      Graph : meta
+      Graph : nodes
+      Graph : propertyChainAxioms
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [id](id.md) | [string](string.md) | 0..1 | None  | . |
-| [lbl](lbl.md) | [string](string.md) | 0..1 | None  | . |
+| [id](id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [lbl](lbl.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 | [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
 | [nodes](nodes.md) | [Node](Node.md) | 0..* | None  | . |
 | [edges](edges.md) | [Edge](Edge.md) | 0..* | None  | . |
@@ -43,6 +61,23 @@ URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
 
 
 
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['og:Graph'] |
+| native | ['og:Graph'] |
 
 
 ## LinkML Specification
@@ -99,20 +134,20 @@ attributes:
     name: nodes
     from_schema: https://github.com/geneontology/obographs
     multivalued: true
-    inlined: true
-    inlined_as_list: true
     alias: nodes
     owner: Graph
     range: Node
+    inlined: true
+    inlined_as_list: true
   edges:
     name: edges
     from_schema: https://github.com/geneontology/obographs
     multivalued: true
-    inlined: true
-    inlined_as_list: true
     alias: edges
     owner: Graph
     range: Edge
+    inlined: true
+    inlined_as_list: true
   equivalentNodesSets:
     name: equivalentNodesSets
     from_schema: https://github.com/geneontology/obographs

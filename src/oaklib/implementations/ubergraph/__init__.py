@@ -1,1 +1,5 @@
-from oaklib.implementations.ubergraph.ubergraph_implementation import UbergraphImplementation
+from .ubergraph_implementation import UbergraphImplementation
+
+__all__ = [
+    "UbergraphImplementation",
+]
