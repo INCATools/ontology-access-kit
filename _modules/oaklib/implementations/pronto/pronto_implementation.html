@@ -90,12 +90,11 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">pronto</span>
-<span class="kn">import</span> <span class="nn">sssom</span>
+<span class="kn">import</span> <span class="nn">sssom_schema</span> <span class="k">as</span> <span class="nn">sssom</span>
 <span class="kn">from</span> <span class="nn">deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">kgcl_schema.datamodel</span> <span class="kn">import</span> <span class="n">kgcl</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
 <span class="kn">from</span> <span class="nn">pronto</span> <span class="kn">import</span> <span class="n">LiteralPropertyValue</span><span class="p">,</span> <span class="n">Ontology</span><span class="p">,</span> <span class="n">ResourcePropertyValue</span><span class="p">,</span> <span class="n">Term</span>
-<span class="kn">from</span> <span class="nn">sssom.sssom_datamodel</span> <span class="kn">import</span> <span class="n">MatchTypeEnum</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">obograph</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphDocument</span>
@@ -109,6 +108,7 @@
     <span class="n">OWL_CLASS</span><span class="p">,</span>
     <span class="n">OWL_OBJECT_PROPERTY</span><span class="p">,</span>
     <span class="n">SCOPE_TO_SYNONYM_PRED_MAP</span><span class="p">,</span>
+    <span class="n">SEMAPV</span><span class="p">,</span>
     <span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
@@ -467,7 +467,7 @@
                     <span class="n">subject_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
                     <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                     <span class="n">object_id</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-                    <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Unspecified</span><span class="p">,</span>
+                    <span class="n">mapping_justification</span><span class="o">=</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="c1"># TODO: use a cache to avoid re-calculating</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">():</span>
@@ -479,7 +479,7 @@
                             <span class="n">subject_id</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
                             <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                             <span class="n">object_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
-                            <span class="n">match_type</span><span class="o">=</span><span class="n">MatchTypeEnum</span><span class="o">.</span><span class="n">Unspecified</span><span class="p">,</span>
+                            <span class="n">mapping_justification</span><span class="o">=</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                         <span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
