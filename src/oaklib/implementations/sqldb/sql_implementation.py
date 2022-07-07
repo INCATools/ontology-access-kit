@@ -20,7 +20,6 @@ from typing import (
 
 import rdflib
 import semsql.builder.builder as semsql_builder
-import sssom
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -47,7 +46,7 @@ from semsql.sqla.semsql import (
 )
 from sqlalchemy import and_, create_engine, delete, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
@@ -65,6 +64,7 @@ from oaklib.datamodels.vocabulary import (
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    SEMAPV,
     SYNONYM_PREDICATES,
     omd_slots,
 )
@@ -104,7 +104,7 @@ def _curie_prefix(curie: CURIE) -> Optional[str]:
         return None
 
 
-def _mapping(m: sssom.Mapping):
+def _mapping(m: Mapping):
     # enhances a mapping with sources
     # TODO: move to sssom utils
     m.subject_source = _curie_prefix(m.subject_id)
@@ -640,7 +640,7 @@ class SqlImplementation(
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[sssom.Mapping]:
+    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query:
@@ -649,11 +649,11 @@ class SqlImplementation(
             if URIorCURIE.is_valid(v):
                 if row.subject.startswith("_:"):
                     continue
-                mpg = sssom.Mapping(
+                mpg = Mapping(
                     subject_id=row.subject,
                     object_id=v,
                     predicate_id=row.predicate,
-                    match_type=MatchTypeEnum.Unspecified,
+                    mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
                 _mapping(mpg)
                 if subject_or_object_source:
@@ -668,33 +668,33 @@ class SqlImplementation(
                 if self.strict:
                     raise ValueError(f"not a CURIE: {v}")
 
-    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query.filter(Statements.subject == curie):
-            mpg = sssom.Mapping(
+            mpg = Mapping(
                 subject_id=curie,
                 object_id=row.value if row.value is not None else row.object,
                 predicate_id=row.predicate,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             yield _mapping(mpg)
         # xrefs are stored as literals
         for row in base_query.filter(Statements.value == curie):
-            mpg = sssom.Mapping(
+            mpg = Mapping(
                 subject_id=row.subject,
                 object_id=curie,
                 predicate_id=row.predicate,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             yield _mapping(mpg)
         # skos mappings are stored as objects
         for row in base_query.filter(Statements.object == curie):
-            mpg = sssom.Mapping(
+            mpg = Mapping(
                 subject_id=row.subject,
                 object_id=curie,
                 predicate_id=row.predicate,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             yield _mapping(mpg)
 

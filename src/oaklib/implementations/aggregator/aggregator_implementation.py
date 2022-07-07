@@ -2,7 +2,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 
-import sssom
+from sssom_schema import Mapping
 
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.search import SearchConfiguration
@@ -70,7 +70,7 @@ class AggregatorImplementation(
     def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self._delegate_iterator(lambda i: i.get_simple_mappings_by_curie(curie))
 
-    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         return self._delegate_iterator(lambda i: i.get_sssom_mappings_by_curie(curie))
 
     def get_label_by_curie(self, curie: CURIE) -> str:
