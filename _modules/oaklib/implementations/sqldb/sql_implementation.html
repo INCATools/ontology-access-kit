@@ -282,7 +282,7 @@
                 <span class="n">db_path</span> <span class="o">=</span> <span class="n">OAKLIB_MODULE</span><span class="o">.</span><span class="n">ensure</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
                 <span class="c1"># Option 2 uses botocore to interface with the S3 API directly:</span>
                 <span class="c1"># db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket=&quot;bbop-sqlite&quot;, s3_key=f&quot;{prefix}.db&quot;)</span>
-                <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">db_path</span><span class="o">.</span><span class="n">as_uri</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">db_path</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="n">locator</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.owl&quot;</span><span class="p">):</span>
                 <span class="c1"># this is currently an &quot;Easter Egg&quot; feature. It allows you to specify a locator</span>
                 <span class="c1"># such as sqlite:/path/to/my.owl</span>
@@ -297,6 +297,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">locator</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
                 <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Locator, post-processed: </span><span class="si">{</span><span class="n">locator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span>
 
     <span class="nd">@property</span>
