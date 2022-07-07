@@ -1,3 +1,4 @@
+"""Test lexical index."""
 import unittest
 
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -13,13 +14,17 @@ TEST_OUT = OUTPUT_DIR / "go-nucleus.lexical.yaml"
 
 
 class TestLexicalIndex(unittest.TestCase):
+    """Test lexical index."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
         self.lexical_index = create_lexical_index(oi)
 
     def test_index_contents(self):
+        """Test index contents."""
         groupings = self.lexical_index.groupings["cell periphery"]
         self.assertEqual(len(groupings.relationships), 2)
         self.assertCountEqual(
@@ -27,4 +32,5 @@ class TestLexicalIndex(unittest.TestCase):
         )
 
     def test_save(self):
+        """Test save."""
         save_lexical_index(self.lexical_index, TEST_OUT)

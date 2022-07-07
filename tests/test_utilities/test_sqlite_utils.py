@@ -1,3 +1,4 @@
+"""Test SQLLite utilities."""
 import sqlite3
 import unittest
 
@@ -10,7 +11,10 @@ TBL_NAME = "my_tbl"
 
 
 class TestSqliteUtils(unittest.TestCase):
+    """Test SQLLite utilities."""
+
     def test_bulkload(self):
+        """Test backload."""
         if DB.exists():
             DB.unlink()
         sqlite_bulk_load(DB, TSV, TBL_NAME, cat_cmd=["grep", "-v", "\\!"], cols=["a", "b", "c"])

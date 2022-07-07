@@ -1,3 +1,4 @@
+"""Test subset utilities."""
 import logging
 import unittest
 
@@ -26,7 +27,10 @@ PREDS = [IS_A, PART_OF]
 
 
 class TestSubsetUtils(unittest.TestCase):
+    """Test subset utilities."""
+
     def setUp(self) -> None:
+        """Set up."""
         # resource = OntologyResource(slug='go-nucleus.obo', directory=INPUT_DIR, local=True)
         # oi = ProntoImplementation(resource)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
@@ -34,6 +38,7 @@ class TestSubsetUtils(unittest.TestCase):
         self.oi = oi
 
     def test_terms_by_subsets(self):
+        """Test terms by subsets."""
         tups = list(terms_by_subsets(self.oi, prefix="GO", subsumed_score=0.5, min_subsets=3))
         # for tup in tups:
         #    print(tup)
@@ -44,6 +49,7 @@ class TestSubsetUtils(unittest.TestCase):
         self.assertIn(("GO:0005938", "cell cortex", "goslim_chembl", 0.0), tups)
 
     def test_all_by_all(self):
+        """Test all by all."""
         results = list(compare_all_subsets(self.oi, prefix="GO"))
         for r in results:
             # print(f'Basic={r}')
@@ -66,6 +72,7 @@ class TestSubsetUtils(unittest.TestCase):
             assert r.set1_id.startswith("go")
 
     def test_subset_analysis(self):
+        """Test subset analysis."""
         oi = self.oi
         results = all_subsets_overlap(oi)
         n = 0

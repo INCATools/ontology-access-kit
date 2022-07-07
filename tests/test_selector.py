@@ -1,3 +1,4 @@
+"""Test resource."""
 import unittest
 
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
@@ -9,7 +10,10 @@ from oaklib.selector import get_resource_from_shorthand
 
 
 class TestResource(unittest.TestCase):
+    """Test resource."""
+
     def test_from_descriptor(self):
+        """Test from descriptor."""
         # no scheme
         resource = get_resource_from_shorthand("foo.obo")
         assert resource.implementation_class == ProntoImplementation

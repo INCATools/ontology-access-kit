@@ -40,7 +40,7 @@ class TestOboGraphUtils(unittest.TestCase):
         # self.assertIn('{"sub": "CL:0000000", "pred": "BFO:0000051", "obj": "GO:0005634"}', json_obj)
 
     def test_as_networkx(self):
-        """Test as networkx"""
+        """Test as networkx."""
         mdg = as_multi_digraph(self.graph)
         self.assertIn(NUCLEUS, mdg.nodes)
         for e in mdg.edges(data=True):

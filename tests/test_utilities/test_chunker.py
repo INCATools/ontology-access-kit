@@ -1,10 +1,14 @@
+"""Test chunker."""
 import unittest
 
 from oaklib.utilities.iterator_utils import chunk
 
 
 class TestChunker(unittest.TestCase):
+    """Test chunker."""
+
     def test_chunker(self):
+        """Test chunker."""
         arr = range(0, 1000)
         n = 0
         for lst in chunk(arr, size=100):
