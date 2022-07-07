@@ -15,14 +15,14 @@ from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
 class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     """
-    TODO: consider direct use of nxontology
+    TODO: consider direct use of nxontology.
     """
 
     def most_recent_common_ancestors(
         self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[CURIE]:
         """
-        Most recent common ancestors (MRCAs) for a pair of entities
+        Most recent common ancestors (MRCAs) for a pair of entities.
 
         The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper
         ancestors of another CA
@@ -51,7 +51,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         self, subjects: List[CURIE], predicates: List[PRED_CURIE] = None, asymmetric=True
     ) -> Iterable[Tuple[CURIE, CURIE, CURIE]]:
         """
-        All pairwise common ancestors for all pairs in a set of terms
+        All pairwise common ancestors for all pairs in a set of terms.
 
         :param subjects:
         :param predicates:
@@ -82,7 +82,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         object_ancestors: List[CURIE] = None,
     ) -> Iterable[CURIE]:
         """
-        Common ancestors of a subject-object pair
+        Get common ancestors of a subject-object pair.
 
         :param subject:
         :param object:
@@ -106,7 +106,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
     ) -> float:
         """
-        Returns the information content of a term
+        Return the information content of a term.
 
         IC(t) = -log2(Pr(t))
 
@@ -126,7 +126,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         object_ancestors: List[CURIE] = None,
     ) -> TermPairwiseSimilarity:
         """
-        Pairwise similarity between a pair of ontology terms
+        Pairwise similarity between a pair of ontology terms.
 
         :param subject:
         :param object:
@@ -175,6 +175,14 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     def termset_pairwise_similarity(
         self, subjects: List[CURIE], objects: List[CURIE], predicates: List[PRED_CURIE] = None
     ) -> TermPairwiseSimilarity:
+        """Termwise pairwise similarity.
+
+        :param subjects:
+        :param objects:
+        :param predicates:
+        :raises NotImplementedError:
+        :return:
+        """
         raise NotImplementedError
 
     def all_by_all_pairwise_similarity(
@@ -183,6 +191,13 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
+        """All x All paiwise similarity.
+
+        :param subjects:
+        :param objects:
+        :param predicates:
+        :yield:
+        """
         for s in subjects:
             for o in objects:
                 yield self.pairwise_similarity(s, o, predicates=predicates)
