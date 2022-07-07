@@ -15,10 +15,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
     TBD: low level diffs vs high level
 
-     See `KGCL <https://github.com/cmungall/knowledge-graph-change-language>`_
+     See `KGCL <https://github.com/INCATools/kgcl>`_
     """
 
-    def diff(self, other_ontology: BasicOntologyInterface) -> Any:
+    def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
         """
         Diffs two ontologies
 
@@ -31,7 +31,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
         self, other_ontology: BasicOntologyInterface
     ) -> Iterator[Change]:
         """
-        Diffs two ontologies
+        Provides high level summary of differences
 
         :param other_ontology:
         :return:

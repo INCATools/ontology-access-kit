@@ -135,7 +135,26 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             elif impl_class == SparqlImplementation:
                 resource.url = rest
                 resource.slug = None
-            elif impl_class == ProntoImplementation:
+            elif scheme == "rdflib":
+                impl_class = SparqlImplementation
+            elif scheme == "bioportal":
+                impl_class = BioportalImplementation
+            elif scheme == "agroportal":
+                impl_class = AgroportalImplementation
+            elif scheme == "wikidata":
+                impl_class = WikidataImplementation
+            elif scheme == "ols":
+                impl_class = OlsImplementation
+            elif scheme == "funowl":
+                impl_class = FunOwlImplementation
+            elif scheme == "pronto":
+                impl_class = ProntoImplementation
+                if resource.slug.endswith(".obo"):
+                    resource.format = "obo"
+                resource.local = True
+                resource.slug = rest
+            elif scheme == "obolibrary" or scheme == "prontolib":
+                impl_class = ProntoImplementation
                 if resource.slug.endswith(".obo"):
                     resource.format = "obo"
                 resource.slug = rest
@@ -153,9 +172,24 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
         else:
             logging.info(f"No schema: assuming file path {descriptor}")
             suffix = descriptor.split(".")[-1]
-            impl_class, resource = get_resource_imp_class_from_suffix_descriptor(
-                suffix, resource, descriptor
-            )
+            # TODO: use get_resource_imp_class_from_suffix_descriptor
+            if suffix == "db" or (format and format == "sqlite"):
+                impl_class = SqlImplementation
+                resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
+            elif format and format in RDF_SUFFIX_TO_FORMAT.values():
+                impl_class = SparqlImplementation
+            elif suffix == "ofn":
+                impl_class = FunOwlImplementation
+            elif suffix in RDF_SUFFIX_TO_FORMAT:
+                impl_class = SparqlImplementation
+                resource.format = RDF_SUFFIX_TO_FORMAT[suffix]
+            elif suffix == "owl":
+                impl_class = SparqlImplementation
+                resource.format = "xml"
+                logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
+            else:
+                resource.local = True
+                impl_class = ProntoImplementation
     else:
         raise ValueError("No descriptor")
 
