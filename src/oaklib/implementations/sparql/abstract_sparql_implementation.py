@@ -658,7 +658,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                     for change in kgcl_diff.diff(self.graph, other_ontology.graph):
                         yield change
                 else:
-                    raise NotImplementedErrorf"Diff is only implemented for local graphs")
+                    raise NotImplementedError("Diff is only implemented for local graphs")
             else:
                 raise NotImplementedError("Second ontology must implement sparql interface")
         else:
