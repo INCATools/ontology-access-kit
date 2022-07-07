@@ -136,10 +136,13 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             elif impl_class == SparqlImplementation:
                 resource.url = rest
                 resource.slug = None
-            elif scheme == ProntoImplementation:
+            elif impl_class == ProntoImplementation:
                 if resource.slug.endswith(".obo"):
                     resource.format = "obo"
-                resource.local = True
+                if scheme == "prontolib":
+                    resource.local = False
+                else:
+                    resource.local = True
                 resource.slug = rest
             else:
                 for ext_name, ext_module in discovered_plugins.items():
