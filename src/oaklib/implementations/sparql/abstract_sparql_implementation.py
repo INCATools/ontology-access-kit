@@ -8,11 +8,12 @@ import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
 import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
-from sssom_schema import Mapping
 from kgcl_schema.datamodel.kgcl import Change
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
+from sssom_schema import Mapping
+
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import (
     SearchConfiguration,
@@ -546,7 +547,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 subject_id=self.uri_to_curie(row["s"]["value"]),
                 predicate_id=self.uri_to_curie(row["p"]["value"]),
                 object_id=curie,
-                mapping_justification = SEMAPV.UnspecifiedMatching.value
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
                 yield m

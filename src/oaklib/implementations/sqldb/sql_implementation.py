@@ -20,7 +20,6 @@ from typing import (
 
 import rdflib
 import semsql.builder.builder as semsql_builder
-from sssom_schema import Mapping
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -47,6 +46,7 @@ from semsql.sqla.semsql import (
 )
 from sqlalchemy import and_, create_engine, delete, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
+from sssom_schema import Mapping
 
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm

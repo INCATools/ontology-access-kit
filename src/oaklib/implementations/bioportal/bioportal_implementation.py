@@ -4,6 +4,8 @@ from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
 import requests
+from sssom_schema import Mapping
+
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.datamodels.vocabulary import SEMAPV
@@ -15,7 +17,6 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
-from sssom_schema import Mapping
 
 REST_URL = "http://data.bioontology.org"
 

@@ -13,9 +13,9 @@ from typing import Dict, List, Optional, Tuple
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom_schema import MappingSet, Mapping
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
+from sssom_schema import Mapping, MappingSet
 
 from oaklib.datamodels.lexical_index import (
     LexicalGrouping,

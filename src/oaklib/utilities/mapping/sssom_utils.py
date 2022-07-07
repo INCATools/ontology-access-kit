@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 from typing import Iterable, List, Optional, Tuple
 
-from sssom_schema import Mapping, MappingSet
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from sssom.sssom_document import MappingSetDocument
 from sssom.util import to_mapping_set_dataframe
 from sssom.writers import write_table
+from sssom_schema import Mapping, MappingSet
 
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
@@ -62,9 +62,7 @@ class StreamingSssomWriter(StreamingWriter):
         self.mappings.append(obj)
 
     def close(self):
-        mset = MappingSet(
-            mapping_set_id="temp", mappings=self.mappings, license="UNSPECIFIED"
-        )
+        mset = MappingSet(mapping_set_id="temp", mappings=self.mappings, license="UNSPECIFIED")
         doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
         msdf = to_mapping_set_dataframe(doc)
         write_table(msdf, self.file)

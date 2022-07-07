@@ -14,6 +14,7 @@ from deprecated import deprecated
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
+
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.search import SearchConfiguration

@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 
 import requests
+from sssom_schema import Mapping
+
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
@@ -16,7 +18,6 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE
-from sssom_schema import Mapping
 
 ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50
