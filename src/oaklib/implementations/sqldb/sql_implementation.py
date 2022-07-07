@@ -201,7 +201,7 @@ class SqlImplementation(
                 db_path = OAKLIB_MODULE.ensure(url=url)
                 # Option 2 uses botocore to interface with the S3 API directly:
                 # db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket="bbop-sqlite", s3_key=f"{prefix}.db")
-                locator = f"sqlite:///{db_path.as_uri()}"
+                locator = f"sqlite:///{db_path}"
             if locator.endswith(".owl"):
                 # this is currently an "Easter Egg" feature. It allows you to specify a locator
                 # such as sqlite:/path/to/my.owl
@@ -216,6 +216,7 @@ class SqlImplementation(
             else:
                 path = Path(locator.replace("sqlite:", "")).absolute()
                 locator = f"sqlite:///{path}"
+            logging.info(f"Locator, post-processed: {locator}")
             self.engine = create_engine(locator)
 
     @property

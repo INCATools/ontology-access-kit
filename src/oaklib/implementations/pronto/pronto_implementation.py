@@ -97,6 +97,7 @@ class ProntoImplementation(
     def __post_init__(self):
         if self.wrapped_ontology is None:
             resource = self.resource
+            logging.info(f"Pronto using resource: {resource}")
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
