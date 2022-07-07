@@ -4,12 +4,12 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
+import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
+import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
 import sssom
 from kgcl_schema.datamodel.kgcl import Change
-import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
-import kgcl_rdflib.kgcl_diff as kgcl_diff
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
@@ -35,7 +35,8 @@ from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     PRED_CURIE,
     PREFIX_MAP,
-    RELATIONSHIP_MAP, BasicOntologyInterface,
+    RELATIONSHIP_MAP,
+    BasicOntologyInterface,
 )
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
@@ -666,7 +667,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 raise NotImplementedError(f"Second ontology must implement sparql interface")
         else:
             raise NotImplementedError(f"Diff is only implemented for local graphs")
-
 
     def save(self):
         if self.graph:

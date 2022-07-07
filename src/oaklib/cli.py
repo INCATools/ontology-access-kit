@@ -32,10 +32,10 @@ from typing import (
 )
 
 import click
+import kgcl_schema.grammar.parser as kgcl_parser
 import rdflib
 import sssom.writers as sssom_writers
 import yaml
-import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
@@ -2212,13 +2212,13 @@ def diff_terms(output, other_ontology, terms):
 
 
 @main.command()
-@click.option("-X",
-              "--other-ontology",
-              help="other ontology")
-@click.option("--simple/--no-simple",
-              default=False,
-              show_default=True,
-              help="perform a quick difference showing only terms that differ")
+@click.option("-X", "--other-ontology", help="other ontology")
+@click.option(
+    "--simple/--no-simple",
+    default=False,
+    show_default=True,
+    help="perform a quick difference showing only terms that differ",
+)
 @output_option
 @output_type_option
 def diff(simple: bool, output, output_type, other_ontology):
@@ -2248,7 +2248,7 @@ def diff(simple: bool, output, output_type, other_ontology):
         else:
             for change in impl.diff(other_impl):
                 print(change)
-                #writer.emit(change)
+                # writer.emit(change)
     else:
         raise NotImplementedError
 

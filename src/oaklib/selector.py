@@ -138,7 +138,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
                 resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
             elif format and format in RDF_SUFFIX_TO_FORMAT.values():
                 impl_class = SparqlImplementation
-            elif suffix == 'ofn':
+            elif suffix == "ofn":
                 impl_class = FunOwlImplementation
             elif suffix in RDF_SUFFIX_TO_FORMAT:
                 impl_class = SparqlImplementation
