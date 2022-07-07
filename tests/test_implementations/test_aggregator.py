@@ -1,3 +1,4 @@
+"""Tests the ability to wrap multiple implementations as if it were a single source."""
 import logging
 import unittest
 
@@ -25,11 +26,10 @@ TEST_ONT2 = INPUT_DIR / "interneuron.obo"
 
 
 class TestAggregator(unittest.TestCase):
-    """
-    Tests the ability to wrap multiple implementations as if it were a single source
-    """
+    """Tests the ability to wrap multiple implementations as if it were a single source."""
 
     def setUp(self) -> None:
+        """Set up."""
         resource1 = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         resource2 = OntologyResource(slug="interneuron.obo", directory=INPUT_DIR, local=True)
         oi1 = ProntoImplementation(resource1)
@@ -37,6 +37,7 @@ class TestAggregator(unittest.TestCase):
         self.oi = AggregatorImplementation(implementations=[oi1, oi2])
 
     def test_relationships(self):
+        """Test relationships."""
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie("GO:0005773")
         # for k, v in rels.items():
@@ -49,11 +50,13 @@ class TestAggregator(unittest.TestCase):
         self.assertCountEqual(rels[IS_A], ["UBERON:0010000"])
 
     def test_all_terms(self):
+        """Test all terms."""
         curies = list(self.oi.all_entity_curies())
         self.assertIn(NUCLEUS, curies)
         self.assertIn(INTERNEURON, curies)
 
     def test_relations(self):
+        """Test relations."""
         oi = self.oi
         label = oi.get_label_by_curie(PART_OF)
         assert label.startswith("part")
@@ -63,6 +66,7 @@ class TestAggregator(unittest.TestCase):
 
     @unittest.skip("TODO")
     def test_metadata(self):
+        """Test metadata."""
         for curie in self.oi.all_entity_curies():
             m = self.oi.metadata_map_by_curie(curie)
             print(f"{curie} {m}")
@@ -72,7 +76,8 @@ class TestAggregator(unittest.TestCase):
 
     def test_labels(self):
         """
-        Tests labels can be retrieved, and no label is retrieved when a term does not exist
+        Tests labels can be retrieved, and no label is retrieved when a term does not exist.
+
         :return:
         """
         oi = self.oi
@@ -88,6 +93,7 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual("tissue", oi.get_label_by_curie(TISSUE))
 
     def test_synonyms(self):
+        """Test synonyms."""
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         self.assertCountEqual(
             syns,
@@ -106,6 +112,7 @@ class TestAggregator(unittest.TestCase):
         )
 
     def test_subsets(self):
+        """Test subsets."""
         oi = self.oi
         subsets = list(oi.all_subset_curies())
         self.assertIn("goslim_aspergillus", subsets)
@@ -114,6 +121,7 @@ class TestAggregator(unittest.TestCase):
         self.assertIn(TISSUE, oi.curies_by_subset("pheno_slim"))
 
     def test_ancestors(self):
+        """Test ancestors."""
         oi = self.oi
         ancs = list(oi.ancestors("GO:0005773"))
         for a in ancs:
@@ -132,6 +140,7 @@ class TestAggregator(unittest.TestCase):
         assert "UBERON:0010000" in ancs
 
     def test_obograph(self):
+        """Test obograph."""
         g = self.oi.ancestor_graph(VACUOLE)
         graph_as_dict(g)
         assert "nodes" in g

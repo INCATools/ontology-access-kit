@@ -1,3 +1,4 @@
+"""Test SQL database implementaiton."""
 import logging
 import shutil
 import unittest
@@ -48,7 +49,10 @@ VALIDATION_REPORT_OUT = OUTPUT_DIR / "validation-results.tsv"
 
 
 class TestSqlDatabaseImplementation(unittest.TestCase):
+    """Test SQL database implementaiton."""
+
     def setUp(self) -> None:
+        """Set up."""
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.oi = oi
         bad_ont = INPUT_DIR / "bad-ontology.db"
@@ -56,6 +60,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.ssn_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{SSN_DB}"))
 
     def test_relationships(self):
+        """Test relationships."""
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie(VACUOLE)
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
@@ -63,14 +68,17 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual([IS_A, PART_OF], rels)
 
     def test_all_nodes(self):
+        """Test all nodes."""
         for curie in self.oi.all_entity_curies():
             print(curie)
 
     def test_labels(self):
+        """Test labels."""
         label = self.oi.get_label_by_curie(VACUOLE)
         self.assertEqual(label, "vacuole")
 
     def test_get_labels_for_curies(self):
+        """Test get labels for curies feature."""
         oi = self.oi
         curies = oi.curies_by_subset("goslim_generic")
         tups = list(oi.get_labels_for_curies(curies))
@@ -81,11 +89,13 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual(11, len(tups))
 
     def test_synonyms(self):
+        """Test synonyms."""
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         print(syns)
         assert "cellular component" in syns
 
     def test_mappings(self):
+        """Test mappings."""
         mappings = list(self.oi.get_sssom_mappings_by_curie(NUCLEUS))
         # for m in mappings:
         #    print(yaml_dumper.dumps(m))
@@ -97,6 +107,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             self.assertEqual(reverse_subject_ids, [NUCLEUS])
 
     def test_relation_graph(self):
+        """Test relation graph."""
         oi = self.oi
         self.assertEqual(
             ["RO:0002131", "RO:0002323", "BFO:0000051", "rdfs:subClassOf", "BFO:0000050"],
@@ -111,6 +122,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     # OboGraphs tests
     def test_obograph_node(self):
+        """Test obograph node."""
         n = self.oi.node(CELLULAR_COMPONENT)
         assert n.id == CELLULAR_COMPONENT
         assert n.lbl == "cellular_component"
@@ -118,6 +130,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     # TODO
     def test_obograph_synonyms(self):
+        """Test obograph synonyms."""
         oi = self.oi
         m = oi.synonym_map_for_curies([NUCLEUS, NUCLEAR_ENVELOPE])
         for k, vs in m.items():
@@ -126,6 +139,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                 print(yaml_dumper.dumps(v))
 
     def test_obograph(self):
+        """Test obograph."""
         g = self.oi.ancestor_graph(VACUOLE)
         graph_as_dict(g)
         # print(yaml.dump(obj))
@@ -133,6 +147,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert g.edges
 
     def test_descendants(self):
+        """Test descendants."""
         curies = list(self.oi.descendants(CELLULAR_COMPONENT))
         assert CELLULAR_COMPONENT in curies
         assert VACUOLE in curies
@@ -151,6 +166,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert CYTOPLASM in curies
 
     def test_ancestors(self):
+        """Test ancestors."""
         curies = list(self.oi.ancestors(VACUOLE))
         for curie in curies:
             print(curie)
@@ -169,6 +185,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     # QC
 
     def test_validate(self):
+        """Test validate."""
         oi = self.bad_oi
         results = list(oi.validate())
         with open(VALIDATION_REPORT_OUT, "w", encoding="utf-8") as stream:
@@ -274,6 +291,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         )
 
     def test_no_definitions(self):
+        """Test no definitions."""
         missing = list(self.oi.term_curies_without_definitions())
         for curie in missing:
             logging.info(curie)
@@ -281,6 +299,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert CELLULAR_COMPONENT not in missing
 
     def test_search_aliases(self):
+        """Test search aliases."""
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
         curies = list(self.oi.basic_search("enzyme activity", config=config))
         self.assertEqual(curies, ["GO:0003824"])
@@ -292,6 +311,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual(curies, ["GO:0003824"])
 
     def test_search_identifier(self):
+        """Test search identifier."""
         config = SearchConfiguration(
             properties=[SearchProperty.IDENTIFIER], syntax=SearchTermSyntax.STARTS_WITH
         )
@@ -306,12 +326,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual([VACUOLE], curies)
 
     def test_search_exact(self):
+        """Test search exact feature."""
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
         # print(curies)
         self.assertCountEqual([CYTOPLASM], curies)
 
     def test_search_partial(self):
+        """Test search partial feature."""
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
         # print(curies)
@@ -319,6 +341,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertGreater(len(curies), 5)
 
     def test_search_sql(self):
+        """Test search SQL feature."""
         config = SearchConfiguration(syntax=SearchTermSyntax.SQL)
         curies = list(self.oi.basic_search("%nucl%s", config=config))
         # print(curies)
@@ -326,6 +349,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual([NUCLEUS, CHEBI_NUCLEUS], curies)
 
     def test_search_starts_with(self):
+        """Test search starts with feature."""
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
         # print(curies)
@@ -333,6 +357,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertGreater(len(curies), 5)
 
     def test_search_regex(self):
+        """Test search regex."""
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("^nucl.*s$", config=config))
         self.assertCountEqual([NUCLEUS], curies)
@@ -350,6 +375,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             list(self.oi.basic_search("(a|b)", config=config))
 
     def test_multiset_mrcas(self):
+        """Test multiset most recent common ancestors."""
         oi = self.oi
         results = oi.multiset_most_recent_common_ancestors(
             [NUCLEUS, VACUOLE, NUCLEAR_ENVELOPE, FUNGI], predicates=[IS_A, PART_OF], asymmetric=True
@@ -374,6 +400,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                 self.assertEqual([lca], results)
 
     def test_gap_fill(self):
+        """Test gap fill."""
         oi = self.oi
         # note that HUMAN will be deselected as it is a singleton in the is-a/part-of graph
         rels = list(
@@ -425,10 +452,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
                 print(rel)
 
     def test_set_label(self):
-        """
-        Tests the SQL store can be modified
-
-        """
+        """Tests the SQL store can be modified."""
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         oi.autosave = True
@@ -454,9 +478,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
 
     def test_set_labels_from_iris(self):
-        """
-        Test ability to generate labels for a semweb-style ontology
-        """
+        """Test ability to generate labels for a semweb-style ontology."""
         shutil.copyfile(SSN_DB, MUTABLE_SSN_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_SSN_DB}"))
         no_label_curies = []
@@ -476,9 +498,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             # self.assertIsNotNone(label)
 
     def test_migrate_curies(self):
-        """
-        Tests the SQL store can be modified
-        """
+        """Tests the SQL store can be modified."""
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         label = oi.get_label_by_curie(NUCLEUS)
@@ -506,6 +526,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds)))
 
     def test_statements_with_annotations(self):
+        """Test statemets with annotations."""
         oi = self.oi
         for curie in oi.all_entity_curies():
             for ax in oi.statements_with_annotations(curie):
@@ -514,6 +535,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(yaml_dumper.dumps(ax))
 
     def test_patcher(self):
+        """Test patcher."""
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         # oi.autosave = True
@@ -550,6 +572,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertNotIn(IMBO, oi.get_outgoing_relationship_map_by_curie(NUCLEUS)[IS_A])
 
     def test_sqla_write(self):
+        """Test SQLA write."""
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         session = oi.session

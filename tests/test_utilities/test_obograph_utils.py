@@ -1,3 +1,4 @@
+"""Test OBOGraph Utilities."""
 import json
 import logging
 import unittest
@@ -21,13 +22,17 @@ TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
 
 
 class TestOboGraphUtils(unittest.TestCase):
+    """Test OBOGraph Utilities."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
         self.graph = oi.as_obograph()
 
     def test_as_json(self):
+        """Test as JSON."""
         obj = graph_as_dict(self.graph)
         json_obj = json.dumps(obj)
         self.assertIn('{"id": "GO:0003674"', json_obj)
@@ -35,6 +40,7 @@ class TestOboGraphUtils(unittest.TestCase):
         # self.assertIn('{"sub": "CL:0000000", "pred": "BFO:0000051", "obj": "GO:0005634"}', json_obj)
 
     def test_as_networkx(self):
+        """Test as networkx"""
         mdg = as_multi_digraph(self.graph)
         self.assertIn(NUCLEUS, mdg.nodes)
         for e in mdg.edges(data=True):
@@ -44,6 +50,7 @@ class TestOboGraphUtils(unittest.TestCase):
         )
 
     def test_filter_by_predicates(self):
+        """Test filter by predicates."""
         g = self.graph
         g2 = filter_by_predicates(g, predicates=[IS_A, PART_OF])
         self.assertCountEqual(g.nodes, g2.nodes)
@@ -51,6 +58,7 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertGreater(len(g2.edges), 100)
 
     def test_as_tree(self):
+        """Test as tree."""
         t = graph_to_tree(self.graph, predicates=[IS_A])
         lines = t.split("\n")
         self.assertIn("[i] BFO:0000015 ! process", t)
@@ -64,6 +72,7 @@ class TestOboGraphUtils(unittest.TestCase):
         self.assertGreater(len(lines), 100)
 
     def test_trim_ancestors(self):
+        """Test trim ancestors."""
         oi = self.oi
         both = [IS_A, PART_OF]
         expected_list = [
