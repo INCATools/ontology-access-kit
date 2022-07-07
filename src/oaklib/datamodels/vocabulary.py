@@ -1,3 +1,4 @@
+from enum import Enum
 from linkml_runtime import CurieNamespace
 
 import oaklib.datamodels.ontology_metadata as omd
@@ -73,15 +74,15 @@ HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie
 SKOS_DEFINITION_CURIE = "skos:definition"
 
-# class SEMAPV(Enum):
-#      """SEMAPV Enum containing different mapping_justification."""
+class SEMAPV(Enum):
+     """SEMAPV Enum containing different mapping_justification."""
 
-#      LexicalMatching = "semapv:LexicalMatching"
-#      LogicalReasoning = "semapv:LogicalReasoning"
-#      CompositeMatching = "semapv:CompositeMatching"
-#      UnspecifiedMatching = "semapv:UnspecifiedMatching"
-#      SemanticSimilarityThresholdMatching = "semapv:SemanticSimilarityThresholdMatching"
-#      LexicalSimilarityThresholdMatching = "semapv:LexicalSimilarityThresholdMatching"
-#      MappingChaining = "semapv:MappingChaining"
-#      MappingReview = "semapv:MappingReview"
-#      ManualMappingCuration = "semapv:ManualMappingCuration"
+     LexicalMatching = "semapv:LexicalMatching"
+     LogicalReasoning = "semapv:LogicalReasoning"
+     CompositeMatching = "semapv:CompositeMatching"
+     UnspecifiedMatching = "semapv:UnspecifiedMatching"
+     SemanticSimilarityThresholdMatching = "semapv:SemanticSimilarityThresholdMatching"
+     LexicalSimilarityThresholdMatching = "semapv:LexicalSimilarityThresholdMatching"
+     MappingChaining = "semapv:MappingChaining"
+     MappingReview = "semapv:MappingReview"
+     ManualMappingCuration = "semapv:ManualMappingCuration"

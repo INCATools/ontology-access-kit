@@ -4,13 +4,11 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 
 import requests
-from sssom.sssom_datamodel import MatchTypeEnum
-
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, SEMAPV
 from oaklib.implementations.ols import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
@@ -172,7 +170,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
                 subject_label=oxo_s.label,
                 subject_source=oxo_s.datasource.prefix if oxo_s.datasource else None,
                 predicate_id=oxo_pred_mappings[str(oxo_mapping.scope)],
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 object_id=oxo_o.curie,
                 object_label=oxo_o.label,
                 object_source=oxo_o.datasource.prefix if oxo_o.datasource else None,

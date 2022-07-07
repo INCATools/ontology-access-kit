@@ -2,19 +2,17 @@ import logging
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
 import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
-import sssom
+from sssom_schema import Mapping
 from kgcl_schema.datamodel.kgcl import Change
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
-from sssom.sssom_datamodel import MatchTypeEnum
-
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import (
     SearchConfiguration,
@@ -28,6 +26,7 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBO_PURL,
+    SEMAPV,
     SYNONYM_PREDICATES,
 )
 from oaklib.implementations.sparql import SEARCH_CONFIG
@@ -521,7 +520,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # Implements: MappingProviderInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         pred_uris = [self.curie_to_sparql(pred) for pred in ALL_MATCH_PREDICATES]
         query = SparqlQuery(
             select=["?p", "?o"],
@@ -533,7 +532,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 subject_id=curie,
                 predicate_id=self.uri_to_curie(row["p"]["value"]),
                 object_id=self.uri_to_curie(row["o"]["value"]),
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
                 yield m
@@ -547,7 +546,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 subject_id=self.uri_to_curie(row["s"]["value"]),
                 predicate_id=self.uri_to_curie(row["p"]["value"]),
                 object_id=curie,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification = SEMAPV.UnspecifiedMatching.value
             )
             if m is not None:
                 yield m
