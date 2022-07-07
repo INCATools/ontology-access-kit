@@ -23,7 +23,6 @@ from tests import (
     CELLULAR_ORGANISMS,
     CYTOPLASM,
     INPUT_DIR,
-    NUCLEAR_ENVELOPE,
     NUCLEUS,
     OUTPUT_DIR,
     VACUOLE,
