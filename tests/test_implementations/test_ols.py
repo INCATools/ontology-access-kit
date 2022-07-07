@@ -1,7 +1,9 @@
+import itertools
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 
+from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.resource import OntologyResource
@@ -32,3 +34,27 @@ class TestOlsImplementation(unittest.TestCase):
         #    print(a)
         assert CYTOPLASM not in ancs
         assert CELLULAR_COMPONENT in ancs
+
+    def test_basic_search(self):
+        self.oi.focus_ontology = None
+        results = list(itertools.islice(self.oi.basic_search("epilepsy"), 20))
+        self.assertIn("MONDO:0005027", results)
+
+    def test_focus_ontology_search(self):
+        self.oi.focus_ontology = "MONDO"
+        results = list(itertools.islice(self.oi.basic_search("epilepsy"), 20))
+        for result in results:
+            self.assertRegex(result, "^MONDO:")
+
+    def test_search_configuration(self):
+        self.oi.focus_ontology = None
+
+        config = SearchConfiguration(properties=[SearchProperty.LABEL])
+        results = list(itertools.islice(self.oi.basic_search("swimming", config), 20))
+        self.assertIn("GO:0036268", results)  # GO:0036268 == swimming
+        self.assertNotIn("NBO:0000371", results)  # NBO:0000371 == aquatic locomotion
+
+        config = SearchConfiguration(is_complete=True)
+        results = list(itertools.islice(self.oi.basic_search("swimming", config), 20))
+        self.assertIn("OMIT:0014415", results)  # OMIT:0014415 == Swimming
+        self.assertNotIn("OMIT:0014416", results)  # OMIT:0014416 == Swimming Pools

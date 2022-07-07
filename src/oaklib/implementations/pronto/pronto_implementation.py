@@ -97,6 +97,7 @@ class ProntoImplementation(
     def __post_init__(self):
         if self.wrapped_ontology is None:
             resource = self.resource
+            logging.info(f"Pronto using resource: {resource}")
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
@@ -489,5 +490,15 @@ class ProntoImplementation(
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True
+        elif isinstance(patch, kgcl.NodeDeletion):
+            t = self._entity(patch.about_node, strict=True)
+            raise NotImplementedError
+        elif isinstance(patch, kgcl.NodeCreation):
+            self.create_entity(patch.about_node, patch.name)
+        elif isinstance(patch, kgcl.SynonymReplacement):
+            t = self._entity(patch.about_node, strict=True)
+            for syn in t.synonyms:
+                if syn.description == patch.old_value:
+                    syn.description = patch.new_value
         else:
             raise NotImplementedError
