@@ -87,7 +87,7 @@ class FunOwlImplementation(OwlInterface):
             else:
                 raise ValueError(f"Label must be literal, not {label}")
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
+    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         for ax in self._ontology.axioms:
             if isinstance(ax, Declaration):
                 uri = ax.v.full_uri(self.functional_writer.g)

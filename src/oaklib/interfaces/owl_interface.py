@@ -46,7 +46,7 @@ class ReasonerConfiguration:
 @dataclass
 class AxiomFilter:
     type: Optional[Type[Axiom]] = None
-    about: Optional[CURIE] = None
+    about: Optional[Union[CURIE, List[CURIE]]] = None
     references: Optional[CURIE] = None
     func: Callable = None
 
@@ -209,8 +209,12 @@ class OwlInterface(BasicOntologyInterface, ABC):
             if not isinstance(axiom, conditions.type):
                 return False
         if conditions.about is not None:
-            if not any(e for e in self._axiom_is_about_curies(axiom) if e == conditions.about):
-                return False
+            if isinstance(conditions.about, list):
+                if not any(e for e in self._axiom_is_about_curies(axiom) if e in conditions.about):
+                    return False
+            else:
+                if not any(e for e in self._axiom_is_about_curies(axiom) if e == conditions.about):
+                    return False
         if conditions.references is not None:
             if not any(
                 e for e in self._axiom_references_curies(axiom) if e == conditions.references

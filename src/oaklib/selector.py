@@ -38,6 +38,23 @@ RDF_SUFFIX_TO_FORMAT = {
     "json-ld": "json-ld",
 }
 
+SCHEME_DICT = {
+    "sqlite": SqlImplementation,
+    "ubergraph": UbergraphImplementation,
+    "ontobee": OntobeeImplementation,
+    "lov": LovImplementation,
+    "sparql": SparqlImplementation,
+    "rdflib": SparqlImplementation,
+    "bioportal": BioportalImplementation,
+    "agroportal": AgroportalImplementation,
+    "wikidata": WikidataImplementation,
+    "ols": OlsImplementation,
+    "funowl": FunOwlImplementation,
+    "pronto": ProntoImplementation,
+    "obolibrary": ProntoImplementation,
+    "prontolib": ProntoImplementation,
+}
+
 
 def get_implementation_from_shorthand(
     descriptor: str, format: str = None
@@ -61,6 +78,36 @@ def get_implementation_from_shorthand(
     return res.implementation_class(res)
 
 
+def get_implementation_class_from_scheme(scheme: str):
+    if scheme == "http" or scheme == "https":
+        raise NotImplementedError("Web requests not implemented yet")
+    else:
+        return SCHEME_DICT[scheme]
+
+
+def get_resource_imp_class_from_suffix_descriptor(
+    suffix: str, resource: OntologyResource, descriptor: str
+):
+
+    if suffix == "db" or (resource.format and resource.format == "sqlite"):
+        impl_class = SqlImplementation
+        resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
+    elif resource.format and resource.format in RDF_SUFFIX_TO_FORMAT.values():
+        impl_class = SparqlImplementation
+    elif suffix in RDF_SUFFIX_TO_FORMAT:
+        impl_class = SparqlImplementation
+        resource.format = RDF_SUFFIX_TO_FORMAT[suffix]
+    elif suffix == "owl":
+        impl_class = SparqlImplementation
+        resource.format = "xml"
+        logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
+    else:
+        resource.local = True
+        impl_class = ProntoImplementation
+
+    return impl_class, resource
+
+
 def get_resource_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
     """
     Maps from a shorthand descriptor to an OntologyResource.
@@ -81,43 +128,22 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             if not rest:
                 rest = None
             resource.slug = rest
-            if scheme == "sqlite":
-                impl_class = SqlImplementation
-            elif scheme == "ubergraph":
-                impl_class = UbergraphImplementation
-            elif scheme == "ontobee":
-                impl_class = OntobeeImplementation
-            elif scheme == "lov":
+            # Get impl_class based on scheme.
+            impl_class = get_implementation_class_from_scheme(scheme)
+
+            if impl_class == LovImplementation:
                 logging.warning("lov scheme may become plugin in future")
-                impl_class = LovImplementation
-            elif scheme == "sparql":
-                impl_class = SparqlImplementation
+            elif impl_class == SparqlImplementation:
                 resource.url = rest
                 resource.slug = None
-            elif scheme == "bioportal":
-                impl_class = BioportalImplementation
-            elif scheme == "agroportal":
-                impl_class = AgroportalImplementation
-            elif scheme == "wikidata":
-                impl_class = WikidataImplementation
-            elif scheme == "ols":
-                impl_class = OlsImplementation
-            elif scheme == "funowl":
-                impl_class = FunOwlImplementation
-            elif scheme == "pronto":
-                impl_class = ProntoImplementation
+            elif impl_class == ProntoImplementation:
                 if resource.slug.endswith(".obo"):
                     resource.format = "obo"
-                resource.local = True
+                if scheme == "prontolib":
+                    resource.local = False
+                else:
+                    resource.local = True
                 resource.slug = rest
-            elif scheme == "obolibrary" or scheme == "prontolib":
-                impl_class = ProntoImplementation
-                if resource.slug.endswith(".obo"):
-                    resource.format = "obo"
-                resource.local = False
-                resource.slug = rest
-            elif scheme == "http" or scheme == "https":
-                raise NotImplementedError("Web requests not implemented yet")
             else:
                 for ext_name, ext_module in discovered_plugins.items():
                     try:
@@ -131,22 +157,11 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
         else:
             logging.info(f"No schema: assuming file path {descriptor}")
             suffix = descriptor.split(".")[-1]
-            if suffix == "db" or (format and format == "sqlite"):
-                impl_class = SqlImplementation
-                resource.slug = f"sqlite:///{Path(descriptor).absolute()}"
-            elif format and format in RDF_SUFFIX_TO_FORMAT.values():
-                impl_class = SparqlImplementation
-            elif suffix in RDF_SUFFIX_TO_FORMAT:
-                impl_class = SparqlImplementation
-                resource.format = RDF_SUFFIX_TO_FORMAT[suffix]
-            elif suffix == "owl":
-                impl_class = SparqlImplementation
-                resource.format = "xml"
-                logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
-            else:
-                resource.local = True
-                impl_class = ProntoImplementation
+            impl_class, resource = get_resource_imp_class_from_suffix_descriptor(
+                suffix, resource, descriptor
+            )
     else:
         raise ValueError("No descriptor")
+
     resource.implementation_class = impl_class
     return resource
