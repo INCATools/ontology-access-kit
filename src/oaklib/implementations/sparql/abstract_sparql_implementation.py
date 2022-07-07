@@ -426,11 +426,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         raise NotImplementedError
 
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
-        """
-
-        :param curie:
-        :return:
-        """
         # TODO: allow this to be configured to use different predicates
         labels = self._get_anns(curie, HAS_DEFINITION_URI)
         if labels:
@@ -654,7 +649,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             logging.info(f"Applying: {patch} to {self.graph}")
             kgcl_patcher.apply_patch([patch], self.graph)
         else:
-            raise NotImplementedError(f"Apply patch is only implemented for local graphs")
+            raise NotImplementedError("Apply patch is only implemented for local graphs")
 
     def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
         if self.graph:
@@ -663,11 +658,11 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                     for change in kgcl_diff.diff(self.graph, other_ontology.graph):
                         yield change
                 else:
-                    raise NotImplementedError(f"Diff is only implemented for local graphs")
+                    raise NotImplementedErrorf"Diff is only implemented for local graphs")
             else:
-                raise NotImplementedError(f"Second ontology must implement sparql interface")
+                raise NotImplementedError("Second ontology must implement sparql interface")
         else:
-            raise NotImplementedError(f"Diff is only implemented for local graphs")
+            raise NotImplementedError("Diff is only implemented for local graphs")
 
     def save(self):
         if self.graph:
