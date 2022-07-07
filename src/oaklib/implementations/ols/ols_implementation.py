@@ -4,7 +4,6 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 
 import requests
-from sssom import Mapping
 from sssom.sssom_datamodel import MatchTypeEnum
 
 from oaklib.datamodels import oxo
@@ -20,7 +19,6 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE
 from sssom_schema import Mapping
-from sssom.sssom_document import MappingSetDocument
 
 ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50

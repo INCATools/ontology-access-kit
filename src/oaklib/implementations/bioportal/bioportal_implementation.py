@@ -4,7 +4,6 @@ from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
 import requests
-from sssom import Mapping
 from sssom.sssom_datamodel import MatchTypeEnum
 
 from oaklib.datamodels.search import SearchConfiguration

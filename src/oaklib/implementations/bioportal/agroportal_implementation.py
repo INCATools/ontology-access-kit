@@ -5,6 +5,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 
+
 @dataclass
 class AgroportalImplementation(
     BioportalImplementation, TextAnnotatorInterface, SearchInterface, MappingProviderInterface
