@@ -1,3 +1,4 @@
+"""Test SQLite."""
 import logging
 import unittest
 
@@ -10,7 +11,10 @@ DB_FOLDER = EXTERNAL_DB_DIR / "unreciprocated-mapping-test.obo"
 
 
 class TestSqlite(unittest.TestCase):
+    """Test SQLite."""
+
     def setUp(self) -> None:
+        """Set up."""
         if EXTERNAL_DB_DIR.exists():
             self.skip = False
             dbs = {}
@@ -27,6 +31,7 @@ class TestSqlite(unittest.TestCase):
 
     @unittest.skip("TOO SLOW")
     def test_structural_diff(self):
+        """Test structural differences."""
         if self.skip:
             return
         dbs = self.dbs

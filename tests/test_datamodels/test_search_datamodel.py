@@ -1,3 +1,4 @@
+"""Test search datamodel."""
 import unittest
 
 from linkml_runtime.utils.introspection import package_schemaview
@@ -10,10 +11,10 @@ TEST_PROPS = [SearchProperty.LABEL, SearchProperty.ALIAS]
 
 
 class TestSearchDatamodel(unittest.TestCase):
+    """Test search datamodel."""
+
     def test_create(self):
-        """
-        Tests the creation of an example instance of the OboGraph datamodel
-        """
+        """Tests the creation of an example instance of the OboGraph datamodel."""
         sc = create_search_configuration("foo")
         self.assertEqual(sc.search_terms, ["foo"])
         # print(yaml_dumper.dumps(sc))
@@ -38,9 +39,7 @@ class TestSearchDatamodel(unittest.TestCase):
         self.assertEqual(sc.syntax, SearchTermSyntax(SearchTermSyntax.STARTS_WITH))
 
     def test_introspect(self):
-        """
-        Tests ability to introspect the schema and examine the schema elements
-        """
+        """Tests ability to introspect the schema and examine the schema elements."""
         sv = package_schemaview(search_datamodel.__name__)
         assert "search_terms" in sv.all_slots()
         assert "SearchResult" in sv.all_classes()

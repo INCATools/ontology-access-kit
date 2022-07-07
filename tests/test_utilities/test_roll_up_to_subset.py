@@ -1,3 +1,4 @@
+"""Test subset utilities."""
 import unittest
 
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
@@ -20,11 +21,15 @@ PREDS = [IS_A, PART_OF]
 
 
 class TestSubsetUtils(unittest.TestCase):
+    """Test subset utilities."""
+
     def setUp(self) -> None:
+        """Set up."""
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.oi = oi
 
     def test_roll_up(self):
+        """Test roll up."""
         oi = self.oi
         term_curies = [t for t in oi.all_entity_curies() if t.startswith("GO:")]
         for subset in oi.all_subset_curies():

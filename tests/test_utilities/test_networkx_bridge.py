@@ -1,3 +1,4 @@
+"""Test NetworkX bridge."""
 import logging
 import unittest
 
@@ -21,13 +22,17 @@ BIOLOGICAL_PROCESS = "GO:0008152"
 
 
 class TestNetworkxBridge(unittest.TestCase):
+    """Test NetworkX bridge."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
         self.mdg = relationships_to_multi_digraph(oi.all_relationships())
 
     def test_all_paths(self):
+        """Test all paths."""
         paths = list(nx.all_simple_paths(self.mdg, BIOLOGICAL_PROCESS, KINASE_ACTIVATOR_ACTIVITY))
         for path in paths:
             logging.info(path)
@@ -44,6 +49,7 @@ class TestNetworkxBridge(unittest.TestCase):
         # assert len(paths) > 10
 
     def test_reduction(self):
+        """Test reduction."""
         rels = [("a", IS_A, "b"), ("b", IS_A, "c"), ("a", IS_A, "c")]
         reduced = list(transitive_reduction(rels))
         # for r in reduced:
@@ -59,6 +65,7 @@ class TestNetworkxBridge(unittest.TestCase):
         # reduced = list(transitive_reduction([rel for rel in rels if rel[1] == PART_OF]))
 
     def test_reduction_by_predicate(self):
+        """Test reduction by predicate."""
         rels = [("a", IS_A, "b"), ("b", IS_A, "c"), ("a", IS_A, "c")]
         reduced = list(transitive_reduction_by_predicate(rels))
         # for r in reduced:

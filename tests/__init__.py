@@ -1,3 +1,4 @@
+"""Tests."""
 import os
 from pathlib import Path
 
@@ -9,6 +10,7 @@ EXTERNAL_DB_DIR = Path(ROOT) / "../db"  # for integration tests: optional
 
 
 def output_path(fn: str) -> str:
+    """Output path."""
     return str(Path(OUTPUT_DIR) / fn)
 
 

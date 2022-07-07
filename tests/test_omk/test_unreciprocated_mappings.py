@@ -1,3 +1,4 @@
+"""Test unreciprocated mappings."""
 import unittest
 
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -16,13 +17,17 @@ TEST_OWL = INPUT_DIR / "unreciprocated-mapping-test.owl"
 
 
 class TestUnreciprocated(unittest.TestCase):
+    """Test Unreciprocated mappings."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug=str(TEST_ONT), local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
         self.owl_oi = SparqlImplementation(OntologyResource(str(TEST_OWL)))
 
     def test_unreciprocated(self):
+        """Test unreciprocated mappings."""
         for oi in [self.oi, self.owl_oi]:
             pairs = mappings_to_pairs(unreciprocated_mappings(oi, oi))
             # for p in pairs:
@@ -36,6 +41,7 @@ class TestUnreciprocated(unittest.TestCase):
             )
 
     def test_structural_diff(self):
+        """Test structural differences."""
         for oi in [self.oi, self.owl_oi]:
             results = list(calculate_pairwise_relational_diff(oi, oi, ["X", "Y", "Z"]))
             # for r in results:

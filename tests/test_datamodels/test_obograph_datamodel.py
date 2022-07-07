@@ -1,3 +1,4 @@
+"""Test Obograph datamodel."""
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -9,10 +10,10 @@ from tests import output_path
 
 
 class TestOboGraphDatamodel(unittest.TestCase):
+    """Test Obograph datamodel."""
+
     def test_create(self):
-        """
-        Tests the creation of an example instance of the OboGraph datamodel
-        """
+        """Tests the creation of an example instance of the OboGraph datamodel."""
         nodes = [obograph.Node(id=f"EXAMPLE:{n}", lbl=f"node {n}") for n in range(1, 100)]
         edges = []
         for i in range(0, len(nodes) - 1):
@@ -21,9 +22,7 @@ class TestOboGraphDatamodel(unittest.TestCase):
         yaml_dumper.dump(g, output_path("example.obograph.yaml"))
 
     def test_introspect(self):
-        """
-        Tests ability to introspect the schema and examine the schema elements
-        """
+        """Tests ability to introspect the schema and examine the schema elements."""
         sv = package_schemaview(obograph.__name__)
         assert "id" in sv.all_slots()
         assert "lbl" in sv.all_slots()  # TODO: consider changing

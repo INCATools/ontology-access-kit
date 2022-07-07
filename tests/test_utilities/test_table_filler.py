@@ -1,3 +1,4 @@
+"""Test table filler."""
 import logging
 import unittest
 from copy import deepcopy
@@ -148,12 +149,16 @@ EXPECTED = [
 
 
 class TestTableFiller(unittest.TestCase):
+    """Test table filler."""
+
     def setUp(self) -> None:
+        """Set up."""
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.oi = oi
         self.table_filler = TableFiller(oi)
 
     def test_fill_table(self):
+        """Test fill table."""
         tf = self.table_filler
         for desc, input_table, cfg, expected_table, expected_success in EXPECTED:
             logging.info(f"Test: {desc}")
@@ -182,6 +187,7 @@ class TestTableFiller(unittest.TestCase):
         self.assertIn(IMBO, ancs)
 
     def test_fill_table_file(self):
+        """Test fill table file."""
         tf = self.table_filler
         for desc, input_table, cfg, expected_table, expected_success in EXPECTED:
             print(f"Test: {desc}")
@@ -200,6 +206,7 @@ class TestTableFiller(unittest.TestCase):
                             tf.fill_table_file(input_file, output_file, cfg)
 
     def test_fill_sssom(self):
+        """Test fill SSSOM."""
         tf = self.table_filler
         tf.ontology_interface = SparqlImplementation(OntologyResource(slug=FBBT_SUBSET))
         with open(EXAMPLE_SSSOM) as file:
@@ -215,6 +222,7 @@ class TestTableFiller(unittest.TestCase):
         self.assertIn("oocyte", labels)
 
     def test_infer_metadata_from_row(self):
+        """Test inferring metadata from row."""
         tf = self.table_filler
         tm = tf.infer_metadata({"id": "x", "label": "x", "foo": 5})
         self.assertEqual(1, len(tm.dependencies))
@@ -224,6 +232,7 @@ class TestTableFiller(unittest.TestCase):
         self.assertEqual("label", dep.relation)
 
     def test_infer_metadata_from_denormalized(self):
+        """Test inferring metadata from denormalized."""
         tf = self.table_filler
         tm = tf.infer_metadata(
             {
@@ -246,6 +255,7 @@ class TestTableFiller(unittest.TestCase):
         self.assertEqual("label", dep2.relation)
 
     def test_infer_metadata_from_linkml(self):
+        """Test inferring metadata from linkml."""
         tf = self.table_filler
         sb = SchemaBuilder()
         foo_id = SlotDefinition("foo_id", identifier=True)
@@ -262,6 +272,7 @@ class TestTableFiller(unittest.TestCase):
         self.assertEqual("label", dep.relation)
 
     def test_infer_metadata_from_ontology_metadata(self):
+        """Test inferring metadata from ontology metadata."""
         tf = self.table_filler
         sv = package_schemaview(om.__name__)
         tm = tf.extract_metadata_from_linkml(sv.schema, class_name="Class")

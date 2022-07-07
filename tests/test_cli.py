@@ -1,3 +1,4 @@
+"""Tests all command-line subcommands."""
 import json
 import logging
 import re
@@ -33,11 +34,10 @@ TEST_OUT = str(OUTPUT_DIR / "tmp")
 
 
 class TestCommandLineInterface(unittest.TestCase):
-    """
-    Tests all command-line subcommands
-    """
+    """Tests all command-line subcommands."""
 
     def setUp(self) -> None:
+        """Set up."""
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
 
@@ -45,6 +45,7 @@ class TestCommandLineInterface(unittest.TestCase):
         return "".join(open(TEST_OUT).readlines())
 
     def test_main_help(self):
+        """Test main help."""
         result = self.runner.invoke(main, ["--help"])
         out = result.stdout
         result.stderr
@@ -54,6 +55,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(0, result.exit_code)
 
     def test_info(self):
+        """Test info."""
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "info", NUCLEUS, "-o", TEST_OUT, "-D", "x,d"]
@@ -81,6 +83,7 @@ class TestCommandLineInterface(unittest.TestCase):
     # OBOGRAPH
 
     def test_obograph_local(self):
+        """Test Obograph local."""
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             logging.info(f"INPUT={input_arg}")
             self.runner.invoke(main, ["-i", input_arg, "ancestors", NUCLEUS, "-o", TEST_OUT])
@@ -101,6 +104,7 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "GO:0043226" not in out
 
     def test_gap_fill(self):
+        """Test gap fill."""
         result = self.runner.invoke(
             main,
             [
@@ -135,6 +139,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(nucleus_node["lbl"], "nucleus")
 
     def test_roots_and_leafs(self):
+        """Test roots and leaves."""
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             result = self.runner.invoke(main, ["-i", input_arg, "roots", "-p", "i"])
             out = result.stdout
@@ -146,6 +151,7 @@ class TestCommandLineInterface(unittest.TestCase):
     # MAPPINGS
 
     def test_mappings_local(self):
+        """Test mappings local."""
         result = self.runner.invoke(
             main, ["-i", str(TEST_ONT), "mappings", "GO:0016740", "-o", TEST_OUT, "-O", "csv"]
         )
@@ -158,6 +164,7 @@ class TestCommandLineInterface(unittest.TestCase):
     # TAXON
 
     def test_taxon_constraints_local(self):
+        """Test taxon constraints local."""
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "taxon-constraints", NUCLEUS, "-o", TEST_OUT]
@@ -171,6 +178,7 @@ class TestCommandLineInterface(unittest.TestCase):
     # SEARCH
 
     def test_search_help(self):
+        """Test search help."""
         result = self.runner.invoke(main, ["search", "--help"])
         out = result.stdout
         result.stderr
@@ -179,6 +187,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("Example:", out)
 
     def test_search_local(self):
+        """Test search local."""
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             logging.info(f"INPUT={input_arg}")
             result = self.runner.invoke(
@@ -198,9 +207,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual("", err)
 
     def test_search_local_advanced(self):
-        """
-        Tests boolean combinations of search results
-        """
+        """Tests boolean combinations of search results."""
         # tuples of (terms, complete, expected, excluded)
         search_tests = [
             (["nucleus"], True, [NUCLEUS], []),
@@ -303,6 +310,7 @@ class TestCommandLineInterface(unittest.TestCase):
                         self.assertIn(e, curies)
 
     def test_search_pronto_obolibrary(self):
+        """Test search pronto obolibrary."""
         to_out = ["-o", str(TEST_OUT)]
         result = self.runner.invoke(
             main, ["-i", "prontolib:pato.obo", "search", "t~shape"] + to_out
@@ -333,12 +341,14 @@ class TestCommandLineInterface(unittest.TestCase):
     # VALIDATE
 
     def test_validate_help(self):
+        """Test validate help."""
         result = self.runner.invoke(main, ["validate", "--help"])
         result.stdout
         result.stderr
         self.assertEqual(0, result.exit_code)
 
     def test_validate_bad_ontology(self):
+        """Test validating bad ontology."""
         for input_arg in [f"sqlite:{BAD_ONTOLOGY_DB}"]:
             logging.info(f"INPUT={input_arg}")
             result = self.runner.invoke(main, ["-i", input_arg, "validate"])
@@ -351,6 +361,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual("", err)
 
     def test_check_definitions(self):
+        """Test check definitions."""
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
             logging.info(f"INPUT={input_arg}")
             result = self.runner.invoke(main, ["-i", input_arg, "check-definitions"])
@@ -364,6 +375,7 @@ class TestCommandLineInterface(unittest.TestCase):
     # LEXICAL
 
     def test_lexmatch_owl(self):
+        """Test lexical match owl."""
         outfile = f"{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv"
         result = self.runner.invoke(
             main,
@@ -387,6 +399,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual("", err)
 
     def test_lexmatch_sqlite(self):
+        """Test lexical match SQLite."""
         outfile = f"{OUTPUT_DIR}/matcher-test-cli.db.sssom.tsv"
         result = self.runner.invoke(
             main,
@@ -412,6 +425,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("bone tissue", contents)
 
     def test_similarity(self):
+        """Test similarity."""
         result = self.runner.invoke(
             main,
             ["-i", TEST_DB, "similarity", NUCLEAR_MEMBRANE, VACUOLE, "-p", "i,p", "-o", TEST_OUT],

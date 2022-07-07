@@ -1,3 +1,4 @@
+"""Test Lexical index."""
 import unittest
 from pathlib import Path
 
@@ -35,7 +36,10 @@ MATCHER_TEST_SSSOM_OUT = OUTPUT_DIR / "matcher-test.sssom.tsv"
 
 
 class TestLexicalIndex(unittest.TestCase):
+    """Test Lexical index."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         self.oi = ProntoImplementation(resource)
         self.sparql_oi = SparqlImplementation(
@@ -44,6 +48,7 @@ class TestLexicalIndex(unittest.TestCase):
         self.ois = [self.oi, self.sparql_oi]
 
     def test_sssom(self):
+        """Test SSSOM."""
         for oi in self.ois:
             lexical_index = create_lexical_index(oi)
             rule0 = MappingRule(postconditions=Postcondition(weight=1.0))
@@ -60,6 +65,7 @@ class TestLexicalIndex(unittest.TestCase):
                 write_table(msdf, file)
 
     def test_sssom_with_rules_file(self):
+        """Test SSSOM with rules file."""
         resource = OntologyResource(slug=MATCHER_TEST_ONT, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
@@ -71,6 +77,7 @@ class TestLexicalIndex(unittest.TestCase):
             write_table(msdf, file)
 
     def test_sssom_with_rules_sqlite(self):
+        """Test SSSOM with rules SQLite."""
         resource = OntologyResource(slug=f"sqlite:///{Path(MATCHER_TEST_DB).absolute()}")
         oi = SqlImplementation(resource)
         self.oi = oi

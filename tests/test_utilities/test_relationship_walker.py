@@ -1,3 +1,4 @@
+"""Test relationship walker."""
 import logging
 import unittest
 
@@ -14,12 +15,16 @@ CELLULAR_COMPONENT = "GO:0005575"
 
 
 class TestRelationshipWalker(unittest.TestCase):
+    """Test relationship walker."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
 
     def test_walk_up(self):
+        """Test walk up."""
         oi = self.oi
         rels = list(walk_up(oi, "GO:0005773"))
         logging.info("ALL")
@@ -35,6 +40,7 @@ class TestRelationshipWalker(unittest.TestCase):
         assert ("GO:0110165", IS_A, "CARO:0000000") in rels
 
     def test_walk_down(self):
+        """Test walk down."""
         oi = self.oi
         rels = list(walk_down(oi, CELLULAR_COMPONENT))
         logging.info("ALL")

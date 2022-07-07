@@ -1,3 +1,4 @@
+"""Test taxon constraint utilities."""
 import logging
 import unittest
 from typing import List
@@ -47,13 +48,17 @@ PREDICATES = [IS_A, PART_OF]
 
 
 class TestTaxonConstraintsUtils(unittest.TestCase):
+    """Test taxon constraint utilities."""
+
     def setUp(self) -> None:
+        """Set up."""
         oi = ProntoImplementation(OntologyResource(slug=str(TEST_ONT), local=True))
         self.oi = oi
         fake_oi = ProntoImplementation(OntologyResource(slug=str(TEST_INCONSISTENT), local=True))
         self.fake_oi = fake_oi
 
     def test_never_in(self):
+        """Test never in."""
         oi = self.oi
         never, only, _ = all_term_taxon_constraints(oi, NUCLEUS)
         self.assertCountEqual([BACTERIA], never)
@@ -71,6 +76,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         # See: https://github.com/althonos/pronto/issues/163
 
     def test_intracellular(self):
+        """Test intracellular."""
         oi = self.oi
         t = INTRACELLULAR
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
@@ -87,6 +93,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertCountEqual([], only_r)
 
     def test_photosynthetic_membrane(self):
+        """Test photosynthetic membrance."""
         oi = self.oi
         t = PHOTOSYNTHETIC_MEMBRANE
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
@@ -105,6 +112,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertCountEqual([PLANTS_OR_CYANOBACTERIA, CELLULAR_ORGANISMS], only_r)
 
     def test_nuclear_envelope(self):
+        """Test nuclear envelope."""
         oi = self.oi
         t = NUCLEAR_ENVELOPE
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
@@ -126,6 +134,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertCountEqual([CELLULAR_ORGANISMS], only_r)
 
     def test_candidates(self):
+        """Test candidates."""
         oi = self.oi
 
         def make_tcs(
@@ -261,14 +270,17 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertTrue(st.unsatisfiable)
 
     def test_taxon_subclass(self):
+        """Test taxon subclass."""
         self.assertIn(CELLULAR_ORGANISMS, list(self.oi.ancestors(BACTERIA, predicates=[IS_A])))
 
     def test_unsatisfiable(self):
+        """Test unsatisfiable."""
         fake_oi = self.fake_oi
         get_term_with_taxon_constraints(fake_oi, PHOTOSYNTHETIC_MEMBRANE)
         # print(yaml_dumper.dumps(st))
 
     def test_all(self):
+        """Test all."""
         oi = self.oi
         term_curies = [t for t in oi.all_entity_curies() if t.startswith("GO:")]
         for t in term_curies:
@@ -278,6 +290,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             # print(desc)
 
     def test_parser(self):
+        """Test parser."""
         with open(GAIN_LOSS_FILE) as file:
             for st in parse_gain_loss_file(file):
                 logging.info(yaml_dumper.dumps(st))

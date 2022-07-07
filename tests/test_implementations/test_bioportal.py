@@ -1,3 +1,4 @@
+"""Tests :ref:`BioportalImplementation`."""
 import itertools
 import logging
 import unittest
@@ -11,11 +12,10 @@ from tests import DIGIT, HUMAN, NEURON, VACUOLE
 
 
 class TestBioportal(unittest.TestCase):
-    """
-    Tests :ref:`BioportalImplementation`
-    """
+    """Tests :ref:`BioportalImplementation`."""
 
     def setUp(self) -> None:
+        """Set up."""
         impl = BioportalImplementation()
         try:
             impl.load_bioportal_api_key()
@@ -24,6 +24,7 @@ class TestBioportal(unittest.TestCase):
         self.impl = impl
 
     def test_text_annotator(self):
+        """Test text annotator."""
         results = list(self.impl.annotate_text("hippocampal neuron from human"))
         for ann in results:
             logging.info(ann)
@@ -31,10 +32,12 @@ class TestBioportal(unittest.TestCase):
         assert any(r for r in results if r.object_id == NEURON)
 
     def test_search(self):
+        """Test search."""
         results = list(itertools.islice(self.impl.basic_search("tentacle pocket"), 20))
         assert "CEPH:0000259" in results
 
     def test_mappings(self):
+        """Test mappings."""
         mappings = list(self.impl.get_sssom_mappings_by_curie(DIGIT))
         for m in mappings:
             logging.info(yaml_dumper.dumps(m))
@@ -48,6 +51,7 @@ class TestBioportal(unittest.TestCase):
         assert mappings == []
 
     def test_ancestors(self):
+        """Test ancestors."""
         ancestors = list(self.impl.ancestors(VACUOLE))
         assert "http://purl.obolibrary.org/obo/GO_0005575" in ancestors  # cellular_component
         assert "http://purl.obolibrary.org/obo/GO_0005737" in ancestors  # cytoplasm

@@ -1,3 +1,4 @@
+"""Test Pronto Implementation."""
 import logging
 import unittest
 
@@ -35,12 +36,16 @@ TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
 
 
 class TestProntoImplementation(unittest.TestCase):
+    """Test Pronto Implementation."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
 
     def test_obo_json(self) -> None:
+        """Test OBOJSON."""
         resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
         json_oi = ProntoImplementation(resource)
         curies = list(json_oi.all_entity_curies())
@@ -59,6 +64,7 @@ class TestProntoImplementation(unittest.TestCase):
         #     )
 
     def test_relationships(self):
+        """Test relationships."""
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie("GO:0005773")
         for k, v in rels.items():
@@ -68,6 +74,7 @@ class TestProntoImplementation(unittest.TestCase):
 
     @unittest.skip("https://github.com/althonos/pronto/issues/163")
     def test_gci_relationships(self):
+        """Test GCI relationships."""
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie(CELL)
         self.assertCountEqual(rels[IS_A], ["CARO:0000003"])
@@ -75,6 +82,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertNotIn(NUCLEUS, rels[PART_OF])
 
     def test_incoming_relationships(self):
+        """Test incoming relationships."""
         oi = self.oi
         rels = oi.get_incoming_relationship_map_by_curie(CYTOPLASM)
         for k, v in rels.items():
@@ -83,9 +91,11 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertCountEqual(rels[PART_OF], ["GO:0005773", "GO:0099568"])
 
     def test_all_terms(self):
+        """Test all terms."""
         assert any(curie for curie in self.oi.all_entity_curies() if curie == "GO:0008152")
 
     def test_relations(self):
+        """Test relations."""
         oi = self.oi
         label = oi.get_label_by_curie(PART_OF)
         assert label.startswith("part")
@@ -94,6 +104,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert t.lbl.startswith("part")
 
     def test_metadata(self):
+        """Test metadata."""
         for curie in self.oi.all_entity_curies():
             m = self.oi.metadata_map_by_curie(curie)
             print(f"{curie} {m}")
@@ -103,7 +114,8 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_labels(self):
         """
-        Tests labels can be retrieved, and no label is retrieved when a term does not exist
+        Tests labels can be retrieved, and no label is retrieved when a term does not exist.
+
         :return:
         """
         oi = self.oi
@@ -117,6 +129,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertIsNotNone(label)
 
     def test_synonyms(self):
+        """Test synonyms."""
         syns = self.oi.aliases_by_curie("GO:0005575")
         # print(syns)
         self.assertCountEqual(
@@ -142,6 +155,7 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_mappings(self):
+        """Test mappings."""
         oi = self.oi
         mappings = list(oi.get_sssom_mappings_by_curie(NUCLEUS))
         # for m in mappings:
@@ -155,6 +169,7 @@ class TestProntoImplementation(unittest.TestCase):
             self.assertEqual(reverse_subject_ids, [NUCLEUS])
 
     def test_subsets(self):
+        """Test subsets."""
         oi = self.oi
         subsets = list(oi.all_subset_curies())
         self.assertIn("goslim_aspergillus", subsets)
@@ -162,6 +177,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertNotIn("GO:0003674", oi.curies_by_subset("gocheck_do_not_manually_annotate"))
 
     def test_save(self):
+        """Test save."""
         oi = ProntoImplementation.create()
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.create_entity(
@@ -174,12 +190,14 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_from_obo_library(self):
+        """Test from obo library."""
         oi = ProntoImplementation.create(OntologyResource(local=False, slug="pato.obo"))
         curies = oi.get_curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
 
     @unittest.skip("Hide warnings")
     def test_from_owl(self):
+        """Test from owl."""
         r = OntologyResource(local=True, slug="go-nucleus.owl", directory=INPUT_DIR)
         oi = ProntoImplementation.create(r)
         rels = list(oi.walk_up_relationship_graph("GO:0005773"))
@@ -187,6 +205,7 @@ class TestProntoImplementation(unittest.TestCase):
             print(rel)
 
     def test_subontology(self):
+        """Test subontology."""
         subont = self.oi.create_subontology(["GO:0005575", "GO:0005773"])
         subont.store(
             OntologyResource(
@@ -195,12 +214,14 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_qc(self):
+        """Test qc."""
         oi = self.oi
         for t in oi.term_curies_without_definitions():
             print(t)
         self.assertIn("CARO:0000003", oi.term_curies_without_definitions())
 
     def test_walk_up(self):
+        """Test walk up."""
         oi = self.oi
         rels = list(oi.walk_up_relationship_graph("GO:0005773"))
         print("ALL")
@@ -216,6 +237,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert ("GO:0110165", IS_A, "CARO:0000000") in rels
 
     def test_ancestors(self):
+        """Test ancestors."""
         oi = self.oi
         ancs = list(oi.ancestors("GO:0005773"))
         for a in ancs:
@@ -230,6 +252,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert "GO:0043231" in ancs  # reflexive
 
     def test_obograph(self):
+        """Test obograph."""
         g = self.oi.ancestor_graph(VACUOLE)
         nix = index_graph_nodes(g)
         self.assertEqual(nix[VACUOLE].lbl, "vacuole")
@@ -259,6 +282,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
     def test_save_extract(self):
+        """Test save extract."""
         g = self.oi.ancestor_graph(VACUOLE)
         oi = ProntoImplementation()
         oi.load_graph(g, replace=True)
@@ -266,6 +290,7 @@ class TestProntoImplementation(unittest.TestCase):
         oi.store(r)
 
     def test_search_aliases(self):
+        """Test search aliases."""
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
         curies = list(self.oi.basic_search("enzyme activity", config=config))
         self.assertEqual(curies, ["GO:0003824"])
@@ -274,12 +299,14 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertEqual(curies, [])
 
     def test_search_exact(self):
+        """Test search exact."""
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
         # print(curies)
         assert CYTOPLASM in curies
 
     def test_search_partial(self):
+        """Test search partial."""
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
         # print(curies)
@@ -287,6 +314,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertGreater(len(curies), 5)
 
     def test_search_starts_with(self):
+        """Test 'search starts with' feature."""
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
         # print(curies)
@@ -294,6 +322,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertGreater(len(curies), 5)
 
     def test_search_regex(self):
+        """Test search regex."""
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("^nucl", config=config))
         print(curies)
@@ -302,11 +331,13 @@ class TestProntoImplementation(unittest.TestCase):
 
     @unittest.skip("https://github.com/althonos/pronto/issues/178")
     def test_dump(self):
+        """Test dump."""
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
     def test_patcher(self):
+        """Test patcher."""
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
         oi = ProntoImplementation(resource)
         oi.apply_patch(

@@ -1,3 +1,4 @@
+"""Test validation datamodel."""
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -8,10 +9,10 @@ from tests import output_path
 
 
 class TestValidationDatamodel(unittest.TestCase):
+    """Test validation datamodel."""
+
     def test_create(self):
-        """
-        Tests the creation of an example instance of reports
-        """
+        """Tests the creation of an example instance of reports."""
         severity = vdm.SeverityOptions(vdm.SeverityOptions.ERROR)
         r1 = vdm.ValidationResult(subject="FOO:1", type="sh:Test", severity=severity)
         print(type(r1.severity))
@@ -22,9 +23,7 @@ class TestValidationDatamodel(unittest.TestCase):
         yaml_dumper.dump(rr, output_path("repair_report.vdm.yaml"))
 
     def test_introspect(self):
-        """
-        Tests ability to introspect the schema and examine the schema elements
-        """
+        """Tests ability to introspect the schema and examine the schema elements."""
         sv = package_schemaview(vdm.__name__)
         assert "severity" in sv.all_slots()
         assert "ValidationResult" in sv.all_classes()

@@ -1,3 +1,4 @@
+"""Test Ubergraph Implementation."""
 import logging
 import unittest
 
@@ -29,12 +30,16 @@ ICMBO = "GO:0043231"
 
 
 class TestUbergraphImplementation(unittest.TestCase):
+    """Test Ubergraph Implementation."""
+
     def setUp(self) -> None:
+        """Set up."""
         oi = UbergraphImplementation()
         self.oi = oi
 
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_relationships(self):
+        """Test relationships."""
         ont = self.oi
         rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
         for k, v in rels.items():
@@ -44,6 +49,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_entailed_relationships(self):
+        """Test entailed relationships."""
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships_by_curie(VACUOLE))
         self.assertIn((IS_A, VACUOLE), rels)
@@ -54,18 +60,21 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_labels(self):
+        """Test labels."""
         label = self.oi.get_label_by_curie(DIGIT)
         self.assertEqual(label, "digit")
         self.assertIn(DIGIT, self.oi.get_curies_by_label(label))
 
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_synonyms(self):
+        """Test synonyms."""
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         logging.info(syns)
         assert "cellular component" in syns
 
     @unittest.skip("This test is too rigid as synonyms are liable to change")
     def test_synonyms_granular(self):
+        """Test synonym granular."""
         syns = self.oi.aliases_by_curie(NUCLEUS)
         logging.info(syns)
         self.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
@@ -81,12 +90,14 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_definition(self):
+        """Test definition."""
         defn = self.oi.get_definition_by_curie("GO:0005575")
         logging.info(defn)
         assert defn
 
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_search(self):
+        """Test search."""
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("limb", config=config))
         print(curies)
@@ -95,6 +106,7 @@ class TestUbergraphImplementation(unittest.TestCase):
     # OboGraph
     @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestors(self):
+        """Test ancestors."""
         oi = self.oi
         ancs = list(oi.ancestors([VACUOLE]))
         # for a in ancs:
@@ -124,6 +136,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_descendants(self):
+        """Test descendants."""
         oi = self.oi
         descs = list(oi.descendants([CYTOPLASM]))
         # for a in descs:
@@ -138,6 +151,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestor_graph(self):
+        """Test ancestor graph."""
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
             g = oi.ancestor_graph([VACUOLE], predicates=preds)
@@ -155,6 +169,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_gap_fill(self):
+        """Test gap fill."""
         oi = self.oi
         rels = list(
             oi.gap_fill_relationships(
@@ -175,6 +190,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("Too rigid")
     def test_common_ancestors(self):
+        """Test common ancestors."""
         oi = self.oi
         for preds in [None, [IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.common_ancestors(NUCLEUS, THYLAKOID, preds))
@@ -190,6 +206,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("Too slow")
     def test_most_recent_common_ancestors(self):
+        """Test most recent common ancestors."""
         oi = self.oi
         for preds in [[IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.most_recent_common_ancestors(NUCLEUS, THYLAKOID, preds))
@@ -206,7 +223,7 @@ class TestUbergraphImplementation(unittest.TestCase):
     @unittest.skip("Error 503: Service Temporarily Unavailable")
     def test_semsim(self):
         """
-        Tests semantic similarity
+        Tests semantic similarity.
 
         :return:
         """
@@ -244,6 +261,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_extract_triples(self):
+        """Test extract triples."""
         oi = self.oi
         for t in oi.extract_triples([SHAPE]):
             logging.info(t)

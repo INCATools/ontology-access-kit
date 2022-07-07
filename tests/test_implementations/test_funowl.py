@@ -1,3 +1,4 @@
+"""Test FunOwl Implementation."""
 import unittest
 
 from funowl import EquivalentClasses, SubClassOf
@@ -15,18 +16,23 @@ NEW_NAME = "new name"
 
 
 class TestFunOwlImplementation(unittest.TestCase):
+    """Test FunOwl Implementation."""
+
     def setUp(self) -> None:
+        """Set up."""
         resource = OntologyResource(TEST_ONT)
         oi = FunOwlImplementation(resource)
         self.oi = oi
 
     def test_entities(self):
+        """Test entities."""
         curies = list(self.oi.all_entity_curies())
         self.assertIn(NUCLEUS, curies)
         self.assertIn(CHEBI_NUCLEUS, curies)
         self.assertIn(HUMAN, curies)
 
     def test_filter_axioms(self):
+        """Test filter axioms."""
         FunctionalWriter()
         oi = self.oi
         self.assertCountEqual(
@@ -61,6 +67,7 @@ class TestFunOwlImplementation(unittest.TestCase):
             self.assertIn(ax, nucleus_ref_axioms)
 
     def test_patcher(self):
+        """Test patcher."""
         oi = self.oi
         anns = list(oi.annotation_assertion_axioms(NUCLEUS))
         self.assertGreater(len(anns), 5)

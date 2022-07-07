@@ -1,3 +1,4 @@
+"""Test SPARQL Implementation."""
 import logging
 import shutil
 import unittest
@@ -36,11 +37,15 @@ TEST_MUTABLE_RDF = OUTPUT_DIR / "go-nucleus.owl.ttl"
 
 
 class TestSparqlImplementation(unittest.TestCase):
+    """Test SPARQL Implementation."""
+
     def setUp(self) -> None:
+        """Set up."""
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_RDF)))
         self.oi = oi
 
     def test_relationships(self):
+        """Test relationships."""
         oi = self.oi
         self.assertIsNotNone(oi.graph)
         rels = oi.get_outgoing_relationship_map_by_curie(VACUOLE)
@@ -50,11 +55,13 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertIn("GO:0005737", rels[PART_OF])
 
     def test_parents(self):
+        """Test parents."""
         parents = self.oi.get_hierararchical_parents_by_curie(VACUOLE)
         # print(parents)
         assert "GO:0043231" in parents
 
     def test_labels(self):
+        """Test labels."""
         label = self.oi.get_label_by_curie(NUCLEUS)
         logging.info(label)
         self.assertEqual(label, "nucleus")
@@ -62,6 +69,7 @@ class TestSparqlImplementation(unittest.TestCase):
 
     @unittest.skip("TODO")
     def test_subontology(self):
+        """Test subontology."""
         oi = self.oi
         self.assertIsNotNone(oi.named_graph)
         label = oi.get_label_by_curie(DIGIT)
@@ -71,16 +79,19 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertEqual("shape", oi.get_label_by_curie(SHAPE))
 
     def test_dump(self):
+        """Test dump."""
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(TEST_MUTABLE_RDF, "ttl")
 
     @unittest.skip("TODO")
     def test_set_label(self):
+        """Test set label."""
         self.oi.set_label_for_curie(NUCLEUS, "foo")
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(TEST_MUTABLE_RDF, "ttl")
 
     def test_synonyms(self):
+        """Test synonyms."""
         syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
         logging.info(syns)
         assert "cellular component" in syns
@@ -99,15 +110,18 @@ class TestSparqlImplementation(unittest.TestCase):
         )
 
     def test_all_entity_curies(self):
+        """Test all entity curies."""
         curies = list(self.oi.all_entity_curies())
         self.assertGreater(len(curies), 100)
         self.assertIn(NUCLEUS, curies)
 
     def test_definition(self):
+        """Test definition."""
         defn = self.oi.get_definition_by_curie(CELLULAR_COMPONENT)
         assert defn.startswith("A location, relative to cellular compartments")
 
     def test_search_exact(self):
+        """Test search exact."""
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("nucleus", config=config))
         # print(curies)
@@ -122,6 +136,7 @@ class TestSparqlImplementation(unittest.TestCase):
         assert CATALYTIC_ACTIVITY in curies
 
     def test_search_partial(self):
+        """Test partial."""
         config = SearchConfiguration(is_partial=True)
         # non-exact matches across all ontobee are slow: restrict to pato
         curies = list(self.oi.basic_search("ucl", config=config))
@@ -130,6 +145,7 @@ class TestSparqlImplementation(unittest.TestCase):
         assert NUCLEUS in curies
 
     def test_obograph(self):
+        """Test Obograph."""
         g = self.oi.ancestor_graph(VACUOLE)
         nix = index_graph_nodes(g)
         self.assertEqual(nix[VACUOLE].lbl, "vacuole")
@@ -153,6 +169,7 @@ class TestSparqlImplementation(unittest.TestCase):
         assert CYTOPLASM in ancs
 
     def test_descendants(self):
+        """Test descendants."""
         descs = list(self.oi.descendants(CYTOPLASM, predicates=[IS_A, PART_OF]))
         self.assertIn(VACUOLE, descs)
         self.assertIn(CYTOPLASM, descs)
@@ -170,6 +187,7 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertEqual([NUCLEUS], list(self.oi.descendants(NUCLEUS, predicates=[IS_A])))
 
     def test_search_starts_with(self):
+        """Test 'search starts with' feature."""
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
         # print(curies)
@@ -177,6 +195,7 @@ class TestSparqlImplementation(unittest.TestCase):
         assert NUCLEUS in curies
 
     def test_search_regex(self):
+        """Test search regex."""
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("nucl.* envelope$", config=config))
         print(curies)
@@ -185,7 +204,7 @@ class TestSparqlImplementation(unittest.TestCase):
 
     def test_mutable(self):
         """
-        Tests the SPARQL store can be modified
+        Tests the SPARQL store can be modified.
 
         Currently only tests
         """
