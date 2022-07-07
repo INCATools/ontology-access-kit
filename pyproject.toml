@@ -22,6 +22,7 @@ lark = "^1.1.2"
 kgcl-schema = "^0.2.0"
 funowl = "^0.1.12"
 kgcl-rdflib = "^0.2.0"
+pystow = "^0.4.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
