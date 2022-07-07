@@ -86,6 +86,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.abstract_sparql_implementation</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.patcher_interface</span> <span class="kn">import</span> <span class="n">PatcherInterface</span>
@@ -95,6 +96,7 @@
 <div class="viewcode-block" id="SparqlImplementation"><a class="viewcode-back" href="../../../../implementations/sparql.html#oaklib.implementations.sparql.sparql_implementation.SparqlImplementation">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SparqlImplementation</span><span class="p">(</span>
     <span class="n">AbstractSparqlImplementation</span><span class="p">,</span>
+    <span class="n">DifferInterface</span><span class="p">,</span>
     <span class="n">SearchInterface</span><span class="p">,</span>
     <span class="n">MappingProviderInterface</span><span class="p">,</span>
     <span class="n">OboGraphInterface</span><span class="p">,</span>
