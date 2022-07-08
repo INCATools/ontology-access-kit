@@ -32,8 +32,9 @@ class GildaImplementation(TextAnnotatorInterface):
 
         import gilda
 
-        matches = gilda.ground(text)
-        for match in matches:
-            curie = f"{match.term.db}:{match.term.id}"
-            label = match.term.entry_name
-            yield nen_annotation(text=text, curie=curie, label=label)
+        for match in gilda.ground(text):
+            yield nen_annotation(
+                text=text,
+                curie=f"{match.term.db}:{match.term.id}",
+                label=match.term.entry_name,
+            )
