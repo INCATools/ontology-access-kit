@@ -4,14 +4,14 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 
 import requests
-from sssom import Mapping
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
-from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, SEMAPV
+from oaklib.implementations.ols import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -20,6 +20,7 @@ from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE
 
 ANNOTATION = Dict[str, Any]
+SEARCH_ROWS = 50
 
 oxo_pred_mappings = {
     ScopeEnum.EXACT.text: "skos:exactMatch",
@@ -42,7 +43,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     ols_api_key: str = None
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
-    ols_base_url = "https://www.ebi.ac.uk/ols/api/ontologies/"
+    ols_base_url = "https://www.ebi.ac.uk/ols/api"
     prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
 
@@ -60,7 +61,8 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
         return self.prefix_map
 
     def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
-        raise NotImplementedError
+        for curie in curies:
+            yield curie, self.label_cache[curie]
 
     def annotate_text(self, text: str) -> Iterator[TextAnnotation]:
         raise NotImplementedError
@@ -87,7 +89,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
             # must be double encoded https://www.ebi.ac.uk/ols/docs/api
             term_id_quoted = urllib.parse.quote(term_id, safe="")
             term_id_quoted = urllib.parse.quote(term_id_quoted, safe="")
-            url = f"{self.ols_base_url}{ontology}/terms/{term_id_quoted}/{query}"
+            url = f"{self.ols_base_url}/ontologies/{ontology}/terms/{term_id_quoted}/{query}"
             logging.debug(f"URL={url}")
             result = requests.get(url)
             obj = result.json()
@@ -103,9 +105,51 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
-        raise NotImplementedError
+        query_fields = set()
+        # Anything not covered by these conditions (i.e. query_fields set remains empty)
+        # will cause the queryFields query param to be left off and all fields to be queried
+        if SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+            query_fields.update(["iri", "obo_id"])
+        if SearchProperty(SearchProperty.LABEL) in config.properties:
+            query_fields.update(["label"])
+        if SearchProperty(SearchProperty.ALIAS) in config.properties:
+            query_fields.update(["synonym"])
+        if SearchProperty(SearchProperty.DEFINITION) in config.properties:
+            query_fields.update(["description"])
+        if SearchProperty(SearchProperty.INFORMATIVE_TEXT) in config.properties:
+            query_fields.update(["description"])
+
+        params = {
+            "q": search_term,
+            "type": "class",
+            "local": "true",
+            "fieldList": "iri,label",
+            "rows": config.limit if config.limit is not None else SEARCH_ROWS,
+            "start": 0,
+            "exact": "true"
+            if (config.is_complete is True or config.is_partial is False)
+            else "false",
+        }
+        if len(query_fields) > 0:
+            params["queryFields"] = ",".join(query_fields)
+        if self.focus_ontology:
+            params["ontology"] = self.focus_ontology.lower()
+
+        finished = False
+        while not finished:
+            response = requests.get(f"{self.ols_base_url}/search", params=params)
+            logging.debug(f"URL={response.url}")
+            body = response.json()
+            params["start"] += params["rows"]
+            if params["start"] > body["response"]["numFound"]:
+                finished = True
+            for doc in body["response"]["docs"]:
+                curie = self.uri_to_curie(doc["iri"])
+                label = doc["label"]
+                self.label_cache[curie] = label
+                yield curie
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface
@@ -127,7 +171,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
                 subject_label=oxo_s.label,
                 subject_source=oxo_s.datasource.prefix if oxo_s.datasource else None,
                 predicate_id=oxo_pred_mappings[str(oxo_mapping.scope)],
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 object_id=oxo_o.curie,
                 object_label=oxo_o.label,
                 object_source=oxo_o.datasource.prefix if oxo_o.datasource else None,

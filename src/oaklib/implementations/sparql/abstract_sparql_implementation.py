@@ -4,13 +4,15 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
+import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
+import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
-import sssom
+from kgcl_schema.datamodel.kgcl import Change
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import (
@@ -25,14 +27,17 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBO_PURL,
+    SEMAPV,
     SYNONYM_PREDICATES,
 )
+from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP_MAP,
+    BasicOntologyInterface,
 )
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
@@ -420,12 +425,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
         raise NotImplementedError
 
-    def get_definition_by_curie(self, curie: CURIE) -> str:
-        """
-
-        :param curie:
-        :return:
-        """
+    def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
+        # TODO: allow this to be configured to use different predicates
         labels = self._get_anns(curie, HAS_DEFINITION_URI)
         if labels:
             if len(labels) > 1:
@@ -465,7 +466,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         if ":" in search_term and " " not in search_term:
             logging.debug(f"Not performing search on what looks like a CURIE: {search_term}")
@@ -520,7 +521,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # Implements: MappingProviderInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         pred_uris = [self.curie_to_sparql(pred) for pred in ALL_MATCH_PREDICATES]
         query = SparqlQuery(
             select=["?p", "?o"],
@@ -532,7 +533,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 subject_id=curie,
                 predicate_id=self.uri_to_curie(row["p"]["value"]),
                 object_id=self.uri_to_curie(row["o"]["value"]),
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
                 yield m
@@ -546,7 +547,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 subject_id=self.uri_to_curie(row["s"]["value"]),
                 predicate_id=self.uri_to_curie(row["p"]["value"]),
                 object_id=curie,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             if m is not None:
                 yield m
@@ -642,6 +643,26 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             where=["?s ?p ?o", self._curie_dict_to_values("p", "p_new", curie_map)],
         )
         self._sparql_update(q)
+
+    def apply_patch(self, patch: Change) -> None:
+        if self.graph:
+            logging.info(f"Applying: {patch} to {self.graph}")
+            kgcl_patcher.apply_patch([patch], self.graph)
+        else:
+            raise NotImplementedError("Apply patch is only implemented for local graphs")
+
+    def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
+        if self.graph:
+            if isinstance(other_ontology, AbstractSparqlImplementation):
+                if other_ontology.graph:
+                    for change in kgcl_diff.diff(self.graph, other_ontology.graph):
+                        yield change
+                else:
+                    raise NotImplementedError("Diff is only implemented for local graphs")
+            else:
+                raise NotImplementedError("Second ontology must implement sparql interface")
+        else:
+            raise NotImplementedError("Diff is only implemented for local graphs")
 
     def save(self):
         if self.graph:

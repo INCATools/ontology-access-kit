@@ -305,7 +305,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_search_pronto_obolibrary(self):
         to_out = ["-o", str(TEST_OUT)]
         result = self.runner.invoke(
-            main, ["-i", "obolibrary:pato.obo", "search", "t~shape"] + to_out
+            main, ["-i", "prontolib:pato.obo", "search", "t~shape"] + to_out
         )
         out = self._out()
         err = result.stderr
@@ -314,7 +314,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
         result = self.runner.invoke(
-            main, ["-i", "obolibrary:pato.obo", "search", "l=shape"] + to_out
+            main, ["-i", "prontolib:pato.obo", "search", "l=shape"] + to_out
         )
         out = self._out()
         err = result.stderr
@@ -322,7 +322,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn(SHAPE, out)
         self.assertNotIn("PATO:0002021", out)  # conical - matches a synonym
         self.assertEqual("", err)
-        result = self.runner.invoke(main, ["-i", "obolibrary:pato.obo", "search", "shape"] + to_out)
+        result = self.runner.invoke(main, ["-i", "prontolib:pato.obo", "search", "shape"] + to_out)
         out = self._out()
         err = result.stderr
         self.assertEqual(0, result.exit_code)

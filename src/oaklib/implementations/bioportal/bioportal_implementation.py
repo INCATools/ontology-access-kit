@@ -4,11 +4,12 @@ from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
 import requests
-from sssom import Mapping
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
+from oaklib.datamodels.vocabulary import SEMAPV
+from oaklib.implementations.bioportal import SEARCH_CONFIG
 from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -193,7 +194,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SearchConfiguration()
+        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         params = {"q": search_term, "include": ["prefLabel"]}
         if self.focus_ontology:
@@ -234,7 +235,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
             req_url, params={"display_context": "false"}, raise_for_status=False
         )
         if response.status_code != requests.codes.ok:
-            logging.warn(f"Could not fetch mappings for {id}")
+            logging.warning(f"Could not fetch mappings for {id}")
             return []
         body = response.json()
         for result in body:
@@ -248,7 +249,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         mapping = Mapping(
             subject_id=subject["@id"],
             predicate_id=SOURCE_TO_PREDICATE[result["source"]],
-            match_type=MatchTypeEnum.Unspecified,
+            mapping_justification=SEMAPV.UnspecifiedMatching.value,
             object_id=object["@id"],
             mapping_provider=result["@type"],
             mapping_tool=result["source"],
@@ -267,7 +268,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         logging.debug(request_url)
         response = self._bioportal_get(request_url, params={"display_context": "false"})
         if response.status_code != requests.codes.ok:
-            logging.warn(f"Could not fetch ancestors for {uri}")
+            logging.warning(f"Could not fetch ancestors for {uri}")
             return []
         body = response.json()
         for ancestor in body:
