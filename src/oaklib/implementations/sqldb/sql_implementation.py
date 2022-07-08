@@ -19,10 +19,7 @@ from typing import (
 )
 
 import rdflib
-import requests
 import semsql.builder.builder as semsql_builder
-import sssom
-from appdirs import user_cache_dir
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -49,16 +46,13 @@ from semsql.sqla.semsql import (
 )
 from sqlalchemy import and_, create_engine, delete, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
-
-# TODO: move to schemaview
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
+from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
 from oaklib.datamodels.search import SearchConfiguration
-
-# from oaklib import OntologyResource
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import (
@@ -70,6 +64,7 @@ from oaklib.datamodels.vocabulary import (
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    SEMAPV,
     SYNONYM_PREDICATES,
     omd_slots,
 )
@@ -95,6 +90,12 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
 
+__all__ = [
+    "get_range_xsd_type",
+    "regex_to_sql_like",
+    "SqlImplementation",
+]
+
 
 def _curie_prefix(curie: CURIE) -> Optional[str]:
     if ":" in curie:
@@ -103,20 +104,12 @@ def _curie_prefix(curie: CURIE) -> Optional[str]:
         return None
 
 
-def _mapping(m: sssom.Mapping):
+def _mapping(m: Mapping):
     # enhances a mapping with sources
     # TODO: move to sssom utils
     m.subject_source = _curie_prefix(m.subject_id)
     m.object_source = _curie_prefix(m.object_id)
     return m
-
-
-# https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests
-def download_file(url: str, local_filename: Path):
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        with open(local_filename, "wb") as f:
-            shutil.copyfileobj(r.raw, f)
 
 
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
@@ -202,17 +195,12 @@ class SqlImplementation(
                 # The selector 'sqlite:obo:ONTOLOGY' will use a pre-generated
                 # sqlite db of an OBO ontology after downloading from S3.
                 # Note: this can take some time
-                db_name = locator.replace("obo:", "") + ".db"
-                cache_dir = Path(user_cache_dir("oaklib"))
-                cache_dir.mkdir(parents=True, exist_ok=True)
-                logging.info(f"Using cache dir: {cache_dir}")
-                db_path = cache_dir / db_name
-                if not db_path.exists():
-                    url = f"https://s3.amazonaws.com/bbop-sqlite/{db_name}"
-                    logging.info(f"Downloading from {url} to {db_path}")
-                    download_file(url, db_path)
-                else:
-                    logging.info(f"Using cached db: {db_path}")
+                prefix = locator[len("obo:") :]
+                # Option 1 uses direct URL construction:
+                url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db"
+                db_path = OAKLIB_MODULE.ensure(url=url)
+                # Option 2 uses botocore to interface with the S3 API directly:
+                # db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket="bbop-sqlite", s3_key=f"{prefix}.db")
                 locator = f"sqlite:///{db_path}"
             if locator.endswith(".owl"):
                 # this is currently an "Easter Egg" feature. It allows you to specify a locator
@@ -228,6 +216,7 @@ class SqlImplementation(
             else:
                 path = Path(locator.replace("sqlite:", "")).absolute()
                 locator = f"sqlite:///{path}"
+            logging.info(f"Locator, post-processed: {locator}")
             self.engine = create_engine(locator)
 
     @property
@@ -651,7 +640,7 @@ class SqlImplementation(
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[sssom.Mapping]:
+    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query:
@@ -660,11 +649,11 @@ class SqlImplementation(
             if URIorCURIE.is_valid(v):
                 if row.subject.startswith("_:"):
                     continue
-                mpg = sssom.Mapping(
+                mpg = Mapping(
                     subject_id=row.subject,
                     object_id=v,
                     predicate_id=row.predicate,
-                    match_type=MatchTypeEnum.Unspecified,
+                    mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
                 _mapping(mpg)
                 if subject_or_object_source:
@@ -679,33 +668,33 @@ class SqlImplementation(
                 if self.strict:
                     raise ValueError(f"not a CURIE: {v}")
 
-    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query.filter(Statements.subject == curie):
-            mpg = sssom.Mapping(
+            mpg = Mapping(
                 subject_id=curie,
                 object_id=row.value if row.value is not None else row.object,
                 predicate_id=row.predicate,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             yield _mapping(mpg)
         # xrefs are stored as literals
         for row in base_query.filter(Statements.value == curie):
-            mpg = sssom.Mapping(
+            mpg = Mapping(
                 subject_id=row.subject,
                 object_id=curie,
                 predicate_id=row.predicate,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             yield _mapping(mpg)
         # skos mappings are stored as objects
         for row in base_query.filter(Statements.object == curie):
-            mpg = sssom.Mapping(
+            mpg = Mapping(
                 subject_id=row.subject,
                 object_id=curie,
                 predicate_id=row.predicate,
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
             )
             yield _mapping(mpg)
 

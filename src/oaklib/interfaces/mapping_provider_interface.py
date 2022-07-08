@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from typing import Iterable
 
-import sssom
+from sssom_schema import Mapping
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
@@ -15,7 +15,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
     TODO: move code from mapping-walker
     """
 
-    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[sssom.Mapping]:
+    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[Mapping]:
         """
         All SSSOM mappings in the ontology
 
@@ -36,7 +36,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
                         continue
                 yield m
 
-    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         """
         All SSSOM mappings about a curie
 
@@ -47,7 +47,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def get_transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_transitive_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         """
 
         :param curie:

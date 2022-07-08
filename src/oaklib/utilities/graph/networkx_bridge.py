@@ -6,7 +6,7 @@ NetworkX is a popular python package for working with graphs
 """
 from typing import Dict, List, Tuple
 
-import sssom
+from sssom_schema import Mapping
 
 from oaklib.types import CURIE, PRED_CURIE
 
@@ -22,7 +22,7 @@ import networkx as nx
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
 
 
-def mappings_to_graph(mappings: Iterable[sssom.Mapping]) -> nx.Graph:
+def mappings_to_graph(mappings: Iterable[Mapping]) -> nx.Graph:
     g = nx.Graph()
     for m in mappings:
         g.add_edge(m.subject_id, m.object_id)

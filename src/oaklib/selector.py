@@ -117,8 +117,11 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
             elif impl_class == ProntoImplementation:
                 if resource.slug.endswith(".obo"):
                     resource.format = "obo"
+                if scheme == "prontolib":
+                    resource.local = False
+                else:
+                    resource.local = True
                 resource.slug = rest
-                resource.local = scheme == "pronto"
             else:
                 for ext_name, ext_module in discovered_plugins.items():
                     try:

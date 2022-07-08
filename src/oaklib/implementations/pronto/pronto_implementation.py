@@ -9,12 +9,11 @@ from dataclasses import dataclass
 from typing import Dict, Iterable, Iterator, List, Tuple, Union
 
 import pronto
-import sssom
+import sssom_schema as sssom
 from deprecated import deprecated
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
-from sssom.sssom_datamodel import MatchTypeEnum
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
@@ -28,6 +27,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
+    SEMAPV,
     SKOS_CLOSE_MATCH,
 )
 from oaklib.interfaces.basic_ontology_interface import (
@@ -97,6 +97,7 @@ class ProntoImplementation(
     def __post_init__(self):
         if self.wrapped_ontology is None:
             resource = self.resource
+            logging.info(f"Pronto using resource: {resource}")
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
@@ -385,7 +386,7 @@ class ProntoImplementation(
                     subject_id=curie,
                     predicate_id=SKOS_CLOSE_MATCH,
                     object_id=x.id,
-                    match_type=MatchTypeEnum.Unspecified,
+                    mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
         # TODO: use a cache to avoid re-calculating
         for e in self.all_entity_curies():
@@ -397,7 +398,7 @@ class ProntoImplementation(
                             subject_id=e,
                             predicate_id=SKOS_CLOSE_MATCH,
                             object_id=curie,
-                            match_type=MatchTypeEnum.Unspecified,
+                            mapping_justification=SEMAPV.UnspecifiedMatching.value,
                         )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -489,5 +490,15 @@ class ProntoImplementation(
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True
+        elif isinstance(patch, kgcl.NodeDeletion):
+            t = self._entity(patch.about_node, strict=True)
+            raise NotImplementedError
+        elif isinstance(patch, kgcl.NodeCreation):
+            self.create_entity(patch.about_node, patch.name)
+        elif isinstance(patch, kgcl.SynonymReplacement):
+            t = self._entity(patch.about_node, strict=True)
+            for syn in t.synonyms:
+                if syn.description == patch.old_value:
+                    syn.description = patch.new_value
         else:
             raise NotImplementedError
