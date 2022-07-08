@@ -12,11 +12,11 @@ Use the :code:`gilda` selector:
 
 Currently ontology sub-selectors are not supported
 
-Search
-^^^^^^
+Annotation
+^^^^^^^^^^
 .. code:: shell
 
-   $ runoak -i gilda: search tentacle
+   $ runoak -i gilda: annotate -W "cell cortex"
 
 Code
 ----
