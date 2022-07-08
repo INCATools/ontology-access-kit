@@ -26,9 +26,9 @@ class GildaImplementation(TextAnnotatorInterface):
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
         if not configuration:
-            raise NotImplementedError
+            raise NotImplementedError("Missing text annotation configuration")
         if not configuration.matches_whole_text:
-            raise NotImplementedError
+            raise NotImplementedError("Gilda annotator can't be used to match partial text")
 
         import gilda
 
