@@ -22,6 +22,7 @@ lark = "^1.1.2"
 kgcl = "^0.1.0"
 kgcl-schema = "^0.1.1"
 funowl = "^0.1.12"
+gilda = {version = "^0.10.1", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -44,6 +45,7 @@ omk = "oaklib.omk.omk_cli:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
+gilda = ["gilda"]
 
 [tool.black]
 line-length = 100
