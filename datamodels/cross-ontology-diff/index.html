@@ -61,9 +61,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">Text Annotator Datamodel</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Cross-Ontology Diff</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#subsets">Subsets</a></li>
 </ul>
 </li>
 </ul>
@@ -131,139 +128,72 @@ If mappings cannot be found then the diff is categorized as missing mappings.
 The predicate is also mapped, with the reflexivity assumption.</p>
 <p>for every mapped subject and object pair (the “right” subject and object), the entailed relationship
 is examined to determine if it consistent with the left predicate.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left_object</span>    <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_object</span>
-   <span class="o">^</span>                                  <span class="o">^</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span> <span class="n">left</span>                             <span class="o">|</span> <span class="n">right</span>
-   <span class="o">|</span> <span class="n">predicate</span>                        <span class="o">|</span> <span class="n">predicate</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-<span class="n">left_subject</span>   <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_subject</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>left_object    &lt;--- mapped to ---&gt; right_object
+   ^                                  ^
+   |                                  |
+   |                                  |
+   | left                             | right
+   | predicate                        | predicate
+   |                                  |
+   |                                  |
+left_subject   &lt;--- mapped to ---&gt; right_subject
+``` |
+| [StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results results |
+
+
+## Slots
+
+| Slot | Description |
+| --- | --- |
+| [category](category.md) | Each match (or lack of match) is placed into exactly one category |
+| [is_functional](is_functional.md) | None |
+| [label](label.md) | None |
+| [left_object_id](left_object_id.md) | The object (parent) of the source/left edge |
+| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontology |
+| [left_object_label](left_object_label.md) | The name of the object (parent) of the source/left edge |
+| [left_predicate_id](left_predicate_id.md) | The predicate (relation) of the source/left edge |
+| [left_predicate_label](left_predicate_label.md) | The name of the predicate of the source/left edge |
+| [left_side](left_side.md) | None |
+| [left_source](left_source.md) | None |
+| [left_subject_id](left_subject_id.md) | The subject (child) of the source/left edge |
+| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontology |
+| [left_subject_label](left_subject_label.md) | The name of the subject (child) of the source/left edge |
+| [object](object.md) | None |
+| [object_mapping_cardinality](object_mapping_cardinality.md) | The mapping cardinality of the object pair |
+| [object_mapping_predicate](object_mapping_predicate.md) | The mapping predicate that holds between left_object_id and right_object_id |
+| [predicate](predicate.md) | None |
+| [results](results.md) | all differences between a pair of ontologies |
+| [right_intermediate_ids](right_intermediate_ids.md) | None |
+| [right_object_id](right_object_id.md) | The object (parent) of the matched/right edge, if matchable |
+| [right_object_label](right_object_label.md) | The name of the object (parent) of the matched/right edge, if matchable |
+| [right_predicate_ids](right_predicate_ids.md) | * If the match type is consistent, then all consistent predicates.
+* If the match type is identical, then the identical predicate.
+* If the match type is OtherRelationship, then all predicates that form a path between right subject and object |
+| [right_predicate_labels](right_predicate_labels.md) | The names corresponding to the right_predicate_ids |
+| [right_side](right_side.md) | None |
+| [right_source](right_source.md) | None |
+| [right_subject_id](right_subject_id.md) | The subject (child) of the matched/right edge, if matchable |
+| [right_subject_label](right_subject_label.md) | The name of the subject (child) of the matched/right edge, if matchable |
+| [side](side.md) | None |
+| [subject](subject.md) | None |
+| [subject_mapping_cardinality](subject_mapping_cardinality.md) | The mapping cardinality of the subject pair |
+| [subject_mapping_predicate](subject_mapping_predicate.md) | The mapping predicate that holds between left_subject_id and right_subject_id |
+
+
+## Enumerations
+
+| Enumeration | Description |
+| --- | --- |
+| [DiffCategory](DiffCategory.md) | Category of the cross-ontology diff, from the perspective of the left-hand edge |
+| [MappingCardinalityEnum](MappingCardinalityEnum.md) | None |
+
+
+## Subsets
+
+| Subset | Description |
+| --- | --- |
 </pre></div>
 </div>
-<p>The above figure gives hows the basic structure. Classification of the edge is done from the perspective
-of the left edge. |
-| <a class="reference internal" href="StructureDiffResultSet.html"><span class="doc std std-doc">StructureDiffResultSet</span></a> | A collection of relational diff results results |</p>
-</section>
-<section id="slots">
-<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Slot</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
-<td><p>Each match (or lack of match) is placed into exactly one category</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="is_functional.html"><span class="doc std std-doc">is_functional</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="left_object_id.html"><span class="doc std std-doc">left_object_id</span></a></p></td>
-<td><p>The object (parent) of the source/left edge</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
-<td><p>True if an object mapping is present, and maps uniquely within the same ontology</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="left_object_label.html"><span class="doc std std-doc">left_object_label</span></a></p></td>
-<td><p>The name of the object (parent) of the source/left edge</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="left_predicate_id.html"><span class="doc std std-doc">left_predicate_id</span></a></p></td>
-<td><p>The predicate (relation) of the source/left edge</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="left_predicate_label.html"><span class="doc std std-doc">left_predicate_label</span></a></p></td>
-<td><p>The name of the predicate of the source/left edge</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="left_side.html"><span class="doc std std-doc">left_side</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="left_source.html"><span class="doc std std-doc">left_source</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="left_subject_id.html"><span class="doc std std-doc">left_subject_id</span></a></p></td>
-<td><p>The subject (child) of the source/left edge</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
-<td><p>True if a subject mapping is present, and maps uniquely within the same ontology</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="left_subject_label.html"><span class="doc std std-doc">left_subject_label</span></a></p></td>
-<td><p>The name of the subject (child) of the source/left edge</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_mapping_cardinality.html"><span class="doc std std-doc">object_mapping_cardinality</span></a></p></td>
-<td><p>The mapping cardinality of the object pair</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a></p></td>
-<td><p>The mapping predicate that holds between left_object_id and right_object_id</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
-<td><p>all differences between a pair of ontologies</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="right_intermediate_ids.html"><span class="doc std std-doc">right_intermediate_ids</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="right_object_id.html"><span class="doc std std-doc">right_object_id</span></a></p></td>
-<td><p>The object (parent) of the matched/right edge, if matchable</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a></p></td>
-<td><p>The name of the object (parent) of the matched/right edge, if matchable</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="doc std std-doc">right_predicate_ids</span></a></p></td>
-<td><p>* If the match type is consistent, then all consistent predicates.</p></td>
-</tr>
-</tbody>
-</table>
-<ul class="simple">
-<li><p>If the match type is identical, then the identical predicate.</p></li>
-<li><p>If the match type is OtherRelationship, then all predicates that form a path between right subject and object |
-| <a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a> | The names corresponding to the right_predicate_ids |
-| <a class="reference internal" href="right_side.html"><span class="doc std std-doc">right_side</span></a> | None |
-| <a class="reference internal" href="right_source.html"><span class="doc std std-doc">right_source</span></a> | None |
-| <a class="reference internal" href="right_subject_id.html"><span class="doc std std-doc">right_subject_id</span></a> | The subject (child) of the matched/right edge, if matchable |
-| <a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a> | The name of the subject (child) of the matched/right edge, if matchable |
-| <a class="reference internal" href="side.html"><span class="doc std std-doc">side</span></a> | None |
-| <a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a> | None |
-| <a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a> | The mapping cardinality of the subject pair |
-| <a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a> | The mapping predicate that holds between left_subject_id and right_subject_id |</p></li>
-</ul>
-</section>
-<section id="enumerations">
-<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Enumeration</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="DiffCategory.html"><span class="doc std std-doc">DiffCategory</span></a></p></td>
-<td><p>Category of the cross-ontology diff, from the perspective of the left-hand edge</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a></p></td>
-<td><p>None</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="subsets">
-<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this headline"></a></h2>
-<table class="colwidths-auto docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Subset</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-</table>
 </section>
 </section>
 
