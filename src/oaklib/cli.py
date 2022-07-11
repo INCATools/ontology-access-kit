@@ -2382,7 +2382,7 @@ def diff_via_mappings(
                 "No --other-input specified - specify --intra if mappings are within the main input"
             )
     if mapping_input:
-        mappings = to_mapping_set_document(parse_sssom_table(mapping_input))
+        mappings = to_mapping_set_document(parse_sssom_table(mapping_input)).mapping_set.mappings
     else:
         mappings = None
     for r in calculate_pairwise_relational_diff(
