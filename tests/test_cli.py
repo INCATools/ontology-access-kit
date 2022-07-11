@@ -433,6 +433,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertGreater(obj["ancestor_information_content"], 3.0)
 
     def test_diff_via_mappings(self):
+        outfile = f"{OUTPUT_DIR}/diff-mapping-test-cli.sssom"
         result = self.runner.invoke(
             main,
             [
@@ -446,7 +447,13 @@ class TestCommandLineInterface(unittest.TestCase):
                 "X",
                 "-S",
                 "Y",
+                "-o",
+                outfile,
             ],
         )
         result.stderr
         self.assertEqual(0, result.exit_code)
+        with open(outfile) as f:
+            docs = yaml.load_all(f, yaml.FullLoader)
+            for doc in docs:
+                self.assertTrue(type(doc), dict)
