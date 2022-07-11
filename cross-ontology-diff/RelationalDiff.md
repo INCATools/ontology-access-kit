@@ -20,7 +20,10 @@ left_object    <--- mapped to ---> right_object
    |                                  |
    |                                  |
 left_subject   <--- mapped to ---> right_subject
-```_
+```
+
+The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+of the left edge._
 
 
 
@@ -149,7 +152,9 @@ description: "A relational diff expresses the difference between an edge in one 
   \                |\n   |                                  |\n   | left         \
   \                    | right\n   | predicate                        | predicate\n\
   \   |                                  |\n   |                                 \
-  \ |\nleft_subject   <--- mapped to ---> right_subject\n```"
+  \ |\nleft_subject   <--- mapped to ---> right_subject\n```\n\nThe above figure gives\
+  \ hows the basic structure. Classification of the edge is done from the perspective\n\
+  of the left edge."
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   category:
@@ -338,7 +343,9 @@ description: "A relational diff expresses the difference between an edge in one 
   \                |\n   |                                  |\n   | left         \
   \                    | right\n   | predicate                        | predicate\n\
   \   |                                  |\n   |                                 \
-  \ |\nleft_subject   <--- mapped to ---> right_subject\n```"
+  \ |\nleft_subject   <--- mapped to ---> right_subject\n```\n\nThe above figure gives\
+  \ hows the basic structure. Classification of the edge is done from the perspective\n\
+  of the left edge."
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   category:

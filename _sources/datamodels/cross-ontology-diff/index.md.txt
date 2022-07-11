@@ -30,7 +30,10 @@ left_object    <--- mapped to ---> right_object
    |                                  |
    |                                  |
 left_subject   <--- mapped to ---> right_subject
-``` |
+```
+
+The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+of the left edge. |
 | [StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results results |
 
 
