@@ -405,26 +405,29 @@ class ProntoImplementation(
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
         t = self._entity(curie)
         if t is None:
             return obograph.Node(id=curie)
         else:
             meta = obograph.Meta()
-            if t.definition:
-                meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
             if isinstance(t, pronto.Relationship):
                 t_id = self._get_pronto_relationship_type_curie(t)
             else:
                 t_id = t.id
-            if isinstance(t, pronto.Relationship):
-                for x in t.xrefs:
-                    if x.id.startswith("RO:") or x.id.startswith("BFO:"):
-                        t_id = x.id
-            # for s in t.synonyms:
-            #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
-            #                                                       scope=s.scope.lower(),
-            #                                                      xrefs=[x.id for x in s.xrefs]))
+            if include_metadata:
+                if t.definition:
+                    meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
+                if t.xrefs:
+                    meta.xrefs = [obograph.XrefPropertyValue(val=x.id) for x in t.xrefs]
+                if isinstance(t, pronto.Relationship):
+                    for x in t.xrefs:
+                        if x.id.startswith("RO:") or x.id.startswith("BFO:"):
+                            t_id = x.id
+                # for s in t.synonyms:
+                #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
+                #                                                       scope=s.scope.lower(),
+                #                                                      xrefs=[x.id for x in s.xrefs]))
             return obograph.Node(id=t_id, lbl=t.name, meta=meta)
 
     def as_obograph(self) -> Graph:

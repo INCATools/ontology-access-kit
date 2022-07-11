@@ -1,0 +1,27 @@
+# curie_map:
+#   X: http://purl.obolibrary.org/obo/X_
+#   Y: http://purl.obolibrary.org/obo/Y_
+#   Z: http://purl.obolibrary.org/obo/Z_
+# license: UNSPECIFIED
+# mapping_set_id: temp
+subject_id	predicate_id	object_id	mapping_justification
+X:1	skos:closeMatch	Y:1	semapv:UnspecifiedMatching
+X:1	skos:closeMatch	Y:1	semapv:UnspecifiedMatching
+X:2	skos:closeMatch	Y:2	semapv:UnspecifiedMatching
+X:2	skos:closeMatch	Y:2	semapv:UnspecifiedMatching
+X:3	skos:closeMatch	Y:3	semapv:UnspecifiedMatching
+X:3	skos:closeMatch	Y:3	semapv:UnspecifiedMatching
+X:5	skos:closeMatch	Y:5	semapv:UnspecifiedMatching
+X:5	skos:closeMatch	Y:5	semapv:UnspecifiedMatching
+Y:1	skos:closeMatch	X:1	semapv:UnspecifiedMatching
+Y:1	skos:closeMatch	X:1	semapv:UnspecifiedMatching
+Y:2	skos:closeMatch	X:2	semapv:UnspecifiedMatching
+Y:2	skos:closeMatch	X:1	semapv:UnspecifiedMatching
+Y:2	skos:closeMatch	X:2	semapv:UnspecifiedMatching
+Y:2	skos:closeMatch	X:1	semapv:UnspecifiedMatching
+Y:3	skos:closeMatch	X:3	semapv:UnspecifiedMatching
+Y:3	skos:closeMatch	X:3	semapv:UnspecifiedMatching
+Y:4	skos:closeMatch	X:4	semapv:UnspecifiedMatching
+Y:4	skos:closeMatch	Z:4	semapv:UnspecifiedMatching
+Y:4	skos:closeMatch	X:4	semapv:UnspecifiedMatching
+
