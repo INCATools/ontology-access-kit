@@ -39,6 +39,7 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
@@ -2381,7 +2382,7 @@ def diff_via_mappings(
                 "No --other-input specified - specify --intra if mappings are within the main input"
             )
     if mapping_input:
-        raise NotImplementedError("Parsing from SSSOM not implemented")
+        mappings = to_mapping_set_document(parse_sssom_table(mapping_input)).mapping_set.mappings
     else:
         mappings = None
     for r in calculate_pairwise_relational_diff(
