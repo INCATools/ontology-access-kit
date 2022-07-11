@@ -121,6 +121,7 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     parse_gain_loss_file,
     test_candidate_taxon_constraint,
 )
+from sssom.parsers import to_mapping_set_document, parse_sssom_table
 
 OBO_FORMAT = "obo"
 RDF_FORMAT = "rdf"
@@ -2381,7 +2382,7 @@ def diff_via_mappings(
                 "No --other-input specified - specify --intra if mappings are within the main input"
             )
     if mapping_input:
-        raise NotImplementedError("Parsing from SSSOM not implemented")
+        mappings = to_mapping_set_document(parse_sssom_table(mapping_input))
     else:
         mappings = None
     for r in calculate_pairwise_relational_diff(
