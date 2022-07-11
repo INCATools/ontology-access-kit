@@ -501,7 +501,7 @@ class SqlImplementation(
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False, include_annotations=False) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
         meta = obograph.Meta()
         n = obograph.Node(id=curie, meta=meta)
         rows = list(self.session.query(Statements).filter(Statements.subject == curie))
@@ -527,7 +527,7 @@ class SqlImplementation(
             if pred == omd_slots.label.curie:
                 n.lbl = v
             else:
-                if include_annotations:
+                if include_metadata:
                     anns = self._axiom_annotations(curie, pred, row.object, row.value)
                 else:
                     anns = []

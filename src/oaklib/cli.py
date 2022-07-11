@@ -103,6 +103,9 @@ from oaklib.utilities.lexical.lexical_indexer import (
     load_mapping_rules,
     save_lexical_index,
 )
+from oaklib.utilities.mapping.cross_ontology_diffs import (
+    calculate_pairwise_relational_diff,
+)
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
@@ -856,6 +859,12 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
     type=int,
     help="Trim nodes that are equal to or greater than this distance from terms",
 )
+@click.option(
+    "--meta/--no-meta",
+    default=False,
+    show_default=True,
+    help="Add metadata object to graph nodes, including xrefs, definitions",
+)
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
@@ -872,6 +881,7 @@ def viz(
     view,
     stylemap,
     configure,
+    meta,
     output_type: str,
     output: str,
 ):
@@ -950,6 +960,8 @@ def viz(
             logging.info(f"Trimming graph, max_hops={max_hops}")
             graph = trim_graph(graph, curies, distance=max_hops, include_intermediates=True)
         logging.info(f"Drawing graph seeded from {curies}")
+        if meta:
+            impl.add_metadata(graph)
         if output_type == "json":
             if output:
                 json_dumper.dump(graph, to_file=output, inject_type=False)
@@ -2324,6 +2336,58 @@ def apply_obsolete(output, output_type, terms):
         # impl.save()
     else:
         raise NotImplementedError
+
+
+@main.command()
+@click.option("-S", "--source", multiple=True, help="ontology prefixes  e.g. HP, MP")
+@click.option(
+    "--mapping-input",
+    help="File of mappings in SSSOM format. If not provided then mappings in ontoogy are used",
+)
+@click.option("--other-input", help="Additional input file")
+@click.option("--other-input-type", help="Type of additional input file")
+@click.option(
+    "--intra/--no-intra",
+    default=False,
+    show_default=True,
+    help="If true, then all sources are in the main input ontology",
+)
+@output_option
+@output_type_option
+def diff_via_mappings(
+    source, mapping_input, intra, other_input, other_input_type, output_type, output
+):
+    """
+    Calculates a relational diff between ontologies in two sources using the combined mappings
+    from both
+
+    E.g. use MP and HP mappings to give a report on how these ontologies are structurally different.
+    """
+    oi = settings.impl
+    writer = _get_writer(
+        output_type, oi, StreamingYamlWriter, datamodel=datamodels.cross_ontology_diff
+    )
+    writer.output = output
+    if other_input:
+        if intra:
+            raise ValueError("No not specify --intra if --other-input is specified")
+        else:
+            other_oi = get_implementation_from_shorthand(other_input, format=other_input_type)
+    else:
+        if intra:
+            other_oi = oi
+        else:
+            raise ValueError(
+                "No --other-input specified - specify --intra if mappings are within the main input"
+            )
+    if mapping_input:
+        raise NotImplementedError("Parsing from SSSOM not implemented")
+    else:
+        mappings = None
+    for r in calculate_pairwise_relational_diff(
+        oi, other_oi, sources=list(source), mappings=mappings
+    ):
+        writer.emit(r)
 
 
 @main.command()

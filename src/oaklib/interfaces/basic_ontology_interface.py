@@ -359,7 +359,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         for p, vs in self.get_outgoing_relationship_map_by_curie(curie).items():
-            if predicates is None or p not in predicates:
+            if predicates is not None and p not in predicates:
                 continue
             for v in vs:
                 yield p, v
