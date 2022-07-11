@@ -30,6 +30,8 @@ TEST_DB = INPUT_DIR / "go-nucleus.db"
 TEST_DB = INPUT_DIR / "go-nucleus.db"
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
+TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
+TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 
 
 class TestCommandLineInterface(unittest.TestCase):
@@ -429,3 +431,17 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(obj["ancestor_id"], IMBO)
             self.assertGreater(obj["jaccard_similarity"], 0.5)
             self.assertGreater(obj["ancestor_information_content"], 3.0)
+
+    def test_diff_via_mappings(self):
+        result = self.runner.invoke(
+            main,
+            [
+                "-i" , TEST_OBO, 
+                "diff-via-mappings", 
+                "--mapping-input", TEST_SSSOM_MAPPING, 
+                "--intra", "-S", "X", "-S", "Y"
+                ]
+        )
+        result.stderr
+        self.assertEqual(0, result.exit_code)
+
