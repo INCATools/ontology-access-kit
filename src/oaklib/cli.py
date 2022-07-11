@@ -39,6 +39,7 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
@@ -121,7 +122,6 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     parse_gain_loss_file,
     test_candidate_taxon_constraint,
 )
-from sssom.parsers import to_mapping_set_document, parse_sssom_table
 
 OBO_FORMAT = "obo"
 RDF_FORMAT = "rdf"
