@@ -436,12 +436,17 @@ class TestCommandLineInterface(unittest.TestCase):
         result = self.runner.invoke(
             main,
             [
-                "-i" , TEST_OBO, 
-                "diff-via-mappings", 
-                "--mapping-input", TEST_SSSOM_MAPPING, 
-                "--intra", "-S", "X", "-S", "Y"
-                ]
+                "-i",
+                TEST_OBO,
+                "diff-via-mappings",
+                "--mapping-input",
+                TEST_SSSOM_MAPPING,
+                "--intra",
+                "-S",
+                "X",
+                "-S",
+                "Y",
+            ],
         )
         result.stderr
         self.assertEqual(0, result.exit_code)
-
