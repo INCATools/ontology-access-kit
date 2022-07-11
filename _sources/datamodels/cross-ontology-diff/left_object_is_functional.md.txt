@@ -6,7 +6,11 @@ URI: [https://w3id.org/linkml/text_annotator/left_object_is_functional](https://
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **left_object_is_functional** [ left_side is_functional]
+
 
 
 ## Properties

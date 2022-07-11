@@ -6,12 +6,16 @@ URI: [https://w3id.org/linkml/text_annotator/left_predicate_label](https://w3id.
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **left_predicate_label** [ left_side predicate label]
+
 
 
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+ * Range: [Label](Label.md)
 
 
 

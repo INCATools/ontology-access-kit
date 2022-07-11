@@ -6,12 +6,16 @@ URI: [https://w3id.org/linkml/text_annotator/right_object_label](https://w3id.or
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **right_object_label** [ right_side object label]
+
 
 
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+ * Range: [Label](Label.md)
 
 
 

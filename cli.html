@@ -70,6 +70,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-descendants">descendants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff">diff</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-terms">diff-terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-diff-via-mappings">diff-via-mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-subset">extract-subset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
@@ -926,6 +927,65 @@ change commands.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-diff-terms-arg-TERMS">
 <span id="cmdoption-runoak-diff-terms-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-terms-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-diff-via-mappings">
+<h4>diff-via-mappings<a class="headerlink" href="#runoak-diff-via-mappings" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Calculates a relational diff between ontologies in two sources using the combined mappings
+from both</p>
+<p>E.g. use MP and HP mappings to give a report on how these ontologies are structurally different.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-via-mappings <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-S">
+<span id="cmdoption-runoak-diff-via-mappings-s"></span><span id="cmdoption-runoak-diff-via-mappings-source"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--source</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;source&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-S" title="Permalink to this definition"></a></dt>
+<dd><p>ontology prefixes  e.g. HP, MP</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-mapping-input">
+<span class="sig-name descname"><span class="pre">--mapping-input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;mapping_input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-mapping-input" title="Permalink to this definition"></a></dt>
+<dd><p>File of mappings in SSSOM format. If not provided then mappings in ontoogy are used</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-other-input">
+<span class="sig-name descname"><span class="pre">--other-input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-other-input" title="Permalink to this definition"></a></dt>
+<dd><p>Additional input file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-other-input-type">
+<span class="sig-name descname"><span class="pre">--other-input-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_input_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-other-input-type" title="Permalink to this definition"></a></dt>
+<dd><p>Type of additional input file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-intra">
+<span id="cmdoption-runoak-diff-via-mappings-no-intra"></span><span class="sig-name descname"><span class="pre">--intra</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-intra</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-intra" title="Permalink to this definition"></a></dt>
+<dd><p>If true, then all sources are in the main input ontology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-o">
+<span id="cmdoption-runoak-diff-via-mappings-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-O">
+<span id="cmdoption-runoak-diff-via-mappings-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
 </dd></dl>
 
 </section>
@@ -2332,6 +2392,17 @@ to a distance of 2:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-viz-max-hops">
 <span class="sig-name descname"><span class="pre">--max-hops</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;max_hops&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-viz-max-hops" title="Permalink to this definition"></a></dt>
 <dd><p>Trim nodes that are equal to or greater than this distance from terms</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-viz-meta">
+<span id="cmdoption-runoak-viz-no-meta"></span><span class="sig-name descname"><span class="pre">--meta</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-meta</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-viz-meta" title="Permalink to this definition"></a></dt>
+<dd><p>Add metadata object to graph nodes, including xrefs, definitions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="std option">

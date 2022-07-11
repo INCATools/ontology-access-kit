@@ -6,12 +6,16 @@ URI: [https://w3id.org/linkml/text_annotator/left_subject_id](https://w3id.org/l
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **left_subject_id** [ left_side subject]
+
 
 
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+ * Range: [EntityReference](EntityReference.md)
 
 
 

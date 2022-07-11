@@ -1,5 +1,5 @@
 # Slot: results
-_all annotations_
+_all differences between a pair of ontologies_
 
 
 URI: [https://w3id.org/linkml/text_annotator/results](https://w3id.org/linkml/text_annotator/results)

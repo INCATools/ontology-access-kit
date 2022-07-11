@@ -1,5 +1,5 @@
 # Class: StructureDiffResultSet
-_A collection of results_
+_A collection of relational diff results results_
 
 
 
@@ -13,7 +13,9 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 ```{mermaid}
  classDiagram
     class StructureDiffResultSet
+      StructureDiffResultSet : left_source
       StructureDiffResultSet : results
+      StructureDiffResultSet : right_source
       
 ```
 
@@ -27,7 +29,9 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 
 | Name | Range | Cardinality | Description  | Info |
 | ---  | --- | --- | --- | --- |
-| [results](results.md) | [RelationalDiff](RelationalDiff.md) | 0..* | all annotations  | . |
+| [results](results.md) | [RelationalDiff](RelationalDiff.md) | 0..* | all differences between a pair of ontologies  | . |
+| [left_source](left_source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| [right_source](right_source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
 
 
 ## Usages
@@ -70,16 +74,22 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 <details>
 ```yaml
 name: StructureDiffResultSet
-description: A collection of results
+description: A collection of relational diff results results
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   results:
     name: results
-    description: all annotations
+    description: all differences between a pair of ontologies
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
     range: RelationalDiff
     inlined: true
+  left_source:
+    name: left_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
+  right_source:
+    name: right_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
 
 ```
 </details>
@@ -89,18 +99,30 @@ attributes:
 <details>
 ```yaml
 name: StructureDiffResultSet
-description: A collection of results
+description: A collection of relational diff results results
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   results:
     name: results
-    description: all annotations
+    description: all differences between a pair of ontologies
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
     alias: results
     owner: StructureDiffResultSet
     range: RelationalDiff
     inlined: true
+  left_source:
+    name: left_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    alias: left_source
+    owner: StructureDiffResultSet
+    range: string
+  right_source:
+    name: right_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    alias: right_source
+    owner: StructureDiffResultSet
+    range: string
 
 ```
 </details>

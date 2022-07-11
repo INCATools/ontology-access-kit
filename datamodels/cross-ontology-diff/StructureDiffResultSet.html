@@ -81,12 +81,14 @@
              
   <section id="class-structurediffresultset">
 <h1>Class: StructureDiffResultSet<a class="headerlink" href="#class-structurediffresultset" title="Permalink to this headline"></a></h1>
-<p><em>A collection of results</em></p>
+<p><em>A collection of relational diff results results</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/StructureDiffResultSet">ann:StructureDiffResultSet</a></p>
 <div class="mermaid">
              classDiagram
     class StructureDiffResultSet
+      StructureDiffResultSet : left_source
       StructureDiffResultSet : results
+      StructureDiffResultSet : right_source
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -104,7 +106,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
 <td><p><a class="reference internal" href="RelationalDiff.html"><span class="doc std std-doc">RelationalDiff</span></a></p></td>
 <td><p>0..*</p></td>
-<td><p>all annotations</p></td>
+<td><p>all differences between a pair of ontologies</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="left_source.html"><span class="doc std std-doc">left_source</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
+<td><p>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_source.html"><span class="doc std std-doc">right_source</span></a></p></td>
+<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1</p></td>
+<td><p>None</p></td>
 <td><p>.</p></td>
 </tr>
 </tbody>
@@ -148,16 +162,22 @@
 <details>
 ```yaml
 name: StructureDiffResultSet
-description: A collection of results
+description: A collection of relational diff results results
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   results:
     name: results
-    description: all annotations
+    description: all differences between a pair of ontologies
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
     range: RelationalDiff
     inlined: true
+  left_source:
+    name: left_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
+  right_source:
+    name: right_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -165,18 +185,30 @@ attributes:
 &lt;details&gt;
 ```yaml
 name: StructureDiffResultSet
-description: A collection of results
+description: A collection of relational diff results results
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   results:
     name: results
-    description: all annotations
+    description: all differences between a pair of ontologies
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     multivalued: true
     alias: results
     owner: StructureDiffResultSet
     range: RelationalDiff
     inlined: true
+  left_source:
+    name: left_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    alias: left_source
+    owner: StructureDiffResultSet
+    range: string
+  right_source:
+    name: right_source
+    from_schema: https://w3id.org/linkml/cross_ontology_diff
+    alias: right_source
+    owner: StructureDiffResultSet
+    range: string
 
 </pre></div>
 </div>

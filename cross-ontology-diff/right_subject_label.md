@@ -6,12 +6,16 @@ URI: [https://w3id.org/linkml/text_annotator/right_subject_label](https://w3id.o
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+
+* **right_subject_label** [ right_side subject label]
+
 
 
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+ * Range: [Label](Label.md)
 
 
 
