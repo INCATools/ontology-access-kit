@@ -81,6 +81,10 @@ classes:
          |                                  |
       left_subject   <--- mapped to ---> right_subject
       ```
+      
+      The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+      of the left edge.
+      
     attributes:
       category:
         range: DiffCategory
