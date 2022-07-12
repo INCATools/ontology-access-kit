@@ -89,28 +89,22 @@ If mappings cannot be found then the diff is categorized as missing mappings.
 The predicate is also mapped, with the reflexivity assumption.</p>
 <p>for every mapped subject and object pair (the “right” subject and object), the entailed relationship
 is examined to determine if it consistent with the left predicate.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>left_object    &lt;--- mapped to ---&gt; right_object
-   ^                                  ^
-   |                                  |
-   |                                  |
-   | left                             | right
-   | predicate                        | predicate
-   |                                  |
-   |                                  |
-left_subject   &lt;--- mapped to ---&gt; right_subject
-```_
-
-
-
-
-
-URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
-
-
-
-
-```{mermaid}
- classDiagram
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left_object</span>    <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_object</span>
+   <span class="o">^</span>                                  <span class="o">^</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+   <span class="o">|</span> <span class="n">left</span>                             <span class="o">|</span> <span class="n">right</span>
+   <span class="o">|</span> <span class="n">predicate</span>                        <span class="o">|</span> <span class="n">predicate</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+   <span class="o">|</span>                                  <span class="o">|</span>
+<span class="n">left_subject</span>   <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_subject</span>
+</pre></div>
+</div>
+<p>The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+of the left edge._</p>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/RelationalDiff">ann:RelationalDiff</a></p>
+<div class="mermaid">
+             classDiagram
     class RelationalDiff
       RelationalDiff : category
       RelationalDiff : left_object_id
@@ -133,9 +127,7 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
       RelationalDiff : subject_mapping_cardinality
       RelationalDiff : subject_mapping_predicate
       
-</pre></div>
-</div>
-<!-- no inheritance hierarchy -->
+        </div><!-- no inheritance hierarchy -->
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -292,7 +284,9 @@ description: "A relational diff expresses the difference between an edge in one 
   \                |\n   |                                  |\n   | left         \
   \                    | right\n   | predicate                        | predicate\n\
   \   |                                  |\n   |                                 \
-  \ |\nleft_subject   <--- mapped to ---> right_subject\n```"
+  \ |\nleft_subject   <--- mapped to ---> right_subject\n```\n\nThe above figure gives\
+  \ hows the basic structure. Classification of the edge is done from the perspective\n\
+  of the left edge."
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   category:
@@ -480,7 +474,9 @@ description: &quot;A relational diff expresses the difference between an edge in
   \                |\n   |                                  |\n   | left         \
   \                    | right\n   | predicate                        | predicate\n\
   \   |                                  |\n   |                                 \
-  \ |\nleft_subject   &lt;--- mapped to ---&gt; right_subject\n```&quot;
+  \ |\nleft_subject   &lt;--- mapped to ---&gt; right_subject\n```\n\nThe above figure gives\
+  \ hows the basic structure. Classification of the edge is done from the perspective\n\
+  of the left edge.&quot;
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 attributes:
   category:
