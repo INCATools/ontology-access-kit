@@ -1,11 +1,28 @@
 from abc import ABC
-from typing import Iterator
+from typing import Iterable, Optional
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
+from oaklib.types import CURIE
+
+__all__ = [
+    "TEXT",
+    "nen_annotation",
+    "TextAnnotatorInterface",
+]
 
 TEXT = str
+
+
+def nen_annotation(text: str, curie: CURIE, label: str) -> TextAnnotation:
+    """Return an annotation appropriate for a grounding."""
+    return TextAnnotation(
+        subject_start=1,
+        subject_end=len(text),
+        object_id=curie,
+        object_label=label,
+    )
 
 
 class TextAnnotatorInterface(BasicOntologyInterface, ABC):
@@ -23,8 +40,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     """
 
     def annotate_text(
-        self, text: TEXT, configuration: TextAnnotationConfiguration = None
-    ) -> Iterator[TextAnnotation]:
+        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+    ) -> Iterable[TextAnnotation]:
         """
         Annotate a piece of text
 
@@ -36,19 +53,18 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         :param configuration:
         :return:
         """
-        if configuration and configuration.matches_whole_text:
-            if isinstance(self, SearchInterface):
-                for object_id in self.basic_search(text):
-                    label = self.get_label_by_curie(object_id)
-                    # amap = self.alias_map_by_curie(object_id)
-                    ann = TextAnnotation(
-                        subject_start=1,
-                        subject_end=len(text),
-                        object_id=object_id,
-                        object_label=label,
-                    )
-                    yield ann
-            else:
-                raise NotImplementedError
-        else:
-            raise NotImplementedError
+        if not configuration:
+            raise NotImplementedError("Missing text annotation configuration")
+        if not configuration.matches_whole_text:
+            raise NotImplementedError(
+                f"{self.__class__.__name__} can't be used to match partial text"
+            )
+        if not isinstance(self, SearchInterface):
+            raise TypeError(
+                f"{self.__class__.__name__} needs to inherit from {SearchInterface} "
+                f"to use the default annotate_text() implementation"
+            )
+        for object_id in self.basic_search(text):
+            label = self.get_label_by_curie(object_id)
+            # amap = self.alias_map_by_curie(object_id)
+            yield nen_annotation(text=text, curie=object_id, label=label)
