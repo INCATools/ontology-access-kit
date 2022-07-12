@@ -29,6 +29,7 @@ These interfaces are *separated* from any particular [backend](https://incatools
 ## Documentation:
 
 - [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
+- [workshop slides](https://www.slideshare.net/cmungall/ontology-access-kit-workshop-intro-slidespptx)
 
 ## Contributing
 
