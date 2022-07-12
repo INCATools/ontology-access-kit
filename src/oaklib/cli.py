@@ -2354,10 +2354,16 @@ def apply_obsolete(output, output_type, terms):
     show_default=True,
     help="If true, then all sources are in the main input ontology",
 )
+@click.option(
+    "--add-labels/--no-add-labels",
+    default=False,
+    show_default=True,
+    help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs",
+)
 @output_option
 @output_type_option
 def diff_via_mappings(
-    source, mapping_input, intra, other_input, other_input_type, output_type, output
+    source, mapping_input, intra, add_labels, other_input, other_input_type, output_type, output
 ):
     """
     Calculates a relational diff between ontologies in two sources using the combined mappings
@@ -2388,8 +2394,16 @@ def diff_via_mappings(
     else:
         mappings = None
         logging.info("Mappings will be derived from ontologies")
+    if source:
+        sources = list(source)
+        if len(sources) == 1:
+            raise ValueError(
+                f"If --source is specified, must pass more than one. You specified: {sources}"
+            )
+    else:
+        sources = None
     for r in calculate_pairwise_relational_diff(
-        oi, other_oi, sources=list(source), mappings=mappings
+        oi, other_oi, sources=sources, mappings=mappings, add_labels=add_labels
     ):
         writer.emit(r)
 

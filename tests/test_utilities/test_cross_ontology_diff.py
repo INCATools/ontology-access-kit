@@ -36,3 +36,8 @@ class TestStructuralDiff(unittest.TestCase):
             results = list(calculate_pairwise_relational_diff(oi, oi, ["X", "Y", "Z"]))
             yaml_dumper.dump(results, str(TEST_OUT))
             self.assertCountEqual(expected_results, results)
+
+    def test_restrict_to_sources(self):
+        for oi in [self.oi, self.owl_oi]:
+            results = list(calculate_pairwise_relational_diff(oi, oi, ["Z"]))
+            self.assertEqual([], results)
