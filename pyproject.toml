@@ -22,6 +22,7 @@ semsql = "^0.1.6"
 lark = "^1.1.2"
 kgcl-schema = "^0.2.0"
 funowl = "^0.1.12"
+gilda = {version = "^0.10.1", optional = true}
 kgcl-rdflib = "^0.2.0"
 pystow = "^0.4.4"
 
@@ -45,6 +46,7 @@ runoak = "oaklib.cli:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
+gilda = ["gilda"]
 
 [tool.black]
 line-length = 100

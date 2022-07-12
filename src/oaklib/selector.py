@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Optional, Type
 
 from oaklib import BasicOntologyInterface
+from oaklib.implementations import GildaImplementation
 from oaklib.implementations.bioportal.agroportal_implementation import (
     AgroportalImplementation,
 )
@@ -53,6 +54,7 @@ SCHEME_DICT = {
     "pronto": ProntoImplementation,
     "obolibrary": ProntoImplementation,
     "prontolib": ProntoImplementation,
+    "gilda": GildaImplementation,
 }
 
 

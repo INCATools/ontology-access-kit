@@ -1,6 +1,7 @@
 from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
+from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -16,4 +17,5 @@ __all__ = [
     "ProntoImplementation",
     "SqlImplementation",
     "UbergraphImplementation",
+    "GildaImplementation",
 ]
