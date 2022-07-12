@@ -501,14 +501,15 @@ def main(
 
         runoak viz -h
     """
+    logger = logging.getLogger()
     if verbose >= 2:
-        logging.basicConfig(level=logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
     elif verbose == 1:
-        logging.basicConfig(level=logging.INFO)
+        logger.setLevel(logging.INFO)
     else:
-        logging.basicConfig(level=logging.WARNING)
+        logger.setLevel(logging.WARNING)
     if quiet:
-        logging.basicConfig(level=logging.ERROR)
+        logger.setLevel(logging.ERROR)
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
@@ -2383,8 +2384,10 @@ def diff_via_mappings(
             )
     if mapping_input:
         mappings = to_mapping_set_document(parse_sssom_table(mapping_input)).mapping_set.mappings
+        logging.info(f"Using {len(mappings)} from {mapping_input}")
     else:
         mappings = None
+        logging.info("Mappings will be derived from ontologies")
     for r in calculate_pairwise_relational_diff(
         oi, other_oi, sources=list(source), mappings=mappings
     ):
