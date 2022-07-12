@@ -78,6 +78,7 @@ def calculate_pairwise_relational_diff(
     right_oi: MappingProviderInterface,
     sources: List[str],
     mappings: Optional[List[Mapping]] = None,
+    predicates: Optional[List[PRED_CURIE]] = None,
     add_labels=False,
 ) -> Iterator[RelationalDiff]:
     """
@@ -104,10 +105,19 @@ def calculate_pairwise_relational_diff(
             for pred, subject_parent in relation_dict_as_tuples(
                 left_oi.get_outgoing_relationship_map_by_curie(subject_child)
             ):
+                if predicates and pred not in predicates:
+                    continue
                 if not curie_has_prefix(subject_parent, sources):
                     continue
                 for r in calculate_pairwise_relational_diff_for_edge(
-                    left_oi, right_oi, sources, g, subject_child, pred, subject_parent
+                    left_oi,
+                    right_oi,
+                    sources,
+                    g,
+                    subject_child,
+                    pred,
+                    subject_parent,
+                    predicates=predicates,
                 ):
                     if add_labels:
                         add_labels_to_object(
@@ -180,6 +190,7 @@ def calculate_pairwise_relational_diff_for_edge(
     candidates: List[RelationalDiff] = []
     for right_subject in right_subject_list:
         right_subject_ancs = list(right_oi.ancestors(right_subject, predicates=predicates))
+        # logging.debug(f"RIGHT: {right_subject} // ANCS[{predicates}] = {right_subject_ancs}")
         right_subject_parents = []
         right_subject_direct_outgoing = defaultdict(list)
         for p, o in right_oi.get_outgoing_relationships(right_subject):

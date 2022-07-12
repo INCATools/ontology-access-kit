@@ -2360,10 +2360,19 @@ def apply_obsolete(output, output_type, terms):
     show_default=True,
     help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs",
 )
+@predicates_option
 @output_option
 @output_type_option
 def diff_via_mappings(
-    source, mapping_input, intra, add_labels, other_input, other_input_type, output_type, output
+    source,
+    mapping_input,
+    intra,
+    add_labels,
+    other_input,
+    other_input_type,
+    predicates,
+    output_type,
+    output,
 ):
     """
     Calculates a relational diff between ontologies in two sources using the combined mappings
@@ -2402,8 +2411,14 @@ def diff_via_mappings(
             )
     else:
         sources = None
+    actual_predicates = _process_predicates_arg(predicates)
     for r in calculate_pairwise_relational_diff(
-        oi, other_oi, sources=sources, mappings=mappings, add_labels=add_labels
+        oi,
+        other_oi,
+        sources=sources,
+        mappings=mappings,
+        add_labels=add_labels,
+        predicates=actual_predicates,
     ):
         writer.emit(r)
 
