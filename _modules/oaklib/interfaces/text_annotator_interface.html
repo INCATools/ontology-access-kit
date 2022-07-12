@@ -80,13 +80,30 @@
              
   <h1>Source code for oaklib.interfaces.text_annotator_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span><span class="p">,</span> <span class="n">TextAnnotationConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;TEXT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nen_annotation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TextAnnotatorInterface&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="n">TEXT</span> <span class="o">=</span> <span class="nb">str</span>
+
+
+<span class="k">def</span> <span class="nf">nen_annotation</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextAnnotation</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return an annotation appropriate for a grounding.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">TextAnnotation</span><span class="p">(</span>
+        <span class="n">subject_start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">subject_end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span>
+        <span class="n">object_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
+        <span class="n">object_label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+    <span class="p">)</span>
 
 
 <div class="viewcode-block" id="TextAnnotatorInterface"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface">[docs]</a><span class="k">class</span> <span class="nc">TextAnnotatorInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -104,8 +121,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TextAnnotatorInterface.annotate_text"><a class="viewcode-back" href="../../../interfaces/text-annotator.html#oaklib.interfaces.text_annotator_interface.TextAnnotatorInterface.annotate_text">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextAnnotationConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Annotate a piece of text</span>
 
@@ -117,22 +134,21 @@
 <span class="sd">        :param configuration:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">configuration</span> <span class="ow">and</span> <span class="n">configuration</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-                    <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
-                    <span class="c1"># amap = self.alias_map_by_curie(object_id)</span>
-                    <span class="n">ann</span> <span class="o">=</span> <span class="n">TextAnnotation</span><span class="p">(</span>
-                        <span class="n">subject_start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">subject_end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span>
-                        <span class="n">object_id</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span>
-                        <span class="n">object_label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-                    <span class="p">)</span>
-                    <span class="k">yield</span> <span class="n">ann</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">configuration</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Missing text annotation configuration&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">configuration</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> can&#39;t be used to match partial text&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> needs to inherit from </span><span class="si">{</span><span class="n">SearchInterface</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;to use the default annotate_text() implementation&quot;</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+            <span class="c1"># amap = self.alias_map_by_curie(object_id)</span>
+            <span class="k">yield</span> <span class="n">nen_annotation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

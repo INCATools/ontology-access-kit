@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ontobee Endpoint &mdash; oaklib  documentation</title>
+  <title>Gilda Endpoint &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,8 +20,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Gilda Endpoint" href="gilda.html" />
-    <link rel="prev" title="Ubergraph Endpoint" href="ubergraph.html" /> 
+    <link rel="next" title="Aggregator Implementation" href="aggregator.html" />
+    <link rel="prev" title="Ontobee Endpoint" href="ontobee.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,13 +52,16 @@
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Ontobee Endpoint</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#initialization">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ontobee.html">Ontobee Endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Gilda Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-examples">Command Line Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#annotation">Annotation</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gilda.html">Gilda Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="aggregator.html">Aggregator Implementation</a></li>
 </ul>
 </li>
@@ -88,9 +91,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Implementations</a> &raquo;</li>
-      <li>Ontobee Endpoint</li>
+      <li>Gilda Endpoint</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/implementations/ontobee.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/implementations/gilda.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -98,32 +101,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ontobee-endpoint">
-<h1>Ontobee Endpoint<a class="headerlink" href="#ontobee-endpoint" title="Permalink to this headline"></a></h1>
-<p>Specializes the <span class="xref std std-ref">sparql</span> implementation to allow access for ontologies on the <a class="reference external" href="https://www.ontobee.org/">Ontobee</a> linked data server.</p>
-<p>ntobee is the default linked data server for most OBO Foundry library ontologies. Ontobee has also been used for many non-OBO ontologies.</p>
-<section id="initialization">
-<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline"></a></h2>
-<p>Access to all ontologies on Ontobee is via a selector with syntax <code class="code docutils literal notranslate"><span class="pre">ontobee:</span></code> (i.e. specify the ontobee scheme with no slug)</p>
-<p>To access a specific ontology on ontobee follow the scheme with the ontology ID (all in lowercase). E.g.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ontobee</span><span class="p">:</span><span class="n">mp</span> <span class="n">COMMAND</span> <span class="p">[</span><span class="n">COMMAND</span><span class="o">-</span><span class="n">OPTIONS</span><span class="p">]</span>
+  <section id="gilda-endpoint">
+<span id="gilda-implementation"></span><h1>Gilda Endpoint<a class="headerlink" href="#gilda-endpoint" title="Permalink to this headline"></a></h1>
+<section id="command-line-examples">
+<h2>Command Line Examples<a class="headerlink" href="#command-line-examples" title="Permalink to this headline"></a></h2>
+<p>Use the <code class="code docutils literal notranslate"><span class="pre">gilda</span></code> selector:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ runoak -i gilda: COMMAND <span class="o">[</span>COMMAND-ARGUMENTS-AND-OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
+<p>Currently ontology sub-selectors are not supported</p>
+<section id="annotation">
+<h3>Annotation<a class="headerlink" href="#annotation" title="Permalink to this headline"></a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ runoak -i gilda: annotate -W <span class="s2">&quot;cell cortex&quot;</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.ontobee.ontobee_implementation.</span></span><span class="sig-name descname"><span class="pre">OntobeeImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">oaklib.resource.OntologyResource</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_wrapper:</span> <span class="pre">&lt;module</span> <span class="pre">'SPARQLWrapper'</span> <span class="pre">from</span> <span class="pre">'/home/runner/.cache/pypoetry/virtualenvs/oaklib-5bvmowLS-py3.9/lib/python3.9/site-packages/SPARQLWrapper/__init__.py'&gt;</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph:</span> <span class="pre">rdflib.graph.Graph</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_list_of_named_graphs:</span> <span class="pre">typing.List[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/ontobee/ontobee_implementation.html#OntobeeImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.ontobee.ontobee_implementation.OntobeeImplementation" title="Permalink to this definition"></a></dt>
-<dd><p>Wraps the Ontobee sparql endpoint</p>
-<p>An OntobeeImplementation can be initialed by:</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">oi</span> <span class="o">=</span> <span class="n">OntobeeImplementation</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>The default ontobee endpoint will be assumed</p>
-</div></blockquote>
-<p>See: <a class="reference external" href="https://www.ontobee.org/">https://www.ontobee.org/</a></p>
+<dt class="sig sig-object py" id="oaklib.implementations.gilda.GildaImplementation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.gilda.</span></span><span class="sig-name descname"><span class="pre">GildaImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/gilda.html#GildaImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.gilda.GildaImplementation" title="Permalink to this definition"></a></dt>
+<dd><p>Perform named entity normalization on text strings with Gilda <a class="reference internal" href="#gyori2021" id="id1"><span>[gyori2021]</span></a>.</p>
+<dl class="citation">
+<dt class="label" id="gyori2021"><span class="brackets"><a class="fn-backref" href="#id1">gyori2021</a></span></dt>
+<dd><p>Benjamin M Gyori, Charles Tapley Hoyt, Albert Steppi (2021)
+<a class="reference external" href="https://doi.org/10.1093/bioadv/vbac034">Gilda: biomedical entity text normalization with machine-learned
+disambiguation as a service</a>,
+<em>Bioinformatics Advances</em>, Volume 2, Issue 1, 2022, vbac034,</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -133,8 +140,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ubergraph.html" class="btn btn-neutral float-left" title="Ubergraph Endpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="gilda.html" class="btn btn-neutral float-right" title="Gilda Endpoint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ontobee.html" class="btn btn-neutral float-left" title="Ontobee Endpoint" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aggregator.html" class="btn btn-neutral float-right" title="Aggregator Implementation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
