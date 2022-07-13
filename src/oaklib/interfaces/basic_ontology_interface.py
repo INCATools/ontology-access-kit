@@ -277,13 +277,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def get_labels_for_curies(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
         """
         fetches the unique label for a CURIE
 
         The CURIE may be for a class, individual, property, or ontology
 
         :param curie:
+        :param allow_none:
         :return:
         """
         # default implementation: may be overridden for efficiency

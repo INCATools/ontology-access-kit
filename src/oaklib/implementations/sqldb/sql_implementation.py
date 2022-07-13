@@ -104,6 +104,10 @@ def _curie_prefix(curie: CURIE) -> Optional[str]:
         return None
 
 
+def _is_blank(curie: CURIE) -> bool:
+    return curie.startswith('_:')
+
+
 def _mapping(m: Mapping):
     # enhances a mapping with sources
     # TODO: move to sssom utils
@@ -265,7 +269,7 @@ class SqlImplementation(
             q = q.filter(Node.id.not_in(obs_subq))
         for row in q:
             if row:
-                if not row.id.startswith("_:") and not row.id.startswith("<"):
+                if not _is_blank(row.id) and not row.id.startswith("<"):
                     yield row.id
 
     def all_obsolete_curies(self) -> Iterable[CURIE]:
@@ -281,11 +285,19 @@ class SqlImplementation(
         for row in self.engine.execute(s, curie=curie):
             return row["value"]
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def get_labels_for_curies(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+        curies = list(curies)
+        has_label = set()
         for row in self.session.query(RdfsLabelStatement).filter(
-            RdfsLabelStatement.subject.in_(tuple(list(curies)))
+            RdfsLabelStatement.subject.in_(tuple(curies))
         ):
             yield row.subject, row.value
+            if allow_none:
+                has_label.add(row.subject)
+        if allow_none:
+            for curie in curies:
+                if curie not in has_label:
+                    yield curie, None
 
     def get_curies_by_label(self, label: str) -> List[CURIE]:
         q = self.session.query(RdfsLabelStatement)

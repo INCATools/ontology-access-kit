@@ -4,6 +4,7 @@ Utilities for traversing Ontology Graphs
 
 
 """
+import logging
 from copy import copy
 from typing import Iterable, List, Union
 
@@ -39,6 +40,7 @@ def walk_up(
     rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:
+        logging.debug(f"Walking graph; {len(next_curies)} in stack")
         next_curie = next_curies.pop()
         for pred, fillers in oi.get_outgoing_relationship_map_by_curie(next_curie).items():
             if not predicates or pred in predicates:
