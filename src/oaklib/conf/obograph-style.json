@@ -122,6 +122,9 @@
         "CHEBI": {
             "fillcolor": "pink"
         },
+        "sweet:realm/": {
+            "fillcolor": "pink"
+        },
         "ENM": {
             "fillcolor": "cornsilk"
         },

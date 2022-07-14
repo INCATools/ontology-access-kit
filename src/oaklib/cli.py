@@ -400,7 +400,7 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             with open(fn) as file:
                 lines = [line.strip() for line in file.readlines()]
                 terms = lines + terms
-        elif re.match(r"^(\w+):(\S+)$", term):
+        elif re.match(r"^([\w\-\.]+):(\S+)$", term):
             chain_it(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
             logging.warning("Deprecated: pass as parameter instead")
@@ -1192,6 +1192,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
                 raise NotImplementedError
         else:
             if isinstance(impl, OboGraphInterface):
+                logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
                 ancs = list(impl.ancestors(curies, actual_predicates))
                 for a_curie, a_label in impl.get_labels_for_curies(ancs):
                     writer.emit(dict(id=a_curie, label=a_label))
