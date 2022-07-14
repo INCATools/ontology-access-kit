@@ -105,7 +105,7 @@ def _curie_prefix(curie: CURIE) -> Optional[str]:
 
 
 def _is_blank(curie: CURIE) -> bool:
-    return curie.startswith('_:')
+    return curie.startswith("_:")
 
 
 def _mapping(m: Mapping):
@@ -285,7 +285,9 @@ class SqlImplementation(
         for row in self.engine.execute(s, curie=curie):
             return row["value"]
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def get_labels_for_curies(
+        self, curies: Iterable[CURIE], allow_none=True
+    ) -> Iterable[Tuple[CURIE, str]]:
         curies = list(curies)
         has_label = set()
         for row in self.session.query(RdfsLabelStatement).filter(

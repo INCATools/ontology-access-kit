@@ -277,7 +277,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+    def get_labels_for_curies(
+        self, curies: Iterable[CURIE], allow_none=True
+    ) -> Iterable[Tuple[CURIE, str]]:
         """
         fetches the unique label for a CURIE
 
