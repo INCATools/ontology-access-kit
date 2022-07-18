@@ -24,6 +24,7 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from oaklib.utilities.basic_utils import get_curie_prefix
 from semsql.sqla.semsql import (
     AnnotationPropertyNode,
     ClassNode,
@@ -97,13 +98,6 @@ __all__ = [
 ]
 
 
-def _curie_prefix(curie: CURIE) -> Optional[str]:
-    if ":" in curie:
-        return curie.split(":")[0]
-    else:
-        return None
-
-
 def _is_blank(curie: CURIE) -> bool:
     return curie.startswith("_:")
 
@@ -111,8 +105,8 @@ def _is_blank(curie: CURIE) -> bool:
 def _mapping(m: Mapping):
     # enhances a mapping with sources
     # TODO: move to sssom utils
-    m.subject_source = _curie_prefix(m.subject_id)
-    m.object_source = _curie_prefix(m.object_id)
+    m.subject_source = get_curie_prefix(m.subject_id)
+    m.object_source = get_curie_prefix(m.object_id)
     return m
 
 
