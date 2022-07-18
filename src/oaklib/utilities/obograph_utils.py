@@ -282,11 +282,15 @@ def shortest_paths(
         logging.info(f"Calculating distances for {start_curie}")
         for end_curie in set(this_end_curies):
             logging.debug(f"COMPUTING {start_curie} to {end_curie}")
-            paths = nx.all_shortest_paths(
-                dg, source=start_curie, target=end_curie, weight="weight", method="bellman-ford"
-            )
-            for path in paths:
-                yield start_curie, end_curie, path
+            try:
+                paths = nx.all_shortest_paths(
+                    dg, source=start_curie, target=end_curie, weight="weight", method="bellman-ford"
+                )
+                for path in paths:
+                    yield start_curie, end_curie, path
+            except nx.NetworkXNoPath:
+                logging.info(f"No path between {start_curie} and {end_curie}")
+
 
 
 def remove_nodes_from_graph(graph: Graph, node_ids: List[CURIE]):
