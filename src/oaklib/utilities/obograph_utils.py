@@ -16,7 +16,7 @@ from collections import defaultdict
 from copy import deepcopy
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TextIO, Tuple
+from typing import Any, Dict, List, Optional, TextIO, Tuple, Iterator
 
 import networkx as nx
 import yaml
@@ -30,7 +30,10 @@ from oaklib.types import CURIE, PRED_CURIE
 
 DEFAULT_STYLEMAP = "obograph-style.json"
 
+# TODO: use the style map
 DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p", RDF_TYPE: "t"}
+
+PREDICATE_WEIGHT_MAP = Dict[PRED_CURIE, float]
 
 
 class TreeFormatEnum(Enum):
@@ -175,7 +178,7 @@ def as_digraph(
     graph: Graph, reverse: bool = True, filter_reflexive: bool = True
 ) -> nx.MultiDiGraph:
     """
-    Convert to a networkx :class:`.MultiDiGraph`
+    Convert to a networkx :class:`.DiGraph`
 
     :param graph: OBOGraph
     :param reverse:
@@ -190,6 +193,34 @@ def as_digraph(
             dg.add_edge(edge.obj, edge.sub, **edge_attrs)
         else:
             dg.add_edge(edge.sub, edge.obj, **edge_attrs)
+    return dg
+
+
+def as_graph(
+        graph: Graph, reverse: bool = True,
+        filter_reflexive: bool = True,
+        predicate_weights: PREDICATE_WEIGHT_MAP = None,
+        default_weight = 1.0
+) -> nx.MultiDiGraph:
+    """
+    Convert to a networkx :class:`.DiGraph`
+
+    :param graph: OBOGraph
+    :param reverse:
+    :return:
+    """
+    dg = nx.Graph()
+    for edge in graph.edges:
+        if filter_reflexive and reflexive(edge):
+            continue
+        edge_attrs = {"predicate": edge.pred}
+        if predicate_weights is not None:
+            if edge.pred in predicate_weights:
+                w = predicate_weights[edge.pred]
+            else:
+                w = default_weight
+            edge_attrs['weight'] = w
+        dg.add_edge(edge.sub, edge.obj, **edge_attrs)
     return dg
 
 
@@ -223,6 +254,37 @@ def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[
             distance=min([dist for k, dist in splens[node].items() if k in curies]),
         )
     return stats
+
+
+def shortest_paths(
+        graph: Graph,
+        start_curies: List[CURIE],
+        end_curies: Optional[List[CURIE]] = None,
+        predicate_weights: Optional[PREDICATE_WEIGHT_MAP] = None,
+    ) -> Iterator[Tuple[CURIE, CURIE, List[CURIE]]]:
+    """
+    Finds all shortest paths from a set of start nodes to a set of end nodes
+
+    :param graph: OboGraph object
+    :param start_curies:
+    :param end_curies: if None, then compute for all proper ancestors
+    :param predicate_weights: an optional map of predicates to weights
+    :return:
+    """
+    dg = as_graph(graph, predicate_weights=predicate_weights)
+    logging.info("Calculating visits")
+    for start_curie in start_curies:
+        if end_curies:
+            this_end_curies = end_curies
+        else:
+            this_end_curies = list(nx.ancestors(dg, start_curie))
+        logging.info(f"Calculating distances for {start_curie}")
+        for end_curie in set(this_end_curies):
+            logging.debug(f"COMPUTING {start_curie} to {end_curie}")
+            paths = nx.all_shortest_paths(dg, source=start_curie, target=end_curie,
+                                          weight="weight", method="bellman-ford")
+            for path in paths:
+                yield start_curie, end_curie, path
 
 
 def remove_nodes_from_graph(graph: Graph, node_ids: List[CURIE]):

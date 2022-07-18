@@ -113,7 +113,7 @@ from oaklib.utilities.obograph_utils import (
     default_stylemap_path,
     graph_to_image,
     graph_to_tree,
-    trim_graph,
+    trim_graph, shortest_paths,
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
@@ -1198,6 +1198,35 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
                     writer.emit(dict(id=a_curie, label=a_label))
             else:
                 raise NotImplementedError
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@output_type_option
+@click.option("--predicate-weights",
+              help="")
+@output_option
+def paths(terms, predicates, predicate_weights, output_type: str, output: str):
+    """
+    List all paths
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.file = output
+    if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        start_curies = list(query_terms_iterator(terms, impl))
+        logging.info(f"Ancestor seed: {start_curies}")
+        if isinstance(impl, OboGraphInterface):
+            graph = impl.ancestor_graph(start_curies, predicates=actual_predicates)
+            logging.info("Calculating graph stats")
+            for s, o, paths in shortest_paths(graph, start_curies):
+                writer.emit(dict(subject=s, object=o, paths=paths))
+        else:
+            raise NotImplementedError
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
