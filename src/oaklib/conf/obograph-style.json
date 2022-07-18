@@ -88,6 +88,9 @@
         "CL": {
             "fillcolor": "azure2"
         },
+        "OBI": {
+            "fillcolor": "mediumturquoise"
+        },
         "GO": {
             "fillcolor": "pink"
         },
@@ -126,6 +129,9 @@
             "fillcolor": "pink"
         },
         "ENM": {
+            "fillcolor": "cornsilk"
+        },
+        "STATO": {
             "fillcolor": "cornsilk"
         },
         "BFO": {
