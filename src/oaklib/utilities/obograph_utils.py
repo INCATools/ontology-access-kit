@@ -292,7 +292,6 @@ def shortest_paths(
                 logging.info(f"No path between {start_curie} and {end_curie}")
 
 
-
 def remove_nodes_from_graph(graph: Graph, node_ids: List[CURIE]):
     """
     Remove the specified nodes from the graph, and cascade to any edges
