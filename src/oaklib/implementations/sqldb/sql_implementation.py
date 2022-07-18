@@ -89,19 +89,13 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 __all__ = [
     "get_range_xsd_type",
     "regex_to_sql_like",
     "SqlImplementation",
 ]
-
-
-def _curie_prefix(curie: CURIE) -> Optional[str]:
-    if ":" in curie:
-        return curie.split(":")[0]
-    else:
-        return None
 
 
 def _is_blank(curie: CURIE) -> bool:
@@ -111,8 +105,8 @@ def _is_blank(curie: CURIE) -> bool:
 def _mapping(m: Mapping):
     # enhances a mapping with sources
     # TODO: move to sssom utils
-    m.subject_source = _curie_prefix(m.subject_id)
-    m.object_source = _curie_prefix(m.object_id)
+    m.subject_source = get_curie_prefix(m.subject_id)
+    m.object_source = get_curie_prefix(m.object_id)
     return m
 
 

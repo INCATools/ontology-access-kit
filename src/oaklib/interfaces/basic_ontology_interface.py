@@ -13,6 +13,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
@@ -183,7 +184,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         raise NotImplementedError
 
     def roots(
-        self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True, filter_obsoletes=True
+        self,
+        predicates: List[PRED_CURIE] = None,
+        ignore_owl_thing=True,
+        filter_obsoletes=True,
+        id_prefixes: List[CURIE] = None,
     ) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
@@ -192,15 +197,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates:
         :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
+        :param id_prefixes: limit search to specific prefixes
         :return:
         """
-        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
-        candidates = all_curies
+        # this interface-level method should be replaced by specific implementations
+        logging.info("Using naive approach for root detection, may be slow")
+        candidates = []
+        for curie in self.all_entity_curies(owl_type=OWL_CLASS):
+            if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
+                candidates.append(curie)
         logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
             if subject == object:
                 continue
             if ignore_owl_thing and object == OWL_THING:
+                continue
+            if not (id_prefixes is None or get_curie_prefix(object) in id_prefixes):
                 continue
             # if object not in all_curies:
             #    continue
