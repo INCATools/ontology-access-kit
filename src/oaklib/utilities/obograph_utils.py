@@ -16,7 +16,7 @@ from collections import defaultdict
 from copy import deepcopy
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TextIO, Tuple, Iterator
+from typing import Any, Dict, Iterator, List, Optional, TextIO, Tuple
 
 import networkx as nx
 import yaml
@@ -197,10 +197,11 @@ def as_digraph(
 
 
 def as_graph(
-        graph: Graph, reverse: bool = True,
-        filter_reflexive: bool = True,
-        predicate_weights: PREDICATE_WEIGHT_MAP = None,
-        default_weight = 1.0
+    graph: Graph,
+    reverse: bool = True,
+    filter_reflexive: bool = True,
+    predicate_weights: PREDICATE_WEIGHT_MAP = None,
+    default_weight=1.0,
 ) -> nx.MultiDiGraph:
     """
     Convert to a networkx :class:`.DiGraph`
@@ -219,7 +220,7 @@ def as_graph(
                 w = predicate_weights[edge.pred]
             else:
                 w = default_weight
-            edge_attrs['weight'] = w
+            edge_attrs["weight"] = w
         dg.add_edge(edge.sub, edge.obj, **edge_attrs)
     return dg
 
@@ -257,11 +258,11 @@ def ancestors_with_stats(graph: Graph, curies: List[CURIE]) -> Dict[CURIE, Dict[
 
 
 def shortest_paths(
-        graph: Graph,
-        start_curies: List[CURIE],
-        end_curies: Optional[List[CURIE]] = None,
-        predicate_weights: Optional[PREDICATE_WEIGHT_MAP] = None,
-    ) -> Iterator[Tuple[CURIE, CURIE, List[CURIE]]]:
+    graph: Graph,
+    start_curies: List[CURIE],
+    end_curies: Optional[List[CURIE]] = None,
+    predicate_weights: Optional[PREDICATE_WEIGHT_MAP] = None,
+) -> Iterator[Tuple[CURIE, CURIE, List[CURIE]]]:
     """
     Finds all shortest paths from a set of start nodes to a set of end nodes
 
@@ -272,7 +273,7 @@ def shortest_paths(
     :return:
     """
     dg = as_graph(graph, predicate_weights=predicate_weights)
-    logging.info("Calculating visits")
+    logging.info(f"Calculating paths, starts={start_curies}")
     for start_curie in start_curies:
         if end_curies:
             this_end_curies = end_curies
@@ -281,8 +282,9 @@ def shortest_paths(
         logging.info(f"Calculating distances for {start_curie}")
         for end_curie in set(this_end_curies):
             logging.debug(f"COMPUTING {start_curie} to {end_curie}")
-            paths = nx.all_shortest_paths(dg, source=start_curie, target=end_curie,
-                                          weight="weight", method="bellman-ford")
+            paths = nx.all_shortest_paths(
+                dg, source=start_curie, target=end_curie, weight="weight", method="bellman-ford"
+            )
             for path in paths:
                 yield start_curie, end_curie, path
 

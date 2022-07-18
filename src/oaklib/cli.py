@@ -113,7 +113,8 @@ from oaklib.utilities.obograph_utils import (
     default_stylemap_path,
     graph_to_image,
     graph_to_tree,
-    trim_graph, shortest_paths,
+    shortest_paths,
+    trim_graph,
 )
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
@@ -1204,27 +1205,41 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@click.option("--target", multiple=True)
+@autolabel_option
 @predicates_option
 @output_type_option
-@click.option("--predicate-weights",
-              help="")
+@click.option("--predicate-weights", help="")
 @output_option
-def paths(terms, predicates, predicate_weights, output_type: str, output: str):
+def paths(
+    terms, predicates, predicate_weights, autolabel: bool, target, output_type: str, output: str
+):
     """
     List all paths
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
         actual_predicates = _process_predicates_arg(predicates)
         start_curies = list(query_terms_iterator(terms, impl))
         logging.info(f"Ancestor seed: {start_curies}")
         if isinstance(impl, OboGraphInterface):
-            graph = impl.ancestor_graph(start_curies, predicates=actual_predicates)
+            if target:
+                end_curies = list(list(query_terms_iterator(list(target), impl)))
+                all_curies = start_curies + end_curies
+            else:
+                end_curies = None
+                all_curies = start_curies
+                logging.info("Will search all ancestors")
+            graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
             logging.info("Calculating graph stats")
-            for s, o, paths in shortest_paths(graph, start_curies):
-                writer.emit(dict(subject=s, object=o, paths=paths))
+            for s, o, paths in shortest_paths(graph, start_curies, end_curies=end_curies):
+                writer.emit(
+                    dict(subject=s, object=o, paths=paths),
+                    label_fields=["subject", "object", "paths"],
+                )
         else:
             raise NotImplementedError
     else:

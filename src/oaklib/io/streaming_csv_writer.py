@@ -43,7 +43,11 @@ class StreamingCsvWriter(StreamingWriter):
             for f in label_fields:
                 curie = obj_as_dict.get(f, None)
                 if curie:
-                    label = self.ontology_interface.get_label_by_curie(curie)
+                    if isinstance(curie, list):
+                        labels = [self.ontology_interface.get_label_by_curie(c) for c in curie]
+                        label = " | ".join(labels)
+                    else:
+                        label = self.ontology_interface.get_label_by_curie(curie)
                     obj_as_dict[f"{f}_label"] = label
         if self.writer is None:
             # TODO: option to delay writing header, as not all keys may be populated in advance
