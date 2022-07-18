@@ -128,9 +128,8 @@ class TestOboGraphUtils(unittest.TestCase):
                 start_curie, end_curie, preds, weights, includes, excludes = ex
                 g = oi.ancestor_graph([start_curie, end_curie], predicates=preds)
                 paths = shortest_paths(g, [start_curie], [end_curie], predicate_weights=weights)
-                # print(f"TEST={ex}")
                 for s, o, path in paths:
-                    # print(path)
+                    logging.debug(f"{s} -> {o} == {path}")
                     for x in includes:
                         self.assertIn(x, path)
                     for x in excludes:

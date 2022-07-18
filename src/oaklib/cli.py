@@ -243,7 +243,9 @@ display_option = click.option(
 )
 
 
-def _process_predicates_arg(preds_str: str) -> Optional[List[PRED_CURIE]]:
+def _process_predicates_arg(
+    preds_str: str, expected_number: Optional[int] = None
+) -> Optional[List[PRED_CURIE]]:
     if preds_str is None:
         return None
     if "," in preds_str:
@@ -251,6 +253,8 @@ def _process_predicates_arg(preds_str: str) -> Optional[List[PRED_CURIE]]:
     else:
         inputs = preds_str.split("+")
     preds = [_shorthand_to_pred_curie(p) for p in inputs]
+    if expected_number and len(preds) != expected_number:
+        raise ValueError(f"Expected {expected_number} parses of {preds_str}, got: {preds}")
     return preds
 
 
@@ -1209,13 +1213,42 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @autolabel_option
 @predicates_option
 @output_type_option
-@click.option("--predicate-weights", help="")
+@click.option(
+    "--predicate-weights",
+    help="key-value pairs specified in YAML where keys are predicates or shorthands and values are weights",
+)
 @output_option
 def paths(
     terms, predicates, predicate_weights, autolabel: bool, target, output_type: str, output: str
 ):
     """
-    List all paths
+    List all paths between one or more start curies
+
+    Example:
+
+        runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane'
+
+    This shows all shortest paths from nuclear membrane to all ancestors
+
+    Example:
+
+        runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' --target cytoplasm
+
+    This shows shortest paths between two nodes
+
+    Example:
+
+        runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' 'thylakoid' --target cytoplasm 'thylakoid membrane'
+
+    Show all shortest paths between 4 combinations of starts and ends
+
+    Example:
+
+        runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' --target cytoplasm \
+                --predicate-weights "{i: 0.0001, p: 999}"
+
+    Show all shortest paths after weighting relations
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -1233,9 +1266,18 @@ def paths(
                 end_curies = None
                 all_curies = start_curies
                 logging.info("Will search all ancestors")
+            if predicate_weights:
+                pw = {}
+                for k, v in yaml.safe_load(predicate_weights).items():
+                    [p] = _process_predicates_arg(k, expected_number=1)
+                    pw[k] = v
+            else:
+                pw = None
             graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
             logging.info("Calculating graph stats")
-            for s, o, paths in shortest_paths(graph, start_curies, end_curies=end_curies):
+            for s, o, paths in shortest_paths(
+                graph, start_curies, end_curies=end_curies, predicate_weights=pw
+            ):
                 writer.emit(
                     dict(subject=s, object=o, paths=paths),
                     label_fields=["subject", "object", "paths"],
