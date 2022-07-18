@@ -227,8 +227,8 @@ class UbergraphImplementation(
             graph=graph,
             where=[
                 "?s ?p ?o",
-                self._sparql_values("s", subject_uris),
-                self._sparql_values("p", predicate_uris),
+                _sparql_values("s", subject_uris),
+                _sparql_values("p", predicate_uris),
             ]
             + where,
         )
