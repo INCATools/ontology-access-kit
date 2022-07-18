@@ -15,6 +15,7 @@
    
       ancestors_with_stats
       as_digraph
+      as_graph
       as_multi_digraph
       default_stylemap_path
       draw_graph
@@ -30,6 +31,7 @@
       index_graph_nodes
       reflexive
       remove_nodes_from_graph
+      shortest_paths
       topological_sort
       trim_graph
    
