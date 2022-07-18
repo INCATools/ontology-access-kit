@@ -24,7 +24,6 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from oaklib.utilities.basic_utils import get_curie_prefix
 from semsql.sqla.semsql import (
     AnnotationPropertyNode,
     ClassNode,
@@ -90,6 +89,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 __all__ = [
     "get_range_xsd_type",

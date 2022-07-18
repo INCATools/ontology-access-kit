@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict, Iterable, List, Tuple, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from oaklib.types import CURIE
 

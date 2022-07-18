@@ -188,7 +188,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         ignore_owl_thing=True,
         filter_obsoletes=True,
-        id_prefixes: List[CURIE] = None
+        id_prefixes: List[CURIE] = None,
     ) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
@@ -200,7 +200,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param id_prefixes: limit search to specific prefixes
         :return:
         """
-        logging.warning(f"Using naive cross-backend method for root detection, may be slow")
+        # this interface-level method should be replaced by specific implementations
+        logging.info("Using naive approach for root detection, may be slow")
         candidates = []
         for curie in self.all_entity_curies(owl_type=OWL_CLASS):
             if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
@@ -211,7 +212,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 continue
             if ignore_owl_thing and object == OWL_THING:
                 continue
-            if not(id_prefixes is None or get_curie_prefix(object) in id_prefixes):
+            if not (id_prefixes is None or get_curie_prefix(object) in id_prefixes):
                 continue
             # if object not in all_curies:
             #    continue
