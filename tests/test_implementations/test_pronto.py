@@ -66,13 +66,12 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
 
-    @unittest.skip("https://github.com/althonos/pronto/issues/163")
     def test_gci_relationships(self):
         oi = self.oi
         rels = oi.get_outgoing_relationship_map_by_curie(CELL)
         self.assertCountEqual(rels[IS_A], ["CARO:0000003"])
         self.assertCountEqual(rels[ONLY_IN_TAXON], [CELLULAR_ORGANISMS])
-        self.assertNotIn(NUCLEUS, rels[PART_OF])
+        self.assertNotIn(PART_OF, rels)  # GCI relations excluded
 
     def test_incoming_relationships(self):
         oi = self.oi
@@ -300,7 +299,6 @@ class TestProntoImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("https://github.com/althonos/pronto/issues/178")
     def test_dump(self):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
