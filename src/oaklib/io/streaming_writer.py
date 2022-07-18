@@ -2,7 +2,7 @@ import atexit
 import sys
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, List, Union
+from typing import Any, Dict, List, Optional, Union
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.yamlutils import YAMLRoot
@@ -44,7 +44,7 @@ class StreamingWriter(ABC):
             else:
                 self.file = self._output
 
-    def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields=None):
+    def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields: Optional[List[str]] = None):
         if isinstance(obj, CURIE):
             self.emit_curie(obj)
         elif isinstance(obj, Node):
@@ -65,3 +65,14 @@ class StreamingWriter(ABC):
 
     def line(self, v: str):
         self.file.write(f"{v}\n")
+
+    def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None):
+        if label_fields and self.autolabel:
+            for f in label_fields:
+                curie = obj_as_dict.get(f, None)
+                if curie:
+                    if isinstance(curie, list):
+                        label = [self.ontology_interface.get_label_by_curie(c) for c in curie]
+                    else:
+                        label = self.ontology_interface.get_label_by_curie(curie)
+                    obj_as_dict[f"{f}_label"] = label

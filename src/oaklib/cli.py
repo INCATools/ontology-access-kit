@@ -1210,6 +1210,12 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 @main.command()
 @click.argument("terms", nargs=-1)
 @click.option("--target", multiple=True)
+@click.option(
+    "--flat/--no-flat",
+    default=False,
+    show_default=True,
+    help="If true then output path is written a list of terms",
+)
 @autolabel_option
 @predicates_option
 @output_type_option
@@ -1219,7 +1225,14 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 )
 @output_option
 def paths(
-    terms, predicates, predicate_weights, autolabel: bool, target, output_type: str, output: str
+    terms,
+    predicates,
+    predicate_weights,
+    autolabel: bool,
+    flat: bool,
+    target,
+    output_type: str,
+    output: str,
 ):
     """
     List all paths between one or more start curies
@@ -1240,15 +1253,22 @@ def paths(
 
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' 'thylakoid' --target cytoplasm 'thylakoid membrane'
 
-    Show all shortest paths between 4 combinations of starts and ends
+    This shows all shortest paths between 4 combinations of starts and ends
 
     Example:
 
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' --target cytoplasm \
                 --predicate-weights "{i: 0.0001, p: 999}"
 
-    Show all shortest paths after weighting relations
+    This shows all shortest paths after weighting relations
 
+    Example:
+
+        alias go="runoak -i sqlite:obo:go"
+        go paths  -p i,p 'nuclear membrane' --target cytoplasm --flat | go viz --fill-gaps -
+
+    This visualizes the path by first exporting the path as a flat list, then passing the
+    results to viz, using the fill-gaps option
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -1275,13 +1295,17 @@ def paths(
                 pw = None
             graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
             logging.info("Calculating graph stats")
-            for s, o, paths in shortest_paths(
+            for s, o, path in shortest_paths(
                 graph, start_curies, end_curies=end_curies, predicate_weights=pw
             ):
-                writer.emit(
-                    dict(subject=s, object=o, paths=paths),
-                    label_fields=["subject", "object", "paths"],
-                )
+                if flat:
+                    for path_node in path:
+                        writer.emit_curie(path_node, impl.get_label_by_curie(path_node))
+                else:
+                    writer.emit(
+                        dict(subject=s, object=o, path=path),
+                        label_fields=["subject", "object", "path"],
+                    )
         else:
             raise NotImplementedError
     else:
