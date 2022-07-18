@@ -94,6 +94,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.ontology_interface</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">,</span> <span class="n">URI</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">get_curie_prefix</span>
 
 <span class="n">NC_NAME</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NC_NAME</span><span class="p">,</span> <span class="n">URI</span><span class="p">]</span>
@@ -264,7 +265,11 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.roots"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">[docs]</a>    <span class="k">def</span> <span class="nf">roots</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore_owl_thing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_owl_thing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">id_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All root nodes, where root is defined as any node that is not the subject of</span>
@@ -273,15 +278,22 @@
 <span class="sd">        :param predicates:</span>
 <span class="sd">        :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)</span>
 <span class="sd">        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)</span>
+<span class="sd">        :param id_prefixes: limit search to specific prefixes</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">all_curies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">(</span><span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">)))</span>
-        <span class="n">candidates</span> <span class="o">=</span> <span class="n">all_curies</span>
+        <span class="c1"># this interface-level method should be replaced by specific implementations</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using naive approach for root detection, may be slow&quot;</span><span class="p">)</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_entity_curies</span><span class="p">(</span><span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">id_prefixes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">get_curie_prefix</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="ow">in</span> <span class="n">id_prefixes</span><span class="p">:</span>
+                <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Candidates: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">subject</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="nb">object</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_relationships</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">subject</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">ignore_owl_thing</span> <span class="ow">and</span> <span class="nb">object</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">id_prefixes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">get_curie_prefix</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span> <span class="ow">in</span> <span class="n">id_prefixes</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="c1"># if object not in all_curies:</span>
             <span class="c1">#    continue</span>
