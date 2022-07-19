@@ -440,11 +440,11 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             # or is implicit
             pass
         elif term.startswith(".all"):
-            chain_it(impl.all_entity_curies())
+            chain_it(impl.entities())
         elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
-            chain_it(impl.curies_by_subset(subset))
+            chain_it(impl.subset_members(subset))
         elif term.startswith(".filter"):
             expr = terms[0]
             terms = terms[1:]
@@ -579,7 +579,7 @@ def search(terms, output_type: str, output: TextIO):
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             logging.info("** Next chunk:")
             # TODO: move chunking logic to writer
-            for curie, label in impl.get_labels_for_curies(curie_it):
+            for curie, label in impl.labels(curie_it):
                 writer.emit(dict(id=curie, label=label))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -601,8 +601,8 @@ def all_subsets(output: str):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for subset in impl.all_subset_curies():
-            print(f"{subset} ! {impl.get_label_by_curie(subset)}")
+        for subset in impl.subsets():
+            print(f"{subset} ! {impl.label(subset)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -623,8 +623,8 @@ def obsoletes(output_type: str, output: str):
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.output = output
     if isinstance(impl, BasicOntologyInterface):
-        for term in impl.all_obsolete_curies():
-            writer.emit_curie(term, label=impl.get_label_by_curie(term))
+        for term in impl.obsoletes():
+            writer.emit_curie(term, label=impl.label(term))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -638,7 +638,7 @@ def ontologies(output: str):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.all_ontology_curies():
+        for curie in impl.ontologies():
             print(str(curie))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -706,7 +706,7 @@ def ontology_metadata(ontologies, output_type: str, output: str, all):
     if isinstance(impl, BasicOntologyInterface):
         if len(ontologies) == 0:
             if all:
-                ontologies = list(impl.all_ontology_curies())
+                ontologies = list(impl.ontologies())
             else:
                 raise ValueError("Must pass one or more ontologies OR --all")
         else:
@@ -749,7 +749,7 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
                 else:
                     raise NotImplementedError
             else:
-                metadata = impl.metadata_map_by_curie(curie)
+                metadata = impl.entity_metadata_map(curie)
                 writer.emit(metadata)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -772,8 +772,8 @@ def list_subset(subset, output: str):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.curies_by_subset(subset):
-            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
+        for curie in impl.subset_members(subset):
+            print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1199,7 +1199,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
             if isinstance(impl, OboGraphInterface):
                 logging.info(f"Getting ancestors of {curies} over {actual_predicates}")
                 ancs = list(impl.ancestors(curies, actual_predicates))
-                for a_curie, a_label in impl.get_labels_for_curies(ancs):
+                for a_curie, a_label in impl.labels(ancs):
                     writer.emit(dict(id=a_curie, label=a_label))
             else:
                 raise NotImplementedError
@@ -1300,7 +1300,7 @@ def paths(
             ):
                 if flat:
                     for path_node in path:
-                        writer.emit_curie(path_node, impl.get_label_by_curie(path_node))
+                        writer.emit_curie(path_node, impl.label(path_node))
                 else:
                     writer.emit(
                         dict(subject=s, object=o, path=path),
@@ -1336,12 +1336,12 @@ def siblings(terms, predicates, output_type: str, output: str):
         logging.info(f"seed: {curies}")
         sibs = []
         for curie in curies:
-            for _, parent in impl.get_outgoing_relationships(curie, actual_predicates):
-                for _, child in impl.get_incoming_relationships(parent, actual_predicates):
+            for _, parent in impl.outgoing_relationships(curie, actual_predicates):
+                for _, child in impl.incoming_relationships(parent, actual_predicates):
                     if child not in sibs:
                         sibs.append(child)
         for sib in sibs:
-            writer.emit(sib, impl.get_label_by_curie(sib))
+            writer.emit(sib, impl.label(sib))
 
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1373,7 +1373,7 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
         result_it = impl.descendants(curies, predicates=actual_predicates)
         for curie_it in chunk(result_it):
             logging.info("** Next chunk:")
-            for curie, label in impl.get_labels_for_curies(curie_it):
+            for curie, label in impl.labels(curie_it):
                 writer.emit(curie, label)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1553,7 +1553,7 @@ def all_similarity(
                 with open(set1_file) as file:
                     set1it = list(curies_from_file(file))
             else:
-                set1it = impl.all_entity_curies()
+                set1it = impl.entities()
         else:
             set1it = query_terms_iterator(set1, impl)
         if len(set2) == 0:
@@ -1562,7 +1562,7 @@ def all_similarity(
                 with open(set2_file) as file:
                     set2it = list(curies_from_file(file))
             else:
-                set2it = impl.all_entity_curies()
+                set2it = impl.entities()
         else:
             set2it = query_terms_iterator(set2, impl)
         actual_predicates = _process_predicates_arg(predicates)
@@ -1636,7 +1636,7 @@ def labels(terms, output: TextIO, display: str, output_type: str):
     writer.file = output
     for curie_it in chunk(query_terms_iterator(terms, impl)):
         logging.info("** Next chunk:")
-        for curie, label in impl.get_labels_for_curies(curie_it):
+        for curie, label in impl.labels(curie_it):
             writer.emit(dict(id=curie, label=label))
 
 
@@ -1666,7 +1666,7 @@ def definitions(terms, output: TextIO, display: str, output_type: str):
     writer.file = output
     for curie in query_terms_iterator(terms, impl):
         if isinstance(impl, BasicOntologyInterface):
-            defn = impl.get_definition_by_curie(curie)
+            defn = impl.definition(curie)
             writer.emit(dict(id=curie, definition=defn))
 
 
@@ -1699,8 +1699,8 @@ def relationships(
     actual_predicates = _process_predicates_arg(predicates)
     if isinstance(impl, BasicOntologyInterface):
         curies = list(query_terms_iterator(terms, impl))
-        up_it = impl.get_relationships(curies, predicates=actual_predicates)
-        down_it = impl.get_relationships(objects=curies, predicates=actual_predicates)
+        up_it = impl.relationships(curies, predicates=actual_predicates)
+        down_it = impl.relationships(objects=curies, predicates=actual_predicates)
         if direction is None or direction == Direction.up.value:
             it = up_it
         elif direction == Direction.down.value:
@@ -1729,8 +1729,8 @@ def terms(output: str, filter_obsoletes: bool):
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.all_entity_curies(filter_obsoletes=filter_obsoletes):
-            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
+        for curie in impl.entities(filter_obsoletes=filter_obsoletes):
+            print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1755,7 +1755,7 @@ def roots(output: str, predicates: str):
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         for curie in impl.roots(actual_predicates):
-            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
+            print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1779,7 +1779,7 @@ def leafs(output: str, predicates: str):
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         for curie in impl.leafs(actual_predicates):
-            print(f"{curie} ! {impl.get_label_by_curie(curie)}")
+            print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1804,7 +1804,7 @@ def mappings(terms, maps_to_source, output, output_type):
     writer.output = output
     if isinstance(impl, MappingProviderInterface):
         if len(terms) == 0:
-            for mapping in impl.all_sssom_mappings(subject_or_object_source=maps_to_source):
+            for mapping in impl.sssom_mappings_by_source(subject_or_object_source=maps_to_source):
                 writer.emit(mapping)
         else:
             for curie in query_terms_iterator(terms, impl):
@@ -1852,7 +1852,7 @@ def aliases(terms, output, obo_model):
     else:
         if isinstance(impl, BasicOntologyInterface):
             for curie in query_terms_iterator(terms, impl):
-                for pred, aliases in impl.alias_map_by_curie(curie).items():
+                for pred, aliases in impl.entity_alias_map(curie).items():
                     for alias in aliases:
                         writer.emit(dict(curie=curie, pred=pred, alias=alias))
         else:
@@ -1874,10 +1874,10 @@ def subset_rollups(subsets: list, output):
     # writer = StreamingCsvWriter(output)
     if isinstance(impl, OboGraphInterface):
         impl.enable_transitive_query_cache()
-        term_curies = list(impl.all_entity_curies())
+        term_curies = list(impl.entities())
         output.write("\t".join(["subset", "term", "subset_term"]))
         if len(subsets) == 0:
-            subsets = list(impl.all_subset_curies())
+            subsets = list(impl.subsets())
             logging.info(f"SUBSETS={subsets}")
         for subset in subsets:
             logging.info(f"Subset={subset}")
@@ -2034,7 +2034,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
             curr = None
             continue
         if st is None:
-            st = tcdm.SubjectTerm(nxt, label=impl.get_label_by_curie(nxt))
+            st = tcdm.SubjectTerm(nxt, label=impl.label(nxt))
             curr = st.only_in
             sts.append(st)
         else:
@@ -2168,7 +2168,7 @@ def check_definitions(output: str):
     impl = settings.impl
     if isinstance(impl, ValidatorInterface):
         for curie in impl.term_curies_without_definitions():
-            print(f"NO DEFINITION: {curie} ! {impl.get_label_by_curie(curie)}")
+            print(f"NO DEFINITION: {curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

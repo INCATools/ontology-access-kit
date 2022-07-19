@@ -25,7 +25,7 @@ class TestWikidataImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationship_map_by_curie(WD_SLY_SYNDROME)
+        rels = oi.outgoing_relationship_map(WD_SLY_SYNDROME)
         for k, vs in rels.items():
             print(f"{k}")
             for v in vs:
@@ -34,24 +34,24 @@ class TestWikidataImplementation(unittest.TestCase):
     @unittest.skip("Too slow")
     def test_relationships_slow(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationship_map_by_curie(WD_SLY_SYNDROME)
+        rels = oi.outgoing_relationship_map(WD_SLY_SYNDROME)
         for k, vs in rels.items():
-            print(f'{k} "{oi.get_label_by_curie(k)}"')
+            print(f'{k} "{oi.label(k)}"')
             for v in vs:
-                print(f'  = {v} "{oi.get_label_by_curie(v)}"')
+                print(f'  = {v} "{oi.label(v)}"')
 
     def test_labels(self):
-        label = self.oi.get_label_by_curie(WD_SLY_SYNDROME)
+        label = self.oi.label(WD_SLY_SYNDROME)
         # print(label)
-        self.assertIn(WD_SLY_SYNDROME, self.oi.get_curies_by_label(label))
+        self.assertIn(WD_SLY_SYNDROME, self.oi.curies_by_label(label))
 
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie(WD_SLY_SYNDROME)
+        syns = self.oi.entity_aliases(WD_SLY_SYNDROME)
         logging.info(syns)
         assert "mucopolysaccharidosis VII" in syns
 
     def test_definition(self):
-        defn = self.oi.get_definition_by_curie(WD_PECTORAL_FIN_MORPHOGENESIS)
+        defn = self.oi.definition(WD_PECTORAL_FIN_MORPHOGENESIS)
         logging.info(f"DEF={defn}")
         assert defn
 
@@ -59,7 +59,7 @@ class TestWikidataImplementation(unittest.TestCase):
         oi = self.oi
         config = SearchConfiguration(is_partial=False, limit=3)
         curies = list(oi.basic_search("endoplasmic reticulum", config=config))
-        tups = list(oi.get_labels_for_curies(curies))
+        tups = list(oi.labels(curies))
         # print(tups)
         self.assertIn((WD_ER, "endoplasmic reticulum"), tups)
 
@@ -70,7 +70,7 @@ class TestWikidataImplementation(unittest.TestCase):
         ancs = list(oi.ancestors([WD_SLY_SYNDROME], predicates=[IS_A, "wdp:P1199"]))
         for a in ancs:
             print(a)
-        for curie, label in oi.get_labels_for_curies(ancs):
+        for curie, label in oi.labels(ancs):
             print(f"{curie} ! {label}")
         self.assertIn(WD_MPS, ancs)
 
@@ -80,7 +80,7 @@ class TestWikidataImplementation(unittest.TestCase):
         for a in results:
             print(a)
         self.assertIn(WD_SLY_SYNDROME, results)
-        for curie, label in oi.get_labels_for_curies(results):
+        for curie, label in oi.labels(results):
             print(f"D: {curie} ! {label}")
 
     def test_ancestor_graph(self):

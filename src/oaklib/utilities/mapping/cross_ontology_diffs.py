@@ -27,7 +27,7 @@ ANALOGOUS_RELATION = Tuple[DIFF_CATEGORY, CURIE, PRED_CURIE, CURIE, List[CURIE]]
 
 def get_mappings_between(oi: MappingProviderInterface, external_source: str) -> Iterator[Mapping]:
     prefix = f"{external_source}:"
-    for m in oi.all_sssom_mappings():
+    for m in oi.sssom_mappings_by_source():
         if m.object_source == external_source or m.object_id.startswith(prefix):
             yield m
 
@@ -49,7 +49,7 @@ def group_mappings_by_source_pairs(
 ) -> Dict[Tuple[str, str], Mapping]:
     groups: Dict[Tuple[str, str], List[Mapping]] = defaultdict(list)
     for oi in [subject_oi, object_oi]:
-        for m in oi.all_sssom_mappings():
+        for m in oi.sssom_mappings_by_source():
             subject_src = subject_source(m)
             object_src = object_source(m)
             groups[(subject_src, object_src)].append(m)
@@ -95,15 +95,17 @@ def calculate_pairwise_relational_diff(
     """
     if mappings is None:
         logging.info("No mappings provided -- using set from both ontologies")
-        mappings = list(left_oi.all_sssom_mappings()) + list(right_oi.all_sssom_mappings())
+        mappings = list(left_oi.sssom_mappings_by_source()) + list(
+            right_oi.sssom_mappings_by_source()
+        )
     logging.info(f"Converting all {len(mappings)} mappings to networkx")
     g = mappings_to_graph(mappings)
     if isinstance(left_oi, OboGraphInterface) and isinstance(right_oi, OboGraphInterface):
-        for subject_child in left_oi.all_entity_curies():
+        for subject_child in left_oi.entities():
             if not curie_has_prefix(subject_child, sources):
                 continue
             for pred, subject_parent in relation_dict_as_tuples(
-                left_oi.get_outgoing_relationship_map_by_curie(subject_child)
+                left_oi.outgoing_relationship_map(subject_child)
             ):
                 if predicates and pred not in predicates:
                     continue
@@ -193,7 +195,7 @@ def calculate_pairwise_relational_diff_for_edge(
         # logging.debug(f"RIGHT: {right_subject} // ANCS[{predicates}] = {right_subject_ancs}")
         right_subject_parents = []
         right_subject_direct_outgoing = defaultdict(list)
-        for p, o in right_oi.get_outgoing_relationships(right_subject):
+        for p, o in right_oi.outgoing_relationships(right_subject):
             right_subject_parents.append(o)
             right_subject_direct_outgoing[p].append(o)
         # right_subject_direct_outgoing = right_oi.get_outgoing_relationship_map_by_curie(

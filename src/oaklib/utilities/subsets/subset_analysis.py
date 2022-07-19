@@ -20,7 +20,7 @@ def get_subset_dict(oi: OboGraphInterface) -> SUBSET_DICT:
     :param oi:
     :return:
     """
-    return {s: list(oi.curies_by_subset(s)) for s in oi.all_subset_curies()}
+    return {s: list(oi.subset_members(s)) for s in oi.subsets()}
 
 
 def terms_by_subsets(
@@ -37,7 +37,7 @@ def terms_by_subsets(
     all_curies = set()
     for curies in subsets.values():
         all_curies.update(curies)
-    label_map = {curie: label for curie, label in oi.get_labels_for_curies(all_curies)}
+    label_map = {curie: label for curie, label in oi.labels(all_curies)}
     predicates = DEFAULT_PREDICATES
     subset_ancs = {}
     if subsumed_score is not None:
@@ -116,8 +116,8 @@ def subset_overlap(
     subset2: SUBSET_CURIE,
     predicates: List[PRED_CURIE] = None,
 ) -> float:
-    curies1 = list(oi.curies_by_subset(subset1))
-    curies2 = list(oi.curies_by_subset(subset2))
+    curies1 = list(oi.subset_members(subset1))
+    curies2 = list(oi.subset_members(subset2))
     if predicates is None:
         predicates = [IS_A, PART_OF]
     descs1 = oi.descendants(curies1, predicates=predicates)
@@ -126,9 +126,9 @@ def subset_overlap(
 
 
 def all_subsets_overlap(oi: OboGraphInterface) -> List[Tuple[float, SUBSET_CURIE, SUBSET_CURIE]]:
-    subsets = list(oi.all_subset_curies())
+    subsets = list(oi.subsets())
     results = []
-    dmap = {s: list(oi.descendants(list(oi.curies_by_subset(s)))) for s in subsets}
+    dmap = {s: list(oi.descendants(list(oi.subset_members(s)))) for s in subsets}
     dmap = {k: v for k, v in dmap.items() if len(v) > 0}
     subsets = dmap.keys()
     for s1 in subsets:

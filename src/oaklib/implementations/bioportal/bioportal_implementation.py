@@ -51,7 +51,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
             if self.resource:
                 self.focus_ontology = self.resource.slug
 
-    def get_prefix_map(self) -> PREFIX_MAP:
+    def prefix_map(self) -> PREFIX_MAP:
         # TODO
         return {}
 
@@ -76,7 +76,7 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
         #    raise EnvironmentError
         return result
 
-    def all_ontology_curies(self) -> Iterable[CURIE]:
+    def ontologies(self) -> Iterable[CURIE]:
         include = []
         include_str = ",".join(include)
         params = {"include": include_str}
@@ -124,14 +124,14 @@ class BioportalImplementation(TextAnnotatorInterface, SearchInterface, MappingPr
                         m[k] = v
         return m
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         label_cache = self.label_cache
         for curie in curies:
             logging.debug(f"LOOKUP: {curie}")
             if curie in label_cache:
                 yield curie, label_cache[curie]
             else:
-                label = self.get_label_by_curie(curie)
+                label = self.label(curie)
                 label_cache[curie] = label
                 yield curie, label
 

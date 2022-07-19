@@ -25,29 +25,29 @@ class StreamingOboWriter(StreamingWriter):
         self.line("[Term]")
         self.line(f"id: {curie}")
         if label is None:
-            label = oi.get_label_by_curie(curie)
+            label = oi.label(curie)
         self.tag_val("name", label)
-        defn = oi.get_definition_by_curie(curie)
+        defn = oi.definition(curie)
         if defn:
             if isinstance(oi, MetadataInterface):
                 _, anns = oi.definition_with_annotations(curie)
             else:
                 anns = []
             self.tag_val("def", f'"{defn}"', xrefs=[ann.object for ann in anns])
-        for _, x in oi.get_simple_mappings_by_curie(curie):
+        for _, x in oi.simple_mappings_by_curie(curie):
             self.line(f"xref: {x}")
-        amap = oi.alias_map_by_curie(curie)
+        amap = oi.entity_alias_map(curie)
         for a, vs in amap.items():
             if a in SYNONYM_PRED_TO_SCOPE_MAP:
                 scope = SYNONYM_PRED_TO_SCOPE_MAP[a]
                 for v in vs:
                     self.line(f'synonym: "{v}" {scope} []')
         if isinstance(oi, OboGraphInterface):
-            rmap = oi.get_outgoing_relationship_map_by_curie(curie)
+            rmap = oi.outgoing_relationship_map(curie)
             for p in rmap.get(IS_A, []):
-                self.line(f"is_a: {p} ! {oi.get_label_by_curie(p)}")
+                self.line(f"is_a: {p} ! {oi.label(p)}")
             for r, ps in rmap.items():
                 if r != IS_A:
                     for p in ps:
-                        self.line(f"relationship: {r} {p} ! {oi.get_label_by_curie(p)}")
+                        self.line(f"relationship: {r} {p} ! {oi.label(p)}")
         self.line("\n")

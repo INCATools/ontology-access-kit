@@ -35,7 +35,7 @@ def unreciprocated_mappings(
     :return:
     """
     groups = group_mappings_by_source_pairs(subject_oi, object_oi)
-    for m in subject_oi.all_sssom_mappings():
+    for m in subject_oi.sssom_mappings_by_source():
         subject_src = subject_source(m)
         object_src = object_source(m)
         subject_id = m.subject_id

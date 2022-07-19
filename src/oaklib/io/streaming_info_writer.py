@@ -29,26 +29,26 @@ class StreamingInfoWriter(StreamingWriter):
     def emit_curie(self, curie, label=None, **kwargs):
         oi = self.ontology_interface
         if label is None:
-            label = oi.get_label_by_curie(curie)
+            label = oi.label(curie)
         self.file.write(f"{curie} ! {label}")
         if self.display_options:
             show_all = "all" in self.display_options
             if show_all or "x" in self.display_options:
-                for _, x in oi.get_simple_mappings_by_curie(curie):
+                for _, x in oi.simple_mappings_by_curie(curie):
                     self.file.write(f" {x}")
             if show_all or "r" in self.display_options and isinstance(oi, OboGraphInterface):
-                for k, vs in oi.get_outgoing_relationship_map_by_curie(curie).items():
+                for k, vs in oi.outgoing_relationship_map(curie).items():
                     p = predicate_code_map.get(k, None)
                     if p is None:
-                        p = oi.get_label_by_curie(k)
+                        p = oi.label(k)
                         if p is None:
                             p = k
                     self.file.write(f" {p}: [")
                     for v in vs:
-                        self.file.write(f' {v} "{oi.get_label_by_curie(curie)}"')
+                        self.file.write(f' {v} "{oi.label(curie)}"')
                     self.file.write("]")
             if show_all or "d" in self.display_options:
-                defn = oi.get_definition_by_curie(curie)
+                defn = oi.definition(curie)
                 if defn:
                     self.file.write(f' "{defn}"')
             if (

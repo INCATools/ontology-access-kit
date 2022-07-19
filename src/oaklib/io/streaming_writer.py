@@ -72,7 +72,7 @@ class StreamingWriter(ABC):
                 curie = obj_as_dict.get(f, None)
                 if curie:
                     if isinstance(curie, list):
-                        label = [self.ontology_interface.get_label_by_curie(c) for c in curie]
+                        label = [self.ontology_interface.label(c) for c in curie]
                     else:
-                        label = self.ontology_interface.get_label_by_curie(curie)
+                        label = self.ontology_interface.label(curie)
                     obj_as_dict[f"{f}_label"] = label

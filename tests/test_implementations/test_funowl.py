@@ -21,7 +21,7 @@ class TestFunOwlImplementation(unittest.TestCase):
         self.oi = oi
 
     def test_entities(self):
-        curies = list(self.oi.all_entity_curies())
+        curies = list(self.oi.entities())
         self.assertIn(NUCLEUS, curies)
         self.assertIn(CHEBI_NUCLEUS, curies)
         self.assertIn(HUMAN, curies)
@@ -64,10 +64,10 @@ class TestFunOwlImplementation(unittest.TestCase):
         oi = self.oi
         anns = list(oi.annotation_assertion_axioms(NUCLEUS))
         self.assertGreater(len(anns), 5)
-        label = oi.get_label_by_curie(NUCLEUS)
+        label = oi.label(NUCLEUS)
         self.assertEqual("nucleus", label)
         oi.apply_patch(
             kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value=NEW_NAME)
         )
-        label = oi.get_label_by_curie(VACUOLE)
+        label = oi.label(VACUOLE)
         self.assertEqual(NEW_NAME, label)

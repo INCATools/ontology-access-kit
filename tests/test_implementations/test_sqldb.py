@@ -57,23 +57,23 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationship_map_by_curie(VACUOLE)
+        rels = oi.outgoing_relationship_map(VACUOLE)
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], ["GO:0005737"])
         self.assertCountEqual([IS_A, PART_OF], rels)
 
     def test_all_nodes(self):
-        for curie in self.oi.all_entity_curies():
+        for curie in self.oi.entities():
             print(curie)
 
     def test_labels(self):
-        label = self.oi.get_label_by_curie(VACUOLE)
+        label = self.oi.label(VACUOLE)
         self.assertEqual(label, "vacuole")
 
     def test_get_labels_for_curies(self):
         oi = self.oi
-        curies = oi.curies_by_subset("goslim_generic")
-        tups = list(oi.get_labels_for_curies(curies))
+        curies = oi.subset_members("goslim_generic")
+        tups = list(oi.labels(curies))
         for curie, label in tups:
             print(f"{curie} ! {label}")
         assert (VACUOLE, "vacuole") in tups
@@ -81,7 +81,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual(11, len(tups))
 
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
+        syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         print(syns)
         assert "cellular component" in syns
 
@@ -417,7 +417,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         )
         self.assertEqual(len(rels), 0)
         # trivial edge case - subset using all terms and all predicates
-        rels = list(oi.gap_fill_relationships(list(oi.all_entity_curies())))
+        rels = list(oi.gap_fill_relationships(list(oi.entities())))
         all_rels = list(oi.all_relationships())
         # self.assertEqual(len(rels), len(all_rels))
         for rel in rels:
@@ -432,26 +432,26 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         oi.autosave = True
-        label = oi.get_label_by_curie(VACUOLE)
+        label = oi.label(VACUOLE)
         self.assertEqual("vacuole", label)
-        oi.set_label_for_curie(VACUOLE, "foo")
-        label = oi.get_label_by_curie(VACUOLE)
+        oi.set_label(VACUOLE, "foo")
+        label = oi.label(VACUOLE)
         self.assertEqual("foo", label)
         # oi.save()
         oi.autosave = False
-        label = oi.get_label_by_curie(VACUOLE)
+        label = oi.label(VACUOLE)
         self.assertEqual("foo", label)
-        oi.set_label_for_curie(NUCLEUS, "bar")
-        oi.set_label_for_curie(NUCLEAR_ENVELOPE, "baz")
-        self.assertNotEqual("bar", oi.get_label_by_curie(NUCLEUS))
-        self.assertNotEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+        oi.set_label(NUCLEUS, "bar")
+        oi.set_label(NUCLEAR_ENVELOPE, "baz")
+        self.assertNotEqual("bar", oi.label(NUCLEUS))
+        self.assertNotEqual("baz", oi.label(NUCLEAR_ENVELOPE))
         oi.save()
-        self.assertEqual("bar", oi.get_label_by_curie(NUCLEUS))
-        self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+        self.assertEqual("bar", oi.label(NUCLEUS))
+        self.assertEqual("baz", oi.label(NUCLEAR_ENVELOPE))
         # get a fresh copy to ensure changes have persisted
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
-        self.assertEqual("bar", oi.get_label_by_curie(NUCLEUS))
-        self.assertEqual("baz", oi.get_label_by_curie(NUCLEAR_ENVELOPE))
+        self.assertEqual("bar", oi.label(NUCLEUS))
+        self.assertEqual("baz", oi.label(NUCLEAR_ENVELOPE))
 
     def test_set_labels_from_iris(self):
         """
@@ -460,8 +460,8 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         shutil.copyfile(SSN_DB, MUTABLE_SSN_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_SSN_DB}"))
         no_label_curies = []
-        for curie in oi.all_entity_curies():
-            label = oi.get_label_by_curie(curie)
+        for curie in oi.entities():
+            label = oi.label(curie)
             # print(f'{curie}: {label}')
             if label is None:
                 no_label_curies.append(curie)
@@ -470,7 +470,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         add_labels_from_uris(oi)
         oi.save()
         for curie in no_label_curies:
-            label = oi.get_label_by_curie(curie)
+            label = oi.label(curie)
             # TODO
             # print(f'XXX {curie}: {label}')
             # self.assertIsNotNone(label)
@@ -481,7 +481,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         """
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
-        label = oi.get_label_by_curie(NUCLEUS)
+        label = oi.label(NUCLEUS)
         preds = [IS_A, PART_OF]
         preds2 = [IS_A, FAKE_PREDICATE]
         ancestors = list(oi.ancestors(NUCLEUS, predicates=preds))
@@ -494,8 +494,8 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         descendants_ancs = non_reflexive(descendants)
         oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})
         oi.save()
-        self.assertEqual(label, oi.get_label_by_curie(FAKE_ID))
-        self.assertIsNone(oi.get_label_by_curie(NUCLEUS))
+        self.assertEqual(label, oi.label(FAKE_ID))
+        self.assertIsNone(oi.label(NUCLEUS))
         self.assertCountEqual(
             expected_ancs, non_reflexive(oi.ancestors(FAKE_ID, predicates=preds2))
         )
@@ -507,7 +507,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_statements_with_annotations(self):
         oi = self.oi
-        for curie in oi.all_entity_curies():
+        for curie in oi.entities():
             for ax in oi.statements_with_annotations(curie):
                 logging.info(yaml_dumper.dumps(ax))
         for ax in oi.statements_with_annotations(NUCLEUS):
@@ -542,12 +542,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         #                                                                )))
         oi.save()
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
-        obs = list(oi.all_obsolete_curies())
+        obs = list(oi.obsoletes())
         self.assertIn(NUCLEUS, obs)
-        self.assertIsNone(oi.get_label_by_curie(VACUOLE))
-        self.assertIn("envelope of nucleus", oi.aliases_by_curie(NUCLEAR_ENVELOPE))
-        self.assertIn(CELLULAR_COMPONENT, oi.get_outgoing_relationship_map_by_curie(NUCLEUS)[IS_A])
-        self.assertNotIn(IMBO, oi.get_outgoing_relationship_map_by_curie(NUCLEUS)[IS_A])
+        self.assertIsNone(oi.label(VACUOLE))
+        self.assertIn("envelope of nucleus", oi.entity_aliases(NUCLEAR_ENVELOPE))
+        self.assertIn(CELLULAR_COMPONENT, oi.outgoing_relationship_map(NUCLEUS)[IS_A])
+        self.assertNotIn(IMBO, oi.outgoing_relationship_map(NUCLEUS)[IS_A])
 
     def test_sqla_write(self):
         shutil.copyfile(DB, MUTABLE_DB)

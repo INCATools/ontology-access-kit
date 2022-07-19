@@ -26,8 +26,8 @@ class TestSubsetUtils(unittest.TestCase):
 
     def test_roll_up(self):
         oi = self.oi
-        term_curies = [t for t in oi.all_entity_curies() if t.startswith("GO:")]
-        for subset in oi.all_subset_curies():
+        term_curies = [t for t in oi.entities() if t.startswith("GO:")]
+        for subset in oi.subsets():
             # print(f'SUBSET: {subset}')
             m = roll_up_to_named_subset(self.oi, subset, term_curies, predicates=[IS_A, PART_OF])
             n = 0
