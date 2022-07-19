@@ -78,6 +78,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
     - owlery
     - robot/owlapi via py4j
     """
+
     functional_writer: FunctionalWriter = None
 
     def owl_ontology(self) -> Ontology:
