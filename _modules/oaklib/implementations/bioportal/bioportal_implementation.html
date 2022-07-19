@@ -132,7 +132,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span>
 
-    <span class="k">def</span> <span class="nf">get_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="c1"># TODO</span>
         <span class="k">return</span> <span class="p">{}</span>
 
@@ -157,7 +157,7 @@
         <span class="c1">#    raise EnvironmentError</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">all_ontology_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">include</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">include_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">include</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;include&quot;</span><span class="p">:</span> <span class="n">include_str</span><span class="p">}</span>
@@ -205,14 +205,14 @@
                         <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">return</span> <span class="n">m</span>
 
-    <span class="k">def</span> <span class="nf">get_labels_for_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
         <span class="n">label_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LOOKUP: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">label_cache</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
                 <span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
                 <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span>
 

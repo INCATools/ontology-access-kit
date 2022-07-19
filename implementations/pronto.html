@@ -137,7 +137,7 @@ used for RDF/XML files but this is not guaranteed in future.</p>
 </pre></div>
 </div>
 <p>Currently this implementation implements most of the BaseOntologyInterface</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="s1">&#39;GO:0005773&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>

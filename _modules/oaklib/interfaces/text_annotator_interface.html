@@ -146,7 +146,7 @@
                 <span class="sa">f</span><span class="s2">&quot;to use the default annotate_text() implementation&quot;</span>
             <span class="p">)</span>
         <span class="k">for</span> <span class="n">object_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
             <span class="c1"># amap = self.alias_map_by_curie(object_id)</span>
             <span class="k">yield</span> <span class="n">nen_annotation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">curie</span><span class="o">=</span><span class="n">object_id</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div></div>
 </pre></div>

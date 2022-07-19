@@ -212,9 +212,7 @@
             <span class="n">subj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
             <span class="k">yield</span> <span class="n">pred</span><span class="p">,</span> <span class="n">subj</span>
 
-    <span class="k">def</span> <span class="nf">get_outgoing_relationship_map_by_curie</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">outgoing_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="n">rmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_outgoing_edges_by_curie</span><span class="p">(</span>
             <span class="n">curie</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">nonredundant</span>
@@ -222,9 +220,7 @@
             <span class="n">rmap</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rmap</span>
 
-    <span class="k">def</span> <span class="nf">get_incoming_relationship_map_by_curie</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">incoming_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="n">rmap</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_incoming_edges_by_curie</span><span class="p">(</span>
             <span class="n">curie</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="n">RelationGraphEnum</span><span class="o">.</span><span class="n">nonredundant</span>
@@ -232,7 +228,7 @@
             <span class="n">rmap</span><span class="p">[</span><span class="n">pred</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rmap</span>
 
-    <span class="k">def</span> <span class="nf">get_relationships</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -497,7 +493,7 @@
         <span class="n">best_mrcas</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ics</span> <span class="k">if</span> <span class="n">ics</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_ic</span><span class="p">]</span>
         <span class="n">mrca</span> <span class="o">=</span> <span class="n">best_mrcas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">sim</span> <span class="o">=</span> <span class="n">TermPairwiseSimilarity</span><span class="p">(</span><span class="n">subject_id</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">object_id</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span> <span class="n">ancestor_id</span><span class="o">=</span><span class="n">mrca</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_labels_for_curies</span><span class="p">([</span><span class="n">subject</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">mrca</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">curie</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">([</span><span class="n">subject</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">mrca</span><span class="p">]):</span>
             <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="c1"># print(f&#39;C={curie} L={label}&#39;)</span>

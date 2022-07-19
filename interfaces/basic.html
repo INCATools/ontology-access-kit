@@ -171,75 +171,41 @@ in which case URIs may be used</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">
 <span class="sig-name descname"><span class="pre">alias_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.alias_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie" title="Permalink to this definition"></a></dt>
-<dd><p>Returns aliases keyed by alias type (scope in OBO terms)</p>
-<ul class="simple">
-<li><p>The alias map MUST include rdfs:label annotations</p></li>
-<li><p>The alias map MAY include other properties the implementation deems to serve an alias role</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by alias_map(curie)</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">
 <span class="sig-name descname"><span class="pre">aliases_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.aliases_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie" title="Permalink to this definition"></a></dt>
-<dd><p>All aliases/synonyms for a given CURIE</p>
-<p>This lumps together all synonym categories (scopes)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>entity_aliases(curie)</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">
-<span class="sig-name descname"><span class="pre">all_entity_curies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_obsoletes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owl_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_entity_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies" title="Permalink to this definition"></a></dt>
-<dd><p>returns iterator over all known entity CURIEs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filter_obsoletes</strong> – if True, exclude any obsolete/deprecated element</p></li>
-<li><p><strong>owl_type</strong> – e.g. owl:Class</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>iterator</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">all_entity_curies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_entity_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by entities</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">
 <span class="sig-name descname"><span class="pre">all_obsolete_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_obsolete_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies" title="Permalink to this definition"></a></dt>
-<dd><p>returns iterator over all known CURIEs that are obsolete</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>iterator</p>
-</dd>
-</dl>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by obsoletes()</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies">
 <span class="sig-name descname"><span class="pre">all_ontology_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_ontology_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_ontology_curies" title="Permalink to this definition"></a></dt>
-<dd><p>returns iterator over all known ontology CURIEs</p>
-<p>Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
-Even when a single ontology is wrapped, there may be multiple ontologies included as imports</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>iterator</p>
-</dd>
-</dl>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by ontology_curies</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -251,17 +217,17 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <dd class="field-odd"><p></p>
 </dd>
 </dl>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>relationships()</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies">
 <span class="sig-name descname"><span class="pre">all_subset_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.all_subset_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_subset_curies" title="Permalink to this definition"></a></dt>
-<dd><p>returns iterator over all known subset CURIEs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>iterator</p>
-</dd>
-</dl>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by subset_curies()</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -299,13 +265,29 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">
 <span class="sig-name descname"><span class="pre">curie_to_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.curie_to_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri" title="Permalink to this definition"></a></dt>
-<dd><p>Expands a CURIE</p>
+<dd><p>Expands a CURIE to a URI</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>curie</strong> – </p></li>
-<li><p><strong>strict</strong> – </p></li>
+<li><p><strong>strict</strong> – (Default is False) if True, exceptions will be raised if curie cannot be expanded</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_label">
+<span class="sig-name descname"><span class="pre">curies_by_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.curies_by_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_label" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches all curies with a given label</p>
+<p>This SHOULD return maximum one CURIE but there are circumstances where multiple CURIEs
+may share a label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>label</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -316,12 +298,20 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_subset">
 <span class="sig-name descname"><span class="pre">curies_by_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.curies_by_subset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_subset" title="Permalink to this definition"></a></dt>
-<dd><p>returns iterator over all CURIEs belonging to a subset</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>iterator</p>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by subset_members(subset)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">
+<span class="sig-name descname"><span class="pre">definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
 </dd>
 </dl>
+<p>:return:x`</p>
 </dd></dl>
 
 <dl class="py method">
@@ -342,14 +332,33 @@ Even when a single ontology is wrapped, there may be multiple ontologies include
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label">
-<span class="sig-name descname"><span class="pre">get_curies_by_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_curies_by_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label" title="Permalink to this definition"></a></dt>
-<dd><p>Fetches all curies with a given label</p>
-<p>This SHOULD return maximum one CURIE but there are circumstances where multiple CURIEs
-may share a label</p>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">
+<span class="sig-name descname"><span class="pre">entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_obsoletes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owl_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known entity CURIEs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>label</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_obsoletes</strong> – if True, exclude any obsolete/deprecated element</p></li>
+<li><p><strong>owl_type</strong> – e.g. owl:Class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">
+<span class="sig-name descname"><span class="pre">entity_alias_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.entity_alias_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map" title="Permalink to this definition"></a></dt>
+<dd><p>Returns aliases keyed by alias type (scope in OBO terms)</p>
+<ul class="simple">
+<li><p>The alias map MUST include rdfs:label annotations</p></li>
+<li><p>The alias map MAY include other properties the implementation deems to serve an alias role</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -358,24 +367,124 @@ may share a label</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">
-<span class="sig-name descname"><span class="pre">get_definition_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_definition_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_aliases">
+<span class="sig-name descname"><span class="pre">entity_aliases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.entity_aliases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_aliases" title="Permalink to this definition"></a></dt>
+<dd><p>All aliases/synonyms for a given CURIE</p>
+<p>This lumps together all synonym categories (scopes)</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>curie</strong> – </p>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
 </dl>
-<p>:return:x`</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_hierararchical_parents_by_curie">
-<span class="sig-name descname"><span class="pre">get_hierararchical_parents_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isa_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_hierararchical_parents_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_hierararchical_parents_by_curie" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_metadata_map">
+<span class="sig-name descname"><span class="pre">entity_metadata_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.entity_metadata_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_metadata_map" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary keyed by property predicate, with a list of zero or more values,
+where each key corresponds to any of a set of open-ended metadata predicates</p>
+<p>This is a simplified version of the metadata model in many ontologies</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label">
+<span class="sig-name descname"><span class="pre">get_curies_by_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_curies_by_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_curies_by_label" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>curies_by_label(label)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">
+<span class="sig-name descname"><span class="pre">get_definition_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_definition_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>definition()</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationship_map_by_curie">
+<span class="sig-name descname"><span class="pre">get_incoming_relationship_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_incoming_relationship_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationship_map_by_curie" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>incoming_relationship_map(curie)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships">
+<span class="sig-name descname"><span class="pre">get_incoming_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_incoming_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by incoming_relationships(…)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">
+<span class="sig-name descname"><span class="pre">get_label_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_label_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>label(curie))</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">
+<span class="sig-name descname"><span class="pre">get_labels_for_curies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_labels_for_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>labels(…)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationship_map_by_curie">
+<span class="sig-name descname"><span class="pre">get_outgoing_relationship_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_outgoing_relationship_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationship_map_by_curie" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>outgoing_relationship_map(curie)</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships">
+<span class="sig-name descname"><span class="pre">get_outgoing_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_outgoing_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>outgoing_relationships()</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">
+<span class="sig-name descname"><span class="pre">get_prefix_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_prefix_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by prefix_map</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_relationships">
+<span class="sig-name descname"><span class="pre">get_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_relationships" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Use: </span>relationships()</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierararchical_parents">
+<span class="sig-name descname"><span class="pre">hierararchical_parents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isa_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.hierararchical_parents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierararchical_parents" title="Permalink to this definition"></a></dt>
 <dd><p>Returns all hierarchical parents</p>
 <p>The definition of hierarchical parent depends on the provider. For example, in OLS,
 this will return part-of parents for GO, as well as is-a</p>
 <p>This only returns Named Entities; i.e. if an RDF source is wrapped, this will NOT return blank nodes</p>
-<p>To get all relationships, see <span class="xref std std-ref">get_outgoing_relationships_by_curie</span></p>
+<p>To get all relationships, see <span class="xref std std-ref">outgoing_relationships</span></p>
 <p>A fresh map is created each invocation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -391,9 +500,11 @@ this will return part-of parents for GO, as well as is-a</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationship_map_by_curie">
-<span class="sig-name descname"><span class="pre">get_incoming_relationship_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_incoming_relationship_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationship_map_by_curie" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map">
+<span class="sig-name descname"><span class="pre">incoming_relationship_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.incoming_relationship_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a map of all the relationships where the object is the input CURIE</p>
+<p>See :ref:outgoing_relationship_map:</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>curie</strong> – </p>
 </dd>
@@ -404,8 +515,8 @@ this will return part-of parents for GO, as well as is-a</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships">
-<span class="sig-name descname"><span class="pre">get_incoming_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_incoming_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationships" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationships">
+<span class="sig-name descname"><span class="pre">incoming_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.incoming_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationships" title="Permalink to this definition"></a></dt>
 <dd><p>Returns relationships where curie in the object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -421,8 +532,8 @@ this will return part-of parents for GO, as well as is-a</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie">
-<span class="sig-name descname"><span class="pre">get_label_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_label_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_label_by_curie" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.label">
+<span class="sig-name descname"><span class="pre">label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.label" title="Permalink to this definition"></a></dt>
 <dd><p>fetches the unique label for a CURIE</p>
 <p>The CURIE may be for a class, individual, property, or ontology</p>
 <dl class="field-list simple">
@@ -436,8 +547,8 @@ this will return part-of parents for GO, as well as is-a</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies">
-<span class="sig-name descname"><span class="pre">get_labels_for_curies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_labels_for_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_labels_for_curies" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.labels">
+<span class="sig-name descname"><span class="pre">labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.labels" title="Permalink to this definition"></a></dt>
 <dd><p>fetches the unique label for a CURIE</p>
 <p>The CURIE may be for a class, individual, property, or ontology</p>
 <dl class="field-list simple">
@@ -446,87 +557,6 @@ this will return part-of parents for GO, as well as is-a</p>
 <li><p><strong>curie</strong> – </p></li>
 <li><p><strong>allow_none</strong> – </p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationship_map_by_curie">
-<span class="sig-name descname"><span class="pre">get_outgoing_relationship_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_outgoing_relationship_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationship_map_by_curie" title="Permalink to this definition"></a></dt>
-<dd><p>The return relationship map is keyed by relationship type, where the values
-are the ‘parents’ or fillers</p>
-<p>OWL formulation:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>is_a: {P : SubClassOf(C P), class(P)}</p></li>
-<li><p>R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}</p></li>
-</ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – the ‘child’ term</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships">
-<span class="sig-name descname"><span class="pre">get_outgoing_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_outgoing_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships" title="Permalink to this definition"></a></dt>
-<dd><p>Returns relationships where curie in the subject</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>curie</strong> – </p></li>
-<li><p><strong>predicates</strong> – if None, do not filter</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">
-<span class="sig-name descname"><span class="pre">get_prefix_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_prefix_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map" title="Permalink to this definition"></a></dt>
-<dd><p>Returns all prefixes known to the resource plus their URI expansion</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_relationships">
-<span class="sig-name descname"><span class="pre">get_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subjects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_relationships" title="Permalink to this definition"></a></dt>
-<dd><p>Returns all matching relationships</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>subjects</strong> – </p></li>
-<li><p><strong>predicates</strong> – </p></li>
-<li><p><strong>objects</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_simple_mappings_by_curie">
-<span class="sig-name descname"><span class="pre">get_simple_mappings_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.get_simple_mappings_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_simple_mappings_by_curie" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -554,19 +584,35 @@ a relationship with one of the specified predicates</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie">
-<span class="sig-name descname"><span class="pre">metadata_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.metadata_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.metadata_map_by_curie" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a dictionary keyed by property predicate, with a list of zero or more values,
-where each key corresponds to any of a set of open-ended metadata predicates</p>
-<p>This is a simplified version of the metadata model in many ontologies</p>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">
+<span class="sig-name descname"><span class="pre">obsoletes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.obsoletes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known CURIEs that are obsolete</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>iterator</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies">
+<span class="sig-name descname"><span class="pre">ontologies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.ontologies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known ontology CURIEs</p>
+<p>Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
+Even when a single ontology is wrapped, there may be multiple ontologies included as imports</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies">
+<span class="sig-name descname"><span class="pre">ontology_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.ontology_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_curies" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by ontologies()</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -589,6 +635,74 @@ where each key corresponds to any of a set of open-ended metadata predicates</p>
 <dd><p>returns iterator over all version identifiers for an ontology
 :param ontology:
 :return: iterator</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationship_map">
+<span class="sig-name descname"><span class="pre">outgoing_relationship_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.outgoing_relationship_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationship_map" title="Permalink to this definition"></a></dt>
+<dd><p>The return relationship map is keyed by relationship type, where the values
+are the ‘parents’ or fillers</p>
+<p>OWL formulation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>is_a: {P : SubClassOf(C P), class(P)}</p></li>
+<li><p>R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – the ‘child’ term</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationships">
+<span class="sig-name descname"><span class="pre">outgoing_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.outgoing_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationships" title="Permalink to this definition"></a></dt>
+<dd><p>Returns relationships where the input curie in the subject</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>predicates</strong> – if None, do not filter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">
+<span class="sig-name descname"><span class="pre">prefix_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.prefix_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary mapping all prefixes known to the resource to their URI expansion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>prefix map</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships">
+<span class="sig-name descname"><span class="pre">relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subjects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.relationships" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all matching relationships</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subjects</strong> – </p></li>
+<li><p><strong>predicates</strong> – </p></li>
+<li><p><strong>objects</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -623,8 +737,8 @@ a relationship with one of the specified predicates</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label_for_curie">
-<span class="sig-name descname"><span class="pre">set_label_for_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.set_label_for_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label_for_curie" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label">
+<span class="sig-name descname"><span class="pre">set_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.set_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label" title="Permalink to this definition"></a></dt>
 <dd><p>updates the label</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -640,9 +754,53 @@ a relationship with one of the specified predicates</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie">
+<span class="sig-name descname"><span class="pre">simple_mappings_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.simple_mappings_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie" title="Permalink to this definition"></a></dt>
+<dd><p>Yields mappings for a given subject, where each mapping is represented as a simple tuple</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>curie</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>iterator over predicate-object tuples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_curies">
+<span class="sig-name descname"><span class="pre">subset_curies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.subset_curies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_curies" title="Permalink to this definition"></a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version Replaced: </span>by subsets()</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_members">
+<span class="sig-name descname"><span class="pre">subset_members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.subset_members"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_members" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all CURIEs belonging to a subset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets">
+<span class="sig-name descname"><span class="pre">subsets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.subsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets" title="Permalink to this definition"></a></dt>
+<dd><p>returns iterator over all known subset CURIEs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>iterator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">
 <span class="sig-name descname"><span class="pre">uri_to_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.uri_to_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie" title="Permalink to this definition"></a></dt>
-<dd><p>Contracts a URI</p>
+<dd><p>Contracts a URI to a CURIE</p>
 <p>If strict conditions hold, then no URI can map to more than one CURIE
 (i.e one URI base should not start with another).</p>
 <dl class="field-list simple">
