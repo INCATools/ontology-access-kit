@@ -1,7 +1,8 @@
 id: https://w3id.org/linkml/cross_ontology_diff
 title: Cross-Ontology Diff
 name: cross-ontology-diff
-description: A datamodel for representing the results of relational diffs across a pair of ontologies connected by mappings
+description: >-
+  A datamodel for representing the results of relational diffs across a pair of ontologies connected by mappings
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
@@ -33,93 +34,272 @@ imports:
   - linkml:types
 
 types:
-  Position:
-    typeof: integer
+  Label:
+    typeof: string
+  EntityReference:
+    typeof: uriorcurie
+    description: A reference to a mapped entity. This is represented internally as a string, and as a resource in RDF
+    uri: rdfs:Resource
+
 
 #==================================
 # Classes                         #
 #==================================
 classes:
   StructureDiffResultSet:
-    description: A collection of results
+    description: A collection of relational diff results results
     attributes:
       results:
-        description: all annotations
+        description: all differences between a pair of ontologies
         range: RelationalDiff
         multivalued: true
         inlined: true
+      left_source:
+      right_source:
 
   RelationalDiff:
-    description: >-
+    description: |-
       A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in
       another ontology (or a different version of the same ontology). The diff is from the perspective of one
       ontology (the one on the "left" side).
+
       For every edge in the left ontology, the subject and object are mapped to the right ontology.
       If mappings cannot be found then the diff is categorized as missing mappings.
       The predicate is also mapped, with the reflexivity assumption.
+
       for every mapped subject and object pair (the "right" subject and object), the entailed relationship
       is examined to determine if it consistent with the left predicate.
+
+      ```
+      left_object    <--- mapped to ---> right_object
+         ^                                  ^
+         |                                  |
+         |                                  |
+         | left                             | right
+         | predicate                        | predicate
+         |                                  |
+         |                                  |
+      left_subject   <--- mapped to ---> right_subject
+      ```
+      
+      The above figure gives hows the basic structure. Classification of the edge is done from the perspective
+      of the left edge.
+      
     attributes:
       category:
         range: DiffCategory
         description: Each match (or lack of match) is placed into exactly one category
       left_subject_id:
-        range: uriorcurie
+        mixins:
+          - left_side
+          - subject
+        range: EntityReference
         description: The subject (child) of the source/left edge
         required: true
       left_object_id:
-        range: uriorcurie
+        mixins:
+          - left_side
+          - object
+        range: EntityReference
         description: The object (parent) of the source/left edge
         required: true
       left_predicate_id:
-        range: uriorcurie
+        mixins:
+          - left_side
+          - predicate
+        range: EntityReference
         description: The predicate (relation) of the source/left edge
         required: true
       left_subject_label:
+        mixins:
+          - left_side
+          - subject
+          - label
         description: The name of the subject (child) of the source/left edge
+        range: Label
       left_object_label:
+        mixins:
+          - left_side
+          - object
+          - label
         description: The name of the object (parent) of the source/left edge
+        range: Label
       left_predicate_label:
+        mixins:
+          - left_side
+          - predicate
+          - label
         description: The name of the predicate of the source/left edge
+        range: Label
       right_subject_id:
-        range: uriorcurie
+        mixins:
+          - right_side
+          - subject
+        range: EntityReference
         description: The subject (child) of the matched/right edge, if matchable
       right_object_id:
-        range: uriorcurie
+        mixins:
+          - right_side
+          - object
+        range: EntityReference
         description: The object (parent) of the matched/right edge, if matchable
       right_predicate_ids:
-        range: uriorcurie
+        mixins:
+          - right_side
+          - predicate
+        range: EntityReference
         multivalued: true
-        description: >-
-          If the match type is consistent, then all consistent predicates.
-          If the match type is identical, then the identical predicate.
-          If the match type is OtherRelationship, then all predicates that form a path between right subject and object
+        description: |-
+          * If the match type is consistent, then all consistent predicates.
+          * If the match type is identical, then the identical predicate.
+          * If the match type is OtherRelationship, then all predicates that form a path between right subject and object
       right_subject_label:
+        mixins:
+          - right_side
+          - subject
+          - label
         description: The name of the subject (child) of the matched/right edge, if matchable
+        range: Label
       right_object_label:
+        mixins:
+          - right_side
+          - object
+          - label
         description: The name of the object (parent) of the matched/right edge, if matchable
+        range: Label
       right_predicate_labels:
+        mixins:
+          - right_side
+          - predicate
+          - label
         multivalued: true
         description: The names corresponding to the right_predicate_ids
+        range: Label
       left_subject_is_functional:
-        range: boolean
+        mixins:
+          - left_side
+          - is_functional
         description: True if a subject mapping is present, and maps uniquely within the same ontology
       left_object_is_functional:
-        range: boolean
+        mixins:
+          - left_side
+          - is_functional
         description: True if an object mapping is present, and maps uniquely within the same ontology
+      subject_mapping_predicate:
+        mixins:
+          - subject
+          - predicate
+        range: EntityReference
+        description: The mapping predicate that holds between left_subject_id and right_subject_id
+      object_mapping_predicate:
+        mixins:
+          - subject
+          - predicate
+        range: EntityReference
+        description: The mapping predicate that holds between left_object_id and right_object_id
+      right_intermediate_ids:
+        range: EntityReference
+        multivalued: true
+      subject_mapping_cardinality:
+        description: The mapping cardinality of the subject pair
+        range: MappingCardinalityEnum
+      object_mapping_cardinality:
+        description: The mapping cardinality of the object pair
+        range: MappingCardinalityEnum
 enums:
   DiffCategory:
     description: Category of the cross-ontology diff, from the perspective of the left-hand edge
     permissible_values:
       Identical:
-        description: there is a direct analogous direct asserted edge with the same predicate
-      Consistent:
-        description: there is an entailed analogous edge with the same predicate or more specific predicate
-      OtherRelationship:
-        description: there is an analogous edge with a different predicate that is not entailed
+        rank: 1
+        description: >-
+          there is a direct analogous direct asserted edge on the right side with the identical predicate
+      MoreSpecificPredicateOnRight:
+        rank: 2
+        is_a: LeftEntailedByRight
+        description: >-
+          there is an analogous edge on the right side with a more specific but non-identical predicate
+      LessSpecificPredicateOnRight:
+        rank: 2
+        is_a: RightEntailedByLeft
+        description: >-
+          there is an analogous edge on the right side with a less specific but non-identical predicate
+      LeftEntailedByRight:
+        rank: 3
+        description: >-
+          there is an analogous edge on the right side, where that edge is different from but entailed by the one on the right
+      RightEntailedByLeft:
+        rank: 3
+        description: >-
+          there is an analogous edge on the right side, where that edge is different from but entails the one on the right
+      IndirectFormOfEdgeOnRight:
+        rank: 3
+        is_a: LeftEntailedByRight
+        description: >-
+          there is no direct analogous right side edge but an analogous edge can be entailed
+      RightNodesAreIdentical:
+        rank: 5
+        description: >-
+          a special case where both the left subject and left object map to the same node on the right
+      NonEntailedRelationship:
+        rank: 10
+        description: >-
+          there is an analogous edge on the right side with a different predicate that is neither more specific nor less specific
+      NoRelationship:
+        rank: 20
+        description: >-
+          there is no relationship between the right object and right subject
       MissingMapping:
-        description: one or both mappings are missing
+        rank: 99
+        description: >-
+          one or both mappings are missing
       MissingSubjectMapping:
-        description: there is no mapping for the subject
+        rank: 99
+        is_a: MissingMapping
+        description: >-
+          there is no mapping for the subject
       MissingObjectMapping:
-        description: there is no mapping for the object
+        rank: 99
+        is_a: MissingMapping
+        description: >-
+          there is no mapping for the object
+  MappingCardinalityEnum:
+    exact_mappings:
+      - sssom:mapping_cardinality_enum
+    permissible_values:
+      "1:1":
+        description: One-to-one mapping
+      "1:n":
+        description: One-to-many mapping
+      "n:1":
+        description: Many-to-one mapping
+      "1:0":
+        description: One-to-none mapping
+      "0:1":
+        description: None-to-one mapping
+      "n:n":
+        description: Many-to-many mapping
+slots:
+  label:
+    mixin: true
+    slot_uri: rdfs:label
+  side:
+    mixin: true
+  left_side:
+    is_a: side
+    mixin: true
+  right_side:
+    is_a: side
+    mixin: true
+  subject:
+    mixin: true
+    slot_uri: rdf:subject
+  predicate:
+    mixin: true
+    slot_uri: rdf:predicate
+  object:
+    mixin: true
+    slot_uri: rdf:object
+  is_functional:
+    mixin: true
+    range: boolean

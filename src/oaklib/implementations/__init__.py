@@ -7,6 +7,7 @@ from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
+from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
@@ -33,6 +34,7 @@ __all__ = [
     "SparqlImplementation",
     "WikidataImplementation",
     "FunOwlImplementation",
+    "GildaImplementation",
 ]
 
 implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(

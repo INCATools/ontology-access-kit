@@ -30,6 +30,8 @@ TEST_DB = INPUT_DIR / "go-nucleus.db"
 TEST_DB = INPUT_DIR / "go-nucleus.db"
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
+TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
+TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 
 
 class TestCommandLineInterface(unittest.TestCase):
@@ -245,7 +247,7 @@ class TestCommandLineInterface(unittest.TestCase):
                     ".anc//p=i",
                     "nucleus",
                     ".filter",
-                    "[x for x in terms if not impl.get_definition_by_curie(x)]",
+                    "[x for x in terms if not impl.definition(x)]",
                 ],
                 True,
                 ["CARO:0000000", "CARO:0030000"],
@@ -429,3 +431,29 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(obj["ancestor_id"], IMBO)
             self.assertGreater(obj["jaccard_similarity"], 0.5)
             self.assertGreater(obj["ancestor_information_content"], 3.0)
+
+    def test_diff_via_mappings(self):
+        outfile = f"{OUTPUT_DIR}/diff-mapping-test-cli.sssom"
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                TEST_OBO,
+                "diff-via-mappings",
+                "--mapping-input",
+                TEST_SSSOM_MAPPING,
+                "--intra",
+                "-S",
+                "X",
+                "-S",
+                "Y",
+                "-o",
+                outfile,
+            ],
+        )
+        result.stderr
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as f:
+            docs = yaml.load_all(f, yaml.FullLoader)
+            for doc in docs:
+                self.assertTrue(type(doc), dict)

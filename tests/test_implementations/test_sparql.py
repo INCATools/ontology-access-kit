@@ -43,32 +43,32 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_relationships(self):
         oi = self.oi
         self.assertIsNotNone(oi.graph)
-        rels = oi.get_outgoing_relationship_map_by_curie(VACUOLE)
+        rels = oi.outgoing_relationship_map(VACUOLE)
         for k, v in rels.items():
             logging.info(f"{k} = {v}")
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
 
     def test_parents(self):
-        parents = self.oi.get_hierararchical_parents_by_curie(VACUOLE)
+        parents = self.oi.hierararchical_parents(VACUOLE)
         # print(parents)
         assert "GO:0043231" in parents
 
     def test_labels(self):
-        label = self.oi.get_label_by_curie(NUCLEUS)
+        label = self.oi.label(NUCLEUS)
         logging.info(label)
         self.assertEqual(label, "nucleus")
-        self.assertEqual(self.oi.get_curies_by_label(label), [NUCLEUS])
+        self.assertEqual(self.oi.curies_by_label(label), [NUCLEUS])
 
     @unittest.skip("TODO")
     def test_subontology(self):
         oi = self.oi
         self.assertIsNotNone(oi.named_graph)
-        label = oi.get_label_by_curie(DIGIT)
+        label = oi.label(DIGIT)
         self.assertIsNone(label)
         # logging.info(label)
         # self.assertEqual(label, 'digit')
-        self.assertEqual("shape", oi.get_label_by_curie(SHAPE))
+        self.assertEqual("shape", oi.label(SHAPE))
 
     def test_dump(self):
         OUTPUT_DIR.mkdir(exist_ok=True)
@@ -76,19 +76,19 @@ class TestSparqlImplementation(unittest.TestCase):
 
     @unittest.skip("TODO")
     def test_set_label(self):
-        self.oi.set_label_for_curie(NUCLEUS, "foo")
+        self.oi.set_label(NUCLEUS, "foo")
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(TEST_MUTABLE_RDF, "ttl")
 
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
+        syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         logging.info(syns)
         assert "cellular component" in syns
         assert "cellular_component" in syns
-        syns = self.oi.aliases_by_curie(NUCLEUS)
+        syns = self.oi.entity_aliases(NUCLEUS)
         logging.info(syns)
         self.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
-        syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
+        syn_pairs = list(self.oi.entity_alias_map(NUCLEUS).items())
         self.assertCountEqual(
             syn_pairs,
             [
@@ -99,12 +99,12 @@ class TestSparqlImplementation(unittest.TestCase):
         )
 
     def test_all_entity_curies(self):
-        curies = list(self.oi.all_entity_curies())
+        curies = list(self.oi.entities())
         self.assertGreater(len(curies), 100)
         self.assertIn(NUCLEUS, curies)
 
     def test_definition(self):
-        defn = self.oi.get_definition_by_curie(CELLULAR_COMPONENT)
+        defn = self.oi.definition(CELLULAR_COMPONENT)
         assert defn.startswith("A location, relative to cellular compartments")
 
     def test_search_exact(self):
@@ -191,14 +191,14 @@ class TestSparqlImplementation(unittest.TestCase):
         """
         shutil.copyfile(TEST_RDF, TEST_MUTABLE_RDF)
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_MUTABLE_RDF)))
-        label = oi.get_label_by_curie(NUCLEUS)
+        label = oi.label(NUCLEUS)
         preds = [IS_A, PART_OF]
         preds2 = [IS_A, FAKE_PREDICATE]
         ancestors = list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
         descendants = list(oi.descendants(NUCLEUS, predicates=preds, reflexive=False))
         oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})
-        self.assertEqual(label, oi.get_label_by_curie(FAKE_ID))
-        self.assertIsNone(oi.get_label_by_curie(NUCLEUS))
+        self.assertEqual(label, oi.label(FAKE_ID))
+        self.assertIsNone(oi.label(NUCLEUS))
         self.assertCountEqual(ancestors, oi.ancestors(FAKE_ID, predicates=preds2, reflexive=False))
         self.assertCountEqual([], list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False)))
         self.assertCountEqual(

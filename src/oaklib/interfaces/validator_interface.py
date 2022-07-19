@@ -41,8 +41,8 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         :return:
         """
         # Implementations are advise to implement more efficient interfaces for their back-end
-        for curie in self.all_entity_curies():
-            if self.get_definition_by_curie(curie) is None:
+        for curie in self.entities():
+            if self.definition(curie) is None:
                 yield curie
 
     def validate(self, configuration: ValidationConfiguration = None) -> Iterable[ValidationResult]:

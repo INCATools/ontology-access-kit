@@ -44,7 +44,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
     ols_base_url = "https://www.ebi.ac.uk/ols/api"
-    prefix_map: Dict[str, str] = field(default_factory=lambda: {})
+    _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
 
     def __post_init__(self):
@@ -54,13 +54,13 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
 
     def add_prefix(self, curie: str, uri: str):
         [pfx, local] = curie.split(":", 2)
-        if pfx not in self.prefix_map:
-            self.prefix_map[pfx] = uri.replace(local, "")
+        if pfx not in self._prefix_map:
+            self._prefix_map[pfx] = uri.replace(local, "")
 
-    def get_prefix_map(self) -> PREFIX_MAP:
-        return self.prefix_map
+    def prefix_map(self) -> PREFIX_MAP:
+        return self._prefix_map
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:
             yield curie, self.label_cache[curie]
 

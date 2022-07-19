@@ -24,38 +24,38 @@ class TestOntobeeImplementation(unittest.TestCase):
 
     def test_relationships(self):
         ont = self.oi
-        rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
+        rels = ont.outgoing_relationship_map(VACUOLE)
         for k, v in rels.items():
             logging.info(f"{k} = {v}")
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
 
     def test_parents(self):
-        parents = self.oi.get_hierararchical_parents_by_curie(VACUOLE)
+        parents = self.oi.hierararchical_parents(VACUOLE)
         # print(parents)
         assert "GO:0043231" in parents
 
     def test_labels(self):
-        label = self.oi.get_label_by_curie(DIGIT)
+        label = self.oi.label(DIGIT)
         logging.info(label)
         self.assertEqual(label, "digit")
 
     def test_subontology(self):
         oi = self.pato_graph_oi
         self.assertIsNotNone(oi.named_graph)
-        label = oi.get_label_by_curie(DIGIT)
+        label = oi.label(DIGIT)
         self.assertIsNone(label)
         # logging.info(label)
         # self.assertEqual(label, 'digit')
-        self.assertEqual("shape", oi.get_label_by_curie(SHAPE))
+        self.assertEqual("shape", oi.label(SHAPE))
 
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
+        syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         logging.info(syns)
         assert "cellular component" in syns
 
     def test_definition(self):
-        defn = self.oi.get_definition_by_curie(CELLULAR_COMPONENT)
+        defn = self.oi.definition(CELLULAR_COMPONENT)
         logging.info(defn)
         assert defn
 

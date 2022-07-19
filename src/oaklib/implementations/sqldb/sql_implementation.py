@@ -89,6 +89,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 __all__ = [
     "get_range_xsd_type",
@@ -97,18 +98,15 @@ __all__ = [
 ]
 
 
-def _curie_prefix(curie: CURIE) -> Optional[str]:
-    if ":" in curie:
-        return curie.split(":")[0]
-    else:
-        return None
+def _is_blank(curie: CURIE) -> bool:
+    return curie.startswith("_:")
 
 
 def _mapping(m: Mapping):
     # enhances a mapping with sources
     # TODO: move to sssom utils
-    m.subject_source = _curie_prefix(m.subject_id)
-    m.object_source = _curie_prefix(m.object_id)
+    m.subject_source = get_curie_prefix(m.subject_id)
+    m.object_source = get_curie_prefix(m.object_id)
     return m
 
 
@@ -246,12 +244,12 @@ class SqlImplementation(
         # TODO
         return False
 
-    def get_prefix_map(self) -> PREFIX_MAP:
+    def prefix_map(self) -> PREFIX_MAP:
         if self._prefix_map is None:
             self._prefix_map = {row.prefix: row.base for row in self.session.query(Prefix)}
         return self._prefix_map
 
-    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         # TODO: figure out how to pass through ESCAPE at SQL Alchemy level
         # s = text('SELECT id FROM class_node WHERE id NOT LIKE "\_:%" ESCAPE "\\"')  # noqa W605
         q = self.session.query(Node)
@@ -265,10 +263,10 @@ class SqlImplementation(
             q = q.filter(Node.id.not_in(obs_subq))
         for row in q:
             if row:
-                if not row.id.startswith("_:") and not row.id.startswith("<"):
+                if not _is_blank(row.id) and not row.id.startswith("<"):
                     yield row.id
 
-    def all_obsolete_curies(self) -> Iterable[CURIE]:
+    def obsoletes(self) -> Iterable[CURIE]:
         for row in self.session.query(DeprecatedNode):
             yield row.id
 
@@ -276,38 +274,46 @@ class SqlImplementation(
         for row in self.session.query(Edge):
             yield row.subject, row.predicate, row.object
 
-    def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
+    def label(self, curie: CURIE) -> Optional[str]:
         s = text("SELECT value FROM rdfs_label_statement WHERE subject = :curie")
         for row in self.engine.execute(s, curie=curie):
             return row["value"]
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+        curies = list(curies)
+        has_label = set()
         for row in self.session.query(RdfsLabelStatement).filter(
-            RdfsLabelStatement.subject.in_(tuple(list(curies)))
+            RdfsLabelStatement.subject.in_(tuple(curies))
         ):
             yield row.subject, row.value
+            if allow_none:
+                has_label.add(row.subject)
+        if allow_none:
+            for curie in curies:
+                if curie not in has_label:
+                    yield curie, None
 
-    def get_curies_by_label(self, label: str) -> List[CURIE]:
+    def curies_by_label(self, label: str) -> List[CURIE]:
         q = self.session.query(RdfsLabelStatement)
         q = q.filter(RdfsLabelStatement.value == label)
         return [row.subject for row in q]
 
-    def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         m = defaultdict(list)
-        m[LABEL_PREDICATE] = [self.get_label_by_curie(curie)]
+        m[LABEL_PREDICATE] = [self.label(curie)]
         for row in self.session.query(HasSynonymStatement).filter(
             HasSynonymStatement.subject == curie
         ):
             m[row.predicate].append(row.value)
         return m
 
-    def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE) -> Optional[str]:
         for row in self.session.query(HasTextDefinitionStatement).filter(
             HasTextDefinitionStatement.subject == curie
         ):
             return row.value
 
-    def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
+    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         m = {"id": curie}
         # subquery = self.session.query(AnnotationPropertyNode.id)
         subquery = self.session.query(RdfTypeStatement.subject).filter(
@@ -330,7 +336,7 @@ class SqlImplementation(
                 m[row.predicate] = v
         return m
 
-    def all_ontology_curies(self) -> Iterable[CURIE]:
+    def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
             yield row.id
 
@@ -359,11 +365,11 @@ class SqlImplementation(
                 m[self._get_subset_curie(row.object)] = uri
         return m
 
-    def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
+    def subsets(self) -> Iterable[SUBSET_CURIE]:
         for s in self._subset_curie_to_uri_map().keys():
             yield s
 
-    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         sm = self._subset_curie_to_uri_map()
         for row in self.session.query(Statements.subject).filter(
             Statements.predicate == IN_SUBSET, Statements.object == sm[subset]
@@ -376,7 +382,7 @@ class SqlImplementation(
         if self.autosave:
             self.save()
 
-    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str) -> bool:
         stmt = (
             update(Statements)
             .where(and_(Statements.subject == curie, Statements.predicate == LABEL_PREDICATE))
@@ -422,21 +428,19 @@ class SqlImplementation(
             for row in q.distinct():
                 yield str(row.subject)
 
-    def get_outgoing_relationship_map_by_curie(
-        self, curie: CURIE, isa_only: bool = False
-    ) -> RELATIONSHIP_MAP:
+    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for row in self.session.query(Edge).filter(Edge.subject == curie):
             rmap[row.predicate].append(row.object)
         return rmap
 
-    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for row in self.session.query(Edge).filter(Edge.object == curie):
             rmap[row.predicate].append(row.subject)
         return rmap
 
-    def get_relationships(
+    def relationships(
         self,
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
@@ -452,7 +456,7 @@ class SqlImplementation(
         for row in q:
             yield row.subject, row.predicate, row.object
 
-    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(HasMappingStatement).filter(
             HasMappingStatement.subject == curie
         ):
@@ -501,7 +505,7 @@ class SqlImplementation(
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False, include_annotations=False) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
         meta = obograph.Meta()
         n = obograph.Node(id=curie, meta=meta)
         rows = list(self.session.query(Statements).filter(Statements.subject == curie))
@@ -527,7 +531,7 @@ class SqlImplementation(
             if pred == omd_slots.label.curie:
                 n.lbl = v
             else:
-                if include_annotations:
+                if include_metadata:
                     anns = self._axiom_annotations(curie, pred, row.object, row.value)
                 else:
                     anns = []
@@ -640,7 +644,7 @@ class SqlImplementation(
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def all_sssom_mappings(self, subject_or_object_source: str = None) -> Iterable[Mapping]:
+    def sssom_mappings_by_source(self, subject_or_object_source: str = None) -> Iterable[Mapping]:
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
         for row in base_query:
@@ -1014,7 +1018,7 @@ class SqlImplementation(
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node
             if isinstance(patch, kgcl.NodeRename):
-                self.set_label_for_curie(patch.about_node, patch.new_value)
+                self.set_label(patch.about_node, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
                 # TODO: synonym type
                 self._execute(
@@ -1029,7 +1033,7 @@ class SqlImplementation(
             elif isinstance(patch, kgcl.NodeDeletion):
                 self._execute(delete(Statements).where(Statements.subject == about))
             elif isinstance(patch, kgcl.NameBecomesSynonym):
-                label = self.get_label_by_curie(about)
+                label = self.label(about)
                 self.apply_patch(
                     kgcl.NodeRename(id=f"{patch.id}-1", about_node=about, new_value=patch.new_value)
                 )
@@ -1081,7 +1085,7 @@ class SqlImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def statements_with_annotations(self, curie: CURIE) -> Iterable[om.Axiom]:
-        m = self.metadata_map_by_curie(curie)
+        m = self.entity_metadata_map(curie)
         q = self.session.query(OwlAxiomAnnotation)
         q = q.filter(OwlAxiomAnnotation.subject == curie)
         axiom_by_id = {}

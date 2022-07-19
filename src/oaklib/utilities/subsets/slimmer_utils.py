@@ -43,7 +43,7 @@ def roll_up_to_named_subset(
     :return:
     """
     # see https://metacpan.org/dist/go-perl/view/scripts/map2slim
-    terms_in_subset = set(oi.curies_by_subset(subset))
+    terms_in_subset = set(oi.subset_members(subset))
     # print(f'SUBSET={list(terms_in_subset)}')
     logging.info(f"Terms in {subset} = {len(terms_in_subset)}")
     subset_anc_map = {

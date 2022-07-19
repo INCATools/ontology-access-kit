@@ -49,9 +49,9 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
     :return:
     """
     logging.info("Adding labels from URIs")
-    curies = list(oi.all_entity_curies())
+    curies = list(oi.entities())
     for curie in curies:
-        if not oi.get_label_by_curie(curie):
+        if not oi.label(curie):
             if "#" in curie:
                 sep = "#"
             elif curie.startswith("http") or curie.startswith("<http"):
@@ -63,7 +63,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
                 label = label.replace(">", "")
             label = " ".join(label.split("_"))
             # print(f'{curie} ==> {label} // {type(oi)}')
-            oi.set_label_for_curie(curie, label)
+            oi.set_label(curie, label)
             # print(oi.get_label_by_curie(curie))
 
 
@@ -85,13 +85,13 @@ def create_lexical_index(
         step2 = LexicalTransformation(TransformationType.WhitespaceNormalization)
         pipelines = [LexicalTransformationPipeline(name="default", transformations=[step1, step2])]
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
-    for curie in oi.all_entity_curies():
+    for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
         if not URIorCURIE.is_valid(curie):
             logging.warning(f"Skipping {curie} as it is not a valid CURIE")
             continue
-        alias_map = oi.alias_map_by_curie(curie)
-        mapping_map = pairs_as_dict(oi.get_simple_mappings_by_curie(curie))
+        alias_map = oi.entity_alias_map(curie)
+        mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:
@@ -254,8 +254,8 @@ def inferred_mapping(
     best_weight, best_mapping, _ = best
     if best_weight is not None:
         best_mapping.confidence = inverse_logit(best_weight)
-    best_mapping.subject_label = oi.get_label_by_curie(best_mapping.subject_id)
-    best_mapping.object_label = oi.get_label_by_curie(best_mapping.object_id)
+    best_mapping.subject_label = oi.label(best_mapping.subject_id)
+    best_mapping.object_label = oi.label(best_mapping.object_id)
     return best_mapping
 
 

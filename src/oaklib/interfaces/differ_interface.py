@@ -36,8 +36,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
         :param other_ontology:
         :return:
         """
-        this_terms = set(self.all_entity_curies())
-        other_terms = set(other_ontology.all_entity_curies())
+        this_terms = set(self.entities())
+        other_terms = set(other_ontology.entities())
         for t in this_terms.difference(other_terms):
             yield NodeDeletion(
                 id="x",

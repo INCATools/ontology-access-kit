@@ -43,7 +43,7 @@ class TestProntoImplementation(unittest.TestCase):
     def test_obo_json(self) -> None:
         resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
         json_oi = ProntoImplementation(resource)
-        curies = list(json_oi.all_entity_curies())
+        curies = list(json_oi.entities())
         # for e in curies:
         #    print(e)
         self.assertIn(NUCLEUS, curies)
@@ -60,44 +60,43 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationship_map_by_curie("GO:0005773")
+        rels = oi.outgoing_relationship_map("GO:0005773")
         for k, v in rels.items():
             print(f"{k} = {v}")
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
 
-    @unittest.skip("https://github.com/althonos/pronto/issues/163")
     def test_gci_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationship_map_by_curie(CELL)
+        rels = oi.outgoing_relationship_map(CELL)
         self.assertCountEqual(rels[IS_A], ["CARO:0000003"])
         self.assertCountEqual(rels[ONLY_IN_TAXON], [CELLULAR_ORGANISMS])
-        self.assertNotIn(NUCLEUS, rels[PART_OF])
+        self.assertNotIn(PART_OF, rels)  # GCI relations excluded
 
     def test_incoming_relationships(self):
         oi = self.oi
-        rels = oi.get_incoming_relationship_map_by_curie(CYTOPLASM)
+        rels = oi.incoming_relationship_map(CYTOPLASM)
         for k, v in rels.items():
             print(f"{k} = {v}")
         self.assertCountEqual(rels[IS_A], ["GO:0005938", "GO:0099568"])
         self.assertCountEqual(rels[PART_OF], ["GO:0005773", "GO:0099568"])
 
     def test_all_terms(self):
-        assert any(curie for curie in self.oi.all_entity_curies() if curie == "GO:0008152")
+        assert any(curie for curie in self.oi.entities() if curie == "GO:0008152")
 
     def test_relations(self):
         oi = self.oi
-        label = oi.get_label_by_curie(PART_OF)
+        label = oi.label(PART_OF)
         assert label.startswith("part")
         t = self.oi.node(PART_OF)
         assert t.id == PART_OF
         assert t.lbl.startswith("part")
 
     def test_metadata(self):
-        for curie in self.oi.all_entity_curies():
-            m = self.oi.metadata_map_by_curie(curie)
+        for curie in self.oi.entities():
+            m = self.oi.entity_metadata_map(curie)
             print(f"{curie} {m}")
-        m = self.oi.metadata_map_by_curie("GO:0005622")
+        m = self.oi.entity_metadata_map("GO:0005622")
         assert "term_tracker_item" in m.keys()
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
 
@@ -107,17 +106,17 @@ class TestProntoImplementation(unittest.TestCase):
         :return:
         """
         oi = self.oi
-        label = oi.get_label_by_curie("GO:0005773")
+        label = oi.label("GO:0005773")
         self.assertEqual(str, type(label))
         self.assertEqual(label, "vacuole")
-        label = oi.get_label_by_curie("FOOBAR:123")
+        label = oi.label("FOOBAR:123")
         self.assertIsNone(label)
         # TODO: test strict mode
-        label = oi.get_label_by_curie(IS_A)
+        label = oi.label(IS_A)
         self.assertIsNotNone(label)
 
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie("GO:0005575")
+        syns = self.oi.entity_aliases("GO:0005575")
         # print(syns)
         self.assertCountEqual(
             syns,
@@ -128,10 +127,10 @@ class TestProntoImplementation(unittest.TestCase):
                 "subcellular entity",
             ],
         )
-        syns = self.oi.aliases_by_curie(NUCLEUS)
+        syns = self.oi.entity_aliases(NUCLEUS)
         logging.info(syns)
         self.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
-        syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
+        syn_pairs = list(self.oi.entity_alias_map(NUCLEUS).items())
         self.assertCountEqual(
             syn_pairs,
             [
@@ -156,10 +155,10 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_subsets(self):
         oi = self.oi
-        subsets = list(oi.all_subset_curies())
+        subsets = list(oi.subsets())
         self.assertIn("goslim_aspergillus", subsets)
-        self.assertIn("GO:0003674", oi.curies_by_subset("goslim_generic"))
-        self.assertNotIn("GO:0003674", oi.curies_by_subset("gocheck_do_not_manually_annotate"))
+        self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
+        self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
 
     def test_save(self):
         oi = ProntoImplementation.create()
@@ -175,7 +174,7 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_from_obo_library(self):
         oi = ProntoImplementation.create(OntologyResource(local=False, slug="pato.obo"))
-        curies = oi.get_curies_by_label("shape")
+        curies = oi.curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
 
     @unittest.skip("Hide warnings")
@@ -300,7 +299,6 @@ class TestProntoImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("https://github.com/althonos/pronto/issues/178")
     def test_dump(self):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
@@ -330,5 +328,5 @@ class TestProntoImplementation(unittest.TestCase):
         oi2 = ProntoImplementation(resource)
         self.assertCountEqual(
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
-            oi2.aliases_by_curie(CELLULAR_COMPONENT),
+            oi2.entity_aliases(CELLULAR_COMPONENT),
         )

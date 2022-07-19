@@ -88,6 +88,9 @@
         "CL": {
             "fillcolor": "azure2"
         },
+        "OBI": {
+            "fillcolor": "mediumturquoise"
+        },
         "GO": {
             "fillcolor": "pink"
         },
@@ -122,7 +125,13 @@
         "CHEBI": {
             "fillcolor": "pink"
         },
+        "sweet:realm/": {
+            "fillcolor": "pink"
+        },
         "ENM": {
+            "fillcolor": "cornsilk"
+        },
+        "STATO": {
             "fillcolor": "cornsilk"
         },
         "BFO": {

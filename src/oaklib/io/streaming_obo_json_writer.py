@@ -16,7 +16,7 @@ class StreamingOboJsonWriter(StreamingWriter):
     def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
         if isinstance(oi, OboGraphInterface):
-            node = oi.node(curie, include_annotations=True)
+            node = oi.node(curie, include_metadata=True)
             self.line(json_dumper.dumps(node))
         else:
             raise NotImplementedError
