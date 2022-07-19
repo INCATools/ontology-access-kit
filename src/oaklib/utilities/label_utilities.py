@@ -22,6 +22,6 @@ def add_labels_to_object(
     for curie_slot, label_slot in pairs:
         curie = getattr(obj, curie_slot, None)
         if curie is not None:
-            label = oi.get_label_by_curie(curie)
+            label = oi.label(curie)
             if label is not None:
                 setattr(obj, label_slot, label)

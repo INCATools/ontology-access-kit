@@ -270,7 +270,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
 
     def test_all(self):
         oi = self.oi
-        term_curies = [t for t in oi.all_entity_curies() if t.startswith("GO:")]
+        term_curies = [t for t in oi.entities() if t.startswith("GO:")]
         for t in term_curies:
             st = get_term_with_taxon_constraints(oi, t)
             logging.info(yaml_dumper.dumps(st))

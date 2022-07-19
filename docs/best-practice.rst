@@ -37,6 +37,27 @@ A common pattern is to iterate over a result set and issue a separate call for e
 .. code:: python
 
     >>> for curie in oi.basic_search("cell"):
+            >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+        This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by
+        a remote service (for example, a SPARQL endpoint like ontobee or ubergraph, or a remote SQL database) then this will
+        issue one network call for each result, which may be inefficient.
+
+        One possibility is to use a dedicated method for retrieving batch results, for example
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by
+    a remote service (for example, a SPARQL endpoint like ontobee or ubergraph, or a remote SQL database) then this will
+    issue one network call for each result, which may be inefficient.
+
+    One possibility is to use a dedicated method for retrieving batch results, for example
+        >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+    This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by
+    a remote service (for example, a SPARQL endpoint like ontobee or ubergraph, or a remote SQL database) then this will
+    issue one network call for each result, which may be inefficient.
+
+    One possibility is to use a dedicated method for retrieving batch results, for example
     >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
 
 This is fine if the implementation has a low latency for individual calls, but if the implementation is backed by
@@ -48,6 +69,336 @@ One possibility is to use a dedicated method for retrieving batch results, for e
 .. code:: python
 
     >>> curies = oi.basic_search("cell"):
+                >>> for curie, label in oi.labels(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+                >>> for curie, label in oi.labels(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+                >>> for curie, label in oi.labels(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+                >>> for curie, label in oi.labels(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+                >>> for curie, label in oi.labels(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+                >>> for curie, label in oi.labels(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+                >>> for curie, label in oi.get_labels_for_curies(curies):
+                >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+            This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+            A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+            >>> for curie, label in oi.labels(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.labels(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+            >>> for curie, label in oi.get_labels_for_curies(curies):
+            >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+        This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+        A better approach is to
+        >>> for curie, label in oi.labels(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
+        >>> for curie, label in oi.get_labels_for_curies(curies):
+        >>>     print(f'MATCH: {curie} ! {oi.label_by_curie(curie)}')
+
+    This is likely fine if the search results are relatively low in cardinality, but may be less efficient for large numbers of results.
+
+    A better approach is to
     >>> for curie, label in oi.get_labels_for_curies(curies):
     >>>     print(f'MATCH: {curie} ! {oi.get_label_by_curie(curie)}')
 
@@ -63,6 +414,13 @@ The :ref:`.chunk` utility function will chunk iterator calls into sizeable amoun
 .. code:: python
 
     >>> for curie_it in chunk(impl.basic_search(t)):
+        >>>     logging.info('** Next chunk:')
+        >>>     for curie, label in impl.labels(curie_it):
+        >>>         print(f'{curie} ! {label}')
+
+    This is slightly more boilerplate code, and may not be necessary for an in-memory implementation like Pronto. However, this
+    pattern could have considerable advantages for result sets that are potentially large. Even if the external server is
+    slow to return results, users will see batches or results rather than waiting on the external server to produce
     >>>     logging.info('** Next chunk:')
     >>>     for curie, label in impl.get_labels_for_curies(curie_it):
     >>>         print(f'{curie} ! {label}')

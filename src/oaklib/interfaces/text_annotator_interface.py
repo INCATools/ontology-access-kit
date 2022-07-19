@@ -65,6 +65,6 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                 f"to use the default annotate_text() implementation"
             )
         for object_id in self.basic_search(text):
-            label = self.get_label_by_curie(object_id)
+            label = self.label(object_id)
             # amap = self.alias_map_by_curie(object_id)
             yield nen_annotation(text=text, curie=object_id, label=label)

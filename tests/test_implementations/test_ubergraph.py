@@ -36,7 +36,7 @@ class TestUbergraphImplementation(unittest.TestCase):
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_relationships(self):
         ont = self.oi
-        rels = ont.get_outgoing_relationship_map_by_curie(VACUOLE)
+        rels = ont.outgoing_relationship_map(VACUOLE)
         for k, v in rels.items():
             logging.info(f"{k} = {v}")
         self.assertIn("GO:0043231", rels[IS_A])
@@ -54,22 +54,22 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_labels(self):
-        label = self.oi.get_label_by_curie(DIGIT)
+        label = self.oi.label(DIGIT)
         self.assertEqual(label, "digit")
-        self.assertIn(DIGIT, self.oi.get_curies_by_label(label))
+        self.assertIn(DIGIT, self.oi.curies_by_label(label))
 
     @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
+        syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         logging.info(syns)
         assert "cellular component" in syns
 
     @unittest.skip("This test is too rigid as synonyms are liable to change")
     def test_synonyms_granular(self):
-        syns = self.oi.aliases_by_curie(NUCLEUS)
+        syns = self.oi.entity_aliases(NUCLEUS)
         logging.info(syns)
         self.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
-        syn_pairs = list(self.oi.alias_map_by_curie(NUCLEUS).items())
+        syn_pairs = list(self.oi.entity_alias_map(NUCLEUS).items())
         self.assertCountEqual(
             syn_pairs,
             [
@@ -81,7 +81,7 @@ class TestUbergraphImplementation(unittest.TestCase):
 
     @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_definition(self):
-        defn = self.oi.get_definition_by_curie("GO:0005575")
+        defn = self.oi.definition("GO:0005575")
         logging.info(defn)
         assert defn
 

@@ -247,7 +247,7 @@ class TestCommandLineInterface(unittest.TestCase):
                     ".anc//p=i",
                     "nucleus",
                     ".filter",
-                    "[x for x in terms if not impl.get_definition_by_curie(x)]",
+                    "[x for x in terms if not impl.definition(x)]",
                 ],
                 True,
                 ["CARO:0000000", "CARO:0030000"],

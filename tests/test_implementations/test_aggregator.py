@@ -38,24 +38,24 @@ class TestAggregator(unittest.TestCase):
 
     def test_relationships(self):
         oi = self.oi
-        rels = oi.get_outgoing_relationship_map_by_curie("GO:0005773")
+        rels = oi.outgoing_relationship_map("GO:0005773")
         # for k, v in rels.items():
         #    print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
-        rels = oi.get_outgoing_relationship_map_by_curie(TISSUE)
+        rels = oi.outgoing_relationship_map(TISSUE)
         # for k, v in rels.items():
         #    print(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ["UBERON:0010000"])
 
     def test_all_terms(self):
-        curies = list(self.oi.all_entity_curies())
+        curies = list(self.oi.entities())
         self.assertIn(NUCLEUS, curies)
         self.assertIn(INTERNEURON, curies)
 
     def test_relations(self):
         oi = self.oi
-        label = oi.get_label_by_curie(PART_OF)
+        label = oi.label(PART_OF)
         assert label.startswith("part")
         t = self.oi.node(PART_OF)
         assert t.id == PART_OF
@@ -63,10 +63,10 @@ class TestAggregator(unittest.TestCase):
 
     @unittest.skip("TODO")
     def test_metadata(self):
-        for curie in self.oi.all_entity_curies():
-            m = self.oi.metadata_map_by_curie(curie)
+        for curie in self.oi.entities():
+            m = self.oi.entity_metadata_map(curie)
             print(f"{curie} {m}")
-        m = self.oi.metadata_map_by_curie("GO:0005622")
+        m = self.oi.entity_metadata_map("GO:0005622")
         assert "term_tracker_item" in m.keys()
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
 
@@ -76,19 +76,19 @@ class TestAggregator(unittest.TestCase):
         :return:
         """
         oi = self.oi
-        label = oi.get_label_by_curie(VACUOLE)
+        label = oi.label(VACUOLE)
         self.assertEqual(str, type(label))
         self.assertEqual(label, "vacuole")
-        label = oi.get_label_by_curie("FOOBAR:123")
+        label = oi.label("FOOBAR:123")
         self.assertIsNone(label)
         # TODO: test strict mode
-        label = oi.get_label_by_curie(IS_A)
+        label = oi.label(IS_A)
         self.assertIsNotNone(label)
-        self.assertEqual("interneuron", oi.get_label_by_curie(INTERNEURON))
-        self.assertEqual("tissue", oi.get_label_by_curie(TISSUE))
+        self.assertEqual("interneuron", oi.label(INTERNEURON))
+        self.assertEqual("tissue", oi.label(TISSUE))
 
     def test_synonyms(self):
-        syns = self.oi.aliases_by_curie(CELLULAR_COMPONENT)
+        syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         self.assertCountEqual(
             syns,
             [
@@ -98,20 +98,20 @@ class TestAggregator(unittest.TestCase):
                 "subcellular entity",
             ],
         )
-        syns = self.oi.aliases_by_curie("CL:0000100")
+        syns = self.oi.entity_aliases("CL:0000100")
         self.assertCountEqual(syns, ["motoneuron", "motor neuron"])
         self.assertCountEqual(
-            self.oi.aliases_by_curie(TISSUE),
+            self.oi.entity_aliases(TISSUE),
             ["tissue", "simple tissue", "tissue portion", "portion of tissue"],
         )
 
     def test_subsets(self):
         oi = self.oi
-        subsets = list(oi.all_subset_curies())
+        subsets = list(oi.subsets())
         self.assertIn("goslim_aspergillus", subsets)
-        self.assertIn("GO:0003674", oi.curies_by_subset("goslim_generic"))
-        self.assertNotIn("GO:0003674", oi.curies_by_subset("gocheck_do_not_manually_annotate"))
-        self.assertIn(TISSUE, oi.curies_by_subset("pheno_slim"))
+        self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
+        self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
+        self.assertIn(TISSUE, oi.subset_members("pheno_slim"))
 
     def test_ancestors(self):
         oi = self.oi

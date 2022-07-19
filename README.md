@@ -45,11 +45,11 @@ from src.oaklib.implementations.sqldb.sql_implementation import SqlImplementatio
 resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
 oi = SqlImplementation(resource)
 for curie in oi.basic_search("cell"):
-    print(f'{curie} ! {oi.get_label_by_curie(curie)}')
-    for rel, fillers in oi.get_outgoing_relationship_map_by_curie(curie).items():
-        print(f'  RELATION: {rel} ! {oi.get_label_by_curie(rel)}')
+    print(f'{curie} ! {oi.label(curie)}')
+    for rel, fillers in oi.outgoing_relationship_map(curie).items():
+        print(f'  RELATION: {rel} ! {oi.label(rel)}')
         for filler in fillers:
-            print(f'     * {filler} ! {oi.get_label_by_curie(filler)}')
+            print(f'     * {filler} ! {oi.label(filler)}')
 ```
 
 For more examples, see
