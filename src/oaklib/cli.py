@@ -36,7 +36,6 @@ import kgcl_schema.grammar.parser as kgcl_parser
 import rdflib
 import sssom.writers as sssom_writers
 import yaml
-from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
