@@ -2257,6 +2257,8 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     See :ref:`.lexical_index_to_sssom`
 
+    For add_labels, see :ref:`.add_labels_from_uris`
+
     Examples:
 
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
