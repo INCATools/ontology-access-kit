@@ -1934,12 +1934,9 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
             conditions.references = list(references)
         if axiom_type:
             conditions.set_type(axiom_type)
-        axioms = list(impl.filter_axioms(conditions=conditions))
-        impl.set_axioms(axioms)
-        if settings.autosave:
-            impl.save()
-        if output:
-            impl.dump(output, syntax=output_type)
+        for axiom in impl.filter_axioms(conditions=conditions):
+            print(axiom)
+
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

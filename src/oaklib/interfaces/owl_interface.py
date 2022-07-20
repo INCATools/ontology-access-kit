@@ -23,6 +23,7 @@ from funowl import (
     Ontology,
     SubClassOf,
 )
+from funowl.writers import FunctionalWriter
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
@@ -63,6 +64,7 @@ class AxiomFilter:
             self.type = axiom_type
 
 
+@dataclass
 class OwlInterface(BasicOntologyInterface, ABC):
     """
     presents ontology as an OWL ontology using an OWL datamodel
@@ -76,6 +78,8 @@ class OwlInterface(BasicOntologyInterface, ABC):
     - owlery
     - robot/owlapi via py4j
     """
+
+    functional_writer: FunctionalWriter = None
 
     def owl_ontology(self) -> Ontology:
         raise NotImplementedError
