@@ -10,6 +10,7 @@ from oaklib.interfaces.text_annotator_interface import TEXT, nen_annotation
 __all__ = [
     "GildaImplementation",
 ]
+import gilda
 
 
 @dataclass
@@ -29,8 +30,6 @@ class GildaImplementation(TextAnnotatorInterface):
             raise NotImplementedError("Missing text annotation configuration")
         if not configuration.matches_whole_text:
             raise NotImplementedError("Gilda annotator can't be used to match partial text")
-
-        import gilda
 
         for match in gilda.ground(text):
             yield nen_annotation(

@@ -11,10 +11,10 @@ from oaklib.resource import OntologyResource
 from oaklib.types import TAXON_CURIE
 from oaklib.utilities.taxon.taxon_constraint_utils import (
     all_term_taxon_constraints,
+    eval_candidate_taxon_constraint,
     get_taxon_constraints_description,
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
-    eval_candidate_taxon_constraint,
 )
 from tests import (
     BACTERIA,
