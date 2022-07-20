@@ -121,7 +121,7 @@ from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMe
 from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
-    test_candidate_taxon_constraint,
+    eval_candidate_taxon_constraint,
 )
 
 OBO_FORMAT = "obo"
@@ -2051,7 +2051,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
         impl.enable_transitive_query_cache()
         for st in sts:
             try:
-                st = test_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
+                st = eval_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
                 writer.emit(st)
             except ValueError as e:
                 logging.error(f"Error with TC: {e}")
