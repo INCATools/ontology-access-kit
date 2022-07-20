@@ -13,8 +13,15 @@ from typing import Dict, List, Optional, Tuple
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from sssom.constants import LICENSE, MAPPING_SET_ID
+from sssom.context import get_default_metadata
 from sssom.sssom_document import MappingSetDocument
-from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
+from sssom.typehints import Metadata
+from sssom.util import (
+    MappingSetDataFrame,
+    filter_out_prefixes,
+    to_mapping_set_dataframe,
+)
 from sssom_schema import Mapping, MappingSet
 
 from oaklib.datamodels.lexical_index import (
@@ -39,10 +46,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
-from sssom.context import get_default_metadata
-from sssom.typehints import Metadata
-from sssom.constants import MAPPING_SET_ID, LICENSE
-from sssom.util import filter_out_prefixes
+
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
     """
@@ -138,7 +142,7 @@ def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
-    meta: Metadata = None
+    meta: Metadata = None,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term
@@ -169,7 +173,7 @@ def lexical_index_to_sssom(
         #        if r1.element < r2.element:
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
-    
+
     if meta is None:
         meta = get_default_metadata()
 
