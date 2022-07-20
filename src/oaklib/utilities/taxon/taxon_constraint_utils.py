@@ -64,7 +64,7 @@ def inject_labels(oi: OboGraphInterface, st: SubjectTerm):
             if t.label is None:
                 t.label = oi.get_label_by_curie(t.id)
 
-def test_candidate_taxon_constraint(oi: OboGraphInterface, candidate_st: SubjectTerm,
+def eval_candidate_taxon_constraint(oi: OboGraphInterface, candidate_st: SubjectTerm,
                                     predicates: List[PRED_CURIE] = None,
                                     add_labels=True):
     """

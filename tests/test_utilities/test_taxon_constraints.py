@@ -9,7 +9,7 @@ from oaklib.resource import OntologyResource
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
 from oaklib.types import TAXON_CURIE
 from oaklib.utilities.taxon.taxon_constraint_utils import all_term_taxon_constraints, \
-    get_term_with_taxon_constraints, test_candidate_taxon_constraint, parse_gain_loss_file, get_taxon_constraints_description
+    get_term_with_taxon_constraints, eval_candidate_taxon_constraint, parse_gain_loss_file, get_taxon_constraints_description
 
 from tests import OUTPUT_DIR, INPUT_DIR, INTRACELLULAR, CELLULAR_ORGANISMS, PHOTOSYNTHETIC_MEMBRANE, \
     PLANTS_OR_CYANOBACTERIA, SOROCARP_STALK_DEVELOPMENT, DICTYOSTELIUM_DISCOIDEUM, HUMAN, DICTYOSTELIUM, \
@@ -115,7 +115,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                                present_in=[TaxonConstraint(taxon=Taxon(t)) for t in present],
                                )
         # test: refine the only_in, never_in already entailed
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(SOROCARP_STALK_DEVELOPMENT,
                                                       [DICTYOSTELIUM_DISCOIDEUM],
                                                       [HUMAN],
@@ -126,7 +126,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertTrue(st.never_in[0].redundant_with_only_in)
         self.assertFalse(st.only_in[0].redundant)
         # test: identical only_in, [fake] more specific never_in
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(SOROCARP_STALK_DEVELOPMENT,
                                                       [DICTYOSTELIUM],
                                                       [DICTYOSTELIUM_DISCOIDEUM],
@@ -138,7 +138,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(st.only_in[0].redundant_with[0].taxon.id, DICTYOSTELIUM)
         self.assertEqual(st.only_in[0].redundant_with[0].via_terms[0].id, SOROCARP_STALK_DEVELOPMENT)
         # test: multiple
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(SOROCARP_STALK_DEVELOPMENT,
                                                       [DICTYOSTELIUM, FUNGI_OR_DICTYOSTELIUM],
                                                       [FUNGI, FUNGI_OR_BACTERIA],
@@ -160,7 +160,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(only_in_union.redundant_with[0].taxon.id, DICTYOSTELIUM)
         #self.assertEqual(only_in_union.redundant_with[0].via_terms[0].id, SOROCARP_STALK_DEVELOPMENT)
         # test: nuclear envelope, redundant assertsion
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(NUCLEAR_ENVELOPE,
                                                       [CELLULAR_ORGANISMS],
                                                       [BACTERIA],
@@ -174,7 +174,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(st.only_in[0].redundant_with[0].taxon.id, EUKARYOTA)
         self.assertEqual(st.only_in[0].redundant_with[0].via_terms[0].id, NUCLEUS)
         # test: nuclear envelope, [fake] non-redundant
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(NUCLEAR_ENVELOPE,
                                                       [CELLULAR_ORGANISMS],
                                                       [BACTERIA],
@@ -188,7 +188,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(st.only_in[0].redundant_with[0].taxon.id, EUKARYOTA)
         self.assertEqual(st.only_in[0].redundant_with[0].via_terms[0].id, NUCLEUS)
         # fake assertion
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(NUCLEUS,
                                                       [MAMMALIA],
                                                       [HUMAN],
@@ -200,21 +200,21 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertFalse(st.only_in[0].redundant)
         # bad ID
         with self.assertRaises(ValueError) as err:
-            st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], ['X:1']))
+            st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], ['X:1']))
         with self.assertRaises(ValueError) as err:
-            st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, ['X:1'], []))
-        st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], []))
+            st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, ['X:1'], []))
+        st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], []))
         assert st.never_in == []
         assert st.only_in == []
         # test: unsat, from never in
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(NUCLEUS,
                                                       [],
                                                       [CELLULAR_ORGANISMS]))
         #print(yaml_dumper.dumps(st))
         self.assertTrue(st.unsatisfiable)
         # test: unsat, from never in [FAKE EXAMPLE]
-        st = test_candidate_taxon_constraint(oi,
+        st = eval_candidate_taxon_constraint(oi,
                                              make_tcs(NUCLEUS,
                                                       [],
                                                       [DICTYOSTELIUM],

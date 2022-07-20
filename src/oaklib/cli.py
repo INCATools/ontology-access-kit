@@ -45,7 +45,7 @@ from oaklib.utilities.obograph_utils import draw_graph, graph_to_image, default_
 import sssom.writers as sssom_writers
 from oaklib.datamodels.vocabulary import IS_A, PART_OF, EQUIVALENT_CLASS
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
-from oaklib.utilities.taxon.taxon_constraint_utils import get_term_with_taxon_constraints, test_candidate_taxon_constraint, parse_gain_loss_file
+from oaklib.utilities.taxon.taxon_constraint_utils import get_term_with_taxon_constraints, eval_candidate_taxon_constraint, parse_gain_loss_file
 import oaklib.datamodels.taxon_constraints as tcdm
 
 @dataclass
@@ -997,7 +997,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
         impl.enable_transitive_query_cache()
         for st in sts:
             try:
-                st = test_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
+                st = eval_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
                 writer.emit(st)
             except ValueError as e:
                 logging.error(f'Error with TC: {e}')
