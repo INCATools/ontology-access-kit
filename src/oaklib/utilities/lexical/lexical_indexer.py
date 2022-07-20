@@ -39,7 +39,10 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
-
+from sssom.context import get_default_metadata
+from sssom.typehints import Metadata
+from sssom.constants import MAPPING_SET_ID, LICENSE
+from sssom.util import filter_out_prefixes
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
     """
@@ -134,15 +137,15 @@ def load_lexical_index(path: str) -> LexicalIndex:
 def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
-    id="default",
     ruleset: MappingRuleCollection = None,
+    meta: Metadata = None
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term
 
-    :param oi:
+    :param oi: OntologyInterface object
     :param lexical_index:
-    :param id:
+    :param meta:
     :return:
     """
     mappings = []
@@ -166,10 +169,19 @@ def lexical_index_to_sssom(
         #        if r1.element < r2.element:
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
-    mset = MappingSet(mapping_set_id=id, mappings=mappings, license="CC-0")
+    
+    if meta is None:
+        meta = get_default_metadata()
+
+    mapping_set_id = meta.metadata[MAPPING_SET_ID]
+    license = meta.metadata[LICENSE]
+
+    mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
     # doc = MappingSetDocument(prefix_map=oi.get_prefix_map(), mapping_set=mset)
-    doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
-    return to_mapping_set_dataframe(doc)
+    doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
+    msdf = to_mapping_set_dataframe(doc)
+    msdf.clean_prefix_map()
+    return msdf
 
 
 def create_mapping(
