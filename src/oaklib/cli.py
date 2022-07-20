@@ -119,9 +119,9 @@ from oaklib.utilities.obograph_utils import (
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import (
+    eval_candidate_taxon_constraint,
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
-    eval_candidate_taxon_constraint,
 )
 
 OBO_FORMAT = "obo"
