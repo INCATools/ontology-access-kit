@@ -2280,15 +2280,15 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
         {
             'continuant': LexicalGrouping
             (
-                term='continuant', 
+                term='continuant',
                 relationships=
                     [
                         RelationshipToTerm
                         (
-                            predicate='rdfs:label', 
-                            element='BFO:0000002', 
-                            element_term='continuant', 
-                            source=None, 
+                            predicate='rdfs:label',
+                            element='BFO:0000002',
+                            element_term='continuant',
+                            source=None,
                             pipeline=['default']
                         )
                     ]
@@ -2299,7 +2299,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     :param output: Output path.
     :param recreate: If true and lexical index is specified, always recreate, otherwise load from index.
-    :param rules_file: Rules of matching. This is a YAML file 
+    :param rules_file: Rules of matching. This is a YAML file
         e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml
     :param lexical_index_file: Path to lexical index. This is recreated each time unless --no-recreate is passed.
     :param add_labels: Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs.
