@@ -180,7 +180,8 @@ def lexical_index_to_sssom(
     # doc = MappingSetDocument(prefix_map=oi.get_prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
-    # TODO uncomment below. Right now it erases the entire msdf.df
+    # TODO uncomment below. 
+    # TODO Right now it erases the entire msdf.df in the absence of CURIEs.
     # msdf.clean_prefix_map()
     return msdf
 
