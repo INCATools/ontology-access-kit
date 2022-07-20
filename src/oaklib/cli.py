@@ -2302,7 +2302,8 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     :param rules_file: Rules of matching. This is a YAML file
         e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml
     :param lexical_index_file: Path to lexical index. This is recreated each time unless --no-recreate is passed.
-    :param add_labels: Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs.
+    :param add_labels: Populate empty labels with URI fragments or CURIE local IDs,
+        for ontologies that use semantic IDs.
     :raises NotImplementedError: If implementation is anything other than BasicOntologyInterface.
     """
     impl = settings.impl
