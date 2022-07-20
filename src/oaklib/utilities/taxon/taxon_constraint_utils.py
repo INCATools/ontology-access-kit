@@ -80,7 +80,7 @@ def inject_labels(oi: OboGraphInterface, st: SubjectTerm):
                 t.label = oi.label(t.id)
 
 
-def test_candidate_taxon_constraint(
+def eval_candidate_taxon_constraint(
     oi: OboGraphInterface,
     candidate_st: SubjectTerm,
     predicates: List[PRED_CURIE] = None,
