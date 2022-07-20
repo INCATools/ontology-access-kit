@@ -2256,7 +2256,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     See :ref:`.lexical_index_to_sssom`
 
-    If add_labels == True, see :ref:`.add_labels_from_uris`. 
+    If add_labels == True, see :ref:`.add_labels_from_uris`.
     e.g. for URI http://example.org/a/bone_of_foot, label = "bone of foot"
 
     Examples:
