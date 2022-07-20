@@ -17,11 +17,7 @@ from sssom.constants import LICENSE, MAPPING_SET_ID
 from sssom.context import get_default_metadata
 from sssom.sssom_document import MappingSetDocument
 from sssom.typehints import Metadata
-from sssom.util import (
-    MappingSetDataFrame,
-    filter_out_prefixes,
-    to_mapping_set_dataframe,
-)
+from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
 from sssom_schema import Mapping, MappingSet
 
 from oaklib.datamodels.lexical_index import (
