@@ -36,7 +36,7 @@ def roll_up_to_named_subset(
     """
     Rolls up all specified curies to a named subset, e.g. goslim_generic
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :param subset:
     :param curies:
     :param predicates:

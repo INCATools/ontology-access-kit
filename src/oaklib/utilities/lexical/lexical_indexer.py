@@ -48,8 +48,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
     """
     Adds a label based on the CURIE or URI for entities that lack labels
 
-    :param oi:
-    :return:
+    :param oi: An ontology interface for making label lookups.
     """
     logging.info("Adding labels from URIs")
     curies = list(oi.entities())
@@ -79,9 +78,9 @@ def create_lexical_index(
     If the pipelines parameter is not specified, then default pipelines will be applied
     (currently CaseNormalization and WhitespaceNormalization)
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :param pipelines: list of transformation pipelines to apply
-    :return:
+    :return: An index over an ontology keyed by lexical unit.
     """
     if pipelines is None:
         step1 = LexicalTransformation(TransformationType.CaseNormalization)
@@ -128,8 +127,8 @@ def load_lexical_index(path: str) -> LexicalIndex:
     """
     Loads from a YAML file
 
-    :param path:
-    :return:
+    :param path: Lexical index in the form of a YAML file.
+    :return: An index over an ontology keyed by lexical unit.
     """
     return yaml_loader.load(path, target_class=LexicalIndex)
 
@@ -141,12 +140,12 @@ def lexical_index_to_sssom(
     meta: Metadata = None,
 ) -> MappingSetDataFrame:
     """
-    Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term
+    Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
 
-    :param oi: OntologyInterface object
-    :param lexical_index:
-    :param meta:
-    :return:
+    :param oi: An ontology interface for making label lookups.
+    :param lexical_index: An index over an ontology keyed by lexical unit.
+    :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
     logging.info("Converting lexical index to SSSOM")
@@ -193,6 +192,15 @@ def create_mapping(
     pred: PRED_CURIE = SKOS_CLOSE_MATCH,
     confidence: float = None,
 ) -> Mapping:
+    """Create mappings between a pair of entities.
+
+    :param term: Match string
+    :param r1: Subject
+    :param r2: Object
+    :param pred: Predicate, defaults to SKOS_CLOSE_MATCH
+    :param confidence: Confidence score., defaults to None
+    :return: Mapping object.
+    """
     return Mapping(
         subject_id=r1.element,
         object_id=r2.element,
@@ -216,12 +224,12 @@ def inferred_mapping(
     """
     Create a mapping from a pair of relationships, applying rules to filter or assign confidence
 
-    :param oi:
-    :param term:
-    :param r1:
-    :param r2:
-    :param ruleset:
-    :return:
+    :param oi: An ontology interface for making label lookups.
+    :param term: Match string
+    :param r1: Subject
+    :param r2: Object
+    :param ruleset: Rules of matching.
+    :return: Mapping object.
     """
     # create two mappings, one in each direction
     m1 = create_mapping(term, r1, r2)
@@ -279,13 +287,18 @@ def inverse_logit(weight: float) -> float:
 
     https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
 
-    :param weight:
+    :param weight: Weight for calculating confidence.
     :return: probability between 0 and 1
     """
     return 1 / (1 + 2 ** (-weight))
 
 
 def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
+    """Return the opposite of predicate passed.
+
+    :param pred: Predicate.
+    :return: Opposite of the predicate.
+    """
     if pred == SKOS_EXACT_MATCH or pred == SKOS_CLOSE_MATCH:
         return pred
     if pred == SKOS_BROAD_MATCH:
@@ -329,18 +342,17 @@ def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
     """
     Saves a YAML using standard mapping of datanodel to YAML
 
-    :param mapping_rules:
-    :param path:
-    :return:
+    :param mapping_rules: YAML file that contains rules for mapping.
+    :param path: Path where the YAML file is saved
     """
     yaml_dumper.dump(mapping_rules, to_file=path)
 
 
 def load_mapping_rules(path: str) -> MappingRuleCollection:
     """
-    Loads from a YAML file
+    Loads from a YAML file that contains rules for mapping.
 
-    :param path:
-    :return:
+    :param path:  Path where the YAML file is located.
+    :return: Rules for mapping
     """
     return yaml_loader.load(path, target_class=MappingRuleCollection)

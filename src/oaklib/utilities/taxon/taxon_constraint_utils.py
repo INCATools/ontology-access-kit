@@ -89,7 +89,7 @@ def eval_candidate_taxon_constraint(
     """
     Evaluate a proposed SubjectTerm plus its taxon constraints against the existing database
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :param candidate_st:
     :param predicates:
     :return:
@@ -191,7 +191,7 @@ def get_term_with_taxon_constraints(
 
     This implements taxon constraints using a graph walking strategy rather than a reasoning strategy
 
-    :param oi:
+     An ontology interface for making label lookups.
     :param curie: subject identifier
     :param predicates: predicates to traverse from subject term to term with constraint
     :param include_redundant:
