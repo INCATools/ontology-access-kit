@@ -104,6 +104,7 @@
     <span class="n">Ontology</span><span class="p">,</span>
     <span class="n">SubClassOf</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">funowl.writers</span> <span class="kn">import</span> <span class="n">FunctionalWriter</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
@@ -144,7 +145,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">axiom_type</span>
 
 
-<div class="viewcode-block" id="OwlInterface"><a class="viewcode-back" href="../../../interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface">[docs]</a><span class="k">class</span> <span class="nc">OwlInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="OwlInterface"><a class="viewcode-back" href="../../../interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">OwlInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    presents ontology as an OWL ontology using an OWL datamodel</span>
 
@@ -157,6 +159,8 @@
 <span class="sd">    - owlery</span>
 <span class="sd">    - robot/owlapi via py4j</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">functional_writer</span><span class="p">:</span> <span class="n">FunctionalWriter</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">owl_ontology</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Ontology</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
