@@ -37,10 +37,10 @@ def roll_up_to_named_subset(
     Rolls up all specified curies to a named subset, e.g. goslim_generic
 
     :param oi: An ontology interface for making label lookups.
-    :param subset:
-    :param curies:
-    :param predicates:
-    :return:
+    :param subset: Subset to be rolled into.
+    :param curies: List of CURIEs to roll up into subset.
+    :param predicates: Predicates of interest.
+    :return: Dictionary of rolled up subset of CURIEs.
     """
     # see https://metacpan.org/dist/go-perl/view/scripts/map2slim
     terms_in_subset = set(oi.subset_members(subset))
