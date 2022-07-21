@@ -1,8 +1,8 @@
 import unittest
 from pathlib import Path
 
-from sssom.writers import write_table
 from sssom.io import get_metadata_and_prefix_map
+from sssom.writers import write_table
 
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRule,
