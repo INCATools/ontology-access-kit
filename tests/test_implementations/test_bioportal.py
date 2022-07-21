@@ -17,11 +17,12 @@ class TestBioportal(unittest.TestCase):
     """
 
     def setUp(self) -> None:
-        impl = BioportalImplementation()
+        cls = BioportalImplementation
         try:
-            get_apikey_value(impl.api_key_name)
+            get_apikey_value(cls.api_key_name)
         except ValueError:
             self.skipTest("Skipping bioportal tests, no API key set")
+        impl = cls()
         self.impl = impl
 
     def test_text_annotator(self):
