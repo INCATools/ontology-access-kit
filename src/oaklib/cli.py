@@ -2237,7 +2237,12 @@ def set_apikey(endpoint, keyval):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
-@click.option("--rules-file", "-R", help="path to rules file. Conforms to rules_datamodel.")
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
 @click.option(
     "--add-labels/--no-add-labels",
     default=False,
@@ -2252,8 +2257,7 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
-    """
-    Generates lexical index and mappings
+    """Generates lexical index and mappings.
 
     See :ref:`.lexical_index_to_sssom`
 

@@ -17,7 +17,7 @@ def get_subset_dict(oi: OboGraphInterface) -> SUBSET_DICT:
     """
     Return a dictionary keyed by subset name with value being all subset members
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :return:
     """
     return {s: list(oi.subset_members(s)) for s in oi.subsets()}
@@ -79,7 +79,7 @@ def compare_all_subsets(
 ) -> Iterable[ListPair]:
     """
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :return:
     """
     subsets = get_subset_dict(oi)

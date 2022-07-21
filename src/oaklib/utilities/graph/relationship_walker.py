@@ -28,9 +28,9 @@ def walk_up(
 
     Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
 
-    :param oi:
-    :param start_curies:
-    :param predicates:
+    :param oi: An ontology interface for making label lookups.
+    :param start_curies: Seed CURIE(s) to walk from.
+    :param predicates: Predicates of interest.
     :return:
     """
     if isinstance(start_curies, CURIE):
@@ -61,9 +61,9 @@ def walk_down(
     """
     As walk_up, but traversing incoming, not outgoing relationships
 
-    :param oi:
-    :param start_curies:
-    :param predicates:
+    :param oi:An ontology interface for making label lookups.
+    :param start_curies: Seed CURIE(s) to walk from.
+    :param predicates: Predicates of interest.
     :return:
     """
     if isinstance(start_curies, CURIE):

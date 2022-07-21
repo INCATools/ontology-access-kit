@@ -1,0 +1,14 @@
+license: "https://creativecommons.org/publicdomain/zero/1.0/"
+mapping_tool: "https://github.com/INCATools/ontology-access-kit"
+mapping_set_id: "https://w3id.org/INCATools/ontology-access-kit/tests/matcher-meta"
+creator_id: "orcid:1234"
+mapping_date: "2020-05-30"
+curie_map:
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  owl: "http://www.w3.org/2002/07/owl#"
+  x: "http://example.org/x/"
+  y: "http://example.org/y/"
+  z: "http://example.org/z/"
+  semapv: "https://w3id.org/semapv/"
+  skos: http://www.w3.org/2004/02/skos/core#
+  oio: "http://www.geneontology.org/formats/oboInOwl#"

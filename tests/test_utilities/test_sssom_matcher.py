@@ -1,6 +1,7 @@
 import unittest
 from pathlib import Path
 
+from sssom.io import get_metadata_and_prefix_map
 from sssom.writers import write_table
 
 from oaklib.datamodels.mapping_rules_datamodel import (
@@ -26,6 +27,7 @@ from tests import INPUT_DIR, OUTPUT_DIR
 RULES = INPUT_DIR / "matcher_rules.yaml"
 MATCHER_TEST_ONT = INPUT_DIR / "matcher-test.owl"
 MATCHER_TEST_DB = INPUT_DIR / "matcher-test.db"
+MATCHER_META_YML = INPUT_DIR / "matcher-meta.yaml"
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OUT = OUTPUT_DIR / "go-nucleus.lexical.yaml"
 TEST_OUT_INDEX_DB = OUTPUT_DIR / "go-nucleus.db.lexical.yaml"
@@ -66,7 +68,8 @@ class TestLexicalIndex(unittest.TestCase):
         lexical_index = create_lexical_index(oi)
         add_labels_from_uris(oi)
         ruleset = load_mapping_rules(str(RULES))
-        msdf = lexical_index_to_sssom(self.oi, lexical_index, ruleset=ruleset)
+        metadata = get_metadata_and_prefix_map(MATCHER_META_YML)
+        msdf = lexical_index_to_sssom(self.oi, lexical_index, ruleset=ruleset, meta=metadata)
         with open(MATCHER_TEST_SSSOM_OUT, "w", encoding="utf-8") as file:
             write_table(msdf, file)
 

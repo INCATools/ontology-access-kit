@@ -14,7 +14,7 @@ def add_labels_to_object(
     """
     Adds labels to an object, for a set of id-label relation pairs
 
-    :param oi: an ontology interface for making label lookups
+    :param oi: An ontology interface for making label lookups.
     :param obj: object to be filled
     :param pairs: list of slot name pairs
     :return: None
