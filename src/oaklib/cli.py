@@ -2237,7 +2237,12 @@ def set_apikey(endpoint, keyval):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
-@click.option("--rules-file", "-R", help="path to rules file. Conforms to rules_datamodel.")
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
 @click.option(
     "--add-labels/--no-add-labels",
     default=False,
@@ -2274,39 +2279,8 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
 
-    Example of a LexicalIndex object for the term 'continuant':
-
-    LexicalIndex
-    (
-        groupings=
-        {
-            'continuant': LexicalGrouping
-            (
-                term='continuant',
-                relationships=
-                    [
-                        RelationshipToTerm
-                        (
-                            predicate='rdfs:label',
-                            element='BFO:0000002',
-                            element_term='continuant',
-                            source=None,
-                            pipeline=['default']
-                        )
-                    ]
-            )
-        }
-    )
-
-
-    :param output: Output path.
-    :param recreate: If true and lexical index is specified, always recreate, otherwise load from index.
-    :param rules_file: Rules of matching. This is a YAML file
-        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml
-    :param lexical_index_file: Path to lexical index. This is recreated each time unless --no-recreate is passed.
-    :param add_labels: Populate empty labels with URI fragments or CURIE local IDs,
-        for ontologies that use semantic IDs.
-    :raises NotImplementedError: If implementation is anything other than BasicOntologyInterface.
+    For more on LexicalIndex,
+    see https://incatools.github.io/ontology-access-kit/datamodels/lexical-index/index.html.
     """
     impl = settings.impl
     if rules_file:
