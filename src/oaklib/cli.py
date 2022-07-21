@@ -2261,9 +2261,6 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     See :ref:`.lexical_index_to_sssom`
 
-    If add_labels == True, see :ref:`.add_labels_from_uris`.
-    e.g. for URI http://example.org/a/bone_of_foot, label = "bone of foot"
-
     Examples:
 
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
@@ -2278,9 +2275,6 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     Using custom rules:
 
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
-
-    For more on LexicalIndex,
-    see https://incatools.github.io/ontology-access-kit/datamodels/lexical-index/index.html.
     """
     impl = settings.impl
     if rules_file:
