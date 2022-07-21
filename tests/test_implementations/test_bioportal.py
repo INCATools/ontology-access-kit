@@ -7,6 +7,7 @@ from linkml_runtime.dumpers import yaml_dumper
 from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
+from oaklib.utilities.apikey_manager import get_apikey_value
 from tests import DIGIT, HUMAN, NEURON, VACUOLE
 
 
@@ -18,7 +19,7 @@ class TestBioportal(unittest.TestCase):
     def setUp(self) -> None:
         impl = BioportalImplementation()
         try:
-            impl.load_bioportal_api_key()
+            get_apikey_value(impl.api_key_name)
         except ValueError:
             self.skipTest("Skipping bioportal tests, no API key set")
         self.impl = impl
@@ -33,6 +34,11 @@ class TestBioportal(unittest.TestCase):
     def test_search(self):
         results = list(itertools.islice(self.impl.basic_search("tentacle pocket"), 20))
         assert "CEPH:0000259" in results
+
+    def test_search_pagination(self):
+        # bioportal defaults to pagesize=50 so this should require 3 pages of results
+        results = list(itertools.islice(self.impl.basic_search("brain"), 150))
+        self.assertIn("CLAO:0001044", results)
 
     def test_mappings(self):
         mappings = list(self.impl.get_sssom_mappings_by_curie(DIGIT))
@@ -51,3 +57,24 @@ class TestBioportal(unittest.TestCase):
         ancestors = list(self.impl.ancestors(VACUOLE))
         assert "http://purl.obolibrary.org/obo/GO_0005575" in ancestors  # cellular_component
         assert "http://purl.obolibrary.org/obo/GO_0005737" in ancestors  # cytoplasm
+
+    def test_ontologies(self):
+        ontologies = list(self.impl.ontologies())
+        self.assertTrue(ontologies)
+        self.assertIn("OBI", ontologies)
+        self.assertIn("UBERON", ontologies)
+
+    def test_ontology_versions(self):
+        versions = list(self.impl.ontology_versions("FMA"))
+        self.assertTrue(versions)
+        self.assertIn("5.0.0", versions)
+        self.assertIn("v3.2.1", versions)
+
+    def test_ontology_metadata(self):
+        metadata = self.impl.ontology_metadata("OBI")
+        self.assertIn("title", metadata)
+        self.assertEqual(metadata["title"], "Ontology for Biomedical Investigations")
+        self.assertIn("homepage", metadata)
+        self.assertEqual(metadata["homepage"], "http://purl.obolibrary.org/obo/obi")
+        self.assertIn("classes", metadata)
+        self.assertIsInstance(metadata["classes"], int)
