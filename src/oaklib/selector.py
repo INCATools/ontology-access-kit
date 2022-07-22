@@ -4,7 +4,7 @@ import pkgutil
 from pathlib import Path
 from typing import Optional, Type
 
-from oaklib import BasicOntologyInterface
+from oaklib import BasicOntologyInterface, OntologyResource
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.bioportal.agroportal_implementation import (
     AgroportalImplementation,
@@ -24,7 +24,6 @@ from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )
 from oaklib.interfaces import OntologyInterface
-from oaklib.resource import OntologyResource
 
 discovered_plugins = {
     name: importlib.import_module(name)
@@ -80,16 +79,26 @@ def get_implementation_from_shorthand(
     return res.implementation_class(res)
 
 
-def get_implementation_class_from_scheme(scheme: str):
+def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]:
     if scheme == "http" or scheme == "https":
         raise NotImplementedError("Web requests not implemented yet")
     else:
         return SCHEME_DICT[scheme]
 
+        # FIXME replace the SCHEME_DICT with this
+        from oaklib.implementations import implementation_resolver
+
+        return implementation_resolver.lookup(scheme)
+
 
 def get_resource_imp_class_from_suffix_descriptor(
     suffix: str, resource: OntologyResource, descriptor: str
 ):
+    from oaklib.implementations import (
+        ProntoImplementation,
+        SparqlImplementation,
+        SqlImplementation,
+    )
 
     if suffix == "db" or (resource.format and resource.format == "sqlite"):
         impl_class = SqlImplementation
@@ -118,6 +127,12 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
     :param format:
     :return:
     """
+    from oaklib.implementations import (
+        LovImplementation,
+        ProntoImplementation,
+        SparqlImplementation,
+    )
+
     resource = OntologyResource(format=format)
     resource.slug = descriptor
     impl_class: Optional[Type[OntologyInterface]] = None
