@@ -5,6 +5,24 @@ from pathlib import Path
 from typing import Optional, Type
 
 from oaklib import BasicOntologyInterface, OntologyResource
+from oaklib.implementations import GildaImplementation
+from oaklib.implementations.bioportal.agroportal_implementation import (
+    AgroportalImplementation,
+)
+from oaklib.implementations.bioportal.bioportal_implementation import (
+    BioportalImplementation,
+)
+from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
+from oaklib.implementations.ols.ols_implementation import OlsImplementation
+from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
+from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.sparql.lov_implementation import LovImplementation
+from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
+from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib.implementations.ubergraph import UbergraphImplementation
+from oaklib.implementations.wikidata.wikidata_implementation import (
+    WikidataImplementation,
+)
 from oaklib.interfaces import OntologyInterface
 
 discovered_plugins = {
@@ -18,6 +36,24 @@ RDF_SUFFIX_TO_FORMAT = {
     "rdf": "turtle",
     "jsonld": "json-ld",
     "json-ld": "json-ld",
+}
+
+SCHEME_DICT = {
+    "sqlite": SqlImplementation,
+    "ubergraph": UbergraphImplementation,
+    "ontobee": OntobeeImplementation,
+    "lov": LovImplementation,
+    "sparql": SparqlImplementation,
+    "rdflib": SparqlImplementation,
+    "bioportal": BioportalImplementation,
+    "agroportal": AgroportalImplementation,
+    "wikidata": WikidataImplementation,
+    "ols": OlsImplementation,
+    "funowl": FunOwlImplementation,
+    "pronto": ProntoImplementation,
+    "obolibrary": ProntoImplementation,
+    "prontolib": ProntoImplementation,
+    "gilda": GildaImplementation,
 }
 
 
@@ -46,10 +82,13 @@ def get_implementation_from_shorthand(
 def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]:
     if scheme == "http" or scheme == "https":
         raise NotImplementedError("Web requests not implemented yet")
+    else:
+        return SCHEME_DICT[scheme]
 
-    from oaklib.implementations import implementation_resolver
+        # FIXME replace the SCHEME_DICT with this
+        from oaklib.implementations import implementation_resolver
 
-    return implementation_resolver.lookup(scheme)
+        return implementation_resolver.lookup(scheme)
 
 
 def get_resource_imp_class_from_suffix_descriptor(
