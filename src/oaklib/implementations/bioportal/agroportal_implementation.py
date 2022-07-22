@@ -14,5 +14,4 @@ class AgroportalImplementation(OntoPortalImplementationBase):
 
     """
 
-    OntoPortalClientClass = AgroPortalClient
-    api_key_name = "agroportal"
+    ontoportal_client_class = AgroPortalClient

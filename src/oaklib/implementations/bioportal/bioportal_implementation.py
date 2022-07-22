@@ -15,5 +15,4 @@ class BioportalImplementation(OntoPortalImplementationBase):
     See `<https://data.bioontology.org/documentation>`_
     """
 
-    OntoPortalClientClass = BioPortalClient
-    api_key_name = "bioportal"
+    ontoportal_client_class = BioPortalClient

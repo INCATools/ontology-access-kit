@@ -19,7 +19,7 @@ class TestBioportal(unittest.TestCase):
     def setUp(self) -> None:
         cls = BioportalImplementation
         try:
-            get_apikey_value(cls.api_key_name)
+            get_apikey_value(cls.ontoportal_client_class.name)
         except ValueError:
             self.skipTest("Skipping bioportal tests, no API key set")
         impl = cls()

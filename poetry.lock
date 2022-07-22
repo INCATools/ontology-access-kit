@@ -1447,7 +1447,7 @@ dev = ["pre-commit", "pytest"]
 
 [[package]]
 name = "ontoportal-client"
-version = "0.0.2"
+version = "0.0.3"
 description = "A client to BioPortal and other OntoPortal instances."
 category = "main"
 optional = false
@@ -2621,7 +2621,7 @@ gilda = ["gilda"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b70e98fff87a94e2c810b4e263fb319fd2aee9182c95ee105855d745727b163b"
+content-hash = "cea8459ba7eed7cc6d12a1661e048cb79098b92241785138b273d20594962841"
 
 [metadata.files]
 adeft = []

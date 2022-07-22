@@ -39,8 +39,7 @@ class OntoPortalImplementationBase(
     TextAnnotatorInterface, SearchInterface, MappingProviderInterface, ABC
 ):
 
-    OntoPortalClientClass: ClassVar[type[PreconfiguredOntoPortalClient]] = None
-    api_key_name: ClassVar[str] = None
+    ontoportal_client_class: ClassVar[type[PreconfiguredOntoPortalClient]] = None
 
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     ontology_cache: Dict[URI, str] = field(default_factory=lambda: {})
@@ -50,22 +49,18 @@ class OntoPortalImplementationBase(
         if self.focus_ontology is None:
             if self.resource:
                 self.focus_ontology = self.resource.slug
-        if not self.OntoPortalClientClass:
-            raise NotImplementedError("OntoPortalClientClass not specified")
-        api_key = get_apikey_value(self.api_key_name)
-        self.client = self.OntoPortalClientClass(api_key=api_key)
+        if not self.ontoportal_client_class:
+            raise NotImplementedError("ontoportal_client_class not specified")
+        api_key = get_apikey_value(self.ontoportal_client_class.name)
+        self.client = self.ontoportal_client_class(api_key=api_key)
 
     def prefix_map(self) -> PREFIX_MAP:
         # TODO
         return {}
 
-    def _get_response(self, path: str, *args, raise_for_status=True, **kwargs):
+    def _get_response(self, *args, **kwargs):
         check_limit()
-        path = path.removeprefix(self.client.base_url)
-        response = self.client.get_response(path, *args, **kwargs)
-        if raise_for_status:
-            response.raise_for_status()
-        return response
+        return self.client.get_response(*args, **kwargs)
 
     def _get_json(self, *args, **kwargs):
         response = self._get_response(*args, **kwargs)
