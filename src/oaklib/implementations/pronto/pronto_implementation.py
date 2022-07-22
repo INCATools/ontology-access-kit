@@ -7,7 +7,7 @@ import tempfile
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import IO, Dict, Iterable, Iterator, List, Optional, TextIO, Tuple, Union
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import pronto
 import sssom_schema as sssom

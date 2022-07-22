@@ -37,7 +37,7 @@ import rdflib
 import sssom.writers as sssom_writers
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
@@ -53,7 +53,6 @@ from oaklib.datamodels.vocabulary import (
     PART_OF,
     RDF_TYPE,
 )
-from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
