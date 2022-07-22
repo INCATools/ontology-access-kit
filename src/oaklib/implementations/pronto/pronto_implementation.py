@@ -503,7 +503,6 @@ class ProntoImplementation(
                 return v.replace("'", "")
             else:
                 return v
-
         if isinstance(patch, kgcl.NodeRename):
             self.set_label(patch.about_node, _clean(patch.new_value))
         elif isinstance(patch, kgcl.NodeObsoletion):
@@ -519,5 +518,9 @@ class ProntoImplementation(
             for syn in t.synonyms:
                 if syn.description == patch.old_value:
                     syn.description = patch.new_value
+        elif isinstance(patch, kgcl.NewSynonym):
+            t = self._entity(patch.about_node, strict=True)
+            t.add_synonym(description=patch.new_value, scope="RELATED")
+            
         else:
             raise NotImplementedError
