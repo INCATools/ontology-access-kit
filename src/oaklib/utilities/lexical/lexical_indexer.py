@@ -195,8 +195,8 @@ def create_mapping(
     """Create mappings between a pair of entities.
 
     :param term: Match string
-    :param r1: Subject
-    :param r2: Object
+    :param r1: Term relationship 1
+    :param r2: Term relationship 2
     :param pred: Predicate, defaults to SKOS_CLOSE_MATCH
     :param confidence: Confidence score., defaults to None
     :return: Mapping object.
@@ -226,8 +226,8 @@ def inferred_mapping(
 
     :param oi: An ontology interface for making label lookups.
     :param term: Match string
-    :param r1: Subject
-    :param r2: Object
+    :param r1: Term relationship 1
+    :param r2: Term relationship 2
     :param ruleset: Rules of matching.
     :return: Mapping object.
     """
