@@ -39,7 +39,6 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
-from oaklib.io.obograph_writer import write_graph
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -75,6 +74,7 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter

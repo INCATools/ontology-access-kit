@@ -7,7 +7,7 @@ import tempfile
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Tuple, Union, Optional, TextIO, IO
+from typing import IO, Dict, Iterable, Iterator, List, Optional, TextIO, Tuple, Union
 
 import pronto
 import sssom_schema as sssom
@@ -289,13 +289,16 @@ class ProntoImplementation(
         return rels
 
     def create_entity(
-        self, curie: CURIE, label: Optional[str] = None, relationships: Optional[RELATIONSHIP_MAP] = None,
-            type: Optional[str] = None
+        self,
+        curie: CURIE,
+        label: Optional[str] = None,
+        relationships: Optional[RELATIONSHIP_MAP] = None,
+        type: Optional[str] = None,
     ) -> CURIE:
         ont = self.wrapped_ontology
-        if not type or type == 'CLASS':
+        if not type or type == "CLASS":
             t = ont.create_term(curie)
-        elif type == 'PROPERTY':
+        elif type == "PROPERTY":
             t = ont.create_relationship(curie)
         else:
             raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
@@ -500,6 +503,7 @@ class ProntoImplementation(
                 return v.replace("'", "")
             else:
                 return v
+
         if isinstance(patch, kgcl.NodeRename):
             self.set_label(patch.about_node, _clean(patch.new_value))
         elif isinstance(patch, kgcl.NodeObsoletion):

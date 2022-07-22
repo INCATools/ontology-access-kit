@@ -105,11 +105,21 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "GO:0043226" not in out
             # test fetching ancestor graph and saving as obo
             self.runner.invoke(
-                main, ["-i", input_arg, "descendants", "-p", "i,p", "GO:0016020", "-O", "obo", "-o", TEST_OUT_OBO]
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "descendants",
+                    "-p",
+                    "i,p",
+                    "GO:0016020",
+                    "-O",
+                    "obo",
+                    "-o",
+                    TEST_OUT_OBO,
+                ],
             )
-            self.runner.invoke(
-                main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT]
-            )
+            self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT])
             out = self._out(TEST_OUT)
             print(out)
             assert "GO:0016020" in out

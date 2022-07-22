@@ -3,19 +3,19 @@ Utilities for writing out obo graphs
 
 """
 import sys
-from typing import TextIO, Union, Optional
+from typing import Optional, TextIO, Union
 
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
-from oaklib import OntologyResource
 
+from oaklib import OntologyResource
 from oaklib.datamodels.obograph import Graph
 from oaklib.implementations import ProntoImplementation
 
 
 def write_graph(
-        graph: Graph,
-        output: Optional[Union[str, TextIO]] = None,
-        format: str = None,
+    graph: Graph,
+    output: Optional[Union[str, TextIO]] = None,
+    format: str = None,
 ):
     """
     Writes an obo graph to a file-like object in a specified format
