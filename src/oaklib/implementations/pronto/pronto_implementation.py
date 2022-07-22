@@ -1,12 +1,13 @@
 import logging
 import re
+import sys
 import tempfile
 
 # https://github.com/althonos/pronto/issues/173
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Dict, Iterable, Iterator, List, Tuple, Union, Optional, TextIO, IO
 
 import pronto
 import sssom_schema as sssom
@@ -116,8 +117,11 @@ class ProntoImplementation(
             resource = self.resource
         ontology = self.wrapped_ontology
         if resource.local:
-            with open(str(resource.local_path), "wb") as f:
-                ontology.dump(f, format=resource.format)
+            if resource.slug:
+                with open(str(resource.local_path), "wb") as f:
+                    ontology.dump(f, format=resource.format)
+            else:
+                ontology.dump(sys.stdout.buffer, format=resource.format)
         else:
             raise NotImplementedError(f"Cannot dump to {resource}")
 
@@ -128,10 +132,10 @@ class ProntoImplementation(
             ont = Ontology()
             self.wrapped_ontology = ont
         for n in graph.nodes:
-            if n == IS_A:
+            if n.id == IS_A:
                 pass
             else:
-                self.create_entity(n.id, n.lbl)
+                self.create_entity(n.id, n.lbl, type=n.type)
         for e in graph.edges:
             self.add_relationship(e.sub, e.pred, e.obj)
 
@@ -285,10 +289,16 @@ class ProntoImplementation(
         return rels
 
     def create_entity(
-        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+        self, curie: CURIE, label: Optional[str] = None, relationships: Optional[RELATIONSHIP_MAP] = None,
+            type: Optional[str] = None
     ) -> CURIE:
         ont = self.wrapped_ontology
-        t = ont.create_term(curie)
+        if not type or type == 'CLASS':
+            t = ont.create_term(curie)
+        elif type == 'PROPERTY':
+            t = ont.create_relationship(curie)
+        else:
+            raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
         t.name = label
         if relationships:
             for pred, fillers in relationships.items():
@@ -484,8 +494,14 @@ class ProntoImplementation(
         pass
 
     def apply_patch(self, patch: kgcl.Change) -> None:
+        def _clean(v: str) -> str:
+            # TODO: remove this when this is fixed: https://github.com/INCATools/kgcl-rdflib/issues/43
+            if v.startswith("'"):
+                return v.replace("'", "")
+            else:
+                return v
         if isinstance(patch, kgcl.NodeRename):
-            self.set_label(patch.about_node, patch.new_value)
+            self.set_label(patch.about_node, _clean(patch.new_value))
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True

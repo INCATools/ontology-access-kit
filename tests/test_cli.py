@@ -2,6 +2,7 @@ import json
 import logging
 import re
 import unittest
+from typing import Optional
 
 import yaml
 from click.testing import CliRunner
@@ -27,9 +28,10 @@ from tests import (
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_DB = INPUT_DIR / "go-nucleus.db"
-TEST_DB = INPUT_DIR / "go-nucleus.db"
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
+TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
+TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
 TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 
@@ -43,8 +45,8 @@ class TestCommandLineInterface(unittest.TestCase):
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
 
-    def _out(self) -> str:
-        return "".join(open(TEST_OUT).readlines())
+    def _out(self, path: Optional[str] = TEST_OUT) -> str:
+        return "".join(open(path).readlines())
 
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
@@ -101,6 +103,19 @@ class TestCommandLineInterface(unittest.TestCase):
             # TODO:
             # assert 'GO:0016020 ! membrane' not in out
             assert "GO:0043226" not in out
+            # test fetching ancestor graph and saving as obo
+            self.runner.invoke(
+                main, ["-i", input_arg, "descendants", "-p", "i,p", "GO:0016020", "-O", "obo", "-o", TEST_OUT_OBO]
+            )
+            self.runner.invoke(
+                main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT]
+            )
+            out = self._out(TEST_OUT)
+            print(out)
+            assert "GO:0016020" in out
+            assert "GO:0031965" in out
+            assert "subClassOf" not in out
+            assert "BFO" not in out
 
     def test_gap_fill(self):
         result = self.runner.invoke(

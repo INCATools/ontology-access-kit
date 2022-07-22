@@ -39,6 +39,7 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
+from oaklib.io.obograph_writer import write_graph
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -969,20 +970,9 @@ def viz(
         logging.info(f"Drawing graph seeded from {curies}")
         if meta:
             impl.add_metadata(graph)
-        if output_type == "json":
-            if output:
-                json_dumper.dump(graph, to_file=output, inject_type=False)
-            else:
-                print(json_dumper.dumps(graph))
-        elif output_type == "yaml":
-            if output:
-                yaml_dumper.dump(graph, to_file=output, inject_type=False)
-            else:
-                print(yaml_dumper.dumps(graph))
-        elif output_type == "obo":
-            output_oi = ProntoImplementation()
-            output_oi.load_graph(graph, replace=True)
-            output_oi.store(OntologyResource(slug=output, local=True, format="obo"))
+        # TODO: abstract this out
+        if output_type:
+            write_graph(graph, format=output_type, output=output)
         else:
             imgfile = graph_to_image(
                 graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output

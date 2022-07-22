@@ -126,7 +126,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             if s not in node_map:
                 node_map[s] = self.node(s)
             if p not in node_map:
-                node_map[p] = self.node(p)
+                p_node = self.node(p)
+                p_node.type = 'PROPERTY'
+                node_map[p] = p_node
             if o not in node_map:
                 node_map[o] = self.node(o)
             edges.append(Edge(sub=s, pred=p, obj=o))
