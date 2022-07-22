@@ -1072,6 +1072,8 @@ class SqlImplementation(
                 raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         else:
             raise NotImplementedError
+        if self.autosave:
+            self.save()
 
     def save(
         self,

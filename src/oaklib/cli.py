@@ -37,7 +37,7 @@ import rdflib
 import sssom.writers as sssom_writers
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
@@ -53,7 +53,6 @@ from oaklib.datamodels.vocabulary import (
     PART_OF,
     RDF_TYPE,
 )
-from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
@@ -74,6 +73,7 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
@@ -969,20 +969,9 @@ def viz(
         logging.info(f"Drawing graph seeded from {curies}")
         if meta:
             impl.add_metadata(graph)
-        if output_type == "json":
-            if output:
-                json_dumper.dump(graph, to_file=output, inject_type=False)
-            else:
-                print(json_dumper.dumps(graph))
-        elif output_type == "yaml":
-            if output:
-                yaml_dumper.dump(graph, to_file=output, inject_type=False)
-            else:
-                print(yaml_dumper.dumps(graph))
-        elif output_type == "obo":
-            output_oi = ProntoImplementation()
-            output_oi.load_graph(graph, replace=True)
-            output_oi.store(OntologyResource(slug=output, local=True, format="obo"))
+        # TODO: abstract this out
+        if output_type:
+            write_graph(graph, format=output_type, output=output)
         else:
             imgfile = graph_to_image(
                 graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
