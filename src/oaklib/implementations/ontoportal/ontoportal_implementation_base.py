@@ -35,7 +35,7 @@ SOURCE_TO_PREDICATE = {
 
 
 @dataclass
-class OntoPortalInterface(TextAnnotatorInterface, SearchInterface, MappingProviderInterface, ABC):
+class OntoPortalImplementationBase(TextAnnotatorInterface, SearchInterface, MappingProviderInterface, ABC):
 
     OntoPortalClientClass: ClassVar[type[PreconfiguredOntoPortalClient]] = None
     api_key_name: ClassVar[str] = None

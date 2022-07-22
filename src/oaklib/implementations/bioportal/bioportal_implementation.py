@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 from ontoportal_client import BioPortalClient
 
-from oaklib.interfaces.ontoportal_interface import OntoPortalInterface
+from oaklib.implementations.ontoportal.ontoportal_implementation_base import OntoPortalImplementationBase
 
 
 @dataclass
-class BioportalImplementation(OntoPortalInterface):
+class BioportalImplementation(OntoPortalImplementationBase):
     """
     Implementation over bioportal endpoint
 

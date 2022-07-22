@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 from ontoportal_client import AgroPortalClient
 
-from oaklib.interfaces.ontoportal_interface import OntoPortalInterface
+from oaklib.implementations.ontoportal.ontoportal_implementation_base import OntoPortalImplementationBase
 
 
 @dataclass
-class AgroportalImplementation(OntoPortalInterface):
+class AgroportalImplementation(OntoPortalImplementationBase):
     """
     Implementation over agroportal endpoint
 
