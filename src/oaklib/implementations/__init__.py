@@ -45,5 +45,7 @@ implementation_resolver.synonyms.update(
     {
         "obolibrary": ProntoImplementation,
         "prontolib": ProntoImplementation,
+        "sqlite": SqlImplementation,
+        "rdflib": SparqlImplementation,
     }
 )
