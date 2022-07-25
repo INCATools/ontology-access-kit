@@ -40,12 +40,12 @@ class TestAggregator(unittest.TestCase):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")
         # for k, v in rels.items():
-        #    print(f'{k} = {v}')
+        #    logging.info(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
         rels = oi.outgoing_relationship_map(TISSUE)
         # for k, v in rels.items():
-        #    print(f'{k} = {v}')
+        #    logging.info(f'{k} = {v}')
         self.assertCountEqual(rels[IS_A], ["UBERON:0010000"])
 
     def test_all_terms(self):
@@ -65,7 +65,7 @@ class TestAggregator(unittest.TestCase):
     def test_metadata(self):
         for curie in self.oi.entities():
             m = self.oi.entity_metadata_map(curie)
-            print(f"{curie} {m}")
+            logging.info(f"{curie} {m}")
         m = self.oi.entity_metadata_map("GO:0005622")
         assert "term_tracker_item" in m.keys()
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
@@ -122,13 +122,13 @@ class TestAggregator(unittest.TestCase):
         assert "GO:0005773" in ancs  # reflexive
         ancs = list(oi.ancestors("GO:0005773", predicates=[IS_A]))
         # for a in ancs:
-        #    print(a)
+        #    logging.info(a)
         assert "NCBITaxon:1" not in ancs
         assert "GO:0005773" in ancs  # reflexive
         assert "GO:0043231" in ancs  # reflexive
         ancs = list(oi.ancestors(TISSUE, predicates=[IS_A, PART_OF]))
         for a in ancs:
-            print(a)
+            logging.info(a)
         assert "UBERON:0010000" in ancs
 
     def test_obograph(self):
@@ -148,5 +148,5 @@ class TestAggregator(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
         g = self.oi.ancestor_graph(TISSUE)
-        print(yaml_dumper.dumps(g))
+        logging.info(yaml_dumper.dumps(g))
         assert self.oi.node(TISSUE).lbl == "tissue"

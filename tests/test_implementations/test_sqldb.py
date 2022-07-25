@@ -64,7 +64,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_all_nodes(self):
         for curie in self.oi.entities():
-            print(curie)
+            logging.info(curie)
 
     def test_labels(self):
         label = self.oi.label(VACUOLE)
@@ -75,20 +75,20 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         curies = oi.subset_members("goslim_generic")
         tups = list(oi.labels(curies))
         for curie, label in tups:
-            print(f"{curie} ! {label}")
+            logging.info(f"{curie} ! {label}")
         assert (VACUOLE, "vacuole") in tups
         assert (CYTOPLASM, "cytoplasm") in tups
         self.assertEqual(11, len(tups))
 
     def test_synonyms(self):
         syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
-        print(syns)
+        logging.info(syns)
         assert "cellular component" in syns
 
     def test_mappings(self):
         mappings = list(self.oi.get_sssom_mappings_by_curie(NUCLEUS))
         # for m in mappings:
-        #    print(yaml_dumper.dumps(m))
+        #    logging.info(yaml_dumper.dumps(m))
         assert any(m for m in mappings if m.object_id == "Wikipedia:Cell_nucleus")
         self.assertEqual(len(mappings), 2)
         for m in mappings:
@@ -121,14 +121,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi = self.oi
         m = oi.synonym_map_for_curies([NUCLEUS, NUCLEAR_ENVELOPE])
         for k, vs in m.items():
-            print(k)
+            logging.info(k)
             for v in vs:
-                print(yaml_dumper.dumps(v))
+                logging.info(yaml_dumper.dumps(v))
 
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
         graph_as_dict(g)
-        # print(yaml.dump(obj))
+        # logging.info(yaml.dump(obj))
         assert g.nodes
         assert g.edges
 
@@ -153,7 +153,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_ancestors(self):
         curies = list(self.oi.ancestors(VACUOLE))
         for curie in curies:
-            print(curie)
+            logging.info(curie)
         assert CELLULAR_COMPONENT in curies
         assert VACUOLE in curies
         assert CYTOPLASM in curies
@@ -308,27 +308,27 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
-        # print(curies)
+        # logging.info(curies)
         self.assertCountEqual([CYTOPLASM], curies)
 
     def test_search_partial(self):
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
     def test_search_sql(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.SQL)
         curies = list(self.oi.basic_search("%nucl%s", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert NUCLEUS in curies
         self.assertCountEqual([NUCLEUS, CHEBI_NUCLEUS], curies)
 
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
@@ -366,7 +366,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual(expected, list(results))
         for s, o, lca in expected:
             results = list(oi.most_recent_common_ancestors(s, o, predicates=[IS_A, PART_OF]))
-            # print(f'{s} {o} == {results}')
+            # logging.info(f'{s} {o} == {results}')
             if lca == OWL_THING:
                 # TODO: unify treatment of owl:Thing
                 self.assertEqual([], results)
@@ -422,7 +422,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         # self.assertEqual(len(rels), len(all_rels))
         for rel in rels:
             if rel not in all_rels:
-                print(rel)
+                logging.info(rel)
 
     def test_set_label(self):
         """
@@ -462,7 +462,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         no_label_curies = []
         for curie in oi.entities():
             label = oi.label(curie)
-            # print(f'{curie}: {label}')
+            # logging.info(f'{curie}: {label}')
             if label is None:
                 no_label_curies.append(curie)
         self.assertGreater(len(no_label_curies), 4)
@@ -472,7 +472,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         for curie in no_label_curies:
             label = oi.label(curie)
             # TODO
-            # print(f'XXX {curie}: {label}')
+            # logging.info(f'XXX {curie}: {label}')
             # self.assertIsNotNone(label)
 
     def test_migrate_curies(self):
@@ -556,20 +556,20 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         # session.autoflush = True
         rows = list(session.query(Statements))
         # for row in rows:
-        #    print(row)
+        #    logging.info(row)
         self.assertGreater(len(rows), 0)
         stmt = delete(Statements)
         session.execute(stmt)
         session.commit()
-        print(f"D={session.dirty}")
+        logging.info(f"D={session.dirty}")
         rows = list(session.query(Statements))
         for row in rows:
-            print(row)
+            logging.info(row)
         self.assertEqual([], rows)
         session.commit()
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         session = oi.session
         rows = list(session.query(Statements))
         for row in rows:
-            print(row)
+            logging.info(row)
         self.assertEqual([], rows)

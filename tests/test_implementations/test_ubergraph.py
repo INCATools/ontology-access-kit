@@ -89,7 +89,7 @@ class TestUbergraphImplementation(unittest.TestCase):
     def test_search(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("limb", config=config))
-        print(curies)
+        logging.info(curies)
         assert "UBERON:0002101" in curies
 
     # OboGraph
@@ -98,21 +98,21 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         ancs = list(oi.ancestors([VACUOLE]))
         # for a in ancs:
-        #    print(a)
+        #    logging.info(a)
         self.assertIn(VACUOLE, ancs)
         self.assertIn(CYTOPLASM, ancs)
         self.assertIn(CELL, ancs)
         self.assertIn(CELLULAR_COMPONENT, ancs)
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A]))
         # for a in ancs:
-        #    print(a)
+        #    logging.info(a)
         self.assertIn(VACUOLE, ancs)
         self.assertNotIn(CYTOPLASM, ancs)
         self.assertNotIn(CELL, ancs)
         self.assertIn(CELLULAR_COMPONENT, ancs)
         ancs = list(oi.ancestors([VACUOLE], predicates=[IS_A, PART_OF]))
         # for a in ancs:
-        #    print(a)
+        #    logging.info(a)
         self.assertIn(VACUOLE, ancs)  # reflexive
         self.assertIn(CYTOPLASM, ancs)
         self.assertIn(CELL, ancs)
@@ -127,12 +127,12 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         descs = list(oi.descendants([CYTOPLASM]))
         # for a in descs:
-        #    print(a)
+        #    logging.info(a)
         self.assertIn(VACUOLE, descs)
         self.assertIn(CYTOPLASM, descs)
         descs = list(oi.descendants([CYTOPLASM], predicates=[IS_A]))
         # for a in descs:
-        #    print(f'IS_A DESC: {a}')
+        #    logging.info(f'IS_A DESC: {a}')
         self.assertIn(CYTOPLASM, descs)
         self.assertNotIn(VACUOLE, descs)
 
@@ -141,7 +141,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
             g = oi.ancestor_graph([VACUOLE], predicates=preds)
-            # print(yaml_dumper.dumps(g))
+            # logging.info(yaml_dumper.dumps(g))
             assert len(g.nodes) > 0
             assert len(g.edges) > 0
             node_ids = [n.id for n in g.nodes]
@@ -178,7 +178,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         for preds in [None, [IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.common_ancestors(NUCLEUS, THYLAKOID, preds))
-            print(f"{preds} ==> {ancs}")
+            logging.info(f"{preds} ==> {ancs}")
             if preds == [PART_OF]:
                 self.assertEqual(ancs, [CELL])
             elif preds == [IS_A]:
@@ -193,7 +193,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = self.oi
         for preds in [[IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.most_recent_common_ancestors(NUCLEUS, THYLAKOID, preds))
-            print(f"{preds} ==> {ancs}")
+            logging.info(f"{preds} ==> {ancs}")
             if preds == [PART_OF]:
                 self.assertEqual(ancs, [CELL])
             elif preds == [IS_A]:
@@ -224,8 +224,8 @@ class TestUbergraphImplementation(unittest.TestCase):
         for s, o in pairs:
             for preds in [[IS_A], [IS_A, PART_OF], [PART_OF]]:
                 sim = oi.pairwise_similarity(s, o, predicates=preds)
-                # print(preds)
-                # print(yaml_dumper.dumps(sim))
+                # logging.info(preds)
+                # logging.info(yaml_dumper.dumps(sim))
                 if (s, o) == (NUCLEUS, THYLAKOID):
                     if preds == [IS_A]:
                         self.assertEqual(sim.ancestor_id, CELLULAR_ANATOMICAL_ENTITY)

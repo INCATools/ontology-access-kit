@@ -51,7 +51,7 @@ class TestSparqlImplementation(unittest.TestCase):
 
     def test_parents(self):
         parents = self.oi.hierararchical_parents(VACUOLE)
-        # print(parents)
+        # logging.info(parents)
         assert "GO:0043231" in parents
 
     def test_labels(self):
@@ -110,7 +110,7 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("nucleus", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert NUCLEUS in curies
         config = SearchConfiguration(is_partial=False, properties=[SearchProperty.LABEL])
         curies = list(self.oi.basic_search("nucleus", config=config))
@@ -125,7 +125,7 @@ class TestSparqlImplementation(unittest.TestCase):
         config = SearchConfiguration(is_partial=True)
         # non-exact matches across all ontobee are slow: restrict to pato
         curies = list(self.oi.basic_search("ucl", config=config))
-        # print(curies)
+        # logging.info(curies)
         self.assertGreater(len(curies), 1)
         assert NUCLEUS in curies
 
@@ -172,14 +172,14 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
-        # print(curies)
+        # logging.info(curies)
         # self.assertGreater(len(curie), 1)
         assert NUCLEUS in curies
 
     def test_search_regex(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("nucl.* envelope$", config=config))
-        print(curies)
+        logging.info(curies)
         # self.assertGreater(len(curie), 1)
         assert NUCLEAR_ENVELOPE in curies
 

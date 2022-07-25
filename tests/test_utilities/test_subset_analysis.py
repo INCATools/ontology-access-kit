@@ -36,7 +36,7 @@ class TestSubsetUtils(unittest.TestCase):
     def test_terms_by_subsets(self):
         tups = list(terms_by_subsets(self.oi, prefix="GO", subsumed_score=0.5, min_subsets=3))
         # for tup in tups:
-        #    print(tup)
+        #    logging.info(tup)
         self.assertIn(
             ("GO:0005886", "plasma membrane", "gocheck_do_not_manually_annotate", 0.5), tups
         )
@@ -46,7 +46,7 @@ class TestSubsetUtils(unittest.TestCase):
     def test_all_by_all(self):
         results = list(compare_all_subsets(self.oi, prefix="GO"))
         for r in results:
-            # print(f'Basic={r}')
+            # logging.info(f'Basic={r}')
             if r.set1_id == r.set2_id:
                 assert r.jaccard_similarity == 1.0
                 assert r.dice_similarity == 1.0
@@ -56,7 +56,7 @@ class TestSubsetUtils(unittest.TestCase):
             assert r.set1_id.startswith("go")
         results = list(compare_all_subsets(self.oi, extend_down=True, prefix="GO"))
         for r in results:
-            # print(f'Extended={r}')
+            # logging.info(f'Extended={r}')
             if r.set1_id == r.set2_id:
                 assert r.jaccard_similarity == 1.0
                 assert r.dice_similarity == 1.0

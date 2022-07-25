@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -21,7 +22,7 @@ class TestOntologyMetadataDatamodel(unittest.TestCase):
         """
         sv = package_schemaview(ontology_metadata.__name__)
         for c in sv.all_classes():
-            print(c)
+            logging.info(c)
         assert "id" in sv.all_slots()
         assert "label" in sv.all_slots()
         assert "Class" in sv.all_classes()

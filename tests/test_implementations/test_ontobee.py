@@ -32,7 +32,7 @@ class TestOntobeeImplementation(unittest.TestCase):
 
     def test_parents(self):
         parents = self.oi.hierararchical_parents(VACUOLE)
-        # print(parents)
+        # logging.info(parents)
         assert "GO:0043231" in parents
 
     def test_labels(self):
@@ -62,15 +62,15 @@ class TestOntobeeImplementation(unittest.TestCase):
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("limb", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert "UBERON:0002101" in curies
         config = SearchConfiguration(is_partial=False, properties=[SearchProperty.LABEL])
         curies = list(self.oi.basic_search("limb", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert "UBERON:0002101" in curies
         config = SearchConfiguration(is_partial=False, properties=[SearchProperty.ALIAS])
         curies = list(self.oi.basic_search("limb", config=config))
-        # print(curies)
+        # logging.info(curies)
         assert "UBERON:0002101" in curies
         assert len(curies) > 1
 
@@ -78,20 +78,20 @@ class TestOntobeeImplementation(unittest.TestCase):
         config = SearchConfiguration(is_partial=True)
         # non-exact matches across all ontobee are slow: restrict to pato
         curies = list(self.pato_graph_oi.basic_search("diameter", config=config))
-        # print(curies)
+        # logging.info(curies)
         self.assertGreater(len(curies), 1)
         assert "PATO:0001334" in curies
 
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.pato_graph_oi.basic_search("diamet", config=config))
-        # print(curies)
+        # logging.info(curies)
         # self.assertGreater(len(curie), 1)
         assert "PATO:0001334" in curies
 
     def test_search_regex(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.pato_graph_oi.basic_search("ed diameter$", config=config))
-        print(curies)
+        logging.info(curies)
         # self.assertGreater(len(curie), 1)
         assert "PATO:0001714" in curies

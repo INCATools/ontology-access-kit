@@ -220,7 +220,7 @@ output_option = click.option(
     "-o",
     "--output",
     type=click.File(mode="w"),
-    default=sys.stdout,
+    default="-",
     help="Output file, e.g. obo file",
 )
 output_type_option = click.option(
