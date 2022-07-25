@@ -31,7 +31,8 @@ class TestStructuralDiff(unittest.TestCase):
         self.owl_oi = SparqlImplementation(OntologyResource(str(TEST_OWL)))
 
     def test_structural_diff(self):
-        expected_results = yaml.safe_load(open(EXPECTED))
+        with open(EXPECTED) as f:
+            expected_results = yaml.safe_load(f)
         expected_results = [RelationalDiff(**obj) for obj in expected_results]
         for oi in [self.oi, self.owl_oi]:
             results = list(calculate_pairwise_relational_diff(oi, oi, ["X", "Y", "Z"]))
@@ -39,7 +40,8 @@ class TestStructuralDiff(unittest.TestCase):
             self.assertCountEqual(expected_results, results)
 
     def test_structural_diff_with_preds(self):
-        expected_results = yaml.safe_load(open(EXPECTED))
+        with open(EXPECTED) as f:
+            expected_results = yaml.safe_load(f)
         expected_results = [RelationalDiff(**obj) for obj in expected_results]
         for oi in [self.oi, self.owl_oi]:
             results = list(
@@ -52,7 +54,7 @@ class TestStructuralDiff(unittest.TestCase):
             results = list(
                 calculate_pairwise_relational_diff(oi, oi, ["X", "Y", "Z"], predicates=[PART_OF])
             )
-            # print(yaml_dumper.dumps(results))
+            # logging.info(yaml_dumper.dumps(results))
             self.assertEqual(2, len(results))
 
     def test_restrict_to_sources(self):

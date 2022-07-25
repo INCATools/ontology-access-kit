@@ -28,11 +28,11 @@ class TestSubsetUtils(unittest.TestCase):
         oi = self.oi
         term_curies = [t for t in oi.entities() if t.startswith("GO:")]
         for subset in oi.subsets():
-            # print(f'SUBSET: {subset}')
+            # logging.info(f'SUBSET: {subset}')
             m = roll_up_to_named_subset(self.oi, subset, term_curies, predicates=[IS_A, PART_OF])
             n = 0
             for _, mapped_to in m.items():
-                # print(f'm[{term}] == {mapped_to}')
+                # logging.info(f'm[{term}] == {mapped_to}')
                 n += len(mapped_to)
             if subset.startswith("chebi"):
                 assert n == 0

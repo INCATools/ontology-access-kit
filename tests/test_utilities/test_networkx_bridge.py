@@ -40,14 +40,14 @@ class TestNetworkxBridge(unittest.TestCase):
         assert len(paths) > 10
         # paths = list(nx.shortest_simple_paths(self.mdg, BIOLOGICAL_PROCESS, KINASE_ACTIVATOR_ACTIVITY))
         # for path in paths:
-        #    print(path)
+        #    logging.info(path)
         # assert len(paths) > 10
 
     def test_reduction(self):
         rels = [("a", IS_A, "b"), ("b", IS_A, "c"), ("a", IS_A, "c")]
         reduced = list(transitive_reduction(rels))
         # for r in reduced:
-        #    print(r)
+        #    logging.info(r)
         self.assertEqual(len(reduced), 2)
         self.assertCountEqual(
             reduced, [("a", "rdfs:subClassOf", "b"), ("b", "rdfs:subClassOf", "c")]
@@ -62,7 +62,7 @@ class TestNetworkxBridge(unittest.TestCase):
         rels = [("a", IS_A, "b"), ("b", IS_A, "c"), ("a", IS_A, "c")]
         reduced = list(transitive_reduction_by_predicate(rels))
         # for r in reduced:
-        #    print(r)
+        #    logging.info(r)
         self.assertEqual(len(reduced), 2)
         self.assertCountEqual(
             reduced, [("a", "rdfs:subClassOf", "b"), ("b", "rdfs:subClassOf", "c")]

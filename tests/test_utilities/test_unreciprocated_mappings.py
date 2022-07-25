@@ -23,11 +23,11 @@ class TestUnreciprocated(unittest.TestCase):
         for oi in [self.oi, self.owl_oi]:
             pairs = mappings_to_pairs(unreciprocated_mappings(oi, oi))
             # for p in pairs:
-            #    print(p)
+            #    logging.info(p)
             self.assertCountEqual(pairs, [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4")])
             pairs = mappings_to_pairs(unreciprocated_mappings(oi, oi, filter_unidirectional=False))
             # for p in pairs:
-            #    print(p)
+            #    logging.info(p)
             self.assertCountEqual(
                 pairs, [("X:5", "Y:5"), ("Y:2", "X:1"), ("Y:4", "X:4"), ("Y:4", "Z:4")]
             )
