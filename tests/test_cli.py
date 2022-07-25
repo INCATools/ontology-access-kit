@@ -2,6 +2,7 @@ import json
 import logging
 import re
 import unittest
+from typing import Optional
 
 import yaml
 from click.testing import CliRunner
@@ -27,9 +28,10 @@ from tests import (
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_DB = INPUT_DIR / "go-nucleus.db"
-TEST_DB = INPUT_DIR / "go-nucleus.db"
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
+TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
+TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
 TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 
@@ -43,8 +45,9 @@ class TestCommandLineInterface(unittest.TestCase):
         runner = CliRunner(mix_stderr=False)
         self.runner = runner
 
-    def _out(self) -> str:
-        return "".join(open(TEST_OUT).readlines())
+    def _out(self, path: Optional[str] = TEST_OUT) -> str:
+        with open(path) as f:
+            return "".join(f.readlines())
 
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
@@ -101,6 +104,29 @@ class TestCommandLineInterface(unittest.TestCase):
             # TODO:
             # assert 'GO:0016020 ! membrane' not in out
             assert "GO:0043226" not in out
+            # test fetching ancestor graph and saving as obo
+            self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "descendants",
+                    "-p",
+                    "i,p",
+                    "GO:0016020",
+                    "-O",
+                    "obo",
+                    "-o",
+                    TEST_OUT_OBO,
+                ],
+            )
+            self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT])
+            out = self._out(TEST_OUT)
+            logging.info(out)
+            assert "GO:0016020" in out
+            assert "GO:0031965" in out
+            assert "subClassOf" not in out
+            assert "BFO" not in out
 
     def test_gap_fill(self):
         result = self.runner.invoke(
@@ -189,9 +215,9 @@ class TestCommandLineInterface(unittest.TestCase):
             out = self._out()
             err = result.stderr
             if result.exit_code != 0:
-                print(f"INPUT: {input_arg} code = {result.exit_code}")
-                print(f"OUTPUT={out}")
-                print(f"ERR={err}")
+                logging.info(f"INPUT: {input_arg} code = {result.exit_code}")
+                logging.info(f"OUTPUT={out}")
+                logging.info(f"ERR={err}")
             logging.info(f"OUTPUT={out}")
             logging.info(f"ERR={err}")
             self.assertEqual(0, result.exit_code)
@@ -272,7 +298,7 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
             for t in search_tests:
-                print(f"{input_arg} // {t}")
+                logging.info(f"{input_arg} // {t}")
                 terms, complete, expected, excluded = t
                 if input_arg in excluded:
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
@@ -425,7 +451,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn(IMBO, out)
         with open(TEST_OUT) as f:
             obj = yaml.safe_load(f)
-            # print(obj)
+            # logging.info(obj)
             self.assertEqual(obj["subject_id"], NUCLEAR_MEMBRANE)
             self.assertEqual(obj["object_id"], VACUOLE)
             self.assertEqual(obj["ancestor_id"], IMBO)

@@ -31,7 +31,6 @@ class FunOwlImplementation(OwlInterface):
     """
 
     ontology_document: OntologyDocument = None
-    functional_writer: FunctionalWriter = None
 
     def __post_init__(self):
         if self.ontology_document is None:

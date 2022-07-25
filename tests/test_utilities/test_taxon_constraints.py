@@ -11,10 +11,10 @@ from oaklib.resource import OntologyResource
 from oaklib.types import TAXON_CURIE
 from oaklib.utilities.taxon.taxon_constraint_utils import (
     all_term_taxon_constraints,
+    eval_candidate_taxon_constraint,
     get_taxon_constraints_description,
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
-    test_candidate_taxon_constraint,
 )
 from tests import (
     BACTERIA,
@@ -62,7 +62,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         never, only, _ = all_term_taxon_constraints(oi, NUCLEAR_ENVELOPE, predicates=[IS_A])
         self.assertCountEqual([], never)
         st = get_term_with_taxon_constraints(oi, NUCLEAR_ENVELOPE, include_redundant=True)
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         never = [tc for tc in st.never_in if not tc.redundant]
         assert all(tc.redundant_with_only_in for tc in never)
         only = [tc for tc in st.only_in if not tc.redundant]
@@ -90,7 +90,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         oi = self.oi
         t = PHOTOSYNTHETIC_MEMBRANE
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertCountEqual(st.never_in, [])
         self.assertEqual(5, len(st.only_in))
         set([tc.taxon.id for tc in st.never_in])
@@ -101,14 +101,14 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         only_r = set([tc.taxon.id for tc in st.only_in if tc.redundant])
         self.assertCountEqual([PLANTS_OR_CYANOBACTERIA, CELLULAR_ORGANISMS], only)
         self.assertCountEqual([PLANTS_OR_CYANOBACTERIA], only_nr)
-        # print(only_r)
+        # logging.info(only_r)
         self.assertCountEqual([PLANTS_OR_CYANOBACTERIA, CELLULAR_ORGANISMS], only_r)
 
     def test_nuclear_envelope(self):
         oi = self.oi
         t = NUCLEAR_ENVELOPE
         st = get_term_with_taxon_constraints(oi, t, include_redundant=True)
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertEqual(2, len(st.never_in))
         self.assertEqual(3, len(st.only_in))
         never = set([tc.taxon.id for tc in st.never_in])
@@ -144,7 +144,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             )
 
         # test: refine the only_in, never_in already entailed
-        st = test_candidate_taxon_constraint(
+        st = eval_candidate_taxon_constraint(
             oi,
             make_tcs(
                 SOROCARP_STALK_DEVELOPMENT,
@@ -154,12 +154,12 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             ),
         )
         self.assertFalse(st.unsatisfiable)
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.never_in[0].redundant)
         self.assertTrue(st.never_in[0].redundant_with_only_in)
         self.assertFalse(st.only_in[0].redundant)
         # test: identical only_in, [fake] more specific never_in
-        st = test_candidate_taxon_constraint(
+        st = eval_candidate_taxon_constraint(
             oi,
             make_tcs(
                 SOROCARP_STALK_DEVELOPMENT,
@@ -168,7 +168,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 [FUNGI_OR_DICTYOSTELIUM],
             ),
         )
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
         self.assertFalse(st.never_in[0].redundant_with_only_in)
         self.assertTrue(st.only_in[0].redundant)
@@ -177,7 +177,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             st.only_in[0].redundant_with[0].via_terms[0].id, SOROCARP_STALK_DEVELOPMENT
         )
         # test: multiple
-        st = test_candidate_taxon_constraint(
+        st = eval_candidate_taxon_constraint(
             oi,
             make_tcs(
                 SOROCARP_STALK_DEVELOPMENT,
@@ -186,7 +186,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 [DICTYOSTELIUM_DISCOIDEUM],
             ),
         )
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
         [never_in_fungi] = [tc for tc in st.never_in if tc.taxon.id == FUNGI]
         self.assertTrue(never_in_fungi.redundant)
@@ -205,7 +205,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(only_in_union.redundant_with[0].taxon.id, DICTYOSTELIUM)
         # self.assertEqual(only_in_union.redundant_with[0].via_terms[0].id, SOROCARP_STALK_DEVELOPMENT)
         # test: nuclear envelope, redundant assertsion
-        st = test_candidate_taxon_constraint(
+        st = eval_candidate_taxon_constraint(
             oi,
             make_tcs(
                 NUCLEAR_ENVELOPE,
@@ -214,7 +214,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
                 [HUMAN, DICTYOSTELIUM_DISCOIDEUM],
             ),
         )
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
         self.assertTrue(st.never_in[0].redundant)
         self.assertTrue(st.never_in[0].redundant_with_only_in)
@@ -223,10 +223,10 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(st.only_in[0].redundant_with[0].taxon.id, EUKARYOTA)
         self.assertEqual(st.only_in[0].redundant_with[0].via_terms[0].id, NUCLEUS)
         # test: nuclear envelope, [fake] non-redundant
-        st = test_candidate_taxon_constraint(
+        st = eval_candidate_taxon_constraint(
             oi, make_tcs(NUCLEAR_ENVELOPE, [CELLULAR_ORGANISMS], [BACTERIA], [HUMAN, DICTYOSTELIUM])
         )
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.unsatisfiable)
         self.assertTrue(st.never_in[0].redundant)
         self.assertTrue(st.never_in[0].redundant_with_only_in)
@@ -235,29 +235,29 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
         self.assertEqual(st.only_in[0].redundant_with[0].taxon.id, EUKARYOTA)
         self.assertEqual(st.only_in[0].redundant_with[0].via_terms[0].id, NUCLEUS)
         # fake assertion
-        st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [MAMMALIA], [HUMAN], [FUNGI]))
+        st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [MAMMALIA], [HUMAN], [FUNGI]))
         self.assertFalse(st.unsatisfiable)
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertFalse(st.never_in[0].redundant)
         self.assertFalse(st.never_in[0].redundant_with_only_in)
         self.assertFalse(st.only_in[0].redundant)
         # bad ID
         with self.assertRaises(ValueError):
-            st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], ["X:1"]))
+            st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], ["X:1"]))
         with self.assertRaises(ValueError):
-            st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, ["X:1"], []))
-        st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], []))
+            st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, ["X:1"], []))
+        st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], []))
         assert st.never_in == []
         assert st.only_in == []
         # test: unsat, from never in
-        st = test_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], [CELLULAR_ORGANISMS]))
-        # print(yaml_dumper.dumps(st))
+        st = eval_candidate_taxon_constraint(oi, make_tcs(NUCLEUS, [], [CELLULAR_ORGANISMS]))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertTrue(st.unsatisfiable)
         # test: unsat, from never in [FAKE EXAMPLE]
-        st = test_candidate_taxon_constraint(
+        st = eval_candidate_taxon_constraint(
             oi, make_tcs(NUCLEUS, [], [DICTYOSTELIUM], [DICTYOSTELIUM_DISCOIDEUM])
         )
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
         self.assertTrue(st.unsatisfiable)
 
     def test_taxon_subclass(self):
@@ -266,7 +266,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
     def test_unsatisfiable(self):
         fake_oi = self.fake_oi
         get_term_with_taxon_constraints(fake_oi, PHOTOSYNTHETIC_MEMBRANE)
-        # print(yaml_dumper.dumps(st))
+        # logging.info(yaml_dumper.dumps(st))
 
     def test_all(self):
         oi = self.oi
@@ -275,7 +275,7 @@ class TestTaxonConstraintsUtils(unittest.TestCase):
             st = get_term_with_taxon_constraints(oi, t)
             logging.info(yaml_dumper.dumps(st))
             get_taxon_constraints_description(oi, st)
-            # print(desc)
+            # logging.info(desc)
 
     def test_parser(self):
         with open(GAIN_LOSS_FILE) as file:

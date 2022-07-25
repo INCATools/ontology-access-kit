@@ -37,7 +37,7 @@ import rdflib
 import sssom.writers as sssom_writers
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
@@ -53,7 +53,6 @@ from oaklib.datamodels.vocabulary import (
     PART_OF,
     RDF_TYPE,
 )
-from oaklib.implementations import ProntoImplementation
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
 )
@@ -74,6 +73,7 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
@@ -119,9 +119,9 @@ from oaklib.utilities.obograph_utils import (
 from oaklib.utilities.subsets.slimmer_utils import roll_up_to_named_subset
 from oaklib.utilities.table_filler import ColumnDependency, TableFiller, TableMetadata
 from oaklib.utilities.taxon.taxon_constraint_utils import (
+    eval_candidate_taxon_constraint,
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
-    test_candidate_taxon_constraint,
 )
 
 OBO_FORMAT = "obo"
@@ -220,7 +220,7 @@ output_option = click.option(
     "-o",
     "--output",
     type=click.File(mode="w"),
-    default=sys.stdout,
+    default="-",
     help="Output file, e.g. obo file",
 )
 output_type_option = click.option(
@@ -969,20 +969,9 @@ def viz(
         logging.info(f"Drawing graph seeded from {curies}")
         if meta:
             impl.add_metadata(graph)
-        if output_type == "json":
-            if output:
-                json_dumper.dump(graph, to_file=output, inject_type=False)
-            else:
-                print(json_dumper.dumps(graph))
-        elif output_type == "yaml":
-            if output:
-                yaml_dumper.dump(graph, to_file=output, inject_type=False)
-            else:
-                print(yaml_dumper.dumps(graph))
-        elif output_type == "obo":
-            output_oi = ProntoImplementation()
-            output_oi.load_graph(graph, replace=True)
-            output_oi.store(OntologyResource(slug=output, local=True, format="obo"))
+        # TODO: abstract this out
+        if output_type:
+            write_graph(graph, format=output_type, output=output)
         else:
             imgfile = graph_to_image(
                 graph, seeds=curies, stylemap=stylemap, configure=configure, imgfile=output
@@ -1934,12 +1923,9 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
             conditions.references = list(references)
         if axiom_type:
             conditions.set_type(axiom_type)
-        axioms = list(impl.filter_axioms(conditions=conditions))
-        impl.set_axioms(axioms)
-        if settings.autosave:
-            impl.save()
-        if output:
-            impl.dump(output, syntax=output_type)
+        for axiom in impl.filter_axioms(conditions=conditions):
+            print(axiom)
+
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2054,7 +2040,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
         impl.enable_transitive_query_cache()
         for st in sts:
             try:
-                st = test_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
+                st = eval_candidate_taxon_constraint(impl, st, predicates=actual_predicates)
                 writer.emit(st)
             except ValueError as e:
                 logging.error(f"Error with TC: {e}")
@@ -2240,7 +2226,12 @@ def set_apikey(endpoint, keyval):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
-@click.option("--rules-file", "-R", help="path to rules file. Conforms to rules_datamodel.")
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
 @click.option(
     "--add-labels/--no-add-labels",
     default=False,
@@ -2255,8 +2246,7 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
-    """
-    Generates lexical index and mappings
+    """Generates lexical index and mappings.
 
     See :ref:`.lexical_index_to_sssom`
 

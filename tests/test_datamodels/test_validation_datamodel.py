@@ -1,3 +1,4 @@
+import logging
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -14,7 +15,7 @@ class TestValidationDatamodel(unittest.TestCase):
         """
         severity = vdm.SeverityOptions(vdm.SeverityOptions.ERROR)
         r1 = vdm.ValidationResult(subject="FOO:1", type="sh:Test", severity=severity)
-        print(type(r1.severity))
+        logging.info(type(r1.severity))
         vr = vdm.ValidationReport(results=[r1])
         yaml_dumper.dump(vr, output_path("validation_report.vdm.yaml"))
         op1 = vdm.RepairOperation(repairs=r1, modified=True)
