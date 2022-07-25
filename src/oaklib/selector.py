@@ -4,7 +4,7 @@ import pkgutil
 from pathlib import Path
 from typing import Optional, Type
 
-from oaklib import BasicOntologyInterface, OntologyResource
+from oaklib import BasicOntologyInterface
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.bioportal.agroportal_implementation import (
     AgroportalImplementation,
@@ -24,6 +24,7 @@ from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )
 from oaklib.interfaces import OntologyInterface
+from oaklib.resource import OntologyResource
 
 discovered_plugins = {
     name: importlib.import_module(name)
