@@ -94,13 +94,13 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def node(self, curie: CURIE, strict=False, include_annotations=False) -> Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False) -> Node:
         """
         Look up a node object by CURIE
 
         :param curie: identifier of node
         :param strict: raise exception if node not found
-        :param include_annotations: include detailed metadata
+        :param include_metadata: include detailed metadata
         :return:
         """
         raise NotImplementedError
@@ -126,7 +126,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             if s not in node_map:
                 node_map[s] = self.node(s)
             if p not in node_map:
-                node_map[p] = self.node(p)
+                p_node = self.node(p)
+                p_node.type = "PROPERTY"
+                node_map[p] = p_node
             if o not in node_map:
                 node_map[o] = self.node(o)
             edges.append(Edge(sub=s, pred=p, obj=o))
@@ -283,6 +285,14 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         return walk_up(self, start_curies, predicates=predicates)
+
+    def add_metadata(self, graph: Graph) -> None:
+        """
+        Decorates the graph with meta objects on all nodes
+        :param graph:
+        :return:
+        """
+        graph.nodes = [self.node(n.id, include_metadata=True) for n in graph.nodes]
 
     def as_obograph(self) -> Graph:
         """

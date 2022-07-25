@@ -58,7 +58,7 @@ class LexicalTransformationPipelineName(extended_str):
 @dataclass
 class LexicalIndex(YAMLRoot):
     """
-    An index over an ontology keyed by lexical unit
+    An index over an ontology keyed by lexical unit.
     """
 
     _inherited_slots: ClassVar[List[str]] = []

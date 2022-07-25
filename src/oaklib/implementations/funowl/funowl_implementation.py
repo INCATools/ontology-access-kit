@@ -31,7 +31,6 @@ class FunOwlImplementation(OwlInterface):
     """
 
     ontology_document: OntologyDocument = None
-    functional_writer: FunctionalWriter = None
 
     def __post_init__(self):
         if self.ontology_document is None:
@@ -51,7 +50,7 @@ class FunOwlImplementation(OwlInterface):
     def _ontology(self):
         return self.ontology_document.ontology
 
-    def get_prefix_map(self) -> PREFIX_MAP:
+    def prefix_map(self) -> PREFIX_MAP:
         # TODO
         return DEFAULT_PREFIX_MAP
 
@@ -64,7 +63,7 @@ class FunOwlImplementation(OwlInterface):
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         # TODO: do not hardcode OBO
-        pm = self.get_prefix_map()
+        pm = self.prefix_map()
         for k, v in pm.items():
             if uri.startswith(v):
                 return uri.replace(v, f"{k}:")
@@ -73,7 +72,7 @@ class FunOwlImplementation(OwlInterface):
             return uri.replace("_", ":")
         return uri
 
-    def get_label_by_curie(self, curie: CURIE) -> str:
+    def label(self, curie: CURIE) -> str:
         labels = [
             a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)
         ]
@@ -87,7 +86,7 @@ class FunOwlImplementation(OwlInterface):
             else:
                 raise ValueError(f"Label must be literal, not {label}")
 
-    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         for ax in self._ontology.axioms:
             if isinstance(ax, Declaration):
                 uri = ax.v.full_uri(self.functional_writer.g)
@@ -143,7 +142,7 @@ class FunOwlImplementation(OwlInterface):
             elif isinstance(patch, kgcl.NodeDeletion):
                 raise NotImplementedError
             elif isinstance(patch, kgcl.NameBecomesSynonym):
-                label = self.get_label_by_curie(about)
+                label = self.label(about)
                 self.apply_patch(
                     kgcl.NodeRename(id=f"{patch.id}-1", about_node=about, new_value=patch.new_value)
                 )

@@ -1,20 +1,20 @@
 import logging
 import re
+import sys
 import tempfile
 
 # https://github.com/althonos/pronto/issues/173
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import pronto
-import sssom
+import sssom_schema as sssom
 from deprecated import deprecated
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from pronto import LiteralPropertyValue, Ontology, ResourcePropertyValue, Term
-from sssom.sssom_datamodel import MatchTypeEnum
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
@@ -28,6 +28,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
+    SEMAPV,
     SKOS_CLOSE_MATCH,
 )
 from oaklib.interfaces.basic_ontology_interface import (
@@ -83,7 +84,7 @@ class ProntoImplementation(
 
     .. code:: python
 
-        rels = oi.get_outgoing_relationships_by_curie('GO:0005773')
+        rels = oi.outgoing_relationships('GO:0005773')
         for rel, parents in rels.items():
             print(f'  {rel} ! {oi.get_label_by_curie(rel)}')
                 for parent in parents:
@@ -116,8 +117,11 @@ class ProntoImplementation(
             resource = self.resource
         ontology = self.wrapped_ontology
         if resource.local:
-            with open(str(resource.local_path), "wb") as f:
-                ontology.dump(f, format=resource.format)
+            if resource.slug:
+                with open(str(resource.local_path), "wb") as f:
+                    ontology.dump(f, format=resource.format)
+            else:
+                ontology.dump(sys.stdout.buffer, format=resource.format)
         else:
             raise NotImplementedError(f"Cannot dump to {resource}")
 
@@ -128,10 +132,10 @@ class ProntoImplementation(
             ont = Ontology()
             self.wrapped_ontology = ont
         for n in graph.nodes:
-            if n == IS_A:
+            if n.id == IS_A:
                 pass
             else:
-                self.create_entity(n.id, n.lbl)
+                self.create_entity(n.id, n.lbl, type=n.type)
         for e in graph.edges:
             self.add_relationship(e.sub, e.pred, e.obj)
 
@@ -153,7 +157,7 @@ class ProntoImplementation(
     # Implements: BasicOntologyInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_prefix_map(self) -> PREFIX_MAP:
+    def prefix_map(self) -> PREFIX_MAP:
         return {}
 
     def _entity(self, curie: CURIE, strict=False):
@@ -185,7 +189,7 @@ class ProntoImplementation(
         else:
             return self.wrapped_ontology.create_relationship(curie)
 
-    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
             if filter_obsoletes and t.obsolete:
                 continue
@@ -204,7 +208,7 @@ class ProntoImplementation(
                 continue
             yield t.id
 
-    def all_obsolete_curies(self) -> Iterable[CURIE]:
+    def obsoletes(self) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
             if t.obsolete:
                 yield t.id
@@ -213,19 +217,19 @@ class ProntoImplementation(
             if t.obsolete:
                 yield t.id
 
-    def all_subset_curies(self) -> Iterable[CURIE]:
+    def subsets(self) -> Iterable[CURIE]:
         subsets = set()
         for t in self.wrapped_ontology.terms():
             subsets.update(t.subsets)
         for subset in subsets:
             yield subset
 
-    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
             if subset in t.subsets:
                 yield t.id
 
-    def get_label_by_curie(self, curie: CURIE) -> str:
+    def label(self, curie: CURIE) -> str:
         t = self._entity(curie)
         if t:
             return t.name
@@ -235,7 +239,7 @@ class ProntoImplementation(
             else:
                 return None
 
-    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+    def set_label(self, curie: CURIE, label: str) -> bool:
         t = self._entity(curie)
         if t:
             curr = t.name
@@ -245,7 +249,7 @@ class ProntoImplementation(
             else:
                 return False
 
-    def get_curies_by_label(self, label: str) -> List[CURIE]:
+    def curies_by_label(self, label: str) -> List[CURIE]:
         return [t.id for t in self.wrapped_ontology.terms() if t.name == label]
 
     def _get_pronto_relationship_type_curie(self, rel_type: pronto.Relationship) -> CURIE:
@@ -254,9 +258,7 @@ class ProntoImplementation(
                 return x.id
         return rel_type.id
 
-    def get_outgoing_relationship_map_by_curie(
-        self, curie: CURIE, isa_only: bool = False
-    ) -> RELATIONSHIP_MAP:
+    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         # See: https://github.com/althonos/pronto/issues/119
         term = self._entity(curie)
         if isinstance(term, Term):
@@ -269,9 +271,7 @@ class ProntoImplementation(
             rels = {}
         return rels
 
-    def get_incoming_relationship_map_by_curie(
-        self, curie: CURIE, isa_only: bool = False
-    ) -> RELATIONSHIP_MAP:
+    def incoming_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         term = self._entity(curie)
         if isinstance(term, Term):
             # only "Terms" in pronto have relationships
@@ -289,10 +289,19 @@ class ProntoImplementation(
         return rels
 
     def create_entity(
-        self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
+        self,
+        curie: CURIE,
+        label: Optional[str] = None,
+        relationships: Optional[RELATIONSHIP_MAP] = None,
+        type: Optional[str] = None,
     ) -> CURIE:
         ont = self.wrapped_ontology
-        t = ont.create_term(curie)
+        if not type or type == "CLASS":
+            t = ont.create_term(curie)
+        elif type == "PROPERTY":
+            t = ont.create_relationship(curie)
+        else:
+            raise ValueError(f"Pronto cannot handle type of {type} for {curie}")
         t.name = label
         if relationships:
             for pred, fillers in relationships.items():
@@ -311,10 +320,10 @@ class ProntoImplementation(
                 t.relationships[predicate_term] = []
             t.relationships[predicate_term].add(filler_term)
 
-    def get_definition_by_curie(self, curie: CURIE) -> str:
+    def definition(self, curie: CURIE) -> str:
         return self._entity(curie).definition
 
-    def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         t = self._entity(curie)
         if t is None:
             return {}
@@ -329,7 +338,7 @@ class ProntoImplementation(
             m[pred].append(s.description)
         return m
 
-    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         m = defaultdict(list)
         t = self._entity(curie)
         if t is None:
@@ -347,7 +356,7 @@ class ProntoImplementation(
                 elif isinstance(s, ResourcePropertyValue):
                     yield s.property, self.uri_to_curie(s.resource)
 
-    def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
+    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
         m = defaultdict(list)
         for ann in t.annotations:
@@ -386,10 +395,10 @@ class ProntoImplementation(
                     subject_id=curie,
                     predicate_id=SKOS_CLOSE_MATCH,
                     object_id=x.id,
-                    match_type=MatchTypeEnum.Unspecified,
+                    mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
         # TODO: use a cache to avoid re-calculating
-        for e in self.all_entity_curies():
+        for e in self.entities():
             t = self._entity(e)
             if t:
                 for x in t.xrefs:
@@ -398,37 +407,40 @@ class ProntoImplementation(
                             subject_id=e,
                             predicate_id=SKOS_CLOSE_MATCH,
                             object_id=curie,
-                            match_type=MatchTypeEnum.Unspecified,
+                            mapping_justification=SEMAPV.UnspecifiedMatching.value,
                         )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
         t = self._entity(curie)
         if t is None:
             return obograph.Node(id=curie)
         else:
             meta = obograph.Meta()
-            if t.definition:
-                meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
             if isinstance(t, pronto.Relationship):
                 t_id = self._get_pronto_relationship_type_curie(t)
             else:
                 t_id = t.id
-            if isinstance(t, pronto.Relationship):
-                for x in t.xrefs:
-                    if x.id.startswith("RO:") or x.id.startswith("BFO:"):
-                        t_id = x.id
-            # for s in t.synonyms:
-            #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
-            #                                                       scope=s.scope.lower(),
-            #                                                      xrefs=[x.id for x in s.xrefs]))
+            if include_metadata:
+                if t.definition:
+                    meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
+                if t.xrefs:
+                    meta.xrefs = [obograph.XrefPropertyValue(val=x.id) for x in t.xrefs]
+                if isinstance(t, pronto.Relationship):
+                    for x in t.xrefs:
+                        if x.id.startswith("RO:") or x.id.startswith("BFO:"):
+                            t_id = x.id
+                # for s in t.synonyms:
+                #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
+                #                                                       scope=s.scope.lower(),
+                #                                                      xrefs=[x.id for x in s.xrefs]))
             return obograph.Node(id=t_id, lbl=t.name, meta=meta)
 
     def as_obograph(self) -> Graph:
-        nodes = [self.node(curie) for curie in self.all_entity_curies()]
+        nodes = [self.node(curie) for curie in self.entities()]
         edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
         return Graph(id="TODO", nodes=nodes, edges=edges)
 
@@ -485,8 +497,15 @@ class ProntoImplementation(
         pass
 
     def apply_patch(self, patch: kgcl.Change) -> None:
+        def _clean(v: str) -> str:
+            # TODO: remove this when this is fixed: https://github.com/INCATools/kgcl-rdflib/issues/43
+            if v.startswith("'"):
+                return v.replace("'", "")
+            else:
+                return v
+
         if isinstance(patch, kgcl.NodeRename):
-            self.set_label_for_curie(patch.about_node, patch.new_value)
+            self.set_label(patch.about_node, _clean(patch.new_value))
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True
@@ -500,5 +519,9 @@ class ProntoImplementation(
             for syn in t.synonyms:
                 if syn.description == patch.old_value:
                     syn.description = patch.new_value
+        elif isinstance(patch, kgcl.NewSynonym):
+            t = self._entity(patch.about_node, strict=True)
+            t.add_synonym(description=patch.new_value, scope="RELATED")
+
         else:
             raise NotImplementedError

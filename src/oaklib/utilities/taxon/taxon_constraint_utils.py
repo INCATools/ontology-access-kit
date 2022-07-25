@@ -25,7 +25,7 @@ def _taxon_ids(tcs: List[TaxonConstraint]) -> List[TAXON_CURIE]:
 def get_direct_taxon_constraints(
     oi: OboGraphInterface, curie: CURIE
 ) -> Iterator[Tuple[PRED_CURIE, TAXON_CURIE]]:
-    for pred, taxons in oi.get_outgoing_relationship_map_by_curie(curie).items():
+    for pred, taxons in oi.outgoing_relationship_map(curie).items():
         if pred in TAXON_PREDICATES:
             if pred == ONLY_IN_TAXON:
                 pred = IN_TAXON
@@ -71,16 +71,16 @@ def _fill_missing(st: SubjectTerm):
 
 def inject_labels(oi: OboGraphInterface, st: SubjectTerm):
     if st.label is None:
-        st.label = oi.get_label_by_curie(st.id)
+        st.label = oi.label(st.id)
     for r in st.only_in + st.never_in + st.present_in + st.present_in_ancestor_of:
         if r.taxon.label is None:
-            r.taxon.label = oi.get_label_by_curie(r.taxon.id)
+            r.taxon.label = oi.label(r.taxon.id)
         for t in r.via_terms:
             if t.label is None:
-                t.label = oi.get_label_by_curie(t.id)
+                t.label = oi.label(t.id)
 
 
-def test_candidate_taxon_constraint(
+def eval_candidate_taxon_constraint(
     oi: OboGraphInterface,
     candidate_st: SubjectTerm,
     predicates: List[PRED_CURIE] = None,
@@ -89,7 +89,7 @@ def test_candidate_taxon_constraint(
     """
     Evaluate a proposed SubjectTerm plus its taxon constraints against the existing database
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :param candidate_st:
     :param predicates:
     :return:
@@ -103,7 +103,7 @@ def test_candidate_taxon_constraint(
     candidate_never = [tc.taxon.id for tc in candidate_st.never_in]
     # msgs = []
     for candidate_tc in candidate_st.only_in:
-        if not oi.get_label_by_curie(candidate_tc.taxon.id):
+        if not oi.label(candidate_tc.taxon.id):
             raise ValueError(f"Unknown taxon: {candidate_tc.taxon.id}")
         if not candidate_tc.redundant:
             for other_candidate_tc in candidate_st.only_in:
@@ -154,7 +154,7 @@ def test_candidate_taxon_constraint(
                 candidate_st.unsatisfiable = True
                 tc.contradicted_by(pos_tc)
     for candidate_tc in candidate_st.never_in:
-        if not oi.get_label_by_curie(candidate_tc.taxon.id):
+        if not oi.label(candidate_tc.taxon.id):
             raise ValueError(f"Unknown taxon: {candidate_tc.taxon.id}")
         if not candidate_tc.redundant:
             for anc in oi.ancestors(candidate_tc.taxon.id, predicates):
@@ -191,14 +191,14 @@ def get_term_with_taxon_constraints(
 
     This implements taxon constraints using a graph walking strategy rather than a reasoning strategy
 
-    :param oi:
+     An ontology interface for making label lookups.
     :param curie: subject identifier
     :param predicates: predicates to traverse from subject term to term with constraint
     :param include_redundant:
     :param add_labels:
     :return:
     """
-    label = oi.get_label_by_curie(curie)
+    label = oi.label(curie)
     st = SubjectTerm(curie, label=label)
     if label is None:
         raise ValueError(f"Unknown term: {curie}")
@@ -334,7 +334,7 @@ def parse_gain_loss_file(file: TextIO) -> Iterator[SubjectTerm]:
 
 def get_taxon_constraints_description(oi: OboGraphInterface, st: SubjectTerm) -> str:
     def td(t: CURIE) -> str:
-        return f'{t} "{oi.get_label_by_curie(t)}"'
+        return f'{t} "{oi.label(t)}"'
 
     def tds(ts: List[CURIE]) -> List[str]:
         return [td(t) for t in ts]

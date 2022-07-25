@@ -131,9 +131,7 @@ class UbergraphImplementation(
             subj = self.uri_to_curie(row["s"]["value"])
             yield pred, subj
 
-    def get_outgoing_relationship_map_by_curie(
-        self, curie: CURIE, isa_only: bool = False
-    ) -> RELATIONSHIP_MAP:
+    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, obj in self._get_outgoing_edges_by_curie(
             curie, graph=RelationGraphEnum.nonredundant
@@ -141,9 +139,7 @@ class UbergraphImplementation(
             rmap[pred].append(obj)
         return rmap
 
-    def get_incoming_relationship_map_by_curie(
-        self, curie: CURIE, isa_only: bool = False
-    ) -> RELATIONSHIP_MAP:
+    def incoming_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for pred, s in self._get_incoming_edges_by_curie(
             curie, graph=RelationGraphEnum.nonredundant
@@ -151,7 +147,7 @@ class UbergraphImplementation(
             rmap[pred].append(s)
         return rmap
 
-    def get_relationships(
+    def relationships(
         self,
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
@@ -227,8 +223,8 @@ class UbergraphImplementation(
             graph=graph,
             where=[
                 "?s ?p ?o",
-                self._sparql_values("s", subject_uris),
-                self._sparql_values("p", predicate_uris),
+                _sparql_values("s", subject_uris),
+                _sparql_values("p", predicate_uris),
             ]
             + where,
         )
@@ -416,7 +412,7 @@ class UbergraphImplementation(
         best_mrcas = [a for a in ics if ics[a] == max_ic]
         mrca = best_mrcas[0]
         sim = TermPairwiseSimilarity(subject_id=subject, object_id=object, ancestor_id=mrca)
-        for curie, label in self.get_labels_for_curies([subject, object, mrca]):
+        for curie, label in self.labels([subject, object, mrca]):
             if label is None:
                 continue
             # print(f'C={curie} L={label}')

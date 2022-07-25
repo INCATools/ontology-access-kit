@@ -3,6 +3,8 @@ from abc import ABC
 from dataclasses import field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
+from deprecation import deprecated
+
 from oaklib.datamodels.vocabulary import (
     BIOPORTAL_PURL,
     IS_A,
@@ -13,6 +15,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 NC_NAME = str
 PREFIX_MAP = Dict[NC_NAME, URI]
@@ -78,25 +81,29 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     strict: bool = False
     autosave: bool = field(default_factory=lambda: True)
 
-    def get_prefix_map(self) -> PREFIX_MAP:
+    def prefix_map(self) -> PREFIX_MAP:
         """
-        Returns all prefixes known to the resource plus their URI expansion
+        Returns a dictionary mapping all prefixes known to the resource to their URI expansion
 
-        :return:
+        :return: prefix map
         """
         raise NotImplementedError
 
+    @deprecated("Replaced by prefix_map")
+    def get_prefix_map(self) -> PREFIX_MAP:
+        return self.prefix_map()
+
     def curie_to_uri(self, curie: CURIE, strict=False) -> Optional[URI]:
         """
-        Expands a CURIE
+        Expands a CURIE to a URI
 
         :param curie:
-        :param strict:
+        :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
         :return:
         """
         if curie.startswith("http"):
             return curie
-        pm = self.get_prefix_map()
+        pm = self.prefix_map()
         parts = curie.split(":")
         if len(parts) == 2:
             pfx, local_id = parts
@@ -113,7 +120,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
         """
-        Contracts a URI
+        Contracts a URI to a CURIE
 
         If strict conditions hold, then no URI can map to more than one CURIE
         (i.e one URI base should not start with another).
@@ -122,7 +129,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict: Boolean [default: True]
         :return: CURIE
         """
-        pm = self.get_prefix_map()
+        pm = self.prefix_map()
         for k, v in pm.items():
             if uri.startswith(v):
                 return uri.replace(v, f"{k}:")
@@ -136,7 +143,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             return uri.replace("_", ":")
         return uri
 
-    def all_ontology_curies(self) -> Iterable[CURIE]:
+    def ontologies(self) -> Iterable[CURIE]:
         """
         returns iterator over all known ontology CURIEs
 
@@ -147,13 +154,25 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def all_obsolete_curies(self) -> Iterable[CURIE]:
+    @deprecated("Replaced by ontologies()")
+    def ontology_curies(self) -> Iterable[CURIE]:
+        return self.ontologies()
+
+    @deprecated("Replaced by ontology_curies")
+    def all_ontology_curies(self) -> Iterable[CURIE]:
+        return self.ontologies()
+
+    def obsoletes(self) -> Iterable[CURIE]:
         """
         returns iterator over all known CURIEs that are obsolete
 
         :return: iterator
         """
         raise NotImplementedError
+
+    @deprecated("Replaced by obsoletes()")
+    def all_obsolete_curies(self) -> Iterable[CURIE]:
+        return self.obsoletes()
 
     def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
         """
@@ -172,7 +191,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def all_entity_curies(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
+    def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
         returns iterator over all known entity CURIEs
 
@@ -182,8 +201,16 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    @deprecated("Replaced by entities")
+    def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
+        return self.entities(**kwargs)
+
     def roots(
-        self, predicates: List[PRED_CURIE] = None, ignore_owl_thing=True, filter_obsoletes=True
+        self,
+        predicates: List[PRED_CURIE] = None,
+        ignore_owl_thing=True,
+        filter_obsoletes=True,
+        id_prefixes: List[CURIE] = None,
     ) -> Iterable[CURIE]:
         """
         All root nodes, where root is defined as any node that is not the subject of
@@ -192,15 +219,22 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates:
         :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
+        :param id_prefixes: limit search to specific prefixes
         :return:
         """
-        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
-        candidates = all_curies
+        # this interface-level method should be replaced by specific implementations
+        logging.info("Using naive approach for root detection, may be slow")
+        candidates = []
+        for curie in self.entities(owl_type=OWL_CLASS):
+            if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
+                candidates.append(curie)
         logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
             if subject == object:
                 continue
             if ignore_owl_thing and object == OWL_THING:
+                continue
+            if not (id_prefixes is None or get_curie_prefix(object) in id_prefixes):
                 continue
             # if object not in all_curies:
             #    continue
@@ -209,7 +243,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                     candidates.remove(subject)
                     logging.debug(f"Not a root: {subject} [{pred} {object}]")
         if filter_obsoletes:
-            exclusion_list = list(self.all_obsolete_curies())
+            exclusion_list = list(self.obsoletes())
         else:
             exclusion_list = []
         exclusion_list += [OWL_THING, OWL_NOTHING]
@@ -229,7 +263,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
         """
-        all_curies = set(list(self.all_entity_curies(owl_type=OWL_CLASS)))
+        all_curies = set(list(self.entities(owl_type=OWL_CLASS)))
         candidates = all_curies
         logging.info(f"Candidates: {len(candidates)}")
         for subject, pred, object in self.all_relationships():
@@ -242,7 +276,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                     candidates.remove(object)
                     logging.debug(f"Not a leaf: {object} [inv({pred}) {subject}]")
         if filter_obsoletes:
-            exclusion_list = list(self.all_obsolete_curies())
+            exclusion_list = list(self.obsoletes())
         else:
             exclusion_list = []
         exclusion_list += [OWL_THING, OWL_NOTHING]
@@ -250,7 +284,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             if term not in exclusion_list:
                 yield term
 
-    def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
+    def subsets(self) -> Iterable[SUBSET_CURIE]:
         """
         returns iterator over all known subset CURIEs
 
@@ -258,7 +292,15 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+    @deprecated("Replaced by subsets()")
+    def subset_curies(self) -> Iterable[SUBSET_CURIE]:
+        return self.subsets()
+
+    @deprecated("Replaced by subset_curies()")
+    def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
+        return self.subsets()
+
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         """
         returns iterator over all CURIEs belonging to a subset
 
@@ -266,7 +308,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
+    @deprecated("Replaced by subset_members(subset)")
+    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        return self.subset_members(subset)
+
+    def label(self, curie: CURIE) -> Optional[str]:
         """
         fetches the unique label for a CURIE
 
@@ -277,20 +323,29 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    @deprecated("Use label(curie))")
+    def get_label_by_curie(self, curie: CURIE) -> Optional[str]:
+        return self.label(curie)
+
+    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
         """
         fetches the unique label for a CURIE
 
         The CURIE may be for a class, individual, property, or ontology
 
         :param curie:
+        :param allow_none:
         :return:
         """
         # default implementation: may be overridden for efficiency
         for curie in curies:
-            yield [curie, self.get_label_by_curie(curie)]
+            yield [curie, self.label(curie)]
 
-    def set_label_for_curie(self, curie: CURIE, label: str) -> bool:
+    @deprecated("Use labels(...)")
+    def get_labels_for_curies(self, **kwargs) -> Iterable[Tuple[CURIE, str]]:
+        return self.labels(**kwargs)
+
+    def set_label(self, curie: CURIE, label: str) -> bool:
         """
         updates the label
 
@@ -300,7 +355,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def get_curies_by_label(self, label: str) -> List[CURIE]:
+    def curies_by_label(self, label: str) -> List[CURIE]:
         """
         Fetches all curies with a given label
 
@@ -312,9 +367,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_hierararchical_parents_by_curie(
-        self, curie: CURIE, isa_only: bool = False
-    ) -> List[CURIE]:
+    @deprecated("Use curies_by_label(label)")
+    def get_curies_by_label(self, label: str) -> List[CURIE]:
+        return self.curies_by_label(label)
+
+    def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
         Returns all hierarchical parents
 
@@ -323,7 +380,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         This only returns Named Entities; i.e. if an RDF source is wrapped, this will NOT return blank nodes
 
-        To get all relationships, see :ref:`get_outgoing_relationships_by_curie`
+        To get all relationships, see :ref:`outgoing_relationships`
 
         A fresh map is created each invocation
 
@@ -331,9 +388,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param isa_only: restrict hierarchical parents to isa only
         :return:
         """
-        return self.get_outgoing_relationship_map_by_curie(curie)[IS_A]
+        return self.outgoing_relationship_map(curie)[IS_A]
 
-    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def outgoing_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
@@ -348,31 +405,48 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_outgoing_relationships(
+    @deprecated("Use outgoing_relationship_map(curie)")
+    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self.outgoing_relationship_map(curie)
+
+    def outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
-        Returns relationships where curie in the subject
+        Returns relationships where the input curie in the subject
 
         :param curie:
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.get_outgoing_relationship_map_by_curie(curie).items():
-            if predicates is None or p not in predicates:
+        for p, vs in self.outgoing_relationship_map(curie).items():
+            if predicates is not None and p not in predicates:
                 continue
             for v in vs:
                 yield p, v
 
-    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    @deprecated("Use outgoing_relationships()")
+    def get_outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        return self.outgoing_relationships(curie, predicates)
+
+    def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
+        Returns a map of all the relationships where the object is the input CURIE
+
+        See :ref:outgoing_relationship_map:
 
         :param curie:
         :return:
         """
         raise NotImplementedError
 
-    def get_incoming_relationships(
+    @deprecated("Use incoming_relationship_map(curie)")
+    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self.incoming_relationship_map(curie)
+
+    def incoming_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
@@ -382,13 +456,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param predicates: if None, do not filter
         :return:
         """
-        for p, vs in self.get_incoming_relationship_map_by_curie(curie).items():
+        for p, vs in self.incoming_relationship_map(curie).items():
             if predicates is None or p not in predicates:
                 continue
             for v in vs:
                 yield p, v
 
-    def get_relationships(
+    @deprecated("Replaced by incoming_relationships(...)")
+    def get_incoming_relationships(self, **kwargs) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        return self.incoming_relationships(**kwargs)
+
+    def relationships(
         self,
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
@@ -403,12 +481,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         if not subjects:
-            subjects = list(self.all_entity_curies())
+            subjects = list(self.entities())
         logging.info(f"Subjects: {len(subjects)}")
         for subject in subjects:
-            for this_predicate, this_objects in self.get_outgoing_relationship_map_by_curie(
-                subject
-            ).items():
+            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
                 if predicates and this_predicate not in predicates:
                     continue
                 for this_object in this_objects:
@@ -416,18 +492,23 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                         continue
                     yield subject, this_predicate, this_object
 
+    @deprecated("Use relationships()")
+    def get_relationships(self, **kwargs) -> Iterator[RELATIONSHIP]:
+        return self.relationships(**kwargs)
+
+    @deprecated("Use relationships()")
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         """
         returns iterator over all known relationships
 
         :return:
         """
-        for curie in self.all_entity_curies():
-            for pred, fillers in self.get_outgoing_relationship_map_by_curie(curie).items():
+        for curie in self.entities():
+            for pred, fillers in self.outgoing_relationship_map(curie).items():
                 for filler in fillers:
                     yield curie, pred, filler
 
-    def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
+    def definition(self, curie: CURIE) -> Optional[str]:
         """
 
         :param curie:
@@ -435,15 +516,20 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError()
 
-    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+    @deprecated("Use definition()")
+    def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
+        return self.definition(curie)
+
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
+        Yields mappings for a given subject, where each mapping is represented as a simple tuple
 
         :param curie:
-        :return:
+        :return: iterator over predicate-object tuples
         """
         raise NotImplementedError()
 
-    def aliases_by_curie(self, curie: CURIE) -> List[str]:
+    def entity_aliases(self, curie: CURIE) -> List[str]:
         """
         All aliases/synonyms for a given CURIE
 
@@ -453,11 +539,15 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         aliases = set()
-        for v in self.alias_map_by_curie(curie).values():
+        for v in self.entity_alias_map(curie).values():
             aliases.update(set(v))
         return list(aliases)
 
-    def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
+    @deprecated("Use entity_aliases(curie)")
+    def aliases_by_curie(self, curie: CURIE) -> List[str]:
+        return self.entity_aliases(curie)
+
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         """
         Returns aliases keyed by alias type (scope in OBO terms)
 
@@ -469,7 +559,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def metadata_map_by_curie(self, curie: CURIE) -> METADATA_MAP:
+    @deprecated("Replaced by alias_map(curie)")
+    def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
+        return self.entity_alias_map(curie)
+
+    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         """
         Returns a dictionary keyed by property predicate, with a list of zero or more values,
         where each key corresponds to any of a set of open-ended metadata predicates

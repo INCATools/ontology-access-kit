@@ -30,5 +30,5 @@ The most mature implementations are:
    ubergraph
    ontobee
    ols
+   gilda
    aggregator
-   

@@ -29,7 +29,7 @@ class StreamingOwlFunctionalWriter(StreamingWriter):
     def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface
         if label is None:
-            label = oi.get_label_by_curie(curie)
+            label = oi.label(curie)
         if label:
             ax = AnnotationAssertion(
                 property=AnnotationProperty(oi.curie_to_uri(LABEL_PREDICATE)),

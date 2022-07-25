@@ -9,11 +9,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 nxontology = "^0.4.0"
-pronto = "^2.4.6"
+pronto = "^2.5.0"
 SPARQLWrapper = "*"
 SQLAlchemy = "^1.4.32"
 linkml-runtime = "^1.2.15"
 networkx = "^2.7.1"
+sssom-schema = "^0.9.3"
 sssom = "^0.3.11"
 ratelimit = "^2.2.1"
 appdirs = "^1.4.4"
@@ -21,8 +22,11 @@ semsql = "^0.1.6"
 lark = "^1.1.2"
 kgcl-schema = "^0.2.0"
 funowl = "^0.1.12"
+gilda = {version = "^0.10.1", optional = true}
 kgcl-rdflib = "^0.2.0"
 pystow = "^0.4.4"
+class-resolver = "^0.3.10"
+ontoportal-client = "0.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -41,10 +45,10 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 runoak = "oaklib.cli:main"
-omk = "oaklib.omk.omk_cli:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
+gilda = ["gilda"]
 
 [tool.black]
 line-length = 100

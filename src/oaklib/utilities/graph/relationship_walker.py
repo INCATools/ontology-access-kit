@@ -4,6 +4,7 @@ Utilities for traversing Ontology Graphs
 
 
 """
+import logging
 from copy import copy
 from typing import Iterable, List, Union
 
@@ -27,9 +28,9 @@ def walk_up(
 
     Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this
 
-    :param oi:
-    :param start_curies:
-    :param predicates:
+    :param oi: An ontology interface for making label lookups.
+    :param start_curies: Seed CURIE(s) to walk from.
+    :param predicates: Predicates of interest.
     :return:
     """
     if isinstance(start_curies, CURIE):
@@ -39,8 +40,9 @@ def walk_up(
     rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:
+        logging.debug(f"Walking graph; {len(next_curies)} in stack")
         next_curie = next_curies.pop()
-        for pred, fillers in oi.get_outgoing_relationship_map_by_curie(next_curie).items():
+        for pred, fillers in oi.outgoing_relationship_map(next_curie).items():
             if not predicates or pred in predicates:
                 for filler in fillers:
                     if filler not in visited:
@@ -59,9 +61,9 @@ def walk_down(
     """
     As walk_up, but traversing incoming, not outgoing relationships
 
-    :param oi:
-    :param start_curies:
-    :param predicates:
+    :param oi:An ontology interface for making label lookups.
+    :param start_curies: Seed CURIE(s) to walk from.
+    :param predicates: Predicates of interest.
     :return:
     """
     if isinstance(start_curies, CURIE):
@@ -72,7 +74,7 @@ def walk_down(
     visited = copy(next_curies)
     while len(next_curies) > 0:
         next_curie = next_curies.pop()
-        for pred, subjects in oi.get_incoming_relationship_map_by_curie(next_curie).items():
+        for pred, subjects in oi.incoming_relationship_map(next_curie).items():
             if not predicates or pred in predicates:
                 for subject in subjects:
                     if subject not in visited:

@@ -4,14 +4,13 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 
 import requests
-from sssom import Mapping
-from sssom.sssom_datamodel import MatchTypeEnum
+from sssom_schema import Mapping
 
 from oaklib.datamodels import oxo
 from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation
-from oaklib.datamodels.vocabulary import IS_A
+from oaklib.datamodels.vocabulary import IS_A, SEMAPV
 from oaklib.implementations.ols import SEARCH_CONFIG
 from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
@@ -45,7 +44,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
     ols_base_url = "https://www.ebi.ac.uk/ols/api"
-    prefix_map: Dict[str, str] = field(default_factory=lambda: {})
+    _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
 
     def __post_init__(self):
@@ -55,13 +54,13 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
 
     def add_prefix(self, curie: str, uri: str):
         [pfx, local] = curie.split(":", 2)
-        if pfx not in self.prefix_map:
-            self.prefix_map[pfx] = uri.replace(local, "")
+        if pfx not in self._prefix_map:
+            self._prefix_map[pfx] = uri.replace(local, "")
 
-    def get_prefix_map(self) -> PREFIX_MAP:
-        return self.prefix_map
+    def prefix_map(self) -> PREFIX_MAP:
+        return self._prefix_map
 
-    def get_labels_for_curies(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:
             yield curie, self.label_cache[curie]
 
@@ -172,7 +171,7 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
                 subject_label=oxo_s.label,
                 subject_source=oxo_s.datasource.prefix if oxo_s.datasource else None,
                 predicate_id=oxo_pred_mappings[str(oxo_mapping.scope)],
-                match_type=MatchTypeEnum.Unspecified,
+                mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 object_id=oxo_o.curie,
                 object_label=oxo_o.label,
                 object_source=oxo_o.datasource.prefix if oxo_o.datasource else None,

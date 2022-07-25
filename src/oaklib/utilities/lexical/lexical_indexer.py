@@ -13,10 +13,12 @@ from typing import Dict, List, Optional, Tuple
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.loaders import yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
-from sssom import Mapping
-from sssom.sssom_datamodel import MappingSet, MatchTypeEnum
+from sssom.constants import LICENSE, MAPPING_SET_ID
+from sssom.context import get_default_metadata
 from sssom.sssom_document import MappingSetDocument
+from sssom.typehints import Metadata
 from sssom.util import MappingSetDataFrame, to_mapping_set_dataframe
+from sssom_schema import Mapping, MappingSet
 
 from oaklib.datamodels.lexical_index import (
     LexicalGrouping,
@@ -31,6 +33,7 @@ from oaklib.datamodels.mapping_rules_datamodel import (
     Precondition,
 )
 from oaklib.datamodels.vocabulary import (
+    SEMAPV,
     SKOS_BROAD_MATCH,
     SKOS_CLOSE_MATCH,
     SKOS_EXACT_MATCH,
@@ -45,13 +48,12 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
     """
     Adds a label based on the CURIE or URI for entities that lack labels
 
-    :param oi:
-    :return:
+    :param oi: An ontology interface for making label lookups.
     """
     logging.info("Adding labels from URIs")
-    curies = list(oi.all_entity_curies())
+    curies = list(oi.entities())
     for curie in curies:
-        if not oi.get_label_by_curie(curie):
+        if not oi.label(curie):
             if "#" in curie:
                 sep = "#"
             elif curie.startswith("http") or curie.startswith("<http"):
@@ -63,7 +65,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
                 label = label.replace(">", "")
             label = " ".join(label.split("_"))
             # print(f'{curie} ==> {label} // {type(oi)}')
-            oi.set_label_for_curie(curie, label)
+            oi.set_label(curie, label)
             # print(oi.get_label_by_curie(curie))
 
 
@@ -76,22 +78,22 @@ def create_lexical_index(
     If the pipelines parameter is not specified, then default pipelines will be applied
     (currently CaseNormalization and WhitespaceNormalization)
 
-    :param oi:
+    :param oi: An ontology interface for making label lookups.
     :param pipelines: list of transformation pipelines to apply
-    :return:
+    :return: An index over an ontology keyed by lexical unit.
     """
     if pipelines is None:
         step1 = LexicalTransformation(TransformationType.CaseNormalization)
         step2 = LexicalTransformation(TransformationType.WhitespaceNormalization)
         pipelines = [LexicalTransformationPipeline(name="default", transformations=[step1, step2])]
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
-    for curie in oi.all_entity_curies():
+    for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
         if not URIorCURIE.is_valid(curie):
             logging.warning(f"Skipping {curie} as it is not a valid CURIE")
             continue
-        alias_map = oi.alias_map_by_curie(curie)
-        mapping_map = pairs_as_dict(oi.get_simple_mappings_by_curie(curie))
+        alias_map = oi.entity_alias_map(curie)
+        mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
                 if not term:
@@ -125,8 +127,8 @@ def load_lexical_index(path: str) -> LexicalIndex:
     """
     Loads from a YAML file
 
-    :param path:
-    :return:
+    :param path: Lexical index in the form of a YAML file.
+    :return: An index over an ontology keyed by lexical unit.
     """
     return yaml_loader.load(path, target_class=LexicalIndex)
 
@@ -134,16 +136,16 @@ def load_lexical_index(path: str) -> LexicalIndex:
 def lexical_index_to_sssom(
     oi: BasicOntologyInterface,
     lexical_index: LexicalIndex,
-    id="default",
     ruleset: MappingRuleCollection = None,
+    meta: Metadata = None,
 ) -> MappingSetDataFrame:
     """
-    Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term
+    Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
 
-    :param oi:
-    :param lexical_index:
-    :param id:
-    :return:
+    :param oi: An ontology interface for making label lookups.
+    :param lexical_index: An index over an ontology keyed by lexical unit.
+    :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
     logging.info("Converting lexical index to SSSOM")
@@ -166,10 +168,21 @@ def lexical_index_to_sssom(
         #        if r1.element < r2.element:
         #            mappings.append(create_mapping(oi, term, r1, r2))
     logging.info("Done creating SSSOM mappings")
-    mset = MappingSet(mapping_set_id=id, mappings=mappings, license="CC-0")
+
+    if meta is None:
+        meta = get_default_metadata()
+
+    mapping_set_id = meta.metadata[MAPPING_SET_ID]
+    license = meta.metadata[LICENSE]
+
+    mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
     # doc = MappingSetDocument(prefix_map=oi.get_prefix_map(), mapping_set=mset)
-    doc = MappingSetDocument(prefix_map={}, mapping_set=mset)
-    return to_mapping_set_dataframe(doc)
+    doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
+    msdf = to_mapping_set_dataframe(doc)
+    # TODO uncomment below.
+    # TODO Right now it erases the entire msdf.df in the absence of CURIEs in map.
+    # msdf.clean_prefix_map()
+    return msdf
 
 
 def create_mapping(
@@ -179,6 +192,15 @@ def create_mapping(
     pred: PRED_CURIE = SKOS_CLOSE_MATCH,
     confidence: float = None,
 ) -> Mapping:
+    """Create mappings between a pair of entities.
+
+    :param term: Match string
+    :param r1: Term relationship 1
+    :param r2: Term relationship 2
+    :param pred: Predicate, defaults to SKOS_CLOSE_MATCH
+    :param confidence: Confidence score., defaults to None
+    :return: Mapping object.
+    """
     return Mapping(
         subject_id=r1.element,
         object_id=r2.element,
@@ -187,7 +209,7 @@ def create_mapping(
         match_string=term,
         subject_match_field=[r1.predicate],
         object_match_field=[r2.predicate],
-        match_type=MatchTypeEnum.Lexical,
+        mapping_justification=SEMAPV.LexicalMatching.value,
         mapping_tool="oaklib",
     )
 
@@ -202,12 +224,12 @@ def inferred_mapping(
     """
     Create a mapping from a pair of relationships, applying rules to filter or assign confidence
 
-    :param oi:
-    :param term:
-    :param r1:
-    :param r2:
-    :param ruleset:
-    :return:
+    :param oi: An ontology interface for making label lookups.
+    :param term: Match string
+    :param r1: Term relationship 1
+    :param r2: Term relationship 2
+    :param ruleset: Rules of matching.
+    :return: Mapping object.
     """
     # create two mappings, one in each direction
     m1 = create_mapping(term, r1, r2)
@@ -254,8 +276,8 @@ def inferred_mapping(
     best_weight, best_mapping, _ = best
     if best_weight is not None:
         best_mapping.confidence = inverse_logit(best_weight)
-    best_mapping.subject_label = oi.get_label_by_curie(best_mapping.subject_id)
-    best_mapping.object_label = oi.get_label_by_curie(best_mapping.object_id)
+    best_mapping.subject_label = oi.label(best_mapping.subject_id)
+    best_mapping.object_label = oi.label(best_mapping.object_id)
     return best_mapping
 
 
@@ -265,13 +287,18 @@ def inverse_logit(weight: float) -> float:
 
     https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
 
-    :param weight:
+    :param weight: Weight for calculating confidence.
     :return: probability between 0 and 1
     """
     return 1 / (1 + 2 ** (-weight))
 
 
 def invert_mapping_predicate(pred: PRED_CURIE) -> Optional[PRED_CURIE]:
+    """Return the opposite of predicate passed.
+
+    :param pred: Predicate.
+    :return: Opposite of the predicate.
+    """
     if pred == SKOS_EXACT_MATCH or pred == SKOS_CLOSE_MATCH:
         return pred
     if pred == SKOS_BROAD_MATCH:
@@ -315,18 +342,17 @@ def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
     """
     Saves a YAML using standard mapping of datanodel to YAML
 
-    :param mapping_rules:
-    :param path:
-    :return:
+    :param mapping_rules: YAML file that contains rules for mapping.
+    :param path: Path where the YAML file is saved
     """
     yaml_dumper.dump(mapping_rules, to_file=path)
 
 
 def load_mapping_rules(path: str) -> MappingRuleCollection:
     """
-    Loads from a YAML file
+    Loads from a YAML file that contains rules for mapping.
 
-    :param path:
-    :return:
+    :param path:  Path where the YAML file is located.
+    :return: Rules for mapping
     """
     return yaml_loader.load(path, target_class=MappingRuleCollection)

@@ -2,7 +2,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 
-import sssom
+from sssom_schema import Mapping
 
 from oaklib.datamodels.obograph import Node
 from oaklib.datamodels.search import SearchConfiguration
@@ -64,26 +64,26 @@ class AggregatorImplementation(
     def validate(self, configuration: ValidationConfiguration = None) -> Iterable[ValidationResult]:
         return self._delegate_iterator(lambda i: i.validate())
 
-    def all_entity_curies(self) -> Iterable[CURIE]:
-        return self._delegate_iterator(lambda i: i.all_entity_curies())
+    def entities(self) -> Iterable[CURIE]:
+        return self._delegate_iterator(lambda i: i.entities())
 
-    def get_simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        return self._delegate_iterator(lambda i: i.get_simple_mappings_by_curie(curie))
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        return self._delegate_iterator(lambda i: i.simple_mappings_by_curie(curie))
 
-    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[sssom.Mapping]:
+    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         return self._delegate_iterator(lambda i: i.get_sssom_mappings_by_curie(curie))
 
-    def get_label_by_curie(self, curie: CURIE) -> str:
-        return self._delegate_first(lambda i: i.get_label_by_curie(curie))
+    def label(self, curie: CURIE) -> str:
+        return self._delegate_first(lambda i: i.label(curie))
 
-    def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
-        return self._delegate_simple_tuple_map(lambda i: i.alias_map_by_curie(curie))
+    def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.entity_alias_map(curie))
 
-    def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
-        return self._delegate_iterator(lambda i: i.all_subset_curies())
+    def subsets(self) -> Iterable[SUBSET_CURIE]:
+        return self._delegate_iterator(lambda i: i.subsets())
 
-    def curies_by_subset(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
-        return self._delegate_iterator(lambda i: i.curies_by_subset(subset))
+    def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
+        return self._delegate_iterator(lambda i: i.subset_members(subset))
 
     def node(self, curie: CURIE, strict=False) -> Node:
         # TODO: this implementation is ad-hoc
@@ -96,12 +96,8 @@ class AggregatorImplementation(
                     return node
         return node
 
-    def get_outgoing_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self._delegate_simple_tuple_map(
-            lambda i: i.get_outgoing_relationship_map_by_curie(curie)
-        )
+    def outgoing_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.outgoing_relationship_map(curie))
 
-    def get_incoming_relationship_map_by_curie(self, curie: CURIE) -> RELATIONSHIP_MAP:
-        return self._delegate_simple_tuple_map(
-            lambda i: i.get_incoming_relationship_map_by_curie(curie)
-        )
+    def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
+        return self._delegate_simple_tuple_map(lambda i: i.incoming_relationship_map(curie))

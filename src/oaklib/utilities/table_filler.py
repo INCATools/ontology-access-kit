@@ -210,11 +210,11 @@ class TableFiller:
         # abstract or less efficient code
         if rel == LABEL_KEY:
             if pk_vals:
-                for curie, label in oi.get_labels_for_curies(list(pk_vals)):
+                for curie, label in oi.labels(list(pk_vals)):
                     fwd_mapping[curie] = label
             if dc_vals:
                 for v in dc_vals:
-                    curies = oi.get_curies_by_label(v)
+                    curies = oi.curies_by_label(v)
                     if len(curies) == 1:
                         rev_mapping[v] = curies[0]
                     elif len(curies) == 0:
@@ -225,7 +225,7 @@ class TableFiller:
         elif rel == DEFINITION_KEY:
             if pk_vals:
                 for curie in pk_vals:
-                    defn = oi.get_definition_by_curie(curie)
+                    defn = oi.definition(curie)
                     fwd_mapping[curie] = defn
             if dc_vals:
                 raise NotImplementedError
@@ -249,7 +249,7 @@ class TableFiller:
                         params = dependency.parameters
                         if not params:
                             params = {}
-                        mappings = [x for _, x in oi.get_simple_mappings_by_curie(curie)]
+                        mappings = [x for _, x in oi.simple_mappings_by_curie(curie)]
                         fwd_mapping[curie] = mappings
                 else:
                     raise ValueError(f"{oi} must implement OboGraphInterface for ancestors option")

@@ -11,10 +11,21 @@ from oaklib.utilities.obograph_utils import (
     filter_by_predicates,
     graph_as_dict,
     graph_to_tree,
+    shortest_paths,
     trim_graph,
 )
-from tests import CELLULAR_ORGANISMS, HUMAN, IMBO, INPUT_DIR, OUTPUT_DIR, VACUOLE
-from tests.test_cli import NUCLEUS
+from tests import (
+    CELLULAR_ANATOMICAL_ENTITY,
+    CELLULAR_ORGANISMS,
+    CYTOPLASM,
+    HUMAN,
+    IMBO,
+    INPUT_DIR,
+    INTRACELLULAR,
+    NUCLEUS,
+    OUTPUT_DIR,
+    VACUOLE,
+)
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
@@ -93,3 +104,33 @@ class TestOboGraphUtils(unittest.TestCase):
                     self.assertIn(seed, node_ids)
         else:
             raise NotImplementedError
+
+    def test_shortest_paths(self):
+        oi = self.oi
+        both = [IS_A, PART_OF]
+        hi = 1.0
+        lo = 0.001
+        expected_list = [
+            (NUCLEUS, VACUOLE, both, None, [], []),
+            (NUCLEUS, CYTOPLASM, both, None, [], []),
+            (
+                NUCLEUS,
+                CYTOPLASM,
+                both,
+                {IS_A: hi, PART_OF: lo},
+                [INTRACELLULAR],
+                [CELLULAR_ANATOMICAL_ENTITY],
+            ),
+            (NUCLEUS, CYTOPLASM, both, {IS_A: lo, PART_OF: hi}, [CELLULAR_ANATOMICAL_ENTITY], []),
+        ]
+        if isinstance(oi, OboGraphInterface):
+            for ex in expected_list:
+                start_curie, end_curie, preds, weights, includes, excludes = ex
+                g = oi.ancestor_graph([start_curie, end_curie], predicates=preds)
+                paths = shortest_paths(g, [start_curie], [end_curie], predicate_weights=weights)
+                for s, o, path in paths:
+                    logging.debug(f"{s} -> {o} == {path}")
+                    for x in includes:
+                        self.assertIn(x, path)
+                    for x in excludes:
+                        self.assertNotIn(x, path)
