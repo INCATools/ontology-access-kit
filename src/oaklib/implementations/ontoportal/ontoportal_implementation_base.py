@@ -18,7 +18,6 @@ from oaklib.interfaces import (
 )
 from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
 from oaklib.types import CURIE, URI
-from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
 
 SEARCH_CONFIG = SearchConfiguration()
