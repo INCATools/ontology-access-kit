@@ -51,7 +51,7 @@ class OntoPortalImplementationBase(
                 self.focus_ontology = self.resource.slug
         if not self.ontoportal_client_class:
             raise NotImplementedError("ontoportal_client_class not specified")
-        api_key = get_apikey_value(self.ontoportal_client_class.name)
+        api_key = get_apikey_value(self.ontoportal_client_class.name, raise_on_missing=True)
         self.client = self.ontoportal_client_class(api_key=api_key)
 
     def prefix_map(self) -> PREFIX_MAP:
