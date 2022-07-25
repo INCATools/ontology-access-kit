@@ -12,11 +12,13 @@ __all__ = [
 APP_NAME = "oaklib"
 
 
-def get_apikey_value(key: str) -> str:
+def get_apikey_value(key: str, raise_on_missing: bool = False) -> str:
     """
     Get the value of the given configuration key.
 
     :param key: e.g "bioportal" for the BioPortal API token
+    :param raise_on_missing: If true, will raise a value error if no data is found and no default
+        is given
     :return: The API key associated with the system
 
     Configuration can be set in the following ways:
@@ -27,7 +29,7 @@ def get_apikey_value(key: str) -> str:
     3. Use the :func:`set_apikey_value` function to directly
        create a configuration file
     """
-    return pystow.get_config(APP_NAME, key)
+    return pystow.get_config(APP_NAME, key, raise_on_missing=raise_on_missing)
 
 
 def set_apikey_value(key: str, value: str) -> None:
