@@ -520,8 +520,8 @@ class ProntoImplementation(
                 if syn.description == patch.old_value:
                     syn.description = patch.new_value
         elif isinstance(patch, kgcl.NewSynonym):
-            t = self._entity(patch.about_node, strict=True)
-            t.add_synonym(description=patch.new_value, scope="RELATED")
+            scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
+            t.add_synonym(description=patch.new_value, scope=scope)
 
         else:
             raise NotImplementedError
