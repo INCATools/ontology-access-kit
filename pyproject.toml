@@ -26,6 +26,7 @@ gilda = {version = "^0.10.1", optional = true}
 kgcl-rdflib = "^0.2.0"
 pystow = "^0.4.4"
 class-resolver = "^0.3.10"
+ontoportal-client = "0.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

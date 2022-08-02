@@ -19,7 +19,7 @@ class TestSqlite(unittest.TestCase):
             db_dir = EXTERNAL_DB_DIR.absolute()
             for db in ["mp", "hp", "uberon", "emapa"]:
                 path = f"sqlite:///{db_dir}/{db}.db"
-                print(path)
+                logging.info(path)
                 r = OntologyResource(slug=path, local=True)
                 dbs[db] = SqlImplementation(r)
             self.dbs = dbs
@@ -36,4 +36,4 @@ class TestSqlite(unittest.TestCase):
             calculate_pairwise_relational_diff(dbs["uberon"], dbs["emapa"], ["UBERON", "EMAPA"])
         )
         for r in results:
-            print(r)
+            logging.info(r)

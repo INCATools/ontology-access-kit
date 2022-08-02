@@ -157,12 +157,12 @@ class TestTableFiller(unittest.TestCase):
         tf = self.table_filler
         for desc, input_table, cfg, expected_table, expected_success in EXPECTED:
             logging.info(f"Test: {desc}")
-            print(desc)
+            logging.info(desc)
             output_table = deepcopy(input_table)
             if expected_success:
                 tf.fill_table(output_table, cfg)
                 # for row in output_table:
-                #    print(row)
+                #    logging.info(row)
                 self.assertEqual(expected_table, output_table)
             else:
                 with self.assertRaises(ValueError):
@@ -184,7 +184,7 @@ class TestTableFiller(unittest.TestCase):
     def test_fill_table_file(self):
         tf = self.table_filler
         for desc, input_table, cfg, expected_table, expected_success in EXPECTED:
-            print(f"Test: {desc}")
+            logging.info(f"Test: {desc}")
             with open(TMP, "w", encoding="UTF-8") as input_file:
                 write_table(input_table, input_file)
             with open(TMP) as input_file:

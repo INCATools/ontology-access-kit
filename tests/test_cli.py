@@ -46,7 +46,8 @@ class TestCommandLineInterface(unittest.TestCase):
         self.runner = runner
 
     def _out(self, path: Optional[str] = TEST_OUT) -> str:
-        return "".join(open(path).readlines())
+        with open(path) as f:
+            return "".join(f.readlines())
 
     def test_main_help(self):
         result = self.runner.invoke(main, ["--help"])
@@ -121,7 +122,7 @@ class TestCommandLineInterface(unittest.TestCase):
             )
             self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT])
             out = self._out(TEST_OUT)
-            print(out)
+            logging.info(out)
             assert "GO:0016020" in out
             assert "GO:0031965" in out
             assert "subClassOf" not in out
@@ -214,9 +215,9 @@ class TestCommandLineInterface(unittest.TestCase):
             out = self._out()
             err = result.stderr
             if result.exit_code != 0:
-                print(f"INPUT: {input_arg} code = {result.exit_code}")
-                print(f"OUTPUT={out}")
-                print(f"ERR={err}")
+                logging.info(f"INPUT: {input_arg} code = {result.exit_code}")
+                logging.info(f"OUTPUT={out}")
+                logging.info(f"ERR={err}")
             logging.info(f"OUTPUT={out}")
             logging.info(f"ERR={err}")
             self.assertEqual(0, result.exit_code)
@@ -297,7 +298,7 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in inputs:
             logging.info(f"INPUT={input_arg}")
             for t in search_tests:
-                print(f"{input_arg} // {t}")
+                logging.info(f"{input_arg} // {t}")
                 terms, complete, expected, excluded = t
                 if input_arg in excluded:
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
@@ -450,7 +451,7 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertIn(IMBO, out)
         with open(TEST_OUT) as f:
             obj = yaml.safe_load(f)
-            # print(obj)
+            # logging.info(obj)
             self.assertEqual(obj["subject_id"], NUCLEAR_MEMBRANE)
             self.assertEqual(obj["object_id"], VACUOLE)
             self.assertEqual(obj["ancestor_id"], IMBO)
