@@ -16,6 +16,7 @@ OAK provides a collection of [interfaces](https://incatools.github.io/ontology-a
  - validate an ontology
  - modify or delete terms
  - generate and visualize subgraphs
+ - identify lexical matches and export as SSSOM mapping tables
  - perform more advanced operations, such as graph traversal, OWL axiom processing, or text annotation
 
 These interfaces are *separated* from any particular [backend](https://incatools.github.io/ontology-access-kit/implementations/index.html). This means the same API can be used regardless of whether the ontology:
