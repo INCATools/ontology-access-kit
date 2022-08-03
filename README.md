@@ -9,15 +9,14 @@ Python lib for common ontology operations over a variety of backends.
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6456239.svg)](https://doi.org/10.5281/zenodo.6456239)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](.github/CODE_OF_CONDUCT.md) 
 
-This library provides a collection of different [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for different kinds of ontology operations, including:
+OAK provides a collection of [interfaces](https://incatools.github.io/ontology-access-kit/interfaces/index.html) for various ontology operations, including:
 
- - [lookup of basic features](https://incatools.github.io/ontology-access-kit/interfaces/basic.html) of an ontology element, such as it's label, definition, relationships, or aliases
+ - [look up basic features](https://incatools.github.io/ontology-access-kit/interfaces/basic.html) of an ontology element, such as its label, definition, relationships, or aliases
  - search an ontology for a term
- - validating an ontology
- - updating, deleting, or modifying terms
- - ontology term matching
- - generating and visualizing subgraphs
- - provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation
+ - validate an ontology
+ - modify or delete terms
+ - generate and visualize subgraphs
+ - perform more advanced operations, such as graph traversal, OWL axiom processing, or text annotation
 
 These interfaces are *separated* from any particular [backend](https://incatools.github.io/ontology-access-kit/implementations/index.html). This means the same API can be used regardless of whether the ontology:
 
