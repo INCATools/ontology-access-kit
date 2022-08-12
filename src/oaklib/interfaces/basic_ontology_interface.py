@@ -74,7 +74,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     strict: bool = False
     autosave: bool = field(default_factory=lambda: True)
-    _converter: Optional[curies.Converter] = field(default=None, repr=False)
+    _converter: Optional[curies.Converter] = None
 
     def prefix_map(self) -> PREFIX_MAP:
         """
