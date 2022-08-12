@@ -176,7 +176,7 @@ def lexical_index_to_sssom(
     license = meta.metadata[LICENSE]
 
     mset = MappingSet(mapping_set_id=mapping_set_id, mappings=mappings, license=license)
-    # doc = MappingSetDocument(prefix_map=oi.get_prefix_map(), mapping_set=mset)
+    # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
     # TODO uncomment below.

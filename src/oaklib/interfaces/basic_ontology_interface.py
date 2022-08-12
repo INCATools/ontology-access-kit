@@ -3,16 +3,10 @@ from abc import ABC
 from dataclasses import field
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
+import curies
 from deprecation import deprecated
 
-from oaklib.datamodels.vocabulary import (
-    BIOPORTAL_PURL,
-    IS_A,
-    OBO_PURL,
-    OWL_CLASS,
-    OWL_NOTHING,
-    OWL_THING,
-)
+from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS, OWL_NOTHING, OWL_THING
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix
@@ -80,6 +74,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     strict: bool = False
     autosave: bool = field(default_factory=lambda: True)
+    _converter: curies.Converter = field(init=False, repr=False)
 
     def prefix_map(self) -> PREFIX_MAP:
         """
@@ -93,7 +88,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def get_prefix_map(self) -> PREFIX_MAP:
         return self.prefix_map()
 
-    def curie_to_uri(self, curie: CURIE, strict=False) -> Optional[URI]:
+    @property
+    def converter(self) -> curies.Converter:
+        """Get a converter for this ontology interface's prefix map.
+
+        :return: A converter
+        """
+        if self._converter is None:
+            self._converter = curies.Converter.from_prefix_map(self.prefix_map())
+        return self._converter
+
+    def curie_to_uri(self, curie: CURIE, strict: bool = False) -> Optional[URI]:
         """
         Expands a CURIE to a URI
 
@@ -101,24 +106,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
         :return:
         """
-        if curie.startswith("http"):
-            return curie
-        pm = self.prefix_map()
-        parts = curie.split(":")
-        if len(parts) == 2:
-            pfx, local_id = parts
-        else:
-            if strict:
-                raise ValueError(f"Bad CURIE: {curie} parts: {parts}")
-            else:
-                return curie
-        if pfx in pm:
-            return f"{pm[pfx]}{local_id}"
-        else:
-            # TODO: not hardcode
-            return f"{OBO_PURL}{pfx}_{local_id}"
+        rv = self.converter.expand(curie)
+        if rv is None and strict:
+            raise ValueError
+        return rv
 
-    def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
+    def uri_to_curie(self, uri: URI, strict: bool = True) -> Optional[CURIE]:
         """
         Contracts a URI to a CURIE
 
@@ -129,19 +122,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict: Boolean [default: True]
         :return: CURIE
         """
-        pm = self.prefix_map()
-        for k, v in pm.items():
-            if uri.startswith(v):
-                return uri.replace(v, f"{k}:")
-        if uri.startswith(OBO_PURL):
-            # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f"{OBO_PURL}", "")
-            return uri.replace("_", ":")
-        if uri.startswith(BIOPORTAL_PURL):
-            # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f"{BIOPORTAL_PURL}", "")
-            return uri.replace("_", ":")
-        return uri
+        rv = self.converter.compress(uri)
+        if rv is None and strict:
+            raise ValueError
+        return rv
 
     def ontologies(self) -> Iterable[CURIE]:
         """
