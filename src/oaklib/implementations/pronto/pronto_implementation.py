@@ -350,7 +350,15 @@ class ProntoImplementation(
                     # m[s.property].append(v)
                     yield s.property, v
                 elif isinstance(s, ResourcePropertyValue):
-                    yield s.property, self.uri_to_curie(s.resource)
+                    try:
+                        tail = self.uri_to_curie(s.resource)
+                    except ValueError:
+                        logging.warning(
+                            "%s could not compress URI %s", self.__class__.__name__, s.resource
+                        )
+                        continue
+                    else:
+                        yield s.property, tail
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)

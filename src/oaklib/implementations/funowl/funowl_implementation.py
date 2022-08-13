@@ -69,7 +69,17 @@ class FunOwlImplementation(OwlInterface):
         for ax in self._ontology.axioms:
             if isinstance(ax, Declaration):
                 uri = ax.v.full_uri(self.functional_writer.g)
-                yield self.uri_to_curie(str(uri))
+                try:
+                    yv = self.uri_to_curie(str(uri))
+                except ValueError:
+                    logging.warning(
+                        "could not compress URI %s with functional writer context %s",
+                        uri,
+                        self.functional_writer.g.namespaces(),
+                    )
+                    continue
+                else:
+                    yield yv
 
     def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Axiom]:
         ont = self._ontology
