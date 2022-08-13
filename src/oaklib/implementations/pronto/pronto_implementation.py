@@ -35,7 +35,6 @@ from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
     PRED_CURIE,
-    PREFIX_MAP,
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -156,9 +155,6 @@ class ProntoImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    def prefix_map(self) -> PREFIX_MAP:
-        return {}
 
     def _entity(self, curie: CURIE, strict=False):
         for r in self.wrapped_ontology.relationships():

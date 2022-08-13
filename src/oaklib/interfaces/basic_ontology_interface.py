@@ -1,18 +1,25 @@
 import logging
 from abc import ABC
+from collections import ChainMap
 from dataclasses import field
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
 
 import curies
 from deprecation import deprecated
 
-from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS, OWL_NOTHING, OWL_THING
+from oaklib.datamodels.vocabulary import (
+    DEFAULT_PREFIX_MAP,
+    IS_A,
+    OWL_CLASS,
+    OWL_NOTHING,
+    OWL_THING,
+)
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.utilities.basic_utils import get_curie_prefix, get_obo_prefix_map
 
 NC_NAME = str
-PREFIX_MAP = Dict[NC_NAME, URI]
+PREFIX_MAP = Mapping[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
 ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
@@ -78,11 +85,21 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def prefix_map(self) -> PREFIX_MAP:
         """
-        Returns a dictionary mapping all prefixes known to the resource to their URI expansion
+        Return a dictionary mapping all prefixes known to the resource to their URI expansion.
+
+        By default, this returns a combination of the  OBO Foundry prefix map with
+        the default OAKlib prefixmap (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).
 
         :return: prefix map
         """
-        raise NotImplementedError
+        return ChainMap(
+            get_obo_prefix_map(),
+            DEFAULT_PREFIX_MAP,
+            dict(
+                EFO="http://www.ebi.ac.uk/efo/EFO_",
+                SCTID="http://snomed.info/id/",
+            ),
+        )
 
     @deprecated("Replaced by prefix_map")
     def get_prefix_map(self) -> PREFIX_MAP:
@@ -136,7 +153,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 for prefix, uri_prefix in sorted(self.converter.data.items())
             )
             raise ValueError(
-                f"{self.__class__.__name__}.prefix_map() does not support compressing {URI}.\n"
+                f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
                 f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
             )
         return rv

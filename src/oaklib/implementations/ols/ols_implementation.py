@@ -1,5 +1,6 @@
 import logging
 import urllib
+from collections import ChainMap
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
 
@@ -34,10 +35,6 @@ oxo_pred_mappings = {
 class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProviderInterface):
     """
     Implementation over OLS and OxO APIs
-
-    .. note::
-
-
     """
 
     ols_api_key: str = None
@@ -53,12 +50,12 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
                 self.focus_ontology = self.resource.slug
 
     def add_prefix(self, curie: str, uri: str):
-        [pfx, local] = curie.split(":", 2)
+        [pfx, local] = curie.split(":", 1)
         if pfx not in self._prefix_map:
             self._prefix_map[pfx] = uri.replace(local, "")
 
     def prefix_map(self) -> PREFIX_MAP:
-        return self._prefix_map
+        return ChainMap(super().prefix_map(), self._prefix_map)
 
     def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:

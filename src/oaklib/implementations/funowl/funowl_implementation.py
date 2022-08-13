@@ -8,15 +8,9 @@ from funowl.converters.functional_converter import to_python
 from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
 
-from oaklib.datamodels.vocabulary import (
-    DEFAULT_PREFIX_MAP,
-    DEPRECATED_PREDICATE,
-    LABEL_PREDICATE,
-    OBO_PURL,
-)
-from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
+from oaklib.datamodels.vocabulary import DEPRECATED_PREDICATE, LABEL_PREDICATE
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
-from oaklib.types import CURIE, URI
+from oaklib.types import CURIE
 
 
 @dataclass
@@ -50,27 +44,12 @@ class FunOwlImplementation(OwlInterface):
     def _ontology(self):
         return self.ontology_document.ontology
 
-    def prefix_map(self) -> PREFIX_MAP:
-        # TODO
-        return DEFAULT_PREFIX_MAP
-
     def entity_iri_to_curie(self, entity: IRI) -> CURIE:
         uri = entity.to_rdf(self.functional_writer.g)
         return self.uri_to_curie(str(uri))
 
     def curie_to_entity_iri(self, curie: CURIE) -> IRI:
         return IRI(self.curie_to_uri(curie))
-
-    def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
-        # TODO: do not hardcode OBO
-        pm = self.prefix_map()
-        for k, v in pm.items():
-            if uri.startswith(v):
-                return uri.replace(v, f"{k}:")
-        if uri.startswith(OBO_PURL):
-            uri = uri.replace(OBO_PURL, "")
-            return uri.replace("_", ":")
-        return uri
 
     def label(self, curie: CURIE) -> str:
         labels = [
