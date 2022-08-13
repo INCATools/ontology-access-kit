@@ -119,17 +119,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def _is_blazegraph(self) -> bool:
         return False
 
-    def prefix_map(self) -> PREFIX_MAP:
-        # TODO
-        # return {'rdfs': str(RDFS)}
-        return DEFAULT_PREFIX_MAP
-
     # def store(self, resource: OntologyResource) -> None:
     #    SparqlBasicImpl.dump(self.engine, resource)
 
     def curie_to_uri(self, curie: CURIE, strict: bool = False) -> URI:
         if curie.startswith("http"):
             return curie
+        # FIXME replace with super() call
         pm = self.prefix_map()
         if ":" in curie:
             toks = curie.split(":")
