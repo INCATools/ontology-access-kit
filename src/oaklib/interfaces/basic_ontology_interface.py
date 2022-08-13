@@ -108,7 +108,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         rv = self.converter.expand(curie)
         if rv is None and strict:
-            raise ValueError
+            prefix_map_text = "\n".join(
+                f"  {prefix} -> {uri_prefix}"
+                for prefix, uri_prefix in sorted(self.converter.data.items())
+            )
+            raise ValueError(
+                f"{self.__class__.__name__}.prefix_map() does not support expanding {curie}.\n"
+                f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
+            )
         return rv
 
     def uri_to_curie(self, uri: URI, strict: bool = True) -> Optional[CURIE]:
@@ -124,7 +131,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         rv = self.converter.compress(uri)
         if rv is None and strict:
-            raise ValueError
+            prefix_map_text = "\n".join(
+                f"  {prefix} -> {uri_prefix}"
+                for prefix, uri_prefix in sorted(self.converter.data.items())
+            )
+            raise ValueError(
+                f"{self.__class__.__name__}.prefix_map() does not support compressing {URI}.\n"
+                f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
+            )
         return rv
 
     def ontologies(self) -> Iterable[CURIE]:
