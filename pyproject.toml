@@ -28,6 +28,7 @@ pystow = "^0.4.4"
 class-resolver = "^0.3.10"
 ontoportal-client = "0.0.3"
 curies = "^0.1.5"
+bioregistry = "^0.5.64"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

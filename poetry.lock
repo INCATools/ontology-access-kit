@@ -217,7 +217,7 @@ lxml = ["lxml"]
 
 [[package]]
 name = "bioregistry"
-version = "0.5.36"
+version = "0.5.64"
 description = "Integrated registry of biological databases and nomenclatures"
 category = "main"
 optional = false
@@ -232,14 +232,14 @@ requests = "*"
 tqdm = "*"
 
 [package.extras]
-align = ["pyyaml", "beautifulsoup4", "tabulate", "defusedxml", "class-resolver"]
-charts = ["matplotlib", "matplotlib-venn", "seaborn", "pandas"]
-docs = ["sphinx", "sphinx-rtd-theme", "sphinx-click", "sphinx-autodoc-typehints", "sphinx-automodapi", "autodoc-pydantic"]
-export = ["pyyaml", "rdflib", "rdflib-jsonld", "ndex2"]
+web = ["markdown", "bootstrap-flask (<=2.0.0)", "flasgger", "flask", "rdflib-jsonld", "rdflib", "pyyaml"]
+tests = ["more-itertools", "pytest", "coverage"]
+health = ["tabulate", "pandas", "click-default-group"]
 gha = ["more-itertools"]
-health = ["click-default-group", "pandas"]
-tests = ["coverage", "pytest", "more-itertools"]
-web = ["pyyaml", "rdflib", "rdflib-jsonld", "flask", "flasgger", "bootstrap-flask (<=2.0.0)", "markdown"]
+export = ["ndex2", "rdflib-jsonld", "rdflib", "pyyaml"]
+docs = ["autodoc-pydantic", "sphinx-automodapi", "sphinx-autodoc-typehints", "sphinx-click", "sphinx-rtd-theme", "sphinx"]
+charts = ["pandas", "seaborn", "matplotlib-venn", "matplotlib"]
+align = ["class-resolver", "defusedxml", "tabulate", "beautifulsoup4", "pyyaml"]
 
 [[package]]
 name = "bleach"
@@ -2656,7 +2656,7 @@ gilda = ["gilda"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2650da00602ca4f1abd91cf052399e2eeefe1a7e3cccdcf16ff1b60c6087902c"
+content-hash = "2d2182dc81483e3a1b6e6ef680530ba850186a5b27557bf71b87e4845e189c24"
 
 [metadata.files]
 adeft = [
