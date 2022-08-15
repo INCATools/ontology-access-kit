@@ -14,9 +14,13 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000115](http://purl.obolibrary.org/obo
 
 ## Properties
 
- * Range: [narrative_text](narrative_text.md)
+ * Range: [NarrativeText](NarrativeText.md)
 
 
+
+## Comments
+
+* SHOULD be in Aristotelian (genus-differentia) form
 
 ## Identifier and Mapping Information
 

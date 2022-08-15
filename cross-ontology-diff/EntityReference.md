@@ -6,8 +6,11 @@ URI: http://www.w3.org/2000/01/rdf-schema#Resource
 
 * [base](https://w3id.org/linkml/base): URIorCURIE
 
+* [uri](https://w3id.org/linkml/uri): rdfs:Resource
 
 * [repr](https://w3id.org/linkml/repr): str
+
+* [typeof](https://w3id.org/linkml/typeof): uriorcurie
 
 
 

@@ -44,21 +44,21 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [url](url.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [time_checked](time_checked.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [number_of_attempts](number_of_attempts.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
-| [http_response_code](http_response_code.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
-| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID  | . |
-| [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | the severity of the issue  | . |
-| [subject](subject.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | The instance which the result is about  | . |
-| [instantiates](instantiates.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The type of the subject  | . |
-| [predicate](predicate.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | The predicate or property of the subject which the result is about  | . |
-| [object](object.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [object_str](object_str.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [source](source.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [info](info.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | additional information about the issue  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [url](url.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [time_checked](time_checked.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [number_of_attempts](number_of_attempts.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
+| [http_response_code](http_response_code.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
+| [type](type.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | The type of validation result  |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md)  | the severity of the issue  |
+| [subject](subject.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | The instance which the result is about  |
+| [instantiates](instantiates.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | The type of the subject  |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | The predicate or property of the subject which the result is about  |
+| [object](object.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | additional information about the issue  |
 
 
 ## Usages
@@ -104,21 +104,26 @@ name: ExternalReferenceValidationResult
 description: A validation result where the check is to determine if a link to an external
   resource is still valid
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: ValidationResult
 attributes:
   url:
     name: url
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
   time_checked:
     name: time_checked
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
   number_of_attempts:
     name: number_of_attempts
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: integer
   http_response_code:
     name: http_response_code
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: integer
 
 ```
@@ -132,31 +137,44 @@ name: ExternalReferenceValidationResult
 description: A validation result where the check is to determine if a link to an external
   resource is still valid
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: ValidationResult
 attributes:
   url:
     name: url
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: url
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ExternalReferenceValidationResult
     range: string
   time_checked:
     name: time_checked
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: time_checked
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ExternalReferenceValidationResult
     range: string
   number_of_attempts:
     name: number_of_attempts
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: number_of_attempts
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ExternalReferenceValidationResult
     range: integer
   http_response_code:
     name: http_response_code
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: http_response_code
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ExternalReferenceValidationResult
     range: integer
   type:
     name: type
@@ -164,26 +182,37 @@ attributes:
       for checks against a datamodel. For principle checks use the corresponding rule
       or principle, e.g. GO RULE ID, OBO Principle ID
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:sourceConstraintComponent
     alias: type
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: uriorcurie
     required: true
   severity:
     name: severity
     description: the severity of the issue
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:resultSeverity
     alias: severity
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: severity_options
   subject:
     name: subject
     description: The instance which the result is about
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:focusNode
     alias: subject
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
     range: uriorcurie
     required: true
   instantiates:
@@ -192,8 +221,11 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     exact_mappings:
     - sh:sourceShape
+    rank: 1000
     alias: instantiates
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
     range: uriorcurie
   predicate:
     name: predicate
@@ -201,35 +233,51 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     related_mappings:
     - sh:resultPath
+    rank: 1000
     alias: predicate
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
     range: uriorcurie
   object:
     name: object
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:value
     alias: object
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
     range: uriorcurie
   object_str:
     name: object_str
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: object_str
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
     range: string
   source:
     name: source
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: source
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
     range: uriorcurie
   info:
     name: info
     description: additional information about the issue
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:resultMessage
     alias: info
     owner: ExternalReferenceValidationResult
+    domain_of:
+    - ValidationResult
+    - RepairOperation
     range: string
 
 ```

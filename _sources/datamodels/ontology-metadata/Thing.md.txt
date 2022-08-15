@@ -30,9 +30,9 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
 
 
 ## Usages
@@ -150,6 +150,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 ```yaml
 name: Thing
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 abstract: true
 slots:
 - type
@@ -164,17 +165,21 @@ class_uri: owl:Thing
 ```yaml
 name: Thing
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 abstract: true
 attributes:
   type:
     name: type
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
     multivalued: true
     designates_type: true
     alias: type
     owner: Thing
+    domain_of:
+    - Thing
     range: uriorcurie
 class_uri: owl:Thing
 

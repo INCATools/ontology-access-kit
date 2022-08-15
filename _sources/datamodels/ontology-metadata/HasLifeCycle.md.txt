@@ -39,17 +39,17 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [deprecated](deprecated.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
-| [has_obsolescence_reason](has_obsolescence_reason.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [term_replaced_by](term_replaced_by.md) | [Any](Any.md) | 0..1 | None  | . |
-| [consider](consider.md) | [Any](Any.md) | 0..* | None  | . |
-| [has_alternative_id](has_alternative_id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | Relates a live term to a deprecated ID that was merged in  | . |
-| [excluded_from_QC_check](excluded_from_QC_check.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [excluded_subClassOf](excluded_subClassOf.md) | [Class](Class.md) | 0..* | None  | . |
-| [excluded_synonym](excluded_synonym.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [should_conform_to](should_conform_to.md) | [Thing](Thing.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
+| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md)  |   |
+| [consider](consider.md) | 0..* <br/> [Any](Any.md)  |   |
+| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | Relates a live term to a deprecated ID that was merged in  |
+| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md)  |   |
+| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md)  |   |
+| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md)  |   |
 
 
 ## Usages
@@ -97,6 +97,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 ```yaml
 name: HasLifeCycle
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -166,6 +167,7 @@ rules:
 ```yaml
 name: HasLifeCycle
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -178,11 +180,14 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     aliases:
     - is obsolete
+    rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: owl:deprecated
     alias: deprecated
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: boolean
   has_obsolescence_reason:
     name: has_obsolescence_reason
@@ -191,11 +196,14 @@ attributes:
     comments:
     - '{''RULE'': ''subject must be deprecated''}'
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: IAO:0000231
     alias: has_obsolescence_reason
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: string
   term_replaced_by:
     name: term_replaced_by
@@ -208,11 +216,14 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - dcterms:isReplacedBy
+    rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: IAO:0100001
     alias: term_replaced_by
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: Any
   consider:
     name: consider
@@ -221,12 +232,15 @@ attributes:
     in_subset:
     - go permitted profile
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: obsoletion_related_property
     domain: ObsoleteAspect
     slot_uri: oio:consider
     multivalued: true
     alias: consider
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: Any
   has_alternative_id:
     name: has_alternative_id
@@ -240,44 +254,59 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     see_also:
     - https://github.com/owlcs/owlapi/issues/317
+    rank: 1000
     is_a: obsoletion_related_property
     domain: NotObsoleteAspect
     slot_uri: oio:hasAlternativeId
     multivalued: true
     alias: has_alternative_id
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: uriorcurie
   excluded_from_QC_check:
     name: excluded_from_QC_check
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: excluded_axiom
     alias: excluded_from_QC_check
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: Thing
   excluded_subClassOf:
     name: excluded_subClassOf
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: excluded_axiom
     multivalued: true
     alias: excluded_subClassOf
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: Class
   excluded_synonym:
     name: excluded_synonym
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:hiddenSynonym
+    rank: 1000
     is_a: excluded_axiom
     multivalued: true
     alias: excluded_synonym
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: string
   should_conform_to:
     name: should_conform_to
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: excluded_axiom
     alias: should_conform_to
     owner: HasLifeCycle
+    domain_of:
+    - HasLifeCycle
     range: Thing
 rules:
 - preconditions:

@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2002/07/owl#propertyChainAxiom](http://www.w3.org/2002/0
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

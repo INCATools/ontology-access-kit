@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2000/01/rdf-schema#range](http://www.w3.org/2000/01/rdf-
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

@@ -8,10 +8,10 @@ URI: BooleanOperator
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| AND | None | None | |
-| OR | None | None | |
-| NOT | None | None | |
-| XOR | None | None | |
+| AND | None |  | |
+| OR | None |  | |
+| NOT | None |  | |
+| XOR | None |  | |
 
 
 ## Identifier and Mapping Information

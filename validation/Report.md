@@ -34,9 +34,9 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [results](results.md) | [Result](Result.md) | 0..* | collection of results  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [results](results.md) | 0..* <br/> [Result](Result.md)  | collection of results  |
 
 
 ## Usages
@@ -81,6 +81,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 name: Report
 description: A report object that is a holder to multiple report results
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 abstract: true
 slots:
 - results
@@ -95,16 +96,20 @@ slots:
 name: Report
 description: A report object that is a holder to multiple report results
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 abstract: true
 attributes:
   results:
     name: results
     description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: Report
+    domain_of:
+    - Report
     range: Result
     inlined: true
     inlined_as_list: true

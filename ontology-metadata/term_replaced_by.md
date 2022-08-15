@@ -18,6 +18,10 @@ URI: [http://purl.obolibrary.org/obo/IAO_0100001](http://purl.obolibrary.org/obo
 
 
 
+## Comments
+
+* {'RULE': 'subject must be deprecated'}
+
 ## Identifier and Mapping Information
 
 

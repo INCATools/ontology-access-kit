@@ -36,9 +36,9 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
 ## Usages
@@ -82,6 +82,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 ```yaml
 name: Axiom
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 abstract: true
 slots:
 - meta
@@ -95,13 +96,21 @@ slots:
 ```yaml
 name: Axiom
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 abstract: true
 attributes:
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: Axiom
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

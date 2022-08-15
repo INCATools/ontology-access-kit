@@ -22,8 +22,8 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
 
 
 ## Usages
@@ -90,6 +90,7 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 ```yaml
 name: Any
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 class_uri: linkml:Any
 
 ```
@@ -101,6 +102,7 @@ class_uri: linkml:Any
 ```yaml
 name: Any
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 class_uri: linkml:Any
 
 ```

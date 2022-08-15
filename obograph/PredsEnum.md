@@ -8,10 +8,10 @@ URI: PredsEnum
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| hasExactSynonym | None | None | |
-| hasNarrowSynonym | None | None | |
-| hasBroadSynonym | None | None | |
-| hasRelatedSynonym | None | None | |
+| hasExactSynonym | None |  | |
+| hasNarrowSynonym | None |  | |
+| hasBroadSynonym | None |  | |
+| hasRelatedSynonym | None |  | |
 
 
 ## Identifier and Mapping Information

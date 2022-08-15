@@ -111,42 +111,30 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="broadMatch.html"><span class="doc std std-doc">broadMatch</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="closeMatch.html"><span class="doc std std-doc">closeMatch</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="exactMatch.html"><span class="doc std std-doc">exactMatch</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="narrowMatch.html"><span class="doc std std-doc">narrowMatch</span></a></p></td>
-<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="database_cross_reference.html"><span class="doc std std-doc">database_cross_reference</span></a></p></td>
-<td><p><a class="reference internal" href="CURIELiteral.html"><span class="doc std std-doc">CURIELiteral</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="CURIELiteral.html"><span class="doc std std-doc">CURIELiteral</span></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -190,6 +178,7 @@
 ```yaml
 name: HasMappings
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -206,53 +195,70 @@ slots:
 ```yaml
 name: HasMappings
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   broadMatch:
     name: broadMatch
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: match
     slot_uri: skos:broadMatch
     multivalued: true
     alias: broadMatch
     owner: HasMappings
+    domain_of:
+    - HasMappings
     range: Thing
   closeMatch:
     name: closeMatch
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: match
     slot_uri: skos:closeMatch
     multivalued: true
     alias: closeMatch
     owner: HasMappings
+    domain_of:
+    - HasMappings
     range: Thing
   exactMatch:
     name: exactMatch
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: match
     slot_uri: skos:exactMatch
     multivalued: true
     alias: exactMatch
     owner: HasMappings
+    domain_of:
+    - HasMappings
     range: Thing
   narrowMatch:
     name: narrowMatch
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: match
     slot_uri: skos:narrowMatch
     multivalued: true
     alias: narrowMatch
     owner: HasMappings
+    domain_of:
+    - HasMappings
     range: Thing
   database_cross_reference:
     name: database_cross_reference
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: match
     slot_uri: oio:hasDbXref
     multivalued: true
     alias: database_cross_reference
     owner: HasMappings
+    domain_of:
+    - HasMappings
+    - Axiom
     range: CURIELiteral
 
 </pre></div>

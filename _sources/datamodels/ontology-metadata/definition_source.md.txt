@@ -18,6 +18,10 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000119](http://purl.obolibrary.org/obo
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

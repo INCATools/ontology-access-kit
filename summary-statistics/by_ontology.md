@@ -15,6 +15,10 @@ URI: [https://w3id.org/linkml/reportby_ontology](https://w3id.org/linkml/reportb
 
 
 
+## Comments
+
+* if a large ontology collection like OntoBee is indexed then it makes sense to break stats into each sub-ontology
+
 ## Identifier and Mapping Information
 
 

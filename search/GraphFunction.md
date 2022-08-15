@@ -8,12 +8,12 @@ URI: GraphFunction
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| DESCENDANT_OF | None | None | |
-| ANCESTOR_OF | None | None | |
-| PROPER_DESCENDANT_OF | None | None | |
-| PROPER_ANCESTOR_OF | None | None | |
-| PARENT_OF | None | None | |
-| CHILD_OF | None | None | |
+| DESCENDANT_OF | None |  | |
+| ANCESTOR_OF | None |  | |
+| PROPER_DESCENDANT_OF | None |  | |
+| PROPER_ANCESTOR_OF | None |  | |
+| PARENT_OF | None |  | |
+| CHILD_OF | None |  | |
 
 
 ## Identifier and Mapping Information

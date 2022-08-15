@@ -13,6 +13,10 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/predicate_id](https://w3id
 
 
 
+## Comments
+
+* if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes narrow
+
 ## Identifier and Mapping Information
 
 

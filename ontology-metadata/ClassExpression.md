@@ -38,16 +38,16 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [disjointWith](disjointWith.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [equivalentClass](equivalentClass.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
-| [intersectionOf](intersectionOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
-| [subClassOf](subClassOf.md) | [ClassExpression](ClassExpression.md) | 0..* | None  | . |
-| [cardinality](cardinality.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [complementOf](complementOf.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [oneOf](oneOf.md) | [ClassExpression](ClassExpression.md) | 0..1 | None  | . |
-| [unionOf](unionOf.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md)  |   |
+| [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md)  |   |
+| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md)  |   |
+| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md)  |   |
+| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 
 
 ## Usages
@@ -106,6 +106,7 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 ```yaml
 name: ClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Expression
 mixin: true
 slots:
@@ -127,6 +128,7 @@ slots:
 ```yaml
 name: ClassExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Expression
 mixin: true
 attributes:
@@ -135,17 +137,22 @@ attributes:
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
     multivalued: true
     alias: disjointWith
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
+    - PropertyExpression
     range: string
   equivalentClass:
     name: equivalentClass
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     mixins:
     - match_aspect
@@ -153,59 +160,79 @@ attributes:
     multivalued: true
     alias: equivalentClass
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: ClassExpression
   intersectionOf:
     name: intersectionOf
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:intersectionOf
     alias: intersectionOf
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: ClassExpression
   subClassOf:
     name: subClassOf
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: rdfs:subClassOf
     multivalued: true
     alias: subClassOf
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: ClassExpression
   cardinality:
     name: cardinality
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:cardinality
     alias: cardinality
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: string
   complementOf:
     name: complementOf
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:complementOf
     alias: complementOf
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: string
   oneOf:
     name: oneOf
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:oneOf
     alias: oneOf
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: ClassExpression
   unionOf:
     name: unionOf
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:unionOf
     alias: unionOf
     owner: ClassExpression
+    domain_of:
+    - ClassExpression
     range: string
 
 ```

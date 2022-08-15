@@ -31,8 +31,8 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
 
 
 ## Usages
@@ -76,6 +76,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 ```yaml
 name: Expression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```
@@ -87,6 +88,7 @@ mixin: true
 ```yaml
 name: Expression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```

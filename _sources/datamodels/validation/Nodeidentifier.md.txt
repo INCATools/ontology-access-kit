@@ -6,8 +6,10 @@ URI: shex:nonLiteral
 
 * [base](https://w3id.org/linkml/base): NodeIdentifier
 
+* [uri](https://w3id.org/linkml/uri): shex:nonLiteral
 
 * [repr](https://w3id.org/linkml/repr): str
+
 
 
 
@@ -15,6 +17,15 @@ URI: shex:nonLiteral
 ## Identifier and Mapping Information
 
 
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/types
 
 
 

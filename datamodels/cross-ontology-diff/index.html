@@ -63,6 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types">Types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#subsets">Subsets</a></li>
 </ul>
 </li>
@@ -116,35 +117,13 @@ Name: cross-ontology-diff</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="RelationalDiff.html"><span class="doc std std-doc">RelationalDiff</span></a></p></td>
-<td><p>A relational diff expresses the difference between an edge in one ontology, and an edge (or lack of edge) in</p></td>
+<td><p>A relational diff expresses the difference between an edge in one ontology, a…</p></td>
 </tr>
-<tr class="row-odd"><td><p>another ontology (or a different version of the same ontology). The diff is from the perspective of one</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>ontology (the one on the “left” side).</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="StructureDiffResultSet.html"><span class="doc std std-doc">StructureDiffResultSet</span></a></p></td>
+<td><p>A collection of relational diff results results</p></td>
 </tr>
 </tbody>
 </table>
-<p>For every edge in the left ontology, the subject and object are mapped to the right ontology.
-If mappings cannot be found then the diff is categorized as missing mappings.
-The predicate is also mapped, with the reflexivity assumption.</p>
-<p>for every mapped subject and object pair (the “right” subject and object), the entailed relationship
-is examined to determine if it consistent with the left predicate.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left_object</span>    <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_object</span>
-   <span class="o">^</span>                                  <span class="o">^</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span> <span class="n">left</span>                             <span class="o">|</span> <span class="n">right</span>
-   <span class="o">|</span> <span class="n">predicate</span>                        <span class="o">|</span> <span class="n">predicate</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-   <span class="o">|</span>                                  <span class="o">|</span>
-<span class="n">left_subject</span>   <span class="o">&lt;---</span> <span class="n">mapped</span> <span class="n">to</span> <span class="o">---&gt;</span> <span class="n">right_subject</span>
-</pre></div>
-</div>
-<p>The above figure gives hows the basic structure. Classification of the edge is done from the perspective
-of the left edge. |
-| <a class="reference internal" href="StructureDiffResultSet.html"><span class="doc std std-doc">StructureDiffResultSet</span></a> | A collection of relational diff results results |</p>
 </section>
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
@@ -159,16 +138,16 @@ of the left edge. |
 <td><p>Each match (or lack of match) is placed into exactly one category</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_functional.html"><span class="doc std std-doc">is_functional</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_object_id.html"><span class="doc std std-doc">left_object_id</span></a></p></td>
 <td><p>The object (parent) of the source/left edge</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
-<td><p>True if an object mapping is present, and maps uniquely within the same ontology</p></td>
+<td><p>True if an object mapping is present, and maps uniquely within the same ontol…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_object_label.html"><span class="doc std std-doc">left_object_label</span></a></p></td>
 <td><p>The name of the object (parent) of the source/left edge</p></td>
@@ -180,22 +159,22 @@ of the left edge. |
 <td><p>The name of the predicate of the source/left edge</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_side.html"><span class="doc std std-doc">left_side</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_source.html"><span class="doc std std-doc">left_source</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_subject_id.html"><span class="doc std std-doc">left_subject_id</span></a></p></td>
 <td><p>The subject (child) of the source/left edge</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
-<td><p>True if a subject mapping is present, and maps uniquely within the same ontology</p></td>
+<td><p>True if a subject mapping is present, and maps uniquely within the same ontol…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_subject_label.html"><span class="doc std std-doc">left_subject_label</span></a></p></td>
 <td><p>The name of the subject (child) of the source/left edge</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_mapping_cardinality.html"><span class="doc std std-doc">object_mapping_cardinality</span></a></p></td>
 <td><p>The mapping cardinality of the object pair</p></td>
@@ -204,13 +183,13 @@ of the left edge. |
 <td><p>The mapping predicate that holds between left_object_id and right_object_id</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
 <td><p>all differences between a pair of ontologies</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="right_intermediate_ids.html"><span class="doc std std-doc">right_intermediate_ids</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_object_id.html"><span class="doc std std-doc">right_object_id</span></a></p></td>
 <td><p>The object (parent) of the matched/right edge, if matchable</p></td>
@@ -219,23 +198,37 @@ of the left edge. |
 <td><p>The name of the object (parent) of the matched/right edge, if matchable</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="doc std std-doc">right_predicate_ids</span></a></p></td>
-<td><p>* If the match type is consistent, then all consistent predicates.</p></td>
+<td><p>* If the match type is consistent, then all consistent predicates</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a></p></td>
+<td><p>The names corresponding to the right_predicate_ids</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_side.html"><span class="doc std std-doc">right_side</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_source.html"><span class="doc std std-doc">right_source</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_subject_id.html"><span class="doc std std-doc">right_subject_id</span></a></p></td>
+<td><p>The subject (child) of the matched/right edge, if matchable</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a></p></td>
+<td><p>The name of the subject (child) of the matched/right edge, if matchable</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="side.html"><span class="doc std std-doc">side</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a></p></td>
+<td><p>The mapping cardinality of the subject pair</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a></p></td>
+<td><p>The mapping predicate that holds between left_subject_id and right_subject_id</p></td>
 </tr>
 </tbody>
 </table>
-<ul class="simple">
-<li><p>If the match type is identical, then the identical predicate.</p></li>
-<li><p>If the match type is OtherRelationship, then all predicates that form a path between right subject and object |
-| <a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a> | The names corresponding to the right_predicate_ids |
-| <a class="reference internal" href="right_side.html"><span class="doc std std-doc">right_side</span></a> | None |
-| <a class="reference internal" href="right_source.html"><span class="doc std std-doc">right_source</span></a> | None |
-| <a class="reference internal" href="right_subject_id.html"><span class="doc std std-doc">right_subject_id</span></a> | The subject (child) of the matched/right edge, if matchable |
-| <a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a> | The name of the subject (child) of the matched/right edge, if matchable |
-| <a class="reference internal" href="side.html"><span class="doc std std-doc">side</span></a> | None |
-| <a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a> | None |
-| <a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a> | The mapping cardinality of the subject pair |
-| <a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a> | The mapping predicate that holds between left_subject_id and right_subject_id |</p></li>
-</ul>
 </section>
 <section id="enumerations">
 <h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline"></a></h2>
@@ -247,10 +240,73 @@ of the left edge. |
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="DiffCategory.html"><span class="doc std std-doc">DiffCategory</span></a></p></td>
-<td><p>Category of the cross-ontology diff, from the perspective of the left-hand edge</p></td>
+<td><p>Category of the cross-ontology diff, from the perspective of the left-hand ed…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a></p></td>
-<td><p>None</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="types">
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>A binary (true or false) value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#date">xsd:date</a></p></td>
+<td><p>a date (year, month and day) in an idealized calendar</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></p></td>
+<td><p>Either a date or a datetime</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p></td>
+<td><p>The combination of a date and time</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#decimal">xsd:decimal</a></p></td>
+<td><p>A real number with arbitrary precision that conforms to the xsd:decimal speci…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#double">xsd:double</a></p></td>
+<td><p>A real number that conforms to the xsd:double specification</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
+<td><p>A reference to a mapped entity</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
+<td><p>A real number that conforms to the xsd:float specification</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>An integer</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>Prefix part of CURIE</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref myst">shex:nonLiteral</span></p></td>
+<td><p>A URI, CURIE or BNODE that represents a node in a model</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="xref myst">shex:iri</span></p></td>
+<td><p>A URI or CURIE that represents an object in the model</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>A character string</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p></td>
+<td><p>A time object represents a (local) time of day, independent of any particular…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>a complete URI</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>a URI or a CURIE</p></td>
 </tr>
 </tbody>
 </table>

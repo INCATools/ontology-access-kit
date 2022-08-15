@@ -26,8 +26,8 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
 
 
 ## Usages
@@ -116,6 +116,7 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 name: ObsoleteAspect
 description: Auto-classifies anything that is obsolete
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 slot_usage:
   label:
@@ -137,6 +138,7 @@ classification_rules:
 name: ObsoleteAspect
 description: Auto-classifies anything that is obsolete
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 slot_usage:
   label:

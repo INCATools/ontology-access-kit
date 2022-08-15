@@ -133,89 +133,93 @@ of the left edge._</p>
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
-<td><p><a class="reference internal" href="DiffCategory.html"><span class="doc std std-doc">DiffCategory</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="DiffCategory.html"><span class="doc std std-doc">DiffCategory</span></a></p></td>
 <td><p>Each match (or lack of match) is placed into exactly one category</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_id.html"><span class="doc std std-doc">left_subject_id</span></a></p></td>
-<td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>1..1</p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The subject (child) of the source/left edge</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_id.html"><span class="doc std std-doc">left_object_id</span></a></p></td>
-<td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>1..1</p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The object (parent) of the source/left edge</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_predicate_id.html"><span class="doc std std-doc">left_predicate_id</span></a></p></td>
-<td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>1..1</p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The predicate (relation) of the source/left edge</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_subject_label.html"><span class="doc std std-doc">left_subject_label</span></a></p></td>
-<td><p><a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
 <td><p>The name of the subject (child) of the source/left edge</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_object_label.html"><span class="doc std std-doc">left_object_label</span></a></p></td>
-<td><p><a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
 <td><p>The name of the object (parent) of the source/left edge</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_predicate_label.html"><span class="doc std std-doc">left_predicate_label</span></a></p></td>
-<td><p><a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
 <td><p>The name of the predicate of the source/left edge</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_subject_id.html"><span class="doc std std-doc">right_subject_id</span></a></p></td>
-<td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The subject (child) of the matched/right edge, if matchable</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="right_object_id.html"><span class="doc std std-doc">right_object_id</span></a></p></td>
-<td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The object (parent) of the matched/right edge, if matchable</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="doc std std-doc">right_predicate_ids</span></a></p></td>
-<td><p><a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>* If the match type is consistent, then all consistent predicates.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
+<td><p>* If the match type is consistent, then all consistent predicates</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
+<td><p>The name of the subject (child) of the matched/right edge, if matchable</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
+<td><p>The name of the object (parent) of the matched/right edge, if matchable</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
+<td><p>The names corresponding to the right_predicate_ids</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>True if a subject mapping is present, and maps uniquely within the same ontol…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>True if an object mapping is present, and maps uniquely within the same ontol…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
+<td><p>The mapping predicate that holds between left_subject_id and right_subject_id</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
+<td><p>The mapping predicate that holds between left_object_id and right_object_id</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_intermediate_ids.html"><span class="doc std std-doc">right_intermediate_ids</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a></p></td>
+<td><p>The mapping cardinality of the subject pair</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_mapping_cardinality.html"><span class="doc std std-doc">object_mapping_cardinality</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a></p></td>
+<td><p>The mapping cardinality of the object pair</p></td>
 </tr>
 </tbody>
 </table>
-<ul class="simple">
-<li><p>If the match type is identical, then the identical predicate.</p></li>
-<li><p>If the match type is OtherRelationship, then all predicates that form a path between right subject and object  | . |
-| <a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a> | <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a> | 0..1 | The name of the subject (child) of the matched/right edge, if matchable  | . |
-| <a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a> | <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a> | 0..1 | The name of the object (parent) of the matched/right edge, if matchable  | . |
-| <a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a> | <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a> | 0..* | The names corresponding to the right_predicate_ids  | . |
-| <a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a> | <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a> | 0..1 | True if a subject mapping is present, and maps uniquely within the same ontology  | . |
-| <a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a> | <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a> | 0..1 | True if an object mapping is present, and maps uniquely within the same ontology  | . |
-| <a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a> | <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a> | 0..1 | The mapping predicate that holds between left_subject_id and right_subject_id  | . |
-| <a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a> | <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a> | 0..1 | The mapping predicate that holds between left_object_id and right_object_id  | . |
-| <a class="reference internal" href="right_intermediate_ids.html"><span class="doc std std-doc">right_intermediate_ids</span></a> | <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a> | 0..* | None  | . |
-| <a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a> | <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a> | 0..1 | The mapping cardinality of the subject pair  | . |
-| <a class="reference internal" href="object_mapping_cardinality.html"><span class="doc std std-doc">object_mapping_cardinality</span></a> | <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a> | 0..1 | The mapping cardinality of the object pair  | . |</p></li>
-</ul>
 </section>
 <section id="usages">
 <h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
@@ -288,16 +292,19 @@ description: "A relational diff expresses the difference between an edge in one 
   \ hows the basic structure. Classification of the edge is done from the perspective\n\
   of the left edge."
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 attributes:
   category:
     name: category
     description: Each match (or lack of match) is placed into exactly one category
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     range: DiffCategory
   left_subject_id:
     name: left_subject_id
     description: The subject (child) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - subject
@@ -307,6 +314,7 @@ attributes:
     name: left_object_id
     description: The object (parent) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - object
@@ -316,6 +324,7 @@ attributes:
     name: left_predicate_id
     description: The predicate (relation) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - predicate
@@ -325,6 +334,7 @@ attributes:
     name: left_subject_label
     description: The name of the subject (child) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - subject
@@ -334,6 +344,7 @@ attributes:
     name: left_object_label
     description: The name of the object (parent) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - object
@@ -343,6 +354,7 @@ attributes:
     name: left_predicate_label
     description: The name of the predicate of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - predicate
@@ -352,6 +364,7 @@ attributes:
     name: right_subject_id
     description: The subject (child) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - subject
@@ -360,6 +373,7 @@ attributes:
     name: right_object_id
     description: The object (parent) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - object
@@ -372,6 +386,7 @@ attributes:
   * If the match type is OtherRelationship, then all predicates that form a path
   between right subject and object&#39;
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - right_side
 - predicate
@@ -383,6 +398,7 @@ range: EntityReference
 name: right_subject_label
 description: The name of the subject (child) of the matched/right edge, if matchable
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - right_side
 - subject
@@ -392,6 +408,7 @@ right_object_label:
 name: right_object_label
 description: The name of the object (parent) of the matched/right edge, if matchable
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - right_side
 - object
@@ -401,6 +418,7 @@ right_predicate_labels:
 name: right_predicate_labels
 description: The names corresponding to the right_predicate_ids
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - right_side
 - predicate
@@ -412,6 +430,7 @@ name: left_subject_is_functional
 description: True if a subject mapping is present, and maps uniquely within the
 same ontology
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - left_side
 - is_functional
@@ -420,6 +439,7 @@ name: left_object_is_functional
 description: True if an object mapping is present, and maps uniquely within the
 same ontology
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - left_side
 - is_functional
@@ -427,6 +447,7 @@ subject_mapping_predicate:
 name: subject_mapping_predicate
 description: The mapping predicate that holds between left_subject_id and right_subject_id
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - subject
 - predicate
@@ -435,6 +456,7 @@ object_mapping_predicate:
 name: object_mapping_predicate
 description: The mapping predicate that holds between left_object_id and right_object_id
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 mixins:
 - subject
 - predicate
@@ -442,17 +464,20 @@ range: EntityReference
 right_intermediate_ids:
 name: right_intermediate_ids
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 multivalued: true
 range: EntityReference
 subject_mapping_cardinality:
 name: subject_mapping_cardinality
 description: The mapping cardinality of the subject pair
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 range: MappingCardinalityEnum
 object_mapping_cardinality:
 name: object_mapping_cardinality
 description: The mapping cardinality of the object pair
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 range: MappingCardinalityEnum</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -478,99 +503,127 @@ description: &quot;A relational diff expresses the difference between an edge in
   \ hows the basic structure. Classification of the edge is done from the perspective\n\
   of the left edge.&quot;
 from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
 attributes:
   category:
     name: category
     description: Each match (or lack of match) is placed into exactly one category
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     alias: category
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: DiffCategory
   left_subject_id:
     name: left_subject_id
     description: The subject (child) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - subject
     alias: left_subject_id
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
     required: true
   left_object_id:
     name: left_object_id
     description: The object (parent) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - object
     alias: left_object_id
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
     required: true
   left_predicate_id:
     name: left_predicate_id
     description: The predicate (relation) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - predicate
     alias: left_predicate_id
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
     required: true
   left_subject_label:
     name: left_subject_label
     description: The name of the subject (child) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - subject
     - label
     alias: left_subject_label
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: Label
   left_object_label:
     name: left_object_label
     description: The name of the object (parent) of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - object
     - label
     alias: left_object_label
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: Label
   left_predicate_label:
     name: left_predicate_label
     description: The name of the predicate of the source/left edge
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - predicate
     - label
     alias: left_predicate_label
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: Label
   right_subject_id:
     name: right_subject_id
     description: The subject (child) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - subject
     alias: right_subject_id
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_object_id:
     name: right_object_id
     description: The object (parent) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - object
     alias: right_object_id
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_predicate_ids:
     name: right_predicate_ids
@@ -581,39 +634,49 @@ attributes:
       * If the match type is OtherRelationship, then all predicates that form a path
       between right subject and object&#39;
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - predicate
     multivalued: true
     alias: right_predicate_ids
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_subject_label:
     name: right_subject_label
     description: The name of the subject (child) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - subject
     - label
     alias: right_subject_label
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: Label
   right_object_label:
     name: right_object_label
     description: The name of the object (parent) of the matched/right edge, if matchable
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - object
     - label
     alias: right_object_label
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: Label
   right_predicate_labels:
     name: right_predicate_labels
     description: The names corresponding to the right_predicate_ids
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - right_side
     - predicate
@@ -621,69 +684,92 @@ attributes:
     multivalued: true
     alias: right_predicate_labels
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: Label
   left_subject_is_functional:
     name: left_subject_is_functional
     description: True if a subject mapping is present, and maps uniquely within the
       same ontology
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - is_functional
     alias: left_subject_is_functional
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: boolean
   left_object_is_functional:
     name: left_object_is_functional
     description: True if an object mapping is present, and maps uniquely within the
       same ontology
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - left_side
     - is_functional
     alias: left_object_is_functional
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: boolean
   subject_mapping_predicate:
     name: subject_mapping_predicate
     description: The mapping predicate that holds between left_subject_id and right_subject_id
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - subject
     - predicate
     alias: subject_mapping_predicate
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   object_mapping_predicate:
     name: object_mapping_predicate
     description: The mapping predicate that holds between left_object_id and right_object_id
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     mixins:
     - subject
     - predicate
     alias: object_mapping_predicate
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   right_intermediate_ids:
     name: right_intermediate_ids
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     multivalued: true
     alias: right_intermediate_ids
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: EntityReference
   subject_mapping_cardinality:
     name: subject_mapping_cardinality
     description: The mapping cardinality of the subject pair
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     alias: subject_mapping_cardinality
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: MappingCardinalityEnum
   object_mapping_cardinality:
     name: object_mapping_cardinality
     description: The mapping cardinality of the object pair
     from_schema: https://w3id.org/linkml/cross_ontology_diff
+    rank: 1000
     alias: object_mapping_cardinality
     owner: RelationalDiff
+    domain_of:
+    - RelationalDiff
     range: MappingCardinalityEnum
 
 </pre></div>

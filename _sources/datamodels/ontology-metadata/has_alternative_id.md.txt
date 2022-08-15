@@ -20,6 +20,10 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasAlternativeId](http://www.
 
 
 
+## Comments
+
+* {'RULE': 'object must NOT be deprecated'}
+
 ## Identifier and Mapping Information
 
 

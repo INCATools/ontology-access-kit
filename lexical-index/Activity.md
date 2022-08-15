@@ -33,8 +33,8 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
 
 
 ## Usages
@@ -79,6 +79,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 name: Activity
 description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 abstract: true
 class_uri: prov:Activity
 
@@ -92,6 +93,7 @@ class_uri: prov:Activity
 name: Activity
 description: Generic grouping for any lexical operation
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 abstract: true
 class_uri: prov:Activity
 

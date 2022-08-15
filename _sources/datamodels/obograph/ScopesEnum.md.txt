@@ -8,10 +8,10 @@ URI: ScopesEnum
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| exact | None | None | |
-| narrow | None | None | |
-| broad | None | None | |
-| related | None | None | |
+| exact | None |  | |
+| narrow | None |  | |
+| broad | None |  | |
+| related | None |  | |
 
 
 ## Identifier and Mapping Information

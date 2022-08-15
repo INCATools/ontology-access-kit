@@ -32,12 +32,12 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [val](val.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
 ## Usages
@@ -81,6 +81,7 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 ```yaml
 name: XrefPropertyValue
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: PropertyValue
 
 ```
@@ -92,32 +93,51 @@ is_a: PropertyValue
 ```yaml
 name: XrefPropertyValue
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: PropertyValue
 attributes:
   pred:
     name: pred
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: pred
     owner: XrefPropertyValue
+    domain_of:
+    - Edge
+    - PropertyValue
     range: string
   val:
     name: val
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: val
     owner: XrefPropertyValue
+    domain_of:
+    - PropertyValue
     range: string
   xrefs:
     name: xrefs
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: xrefs
     owner: XrefPropertyValue
+    domain_of:
+    - Meta
+    - PropertyValue
     range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: XrefPropertyValue
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

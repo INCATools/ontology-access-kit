@@ -31,9 +31,9 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [results](results.md) | [RepairOperation](RepairOperation.md) | 0..* | collection of results  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [results](results.md) | 0..* <br/> [RepairOperation](RepairOperation.md)  | collection of results  |
 
 
 ## Usages
@@ -78,10 +78,14 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 name: RepairReport
 description: A report that consists of repair operation results
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: RepairOperation
 
 ```
@@ -94,20 +98,28 @@ slot_usage:
 name: RepairReport
 description: A report that consists of repair operation results
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: RepairOperation
 attributes:
   results:
     name: results
     description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: RepairReport
+    domain_of:
+    - Report
+    - Report
     range: RepairOperation
     inlined: true
     inlined_as_list: true

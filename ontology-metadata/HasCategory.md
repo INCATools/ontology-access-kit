@@ -34,12 +34,12 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [has_obo_namespace](has_obo_namespace.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [category](category.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [in_subset](in_subset.md) | [Subset](Subset.md) | 0..* | Maps an ontology element to a subset it belongs to  | . |
-| [conformsTo](conformsTo.md) | [Thing](Thing.md) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [category](category.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md)  | Maps an ontology element to a subset it belongs to  |
+| [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md)  |   |
 
 
 ## Usages
@@ -83,6 +83,7 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 ```yaml
 name: HasCategory
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -100,42 +101,55 @@ slots:
 ```yaml
 name: HasCategory
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
   has_obo_namespace:
     name: has_obo_namespace
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     slot_uri: oio:hasOBONamespace
     multivalued: true
     alias: has_obo_namespace
     owner: HasCategory
+    domain_of:
+    - HasCategory
     range: string
   category:
     name: category
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: biolink:category
     alias: category
     owner: HasCategory
+    domain_of:
+    - HasCategory
     range: string
   in_subset:
     name: in_subset
     description: Maps an ontology element to a subset it belongs to
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     slot_uri: oio:inSubset
     multivalued: true
     alias: in_subset
     owner: HasCategory
+    domain_of:
+    - HasCategory
     range: Subset
   conformsTo:
     name: conformsTo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: dcterms:conformsTo
     multivalued: true
     alias: conformsTo
     owner: HasCategory
+    domain_of:
+    - HasCategory
     range: Thing
 
 ```

@@ -107,96 +107,66 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="search_terms.html"><span class="doc std std-doc">search_terms</span></a></p></td>
-<td><p><a class="reference internal" href="SearchTerm.html"><span class="doc std std-doc">SearchTerm</span></a></p></td>
-<td><p>0..*</p></td>
-<td><p>An individual search term. The syntax is determined by the syntax slot</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="SearchTerm.html"><span class="doc std std-doc">SearchTerm</span></a></p></td>
+<td><p>An individual search term</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="syntax.html"><span class="doc std std-doc">syntax</span></a></p></td>
-<td><p><a class="reference internal" href="SearchTermSyntax.html"><span class="doc std std-doc">SearchTermSyntax</span></a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SearchTermSyntax.html"><span class="doc std std-doc">SearchTermSyntax</span></a></p></td>
 <td><p>Determines how the search term is interpreted</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="properties.html"><span class="doc std std-doc">properties</span></a></p></td>
-<td><p><a class="reference internal" href="SearchProperty.html"><span class="doc std std-doc">SearchProperty</span></a></p></td>
-<td><p>0..*</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="SearchProperty.html"><span class="doc std std-doc">SearchProperty</span></a></p></td>
 <td><p>determines which properties are searched over</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="limit.html"><span class="doc std std-doc">limit</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
 <td><p>the maximum number of search results to be returned in one batch</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="cursor.html"><span class="doc std std-doc">cursor</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
-<td><p>0..1</p></td>
-<td><p>when the number of search results exceed the limit this can be used to iterate through results</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>when the number of search results exceed the limit this can be used to iterat…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_regular_expression.html"><span class="doc std std-doc">is_regular_expression</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>restricts search results to matches of the full span of the string</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="include_id.html"><span class="doc std std-doc">include_id</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="include_label.html"><span class="doc std std-doc">include_label</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="include_aliases.html"><span class="doc std std-doc">include_aliases</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="include_definition.html"><span class="doc std std-doc">include_definition</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -263,6 +233,7 @@ name: SearchBaseConfiguration
 description: A user-specified configuration that determines how a particular search
   operation works
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   search_terms:
     name: search_terms
@@ -273,73 +244,87 @@ attributes:
       searches
     - If multiple terms are provided this is treated as a union query
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     range: SearchTerm
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: SearchTermSyntax
   properties:
     name: properties
     description: determines which properties are searched over
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     range: SearchProperty
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: integer
   cursor:
     name: cursor
     description: when the number of search results exceed the limit this can be used
       to iterate through results
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: integer
   is_regular_expression:
     name: is_regular_expression
     deprecated: use the syntax slot
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   is_partial:
     name: is_partial
     deprecated: use is_complete
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   is_complete:
     name: is_complete
     description: restricts search results to matches of the full span of the string
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   include_id:
     name: include_id
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   include_label:
     name: include_label
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   include_aliases:
     name: include_aliases
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   include_definition:
     name: include_definition
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   include_obsoletes_in_results:
     name: include_obsoletes_in_results
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: boolean
   categories:
     name: categories
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -351,6 +336,7 @@ name: SearchBaseConfiguration
 description: A user-specified configuration that determines how a particular search
   operation works
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   search_terms:
     name: search_terms
@@ -361,102 +347,145 @@ attributes:
       searches
     - If multiple terms are provided this is treated as a union query
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     alias: search_terms
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: SearchTerm
   syntax:
     name: syntax
     description: Determines how the search term is interpreted
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: syntax
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: SearchTermSyntax
   properties:
     name: properties
     description: determines which properties are searched over
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     alias: properties
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: SearchProperty
   limit:
     name: limit
     description: the maximum number of search results to be returned in one batch
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: limit
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: integer
   cursor:
     name: cursor
     description: when the number of search results exceed the limit this can be used
       to iterate through results
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: cursor
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
+    - SearchResultSet
     range: integer
   is_regular_expression:
     name: is_regular_expression
     deprecated: use the syntax slot
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: is_regular_expression
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   is_partial:
     name: is_partial
     deprecated: use is_complete
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: is_partial
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   is_complete:
     name: is_complete
     description: restricts search results to matches of the full span of the string
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: is_complete
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   include_id:
     name: include_id
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: include_id
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   include_label:
     name: include_label
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: include_label
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   include_aliases:
     name: include_aliases
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: include_aliases
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   include_definition:
     name: include_definition
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: include_definition
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   include_obsoletes_in_results:
     name: include_obsoletes_in_results
     deprecated: use properties to explicitly list properties
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: include_obsoletes_in_results
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: boolean
   categories:
     name: categories
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     alias: categories
     owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
     range: string
 
 </pre></div>

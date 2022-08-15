@@ -32,10 +32,10 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [type](type.md) | [TransformationType](TransformationType.md) | 0..1 | The type of transformation  | . |
-| [params](params.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | Any parameters to be applied to the transformation algorithm  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md)  | The type of transformation  |
+| [params](params.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | Any parameters to be applied to the transformation algorithm  |
 
 
 ## Usages
@@ -86,17 +86,20 @@ name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 is_a: Activity
 attributes:
   type:
     name: type
     description: The type of transformation
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     range: TransformationType
   params:
     name: params
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
 
 ```
 </details>
@@ -109,21 +112,28 @@ name: LexicalTransformation
 description: An atomic lexical transformation applied on a term (string) yielding
   a transformed string
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 is_a: Activity
 attributes:
   type:
     name: type
     description: The type of transformation
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     alias: type
     owner: LexicalTransformation
+    domain_of:
+    - LexicalTransformation
     range: TransformationType
   params:
     name: params
     description: Any parameters to be applied to the transformation algorithm
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     alias: params
     owner: LexicalTransformation
+    domain_of:
+    - LexicalTransformation
     range: string
 
 ```

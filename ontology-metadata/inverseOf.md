@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2002/07/owl#inverseOf](http://www.w3.org/2002/07/owl#inv
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

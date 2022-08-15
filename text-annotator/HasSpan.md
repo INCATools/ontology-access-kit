@@ -30,13 +30,13 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [subject_start](subject_start.md) | [Position](Position.md) | 0..1 | None  | . |
-| [subject_end](subject_end.md) | [Position](Position.md) | 0..1 | None  | . |
-| [subject_label](subject_label.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | The portion of the subject text that is matched, ranging from subject_start to subject_end  | . |
-| [subject_source](subject_source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [subject_text_id](subject_text_id.md) | [TextualElement](TextualElement.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md)  |   |
+| [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md)  |   |
+| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | The portion of the subject text that is matched, ranging from subject_start t...  |
+| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md)  |   |
 
 
 ## Usages
@@ -80,6 +80,7 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 ```yaml
 name: HasSpan
 from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
 mixin: true
 attributes:
   subject_start:
@@ -87,12 +88,14 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - bpa:from
+    rank: 1000
     range: Position
   subject_end:
     name: subject_end
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - bpa:to
+    rank: 1000
     range: Position
   subject_label:
     name: subject_label
@@ -101,15 +104,18 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - bpa:text
+    rank: 1000
   subject_source:
     name: subject_source
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - oa:hasBody
+    rank: 1000
     slot_uri: sssom:subject_source
   subject_text_id:
     name: subject_text_id
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     range: TextualElement
 
 ```
@@ -121,6 +127,7 @@ attributes:
 ```yaml
 name: HasSpan
 from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
 mixin: true
 attributes:
   subject_start:
@@ -128,16 +135,22 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - bpa:from
+    rank: 1000
     alias: subject_start
     owner: HasSpan
+    domain_of:
+    - HasSpan
     range: Position
   subject_end:
     name: subject_end
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - bpa:to
+    rank: 1000
     alias: subject_end
     owner: HasSpan
+    domain_of:
+    - HasSpan
     range: Position
   subject_label:
     name: subject_label
@@ -146,23 +159,32 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - bpa:text
+    rank: 1000
     alias: subject_label
     owner: HasSpan
+    domain_of:
+    - HasSpan
     range: string
   subject_source:
     name: subject_source
     from_schema: https://w3id.org/linkml/text_annotator
     exact_mappings:
     - oa:hasBody
+    rank: 1000
     slot_uri: sssom:subject_source
     alias: subject_source
     owner: HasSpan
+    domain_of:
+    - HasSpan
     range: string
   subject_text_id:
     name: subject_text_id
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     alias: subject_text_id
     owner: HasSpan
+    domain_of:
+    - HasSpan
     range: TextualElement
 
 ```

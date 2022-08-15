@@ -39,12 +39,12 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [val](val.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
 ## Usages
@@ -88,6 +88,7 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 ```yaml
 name: PropertyValue
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 abstract: true
 slots:
 - pred
@@ -104,32 +105,51 @@ slots:
 ```yaml
 name: PropertyValue
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 abstract: true
 attributes:
   pred:
     name: pred
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: pred
     owner: PropertyValue
+    domain_of:
+    - Edge
+    - PropertyValue
     range: string
   val:
     name: val
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: val
     owner: PropertyValue
+    domain_of:
+    - PropertyValue
     range: string
   xrefs:
     name: xrefs
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: xrefs
     owner: PropertyValue
+    domain_of:
+    - Meta
+    - PropertyValue
     range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: PropertyValue
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

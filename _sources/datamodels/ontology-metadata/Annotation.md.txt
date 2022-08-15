@@ -24,10 +24,10 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [predicate](predicate.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [object](object.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [object](object.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 
 
 ## Usages
@@ -76,14 +76,17 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 ```yaml
 name: Annotation
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     relational_role: PREDICATE
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     relational_role: OBJECT
 represents_relationship: true
 
@@ -96,19 +99,26 @@ represents_relationship: true
 ```yaml
 name: Annotation
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     alias: predicate
     owner: Annotation
+    domain_of:
+    - Annotation
     relational_role: PREDICATE
     range: string
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     alias: object
     owner: Annotation
+    domain_of:
+    - Annotation
     relational_role: OBJECT
     range: string
 represents_relationship: true

@@ -24,10 +24,10 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [fillerId](fillerId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [propertyId](propertyId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 
 
 ## Usages
@@ -71,6 +71,7 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 ```yaml
 name: ExistentialRestrictionExpression
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - fillerId
 - propertyId
@@ -84,18 +85,25 @@ slots:
 ```yaml
 name: ExistentialRestrictionExpression
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   fillerId:
     name: fillerId
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: fillerId
     owner: ExistentialRestrictionExpression
+    domain_of:
+    - ExistentialRestrictionExpression
     range: string
   propertyId:
     name: propertyId
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: propertyId
     owner: ExistentialRestrictionExpression
+    domain_of:
+    - ExistentialRestrictionExpression
     range: string
 
 ```

@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasV
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

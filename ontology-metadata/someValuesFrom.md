@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2002/07/owl#someValuesFrom](http://www.w3.org/2002/07/ow
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

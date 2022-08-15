@@ -15,6 +15,10 @@ URI: [https://w3id.org/linkml/reportby_subset](https://w3id.org/linkml/reportby_
 
 
 
+## Comments
+
+* For example, GO metagenomics_slim
+
 ## Identifier and Mapping Information
 
 

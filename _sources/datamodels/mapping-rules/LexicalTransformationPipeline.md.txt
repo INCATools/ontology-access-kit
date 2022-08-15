@@ -32,10 +32,10 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [name](name.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [transformations](transformations.md) | [LexicalTransformation](LexicalTransformation.md) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md)  |   |
 
 
 ## Usages
@@ -87,15 +87,18 @@ name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     key: true
   transformations:
     name: transformations
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: LexicalTransformation
 
@@ -110,21 +113,28 @@ name: LexicalTransformationPipeline
 description: A collection of atomic lexical transformations that are applied in serial
   fashion
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 is_a: Activity
 attributes:
   name:
     name: name
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     key: true
     alias: name
     owner: LexicalTransformationPipeline
+    domain_of:
+    - LexicalTransformationPipeline
     range: string
   transformations:
     name: transformations
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: transformations
     owner: LexicalTransformationPipeline
+    domain_of:
+    - LexicalTransformationPipeline
     range: LexicalTransformation
 
 ```

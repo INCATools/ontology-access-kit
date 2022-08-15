@@ -94,24 +94,18 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate_id.html"><span class="doc std std-doc">predicate_id</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="weight.html"><span class="doc std std-doc">weight</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
 <td><p>Weighting of the rule, positive increases the confidence, negative decreases</p></td>
-<td><p>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -171,6 +165,7 @@
 ```yaml
 name: Postcondition
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
 attributes:
   predicate_id:
     name: predicate_id
@@ -178,6 +173,7 @@ attributes:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
   weight:
     name: weight
     description: Weighting of the rule, positive increases the confidence, negative
@@ -186,6 +182,7 @@ attributes:
     see_also:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+    rank: 1000
     range: float
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -195,6 +192,7 @@ attributes:
 ```yaml
 name: Postcondition
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
 attributes:
   predicate_id:
     name: predicate_id
@@ -202,8 +200,11 @@ attributes:
     - if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes
       narrow
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     alias: predicate_id
     owner: Postcondition
+    domain_of:
+    - Postcondition
     range: string
   weight:
     name: weight
@@ -213,8 +214,11 @@ attributes:
     see_also:
     - https://en.wikipedia.org/wiki/Logit
     - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+    rank: 1000
     alias: weight
     owner: Postcondition
+    domain_of:
+    - Postcondition
     range: float
 
 </pre></div>

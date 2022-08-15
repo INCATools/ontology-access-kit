@@ -29,9 +29,9 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
 ## Usages
@@ -80,6 +80,7 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 ```yaml
 name: PropertyChainAxiom
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: Axiom
 
 ```
@@ -91,13 +92,21 @@ is_a: Axiom
 ```yaml
 name: PropertyChainAxiom
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: Axiom
 attributes:
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: PropertyChainAxiom
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

@@ -24,10 +24,10 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
-| [graphs](graphs.md) | [Graph](Graph.md) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md)  |   |
 
 
 ## Usages
@@ -71,6 +71,7 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 ```yaml
 name: GraphDocument
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - meta
 - graphs
@@ -84,19 +85,30 @@ slots:
 ```yaml
 name: GraphDocument
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: GraphDocument
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
   graphs:
     name: graphs
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: graphs
     owner: GraphDocument
+    domain_of:
+    - GraphDocument
     range: Graph
     inlined: true
     inlined_as_list: true

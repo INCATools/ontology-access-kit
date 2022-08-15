@@ -26,10 +26,10 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [rules](rules.md) | [MappingRule](MappingRule.md) | 0..* | all rules  | . |
-| [minimum_confidence](minimum_confidence.md) | [xsd:float](http://www.w3.org/2001/XMLSchema#float) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md)  | all rules  |
+| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float)  |   |
 
 
 ## Usages
@@ -74,17 +74,20 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 name: MappingRuleCollection
 description: A collection of mapping rules
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
 attributes:
   rules:
     name: rules
     description: all rules
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     range: MappingRule
     inlined: true
   minimum_confidence:
     name: minimum_confidence
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     range: float
 tree_root: true
 
@@ -98,21 +101,28 @@ tree_root: true
 name: MappingRuleCollection
 description: A collection of mapping rules
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
 attributes:
   rules:
     name: rules
     description: all rules
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: rules
     owner: MappingRuleCollection
+    domain_of:
+    - MappingRuleCollection
     range: MappingRule
     inlined: true
   minimum_confidence:
     name: minimum_confidence
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     alias: minimum_confidence
     owner: MappingRuleCollection
+    domain_of:
+    - MappingRuleCollection
     range: float
 tree_root: true
 

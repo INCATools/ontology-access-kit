@@ -43,8 +43,8 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
 
 
 ## Usages
@@ -89,6 +89,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```
@@ -101,6 +102,7 @@ mixin: true
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```

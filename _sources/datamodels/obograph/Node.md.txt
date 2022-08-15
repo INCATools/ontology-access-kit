@@ -26,12 +26,12 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [id](id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [lbl](lbl.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [type](type.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
 ## Usages
@@ -80,6 +80,7 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 ```yaml
 name: Node
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - id
 - lbl
@@ -95,31 +96,50 @@ slots:
 ```yaml
 name: Node
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   id:
     name: id
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     identifier: true
     alias: id
     owner: Node
+    domain_of:
+    - Graph
+    - Node
     range: string
   lbl:
     name: lbl
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: lbl
     owner: Node
+    domain_of:
+    - Graph
+    - Node
     range: string
   type:
     name: type
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: type
     owner: Node
+    domain_of:
+    - Node
     range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: Node
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

@@ -95,24 +95,18 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="term.html"><span class="doc std std-doc">term</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..1</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>A normalized term that groups ontology elements</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="relationships.html"><span class="doc std std-doc">relationships</span></a></p></td>
-<td><p><a class="reference internal" href="RelationshipToTerm.html"><span class="doc std std-doc">RelationshipToTerm</span></a></p></td>
-<td><p>0..*</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="RelationshipToTerm.html"><span class="doc std std-doc">RelationshipToTerm</span></a></p></td>
 <td><p>All ontology elements grouped and their relationship to the normalized term</p></td>
-<td><p>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -173,17 +167,20 @@
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     key: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: RelationshipToTerm
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -195,23 +192,30 @@ attributes:
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     key: true
     alias: term
     owner: LexicalGrouping
+    domain_of:
+    - LexicalGrouping
     range: string
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: relationships
     owner: LexicalGrouping
+    domain_of:
+    - LexicalGrouping
     range: RelationshipToTerm
 
 </pre></div>

@@ -27,11 +27,11 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [matches_whole_text](matches_whole_text.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
-| [sources](sources.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [limit](limit.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
+| [sources](sources.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
 
 
 ## Usages
@@ -76,18 +76,22 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 name: TextAnnotationConfiguration
 description: configuration for search
 from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
 attributes:
   matches_whole_text:
     name: matches_whole_text
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     range: boolean
   sources:
     name: sources
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     multivalued: true
   limit:
     name: limit
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     range: integer
 
 ```
@@ -100,25 +104,36 @@ attributes:
 name: TextAnnotationConfiguration
 description: configuration for search
 from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
 attributes:
   matches_whole_text:
     name: matches_whole_text
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     alias: matches_whole_text
     owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
+    - TextAnnotation
     range: boolean
   sources:
     name: sources
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     multivalued: true
     alias: sources
     owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
     range: string
   limit:
     name: limit
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     alias: limit
     owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
     range: integer
 
 ```

@@ -26,10 +26,10 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | None  | . |
-| [severity](severity.md) | [SeverityOptions](SeverityOptions.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [type](type.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md)  |   |
 
 
 ## Usages
@@ -81,6 +81,7 @@ conforms_to: wikidata:Q4818718
 description: key-value pair that maps a validation result type to a severity setting,
   for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 attributes:
   type:
     name: type
@@ -104,6 +105,7 @@ conforms_to: wikidata:Q4818718
 description: key-value pair that maps a validation result type to a severity setting,
   for overriding default severity
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 attributes:
   type:
     name: type
@@ -111,6 +113,9 @@ attributes:
     key: true
     alias: type
     owner: TypeSeverityKeyValue
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: uriorcurie
     required: true
   severity:
@@ -118,6 +123,9 @@ attributes:
     from_schema: https://w3id.org/linkml/validation_results
     alias: severity
     owner: TypeSeverityKeyValue
+    domain_of:
+    - TypeSeverityKeyValue
+    - ValidationResult
     range: severity_options
 
 ```

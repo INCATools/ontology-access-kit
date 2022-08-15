@@ -8,12 +8,12 @@ URI: TransformationType
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| Stemming | None | Removal of the last few characters of a word to yield a stem term for each word in the term | |
+| Stemming | None | Removal of the last few characters of a word to yield a stem term for each wo... | |
 | Lemmatization | None | Contextual reduction of a word to its base form for each word in the term | |
-| WordOrderNormalization | None | reorder words in the term to a standard order such that comparisons are order-independent | |
+| WordOrderNormalization | None | reorder words in the term to a standard order such that comparisons are order... | |
 | Depluralization | None | Transform plural form to singular form for each word in a term | |
 | CaseNormalization | None | Transform term to a standard case, typically lowercase | |
-| WhitespaceNormalization | None | Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces | |
+| WhitespaceNormalization | None | Trim whitespace, condense whitespace runs, and transform all non-space whites... | |
 | TermExpanson | None | Expand terms using a dictionary | |
 
 

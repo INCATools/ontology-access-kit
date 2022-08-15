@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2000/01/rdf-schema#comment](http://www.w3.org/2000/01/rd
 
 
 
+## Comments
+
+* in obo format, a term cannot have more than one comment
+
 ## Identifier and Mapping Information
 
 

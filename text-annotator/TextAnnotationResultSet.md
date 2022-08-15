@@ -25,9 +25,9 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [annotations](annotations.md) | [TextAnnotation](TextAnnotation.md) | 0..* | all annotations  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [annotations](annotations.md) | 0..* <br/> [TextAnnotation](TextAnnotation.md)  | all annotations  |
 
 
 ## Usages
@@ -72,11 +72,13 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 name: TextAnnotationResultSet
 description: A collection of annotation results
 from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
 attributes:
   annotations:
     name: annotations
     description: all annotations
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     multivalued: true
     range: TextAnnotation
     inlined: true
@@ -91,14 +93,18 @@ attributes:
 name: TextAnnotationResultSet
 description: A collection of annotation results
 from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
 attributes:
   annotations:
     name: annotations
     description: all annotations
     from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
     multivalued: true
     alias: annotations
     owner: TextAnnotationResultSet
+    domain_of:
+    - TextAnnotationResultSet
     range: TextAnnotation
     inlined: true
 

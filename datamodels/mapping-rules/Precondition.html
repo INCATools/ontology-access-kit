@@ -99,48 +99,34 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_source_one_of.html"><span class="doc std std-doc">subject_source_one_of</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_source_one_of.html"><span class="doc std std-doc">object_source_one_of</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="mapping_source_one_of.html"><span class="doc std std-doc">mapping_source_one_of</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subject_match_field_one_of.html"><span class="doc std std-doc">subject_match_field_one_of</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_match_field_one_of.html"><span class="doc std std-doc">object_match_field_one_of</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="transformations_included_in.html"><span class="doc std std-doc">transformations_included_in</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -201,30 +187,37 @@
 name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
   object_source_one_of:
     name: object_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
   mapping_source_one_of:
     name: mapping_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
   subject_match_field_one_of:
     name: subject_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
   object_match_field_one_of:
     name: object_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
   transformations_included_in:
     name: transformations_included_in
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -235,48 +228,67 @@ attributes:
 name: Precondition
 description: A pattern to be matched against an individual SSSOM mapping
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
 attributes:
   subject_source_one_of:
     name: subject_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: subject_source_one_of
     owner: Precondition
+    domain_of:
+    - Precondition
     range: string
   object_source_one_of:
     name: object_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: object_source_one_of
     owner: Precondition
+    domain_of:
+    - Precondition
     range: string
   mapping_source_one_of:
     name: mapping_source_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: mapping_source_one_of
     owner: Precondition
+    domain_of:
+    - Precondition
     range: string
   subject_match_field_one_of:
     name: subject_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: subject_match_field_one_of
     owner: Precondition
+    domain_of:
+    - Precondition
     range: string
   object_match_field_one_of:
     name: object_match_field_one_of
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: object_match_field_one_of
     owner: Precondition
+    domain_of:
+    - Precondition
     range: string
   transformations_included_in:
     name: transformations_included_in
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
     multivalued: true
     alias: transformations_included_in
     owner: Precondition
+    domain_of:
+    - Precondition
     range: string
 
 </pre></div>

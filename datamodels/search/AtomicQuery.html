@@ -95,30 +95,22 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="graph_function.html"><span class="doc std std-doc">graph_function</span></a></p></td>
-<td><p><a class="reference internal" href="GraphFunction.html"><span class="doc std std-doc">GraphFunction</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="GraphFunction.html"><span class="doc std std-doc">GraphFunction</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="graph_predicates.html"><span class="doc std std-doc">graph_predicates</span></a></p></td>
-<td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
-<td><p>0..*</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="search_term.html"><span class="doc std std-doc">search_term</span></a></p></td>
-<td><p><a class="reference internal" href="SearchBaseConfiguration.html"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
-<td><p>0..1</p></td>
-<td><p>None</p></td>
-<td><p>.</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SearchBaseConfiguration.html"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -178,19 +170,23 @@
 ```yaml
 name: AtomicQuery
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   graph_function:
     name: graph_function
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: SearchBaseConfiguration
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -200,25 +196,35 @@ attributes:
 ```yaml
 name: AtomicQuery
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   graph_function:
     name: graph_function
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: graph_function
     owner: AtomicQuery
+    domain_of:
+    - AtomicQuery
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     alias: graph_predicates
     owner: AtomicQuery
+    domain_of:
+    - AtomicQuery
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: search_term
     owner: AtomicQuery
+    domain_of:
+    - AtomicQuery
     range: SearchBaseConfiguration
 
 </pre></div>

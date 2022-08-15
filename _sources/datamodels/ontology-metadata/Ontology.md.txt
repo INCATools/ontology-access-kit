@@ -43,20 +43,20 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [title](title.md) | [narrative_text](narrative_text.md) | 1..1 | None  | . |
-| [has_ontology_root_term](has_ontology_root_term.md) | [Class](Class.md) | 0..* | None  | . |
-| [license](license.md) | [Thing](Thing.md) | 1..1 | None  | . |
-| [source](source.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [versionIRI](versionIRI.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | None  | . |
-| [versionInfo](versionInfo.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 1..1 | None  | . |
-| [comment](comment.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [creator](creator.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [created](created.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | when the term came into being  | . |
-| [imports](imports.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [id](id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | this maps to the URI in RDF  | . |
-| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [title](title.md) | 1..1 <br/> [NarrativeText](NarrativeText.md)  |   |
+| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> [Class](Class.md)  |   |
+| [license](license.md) | 1..1 <br/> [Thing](Thing.md)  |   |
+| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [versionIRI](versionIRI.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [versionInfo](versionInfo.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [creator](creator.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | when the term came into being  |
+| [imports](imports.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | this maps to the URI in RDF  |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
 
 
 ## Usages
@@ -114,6 +114,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 name: Ontology
 description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: NamedObject
 slots:
 - title
@@ -129,15 +130,27 @@ slots:
 slot_usage:
   title:
     name: title
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
   license:
     name: license
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
   versionIRI:
     name: versionIRI
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
   versionInfo:
     name: versionInfo
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
 class_uri: owl:Ontology
 
@@ -151,45 +164,69 @@ class_uri: owl:Ontology
 name: Ontology
 description: An OWL ontology
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: NamedObject
 slot_usage:
   title:
     name: title
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
   license:
     name: license
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
   versionIRI:
     name: versionIRI
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
   versionInfo:
     name: versionInfo
+    domain_of:
+    - Ontology
+    - Ontology
     required: true
 attributes:
   title:
     name: title
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     slot_uri: dcterms:title
     alias: title
     owner: Ontology
+    domain_of:
+    - Ontology
+    - Ontology
     range: narrative text
     required: true
   has_ontology_root_term:
     name: has_ontology_root_term
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000700
     multivalued: true
     alias: has_ontology_root_term
     owner: Ontology
+    domain_of:
+    - Ontology
     range: Class
   license:
     name: license
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: dcterms:license
     alias: license
     owner: Ontology
+    domain_of:
+    - Ontology
+    - Ontology
     range: Thing
     required: true
   source:
@@ -198,28 +235,40 @@ attributes:
     exact_mappings:
     - http://purl.org/dc/terms/source
     - oio:source
+    rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:source
     multivalued: true
     alias: source
     owner: Ontology
+    domain_of:
+    - Ontology
+    - Axiom
     range: string
   versionIRI:
     name: versionIRI
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: version_property
     slot_uri: owl:versionIRI
     alias: versionIRI
     owner: Ontology
+    domain_of:
+    - Ontology
+    - Ontology
     range: uriorcurie
     required: true
   versionInfo:
     name: versionInfo
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: version_property
     slot_uri: owl:versionInfo
     alias: versionInfo
     owner: Ontology
+    domain_of:
+    - Ontology
+    - Ontology
     range: string
     required: true
   comment:
@@ -227,22 +276,31 @@ attributes:
     comments:
     - in obo format, a term cannot have more than one comment
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
     multivalued: true
     alias: comment
     owner: Ontology
+    domain_of:
+    - HasUserInformation
+    - Ontology
+    - Axiom
     range: string
   creator:
     name: creator
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - prov:wasAttributedTo
+    rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
     alias: creator
     owner: Ontology
+    domain_of:
+    - HasProvenance
+    - Ontology
     range: string
   created:
     name: created
@@ -250,38 +308,51 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     close_mappings:
     - pav:createdOn
+    rank: 1000
     is_a: provenance_property
     slot_uri: dcterms:created
     multivalued: false
     alias: created
     owner: Ontology
+    domain_of:
+    - HasProvenance
+    - Ontology
     range: string
   imports:
     name: imports
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     slot_uri: owl:imports
     alias: imports
     owner: Ontology
+    domain_of:
+    - Ontology
     range: string
   id:
     name: id
     description: this maps to the URI in RDF
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: core_property
     identifier: true
     alias: id
     owner: Ontology
+    domain_of:
+    - NamedObject
     range: uriorcurie
     required: true
   type:
     name: type
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
     multivalued: true
     designates_type: true
     alias: type
     owner: Ontology
+    domain_of:
+    - Thing
     range: uriorcurie
 class_uri: owl:Ontology
 

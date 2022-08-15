@@ -9,7 +9,7 @@ URI: [http://purl.org/dc/terms/title](http://purl.org/dc/terms/title)
 
 ## Properties
 
- * Range: [narrative_text](narrative_text.md)
+ * Range: [NarrativeText](NarrativeText.md)
 
 
 

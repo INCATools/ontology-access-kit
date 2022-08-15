@@ -105,24 +105,26 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
-<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
-<td><p>0..*</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 <td><p>collection of results</p></td>
-<td><p>.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="usages">
 <h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
+</section>
+<section id="todos">
+<h2>TODOs<a class="headerlink" href="#todos" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>add prov object</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
@@ -163,10 +165,14 @@ description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -180,20 +186,28 @@ description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
 attributes:
   results:
     name: results
     description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: ValidationReport
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
     inlined: true
     inlined_as_list: true

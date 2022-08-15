@@ -25,11 +25,11 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [graph_function](graph_function.md) | [GraphFunction](GraphFunction.md) | 0..1 | None  | . |
-| [graph_predicates](graph_predicates.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
-| [search_term](search_term.md) | [SearchBaseConfiguration](SearchBaseConfiguration.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [graph_function](graph_function.md) | 0..1 <br/> [GraphFunction](GraphFunction.md)  |   |
+| [graph_predicates](graph_predicates.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [search_term](search_term.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md)  |   |
 
 
 ## Usages
@@ -78,19 +78,23 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 ```yaml
 name: AtomicQuery
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   graph_function:
     name: graph_function
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: SearchBaseConfiguration
 
 ```
@@ -102,25 +106,35 @@ attributes:
 ```yaml
 name: AtomicQuery
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   graph_function:
     name: graph_function
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: graph_function
     owner: AtomicQuery
+    domain_of:
+    - AtomicQuery
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     alias: graph_predicates
     owner: AtomicQuery
+    domain_of:
+    - AtomicQuery
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: search_term
     owner: AtomicQuery
+    domain_of:
+    - AtomicQuery
     range: SearchBaseConfiguration
 
 ```

@@ -95,24 +95,18 @@
 <table class="colwidths-auto docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Range</p></th>
-<th class="head"><p>Cardinality</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="groupings.html"><span class="doc std std-doc">groupings</span></a></p></td>
-<td><p><a class="reference internal" href="LexicalGrouping.html"><span class="doc std std-doc">LexicalGrouping</span></a></p></td>
-<td><p>0..*</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="LexicalGrouping.html"><span class="doc std std-doc">LexicalGrouping</span></a></p></td>
 <td><p>all groupings</p></td>
-<td><p>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pipelines.html"><span class="doc std std-doc">pipelines</span></a></p></td>
-<td><p><a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
-<td><p>0..*</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
 <td><p>all pipelines used to build the index</p></td>
-<td><p>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -157,11 +151,13 @@
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: LexicalGrouping
     inlined: true
@@ -169,6 +165,7 @@ attributes:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
     inlined: true
@@ -181,23 +178,30 @@ attributes:
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: groupings
     owner: LexicalIndex
+    domain_of:
+    - LexicalIndex
     range: LexicalGrouping
     inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: pipelines
     owner: LexicalIndex
+    domain_of:
+    - LexicalIndex
     range: LexicalTransformationPipeline
     inlined: true
 

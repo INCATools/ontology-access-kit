@@ -31,9 +31,9 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [disjointWith](disjointWith.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 
 
 ## Usages
@@ -82,6 +82,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 ```yaml
 name: PropertyExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Expression
 mixin: true
 slots:
@@ -96,6 +97,7 @@ slots:
 ```yaml
 name: PropertyExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Expression
 mixin: true
 attributes:
@@ -104,11 +106,15 @@ attributes:
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
     multivalued: true
     alias: disjointWith
     owner: PropertyExpression
+    domain_of:
+    - ClassExpression
+    - PropertyExpression
     range: string
 
 ```

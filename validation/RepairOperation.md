@@ -34,12 +34,12 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [repairs](repairs.md) | [ValidationResult](ValidationResult.md) | 0..1 | None  | . |
-| [modified](modified.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
-| [successful](successful.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
-| [info](info.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [repairs](repairs.md) | 0..1 <br/> [ValidationResult](ValidationResult.md)  |   |
+| [modified](modified.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
+| [successful](successful.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
+| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 
 
 ## Usages
@@ -50,6 +50,10 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 | [RepairReport](RepairReport.md) | [results](results.md) | range | RepairOperation |
 
 
+
+## TODOs
+
+* integrate with kgcl data model, to be able to describe changes
 
 ## Identifier and Mapping Information
 
@@ -91,19 +95,23 @@ description: The result of performing an individual repair
 todos:
 - integrate with kgcl data model, to be able to describe changes
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Result
 attributes:
   repairs:
     name: repairs
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: ValidationResult
   modified:
     name: modified
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: boolean
   successful:
     name: successful
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: boolean
   info:
     name: info
@@ -122,31 +130,44 @@ description: The result of performing an individual repair
 todos:
 - integrate with kgcl data model, to be able to describe changes
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Result
 attributes:
   repairs:
     name: repairs
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: repairs
     owner: RepairOperation
+    domain_of:
+    - RepairOperation
     range: ValidationResult
   modified:
     name: modified
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: modified
     owner: RepairOperation
+    domain_of:
+    - RepairOperation
     range: boolean
   successful:
     name: successful
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: successful
     owner: RepairOperation
+    domain_of:
+    - RepairOperation
     range: boolean
   info:
     name: info
     from_schema: https://w3id.org/linkml/validation_results
     alias: info
     owner: RepairOperation
+    domain_of:
+    - ValidationResult
+    - RepairOperation
     range: string
 
 ```

@@ -34,10 +34,10 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [id](id.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 1..1 | this maps to the URI in RDF  | . |
-| [type](type.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | this maps to the URI in RDF  |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
 
 
 ## Usages
@@ -91,6 +91,7 @@ aliases:
 - named entity
 - identified object
 - IRI
+rank: 1000
 is_a: Thing
 slots:
 - id
@@ -109,27 +110,34 @@ aliases:
 - named entity
 - identified object
 - IRI
+rank: 1000
 is_a: Thing
 attributes:
   id:
     name: id
     description: this maps to the URI in RDF
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: core_property
     identifier: true
     alias: id
     owner: NamedObject
+    domain_of:
+    - NamedObject
     range: uriorcurie
     required: true
   type:
     name: type
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: rdf:type
     multivalued: true
     designates_type: true
     alias: type
     owner: NamedObject
+    domain_of:
+    - Thing
     range: uriorcurie
 
 ```

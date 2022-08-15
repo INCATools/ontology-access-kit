@@ -9,11 +9,11 @@ Name: text-annotator
 
 | Class | Description |
 | --- | --- |
-| [HasSpan](HasSpan.md) | None |
+| [HasSpan](HasSpan.md) |  |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |
 | [TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search |
 | [TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results |
-| [TextualElement](TextualElement.md) | None |
+| [TextualElement](TextualElement.md) |  |
 
 
 ## Slots
@@ -21,27 +21,27 @@ Name: text-annotator
 | Slot | Description |
 | --- | --- |
 | [annotations](annotations.md) | all annotations |
-| [confidence](confidence.md) | None |
-| [id](id.md) | None |
-| [info](info.md) | None |
-| [is_longest_match](is_longest_match.md) | None |
-| [limit](limit.md) | None |
-| [match_string](match_string.md) | None |
-| [match_type](match_type.md) | None |
-| [matches_whole_text](matches_whole_text.md) | None |
-| [object_id](object_id.md) | None |
-| [object_label](object_label.md) | None |
-| [object_source](object_source.md) | None |
-| [parent_document](parent_document.md) | None |
-| [predicate_id](predicate_id.md) | None |
-| [source_text](source_text.md) | None |
-| [sources](sources.md) | None |
-| [subject_end](subject_end.md) | None |
-| [subject_label](subject_label.md) | The portion of the subject text that is matched, ranging from subject_start to subject_end |
-| [subject_source](subject_source.md) | None |
-| [subject_start](subject_start.md) | None |
-| [subject_text_id](subject_text_id.md) | None |
-| [text](text.md) | None |
+| [confidence](confidence.md) |  |
+| [id](id.md) |  |
+| [info](info.md) |  |
+| [is_longest_match](is_longest_match.md) |  |
+| [limit](limit.md) |  |
+| [match_string](match_string.md) |  |
+| [match_type](match_type.md) |  |
+| [matches_whole_text](matches_whole_text.md) |  |
+| [object_id](object_id.md) |  |
+| [object_label](object_label.md) |  |
+| [object_source](object_source.md) |  |
+| [parent_document](parent_document.md) |  |
+| [predicate_id](predicate_id.md) |  |
+| [source_text](source_text.md) |  |
+| [sources](sources.md) |  |
+| [subject_end](subject_end.md) |  |
+| [subject_label](subject_label.md) | The portion of the subject text that is matched, ranging from subject_start t... |
+| [subject_source](subject_source.md) |  |
+| [subject_start](subject_start.md) |  |
+| [subject_text_id](subject_text_id.md) |  |
+| [text](text.md) |  |
 
 
 ## Enumerations
@@ -49,6 +49,28 @@ Name: text-annotator
 | Enumeration | Description |
 | --- | --- |
 | [TransformationType](TransformationType.md) | A controlled datamodels of the types of transformation that can be applied to |
+
+
+## Types
+
+| Type | Description |
+| --- | --- |
+| [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | A binary (true or false) value |
+| [xsd:date](http://www.w3.org/2001/XMLSchema#date) | a date (year, month and day) in an idealized calendar |
+| [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |
+| [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | The combination of a date and time |
+| [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
+| [xsd:double](http://www.w3.org/2001/XMLSchema#double) | A real number that conforms to the xsd:double specification |
+| [xsd:float](http://www.w3.org/2001/XMLSchema#float) | A real number that conforms to the xsd:float specification |
+| [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | An integer |
+| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Prefix part of CURIE |
+| [shex:nonLiteral](shex:nonLiteral) | A URI, CURIE or BNODE that represents a node in a model |
+| [shex:iri](shex:iri) | A URI or CURIE that represents an object in the model |
+| [Position](Position.md) |  |
+| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A character string |
+| [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | A time object represents a (local) time of day, independent of any particular... |
+| [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | a complete URI |
+| [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | a URI or a CURIE |
 
 
 ## Subsets

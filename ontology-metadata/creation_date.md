@@ -18,6 +18,10 @@ URI: [http://www.geneontology.org/formats/oboInOwl#creation_date](http://www.gen
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

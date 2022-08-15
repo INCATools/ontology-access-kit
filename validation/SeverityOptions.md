@@ -8,10 +8,10 @@ URI: SeverityOptions
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| FATAL | None | None | |
-| ERROR | sh:Violation | None | |
-| WARNING | sh:Warning | None | |
-| INFO | sh:Info | None | |
+| FATAL | None |  | |
+| ERROR | sh:Violation |  | |
+| WARNING | sh:Warning |  | |
+| INFO | sh:Info |  | |
 
 
 ## Identifier and Mapping Information

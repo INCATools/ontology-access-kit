@@ -31,11 +31,11 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [representitiveNodeId](representitiveNodeId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [nodeIds](nodeIds.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [representitiveNodeId](representitiveNodeId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [nodeIds](nodeIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
 ## Usages
@@ -84,6 +84,7 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 ```yaml
 name: EquivalentNodesSet
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: Axiom
 slots:
 - representitiveNodeId
@@ -98,26 +99,40 @@ slots:
 ```yaml
 name: EquivalentNodesSet
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: Axiom
 attributes:
   representitiveNodeId:
     name: representitiveNodeId
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: representitiveNodeId
     owner: EquivalentNodesSet
+    domain_of:
+    - EquivalentNodesSet
     range: string
   nodeIds:
     name: nodeIds
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: nodeIds
     owner: EquivalentNodesSet
+    domain_of:
+    - EquivalentNodesSet
     range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: EquivalentNodesSet
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

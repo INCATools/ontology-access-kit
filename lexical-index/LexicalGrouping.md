@@ -26,10 +26,10 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [term](term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | A normalized term that groups ontology elements  | . |
-| [relationships](relationships.md) | [RelationshipToTerm](RelationshipToTerm.md) | 0..* | All ontology elements grouped and their relationship to the normalized term  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [term](term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | A normalized term that groups ontology elements  |
+| [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md)  | All ontology elements grouped and their relationship to the normalized term  |
 
 
 ## Usages
@@ -79,17 +79,20 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     key: true
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: RelationshipToTerm
 
@@ -103,23 +106,30 @@ attributes:
 name: LexicalGrouping
 description: A grouping of ontology elements by a shared lexical term
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   term:
     name: term
     description: A normalized term that groups ontology elements
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     key: true
     alias: term
     owner: LexicalGrouping
+    domain_of:
+    - LexicalGrouping
     range: string
   relationships:
     name: relationships
     description: All ontology elements grouped and their relationship to the normalized
       term
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: relationships
     owner: LexicalGrouping
+    domain_of:
+    - LexicalGrouping
     range: RelationshipToTerm
 
 ```

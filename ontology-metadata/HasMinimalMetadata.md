@@ -34,10 +34,10 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [label](label.md) | [label_type](label_type.md) | 0..1 | None  | . |
-| [definition](definition.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md)  |   |
+| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md)  |   |
 
 
 ## Usages
@@ -82,6 +82,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -98,6 +99,7 @@ slots:
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -114,11 +116,15 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:prefLabel
+    rank: 1000
     is_a: core_property
     slot_uri: rdfs:label
     multivalued: false
     alias: label
     owner: HasMinimalMetadata
+    domain_of:
+    - HasMinimalMetadata
+    - Axiom
     range: label type
   definition:
     name: definition
@@ -131,11 +137,14 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:definition
+    rank: 1000
     is_a: core_property
     slot_uri: IAO:0000115
     multivalued: true
     alias: definition
     owner: HasMinimalMetadata
+    domain_of:
+    - HasMinimalMetadata
     range: narrative text
 
 ```

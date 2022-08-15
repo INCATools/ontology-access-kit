@@ -15,6 +15,10 @@ URI: [https://w3id.org/linkml/reportby_category](https://w3id.org/linkml/reportb
 
 
 
+## Comments
+
+* for example, GO stats may be broken out by MF/BP/CC
+
 ## Identifier and Mapping Information
 
 

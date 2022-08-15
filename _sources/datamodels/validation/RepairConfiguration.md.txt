@@ -26,10 +26,10 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [validation_configuration](validation_configuration.md) | [ValidationConfiguration](ValidationConfiguration.md) | 0..1 | repair configurations include validation configurations  | . |
-| [dry_run](dry_run.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [validation_configuration](validation_configuration.md) | 0..1 <br/> [ValidationConfiguration](ValidationConfiguration.md)  | repair configurations include validation configurations  |
+| [dry_run](dry_run.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
 
 
 ## Usages
@@ -74,15 +74,18 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 name: RepairConfiguration
 description: Configuration parameters for execution of validation repairs
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 attributes:
   validation_configuration:
     name: validation_configuration
     description: repair configurations include validation configurations
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: ValidationConfiguration
   dry_run:
     name: dry_run
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     range: boolean
 
 ```
@@ -95,19 +98,26 @@ attributes:
 name: RepairConfiguration
 description: Configuration parameters for execution of validation repairs
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 attributes:
   validation_configuration:
     name: validation_configuration
     description: repair configurations include validation configurations
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: validation_configuration
     owner: RepairConfiguration
+    domain_of:
+    - RepairConfiguration
     range: ValidationConfiguration
   dry_run:
     name: dry_run
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     alias: dry_run
     owner: RepairConfiguration
+    domain_of:
+    - RepairConfiguration
     range: boolean
 
 ```

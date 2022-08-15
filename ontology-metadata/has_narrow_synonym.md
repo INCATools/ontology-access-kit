@@ -15,7 +15,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasNarrowSynonym](http://www.
 
 ## Properties
 
- * Range: [label_type](label_type.md)
+ * Range: [LabelType](LabelType.md)
 
 
 

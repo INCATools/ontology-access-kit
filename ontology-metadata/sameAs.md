@@ -18,6 +18,10 @@ URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs
 
 
 
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

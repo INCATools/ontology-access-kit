@@ -18,6 +18,10 @@ URI: [http://www.geneontology.org/formats/oboInOwl#consider](http://www.geneonto
 
 
 
+## Comments
+
+* {'RULE': 'subject must be deprecated'}
+
 ## Identifier and Mapping Information
 
 

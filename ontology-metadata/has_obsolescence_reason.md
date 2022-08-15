@@ -18,6 +18,14 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000231](http://purl.obolibrary.org/obo
 
 
 
+## Comments
+
+* {'RULE': 'subject must be deprecated'}
+
+## TODOs
+
+* restrict range
+
 ## Identifier and Mapping Information
 
 

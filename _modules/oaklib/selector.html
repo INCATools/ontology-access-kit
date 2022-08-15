@@ -161,16 +161,24 @@
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">implementation_class</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">get_implementation_class_from_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_implementation_class_from_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;http&quot;</span> <span class="ow">or</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;https&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Web requests not implemented yet&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">SCHEME_DICT</span><span class="p">[</span><span class="n">scheme</span><span class="p">]</span>
+        <span class="c1"># return SCHEME_DICT[scheme]</span>
+        <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">implementation_resolver</span>
+
+        <span class="k">return</span> <span class="n">implementation_resolver</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_resource_imp_class_from_suffix_descriptor</span><span class="p">(</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">ProntoImplementation</span><span class="p">,</span>
+        <span class="n">SparqlImplementation</span><span class="p">,</span>
+        <span class="n">SqlImplementation</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;db&quot;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">format</span> <span class="ow">and</span> <span class="n">resource</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;sqlite&quot;</span><span class="p">):</span>
         <span class="n">impl_class</span> <span class="o">=</span> <span class="n">SqlImplementation</span>
@@ -199,6 +207,12 @@
 <span class="sd">    :param format:</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">LovImplementation</span><span class="p">,</span>
+        <span class="n">ProntoImplementation</span><span class="p">,</span>
+        <span class="n">SparqlImplementation</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">)</span>
     <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
     <span class="n">impl_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>

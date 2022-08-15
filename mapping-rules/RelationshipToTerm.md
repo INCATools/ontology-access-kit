@@ -29,13 +29,13 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [predicate](predicate.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [element](element.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [element_term](element_term.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | the original term used in the element  | . |
-| [source](source.md) | [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | 0..1 | None  | . |
-| [pipeline](pipeline.md) | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | 0..* | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [element](element.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [element_term](element_term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | the original term used in the element  |
+| [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md)  |   |
 
 
 ## Usages
@@ -85,26 +85,32 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   predicate:
     name: predicate
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     range: uriorcurie
   element:
     name: element
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     range: uriorcurie
   element_term:
     name: element_term
     description: the original term used in the element
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
   source:
     name: source
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     range: uriorcurie
   pipeline:
     name: pipeline
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
 
@@ -118,38 +124,54 @@ attributes:
 name: RelationshipToTerm
 description: A relationship of an ontology element to a lexical term
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   predicate:
     name: predicate
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     alias: predicate
     owner: RelationshipToTerm
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   element:
     name: element
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     alias: element
     owner: RelationshipToTerm
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   element_term:
     name: element_term
     description: the original term used in the element
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     alias: element_term
     owner: RelationshipToTerm
+    domain_of:
+    - RelationshipToTerm
     range: string
   source:
     name: source
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     alias: source
     owner: RelationshipToTerm
+    domain_of:
+    - RelationshipToTerm
     range: uriorcurie
   pipeline:
     name: pipeline
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: pipeline
     owner: RelationshipToTerm
+    domain_of:
+    - RelationshipToTerm
     range: LexicalTransformationPipeline
 
 ```

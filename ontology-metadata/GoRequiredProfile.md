@@ -1,10 +1,5 @@
 # GoRequiredProfile
 
-None
-
-URI: GoRequiredProfile
-
-
 ## Identifier and Mapping Information
 
 
@@ -19,4 +14,26 @@ URI: GoRequiredProfile
 * from schema: http://purl.obolibrary.org/obo/omo/schema
 
 
+
+
+## Classes in subset
+
+| Class | Description |
+| --- | --- |
+
+
+
+
+## Slots in subset
+
+| Slot | Description |
+| --- | --- |
+| [definition](definition.md) |  |
+| [label](label.md) |  |
+
+
+## Enumerations in subset
+
+| Enumeration | Description |
+| --- | --- |
 

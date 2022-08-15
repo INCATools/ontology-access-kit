@@ -30,16 +30,16 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [subsets](subsets.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [version](version.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [comments](comments.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [definition](definition.md) | [DefinitionPropertyValue](DefinitionPropertyValue.md) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [synonyms](synonyms.md) | [SynonymPropertyValue](SynonymPropertyValue.md) | 0..* | None  | . |
-| [basicPropertyValues](basicPropertyValues.md) | [BasicPropertyValue](BasicPropertyValue.md) | 0..* | None  | . |
-| [deprecated](deprecated.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [subsets](subsets.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [definition](definition.md) | 0..1 <br/> [DefinitionPropertyValue](DefinitionPropertyValue.md)  |   |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md)  |   |
+| [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md)  |   |
+| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
 
 
 ## Usages
@@ -100,6 +100,7 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 ```yaml
 name: Meta
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - subsets
 - version
@@ -119,59 +120,85 @@ slots:
 ```yaml
 name: Meta
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   subsets:
     name: subsets
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: subsets
     owner: Meta
+    domain_of:
+    - Meta
     range: string
   version:
     name: version
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: version
     owner: Meta
+    domain_of:
+    - Meta
     range: string
   comments:
     name: comments
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: comments
     owner: Meta
+    domain_of:
+    - Meta
     range: string
   definition:
     name: definition
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: definition
     owner: Meta
+    domain_of:
+    - Meta
     range: DefinitionPropertyValue
   xrefs:
     name: xrefs
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: xrefs
     owner: Meta
+    domain_of:
+    - Meta
+    - PropertyValue
     range: string
   synonyms:
     name: synonyms
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: synonyms
     owner: Meta
+    domain_of:
+    - Meta
     range: SynonymPropertyValue
   basicPropertyValues:
     name: basicPropertyValues
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: basicPropertyValues
     owner: Meta
+    domain_of:
+    - Meta
     range: BasicPropertyValue
   deprecated:
     name: deprecated
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: deprecated
     owner: Meta
+    domain_of:
+    - Meta
     range: boolean
 
 ```

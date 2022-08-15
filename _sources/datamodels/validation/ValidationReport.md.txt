@@ -31,14 +31,18 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [results](results.md) | [ValidationResult](ValidationResult.md) | 0..* | collection of results  | . |
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [results](results.md) | 0..* <br/> [ValidationResult](ValidationResult.md)  | collection of results  |
 
 
 ## Usages
 
 
+
+## TODOs
+
+* add prov object
 
 ## Identifier and Mapping Information
 
@@ -80,10 +84,14 @@ description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 
@@ -99,20 +107,28 @@ description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
 attributes:
   results:
     name: results
     description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: ValidationReport
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
     inlined: true
     inlined_as_list: true
