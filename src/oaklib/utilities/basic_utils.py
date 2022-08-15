@@ -1,10 +1,13 @@
+import json
 from collections import defaultdict
 from functools import lru_cache
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-import bioregistry
-
 from oaklib.types import CURIE
+
+HERE = Path(__file__).parent.resolve()
+OBO_PREFIX_MAP_PATH = HERE.joinpath("obo_context.jsonld")
 
 
 def pairs_as_dict(pairs: Iterable[Tuple[Any, Any]]) -> Dict[Any, List[Any]]:
@@ -40,4 +43,4 @@ def get_curie_prefix(curie: CURIE) -> Optional[str]:
 
 @lru_cache(1)
 def get_obo_prefix_map():
-    return bioregistry.get_obo_context_prefix_map()
+    return json.loads(OBO_PREFIX_MAP_PATH.read_text())["@context"]

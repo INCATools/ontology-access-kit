@@ -88,7 +88,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         Return a dictionary mapping all prefixes known to the resource to their URI expansion.
 
         By default, this returns a combination of the  OBO Foundry prefix map with
-        the default OAKlib prefixmap (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).
+        the default OAKlib prefix map (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).
 
         :return: prefix map
         """
