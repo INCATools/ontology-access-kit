@@ -39,17 +39,18 @@ All contributors are expected to uphold our [Code of Conduct](.github/CODE_OF_CO
 ## Usage
 
 ```python
-from src.oaklib.resource import OntologyResource
-from src.oaklib.implementations.sqldb.sql_implementation import SqlImplementation
+from oaklib import OntologyResource
 
-resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
-oi = SqlImplementation(resource)
-for curie in oi.basic_search("cell"):
-    print(f'{curie} ! {oi.label(curie)}')
-    for rel, fillers in oi.outgoing_relationship_map(curie).items():
-        print(f'  RELATION: {rel} ! {oi.label(rel)}')
+ontology_resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
+ontology_interface = ontology_resource.materialize("sql")
+# can also pass an implementation class explicitly instead of a string.
+
+for curie in ontology_interface.basic_search("cell"):
+    print(f'{curie} ! {ontology_interface.label(curie)}')
+    for rel, fillers in ontology_interface.outgoing_relationship_map(curie).items():
+        print(f'  RELATION: {rel} ! {ontology_interface.label(rel)}')
         for filler in fillers:
-            print(f'     * {filler} ! {oi.label(filler)}')
+            print(f'     * {filler} ! {ontology_interface.label(filler)}')
 ```
 
 For more examples, see
