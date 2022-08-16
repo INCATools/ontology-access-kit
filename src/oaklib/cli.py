@@ -1885,7 +1885,8 @@ def roots(output: str, predicates: str):
 
     This command is a wrapper onto the "roots" command in the BasicOntologyInterface.
 
-    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots
+    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
+      oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots
 
     """
     impl = settings.impl
@@ -1913,7 +1914,8 @@ def leafs(output: str, predicates: str):
 
     This command is a wrapper onto the "leafs" command in the BasicOntologyInterface.
 
-    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs
+    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
+      oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -2369,7 +2371,8 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
 
     This command is a wrapper onto the "migrate_curies" command in the PatcherInterface
 
-    - https://incatools.github.io/ontology-access-kit/interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies
+    - https://incatools.github.io/ontology-access-kit/interfaces/patcher.html#
+    oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies
     """
     impl = settings.impl
     curie_map = {}
@@ -2459,7 +2462,8 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     Full documentation:
 
-    - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer.html#module-oaklib.utilities.lexical.lexical_indexer
+    - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer.html#
+    module-oaklib.utilities.lexical.lexical_indexer
     """
     impl = settings.impl
     if rules_file:
