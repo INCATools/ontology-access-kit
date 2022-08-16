@@ -88,14 +88,10 @@
     class SearchBaseConfiguration
       SearchBaseConfiguration : categories
       SearchBaseConfiguration : cursor
-      SearchBaseConfiguration : include_aliases
-      SearchBaseConfiguration : include_definition
-      SearchBaseConfiguration : include_id
-      SearchBaseConfiguration : include_label
       SearchBaseConfiguration : include_obsoletes_in_results
       SearchBaseConfiguration : is_complete
+      SearchBaseConfiguration : is_fuzzy
       SearchBaseConfiguration : is_partial
-      SearchBaseConfiguration : is_regular_expression
       SearchBaseConfiguration : limit
       SearchBaseConfiguration : properties
       SearchBaseConfiguration : search_terms
@@ -132,41 +128,25 @@
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
 <td><p>when the number of search results exceed the limit this can be used to iterat…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="is_regular_expression.html"><span class="doc std std-doc">is_regular_expression</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>allows matches where the search term is a subset of the full span</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>restricts search results to matches of the full span of the string</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="include_id.html"><span class="doc std std-doc">include_id</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="include_label.html"><span class="doc std std-doc">include_label</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="include_aliases.html"><span class="doc std std-doc">include_aliases</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="include_definition.html"><span class="doc std std-doc">include_definition</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="is_fuzzy.html"><span class="doc std std-doc">is_fuzzy</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>categories that should be matched</p></td>
 </tr>
 </tbody>
 </table>
@@ -182,18 +162,29 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="AtomicQuery.html"><span class="doc std std-doc">AtomicQuery</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ComplexQuery.html"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
+<td><p><a class="reference internal" href="atom.html"><span class="doc std std-doc">atom</span></a></p></td>
+<td><p>range</p></td>
+<td><p>SearchBaseConfiguration</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PathExpression.html"><span class="doc std std-doc">PathExpression</span></a></p></td>
 <td><p><a class="reference internal" href="search_term.html"><span class="doc std std-doc">search_term</span></a></p></td>
 <td><p>range</p></td>
 <td><p>SearchBaseConfiguration</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SearchResultSet.html"><span class="doc std std-doc">SearchResultSet</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="SearchResultSet.html"><span class="doc std std-doc">SearchResultSet</span></a></p></td>
 <td><p><a class="reference internal" href="configuration.html"><span class="doc std std-doc">configuration</span></a></p></td>
 <td><p>range</p></td>
 <td><p>SearchBaseConfiguration</p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="todos">
+<h2>TODOs<a class="headerlink" href="#todos" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>rename this SearchConfiguration</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
@@ -232,6 +223,8 @@
 name: SearchBaseConfiguration
 description: A user-specified configuration that determines how a particular search
   operation works
+todos:
+- rename this SearchConfiguration
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 attributes:
@@ -273,45 +266,15 @@ attributes:
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     range: integer
-  is_regular_expression:
-    name: is_regular_expression
-    deprecated: use the syntax slot
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    range: boolean
   is_partial:
     name: is_partial
-    deprecated: use is_complete
+    description: allows matches where the search term is a subset of the full span
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     range: boolean
   is_complete:
     name: is_complete
-    description: restricts search results to matches of the full span of the string
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    range: boolean
-  include_id:
-    name: include_id
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    range: boolean
-  include_label:
-    name: include_label
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    range: boolean
-  include_aliases:
-    name: include_aliases
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    range: boolean
-  include_definition:
-    name: include_definition
-    deprecated: use properties to explicitly list properties
+    deprecated: use is_partial
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     range: boolean
@@ -321,11 +284,18 @@ attributes:
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     range: boolean
+  is_fuzzy:
+    name: is_fuzzy
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    range: boolean
   categories:
     name: categories
+    description: categories that should be matched
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     multivalued: true
+    range: uriorcurie
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -335,6 +305,8 @@ attributes:
 name: SearchBaseConfiguration
 description: A user-specified configuration that determines how a particular search
   operation works
+todos:
+- rename this SearchConfiguration
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 attributes:
@@ -397,19 +369,9 @@ attributes:
     - SearchBaseConfiguration
     - SearchResultSet
     range: integer
-  is_regular_expression:
-    name: is_regular_expression
-    deprecated: use the syntax slot
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    alias: is_regular_expression
-    owner: SearchBaseConfiguration
-    domain_of:
-    - SearchBaseConfiguration
-    range: boolean
   is_partial:
     name: is_partial
-    deprecated: use is_complete
+    description: allows matches where the search term is a subset of the full span
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     alias: is_partial
@@ -419,50 +381,10 @@ attributes:
     range: boolean
   is_complete:
     name: is_complete
-    description: restricts search results to matches of the full span of the string
+    deprecated: use is_partial
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     alias: is_complete
-    owner: SearchBaseConfiguration
-    domain_of:
-    - SearchBaseConfiguration
-    range: boolean
-  include_id:
-    name: include_id
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    alias: include_id
-    owner: SearchBaseConfiguration
-    domain_of:
-    - SearchBaseConfiguration
-    range: boolean
-  include_label:
-    name: include_label
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    alias: include_label
-    owner: SearchBaseConfiguration
-    domain_of:
-    - SearchBaseConfiguration
-    range: boolean
-  include_aliases:
-    name: include_aliases
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    alias: include_aliases
-    owner: SearchBaseConfiguration
-    domain_of:
-    - SearchBaseConfiguration
-    range: boolean
-  include_definition:
-    name: include_definition
-    deprecated: use properties to explicitly list properties
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    alias: include_definition
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
@@ -477,8 +399,18 @@ attributes:
     domain_of:
     - SearchBaseConfiguration
     range: boolean
+  is_fuzzy:
+    name: is_fuzzy
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: is_fuzzy
+    owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
+    range: boolean
   categories:
     name: categories
+    description: categories that should be matched
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     multivalued: true
@@ -486,7 +418,7 @@ attributes:
     owner: SearchBaseConfiguration
     domain_of:
     - SearchBaseConfiguration
-    range: string
+    range: uriorcurie
 
 </pre></div>
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: BooleanQuery &mdash; oaklib  documentation</title>
+  <title>Class: ComplexQuery &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -69,9 +69,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Class: BooleanQuery</li>
+      <li>Class: ComplexQuery</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/search/BooleanQuery.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/search/ComplexQuery.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -79,15 +79,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-booleanquery">
-<h1>Class: BooleanQuery<a class="headerlink" href="#class-booleanquery" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/search_datamodel/BooleanQuery">search:BooleanQuery</a></p>
+  <section id="class-complexquery">
+<h1>Class: ComplexQuery<a class="headerlink" href="#class-complexquery" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/search_datamodel/ComplexQuery">search:ComplexQuery</a></p>
 <div class="mermaid">
              classDiagram
-    class BooleanQuery
-      BooleanQuery : atom
-      BooleanQuery : operands
-      BooleanQuery : operator
+    class ComplexQuery
+      ComplexQuery : all_of
+      ComplexQuery : any_of
+      ComplexQuery : atom
+      ComplexQuery : none_of
+      ComplexQuery : path_to
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -100,16 +102,24 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="operator.html"><span class="doc std std-doc">operator</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="BooleanOperator.html"><span class="doc std std-doc">BooleanOperator</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="all_of.html"><span class="doc std std-doc">all_of</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="#"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="operands.html"><span class="doc std std-doc">operands</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="#"><span class="doc std std-doc">BooleanQuery</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="any_of.html"><span class="doc std std-doc">any_of</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="#"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="none_of.html"><span class="doc std std-doc">none_of</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="#"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="path_to.html"><span class="doc std std-doc">path_to</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="atom.html"><span class="doc std std-doc">atom</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="AtomicQuery.html"><span class="doc std std-doc">AtomicQuery</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SearchBaseConfiguration.html"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -126,10 +136,20 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">BooleanQuery</span></a></p></td>
-<td><p><a class="reference internal" href="operands.html"><span class="doc std std-doc">operands</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
+<td><p><a class="reference internal" href="all_of.html"><span class="doc std std-doc">all_of</span></a></p></td>
 <td><p>range</p></td>
-<td><p>BooleanQuery</p></td>
+<td><p>ComplexQuery</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
+<td><p><a class="reference internal" href="any_of.html"><span class="doc std std-doc">any_of</span></a></p></td>
+<td><p>range</p></td>
+<td><p>ComplexQuery</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
+<td><p><a class="reference internal" href="none_of.html"><span class="doc std std-doc">none_of</span></a></p></td>
+<td><p>range</p></td>
+<td><p>ComplexQuery</p></td>
 </tr>
 </tbody>
 </table>
@@ -153,10 +173,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>[‘search:BooleanQuery’]</p></td>
+<td><p>[‘search:ComplexQuery’]</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>[‘search:BooleanQuery’]</p></td>
+<td><p>[‘search:ComplexQuery’]</p></td>
 </tr>
 </tbody>
 </table>
@@ -168,64 +188,95 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: BooleanQuery
+name: ComplexQuery
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 attributes:
-  operator:
-    name: operator
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    range: BooleanOperator
-  operands:
-    name: operands
+  all_of:
+    name: all_of
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     multivalued: true
-    range: BooleanQuery
+    range: ComplexQuery
+  any_of:
+    name: any_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    range: ComplexQuery
+  none_of:
+    name: none_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    range: ComplexQuery
+  path_to:
+    name: path_to
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
   atom:
     name: atom
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
-    range: AtomicQuery
+    range: SearchBaseConfiguration
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: BooleanQuery
+name: ComplexQuery
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 attributes:
-  operator:
-    name: operator
-    from_schema: https://w3id.org/linkml/search_datamodel
-    rank: 1000
-    alias: operator
-    owner: BooleanQuery
-    domain_of:
-    - BooleanQuery
-    range: BooleanOperator
-  operands:
-    name: operands
+  all_of:
+    name: all_of
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     multivalued: true
-    alias: operands
-    owner: BooleanQuery
+    alias: all_of
+    owner: ComplexQuery
     domain_of:
-    - BooleanQuery
-    range: BooleanQuery
+    - ComplexQuery
+    range: ComplexQuery
+  any_of:
+    name: any_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    alias: any_of
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: ComplexQuery
+  none_of:
+    name: none_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    alias: none_of
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: ComplexQuery
+  path_to:
+    name: path_to
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: path_to
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: string
   atom:
     name: atom
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     alias: atom
-    owner: BooleanQuery
+    owner: ComplexQuery
     domain_of:
-    - BooleanQuery
-    range: AtomicQuery
+    - ComplexQuery
+    range: SearchBaseConfiguration
 
 </pre></div>
 </div>

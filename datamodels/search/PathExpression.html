@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot: operands &mdash; oaklib  documentation</title>
+  <title>Class: PathExpression &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -69,9 +69,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Slot: operands</li>
+      <li>Class: PathExpression</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/search/operands.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/search/PathExpression.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -79,15 +79,45 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="slot-operands">
-<h1>Slot: operands<a class="headerlink" href="#slot-operands" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/search_datamodel/operands">https://w3id.org/linkml/search_datamodel/operands</a></p>
-<!-- no inheritance hierarchy -->
-<section id="properties">
-<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
-<ul class="simple">
-<li><p>Range: <a class="reference internal" href="BooleanQuery.html"><span class="doc std std-doc">BooleanQuery</span></a></p></li>
-</ul>
+  <section id="class-pathexpression">
+<h1>Class: PathExpression<a class="headerlink" href="#class-pathexpression" title="Permalink to this headline"></a></h1>
+<p><em>A path query</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/search_datamodel/PathExpression">search:PathExpression</a></p>
+<div class="mermaid">
+             classDiagram
+    class PathExpression
+      PathExpression : graph_predicates
+      PathExpression : search_term
+      PathExpression : traversal
+      
+        </div><!-- no inheritance hierarchy -->
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Cardinality and Range</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="traversal.html"><span class="doc std std-doc">traversal</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="GraphFunction.html"><span class="doc std std-doc">GraphFunction</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="graph_predicates.html"><span class="doc std std-doc">graph_predicates</span></a></p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="search_term.html"><span class="doc std std-doc">search_term</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SearchBaseConfiguration.html"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
@@ -97,6 +127,96 @@
 <li><p>from schema: https://w3id.org/linkml/search_datamodel</p></li>
 </ul>
 </section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>[‘search:PathExpression’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>[‘search:PathExpression’]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
+<details>
+```yaml
+name: PathExpression
+description: A path query
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+attributes:
+  traversal:
+    name: traversal
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    range: GraphFunction
+  graph_predicates:
+    name: graph_predicates
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    range: uriorcurie
+  search_term:
+    name: search_term
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    range: SearchBaseConfiguration
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: PathExpression
+description: A path query
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+attributes:
+  traversal:
+    name: traversal
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: traversal
+    owner: PathExpression
+    domain_of:
+    - PathExpression
+    range: GraphFunction
+  graph_predicates:
+    name: graph_predicates
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    alias: graph_predicates
+    owner: PathExpression
+    domain_of:
+    - PathExpression
+    range: uriorcurie
+  search_term:
+    name: search_term
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: search_term
+    owner: PathExpression
+    domain_of:
+    - PathExpression
+    range: SearchBaseConfiguration
+
+</pre></div>
+</div>
+</details></section>
 </section>
 </section>
 

@@ -49,6 +49,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-project">Create a new project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-concepts">Basic Concepts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code-the-first-example">Code the first example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-the-example">Extending the example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial03.html">Part 3: Triplestore Backends</a></li>
@@ -100,7 +101,17 @@
              
   <section id="part-2-basic-python">
 <h1>Part 2: Basic Python<a class="headerlink" href="#part-2-basic-python" title="Permalink to this headline"></a></h1>
-<p>For this tutorial some basic Python knowledge is assumed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This part of the tutorial will walk through how to use basic OAK functionality within a Python program. We will
+be making use of lightweight obo format files - future parts of this tutorial will instruct on how to use other
+formats and remote endpoints.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>For this tutorial some basic Python knowledge is assumed. Familiarity with object-oriented concepts
+is also useful.</p>
+</div>
 <section id="install-poetry">
 <h2>Install Poetry<a class="headerlink" href="#install-poetry" title="Permalink to this headline"></a></h2>
 <p>For this section we are going to use <a class="reference external" href="https://python-poetry.org/">Poetry</a> to set up a project. If you are an experienced
@@ -125,7 +136,7 @@ the instructions.</p>
 </section>
 <section id="code-the-first-example">
 <h2>Code the first example<a class="headerlink" href="#code-the-first-example" title="Permalink to this headline"></a></h2>
-<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basicontologyinterface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation.</p>
+<p>We are going to use an example from the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>, using a <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation.</p>
 <p>As preparation, we expect <code class="docutils literal notranslate"><span class="pre">fbbt.obo</span></code> to exist in the top level directory.</p>
 <p><code class="code docutils literal notranslate"><span class="pre">fbbt.obo</span></code> can be downloaded here: <a class="reference external" href="http://purl.obolibrary.org/obo/fbbt.obo">http://purl.obolibrary.org/obo/fbbt.obo</a></p>
 <p>Then create a python program: <code class="docutils literal notranslate"><span class="pre">my_oak_demo/demo.py</span></code> and add the following:</p>
@@ -143,20 +154,26 @@ the instructions.</p>
 <p class="admonition-title">Warning</p>
 <p>The way in which a connection is made to a backend may change in the near future!</p>
 </div>
-<p>Next, let us use <a class="reference internal" href="../glossary.html#term-Pronto"><span class="xref std std-term">Pronto</span></a> to actually query the ontology:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">get_outgoing_relationships_by_curie</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
+<p>Next, let’s perform some basic lookup operations on the ontology:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rels</span> <span class="o">=</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="s1">&#39;FBbt:00004751&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">rels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We first obtain all of the outgoing relationships from the
 FBbt class for “wing vein”, which has the id of <code class="docutils literal notranslate"><span class="pre">FBbt:00004751</span></code>.</p>
 <p>Next, we iterate through all the relationships, and print the labels for
 both the relationship and the connected entities (here named <code class="docutils literal notranslate"><span class="pre">parents</span></code>) using
-the <code class="docutils literal notranslate"><span class="pre">get_label_by_curie()</span></code> method of the <code class="docutils literal notranslate"><span class="pre">ProntoImplementation</span></code> object.</p>
+the <code class="docutils literal notranslate"><span class="pre">label()</span></code> method of <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> object.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>behind the scenes, the <a class="reference internal" href="../selectors.html#pronto"><span class="std std-ref">pronto</span></a> implementation is being used, but as an application
+programmer you shouldn’t care about the specific implementation - code to the interface.
+The beauty of OAK is that the <em>same code</em> will work with other backends!</p>
+</div>
 <p>You should see something similar to:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>rdfs:subClassOf ! subClassOf
   FBbt:00007245 ! cuticular specialization
@@ -164,6 +181,23 @@ RO:0002202 ! develops_from
   FBbt:00046035 ! presumptive wing vein
 BFO:0000050 ! part_of
   FBbt:00006015 ! wing blade
+</pre></div>
+</div>
+</section>
+<section id="extending-the-example">
+<h2>Extending the example<a class="headerlink" href="#extending-the-example" title="Permalink to this headline"></a></h2>
+<p>Next we will write a function that takes as input</p>
+<ul class="simple">
+<li><p>an ontology handle</p></li>
+<li><p>a term ID (CURIE)</p></li>
+</ul>
+<p>And writes out information about that term</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">show_info</span><span class="p">(</span><span class="n">oi</span><span class="p">:</span> <span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">term_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ID: </span><span class="si">{term_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name: {oi.label(term_id)}&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Definition: {oi.definition(term_id)}&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="n">term_id</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;  </span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

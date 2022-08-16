@@ -1,6 +1,6 @@
-# Slot: operands
+# Slot: any_of
 
-URI: [https://w3id.org/linkml/search_datamodel/operands](https://w3id.org/linkml/search_datamodel/operands)
+URI: [https://w3id.org/linkml/search_datamodel/any_of](https://w3id.org/linkml/search_datamodel/any_of)
 
 
 
@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/search_datamodel/operands](https://w3id.org/linkml
 
 ## Properties
 
- * Range: [BooleanQuery](BooleanQuery.md)
+ * Range: [ComplexQuery](ComplexQuery.md)
 
 
 

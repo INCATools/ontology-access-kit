@@ -116,11 +116,11 @@ Name: search-datamodel</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="AtomicQuery.html"><span class="doc std std-doc">AtomicQuery</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ComplexQuery.html"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="BooleanQuery.html"><span class="doc std std-doc">BooleanQuery</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="PathExpression.html"><span class="doc std std-doc">PathExpression</span></a></p></td>
+<td><p>A path query</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="SearchBaseConfiguration.html"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
 <td><p>A user-specified configuration that determines how a particular search operat…</p></td>
@@ -143,11 +143,17 @@ Name: search-datamodel</p>
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="all_of.html"><span class="doc std std-doc">all_of</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="any_of.html"><span class="doc std std-doc">any_of</span></a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="atom.html"><span class="doc std std-doc">atom</span></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
-<td><p></p></td>
+<td><p>categories that should be matched</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="configuration.html"><span class="doc std std-doc">configuration</span></a></p></td>
 <td><p></p></td>
@@ -155,41 +161,29 @@ Name: search-datamodel</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="cursor.html"><span class="doc std std-doc">cursor</span></a></p></td>
 <td><p>when the number of search results exceed the limit this can be used to iterat…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="graph_function.html"><span class="doc std std-doc">graph_function</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="graph_predicates.html"><span class="doc std std-doc">graph_predicates</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="graph_predicates.html"><span class="doc std std-doc">graph_predicates</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="include_aliases.html"><span class="doc std std-doc">include_aliases</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="include_definition.html"><span class="doc std std-doc">include_definition</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="is_fuzzy.html"><span class="doc std std-doc">is_fuzzy</span></a></p></td>
 <td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="include_id.html"><span class="doc std std-doc">include_id</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="include_label.html"><span class="doc std std-doc">include_label</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
-<td><p>restricts search results to matches of the full span of the string</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
-<td><p></p></td>
+<td><p>allows matches where the search term is a subset of the full span</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="is_regular_expression.html"><span class="doc std std-doc">is_regular_expression</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="limit.html"><span class="doc std std-doc">limit</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="limit.html"><span class="doc std std-doc">limit</span></a></p></td>
 <td><p>the maximum number of search results to be returned in one batch</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="matches_full_search_term.html"><span class="doc std std-doc">matches_full_search_term</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="matches_full_search_term.html"><span class="doc std std-doc">matches_full_search_term</span></a></p></td>
 <td><p>Does the matched field match the full string</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="none_of.html"><span class="doc std std-doc">none_of</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
 <td><p>The CURIE of the matched term</p></td>
@@ -206,35 +200,35 @@ Name: search-datamodel</p>
 <tr class="row-even"><td><p><a class="reference internal" href="object_source_version.html"><span class="doc std std-doc">object_source_version</span></a></p></td>
 <td><p>Version IRI or version string of the source of the object term</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="operands.html"><span class="doc std std-doc">operands</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="path_to.html"><span class="doc std std-doc">path_to</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="operator.html"><span class="doc std std-doc">operator</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="properties.html"><span class="doc std std-doc">properties</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="properties.html"><span class="doc std std-doc">properties</span></a></p></td>
 <td><p>determines which properties are searched over</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="rank.html"><span class="doc std std-doc">rank</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="rank.html"><span class="doc std std-doc">rank</span></a></p></td>
 <td><p>For relevancy-ranked results, this indicates the relevancy, with low numbers …</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="result_count.html"><span class="doc std std-doc">result_count</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="result_count.html"><span class="doc std std-doc">result_count</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="results.html"><span class="doc std std-doc">results</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="search_term.html"><span class="doc std std-doc">search_term</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="search_term.html"><span class="doc std std-doc">search_term</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="search_terms.html"><span class="doc std std-doc">search_terms</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="search_terms.html"><span class="doc std std-doc">search_terms</span></a></p></td>
 <td><p>An individual search term</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="snippet.html"><span class="doc std std-doc">snippet</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="snippet.html"><span class="doc std std-doc">snippet</span></a></p></td>
 <td><p>shows how the field was matched</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="syntax.html"><span class="doc std std-doc">syntax</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="syntax.html"><span class="doc std std-doc">syntax</span></a></p></td>
 <td><p>Determines how the search term is interpreted</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="traversal.html"><span class="doc std std-doc">traversal</span></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>

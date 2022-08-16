@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/search_datamodel/atom](https://w3id.org/linkml/sea
 
 ## Properties
 
- * Range: [AtomicQuery](AtomicQuery.md)
+ * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
 
 
 

@@ -1,6 +1,6 @@
-# Slot: is_complete
+# Slot: is_fuzzy
 
-URI: [https://w3id.org/linkml/search_datamodel/is_complete](https://w3id.org/linkml/search_datamodel/is_complete)
+URI: [https://w3id.org/linkml/search_datamodel/is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
 
 
 

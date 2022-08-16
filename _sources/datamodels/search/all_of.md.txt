@@ -1,6 +1,6 @@
-# Slot: atom
+# Slot: all_of
 
-URI: [https://w3id.org/linkml/search_datamodel/atom](https://w3id.org/linkml/search_datamodel/atom)
+URI: [https://w3id.org/linkml/search_datamodel/all_of](https://w3id.org/linkml/search_datamodel/all_of)
 
 
 
@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/search_datamodel/atom](https://w3id.org/linkml/sea
 
 ## Properties
 
- * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+ * Range: [ComplexQuery](ComplexQuery.md)
 
 
 

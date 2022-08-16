@@ -3,6 +3,11 @@
 Part 1: Getting Started
 =======================
 
+.. note::
+
+  At the end of this part of the tutorial, you should have a basic understanding of how to perform different OAK operations on the command line.
+  No programming knowledge is necessary for this part, but some basic understanding of the command line and how to install Python is assumed.
+
 First we will install the package and then we will try some command line examples
 querying the Drosophila anatomy ontology (`fbbt <http://obofoundry.org/ontology/fbbt>`_).
 

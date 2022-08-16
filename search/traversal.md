@@ -1,6 +1,6 @@
-# Slot: graph_function
+# Slot: traversal
 
-URI: [https://w3id.org/linkml/search_datamodel/graph_function](https://w3id.org/linkml/search_datamodel/graph_function)
+URI: [https://w3id.org/linkml/search_datamodel/traversal](https://w3id.org/linkml/search_datamodel/traversal)
 
 
 

@@ -55,7 +55,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#command-line-docs">Command Line Docs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#runoak">runoak</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-add-taxon-constraints">add-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-aliases">aliases</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-all-axioms">all-axioms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-all-similarity">all-similarity</a></li>
@@ -72,7 +71,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-terms">diff-terms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-via-mappings">diff-via-mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-extract-subset">extract-subset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-eval-taxon-constraints">eval-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-fill-table">fill-table</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-info">info</a></li>
@@ -259,55 +258,6 @@ the command line interface understands shortcuts for these:</p>
 <dd><p>additional implementation specification.</p>
 </dd></dl>
 
-<section id="runoak-add-taxon-constraints">
-<h4>add-taxon-constraints<a class="headerlink" href="#runoak-add-taxon-constraints" title="Permalink to this headline"></a></h4>
-<blockquote>
-<div><p>Test candidate taxon constraints</p>
-<p>For the -E option, accepts the format used in <a class="reference external" href="https://arxiv.org/abs/1802.06004">https://arxiv.org/abs/1802.06004</a></p>
-<p>E.g.</p>
-<blockquote>
-<div><p><a class="reference external" href="GO:0000229">GO:0000229</a>,Gain|NCBITaxon:1(root);&gt;Loss|NCBITaxon:2759(Eukaryota);</p>
-</div></blockquote>
-<p>Example:</p>
-<blockquote>
-<div><p>runoak  -i db/go.db add-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
-</div></blockquote>
-<p>Example:</p>
-<blockquote>
-<div><p>runoak  -i db/go.db add-taxon-constraints -p i,p <a class="reference external" href="GO:0005743">GO:0005743</a> only NCBITaxon:2759
-never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
-</div></blockquote>
-</div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak add-taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
-</pre></div>
-</div>
-<p class="rubric">Options</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-E">
-<span id="cmdoption-runoak-add-taxon-constraints-e"></span><span id="cmdoption-runoak-add-taxon-constraints-evolution-file"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--evolution-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;evolution_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-E" title="Permalink to this definition"></a></dt>
-<dd><p>path to file containing gains and losses</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-o">
-<span id="cmdoption-runoak-add-taxon-constraints-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-p">
-<span id="cmdoption-runoak-add-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-p" title="Permalink to this definition"></a></dt>
-<dd><p>A comma-separated list of predicates</p>
-</dd></dl>
-
-<p class="rubric">Arguments</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-add-taxon-constraints-arg-CONSTRAINTS">
-<span id="cmdoption-runoak-add-taxon-constraints-arg-constraints"></span><span class="sig-name descname"><span class="pre">CONSTRAINTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-add-taxon-constraints-arg-CONSTRAINTS" title="Permalink to this definition"></a></dt>
-<dd><p>Optional argument(s)</p>
-</dd></dl>
-
-</section>
 <section id="runoak-aliases">
 <h4>aliases<a class="headerlink" href="#runoak-aliases" title="Permalink to this headline"></a></h4>
 <blockquote>
@@ -478,17 +428,20 @@ runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o 
 <section id="runoak-ancestors">
 <h4>ancestors<a class="headerlink" href="#runoak-ancestors" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List all ancestors</p>
+<div><p>List all ancestors of a given term or terms.</p>
+<p>Here ancestor means the transitive closure of the parent relationship, where
+a parent includes all relationship types, not just is-a.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i cl.owl ancestors CL:4023094</p>
 </div></blockquote>
-<p>Note that ancestors is by default over ALL relationship types</p>
-<p>Constrained to is-a and part-of:</p>
+<p>This will show ancestry over the full relationship graph. Like any relational
+OAK command, this can be filtered by relationship type (predicate), using –predicate (-p).
+For exampple, constrained to is-a and part-of:</p>
 <blockquote>
 <div><p>runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050</p>
 </div></blockquote>
-<p>Same, on ubergraph:</p>
+<p>Multiple backends can be used, including ubergraph:</p>
 <blockquote>
 <div><p>runoak -i ubergraph: ancestors CL:4023094 -p i,BFO:0000050</p>
 </div></blockquote>
@@ -607,7 +560,8 @@ runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o 
 <section id="runoak-apply">
 <h4>apply<a class="headerlink" href="#runoak-apply" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Applies a patch to an ontology</p>
+<div><p>Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
+<a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a></p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl apply “rename CL:0000561 to ‘amacrine neuron’”  -o cl.owl.ttl -O ttl</p>
@@ -620,6 +574,7 @@ runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o 
 <p>This command is still experimental. Some things to bear in mind:</p>
 <ul class="simple">
 <li><p>for some ontologies, CURIEs may not work, instead specify a full URI surrounded by &lt;&gt;s</p></li>
+<li><p>only a subset of KGCL commands are supported by each backend</p></li>
 </ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak apply <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>COMMANDS<span class="o">]</span>...
@@ -649,17 +604,20 @@ runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o 
 <h4>apply-obsolete<a class="headerlink" href="#runoak-apply-obsolete" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Sets an ontology element to be obsolete</p>
-<p>WARNING: this command may be replaced by a more general KGCL change command
-in future</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i my.obo apply-obsolete MY:0002200 -o my-modified.obo</p>
+</div></blockquote>
+<p>Multiple terms can be passed, as labels, IDs, or using OAK queries:</p>
+<blockquote>
+<div><p>runoak -i my.obo apply-obsolete MY:1 MY:2 MY:3 … -o my-modified.obo</p>
 </div></blockquote>
 <p>This may be chained, for example to take all terms matching a search query and then
 obsolete them all:</p>
 <blockquote>
 <div><p>runoak -i my.db search ‘l/^Foo/` | runoak -i my.db –autosave apply-obsolete -</p>
 </div></blockquote>
+<p>This command is partially redundant with the more general “apply” command</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak apply-obsolete <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -751,12 +709,12 @@ obsolete them all:</p>
 <section id="runoak-definitions">
 <h4>definitions<a class="headerlink" href="#runoak-definitions" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Show definitions for terms</p>
+<div><p>Show textual definitions for term or set of terms</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:envo definitions ‘tropical biome’ ‘temperate biome’</p>
 </div></blockquote>
-<p>You can use the “.all” selector to show all definitions:</p>
+<p>You can use the “.all” selector to show all definitions for all terms in the ontology:</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:envo definitions .all</p>
@@ -801,7 +759,18 @@ obsolete them all:</p>
 <h4>descendants<a class="headerlink" href="#runoak-descendants" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all descendants of a term</p>
-<p>See examples for ‘ancestors’ command</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:obi descendants assay -p i</p>
+</div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:uberon descendants heart -p i,p</p>
+</div></blockquote>
+<p>This is the inverse of the ‘ancestors’ command; see the documentation for
+that command. But note that ‘descendants’ commands have the potential to be more
+“explosive” than ancestors commands, especially for high level terms, and for when
+predicates are not specified</p>
 <p>More background:</p>
 <blockquote>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">https://incatools.github.io/ontology-access-kit/interfaces/obograph.html</a></p>
@@ -895,17 +864,8 @@ change commands.</p>
 <section id="runoak-diff-terms">
 <h4>diff-terms<a class="headerlink" href="#runoak-diff-terms" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>EXPERIMENTAL</p>
-<dl class="field-list simple">
-<dt class="field-odd">param output</dt>
-<dd class="field-odd"><p></p></dd>
-<dt class="field-even">param other_ontology</dt>
-<dd class="field-even"><p></p></dd>
-<dt class="field-odd">param terms</dt>
-<dd class="field-odd"><p></p></dd>
-<dt class="field-even">return</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
+<div><p>Compares a pair of terms in two ontologies</p>
+<p>EXPERIMENTAL</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-terms <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -934,9 +894,28 @@ change commands.</p>
 <section id="runoak-diff-via-mappings">
 <h4>diff-via-mappings<a class="headerlink" href="#runoak-diff-via-mappings" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Calculates a relational diff between ontologies in two sources using the combined mappings
-from both</p>
-<p>E.g. use MP and HP mappings to give a report on how these ontologies are structurally different.</p>
+<div><p>Calculates cross-ontology diff using mappings</p>
+<p>Given a pair of ontologies, and mappings that connect terms in both ontologies, this
+command will perform a structural comparison of all mapped pairs of terms</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:uberon –other-input sqlite:obo:zfa  –source UBERON –source ZFA -O csv</p>
+</div></blockquote>
+<p>Note the above command does not have any mapping file specified; the mappings that are distributed within
+each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
+<p>If the mappings are provided externally:</p>
+<blockquote>
+<div><p>runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</p>
+</div></blockquote>
+<p>(in the above example, –source is not passed, so all mappings are tested)</p>
+<p>If there are no existing mappings, you can use the lexmatch command to generate them:</p>
+<blockquote>
+<div><p>runoak -i ont1.obo -a ont2.obo lexmatch -o mappings.sssom.stv
+runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</p>
+</div></blockquote>
+<p>The output from this command follows the cross-ontology-diff data model
+(<a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html">https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html</a>)</p>
+<p>This can be serialized in YAML or TSV form</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-via-mappings <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -951,7 +930,7 @@ from both</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-mapping-input">
 <span class="sig-name descname"><span class="pre">--mapping-input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;mapping_input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-mapping-input" title="Permalink to this definition"></a></dt>
-<dd><p>File of mappings in SSSOM format. If not provided then mappings in ontoogy are used</p>
+<dd><p>File of mappings in SSSOM format. If not provided then mappings in ontology(ies) are used</p>
 </dd></dl>
 
 <dl class="std option">
@@ -1010,11 +989,18 @@ from both</p>
 <section id="runoak-dump">
 <h4>dump<a class="headerlink" href="#runoak-dump" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Exports an ontology</p>
+<div><p>Exports (dumps) the entire contents of an ontology</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i prontolib:pato.obo dump -o pato.json -O json</p>
+<div><p>runoak -i pato.obo dump -o pato.json -O json</p>
 </div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i pato.owl dump -o pato.ttl -O turtle</p>
+</div></blockquote>
+<p>Currently each implementation only supports a subset of formats.</p>
+<p>The dump command is also blocked for remote endpoints such as Ubergraph,
+to avoid killer queries</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak dump <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1039,26 +1025,54 @@ from both</p>
 </dd></dl>
 
 </section>
-<section id="runoak-extract-subset">
-<h4>extract-subset<a class="headerlink" href="#runoak-extract-subset" title="Permalink to this headline"></a></h4>
+<section id="runoak-eval-taxon-constraints">
+<h4>eval-taxon-constraints<a class="headerlink" href="#runoak-eval-taxon-constraints" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Extracts a subset</p>
-<p>TODO: INCOMPLETE</p>
+<div><p>Test candidate taxon constraints</p>
+<p>Multiple candidate constraints can be passed as arguments. these are in the form of triples
+separated by periods.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p <a class="reference external" href="GO:0005743">GO:0005743</a> only NCBITaxon:2759
+never NCBITaxon:2 . GO:0005634 only NCBITaxon:2</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak extract-subset <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<p>The –evolution-file (-E) option can be used to pass in a file of candidates.
+This should follow the format used in <a class="reference external" href="https://arxiv.org/abs/1802.06004">https://arxiv.org/abs/1802.06004</a></p>
+<p>E.g.</p>
+<blockquote>
+<div><p><a class="reference external" href="GO:0000229">GO:0000229</a>,Gain|NCBITaxon:1(root);&gt;Loss|NCBITaxon:2759(Eukaryota);</p>
+</div></blockquote>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak eval-taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-extract-subset-o">
-<span id="cmdoption-runoak-extract-subset-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-extract-subset-o" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-E">
+<span id="cmdoption-runoak-eval-taxon-constraints-e"></span><span id="cmdoption-runoak-eval-taxon-constraints-evolution-file"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--evolution-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;evolution_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-E" title="Permalink to this definition"></a></dt>
+<dd><p>path to file containing gains and losses</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-o">
+<span id="cmdoption-runoak-eval-taxon-constraints-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-p">
+<span id="cmdoption-runoak-eval-taxon-constraints-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-extract-subset-arg-TERMS">
-<span id="cmdoption-runoak-extract-subset-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-extract-subset-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-eval-taxon-constraints-arg-CONSTRAINTS">
+<span id="cmdoption-runoak-eval-taxon-constraints-arg-constraints"></span><span class="sig-name descname"><span class="pre">CONSTRAINTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-eval-taxon-constraints-arg-CONSTRAINTS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
@@ -1109,6 +1123,7 @@ to have performance issues with the query</p>
 <h4>fill-table<a class="headerlink" href="#runoak-fill-table" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Fills missing values in a table of ontology elements</p>
+<p>See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.table_filler">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.table_filler</a></p>
 <p>Given a TSV with a populated ID column, and unpopulated columns for definition, label, mappings, ancestors,
 this will iterate through each row filling in each missing value by performing ontology lookups.</p>
 <p>In some cases, this can also perform reverse lookups; i.e given a table with labels populated and blank IDs,
@@ -1181,11 +1196,13 @@ such as rdfs:label.</p>
 </div></blockquote>
 <p>This is a powerful command with many ways of configuring it - we will add separate docs for this soon,
 for now please file an issue on github with any questions</p>
-<p>TODO: allow for an option that will perform fuzzy matches of labels
-TODO: reverse lookup is not provided for all fields, such as definitions
-TODO: add an option to detect inconsistencies
-TODO: add logical for obsoletion/replaced by
-TODO: use most optimized method for whichever backend</p>
+<ul class="simple">
+<li><p>TODO: allow for an option that will perform fuzzy matches of labels</p></li>
+<li><p>TODO: reverse lookup is not provided for all fields, such as definitions</p></li>
+<li><p>TODO: add an option to detect inconsistencies</p></li>
+<li><p>TODO: add logical for obsoletion/replaced by</p></li>
+<li><p>TODO: use most optimized method for whichever backend</p></li>
+</ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak fill-table <span class="o">[</span>OPTIONS<span class="o">]</span> TABLE_FILE
 </pre></div>
@@ -1253,18 +1270,44 @@ TODO: use most optimized method for whichever backend</p>
 <section id="runoak-info">
 <h4>info<a class="headerlink" href="#runoak-info" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Show info on terms</p>
+<div><p>Show information on term or set of terms</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i cl.owl info CL:4023094</p>
+<div><p>runoak -i sqlite:obo:cl info CL:4023094</p>
 </div></blockquote>
+<p>The default output is minimal, showing only ID and label</p>
+<p>The –output-type (-O) option can be used to specify other formats for the output.</p>
+<p>Currently there are only a few output types are supported. More will be provided in future.</p>
 <p>In OBO format:</p>
 <blockquote>
 <div><p>runoak -i cl.owl info CL:4023094 -O obo</p>
 </div></blockquote>
+<p>As CSV:</p>
+<blockquote>
+<div><p>runoak -i cl.obo info CL:4023094 -O csv</p>
+</div></blockquote>
+<p>The info output format can be parameterized with –display (-D)</p>
 <p>With xrefs and definitions:</p>
 <blockquote>
 <div><p>runoak -i cl.owl info CL:4023094 -D x,d</p>
+</div></blockquote>
+<p>With all information:</p>
+<blockquote>
+<div><p>runoak -i cl.owl info CL:4023094 -D all</p>
+</div></blockquote>
+<p>Like all OAK commands, input term lists can be multivalued, a mixture of IDs and labels, as well
+as queries that can be combined using boolean logic</p>
+<p>Info on two STATO terms:</p>
+<blockquote>
+<div><p>runoak -i ontobee:stato info STATO:0000286 STATO:0000287 -O obo</p>
+</div></blockquote>
+<p>All terms in ENVO with the string “forest” in them:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:envo info l~forest</p>
+</div></blockquote>
+<p>Info on all subtypes of “statistical hypothesis test” in STATO:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:stato info .desc//p=i ‘statistical hypothesis test’</p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak info <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
@@ -1300,7 +1343,7 @@ TODO: use most optimized method for whichever backend</p>
 <section id="runoak-labels">
 <h4>labels<a class="headerlink" href="#runoak-labels" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Show labels for terms</p>
+<div><p>Show labels for term or list of terms</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i cl.owl labels CL:4023094</p>
@@ -1310,6 +1353,7 @@ TODO: use most optimized method for whichever backend</p>
 <blockquote>
 <div><p>runoak -i cl.owl labels .all</p>
 </div></blockquote>
+<p>(this may be blocked for remote endpoints)</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak labels <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1350,12 +1394,17 @@ TODO: use most optimized method for whichever backend</p>
 <h4>leafs<a class="headerlink" href="#runoak-leafs" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List all leaf nodes in the ontology</p>
+<p>Like all OAK relational commands, this is parameterized by –predicates (-p).
+Note that the default is to return the roots of the relation graph over <em>all</em> predicates</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i db/cob.db leafs</p>
 </div></blockquote>
-<p>Note that the default is to return the roots of the relation graph over <em>all</em> predicates</p>
-<p>TODO: filter obsoletes</p>
+<p>This command is a wrapper onto the “leafs” command in the BasicOntologyInterface.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a>.html#
+oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
+</ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak leafs <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -1376,23 +1425,38 @@ TODO: use most optimized method for whichever backend</p>
 </section>
 <section id="runoak-lexmatch">
 <h4>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this headline"></a></h4>
-<p>Generates lexical index and mappings.</p>
 <blockquote>
-<div><p>See <span class="xref std std-ref">.lexical_index_to_sssom</span></p>
+<div><p>Performs lexical matching between pairs of terms in one more more ontologies</p>
 <p>Examples:</p>
 <blockquote>
 <div><p>runoak -i foo.obo lexmatch -o foo.sssom.tsv</p>
 </div></blockquote>
-<p>Outputting intermediate index:</p>
+<p>In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.</p>
+<p>It is more common to map between all pairs of terms in two ontology files. To avoid a merge
+preprocessing step:</p>
+<blockquote>
+<div><p>runoak -i foo.obo -a bar.obo lexmatch -o foo.sssom.tsv</p>
+</div></blockquote>
+<p>lexmatch implements a simple algorithm:</p>
+<ul class="simple">
+<li><p>create a lexical index, keyed by normalized strings of labels, synonyms</p></li>
+<li><p>report all pairs of entities that have the same key</p></li>
+</ul>
+<p>The lexical index can be exported (in native YAML) using -L:</p>
 <blockquote>
 <div><p>runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv</p>
 </div></blockquote>
 <p>Note: if you run the above command a second time it will be faster as the index
-will be reused</p>
+will be reused.</p>
 <p>Using custom rules:</p>
 <blockquote>
 <div><p>runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv</p>
 </div></blockquote>
+<p>Full documentation:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer</a>.html#</p></li>
+</ul>
+<p>module-oaklib.utilities.lexical.lexical_indexer</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lexmatch <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -1472,12 +1536,24 @@ will be reused</p>
 <section id="runoak-mappings">
 <h4>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List all SSSOM mappings in the ontology</p>
-<p>Example (YAML):</p>
+<div><p>List all mappings encoded in the ontology</p>
+<p>Example:</p>
 <blockquote>
-<div><p>runoak -i db/envo.db mappings</p>
+<div><p>runoak -i sqlite:obo:envo mappings</p>
 </div></blockquote>
-<p>TODO: TSV</p>
+<p>The default output is SSSOM YAML. To use the (canonical) csv format:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:envo mappings -O sssom</p>
+</div></blockquote>
+<p>By default, labels are not included. Use –autolabel to include labels (but note
+that if the label is not in the source ontology, then no label will be retrieved)</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:envo mappings -O sssom</p>
+</div></blockquote>
+<p>To constrain the mapped object source:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:foodon mappings -O sssom –maps-to-source SUBSET_SIREN</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak mappings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1496,9 +1572,21 @@ will be reused</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-mappings-autolabel">
+<span id="cmdoption-runoak-mappings-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-mappings-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-mappings-maps-to-source">
 <span class="sig-name descname"><span class="pre">--maps-to-source</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;maps_to_source&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-mappings-maps-to-source" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Return only mappings with subject or object source equal to this</p>
+</dd></dl>
 
 <p class="rubric">Arguments</p>
 <dl class="std option">
@@ -1512,7 +1600,18 @@ will be reused</p>
 <h4>migrate-curies<a class="headerlink" href="#runoak-migrate-curies" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Rewires an ontology replacing all instances of an ID or IDs</p>
-<p>runoak -i db/uberon.db migrate-curies –replace SRC1=TGT1 SRC2=TGT2</p>
+<p>Note: the specified ontology is modified in place</p>
+<p>The input for this command is a list equals-separated pairs, specifying the
+source and the target</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i db/uberon.db migrate-curies –replace SRC1=TGT1 SRC2=TGT2</p>
+</div></blockquote>
+<p>This command is a wrapper onto the “migrate_curies” command in the PatcherInterface</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/patcher">https://incatools.github.io/ontology-access-kit/interfaces/patcher</a>.html#</p></li>
+</ul>
+<p>oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak migrate-curies <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CURIE_PAIRS<span class="o">]</span>...
 </pre></div>
@@ -1584,7 +1683,14 @@ will be reused</p>
 <section id="runoak-ontologies">
 <h4>ontologies<a class="headerlink" href="#runoak-ontologies" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Shows ontologies</p>
+<div><p>Shows all ontologies</p>
+<p>If the input is a pre-merged ontology, then the output of this command is trivially
+a single line, with the name of the input ontology</p>
+<p>This command is more meaningful when the input is a multi-ontology endpoint, e.g</p>
+<blockquote>
+<div><p>runoak -i ubergraph ontologies</p>
+</div></blockquote>
+<p>In future this command will be expanded to allow showing more metadata about each ontology</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ontologies <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -1659,6 +1765,15 @@ will be reused</p>
 <h4>ontology-versions<a class="headerlink" href="#runoak-ontology-versions" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Shows ontology versions</p>
+<p>Currently only implemented for BioPortal</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i bioportal: ontology-versions mp</p>
+</div></blockquote>
+<p>All ontologies:</p>
+<blockquote>
+<div><p>runoak -i bioportal ontology-versions –all</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ontology-versions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
@@ -1668,6 +1783,17 @@ will be reused</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-ontology-versions-o">
 <span id="cmdoption-runoak-ontology-versions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-ontology-versions-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-ontology-versions-all">
+<span id="cmdoption-runoak-ontology-versions-no-all"></span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-ontology-versions-all" title="Permalink to this definition"></a></dt>
+<dd><p>If true, show all ontologies. Use in place of passing an explicit list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -1777,11 +1903,32 @@ results to viz, using the fill-gaps option</p>
 <h4>relationships<a class="headerlink" href="#runoak-relationships" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Show all relationships for a term or terms</p>
-<dl class="simple">
-<dt>Example:</dt><dd><p>runoak -i cl.owl relationships CL:4023094</p>
-</dd>
-</dl>
-<p>Note: this subcommand will become redundant with other commands like info</p>
+<p>By default, this shows all relationships where the input term(s) are the <em>subjects</em></p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i cl.db relationships CL:4023094</p>
+</div></blockquote>
+<p>Like all OAK commands, a label can be passed instead of a CURIE</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i cl.db relationships neuron</p>
+</div></blockquote>
+<p>To reverse the direction, and query where the search term(s) are <em>objects</em>, use the –direction flag:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i cl.db relationships –direction down neuron</p>
+</div></blockquote>
+<p>Multiple terms can be passed</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i uberon.db relationships heart liver lung</p>
+</div></blockquote>
+<p>And like all OAK commands, a query can be passed rather than an explicit term list</p>
+<p>The following query lists all arteries in the limb together which what structures they supply</p>
+<p>Query:</p>
+<blockquote>
+<div><p>runoak -i uberon.db relationships -p RO:0002178 .desc//p=i “artery” .and .desc//p=i,p “limb”</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak relationships <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1838,13 +1985,20 @@ results to viz, using the fill-gaps option</p>
 <section id="runoak-roots">
 <h4>roots<a class="headerlink" href="#runoak-roots" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List all root in the ontology</p>
+<div><p>List all root nodes in the ontology</p>
+<p>Like all OAK relational commands, this is parameterized by –predicates (-p).
+Note that the default is to return the roots of the relation graph over <em>all</em> predicates.
+This can sometimes give unintuitive results, so we recommend always being explicit
+and parameterizing</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i db/cob.db terms</p>
+<div><p>runoak -i db/cob.db roots</p>
 </div></blockquote>
-<p>Note that the default is to return the roots of the relation graph over <em>all</em> predicates</p>
-<p>TODO: filter obsoletes</p>
+<p>This command is a wrapper onto the “roots” command in the BasicOntologyInterface.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/basic">https://incatools.github.io/ontology-access-kit/interfaces/basic</a>.html#
+oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
+</ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak roots <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -1889,6 +2043,10 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <div><p>runoak -i ubergraph:uberon search limb</p>
 </div></blockquote>
 <p>For more on search, see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/search.html">https://incatools.github.io/ontology-access-kit/interfaces/search.html</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The behavior of search is not yet fully unified across endpoints</p>
+</div>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak search <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -1950,12 +2108,13 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <section id="runoak-siblings">
 <h4>siblings<a class="headerlink" href="#runoak-siblings" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List all siblings</p>
+<div><p>List all siblings of a specified term or terms</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i cl.owl siblings CL:4023094</p>
 </div></blockquote>
-<p>Note that ancestors is by default over ALL relationship types</p>
+<p>Note that siblings is by default over ALL relationship types, so we recommend
+always being explicit and passing a predicate using -p (–predicates)</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak siblings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2069,15 +2228,20 @@ the MRCA</p>
 <section id="runoak-taxon-constraints">
 <h4>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>List all taxon constraints for a term or terms</p>
+<div><p>Compute all taxon constraints for a term or terms</p>
+<p>Note that this <em>computes</em> the taxon constraints rather than doing a lookup</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i db/go.db taxon-constraints <a class="reference external" href="GO:0034357">GO:0034357</a> –include-redundant -p i,p</p>
 </div></blockquote>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i db/uberon.db taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p</p>
+<div><p>runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p</p>
 </div></blockquote>
+<p>This command is a wrapper onto taxon_constraints_utils:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils</a></p></li>
+</ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2173,6 +2337,23 @@ the MRCA</p>
 <blockquote>
 <div><p>runoak -i db/cob.db terms</p>
 </div></blockquote>
+<p>All terms without obsoletes:</p>
+<blockquote>
+<div><p>runoak -i prontolib:cl.obo  terms –filter-obsoletes</p>
+</div></blockquote>
+<p>By default “terms” is considered to be any entity type in the ontology. Use –owl-type to constrain this:</p>
+<p>Classes:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:ro terms –owl-type owl:Class</p>
+</div></blockquote>
+<p>Relationship types (Object properties):</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:ro terms –owl-type owl:ObjectProperty</p>
+</div></blockquote>
+<p>Annotation properties:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:omo terms –owl-type owl:AnnotationProperty</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak terms <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -2195,6 +2376,11 @@ the MRCA</p>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-terms-owl-type">
+<span class="sig-name descname"><span class="pre">--owl-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;owl_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-terms-owl-type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="runoak-tree">
 <h4>tree<a class="headerlink" href="#runoak-tree" title="Permalink to this headline"></a></h4>
@@ -2205,8 +2391,16 @@ the MRCA</p>
 <blockquote>
 <div><p>runoak -i envo.db tree ENVO:00000372 -p i,p</p>
 </div></blockquote>
+<p>This produces output like:</p>
+<p>.code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>* [i] ENVO:00000094 ! volcanic feature
+    * [i] ENVO:00000247 ! volcano
+        * [i] ENVO:00000403 ! shield volcano
+            * [i] **ENVO:00000372 ! pyroclastic shield volcano**
+</pre></div>
+</div>
 <p>Note: for many ontologies the tree view will explode, especially if no predicates are specified.
-You may wish to start with the is-a tree.</p>
+You may wish to start with the is-a tree (-p i).</p>
 <p>You can use the –gap-fill option to create a minimal tree:</p>
 <p>Example:</p>
 <blockquote>
@@ -2336,6 +2530,10 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <blockquote>
 <div><p>runoak  -i db/ecto.db validate -o results.tsv</p>
 </div></blockquote>
+<p>For more information, see the OAK how-to guide:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
+</ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -2364,6 +2562,10 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <blockquote>
 <div><p>Validate multiple ontologies against ontology metadata</p>
 <p>See the validate command - this is the same except you can pass a list of databases</p>
+<p>For more information, see the OAK how-to guide:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
+</ul>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-multiple <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>DBS<span class="o">]</span>...
 </pre></div>
@@ -2406,10 +2608,10 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <div><p>Visualizing an ancestor graph using obographviz</p>
 <p>For general background on what is meant by a graph in OAK,
 see <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">https://incatools.github.io/ontology-access-kit/interfaces/obograph.html</a></p>
-<dl class="simple">
-<dt>:: note:</dt><dd><p>This requires that <a class="reference external" href="https://github.com/INCATools/obographviz">obographviz</a> is installed.</p>
-</dd>
-</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This requires that <a class="reference external" href="https://github.com/INCATools/obographviz">obographviz</a> is installed.</p>
+</div>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:cl.db viz CL:4023094</p>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How-To Guides &mdash; oaklib  documentation</title>
+  <title>oaklib.utilities.table_filler &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,8 +20,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="perform-lexical-matching.html" />
-    <link rel="prev" title="oaklib.utilities.table_filler" href="../src/oaklib.utilities.table_filler.html" /> 
+    <link rel="next" title="How-To Guides" href="../howtos/index.html" />
+    <link rel="prev" title="oaklib.utilities.apikey_manager" href="oaklib.utilities.apikey_manager.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,12 +49,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How-To Guides</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html">How to write a plugin</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../utilities.html">Utilities</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="oaklib.utilities.obograph_utils.html">oaklib.utilities.obograph_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oaklib.utilities.graph.relationship_walker.html">oaklib.utilities.graph.relationship_walker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oaklib.utilities.graph.networkx_bridge.html">oaklib.utilities.graph.networkx_bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oaklib.utilities.lexical.lexical_indexer.html">oaklib.utilities.lexical.lexical_indexer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oaklib.utilities.subsets.slimmer_utils.html">oaklib.utilities.subsets.slimmer_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oaklib.utilities.apikey_manager.html">oaklib.utilities.apikey_manager</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">oaklib.utilities.table_filler</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -75,9 +80,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>How-To Guides</li>
+          <li><a href="../utilities.html">Utilities</a> &raquo;</li>
+      <li>oaklib.utilities.table_filler</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/howtos/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/src/oaklib.utilities.table_filler.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,53 +91,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="how-to-guides">
-<span id="howtos"></span><h1>How-To Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this headline"></a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>many of these guides are in-progress</p>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="validate-an-obo-ontology.html">How to Validate an OBO ontology using Obo Metadata Ontology schema</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html#steps">Steps</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="validate-an-obo-ontology.html#step-1-obtain-the-sqlite-version-of-the-ontology">Step 1: Obtain the sqlite version of the ontology</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validate-an-obo-ontology.html#step-2-install-oaklib">Step 2: Install oaklib</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validate-an-obo-ontology.html#step-3-validate-an-individual-ontology">Step 3: Validate an individual ontology</a></li>
-<li class="toctree-l3"><a class="reference internal" href="validate-an-obo-ontology.html#step-3-alternative-validate-multiple-ontologies">Step 3 (alternative): Validate multiple ontologies</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html#caveats">Caveats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html#using-your-own-schema">Using your own schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html#how-this-works">How this works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validate-an-obo-ontology.html#analysis">Analysis</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="write-a-plugin.html">How to write a plugin</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html#what-is-a-plugin">What is a plugin?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html#an-example-plugin">An example plugin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html#creating-a-plugin">Creating a plugin</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="write-a-plugin.html#discuss-on-the-issue-tracker">Discuss on the issue tracker</a></li>
-<li class="toctree-l3"><a class="reference internal" href="write-a-plugin.html#create-a-new-project">Create a new project</a></li>
-<li class="toctree-l3"><a class="reference internal" href="write-a-plugin.html#implement-one-or-more-interfaces">Implement one or more interfaces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="write-a-plugin.html#implement-a-selector">Implement a selector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="write-a-plugin.html#write-tests">Write tests</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="write-a-plugin.html#release-to-pypi">Release to PyPI</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  <section id="module-oaklib.utilities.table_filler">
+<span id="oaklib-utilities-table-filler"></span><h1>oaklib.utilities.table_filler<a class="headerlink" href="#module-oaklib.utilities.table_filler" title="Permalink to this headline"></a></h1>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_dict</span></code>(rows, mapping, from_col, to_col, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_table</span></code>(input_file[, delimiter])</p></td>
+<td><p>Parses a file into rows, replacing empty lines with None values</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_table</span></code>(rows, output_file[, delimiter, ...])</p></td>
+<td><p>Writes a list of rows to a file, replacing None values with empty strings</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnDependency</span></code>(primary_key, relation, ...)</p></td>
+<td><p>Models an interdependency between an identifier column and a column with a dependent value</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TableFiller</span></code>([ontology_interface])</p></td>
+<td><p>An engine for filling in missing columns in tables based on metadata about these columns</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TableMetadata</span></code>([dependencies, delimiter])</p></td>
+<td><p>A configuration for table filling</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../src/oaklib.utilities.table_filler.html" class="btn btn-neutral float-left" title="oaklib.utilities.table_filler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="perform-lexical-matching.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="oaklib.utilities.apikey_manager.html" class="btn btn-neutral float-left" title="oaklib.utilities.apikey_manager" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../howtos/index.html" class="btn btn-neutral float-right" title="How-To Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

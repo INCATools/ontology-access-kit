@@ -103,7 +103,8 @@
   <section id="part-3-triplestore-backends">
 <h1>Part 3: Triplestore Backends<a class="headerlink" href="#part-3-triplestore-backends" title="Permalink to this headline"></a></h1>
 <p>Previously we have been working with <em>local</em> ontology files in <a class="reference internal" href="../glossary.html#term-OBO-Format"><span class="xref std std-term">OBO Format</span></a>. We will now show how OAK
-can be used to access information in a local or remote <span class="xref std std-term">Triplestore</span>.</p>
+can be used to access information in a remote <span class="xref std std-term">Triplestore</span>. The same approach can be used to
+query local files in any RDF format such as turtle.</p>
 <section id="triplestore-concepts">
 <h2>Triplestore Concepts<a class="headerlink" href="#triplestore-concepts" title="Permalink to this headline"></a></h2>
 <p>There are a number of triplestores that include ontology content queryable using <span class="xref std std-term">SPARQL</span>.</p>
@@ -115,9 +116,10 @@ can be used to access information in a local or remote <span class="xref std std
 <li><p><span class="xref std std-term">LOV</span>, (Linked Open Vocabularies), a triplestore containing generic semantic web ontologies and ontology-like schemas</p></li>
 </ul>
 <p>Additionally, <strong>OAK is capable of treating any local RDF file on disk as if it were a triplestore</strong></p>
-<p>All triplestores are standardized in that they all conform to the SPARQL standard. However, triplestores differ in
+<p>All triplestores are fairly standardized in that they all conform to the SPARQL standard. However, triplestores differ in
 how they store ontologies, and different ontologies conform to different metadata standards. This means it can be challenging
-writing code with uniform behavior across different triplestores. OAK attempts to bridge these differences as far as possible</p>
+writing code with uniform behavior across different triplestores. OAK attempts to bridge these differences as far as possible.
+OAK interfaces specify the logical operation, and behind the scenes, OAK will emit the most appropriate SPARQL query.</p>
 </section>
 <section id="ubergraph">
 <h2>Ubergraph<a class="headerlink" href="#ubergraph" title="Permalink to this headline"></a></h2>
@@ -136,16 +138,15 @@ writing code with uniform behavior across different triplestores. OAK attempts t
 <section id="operations">
 <h3>Operations<a class="headerlink" href="#operations" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">term_id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0002544&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">get_label_by_curie</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">oi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">term_id</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Will write out “digit”</p>
-<blockquote>
-<div><dl class="simple">
-<dt>for rel in oi.entailed_outgoing_relationships_by_curie(term_id):</dt><dd><p>print(rel)</p>
-</dd>
-</dl>
-</div></blockquote>
+<p>This will write out “digit”</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">entailed_outgoing_relationships_by_curie</span><span class="p">(</span><span class="n">term_id</span><span class="p">):</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will write out all relationships where digit is a subject</p>
 </section>
 </section>
 </section>

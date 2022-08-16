@@ -90,7 +90,7 @@
 <p>Ontology Access Toolkit (OAK) is a Python library for common ontology operations over a variety of backends.</p>
 <p>This library provides a collection of different interfaces for different kinds of ontology operations, including:</p>
 <ul class="simple">
-<li><p>lookup basic features of an ontology element, such as its label, definition, relationships, or aliases.</p></li>
+<li><p>basic features of an ontology element, such as its label, definition, relationships, or aliases.</p></li>
 <li><p>search an ontology for a term.</p></li>
 <li><p>update, delete, or modify terms.</p></li>
 <li><p>provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation.</p></li>
@@ -104,12 +104,14 @@
 </ul>
 <section id="basic-python-example">
 <h2>Basic Python Example<a class="headerlink" href="#basic-python-example" title="Permalink to this headline"></a></h2>
+<p>The following code will load an ontology from a SQLite3 database, lookup
+basic information on terms matching a search</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
 <span class="kn">from</span> <span class="nn">src.oaklib.implementations.sqldb.sql_implementation</span> <span class="kn">import</span> <span class="n">SqlImplementation</span>
 
 <span class="n">resource</span> <span class="o">=</span> <span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="s1">&#39;tests/input/go-nucleus.db&#39;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">si</span> <span class="o">=</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">si</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;cell&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">si</span><span class="o">.</span><span class="n">basic_search</span><span class="p">(</span><span class="s2">&quot;nucleus&quot;</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s1"> ! </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Definition: </span><span class="si">{</span><span class="n">si</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">rel</span><span class="p">,</span> <span class="n">fillers</span> <span class="ow">in</span> <span class="n">si</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

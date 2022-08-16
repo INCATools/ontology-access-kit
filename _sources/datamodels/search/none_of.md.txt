@@ -1,6 +1,6 @@
-# Slot: operator
+# Slot: none_of
 
-URI: [https://w3id.org/linkml/search_datamodel/operator](https://w3id.org/linkml/search_datamodel/operator)
+URI: [https://w3id.org/linkml/search_datamodel/none_of](https://w3id.org/linkml/search_datamodel/none_of)
 
 
 
@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/search_datamodel/operator](https://w3id.org/linkml
 
 ## Properties
 
- * Range: [BooleanOperator](BooleanOperator.md)
+ * Range: [ComplexQuery](ComplexQuery.md)
 
 
 

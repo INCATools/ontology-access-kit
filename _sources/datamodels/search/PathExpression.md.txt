@@ -1,19 +1,21 @@
-# Class: AtomicQuery
+# Class: PathExpression
+_A path query_
 
 
 
 
-URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
+
+URI: [search:PathExpression](https://w3id.org/linkml/search_datamodel/PathExpression)
 
 
 
 
 ```{mermaid}
  classDiagram
-    class AtomicQuery
-      AtomicQuery : graph_function
-      AtomicQuery : graph_predicates
-      AtomicQuery : search_term
+    class PathExpression
+      PathExpression : graph_predicates
+      PathExpression : search_term
+      PathExpression : traversal
       
 ```
 
@@ -27,17 +29,12 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 | Name | Cardinality and Range  | Description  |
 | ---  | ---  | --- |
-| [graph_function](graph_function.md) | 0..1 <br/> [GraphFunction](GraphFunction.md)  |   |
+| [traversal](traversal.md) | 0..1 <br/> [GraphFunction](GraphFunction.md)  |   |
 | [graph_predicates](graph_predicates.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
 | [search_term](search_term.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md)  |   |
 
 
 ## Usages
-
-
-| used by | used in | type | used |
-| ---  | --- | --- | --- |
-| [BooleanQuery](BooleanQuery.md) | [atom](atom.md) | range | AtomicQuery |
 
 
 
@@ -64,8 +61,8 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['search:AtomicQuery'] |
-| native | ['search:AtomicQuery'] |
+| self | ['search:PathExpression'] |
+| native | ['search:PathExpression'] |
 
 
 ## LinkML Specification
@@ -76,12 +73,13 @@ URI: [search:AtomicQuery](https://w3id.org/linkml/search_datamodel/AtomicQuery)
 
 <details>
 ```yaml
-name: AtomicQuery
+name: PathExpression
+description: A path query
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 attributes:
-  graph_function:
-    name: graph_function
+  traversal:
+    name: traversal
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     range: GraphFunction
@@ -104,18 +102,19 @@ attributes:
 
 <details>
 ```yaml
-name: AtomicQuery
+name: PathExpression
+description: A path query
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 attributes:
-  graph_function:
-    name: graph_function
+  traversal:
+    name: traversal
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
-    alias: graph_function
-    owner: AtomicQuery
+    alias: traversal
+    owner: PathExpression
     domain_of:
-    - AtomicQuery
+    - PathExpression
     range: GraphFunction
   graph_predicates:
     name: graph_predicates
@@ -123,18 +122,18 @@ attributes:
     rank: 1000
     multivalued: true
     alias: graph_predicates
-    owner: AtomicQuery
+    owner: PathExpression
     domain_of:
-    - AtomicQuery
+    - PathExpression
     range: uriorcurie
   search_term:
     name: search_term
     from_schema: https://w3id.org/linkml/search_datamodel
     rank: 1000
     alias: search_term
-    owner: AtomicQuery
+    owner: PathExpression
     domain_of:
-    - AtomicQuery
+    - PathExpression
     range: SearchBaseConfiguration
 
 ```

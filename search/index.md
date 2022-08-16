@@ -9,8 +9,8 @@ Name: search-datamodel
 
 | Class | Description |
 | --- | --- |
-| [AtomicQuery](AtomicQuery.md) |  |
-| [BooleanQuery](BooleanQuery.md) |  |
+| [ComplexQuery](ComplexQuery.md) |  |
+| [PathExpression](PathExpression.md) | A path query |
 | [SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat... |
 | [SearchResult](SearchResult.md) | An individual search result |
 | [SearchResultSet](SearchResultSet.md) |  |
@@ -20,29 +20,26 @@ Name: search-datamodel
 
 | Slot | Description |
 | --- | --- |
+| [all_of](all_of.md) |  |
+| [any_of](any_of.md) |  |
 | [atom](atom.md) |  |
-| [categories](categories.md) |  |
+| [categories](categories.md) | categories that should be matched |
 | [configuration](configuration.md) |  |
 | [cursor](cursor.md) | when the number of search results exceed the limit this can be used to iterat... |
-| [graph_function](graph_function.md) |  |
 | [graph_predicates](graph_predicates.md) |  |
-| [include_aliases](include_aliases.md) |  |
-| [include_definition](include_definition.md) |  |
-| [include_id](include_id.md) |  |
-| [include_label](include_label.md) |  |
 | [include_obsoletes_in_results](include_obsoletes_in_results.md) |  |
-| [is_complete](is_complete.md) | restricts search results to matches of the full span of the string |
-| [is_partial](is_partial.md) |  |
-| [is_regular_expression](is_regular_expression.md) |  |
+| [is_complete](is_complete.md) |  |
+| [is_fuzzy](is_fuzzy.md) |  |
+| [is_partial](is_partial.md) | allows matches where the search term is a subset of the full span |
 | [limit](limit.md) | the maximum number of search results to be returned in one batch |
 | [matches_full_search_term](matches_full_search_term.md) | Does the matched field match the full string |
+| [none_of](none_of.md) |  |
 | [object_id](object_id.md) | The CURIE of the matched term |
 | [object_label](object_label.md) | The label/name of the matched term |
 | [object_match_field](object_match_field.md) | The field/property in which the match was found |
 | [object_source](object_source.md) | The ontology or other source that contains the matched term |
 | [object_source_version](object_source_version.md) | Version IRI or version string of the source of the object term |
-| [operands](operands.md) |  |
-| [operator](operator.md) |  |
+| [path_to](path_to.md) |  |
 | [properties](properties.md) | determines which properties are searched over |
 | [rank](rank.md) | For relevancy-ranked results, this indicates the relevancy, with low numbers ... |
 | [result_count](result_count.md) |  |
@@ -51,6 +48,7 @@ Name: search-datamodel
 | [search_terms](search_terms.md) | An individual search term |
 | [snippet](snippet.md) | shows how the field was matched |
 | [syntax](syntax.md) | Determines how the search term is interpreted |
+| [traversal](traversal.md) |  |
 
 
 ## Enumerations

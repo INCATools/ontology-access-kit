@@ -50,12 +50,17 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial05.html">Part 5: Graph Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial06.html">Part 6: Working With OWL</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Part 7: SQLite files</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#download-a-sqlite-file">Download a SQLite file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-a-sqlite-file">Download a SQLite file</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fetching-ready-made-sqlite-files">Fetching ready-made SQLite files</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#building-your-own-sqlite-files">Building your own SQLite files</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#with-docker">With docker</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#without-docker">Without docker</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#validating-an-ontology">Validating an ontology</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#other-rdbmss">Other RDBMSs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#python-orm">Python ORM</a></li>
 </ul>
@@ -105,20 +110,106 @@
   <section id="part-7-sqlite-files">
 <span id="tutorial07"></span><h1>Part 7: SQLite files<a class="headerlink" href="#part-7-sqlite-files" title="Permalink to this headline"></a></h1>
 <p>The most efficient way to work with OAK is through SQLite files. OAK accepts SQLite files that follow the <a class="reference external" href="https://github.com/INCATools/semantic-sql">Semantic SQL</a> schema.</p>
-<p>The <span class="xref std std-ref">SqlImplementation</span> wraps SQLite or any relational database.</p>
+<p>The <a class="reference internal" href="../implementations/sqldb.html#sql-implementation"><span class="std std-ref">SQL Database Implementation</span></a> wraps SQLite or any relational database.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You may also want to try the <a class="reference external" href="https://github.com/INCATools/semantic-sql/blob/main/notebooks/SemanticSQL-Tutorial.ipynb">Semantic-SQL tutorial</a></p>
+</div>
 <section id="download-a-sqlite-file">
 <h2>Download a SQLite file<a class="headerlink" href="#download-a-sqlite-file" title="Permalink to this headline"></a></h2>
-<p>You can download ready made SQLite files for any <span class="xref std std-term">OBO</span> Librray ontology</p>
-<p>For example: <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/hp.db">https://s3.amazonaws.com/bbop-sqlite/hp.db</a></p>
-<p>You can also use the <code class="docutils literal notranslate"><span class="pre">obosqlite</span></code> ontology selector:</p>
+<p>You can download ready made SQLite files for any <span class="xref std std-term">OBO</span> Libray ontology</p>
+<p>For example: the Cell Ontology (CL) is available from <a class="reference external" href="https://s3.amazonaws.com/bbop-sqlite/cl.db.gz">https://s3.amazonaws.com/bbop-sqlite/cl.db.gz</a></p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">bbop</span><span class="o">-</span><span class="n">sqlite</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">gzip</span> <span class="o">-</span><span class="n">d</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">relationships</span> <span class="s2">&quot;enteric neuron&quot;</span>
+</pre></div>
+</div>
+<p>This will show all relationships centered around the subject of CL:0007011:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Ancestor statistics</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>id</p></th>
+<th class="head"><p>label</p></th>
+<th class="head"><p>visits</p></th>
+<th class="head"><p>distance</p></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>subject</p></td>
+<td><p>predicate</p></td>
+<td><p>object</p></td>
+<td><p>subject_label</p></td>
+<td><p>predicate_label</p></td>
+<td><p>object_label</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL:0007011</p></td>
+<td><p>BFO:0000050</p></td>
+<td><p>UBERON:0002005</p></td>
+<td><p>enteric neuron</p></td>
+<td><p>part of</p></td>
+<td><p>enteric nervous system</p></td>
+</tr>
+<tr class="row-even"><td><p>CL:0007011</p></td>
+<td><p>RO:0002100</p></td>
+<td><p>UBERON:0002005</p></td>
+<td><p>enteric neuron</p></td>
+<td><p>has soma location</p></td>
+<td><p>enteric nervous system</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL:0007011</p></td>
+<td><p>RO:0002202</p></td>
+<td><p>CL:0002607</p></td>
+<td><p>enteric neuron</p></td>
+<td><p>develops from</p></td>
+<td><p>migratory enteric neural crest cell</p></td>
+</tr>
+<tr class="row-even"><td><p>CL:0007011</p></td>
+<td><p>rdfs:subClassOf</p></td>
+<td><p>CL:0000029</p></td>
+<td><p>enteric neuron</p></td>
+<td><p>None</p></td>
+<td><p>neural crest derived neuron</p></td>
+</tr>
+<tr class="row-odd"><td><p>CL:0007011</p></td>
+<td><p>rdfs:subClassOf</p></td>
+<td><p>CL:0000107</p></td>
+<td><p>enteric neuron</p></td>
+<td><p>None</p></td>
+<td><p>autonomic neuron</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>OAK will automatically treat anything with <code class="docutils literal notranslate"><span class="pre">.db</span></code> as a sqlite database</p>
+</div>
+<p>You can be more explicit and force the sqlite adapter to be used, regardless of suffix using a <code class="docutils literal notranslate"><span class="pre">sqlite</span></code> <span class="xref std std-ref">selector</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">bbop</span><span class="o">-</span><span class="n">sqlite</span><span class="o">/</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">gzip</span> <span class="o">-</span><span class="n">d</span> <span class="n">cl</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">cl</span><span class="o">.</span><span class="n">db</span> <span class="n">relationships</span> <span class="s2">&quot;enteric neuron&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="fetching-ready-made-sqlite-files">
+<h3>Fetching ready-made SQLite files<a class="headerlink" href="#fetching-ready-made-sqlite-files" title="Permalink to this headline"></a></h3>
+<p>You can also specify that the sqlite file should be loaded from the repository:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">pato</span> <span class="n">search</span> <span class="n">t</span><span class="o">~</span><span class="n">shape</span>
 </pre></div>
 </div>
 <p>This will download the pato.db sqlite file once, and cache it</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The ready-made SQLite files are not made at regular intervals</p>
-</div>
+</section>
 </section>
 <section id="building-your-own-sqlite-files">
 <h2>Building your own SQLite files<a class="headerlink" href="#building-your-own-sqlite-files" title="Permalink to this headline"></a></h2>
@@ -159,6 +250,13 @@ please merge in advance using ROBOT if this is your desired behavior.</p>
 <p>Consult the <cite>SemSQL &lt;https://github.com/INCATools/semantic-sql&gt;</cite> docs for more details.</p>
 <p>In future we hope to wrap these more seamlessly in Python</p>
 </section>
+</section>
+<section id="validating-an-ontology">
+<h2>Validating an ontology<a class="headerlink" href="#validating-an-ontology" title="Permalink to this headline"></a></h2>
+<p>the SQLite implementation is the most efficient way to validate an ontology</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">cl</span> <span class="n">validate</span>
+</pre></div>
+</div>
 </section>
 <section id="other-rdbmss">
 <h2>Other RDBMSs<a class="headerlink" href="#other-rdbmss" title="Permalink to this headline"></a></h2>

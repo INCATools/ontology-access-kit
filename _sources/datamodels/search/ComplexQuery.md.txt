@@ -1,0 +1,178 @@
+# Class: ComplexQuery
+
+
+
+
+URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery)
+
+
+
+
+```{mermaid}
+ classDiagram
+    class ComplexQuery
+      ComplexQuery : all_of
+      ComplexQuery : any_of
+      ComplexQuery : atom
+      ComplexQuery : none_of
+      ComplexQuery : path_to
+      
+```
+
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+## Slots
+
+| Name | Cardinality and Range  | Description  |
+| ---  | ---  | --- |
+| [all_of](all_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md)  |   |
+| [any_of](any_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md)  |   |
+| [none_of](none_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md)  |   |
+| [path_to](path_to.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [atom](atom.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md)  |   |
+
+
+## Usages
+
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [ComplexQuery](ComplexQuery.md) | [all_of](all_of.md) | range | ComplexQuery |
+| [ComplexQuery](ComplexQuery.md) | [any_of](any_of.md) | range | ComplexQuery |
+| [ComplexQuery](ComplexQuery.md) | [none_of](none_of.md) | range | ComplexQuery |
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/search_datamodel
+
+
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | ['search:ComplexQuery'] |
+| native | ['search:ComplexQuery'] |
+
+
+## LinkML Specification
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: ComplexQuery
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+attributes:
+  all_of:
+    name: all_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    range: ComplexQuery
+  any_of:
+    name: any_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    range: ComplexQuery
+  none_of:
+    name: none_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    range: ComplexQuery
+  path_to:
+    name: path_to
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+  atom:
+    name: atom
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    range: SearchBaseConfiguration
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: ComplexQuery
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+attributes:
+  all_of:
+    name: all_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    alias: all_of
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: ComplexQuery
+  any_of:
+    name: any_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    alias: any_of
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: ComplexQuery
+  none_of:
+    name: none_of
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    multivalued: true
+    alias: none_of
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: ComplexQuery
+  path_to:
+    name: path_to
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: path_to
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: string
+  atom:
+    name: atom
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: atom
+    owner: ComplexQuery
+    domain_of:
+    - ComplexQuery
+    range: SearchBaseConfiguration
+
+```
+</details>

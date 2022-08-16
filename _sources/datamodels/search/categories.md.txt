@@ -1,4 +1,6 @@
 # Slot: categories
+_categories that should be matched_
+
 
 URI: [https://w3id.org/linkml/search_datamodel/categories](https://w3id.org/linkml/search_datamodel/categories)
 
@@ -9,7 +11,7 @@ URI: [https://w3id.org/linkml/search_datamodel/categories](https://w3id.org/link
 
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+ * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 
 
