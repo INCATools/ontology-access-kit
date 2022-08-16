@@ -666,7 +666,7 @@ def ontologies(output: str):
 @output_option
 @all_ontologies_option
 @click.argument("ontologies", nargs=-1)
-def ontology_versions(ontologies, output: str, all:bool):
+def ontology_versions(ontologies, output: str, all: bool):
     """
     Shows ontology versions
 
@@ -1928,8 +1928,9 @@ def leafs(output: str, predicates: str):
 @output_option
 @output_type_option
 @autolabel_option
-@click.option("--maps-to-source",
-              help="Return only mappings with subject or object source equal to this")
+@click.option(
+    "--maps-to-source", help="Return only mappings with subject or object source equal to this"
+)
 @click.argument("terms", nargs=-1)
 def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
     """
