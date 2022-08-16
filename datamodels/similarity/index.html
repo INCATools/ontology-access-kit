@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semantic Similarity &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Summary Statistics Datamodel" href="../summary-statistics/index.html" />
+    <link rel="prev" title="FunOwl" href="../funowl/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Datamodels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ontology-metadata/index.html">Ontology Metadata Ontology Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search/index.html">search datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../obograph/index.html">Obographs Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sssom/index.html">SSSOM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funowl/index.html">FunOwl</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Semantic Similarity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slots">Slots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subsets">Subsets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../summary-statistics/index.html">Summary Statistics Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validation/index.html">Validation Results Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lexical-index/index.html">Lexical Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mapping-rules/index.html">Mapping Rules Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../text-annotator/index.html">Text Annotator Datamodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cross-ontology-diff/index.html">Cross-Ontology Diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Datamodels</a> &raquo;</li>
+      <li>Semantic Similarity</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/similarity/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="semantic-similarity">
+<h1>Semantic Similarity<a class="headerlink" href="#semantic-similarity" title="Permalink to this headline"></a></h1>
+<p>A datamodel for representing semantic similarity between terms or lists of terms.</p>
+<p>URI: https://w3id.org/linkml/similarity
+Name: similarity</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="PairwiseSimilarity.html"><span class="doc std std-doc">PairwiseSimilarity</span></a></p></td>
+<td><p>Abstract grouping for representing individual pairwise similarities</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="TermPairwiseSimilarity.html"><span class="doc std std-doc">TermPairwiseSimilarity</span></a></p></td>
+<td><p>A simple pairwise similarity between two atomic concepts/terms</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="TermSetPairwiseSimilarity.html"><span class="doc std std-doc">TermSetPairwiseSimilarity</span></a></p></td>
+<td><p>A simple pairwise similarity between two sets of concepts/terms</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Slot</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="ancestor_id.html"><span class="doc std std-doc">ancestor_id</span></a></p></td>
+<td><p>the most recent common ancestor of the two compared entities</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ancestor_information_content.html"><span class="doc std std-doc">ancestor_information_content</span></a></p></td>
+<td><p>The IC of the object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ancestor_label.html"><span class="doc std std-doc">ancestor_label</span></a></p></td>
+<td><p>the name or label of the ancestor concept</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ancestor_source.html"><span class="doc std std-doc">ancestor_source</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="dice_similarity.html"><span class="doc std std-doc">dice_similarity</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="information_content.html"><span class="doc std std-doc">information_content</span></a></p></td>
+<td><p>The IC is the negative log of the probability of the concept</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="intersection_count.html"><span class="doc std std-doc">intersection_count</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="jaccard_similarity.html"><span class="doc std std-doc">jaccard_similarity</span></a></p></td>
+<td><p>The number of concepts in the intersection divided by the number in the union</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
+<td><p>The second of the two entities being compared</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_information_content.html"><span class="doc std std-doc">object_information_content</span></a></p></td>
+<td><p>The IC of the object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="doc std std-doc">object_label</span></a></p></td>
+<td><p>the label or name for the second entity</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
+<td><p>the source for the second entity</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="overlap_coefficient.html"><span class="doc std std-doc">overlap_coefficient</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="doc std std-doc">phenodigm_score</span></a></p></td>
+<td><p>the geometric mean of the jaccard similarity and the information content</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="score.html"><span class="doc std std-doc">score</span></a></p></td>
+<td><p>Abstract base slot for different kinds of scores</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_id.html"><span class="doc std std-doc">subject_id</span></a></p></td>
+<td><p>The first of the two entities being compared</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_information_content.html"><span class="doc std std-doc">subject_information_content</span></a></p></td>
+<td><p>The IC of the subject</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
+<td><p>the label or name for the first entity</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
+<td><p>the source for the first entity</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subsumed_by_score.html"><span class="doc std std-doc">subsumed_by_score</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subsumes_score.html"><span class="doc std std-doc">subsumes_score</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="union_count.html"><span class="doc std std-doc">union_count</span></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Enumeration</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="types">
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>A binary (true or false) value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#date">xsd:date</a></p></td>
+<td><p>a date (year, month and day) in an idealized calendar</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://w3id.org/linkml/DateOrDatetime">linkml:DateOrDatetime</a></p></td>
+<td><p>Either a date or a datetime</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p></td>
+<td><p>The combination of a date and time</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#decimal">xsd:decimal</a></p></td>
+<td><p>A real number with arbitrary precision that conforms to the xsd:decimal speci…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#double">xsd:double</a></p></td>
+<td><p>A real number that conforms to the xsd:double specification</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
+<td><p>A real number that conforms to the xsd:float specification</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>An integer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ItemCount.html"><span class="doc std std-doc">ItemCount</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>Prefix part of CURIE</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="NegativeLogValue.html"><span class="doc std std-doc">NegativeLogValue</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref myst">shex:nonLiteral</span></p></td>
+<td><p>A URI, CURIE or BNODE that represents a node in a model</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="NonNegativeFloat.html"><span class="doc std std-doc">NonNegativeFloat</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref myst">shex:iri</span></p></td>
+<td><p>A URI or CURIE that represents an object in the model</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>A character string</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p></td>
+<td><p>A time object represents a (local) time of day, independent of any particular…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>a complete URI</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>a URI or a CURIE</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ZeroToOne.html"><span class="doc std std-doc">ZeroToOne</span></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="subsets">
+<h2>Subsets<a class="headerlink" href="#subsets" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Subset</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../funowl/index.html" class="btn btn-neutral float-left" title="FunOwl" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../summary-statistics/index.html" class="btn btn-neutral float-right" title="Summary Statistics Datamodel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
