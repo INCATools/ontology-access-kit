@@ -62,8 +62,8 @@ def relation_dict_as_tuples(md: Dict[PRED_CURIE, List[CURIE]]) -> Iterator[PRED_
             yield pred, p
 
 
-def curie_has_prefix(curie: CURIE, sources: List[str]) -> bool:
-    return curie.split(":")[0] in sources
+def curie_has_prefix(curie: CURIE, sources: Optional[List[str]]) -> bool:
+    return sources is None or curie.split(":")[0] in sources
 
 
 def get_mappings_in(g: nx.Graph, curie: CURIE, sources: List[str]):
@@ -90,7 +90,7 @@ def calculate_pairwise_relational_diff(
     :param left_oi:
     :param right_oi:
     :param sources:
-    :param mappings:
+    :param mappings: if None, then mappings are extracted from both sources
     :return:
     """
     if mappings is None:
@@ -98,10 +98,11 @@ def calculate_pairwise_relational_diff(
         mappings = list(left_oi.sssom_mappings_by_source()) + list(
             right_oi.sssom_mappings_by_source()
         )
-    logging.info(f"Converting all {len(mappings)} mappings to networkx")
+    logging.info(f"Converting all {len(mappings)} mappings to networkx, sources={sources}")
     g = mappings_to_graph(mappings)
     if isinstance(left_oi, OboGraphInterface) and isinstance(right_oi, OboGraphInterface):
         for subject_child in left_oi.entities():
+            logging.debug(f"Subject child: {subject_child}")
             if not curie_has_prefix(subject_child, sources):
                 continue
             for pred, subject_parent in relation_dict_as_tuples(

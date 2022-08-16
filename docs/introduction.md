@@ -5,7 +5,7 @@ Ontology Access Toolkit (OAK) is a Python library for common ontology operations
 
 This library provides a collection of different interfaces for different kinds of ontology operations, including:
 
- - lookup basic features of an ontology element, such as its label, definition, relationships, or aliases.
+ - basic features of an ontology element, such as its label, definition, relationships, or aliases.
  - search an ontology for a term.
  - update, delete, or modify terms.
  - provide specialized object models for more advanced operations, such as graph traversal, or OWL axiom processing, or text annotation.
@@ -19,13 +19,16 @@ These interfaces are *separated* from any particular backend. This means the sam
 
 ### Basic Python Example
 
+The following code will load an ontology from a SQLite3 database, lookup
+basic information on terms matching a search
+
 ```python
 from src.oaklib.resource import OntologyResource
 from src.oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 
 resource = OntologyResource(slug='tests/input/go-nucleus.db', local=True)
 si = SqlImplementation(resource)
-for curie in si.basic_search("cell"):
+for curie in si.basic_search("nucleus"):
     print(f'{curie} ! {si.label(curie)}')
     print(f'Definition: {si.definition(curie)}')
     for rel, fillers in si.outgoing_relationship_map(curie).items():

@@ -16,6 +16,13 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
     TODO: move code from mapping-walker
     """
 
+    def inject_mapping_labels(self, mappings: Iterable[Mapping]) -> None:
+        for mapping in mappings:
+            if not mapping.subject_label:
+                mapping.subject_label = self.label(mapping.subject_id)
+            if not mapping.object_label:
+                mapping.object_label = self.label(mapping.object_id)
+
     def sssom_mappings_by_source(
         self, subject_or_object_source: Optional[str] = None
     ) -> Iterable[Mapping]:

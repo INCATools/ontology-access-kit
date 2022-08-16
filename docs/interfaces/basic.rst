@@ -1,4 +1,4 @@
-.. _BasicOntologyInterface:
+.. _basic_ontology_interface:
 
 Basic Ontology Interface
 ========================
