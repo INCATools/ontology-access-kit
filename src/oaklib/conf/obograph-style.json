@@ -82,6 +82,16 @@
         "wgs84:lat", "wgs84:long", "sosa:hasSimpleResult"
     ],
     "prefixProperties": {
+        "UPHENO": {
+            "fillcolor": "black",
+            "fontcolor": "white"
+        },
+        "MP": {
+            "fillcolor": "pink"
+        },
+        "HP": {
+            "fillcolor": "mediumturquoise"
+        },
         "UBERON": {
             "fillcolor": "yellow"
         },
