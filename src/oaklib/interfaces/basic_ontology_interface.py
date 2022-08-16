@@ -196,7 +196,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         returns iterator over all known entity CURIEs
 
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
-        :param owl_type: e.g. owl:Class
+        :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
         :return: iterator
         """
         raise NotImplementedError

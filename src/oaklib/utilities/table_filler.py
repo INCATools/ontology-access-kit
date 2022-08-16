@@ -178,6 +178,13 @@ class TableFiller:
         write_table(rows, output_file, delimiter=delim)
 
     def fill_table(self, rows: List[ROW], table_metadata: TableMetadata = None):
+        """
+        Fills in missing values for a list of rows
+
+        :param rows: list of rows, which each row is a dict. Edited in place.
+        :param table_metadata:
+        :return:
+        """
         if table_metadata is None:
             table_metadata = self.infer_metadata(rows[0])
         if not table_metadata.dependencies:
