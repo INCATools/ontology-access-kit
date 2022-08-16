@@ -25,6 +25,7 @@ not need this.
    sssom/index
    funowl/index
    rdflib/index
+   similarity/index
    summary-statistics/index
    validation/index
    lexical-index/index

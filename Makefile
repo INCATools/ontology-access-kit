@@ -16,7 +16,7 @@ src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-json-schema $< > $@.tmp && mv $@.tmp $@
 
 RUN_GENDOC = $(RUN) gen-doc --dialect myst
-gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff
+gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/
@@ -26,6 +26,8 @@ gendoc-val: src/oaklib/datamodels/validation_datamodel.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/validation
 gendoc-ss: src/oaklib/datamodels/summary_statistics_datamodel.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/summary-statistics
+gendoc-sim: src/oaklib/datamodels/similarity.yaml
+	$(RUN_GENDOC)  $< -d docs/datamodels/similarity
 gendoc-li: src/oaklib/datamodels/lexical_index.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/lexical-index
 gendoc-mr: src/oaklib/datamodels/mapping_rules_datamodel.yaml
