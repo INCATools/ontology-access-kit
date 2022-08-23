@@ -11,6 +11,7 @@ from oaklib.resource import OntologyResource
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, VACUOLE
 
 
+@unittest.skip("TODO: use mock tests, this fails whenever OLS is down")
 class TestOlsImplementation(unittest.TestCase):
     def setUp(self) -> None:
         oi = OlsImplementation(OntologyResource("go"))
