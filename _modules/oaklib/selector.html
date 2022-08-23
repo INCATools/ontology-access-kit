@@ -81,11 +81,13 @@
   <h1>Source code for oaklib.selector</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pkgutil</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">datamodels</span> <span class="k">as</span> <span class="n">datamodels_package</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">GildaImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.agroportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AgroportalImplementation</span><span class="p">,</span>
@@ -192,6 +194,8 @@
         <span class="n">impl_class</span> <span class="o">=</span> <span class="n">SparqlImplementation</span>
         <span class="n">resource</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;xml&quot;</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Using rdflib rdf/xml parser; this behavior may change in future&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;ofn&quot;</span><span class="p">:</span>
+        <span class="n">impl_class</span> <span class="o">=</span> <span class="n">FunOwlImplementation</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">impl_class</span> <span class="o">=</span> <span class="n">ProntoImplementation</span>
@@ -217,6 +221,20 @@
     <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
     <span class="n">impl_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">OntologyInterface</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">descriptor</span><span class="p">:</span>
+        <span class="c1"># Pre-processing</span>
+        <span class="k">if</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;datamodel:&quot;</span><span class="p">):</span>
+            <span class="c1"># introspect the internal OAK datamodel.</span>
+            <span class="c1"># the oak data models are intended for programmatic use, but the documentation</span>
+            <span class="c1"># is also exposed as a pseudo-ontology by default.</span>
+            <span class="c1"># this allows us to do things such as use the OAK CLI to find all classes</span>
+            <span class="c1"># or fields in a data model, see their hierarchy, etc</span>
+            <span class="c1"># this is currently an advanced/experimental feature, if useful</span>
+            <span class="c1"># it should be exposed in user-facing sphinx docs.</span>
+            <span class="n">descriptor</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;datamodel:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">dm_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">datamodels_package</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+            <span class="n">descriptor</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">dm_path</span><span class="p">)</span><span class="o">/</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">.owl.ttl&quot;</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Introspecting datamodel from </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
         <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="p">:</span>
             <span class="n">toks</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
             <span class="n">scheme</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
