@@ -2878,7 +2878,7 @@ def lint(output, output_type, report_format, dry_run: bool):
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
         changes = lint_ontology(impl, dry_run=dry_run)
-        for actionable, change in changes:
+        for _, change in changes:
             writer.emit(change)
         if output:
             impl.dump(output, output_type)

@@ -384,7 +384,6 @@ class SqlImplementation(
             yield row.subject, self._get_subset_curie(row.object)
 
     def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
-        sm = self._subset_curie_to_uri_map()
         for row in self.session.query(Statements).filter(
             Statements.predicate.in_(IN_CATEGORY_PREDS), Statements.subject.in_(list(curies))
         ):

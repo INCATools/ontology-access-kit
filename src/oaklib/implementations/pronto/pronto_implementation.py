@@ -377,11 +377,12 @@ class ProntoImplementation(
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
         m = defaultdict(list)
-        for ann in t.annotations:
-            if isinstance(ann, LiteralPropertyValue):
-                m[ann.property].append(ann.literal)
-            elif isinstance(ann, ResourcePropertyValue):
-                m[ann.property].append(ann.resource)
+        if t:
+            for ann in t.annotations:
+                if isinstance(ann, LiteralPropertyValue):
+                    m[ann.property].append(ann.literal)
+                elif isinstance(ann, ResourcePropertyValue):
+                    m[ann.property].append(ann.resource)
         return m
 
     def create_subontology(self, curies: List[CURIE]) -> "ProntoImplementation":
