@@ -14,7 +14,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_THING,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
-from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
+from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix
 
 NC_NAME = str
@@ -223,7 +223,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         # this interface-level method should be replaced by specific implementations
-        logging.info("Using naive approach for root detection, may be slow")
+        logging.info(
+            f"Using naive approach for root detection, may be slow. Predicates={predicates}"
+        )
         candidates = []
         for curie in self.entities(owl_type=OWL_CLASS):
             if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
@@ -284,6 +286,41 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             if term not in exclusion_list:
                 yield term
 
+    def singletons(
+        self, predicates: List[PRED_CURIE] = None, filter_obsoletes=True
+    ) -> Iterable[CURIE]:
+        """
+        All singleton nodes, where a singleton has no connections using the specified
+        predicate list
+
+        :param predicates:
+        :param ignore_owl_nothing:
+        :param filter_obsoletes:
+        :return:
+        """
+        # TODO: use a more efficient algorithm
+        candidates = list(
+            self.roots(predicates=predicates, ignore_owl_thing=True, filter_obsoletes=True)
+        )
+        logging.info(f"Candidates: {len(candidates)}; filtering using {predicates}")
+        for subject, pred, object in self.all_relationships():
+            if subject == object:
+                continue
+            if subject == OWL_NOTHING:
+                continue
+            if object in candidates:
+                if predicates is None or pred in predicates:
+                    candidates.remove(object)
+                    logging.debug(f"Not a singleton: {object} [inv({pred}) {subject}]")
+        if filter_obsoletes:
+            exclusion_list = list(self.obsoletes())
+        else:
+            exclusion_list = []
+        exclusion_list += [OWL_THING, OWL_NOTHING]
+        for term in candidates:
+            if term not in exclusion_list:
+                yield term
+
     def subsets(self) -> Iterable[SUBSET_CURIE]:
         """
         returns iterator over all known subset CURIEs
@@ -296,13 +333,35 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def subset_curies(self) -> Iterable[SUBSET_CURIE]:
         return self.subsets()
 
-    @deprecated("Replaced by subset_curies()")
+    @deprecated("Replaced by subsets()")
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
         return self.subsets()
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         """
         returns iterator over all CURIEs belonging to a subset
+
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        """
+        returns iterator over all subsets a term belongs to
+
+        :return: iterator
+        """
+        # TODO: replace with adaptor-specific
+        logging.info("Using naive method for fetching subsets")
+        curies = list(curies)
+        for s in self.subsets():
+            for t in self.subset_members(s):
+                if t in curies:
+                    yield t, s
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        """
+        returns iterator over all categories a term or terms belongs to
 
         :return: iterator
         """
@@ -315,6 +374,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def label(self, curie: CURIE) -> Optional[str]:
         """
         fetches the unique label for a CURIE
+
+        The CURIE may be for a class, individual, property, or ontology
+
+        :param curie:
+        :return:
+        """
+        raise NotImplementedError
+
+    def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+        """
+        fetches comments for a CURIE or CURIEs
 
         The CURIE may be for a class, individual, property, or ontology
 

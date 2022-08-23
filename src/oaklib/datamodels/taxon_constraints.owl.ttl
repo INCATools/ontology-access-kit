@@ -1,0 +1,223 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix RO: <http://purl.obolibrary.org/obo/RO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix tc: <https://w3id.org/linkml/taxon_constraints/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:taxon_constraints a owl:Ontology ;
+    rdfs:label "taxon-constraints" ;
+    IAO:0000700 tc:TaxonConstraint,
+        tc:Term ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Taxon Constraints Reporting Datamodel" ;
+    linkml:generation_date "2022-08-18T13:42:29" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "taxon_constraints.yaml" ;
+    linkml:source_file_date "2022-04-18T17:31:19" ;
+    linkml:source_file_size 3724 .
+
+tc:asserted a owl:DatatypeProperty ;
+    rdfs:label "asserted" ;
+    rdfs:range xsd:boolean .
+
+tc:comments a owl:DatatypeProperty ;
+    rdfs:label "comments" ;
+    rdfs:range xsd:string .
+
+tc:contradicted_by a owl:ObjectProperty ;
+    rdfs:label "contradicted_by" ;
+    rdfs:range tc:TaxonConstraint .
+
+tc:description a owl:DatatypeProperty ;
+    rdfs:label "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "A description of the taxon constraints and events" .
+
+tc:evolutionary a owl:DatatypeProperty ;
+    rdfs:label "evolutionary" ;
+    rdfs:range xsd:boolean .
+
+tc:id a owl:DatatypeProperty ;
+    rdfs:label "id" ;
+    rdfs:range xsd:anyURI .
+
+tc:predicates a owl:ObjectProperty ;
+    rdfs:label "predicates" ;
+    rdfs:range tc:PredicateTerm ;
+    skos:definition "The predicates that connect the subject term to the via_term" .
+
+tc:present_in_ancestor_of a owl:ObjectProperty ;
+    rdfs:label "present_in_ancestor_of" ;
+    rdfs:range tc:TaxonConstraint .
+
+tc:redundant a owl:DatatypeProperty ;
+    rdfs:label "redundant" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "True if this is redundant within the set of constraints of the same type (never vs only)" .
+
+tc:redundant_with a owl:ObjectProperty ;
+    rdfs:label "redundant_with" ;
+    rdfs:range tc:TaxonConstraint .
+
+tc:redundant_with_only_in a owl:DatatypeProperty ;
+    rdfs:label "redundant_with_only_in" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "True for never in constraints that are subsumed by an only in" .
+
+tc:sources a owl:DatatypeProperty ;
+    rdfs:label "sources" ;
+    rdfs:range xsd:anyURI .
+
+tc:unsatisfiable a owl:DatatypeProperty ;
+    rdfs:label "unsatisfiable" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "If true then some combination of taxon constraints lead to contradictions" .
+
+tc:via_terms a owl:ObjectProperty ;
+    rdfs:label "via_terms" ;
+    rdfs:range tc:SubjectTerm ;
+    skos:definition "The term that has the taxon constraint asserted" .
+
+RO:0002160 a owl:ObjectProperty ;
+    rdfs:label "only_in" ;
+    rdfs:range tc:TaxonConstraint ;
+    skos:exactMatch RO:0002160 .
+
+RO:0002161 a owl:ObjectProperty ;
+    rdfs:label "never_in" ;
+    rdfs:range tc:TaxonConstraint ;
+    skos:exactMatch RO:0002161 .
+
+RO:0002175 a owl:ObjectProperty ;
+    rdfs:label "present_in" ;
+    rdfs:range tc:TaxonConstraint ;
+    skos:exactMatch RO:0002175 .
+
+rdf:object a owl:ObjectProperty ;
+    rdfs:label "taxon" ;
+    rdfs:range tc:Taxon ;
+    skos:definition "The taxon that the subject is constrained to be included or excluded from" ;
+    skos:exactMatch rdf:object .
+
+rdf:predicate a owl:ObjectProperty ;
+    rdfs:label "predicate" ;
+    rdfs:range tc:PredicateTerm ;
+    skos:exactMatch rdf:predicate .
+
+rdf:subject a owl:ObjectProperty ;
+    rdfs:label "subject" ;
+    rdfs:range tc:SubjectTerm ;
+    skos:exactMatch rdf:subject .
+
+rdfs:label a owl:DatatypeProperty ;
+    rdfs:label "label" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch rdfs:label .
+
+tc:Taxon a owl:Class ;
+    rdfs:label "Taxon" ;
+    rdfs:subClassOf tc:Term ;
+    skos:definition "A term that represents a taxonomic group" ;
+    skos:exactMatch <http://example.org/UNKNOWN/NCBITaxon/1> .
+
+tc:PredicateTerm a owl:Class ;
+    rdfs:label "PredicateTerm" ;
+    rdfs:subClassOf tc:Term ;
+    skos:definition "A term that represents a relationship type" .
+
+tc:SubjectTerm a owl:Class ;
+    rdfs:label "SubjectTerm" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty tc:description ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:TaxonConstraint ;
+            owl:onProperty tc:present_in_ancestor_of ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:TaxonConstraint ;
+            owl:onProperty RO:0002161 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty tc:unsatisfiable ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:TaxonConstraint ;
+            owl:onProperty RO:0002175 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:TaxonConstraint ;
+            owl:onProperty RO:0002160 ],
+        tc:Term ;
+    skos:definition "A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ..." .
+
+tc:Term a owl:Class ;
+    rdfs:label "Term" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty tc:id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdfs:label ] ;
+    skos:definition "An ontology term. In this model this is either the SubjectTerm of a taxon constraint, or an actual taxon" ;
+    skos:exactMatch owl:Class .
+
+tc:TaxonConstraint a owl:Class ;
+    rdfs:label "TaxonConstraint" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty tc:sources ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:PredicateTerm ;
+            owl:onProperty tc:predicates ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass tc:SubjectTerm ;
+            owl:onProperty rdf:subject ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty tc:redundant_with_only_in ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty tc:evolutionary ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty tc:redundant ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:TaxonConstraint ;
+            owl:onProperty tc:contradicted_by ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty tc:comments ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:TaxonConstraint ;
+            owl:onProperty tc:redundant_with ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass tc:Taxon ;
+            owl:onProperty rdf:object ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom tc:SubjectTerm ;
+            owl:onProperty tc:via_terms ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass tc:PredicateTerm ;
+            owl:onProperty rdf:predicate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty tc:asserted ] ;
+    skos:definition "An individual taxon constraint" ;
+    skos:exactMatch rdf:Statement .
+
+
+

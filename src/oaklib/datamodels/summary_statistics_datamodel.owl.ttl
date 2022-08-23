@@ -1,0 +1,303 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix reporting: <https://w3id.org/linkml/report> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+reporting:GlobalStatistics a owl:Class ;
+    rdfs:label "GlobalStatistics" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom reporting:FacetStatistics ;
+            owl:onProperty reporting:by_taxon ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom reporting:FacetStatistics ;
+            owl:onProperty reporting:by_category ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom reporting:FacetStatistics ;
+            owl:onProperty reporting:by_subset ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom reporting:FacetStatistics ;
+            owl:onProperty reporting:by_ontology ],
+        reporting:SummaryStatisticCollection ;
+    skos:definition "summary statistics for the entire resource" .
+
+reporting:class_statistic_group a owl:DatatypeProperty ;
+    rdfs:label "class_statistic_group" ;
+    rdfs:range xsd:string ;
+    reporting:count_of "owl:Class" .
+
+reporting:individual_statistic_group a owl:DatatypeProperty ;
+    rdfs:label "individual_statistic_group" ;
+    rdfs:range xsd:string .
+
+reporting:metadata_statistic_group a owl:DatatypeProperty ;
+    rdfs:label "metadata_statistic_group" ;
+    rdfs:range xsd:string .
+
+reporting:owl_statistic_group a owl:DatatypeProperty ;
+    rdfs:label "owl_statistic_group" ;
+    rdfs:range xsd:string .
+
+reporting:property_statistic_group a owl:DatatypeProperty ;
+    rdfs:label "property_statistic_group" ;
+    rdfs:range xsd:string ;
+    reporting:count_of "rdf:Property" .
+
+linkml:summary_statistics a owl:Ontology ;
+    rdfs:label "summary-statistics" ;
+    IAO:0000700 reporting:SummaryStatisticCollection ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Summary Statistics Datamodel" ;
+    linkml:generation_date "2022-08-18T13:42:15" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "summary_statistics_datamodel.yaml" ;
+    linkml:source_file_date "2022-04-05T13:24:29" ;
+    linkml:source_file_size 4826 .
+
+reporting:annotation_property_count a owl:DatatypeProperty ;
+    rdfs:label "annotation_property_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:anonymous_class_expression_count a owl:DatatypeProperty ;
+    rdfs:label "anonymous_class_expression_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:anonymous_individual_count a owl:DatatypeProperty ;
+    rdfs:label "anonymous_individual_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:by_category a owl:ObjectProperty ;
+    rdfs:label "by_category" ;
+    rdfs:range reporting:FacetStatistics ;
+    skos:definition "statistics keyed by category" ;
+    skos:note "for example, GO stats may be broken out by MF/BP/CC" .
+
+reporting:by_ontology a owl:ObjectProperty ;
+    rdfs:label "by_ontology" ;
+    rdfs:range reporting:FacetStatistics ;
+    skos:definition "statistics keyed by ontology" ;
+    skos:note "if a large ontology collection like OntoBee is indexed then it makes sense to break stats into each sub-ontology" .
+
+reporting:by_subset a owl:ObjectProperty ;
+    rdfs:label "by_subset" ;
+    rdfs:range reporting:FacetStatistics ;
+    skos:definition "statistics keyed by ontology subset" ;
+    skos:note "For example, GO metagenomics_slim" .
+
+reporting:by_taxon a owl:ObjectProperty ;
+    rdfs:label "by_taxon" ;
+    rdfs:range reporting:FacetStatistics ;
+    skos:definition "statistics keyed by organism taxon" .
+
+reporting:class_count a owl:DatatypeProperty ;
+    rdfs:label "class_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:class_count_excluding_deprecated a owl:DatatypeProperty ;
+    rdfs:label "class_count_excluding_deprecated" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:class_count_with_definitions a owl:DatatypeProperty ;
+    rdfs:label "class_count_with_definitions" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:datatype_property_count a owl:DatatypeProperty ;
+    rdfs:label "datatype_property_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:description_logic_profile a owl:DatatypeProperty ;
+    rdfs:label "description_logic_profile" ;
+    rdfs:range xsd:string .
+
+reporting:distinct_synonym_count a owl:DatatypeProperty ;
+    rdfs:label "distinct_synonym_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:equivalentclasses_axiom_count a owl:DatatypeProperty ;
+    rdfs:label "equivalentclasses_axiom_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:facet a owl:DatatypeProperty ;
+    rdfs:label "facet" ;
+    rdfs:range xsd:string .
+
+reporting:individual_count a owl:DatatypeProperty ;
+    rdfs:label "individual_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:mapping_count a owl:DatatypeProperty ;
+    rdfs:label "mapping_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:named_individual_count a owl:DatatypeProperty ;
+    rdfs:label "named_individual_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic ;
+    reporting:count_of "owl:NamedIndividual" .
+
+reporting:object_property_count a owl:DatatypeProperty ;
+    rdfs:label "object_property_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:ontology_count a owl:DatatypeProperty ;
+    rdfs:label "ontology_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:owl_axiom_count a owl:DatatypeProperty ;
+    rdfs:label "owl_axiom_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:property_count a owl:DatatypeProperty ;
+    rdfs:label "property_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:rdf_triple_count a owl:DatatypeProperty ;
+    rdfs:label "rdf_triple_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:subclass_of_axiom_count a owl:DatatypeProperty ;
+    rdfs:label "subclass_of_axiom_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:synonym_statement_count a owl:DatatypeProperty ;
+    rdfs:label "synonym_statement_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:unsatisfiable_class_count a owl:DatatypeProperty ;
+    rdfs:label "unsatisfiable_class_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:untyped_entity_count a owl:DatatypeProperty ;
+    rdfs:label "untyped_entity_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf reporting:count_statistic .
+
+reporting:SummaryStatisticCollection a owl:Class ;
+    rdfs:label "SummaryStatisticCollection" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:mapping_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:untyped_entity_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:object_property_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:individual_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:annotation_property_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:distinct_synonym_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:anonymous_class_expression_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:class_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:equivalentclasses_axiom_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:property_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:unsatisfiable_class_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty reporting:description_logic_profile ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:named_individual_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:class_count_excluding_deprecated ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:rdf_triple_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:subclass_of_axiom_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:synonym_statement_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:owl_axiom_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:class_count_with_definitions ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:datatype_property_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:ontology_count ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty reporting:anonymous_individual_count ] ;
+    skos:definition "A summary statistics report object" .
+
+reporting:FacetStatistics a owl:Class ;
+    rdfs:label "FacetStatistics" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty reporting:facet ;
+            owl:qualifiedCardinality 1 ],
+        reporting:SummaryStatisticCollection ;
+    skos:definition "summary statistics for a data facet" .
+
+reporting:count_statistic a owl:DatatypeProperty ;
+    rdfs:label "count_statistic" ;
+    rdfs:range xsd:integer .
+
+
+

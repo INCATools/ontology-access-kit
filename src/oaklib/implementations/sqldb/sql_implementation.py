@@ -61,6 +61,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
     HAS_SYNONYM_TYPE,
+    IN_CATEGORY_PREDS,
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
@@ -88,7 +89,7 @@ from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
-from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix
 
 __all__ = [
@@ -376,6 +377,19 @@ class SqlImplementation(
         ):
             yield self._get_subset_curie(row.subject)
 
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        for row in self.session.query(Statements).filter(
+            Statements.predicate == IN_SUBSET, Statements.subject.in_(list(curies))
+        ):
+            yield row.subject, self._get_subset_curie(row.object)
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        sm = self._subset_curie_to_uri_map()
+        for row in self.session.query(Statements).filter(
+            Statements.predicate.in_(IN_CATEGORY_PREDS), Statements.subject.in_(list(curies))
+        ):
+            yield row.subject, self._get_subset_curie(row.object)
+
     def _execute(self, stmt):
         self.session.execute(stmt)
         self.session.flush()
@@ -544,26 +558,22 @@ class SqlImplementation(
                     meta.basicPropertyValues.append(pv)
         return n
 
-    def synonym_map_for_curies(
-        self, subject: Union[CURIE, List[CURIE]]
-    ) -> Dict[CURIE, List[obograph.SynonymPropertyValue]]:
+    def synonym_property_values(
+        self, subject: Union[CURIE, Iterable[CURIE]]
+    ) -> Iterator[Tuple[CURIE, obograph.SynonymPropertyValue]]:
         if isinstance(subject, CURIE):
             subject = [subject]
         q = self.session.query(Statements).filter(Statements.subject.in_(tuple(subject)))
         q = q.filter(Statements.predicate.in_(SYNONYM_PREDICATES))
-        syn_rows = list(q)
-        logging.info(f"Fetching info on {len(syn_rows)} synonyms")
-        d = defaultdict(list)
-        for row in syn_rows:
+        for row in q:
             spv = obograph.SynonymPropertyValue(pred=row.predicate, val=row.value)
-            d[row.subject].append(spv)
             anns = self._axiom_annotations(row.subject, row.predicate, value=row.value)
             for ann in anns:
                 if ann.predicate == HAS_SYNONYM_TYPE:
                     spv.synonymType = ann.object
                 if ann.predicate == HAS_DBXREF:
                     spv.xrefs.append(ann.object)
-        return d
+            yield row.subject, spv
 
     def _axiom_annotations(
         self, subject: CURIE, predicate: CURIE, object: CURIE = None, value: Any = None

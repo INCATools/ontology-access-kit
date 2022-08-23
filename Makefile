@@ -9,11 +9,14 @@ MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_da
 
 pyclasses: $(patsubst %, src/oaklib/datamodels/%.py, $(MODELS))
 jsonschema: $(patsubst %, src/oaklib/datamodels/%.schema.json, $(MODELS))
+owl: $(patsubst %, src/oaklib/datamodels/%.owl.ttl, $(MODELS))
 
 src/oaklib/datamodels/%.py: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-python $< > $@.tmp && mv $@.tmp $@
 src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-json-schema $< > $@.tmp && mv $@.tmp $@
+src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
+	$(RUN) gen-owl --no-metaclasses --no-type-objects $< > $@.tmp && mv $@.tmp $@
 
 RUN_GENDOC = $(RUN) gen-doc --dialect myst
 gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim

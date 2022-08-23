@@ -104,6 +104,7 @@ from oaklib.utilities.lexical.lexical_indexer import (
     load_mapping_rules,
     save_lexical_index,
 )
+from oaklib.utilities.lint_utils import lint_ontology
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
@@ -163,9 +164,25 @@ WRITERS = {
 
 @unique
 class Direction(Enum):
+    """
+    Permissible directions for graph traversal
+    """
+
     up = "up"
     down = "down"
     both = "both"
+
+
+@unique
+class IfAbsent(Enum):
+    """
+    Permissible values for --if-absent
+
+    This indicates the policy when a specific value is not present
+    """
+
+    include = "include"
+    exclude = "exclude"
 
 
 @unique
@@ -204,12 +221,33 @@ set_operation_option = click.option(
     type=click.Choice([x.value for x in SetOperation]),
     help="set operation, where left set is stdin list and right set is arguments.",
 )
+set_value_option = click.option(
+    "-S",
+    "--set-value",
+    help="the value to set for all terms for the given property.",
+)
 direction_option = click.option(
     "--direction",
     type=click.Choice([x.value for x in Direction]),
     help="direction of traversal over edges, which up is subject to object, down is object to subject.",
 )
-input_type_option = click.option("-I", "--input-type", help="Input type.")
+if_absent_option = click.option(
+    "--if-absent",
+    type=click.Choice([x.value for x in IfAbsent]),
+    help="determines behavior when the value is not present or is empty.",
+)
+owl_type_option = click.option(
+    "--owl-type", help="only include entities of this type, e.g. owl:Class, rdf:Property"
+)
+input_type_option = click.option(
+    "-I", "--input-type", help="Input format. Permissible values vary depending on the context"
+)
+dry_run_option = click.option(
+    "--dry-run/--no-dry-run",
+    default=False,
+    show_default=False,
+    help="If true, nothing will be modified by executing command",
+)
 autolabel_option = click.option(
     "--autolabel/--no-autolabel",
     default=True,
@@ -280,6 +318,15 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return shorthand
 
 
+def _skip_if_absent(if_absent: bool, v: Any):
+    if if_absent:
+        if if_absent == IfAbsent.include.value and v:
+            return True
+        elif if_absent == IfAbsent.exclude.value and not v:
+            return True
+    return False
+
+
 def _get_writer(
     output_type: str,
     impl: OntologyInterface,
@@ -297,6 +344,17 @@ def _get_writer(
     if isinstance(w, StreamingRdfWriter) and datamodel is not None:
         w.schemaview = package_schemaview(datamodel.__name__)
     return w
+
+
+def _apply_changes(impl, changes):
+    if changes:
+        logging.info(f"Applying {len(changes)} changes")
+        if isinstance(impl, PatcherInterface):
+            for change in changes:
+                impl.apply_patch(change)
+            impl.save()
+        else:
+            raise NotImplementedError(f"Cannot apply {len(changes)} changes")
 
 
 # A list whose members are either strings (search terms, curies, or directives)
@@ -487,9 +545,13 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @click.option(
-    "--save-to",
+    "--save-as",
     help="For commands that mutate the ontology, this specifies where changes are saved to",
 )
+# @click.option(
+#    "--save-as-syntax",
+#    help="For commands that mutate the ontology, this specifies the syntax for saving",
+# )
 @click.option(
     "--autosave/--no-autosave",
     help="For commands that mutate the ontology, this determines if these are automatically saved in place",
@@ -498,7 +560,7 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @input_type_option
 @add_option
 def main(
-    verbose: int, quiet: bool, input: str, input_type: str, add: List, save_to: str, autosave: bool
+    verbose: int, quiet: bool, input: str, input_type: str, add: List, save_as: str, autosave: bool
 ):
     """Run the oaklib Command Line.
 
@@ -536,10 +598,10 @@ def main(
         if settings.impl:
             impls = [settings.impl] + impls
         settings.impl = AggregatorImplementation(implementations=impls)
-    if save_to:
+    if save_as:
         if autosave:
-            raise ValueError("Cannot specify both --save-to and --autosave")
-        settings.impl = settings.impl.clone(get_resource_from_shorthand(save_to))
+            raise ValueError("Cannot specify both --save-as and --autosave")
+        settings.impl = settings.impl.clone(get_resource_from_shorthand(save_as))
         settings.autosave = True
 
 
@@ -597,17 +659,26 @@ def search(terms, output_type: str, output: TextIO):
 
 @main.command()
 @output_option
-def all_subsets(output: str):
+def subsets(output: str):
     """
-    Shows all subsets
+    Shows information on subsets
 
     Example:
-        runoak -i obolibrary:go.obo all-subsets
+
+        runoak -i obolibrary:go.obo subsets
 
     Example:
-        runoak -i cl.owl all-subsets
+
+        runoak -i cl.owl subsets
 
     For background on subsets, see https://incatools.github.io/ontology-access-kit/concepts.html#subsets
+
+    Note you can use subsets in selector queries for other commands; e.g. to fetch all
+    terms (directly) in goslim_generic in GO:
+
+    Example:
+
+        runoak -i sqlite:obo:go info .in goslim_generic
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -780,29 +851,6 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
             else:
                 metadata = impl.entity_metadata_map(curie)
                 writer.emit(metadata)
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
-@click.argument("subset")
-@output_option
-def list_subset(subset, output: str):
-    """
-    Shows IDs in a given subset
-
-    Example:
-        runoak -i obolibrary:go.obo list-subset goslim_generic
-
-    Example:
-        oak -i sqlite:notebooks/input/go.db list-subset goslim_agr
-
-    https://incatools.github.io/ontology-access-kit/concepts.html#subsets
-    """
-    impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.subset_members(subset):
-            print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1241,7 +1289,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 
 @main.command()
 @click.argument("terms", nargs=-1)
-@click.option("--target", multiple=True)
+@click.option("--target", multiple=True, help="end point of path")
 @click.option(
     "--flat/--no-flat",
     default=False,
@@ -1699,13 +1747,15 @@ def info(terms, output: TextIO, display: str, output_type: str):
 @output_option
 @display_option
 @ontological_output_type_option
-def labels(terms, output: TextIO, display: str, output_type: str):
+@if_absent_option
+@set_value_option
+def labels(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
     """
     Show labels for term or list of terms
 
     Example:
 
-        runoak -i cl.owl labels CL:4023094
+        runoak -i cl.owl labels CL:4023093 CL:4023094
 
     You can use the ".all" selector to show all labels:
 
@@ -1714,15 +1764,42 @@ def labels(terms, output: TextIO, display: str, output_type: str):
         runoak -i cl.owl labels .all
 
     (this may be blocked for remote endpoints)
+
+    You can query for terms that have either no label, or to include only ones with labels:
+
+    Nodes with no labels:
+
+        runoak -i cl.owl labels .all --if-absent exclude
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    if len(terms) == 0:
+        raise ValueError("You must specify a list of terms. Use '.all' for all terms")
+    n = 0
+    changes = []
     for curie_it in chunk(query_terms_iterator(terms, impl)):
         logging.info("** Next chunk:")
+        n += 1
         for curie, label in impl.labels(curie_it):
-            writer.emit(dict(id=curie, label=label))
+            obj = dict(id=curie, label=label)
+            if set_value is not None:
+                obj["new_value"] = set_value
+                if set_value != label:
+                    changes.append(
+                        kgcl.NodeRename(
+                            id="x", about_node=curie, old_value=label, new_value=set_value
+                        )
+                    )
+                else:
+                    logging.info(f"No change for {curie}")
+            if _skip_if_absent(if_absent, label):
+                continue
+            writer.emit(obj)
+    if n == 0:
+        raise ValueError(f"No results for input: {terms}")
+    _apply_changes(impl, changes)
 
 
 @main.command()
@@ -1730,7 +1807,9 @@ def labels(terms, output: TextIO, display: str, output_type: str):
 @output_option
 @display_option
 @ontological_output_type_option
-def definitions(terms, output: TextIO, display: str, output_type: str):
+@if_absent_option
+@set_value_option
+def definitions(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
     """
     Show textual definitions for term or set of terms
 
@@ -1749,10 +1828,25 @@ def definitions(terms, output: TextIO, display: str, output_type: str):
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    changes = []
     for curie in query_terms_iterator(terms, impl):
         if isinstance(impl, BasicOntologyInterface):
             defn = impl.definition(curie)
-            writer.emit(dict(id=curie, definition=defn))
+            obj = dict(id=curie, definition=defn)
+            if set_value is not None:
+                obj["new_value"] = set_value
+                if set_value != defn:
+                    changes.append(
+                        kgcl.NodeTextDefinitionChange(
+                            id="x", about_node=curie, old_value=defn, new_value=set_value
+                        )
+                    )
+                else:
+                    logging.info(f"No change for {curie}")
+            if _skip_if_absent(if_absent, defn):
+                continue
+            writer.emit(obj)
+    _apply_changes(impl, changes)
 
 
 @main.command()
@@ -1762,8 +1856,17 @@ def definitions(terms, output: TextIO, display: str, output_type: str):
 @autolabel_option
 @output_type_option
 @output_option
+@if_absent_option
+@set_value_option
 def relationships(
-    terms, predicates: str, direction: str, autolabel: bool, output_type: str, output: str
+    terms,
+    predicates: str,
+    direction: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    if_absent: bool,
+    set_value: str,
 ):
     """
     Show all relationships for a term or terms
@@ -1820,11 +1923,39 @@ def relationships(
             it = down_it
         else:
             it = chain(up_it, down_it)
+        has_relationships = defaultdict(bool)
         for rel in it:
+            if direction is None or direction == Direction.up.value:
+                has_relationships[rel[0]] = True
+            elif direction == Direction.down.value:
+                has_relationships[rel[2]] = True
+            else:
+                has_relationships[rel[0]] = True
+                has_relationships[rel[2]] = True
+            if if_absent and if_absent == IfAbsent.include.value:
+                continue
             writer.emit(
                 dict(subject=rel[0], predicate=rel[1], object=rel[2]),
                 label_fields=["subject", "predicate", "object"],
             )
+        if if_absent and if_absent == IfAbsent.include.value:
+            for curie in curies:
+                if not has_relationships[curie]:
+                    writer.emit(
+                        dict(subject=curie, predicate=None, object=None),
+                        label_fields=["subject", "predicate", "object"],
+                    )
+        if set_value:
+            if len(actual_predicates) != 1:
+                raise ValueError(f"predicates={actual_predicates}, expected exactly one")
+            pred = actual_predicates[0]
+            changes = []
+            for curie in curies:
+                changes.append(
+                    kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
+                )
+            _apply_changes(impl, changes)
+
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1832,7 +1963,7 @@ def relationships(
 @main.command()
 @filter_obsoletes_option
 @output_option
-@click.option("--owl-type")
+@owl_type_option
 def terms(output: str, owl_type, filter_obsoletes: bool):
     """
     List all terms in the ontology
@@ -1901,7 +2032,8 @@ def roots(output: str, predicates: str):
 @main.command()
 @output_option
 @predicates_option
-def leafs(output: str, predicates: str):
+@filter_obsoletes_option
+def leafs(output: str, predicates: str, filter_obsoletes: bool):
     """
     List all leaf nodes in the ontology
 
@@ -1920,7 +2052,38 @@ def leafs(output: str, predicates: str):
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in impl.leafs(actual_predicates):
+        for curie in impl.leafs(actual_predicates, filter_obsoletes=filter_obsoletes):
+            print(f"{curie} ! {impl.label(curie)}")
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@predicates_option
+@filter_obsoletes_option
+def singletons(output: str, predicates: str, filter_obsoletes: bool):
+    """
+    List all singleton nodes in the ontology
+
+    Like all OAK relational commands, this is parameterized by --predicates (-p).
+    Note that the default is to return the singletons of the relation graph over *all* predicates
+
+    Obsoletes are filtered by default
+
+    Example:
+
+        runoak -i db/cob.db singletons
+
+    This command is a wrapper onto the "singletons" command in the BasicOntologyInterface.
+
+    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
+      oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        for curie in impl.singletons(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1987,27 +2150,37 @@ def aliases(terms, output, obo_model):
 
         runoak -i ubergraph:uberon aliases UBERON:0001988
 
-    Example:
+    TERMS should be either an explicit list of terms or queries, or can be a selector query,
+    such as '.all' to fetch all terms in the ontology
+
+    Show all aliases:
 
         runoak -i db/envo.db aliases .all
+
+    Currently the core behavior of this command assumes a simple datamodel for aliases, where an aliases
+    is a simple property-value tuples, with the property being from some standard vocabulary (e.g. skos:altLabel,
+    oboInOwl, etc)
+
+    If you know the synonyms follow the OBO/oboInOwl datamodel you can pass --obo-model, this will give back
+    richer data if present in the ontology, including synonym categories/types, synonym provenance
+
+    In future, this may become the default
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
     if obo_model:
         if isinstance(impl, OboGraphInterface):
             curies = list(query_terms_iterator(terms, impl))
-            syn_map = impl.synonym_map_for_curies(curies)
-            for curie, spvs in syn_map.items():
-                for spv in spvs:
-                    writer.emit(
-                        dict(
-                            curie=curie,
-                            pred=spv.pred,
-                            value=spv.val,
-                            type=spv.synonymType,
-                            xrefs=spv.xrefs,
-                        )
+            for curie, spv in impl.synonym_property_values(curies):
+                writer.emit(
+                    dict(
+                        curie=curie,
+                        pred=spv.pred,
+                        value=spv.val,
+                        type=spv.synonymType,
+                        xrefs=spv.xrefs,
                     )
+                )
         else:
             raise NotImplementedError
     else:
@@ -2022,18 +2195,40 @@ def aliases(terms, output, obo_model):
 
 @main.command()
 @output_option
+@output_type_option
+@click.argument("terms", nargs=-1)
+def term_subsets(terms, output, output_type):
+    """
+    List subsets for a term or set of terms
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    if isinstance(impl, BasicOntologyInterface):
+        curies_it = query_terms_iterator(terms, impl)
+        for curie, subset in impl.terms_subsets(curies_it):
+            writer.emit(dict(curie=curie, subset=subset))
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@predicates_option
 @click.argument("subsets", nargs=-1)
-def subset_rollups(subsets: list, output):
+def expand_subsets(subsets: list, output, predicates):
     """
     For each subset provide a mapping of each term in the ontology to a subset
 
     Example:
 
-        runoak -i db/pato.db subset-rollups attribute_slim value_slim
+        runoak -i db/pato.db expand-subsets attribute_slim value_slim
     """
     impl = settings.impl
     # writer = StreamingCsvWriter(output)
     if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        if not actual_predicates:
+            actual_predicates = [IS_A, PART_OF]
         impl.enable_transitive_query_cache()
         term_curies = list(impl.entities())
         output.write("\t".join(["subset", "term", "subset_term"]))
@@ -2042,7 +2237,7 @@ def subset_rollups(subsets: list, output):
             logging.info(f"SUBSETS={subsets}")
         for subset in subsets:
             logging.info(f"Subset={subset}")
-            m = roll_up_to_named_subset(impl, subset, term_curies, predicates=[IS_A, PART_OF])
+            m = roll_up_to_named_subset(impl, subset, term_curies, predicates=actual_predicates)
             for term, mapped_to in m.items():
                 for tgt in mapped_to:
                     output.write("\t".join([subset, term, tgt]))
@@ -2055,19 +2250,18 @@ def subset_rollups(subsets: list, output):
 @main.command()
 @output_option
 @output_type_option
-def all_axioms(output: str, output_type: str):
+@click.option("--category-system", help="Example: biolink, cob, bfo, dbpedia, ...")
+@click.argument("terms", nargs=-1)
+def term_categories(terms, output, output_type):
     """
-    List all axioms
-
-    TODO: this will be replaced by "axioms" command
+    List categories for a term or set of terms
     """
     impl = settings.impl
-    if isinstance(impl, OwlInterface):
-        writer = StreamingAxiomWriter(
-            output, syntax=output_type, functional_writer=impl.functional_writer
-        )
-        for axiom in impl.axioms():
-            writer.emit(axiom)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    if isinstance(impl, BasicOntologyInterface):
+        curies_it = query_terms_iterator(terms, impl)
+        for curie, subset in impl.terms_categories(curies_it):
+            writer.emit(dict(curie=curie, subset=subset))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2083,8 +2277,23 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
     """
     Filters axioms
 
+    Example:
+
+        runoak -i cl.ofn axiom
+
+    The above will write all axioms.
+
+    You can filter by axiom type:
+
+    Example:
+
+        runoak -i cl.ofn axiom --axiom-type SubClassOf
+
+
     """
     impl = settings.impl
+    writer = StreamingAxiomWriter(syntax=output_type, functional_writer=impl.functional_writer)
+    writer.output = output
     if terms:
         curies = [curie for curie in query_terms_iterator(terms, impl)]
     else:
@@ -2096,7 +2305,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
         if axiom_type:
             conditions.set_type(axiom_type)
         for axiom in impl.filter_axioms(conditions=conditions):
-            print(axiom)
+            writer.emit(axiom)
 
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -2642,6 +2851,39 @@ def apply_obsolete(output, output_type, terms):
         if output:
             impl.dump(output, output_type)
         # impl.save()
+    else:
+        raise NotImplementedError
+
+
+@main.command()
+@click.option("--output", "-o")
+@click.option("--report-format", help="Output format for reporting proposed/applied changes")
+@dry_run_option
+@output_type_option
+def lint(output, output_type, report_format, dry_run: bool):
+    """
+    Lints an ontology, applying changes in place
+
+    The current implementation is highly incomplete, and only handles
+    linting of syntactic patterns (chains of whitespace, trailing whitespace)
+    in labels and definitions
+
+    Implementations
+
+    - owl, in functional syntax
+    - obo
+    """
+    impl = settings.impl
+    writer = _get_writer(report_format, impl, StreamingYamlWriter)
+    if isinstance(impl, PatcherInterface):
+        impl.autosave = settings.autosave
+        changes = lint_ontology(impl, dry_run=dry_run)
+        for actionable, change in changes:
+            writer.emit(change)
+        if output:
+            impl.dump(output, output_type)
+        else:
+            print(impl.dump(syntax=output_type))
     else:
         raise NotImplementedError
 

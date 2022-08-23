@@ -58,11 +58,14 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def repair(self, configuration: RepairConfiguration = None) -> Iterable[RepairOperation]:
+    def repair(
+        self, configuration: RepairConfiguration = None, dry_run=False
+    ) -> Iterable[RepairOperation]:
         """
         Finds problems and fixes them
 
         :param configuration:
+        :param dry_run:
         :return:
         """
         raise NotImplementedError
