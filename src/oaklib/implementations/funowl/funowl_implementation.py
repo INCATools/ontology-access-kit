@@ -11,16 +11,18 @@ from kgcl_schema.datamodel import kgcl
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     DEPRECATED_PREDICATE,
+    HAS_DEFINITION_CURIE,
     LABEL_PREDICATE,
     OBO_PURL,
 )
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
+from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.types import CURIE, URI
 
 
 @dataclass
-class FunOwlImplementation(OwlInterface):
+class FunOwlImplementation(OwlInterface, PatcherInterface):
     """
     An experimental partial implementation of :ref:`OwlInterface`
 
@@ -72,6 +74,21 @@ class FunOwlImplementation(OwlInterface):
             return uri.replace("_", ":")
         return uri
 
+    def _single_valued_assignment(self, curie: CURIE, property: CURIE) -> Optional[str]:
+        labels = [a.value for a in self.annotation_assertion_axioms(curie, property=property)]
+        if labels:
+            if len(labels) > 1:
+                logging.warning(f"Multiple labels for {curie} = {labels}")
+            val = labels[0]
+            rdf_v = val.to_rdf(self.functional_writer.g)
+            if isinstance(rdf_v, rdflib.Literal):
+                return rdf_v.value
+            else:
+                raise ValueError(f"Label must be literal, not {val}")
+
+    def definition(self, curie: CURIE) -> Optional[str]:
+        return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
+
     def label(self, curie: CURIE) -> str:
         labels = [
             a.value for a in self.annotation_assertion_axioms(curie, property=LABEL_PREDICATE)
@@ -110,7 +127,7 @@ class FunOwlImplementation(OwlInterface):
         if path is None:
             print(out)
         elif isinstance(path, str):
-            with open(path, "wb") as file:
+            with open(path, "w", encoding="UTF-8") as file:
                 file.write(str(out))
         else:
             path.write(str(out))
@@ -135,6 +152,8 @@ class FunOwlImplementation(OwlInterface):
             about = patch.about_node
             if isinstance(patch, kgcl.NodeRename):
                 self._set_annotation_predicate_value(about, LABEL_PREDICATE, patch.new_value)
+            elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+                self._set_annotation_predicate_value(about, HAS_DEFINITION_CURIE, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
                 raise NotImplementedError
             elif isinstance(patch, kgcl.NodeObsoletion):

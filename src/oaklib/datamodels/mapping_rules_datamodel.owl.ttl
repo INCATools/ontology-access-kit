@@ -1,0 +1,326 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix mrules: <https://w3id.org/linkml/mapping_rules_datamodel/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh1: <https://w3id.org/shacl/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:mapping_rules_datamodel a owl:Ontology ;
+    rdfs:label "mapping-rules" ;
+    IAO:0000700 <https://w3id.org/linkml/lexical_index/Activity>,
+        <https://w3id.org/linkml/lexical_index/LexicalGrouping>,
+        <https://w3id.org/linkml/lexical_index/LexicalIndex>,
+        <https://w3id.org/linkml/lexical_index/RelationshipToTerm>,
+        mrules:MappingRule,
+        mrules:MappingRuleCollection,
+        mrules:Postcondition,
+        mrules:Precondition ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Mapping Rules Datamodel" ;
+    linkml:generation_date "2022-08-18T13:42:20" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "mapping_rules_datamodel.yaml" ;
+    linkml:source_file_date "2022-04-05T13:24:29" ;
+    linkml:source_file_size 2606 .
+
+<https://w3id.org/linkml/lexical_index/LexicalIndex> a owl:Class ;
+    rdfs:label "LexicalIndex" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom <https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline> ;
+            owl:onProperty mrules:pipelines ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom <https://w3id.org/linkml/lexical_index/LexicalGrouping> ;
+            owl:onProperty mrules:groupings ] ;
+    skos:definition "An index over an ontology keyed by lexical unit" .
+
+mrules:MappingRuleCollection a owl:Class ;
+    rdfs:label "MappingRuleCollection" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom mrules:MappingRule ;
+            owl:onProperty mrules:rules ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty mrules:minimum_confidence ] ;
+    skos:definition "A collection of mapping rules" .
+
+mrules:description a owl:DatatypeProperty ;
+    rdfs:label "description" ;
+    rdfs:range xsd:string .
+
+mrules:element a owl:DatatypeProperty ;
+    rdfs:label "element" ;
+    rdfs:range xsd:anyURI .
+
+mrules:element_term a owl:DatatypeProperty ;
+    rdfs:label "element_term" ;
+    rdfs:range xsd:string ;
+    skos:definition "the original term used in the element" .
+
+mrules:groupings a owl:ObjectProperty ;
+    rdfs:label "groupings" ;
+    rdfs:range <https://w3id.org/linkml/lexical_index/LexicalGrouping> ;
+    skos:definition "all groupings" .
+
+mrules:mapping_source_one_of a owl:DatatypeProperty ;
+    rdfs:label "mapping_source_one_of" ;
+    rdfs:range xsd:string .
+
+mrules:minimum_confidence a owl:DatatypeProperty ;
+    rdfs:label "minimum_confidence" ;
+    rdfs:range xsd:float .
+
+mrules:name a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string .
+
+mrules:object_match_field_one_of a owl:DatatypeProperty ;
+    rdfs:label "object_match_field_one_of" ;
+    rdfs:range xsd:string .
+
+mrules:object_source_one_of a owl:DatatypeProperty ;
+    rdfs:label "object_source_one_of" ;
+    rdfs:range xsd:string .
+
+mrules:oneway a owl:DatatypeProperty ;
+    rdfs:label "oneway" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "if true then subject and object can be switched and predicate inverted" .
+
+mrules:params a owl:DatatypeProperty ;
+    rdfs:label "params" ;
+    rdfs:range xsd:string ;
+    skos:definition "Any parameters to be applied to the transformation algorithm" .
+
+mrules:pipeline a owl:ObjectProperty ;
+    rdfs:label "pipeline" ;
+    rdfs:range <https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline> .
+
+mrules:pipelines a owl:ObjectProperty ;
+    rdfs:label "pipelines" ;
+    rdfs:range <https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline> ;
+    skos:definition "all pipelines used to build the index" .
+
+mrules:postconditions a owl:ObjectProperty ;
+    rdfs:label "postconditions" ;
+    rdfs:range mrules:Postcondition ;
+    skos:definition "conditions that apply if preconditions match" .
+
+mrules:predicate a owl:DatatypeProperty ;
+    rdfs:label "predicate" ;
+    rdfs:range xsd:anyURI .
+
+mrules:predicate_id a owl:DatatypeProperty ;
+    rdfs:label "predicate_id" ;
+    rdfs:range xsd:string ;
+    skos:note "if the rule is invertible, then the predicate is inverted, e.g. skos broad becomes narrow" .
+
+mrules:relationships a owl:ObjectProperty ;
+    rdfs:label "relationships" ;
+    rdfs:range <https://w3id.org/linkml/lexical_index/RelationshipToTerm> ;
+    skos:definition "All ontology elements grouped and their relationship to the normalized term" .
+
+mrules:rules a owl:ObjectProperty ;
+    rdfs:label "rules" ;
+    rdfs:range mrules:MappingRule ;
+    skos:definition "all rules" .
+
+mrules:source a owl:DatatypeProperty ;
+    rdfs:label "source" ;
+    rdfs:range xsd:anyURI .
+
+mrules:subject_match_field_one_of a owl:DatatypeProperty ;
+    rdfs:label "subject_match_field_one_of" ;
+    rdfs:range xsd:string .
+
+mrules:subject_source_one_of a owl:DatatypeProperty ;
+    rdfs:label "subject_source_one_of" ;
+    rdfs:range xsd:string .
+
+mrules:term a owl:DatatypeProperty ;
+    rdfs:label "term" ;
+    rdfs:range xsd:string ;
+    skos:definition "A normalized term that groups ontology elements" .
+
+mrules:transformations a owl:ObjectProperty ;
+    rdfs:label "transformations" ;
+    rdfs:range <https://w3id.org/linkml/lexical_index/LexicalTransformation> .
+
+mrules:transformations_included_in a owl:DatatypeProperty ;
+    rdfs:label "transformations_included_in" ;
+    rdfs:range xsd:string .
+
+mrules:type a owl:ObjectProperty ;
+    rdfs:label "type" ;
+    rdfs:range <https://w3id.org/linkml/lexical_index/TransformationType> ;
+    skos:definition "The type of transformation" .
+
+mrules:weight a owl:DatatypeProperty ;
+    rdfs:label "weight" ;
+    rdfs:range xsd:float ;
+    rdfs:seeAlso "https://en.wikipedia.org/wiki/Logit",
+        "https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png" ;
+    skos:definition "Weighting of the rule, positive increases the confidence, negative decreases" .
+
+<https://w3id.org/linkml/lexical_index/LexicalTransformation> a owl:Class ;
+    rdfs:label "LexicalTransformation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/linkml/lexical_index/TransformationType> ;
+            owl:onProperty mrules:type ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty mrules:params ],
+        <https://w3id.org/linkml/lexical_index/Activity> ;
+    skos:definition "An atomic lexical transformation applied on a term (string) yielding a transformed string" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType> a owl:Class ;
+    rdfs:label "TransformationType" ;
+    owl:unionOf ( <https://w3id.org/linkml/lexical_index/TransformationType#Stemming> <https://w3id.org/linkml/lexical_index/TransformationType#Lemmatization> <https://w3id.org/linkml/lexical_index/TransformationType#WordOrderNormalization> <https://w3id.org/linkml/lexical_index/TransformationType#Depluralization> <https://w3id.org/linkml/lexical_index/TransformationType#CaseNormalization> <https://w3id.org/linkml/lexical_index/TransformationType#WhitespaceNormalization> <https://w3id.org/linkml/lexical_index/TransformationType#TermExpanson> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/lexical_index/TransformationType#CaseNormalization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#Depluralization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#Lemmatization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#Stemming>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#TermExpanson>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#WhitespaceNormalization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#WordOrderNormalization> .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#CaseNormalization> a owl:Class ;
+    rdfs:label "CaseNormalization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#Depluralization> a owl:Class ;
+    rdfs:label "Depluralization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#Lemmatization> a owl:Class ;
+    rdfs:label "Lemmatization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#Stemming> a owl:Class ;
+    rdfs:label "Stemming" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#TermExpanson> a owl:Class ;
+    rdfs:label "TermExpanson" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#WhitespaceNormalization> a owl:Class ;
+    rdfs:label "WhitespaceNormalization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#WordOrderNormalization> a owl:Class ;
+    rdfs:label "WordOrderNormalization" .
+
+sh1:condition a owl:ObjectProperty ;
+    rdfs:label "preconditions" ;
+    rdfs:range mrules:Precondition ;
+    skos:definition "all of the criteria that must be true before a rule is fired" ;
+    skos:exactMatch sh1:condition .
+
+<https://w3id.org/linkml/lexical_index/Activity> a owl:Class ;
+    rdfs:label "Activity" ;
+    skos:definition "Generic grouping for any lexical operation" ;
+    skos:exactMatch prov:Activity .
+
+<https://w3id.org/linkml/lexical_index/LexicalGrouping> a owl:Class ;
+    rdfs:label "LexicalGrouping" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom <https://w3id.org/linkml/lexical_index/RelationshipToTerm> ;
+            owl:onProperty mrules:relationships ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty mrules:term ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A grouping of ontology elements by a shared lexical term" .
+
+<https://w3id.org/linkml/lexical_index/RelationshipToTerm> a owl:Class ;
+    rdfs:label "RelationshipToTerm" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty mrules:element_term ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty mrules:element ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty mrules:source ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom <https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline> ;
+            owl:onProperty mrules:pipeline ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty mrules:predicate ] ;
+    skos:definition "A relationship of an ontology element to a lexical term" .
+
+mrules:MappingRule a owl:Class ;
+    rdfs:label "MappingRule" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty mrules:description ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty mrules:oneway ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass mrules:Precondition ;
+            owl:onProperty sh1:condition ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass mrules:Postcondition ;
+            owl:onProperty mrules:postconditions ] ;
+    skos:definition "An individual mapping rule, if preconditions match the postconditions are applied" .
+
+mrules:Postcondition a owl:Class ;
+    rdfs:label "Postcondition" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty mrules:predicate_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty mrules:weight ] .
+
+mrules:Precondition a owl:Class ;
+    rdfs:label "Precondition" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty mrules:subject_source_one_of ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty mrules:transformations_included_in ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty mrules:mapping_source_one_of ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty mrules:object_match_field_one_of ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty mrules:subject_match_field_one_of ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty mrules:object_source_one_of ] ;
+    skos:definition "A pattern to be matched against an individual SSSOM mapping" .
+
+<https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline> a owl:Class ;
+    rdfs:label "LexicalTransformationPipeline" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom <https://w3id.org/linkml/lexical_index/LexicalTransformation> ;
+            owl:onProperty mrules:transformations ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty mrules:name ;
+            owl:qualifiedCardinality 1 ],
+        <https://w3id.org/linkml/lexical_index/Activity> ;
+    skos:definition "A collection of atomic lexical transformations that are applied in serial fashion" .
+
+
+

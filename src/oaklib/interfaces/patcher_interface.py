@@ -33,4 +33,9 @@ class PatcherInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def save(self):
+        """
+        Commits all changes
+
+        :return:
+        """
         pass

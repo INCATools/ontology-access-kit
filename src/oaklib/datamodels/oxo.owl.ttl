@@ -1,0 +1,423 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix oxo: <https://w3id.org/sssom/oxo/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/sssom/oxo> a owl:Ontology ;
+    rdfs:label "oxo-schema" ;
+    IAO:0000700 oxo:Container,
+        oxo:Datasource,
+        oxo:Embedded,
+        oxo:Link,
+        oxo:LinkSet,
+        oxo:Mapping,
+        oxo:Page,
+        oxo:Term ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    linkml:generation_date "2022-08-18T13:42:26" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "oxo.yaml" ;
+    linkml:source_file_date "2022-04-12T12:33:29" ;
+    linkml:source_file_size 4392 .
+
+oxo:Container a owl:Class ;
+    rdfs:label "Container" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:LinkSet ;
+            owl:onProperty oxo:_links ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:page ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Embedded ;
+            owl:onProperty oxo:_embedded ] .
+
+oxo:Page a owl:Class ;
+    rdfs:label "Page" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty oxo:number ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty oxo:size ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty oxo:totalPages ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty oxo:totalElements ] .
+
+oxo:_embedded a owl:ObjectProperty ;
+    rdfs:label "_embedded" ;
+    rdfs:range oxo:Embedded .
+
+oxo:alternateIris a owl:DatatypeProperty ;
+    rdfs:label "alternateIris" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='[]', description=None)" .
+
+oxo:alternatePrefix a owl:DatatypeProperty ;
+    rdfs:label "alternatePrefix" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value=\"['emapa', 'EMAPA']\", description=None)" .
+
+oxo:curie a owl:DatatypeProperty ;
+    rdfs:label "curie" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='UBERON:0013141', description=None)" .
+
+oxo:date a owl:DatatypeProperty ;
+    rdfs:label "date" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='2021-05-08T00:00:00.000+0000', description=None)" .
+
+oxo:description a owl:DatatypeProperty ;
+    rdfs:label "description" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='An ontology for mouse anatomy covering embryonic development and postnatal stages.', description=None)" .
+
+oxo:first a owl:ObjectProperty ;
+    rdfs:label "first" ;
+    rdfs:range oxo:Link .
+
+oxo:identifier a owl:DatatypeProperty ;
+    rdfs:label "identifier" ;
+    rdfs:range xsd:string .
+
+oxo:idorgNamespace a owl:DatatypeProperty ;
+    rdfs:label "idorgNamespace" ;
+    rdfs:range xsd:string .
+
+oxo:label a owl:DatatypeProperty ;
+    rdfs:label "label" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='capillary bed', description=None)" .
+
+oxo:last a owl:ObjectProperty ;
+    rdfs:label "last" ;
+    rdfs:range oxo:Link .
+
+oxo:licence a owl:DatatypeProperty ;
+    rdfs:label "licence" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='https://creativecommons.org/licenses/by/4.0/', description=None)" .
+
+oxo:link_to_self a owl:ObjectProperty ;
+    rdfs:label "link_to_self" ;
+    rdfs:range oxo:Link .
+
+oxo:mappingId a owl:DatatypeProperty ;
+    rdfs:label "mappingId" ;
+    rdfs:range xsd:integer ;
+    linkml:examples "Example(value='60379160', description=None)" .
+
+oxo:mappings a owl:ObjectProperty ;
+    rdfs:label "mappings" ;
+    rdfs:range oxo:Mapping .
+
+oxo:name a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='Mouse Developmental Anatomy Ontology', description=None)" .
+
+oxo:next a owl:ObjectProperty ;
+    rdfs:label "next" ;
+    rdfs:range oxo:Link .
+
+oxo:number a owl:DatatypeProperty ;
+    rdfs:label "number" ;
+    rdfs:range xsd:integer ;
+    linkml:examples "Example(value='0', description=None)" .
+
+oxo:orcid a owl:DatatypeProperty ;
+    rdfs:label "orcid" ;
+    rdfs:range xsd:string .
+
+oxo:page a owl:DatatypeProperty ;
+    rdfs:label "page" ;
+    rdfs:range xsd:string .
+
+oxo:predicate a owl:DatatypeProperty ;
+    rdfs:label "predicate" ;
+    rdfs:range xsd:string .
+
+oxo:preferredPrefix a owl:DatatypeProperty ;
+    rdfs:label "preferredPrefix" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='EMAPA', description=None)" .
+
+oxo:prefix a owl:DatatypeProperty ;
+    rdfs:label "prefix" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='EMAPA', description=None)" .
+
+oxo:scope a owl:ObjectProperty ;
+    rdfs:label "scope" ;
+    rdfs:range oxo:ScopeEnum ;
+    linkml:examples "Example(value='RELATED', description=None)" .
+
+oxo:size a owl:DatatypeProperty ;
+    rdfs:label "size" ;
+    rdfs:range xsd:integer ;
+    linkml:examples "Example(value='0', description=None)" .
+
+oxo:source a owl:ObjectProperty ;
+    rdfs:label "source" ;
+    rdfs:range oxo:SourceEnum ;
+    linkml:examples "Example(value='ONTOLOGY', description=None)" .
+
+oxo:sourcePrefix a owl:DatatypeProperty ;
+    rdfs:label "sourcePrefix" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='UBERON', description=None)" .
+
+oxo:sourceType a owl:ObjectProperty ;
+    rdfs:label "sourceType" ;
+    rdfs:range oxo:SourceEnum ;
+    linkml:examples "Example(value='ONTOLOGY', description=None)" .
+
+oxo:totalElements a owl:DatatypeProperty ;
+    rdfs:label "totalElements" ;
+    rdfs:range xsd:integer ;
+    linkml:examples "Example(value='12', description=None)" .
+
+oxo:totalPages a owl:DatatypeProperty ;
+    rdfs:label "totalPages" ;
+    rdfs:range xsd:integer ;
+    linkml:examples "Example(value='1', description=None)" .
+
+oxo:uri a owl:DatatypeProperty ;
+    rdfs:label "uri" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='http://purl.obolibrary.org/obo/UBERON_0013141', description=None)" .
+
+oxo:versionInfo a owl:DatatypeProperty ;
+    rdfs:label "versionInfo" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='Last updated in the ontology lookup service on 2021-04-02T00:26:26.986+0000', description=None)" .
+
+oxo:ScopeEnum a owl:Class ;
+    rdfs:label "scope_enum" ;
+    owl:unionOf ( <https://w3id.org/sssom/oxo/ScopeEnum#RELATED> <https://w3id.org/sssom/oxo/ScopeEnum#EXACT> <https://w3id.org/sssom/oxo/ScopeEnum#BROADER> <https://w3id.org/sssom/oxo/ScopeEnum#NARROWER> <https://w3id.org/sssom/oxo/ScopeEnum#LABEL> ) ;
+    linkml:permissible_values <https://w3id.org/sssom/oxo/ScopeEnum#BROADER>,
+        <https://w3id.org/sssom/oxo/ScopeEnum#EXACT>,
+        <https://w3id.org/sssom/oxo/ScopeEnum#LABEL>,
+        <https://w3id.org/sssom/oxo/ScopeEnum#NARROWER>,
+        <https://w3id.org/sssom/oxo/ScopeEnum#RELATED> .
+
+<https://w3id.org/sssom/oxo/ScopeEnum#BROADER> a owl:Class ;
+    rdfs:label "BROADER" .
+
+<https://w3id.org/sssom/oxo/ScopeEnum#EXACT> a owl:Class ;
+    rdfs:label "EXACT" .
+
+<https://w3id.org/sssom/oxo/ScopeEnum#LABEL> a owl:Class ;
+    rdfs:label "LABEL" .
+
+<https://w3id.org/sssom/oxo/ScopeEnum#NARROWER> a owl:Class ;
+    rdfs:label "NARROWER" .
+
+<https://w3id.org/sssom/oxo/ScopeEnum#RELATED> a owl:Class ;
+    rdfs:label "RELATED" .
+
+<https://w3id.org/sssom/oxo/SourceEnum#DATABASE> a owl:Class ;
+    rdfs:label "DATABASE" .
+
+<https://w3id.org/sssom/oxo/SourceEnum#ONTOLOGY> a owl:Class ;
+    rdfs:label "ONTOLOGY" .
+
+oxo:_links a owl:ObjectProperty ;
+    rdfs:label "_links" ;
+    rdfs:range oxo:LinkSet .
+
+oxo:datasource a owl:ObjectProperty ;
+    rdfs:label "datasource" ;
+    rdfs:range oxo:Datasource .
+
+oxo:fromTerm a owl:ObjectProperty ;
+    rdfs:label "fromTerm" ;
+    rdfs:range oxo:Term .
+
+oxo:href a owl:DatatypeProperty ;
+    rdfs:label "href" ;
+    rdfs:range xsd:string ;
+    linkml:examples "Example(value='https://www.ebi.ac.uk/spot/oxo/api/terms/UBERON:0013141', description=None)" .
+
+oxo:toTerm a owl:ObjectProperty ;
+    rdfs:label "toTerm" ;
+    rdfs:range oxo:Term .
+
+oxo:Embedded a owl:Class ;
+    rdfs:label "Embedded" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom oxo:Mapping ;
+            owl:onProperty oxo:mappings ] .
+
+oxo:Mapping a owl:Class ;
+    rdfs:label "Mapping" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty oxo:mappingId ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:predicate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Term ;
+            owl:onProperty oxo:toTerm ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:sourcePrefix ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:date ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:ScopeEnum ;
+            owl:onProperty oxo:scope ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:LinkSet ;
+            owl:onProperty oxo:_links ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Term ;
+            owl:onProperty oxo:fromTerm ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Datasource ;
+            owl:onProperty oxo:datasource ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:SourceEnum ;
+            owl:onProperty oxo:sourceType ] .
+
+oxo:Datasource a owl:Class ;
+    rdfs:label "Datasource" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oxo:alternatePrefix ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:idorgNamespace ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:orcid ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:licence ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:versionInfo ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:prefix ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:preferredPrefix ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:name ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:SourceEnum ;
+            owl:onProperty oxo:source ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oxo:alternateIris ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:description ] .
+
+oxo:LinkSet a owl:Class ;
+    rdfs:label "LinkSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Link ;
+            owl:onProperty oxo:first ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Link ;
+            owl:onProperty oxo:toTerm ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Link ;
+            owl:onProperty oxo:fromTerm ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Link ;
+            owl:onProperty oxo:last ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Link ;
+            owl:onProperty oxo:next ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Link ;
+            owl:onProperty oxo:link_to_self ] .
+
+oxo:SourceEnum a owl:Class ;
+    rdfs:label "source_enum" ;
+    owl:unionOf ( <https://w3id.org/sssom/oxo/SourceEnum#ONTOLOGY> <https://w3id.org/sssom/oxo/SourceEnum#DATABASE> ) ;
+    linkml:permissible_values <https://w3id.org/sssom/oxo/SourceEnum#DATABASE>,
+        <https://w3id.org/sssom/oxo/SourceEnum#ONTOLOGY> .
+
+oxo:Term a owl:Class ;
+    rdfs:label "Term" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:identifier ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass oxo:Datasource ;
+            owl:onProperty oxo:datasource ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:href ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:uri ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:curie ;
+            owl:qualifiedCardinality 1 ] .
+
+oxo:Link a owl:Class ;
+    rdfs:label "Link" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oxo:href ] .
+
+
+

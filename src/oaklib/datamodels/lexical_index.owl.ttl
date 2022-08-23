@@ -1,0 +1,192 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix li: <https://w3id.org/linkml/lexical_index/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:lexical_index a owl:Ontology ;
+    rdfs:label "lexical-index" ;
+    IAO:0000700 li:Activity,
+        li:LexicalGrouping,
+        li:LexicalIndex,
+        li:RelationshipToTerm ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Lexical Index" ;
+    linkml:generation_date "2022-08-18T13:42:18" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "lexical_index.yaml" ;
+    linkml:source_file_date "2022-04-12T12:33:29" ;
+    linkml:source_file_size 3736 .
+
+li:LexicalIndex a owl:Class ;
+    rdfs:label "LexicalIndex" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom li:LexicalTransformationPipeline ;
+            owl:onProperty li:pipelines ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom li:LexicalGrouping ;
+            owl:onProperty li:groupings ] ;
+    skos:definition "An index over an ontology keyed by lexical unit" .
+
+li:element a owl:DatatypeProperty ;
+    rdfs:label "element" ;
+    rdfs:range xsd:anyURI .
+
+li:element_term a owl:DatatypeProperty ;
+    rdfs:label "element_term" ;
+    rdfs:range xsd:string ;
+    skos:definition "the original term used in the element" .
+
+li:groupings a owl:ObjectProperty ;
+    rdfs:label "groupings" ;
+    rdfs:range li:LexicalGrouping ;
+    skos:definition "all groupings" .
+
+li:name a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string .
+
+li:params a owl:DatatypeProperty ;
+    rdfs:label "params" ;
+    rdfs:range xsd:string ;
+    skos:definition "Any parameters to be applied to the transformation algorithm" .
+
+li:pipeline a owl:ObjectProperty ;
+    rdfs:label "pipeline" ;
+    rdfs:range li:LexicalTransformationPipeline .
+
+li:pipelines a owl:ObjectProperty ;
+    rdfs:label "pipelines" ;
+    rdfs:range li:LexicalTransformationPipeline ;
+    skos:definition "all pipelines used to build the index" .
+
+li:predicate a owl:DatatypeProperty ;
+    rdfs:label "predicate" ;
+    rdfs:range xsd:anyURI .
+
+li:relationships a owl:ObjectProperty ;
+    rdfs:label "relationships" ;
+    rdfs:range li:RelationshipToTerm ;
+    skos:definition "All ontology elements grouped and their relationship to the normalized term" .
+
+li:source a owl:DatatypeProperty ;
+    rdfs:label "source" ;
+    rdfs:range xsd:anyURI .
+
+li:term a owl:DatatypeProperty ;
+    rdfs:label "term" ;
+    rdfs:range xsd:string ;
+    skos:definition "A normalized term that groups ontology elements" .
+
+li:transformations a owl:ObjectProperty ;
+    rdfs:label "transformations" ;
+    rdfs:range li:LexicalTransformation .
+
+li:type a owl:ObjectProperty ;
+    rdfs:label "type" ;
+    rdfs:range li:TransformationType ;
+    skos:definition "The type of transformation" .
+
+li:LexicalTransformation a owl:Class ;
+    rdfs:label "LexicalTransformation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass li:TransformationType ;
+            owl:onProperty li:type ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty li:params ],
+        li:Activity ;
+    skos:definition "An atomic lexical transformation applied on a term (string) yielding a transformed string" .
+
+li:TransformationType a owl:Class ;
+    rdfs:label "TransformationType" ;
+    owl:unionOf ( <https://w3id.org/linkml/lexical_index/TransformationType#Stemming> <https://w3id.org/linkml/lexical_index/TransformationType#Lemmatization> <https://w3id.org/linkml/lexical_index/TransformationType#WordOrderNormalization> <https://w3id.org/linkml/lexical_index/TransformationType#Depluralization> <https://w3id.org/linkml/lexical_index/TransformationType#CaseNormalization> <https://w3id.org/linkml/lexical_index/TransformationType#WhitespaceNormalization> <https://w3id.org/linkml/lexical_index/TransformationType#TermExpanson> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/lexical_index/TransformationType#CaseNormalization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#Depluralization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#Lemmatization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#Stemming>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#TermExpanson>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#WhitespaceNormalization>,
+        <https://w3id.org/linkml/lexical_index/TransformationType#WordOrderNormalization> .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#CaseNormalization> a owl:Class ;
+    rdfs:label "CaseNormalization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#Depluralization> a owl:Class ;
+    rdfs:label "Depluralization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#Lemmatization> a owl:Class ;
+    rdfs:label "Lemmatization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#Stemming> a owl:Class ;
+    rdfs:label "Stemming" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#TermExpanson> a owl:Class ;
+    rdfs:label "TermExpanson" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#WhitespaceNormalization> a owl:Class ;
+    rdfs:label "WhitespaceNormalization" .
+
+<https://w3id.org/linkml/lexical_index/TransformationType#WordOrderNormalization> a owl:Class ;
+    rdfs:label "WordOrderNormalization" .
+
+li:Activity a owl:Class ;
+    rdfs:label "Activity" ;
+    skos:definition "Generic grouping for any lexical operation" ;
+    skos:exactMatch prov:Activity .
+
+li:LexicalGrouping a owl:Class ;
+    rdfs:label "LexicalGrouping" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty li:term ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom li:RelationshipToTerm ;
+            owl:onProperty li:relationships ] ;
+    skos:definition "A grouping of ontology elements by a shared lexical term" .
+
+li:RelationshipToTerm a owl:Class ;
+    rdfs:label "RelationshipToTerm" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty li:source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty li:element_term ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom li:LexicalTransformationPipeline ;
+            owl:onProperty li:pipeline ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty li:predicate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty li:element ] ;
+    skos:definition "A relationship of an ontology element to a lexical term" .
+
+li:LexicalTransformationPipeline a owl:Class ;
+    rdfs:label "LexicalTransformationPipeline" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom li:LexicalTransformation ;
+            owl:onProperty li:transformations ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty li:name ;
+            owl:qualifiedCardinality 1 ],
+        li:Activity ;
+    skos:definition "A collection of atomic lexical transformations that are applied in serial fashion" .
+
+
+

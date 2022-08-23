@@ -1,0 +1,385 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix og: <https://github.com/geneontology/obographs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://github.com/geneontology/obographs> a owl:Ontology ;
+    rdfs:label "obographs_datamodel" ;
+    IAO:0000700 og:Axiom,
+        og:Edge,
+        og:ExistentialRestrictionExpression,
+        og:Graph,
+        og:GraphDocument,
+        og:Meta,
+        og:Node,
+        og:PropertyValue ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Obographs Datamodel" ;
+    pav:version "0.0.1" ;
+    linkml:generation_date "2022-08-18T13:42:13" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "obograph.yaml" ;
+    linkml:source_file_date "2022-05-03T07:47:50" ;
+    linkml:source_file_size 3605 .
+
+og:PredsEnum a owl:Class ;
+    rdfs:label "preds_enum" ;
+    owl:unionOf ( <https://github.com/geneontology/obographs/PredsEnum#hasExactSynonym> <https://github.com/geneontology/obographs/PredsEnum#hasNarrowSynonym> <https://github.com/geneontology/obographs/PredsEnum#hasBroadSynonym> <https://github.com/geneontology/obographs/PredsEnum#hasRelatedSynonym> ) ;
+    linkml:permissible_values <https://github.com/geneontology/obographs/PredsEnum#hasBroadSynonym>,
+        <https://github.com/geneontology/obographs/PredsEnum#hasExactSynonym>,
+        <https://github.com/geneontology/obographs/PredsEnum#hasNarrowSynonym>,
+        <https://github.com/geneontology/obographs/PredsEnum#hasRelatedSynonym> .
+
+og:XrefPropertyValue a owl:Class ;
+    rdfs:label "XrefPropertyValue" ;
+    rdfs:subClassOf og:PropertyValue .
+
+og:ExistentialRestrictionExpression a owl:Class ;
+    rdfs:label "ExistentialRestrictionExpression" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:fillerId ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:propertyId ] .
+
+og:GraphDocument a owl:Class ;
+    rdfs:label "GraphDocument" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:Meta ;
+            owl:onProperty og:meta ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:Graph ;
+            owl:onProperty og:graphs ] .
+
+og:basicPropertyValues a owl:ObjectProperty ;
+    rdfs:label "basicPropertyValues" ;
+    rdfs:range og:BasicPropertyValue .
+
+og:comments a owl:DatatypeProperty ;
+    rdfs:label "comments" ;
+    rdfs:range xsd:string .
+
+og:definition a owl:ObjectProperty ;
+    rdfs:label "definition" ;
+    rdfs:range og:DefinitionPropertyValue .
+
+og:deprecated a owl:DatatypeProperty ;
+    rdfs:label "deprecated" ;
+    rdfs:range xsd:boolean .
+
+og:domainRangeAxioms a owl:ObjectProperty ;
+    rdfs:label "domainRangeAxioms" ;
+    rdfs:range og:DomainRangeAxiom .
+
+og:edges a owl:ObjectProperty ;
+    rdfs:label "edges" ;
+    rdfs:range og:Edge .
+
+og:equivalentNodesSets a owl:ObjectProperty ;
+    rdfs:label "equivalentNodesSets" ;
+    rdfs:range og:EquivalentNodesSet .
+
+og:fillerId a owl:DatatypeProperty ;
+    rdfs:label "fillerId" ;
+    rdfs:range xsd:string .
+
+og:graphs a owl:ObjectProperty ;
+    rdfs:label "graphs" ;
+    rdfs:range og:Graph .
+
+og:isExact a owl:DatatypeProperty ;
+    rdfs:label "isExact" ;
+    rdfs:range xsd:boolean .
+
+og:logicalDefinitionAxioms a owl:ObjectProperty ;
+    rdfs:label "logicalDefinitionAxioms" ;
+    rdfs:range og:LogicalDefinitionAxiom .
+
+og:nodeIds a owl:DatatypeProperty ;
+    rdfs:label "nodeIds" ;
+    rdfs:range xsd:string .
+
+og:nodes a owl:ObjectProperty ;
+    rdfs:label "nodes" ;
+    rdfs:range og:Node .
+
+og:obj a owl:DatatypeProperty ;
+    rdfs:label "obj" ;
+    rdfs:range xsd:string .
+
+og:propertyChainAxioms a owl:ObjectProperty ;
+    rdfs:label "propertyChainAxioms" ;
+    rdfs:range og:PropertyChainAxiom .
+
+og:propertyId a owl:DatatypeProperty ;
+    rdfs:label "propertyId" ;
+    rdfs:range xsd:string .
+
+og:representitiveNodeId a owl:DatatypeProperty ;
+    rdfs:label "representitiveNodeId" ;
+    rdfs:range xsd:string .
+
+og:scope a owl:ObjectProperty ;
+    rdfs:label "scope" ;
+    rdfs:range og:ScopesEnum .
+
+og:sub a owl:DatatypeProperty ;
+    rdfs:label "sub" ;
+    rdfs:range xsd:string .
+
+og:subsets a owl:DatatypeProperty ;
+    rdfs:label "subsets" ;
+    rdfs:range xsd:string .
+
+og:synonymType a owl:DatatypeProperty ;
+    rdfs:label "synonymType" ;
+    rdfs:range xsd:string .
+
+og:synonyms a owl:ObjectProperty ;
+    rdfs:label "synonyms" ;
+    rdfs:range og:SynonymPropertyValue .
+
+og:type a owl:DatatypeProperty ;
+    rdfs:label "type" ;
+    rdfs:range xsd:string .
+
+og:val a owl:DatatypeProperty ;
+    rdfs:label "val" ;
+    rdfs:range xsd:string .
+
+og:version a owl:DatatypeProperty ;
+    rdfs:label "version" ;
+    rdfs:range xsd:string .
+
+og:BasicPropertyValue a owl:Class ;
+    rdfs:label "BasicPropertyValue" ;
+    rdfs:subClassOf og:PropertyValue .
+
+og:DefinitionPropertyValue a owl:Class ;
+    rdfs:label "DefinitionPropertyValue" ;
+    rdfs:subClassOf og:PropertyValue .
+
+og:DomainRangeAxiom a owl:Class ;
+    rdfs:label "DomainRangeAxiom" ;
+    rdfs:subClassOf og:Axiom .
+
+og:EquivalentNodesSet a owl:Class ;
+    rdfs:label "EquivalentNodesSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty og:nodeIds ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:representitiveNodeId ],
+        og:Axiom .
+
+og:LogicalDefinitionAxiom a owl:Class ;
+    rdfs:label "LogicalDefinitionAxiom" ;
+    rdfs:subClassOf og:Axiom .
+
+<https://github.com/geneontology/obographs/PredsEnum#hasBroadSynonym> a owl:Class ;
+    rdfs:label "hasBroadSynonym" .
+
+<https://github.com/geneontology/obographs/PredsEnum#hasExactSynonym> a owl:Class ;
+    rdfs:label "hasExactSynonym" .
+
+<https://github.com/geneontology/obographs/PredsEnum#hasNarrowSynonym> a owl:Class ;
+    rdfs:label "hasNarrowSynonym" .
+
+<https://github.com/geneontology/obographs/PredsEnum#hasRelatedSynonym> a owl:Class ;
+    rdfs:label "hasRelatedSynonym" .
+
+og:PropertyChainAxiom a owl:Class ;
+    rdfs:label "PropertyChainAxiom" ;
+    rdfs:subClassOf og:Axiom .
+
+og:ScopesEnum a owl:Class ;
+    rdfs:label "scopes_enum" ;
+    owl:unionOf ( <https://github.com/geneontology/obographs/ScopesEnum#exact> <https://github.com/geneontology/obographs/ScopesEnum#narrow> <https://github.com/geneontology/obographs/ScopesEnum#broad> <https://github.com/geneontology/obographs/ScopesEnum#related> ) ;
+    linkml:permissible_values <https://github.com/geneontology/obographs/ScopesEnum#broad>,
+        <https://github.com/geneontology/obographs/ScopesEnum#exact>,
+        <https://github.com/geneontology/obographs/ScopesEnum#narrow>,
+        <https://github.com/geneontology/obographs/ScopesEnum#related> .
+
+<https://github.com/geneontology/obographs/ScopesEnum#broad> a owl:Class ;
+    rdfs:label "broad" .
+
+<https://github.com/geneontology/obographs/ScopesEnum#exact> a owl:Class ;
+    rdfs:label "exact" .
+
+<https://github.com/geneontology/obographs/ScopesEnum#narrow> a owl:Class ;
+    rdfs:label "narrow" .
+
+<https://github.com/geneontology/obographs/ScopesEnum#related> a owl:Class ;
+    rdfs:label "related" .
+
+og:SynonymPropertyValue a owl:Class ;
+    rdfs:label "SynonymPropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:ScopesEnum ;
+            owl:onProperty og:scope ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:synonymType ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty og:isExact ],
+        og:PropertyValue .
+
+og:id a owl:DatatypeProperty ;
+    rdfs:label "id" ;
+    rdfs:range xsd:string .
+
+og:lbl a owl:DatatypeProperty ;
+    rdfs:label "lbl" ;
+    rdfs:range xsd:string .
+
+og:pred a owl:DatatypeProperty ;
+    rdfs:label "pred" ;
+    rdfs:range xsd:string .
+
+og:xrefs a owl:DatatypeProperty ;
+    rdfs:label "xrefs" ;
+    rdfs:range xsd:string .
+
+og:Edge a owl:Class ;
+    rdfs:label "Edge" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:pred ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:sub ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:obj ] .
+
+og:Graph a owl:Class ;
+    rdfs:label "Graph" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom og:DomainRangeAxiom ;
+            owl:onProperty og:domainRangeAxioms ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:PropertyChainAxiom ;
+            owl:onProperty og:propertyChainAxioms ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:Meta ;
+            owl:onProperty og:meta ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:Node ;
+            owl:onProperty og:nodes ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:LogicalDefinitionAxiom ;
+            owl:onProperty og:logicalDefinitionAxioms ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:Edge ;
+            owl:onProperty og:edges ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:EquivalentNodesSet ;
+            owl:onProperty og:equivalentNodesSets ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:lbl ] .
+
+og:Node a owl:Class ;
+    rdfs:label "Node" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:Meta ;
+            owl:onProperty og:meta ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:type ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:lbl ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:id ;
+            owl:qualifiedCardinality 1 ] .
+
+og:Axiom a owl:Class ;
+    rdfs:label "Axiom" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:Meta ;
+            owl:onProperty og:meta ] .
+
+og:PropertyValue a owl:Class ;
+    rdfs:label "PropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty og:xrefs ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:Meta ;
+            owl:onProperty og:meta ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:pred ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:val ] .
+
+og:meta a owl:ObjectProperty ;
+    rdfs:label "meta" ;
+    rdfs:range og:Meta .
+
+og:Meta a owl:Class ;
+    rdfs:label "Meta" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom og:BasicPropertyValue ;
+            owl:onProperty og:basicPropertyValues ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty og:subsets ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty og:version ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty og:deprecated ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom og:SynonymPropertyValue ;
+            owl:onProperty og:synonyms ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty og:comments ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty og:xrefs ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass og:DefinitionPropertyValue ;
+            owl:onProperty og:definition ] .
+
+
+

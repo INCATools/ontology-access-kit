@@ -1,0 +1,398 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema1: <http://schema.org/> .
+@prefix search: <https://w3id.org/linkml/search_datamodel/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sssom: <http://w3id.org/sssom/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:search_datamodel a owl:Ontology ;
+    rdfs:label "search-datamodel" ;
+    IAO:0000700 search:ComplexQuery,
+        search:PathExpression,
+        search:SearchBaseConfiguration,
+        search:SearchResult,
+        search:SearchResultSet ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "search datamodel" ;
+    linkml:generation_date "2022-08-18T13:42:34" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "search_datamodel.yaml" ;
+    linkml:source_file_date "2022-08-16T07:38:24" ;
+    linkml:source_file_size 6296 .
+
+search:BooleanOperator a owl:Class ;
+    rdfs:label "BooleanOperator" ;
+    owl:unionOf ( <https://w3id.org/linkml/search_datamodel/BooleanOperator#AND> <https://w3id.org/linkml/search_datamodel/BooleanOperator#OR> <https://w3id.org/linkml/search_datamodel/BooleanOperator#NOT> <https://w3id.org/linkml/search_datamodel/BooleanOperator#XOR> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/search_datamodel/BooleanOperator#AND>,
+        <https://w3id.org/linkml/search_datamodel/BooleanOperator#NOT>,
+        <https://w3id.org/linkml/search_datamodel/BooleanOperator#OR>,
+        <https://w3id.org/linkml/search_datamodel/BooleanOperator#XOR> .
+
+search:PathExpression a owl:Class ;
+    rdfs:label "PathExpression" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty search:graph_predicates ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass search:GraphFunction ;
+            owl:onProperty search:traversal ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass search:SearchBaseConfiguration ;
+            owl:onProperty search:search_term ] ;
+    skos:definition "A path query" .
+
+search:SearchResultSet a owl:Class ;
+    rdfs:label "SearchResultSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom search:SearchResult ;
+            owl:onProperty search:results ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty search:cursor ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass search:SearchBaseConfiguration ;
+            owl:onProperty search:configuration ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty search:result_count ] .
+
+search:all_of a owl:ObjectProperty ;
+    rdfs:label "all_of" ;
+    rdfs:range search:ComplexQuery .
+
+search:any_of a owl:ObjectProperty ;
+    rdfs:label "any_of" ;
+    rdfs:range search:ComplexQuery .
+
+search:atom a owl:ObjectProperty ;
+    rdfs:label "atom" ;
+    rdfs:range search:SearchBaseConfiguration .
+
+search:categories a owl:DatatypeProperty ;
+    rdfs:label "categories" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "categories that should be matched" .
+
+search:configuration a owl:ObjectProperty ;
+    rdfs:label "configuration" ;
+    rdfs:range search:SearchBaseConfiguration .
+
+search:graph_predicates a owl:DatatypeProperty ;
+    rdfs:label "graph_predicates" ;
+    rdfs:range xsd:anyURI .
+
+search:include_obsoletes_in_results a owl:DatatypeProperty ;
+    rdfs:label "include_obsoletes_in_results" ;
+    rdfs:range xsd:boolean .
+
+search:is_complete a owl:DatatypeProperty ;
+    rdfs:label "is_complete" ;
+    rdfs:range xsd:boolean .
+
+search:is_fuzzy a owl:DatatypeProperty ;
+    rdfs:label "is_fuzzy" ;
+    rdfs:range xsd:boolean .
+
+search:is_partial a owl:DatatypeProperty ;
+    rdfs:label "is_partial" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "allows matches where the search term is a subset of the full span" .
+
+search:limit a owl:DatatypeProperty ;
+    rdfs:label "limit" ;
+    rdfs:range xsd:integer ;
+    skos:definition "the maximum number of search results to be returned in one batch" .
+
+search:matches_full_search_term a owl:DatatypeProperty ;
+    rdfs:label "matches_full_search_term" ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Does the matched field match the full string" .
+
+search:none_of a owl:ObjectProperty ;
+    rdfs:label "none_of" ;
+    rdfs:range search:ComplexQuery .
+
+search:path_to a owl:DatatypeProperty ;
+    rdfs:label "path_to" ;
+    rdfs:range xsd:string .
+
+search:properties a owl:ObjectProperty ;
+    rdfs:label "properties" ;
+    rdfs:range search:SearchProperty ;
+    skos:definition "determines which properties are searched over" .
+
+search:rank a owl:DatatypeProperty ;
+    rdfs:label "rank" ;
+    rdfs:range xsd:integer ;
+    skos:definition "For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant" .
+
+search:result_count a owl:DatatypeProperty ;
+    rdfs:label "result_count" ;
+    rdfs:range xsd:integer .
+
+search:results a owl:ObjectProperty ;
+    rdfs:label "results" ;
+    rdfs:range search:SearchResult .
+
+search:search_term a owl:ObjectProperty ;
+    rdfs:label "search_term" ;
+    rdfs:range search:SearchBaseConfiguration .
+
+search:search_terms a owl:DatatypeProperty ;
+    rdfs:label "search_terms" ;
+    rdfs:range xsd:string ;
+    skos:definition "An individual search term. The syntax is determined by the syntax slot" ;
+    skos:note "If multiple terms are provided this is treated as a union query",
+        "This slot is optional when the configuration is used to paramterize multiple searches" .
+
+search:snippet a owl:DatatypeProperty ;
+    rdfs:label "snippet" ;
+    rdfs:range xsd:string ;
+    skos:definition "shows how the field was matched" .
+
+search:syntax a owl:ObjectProperty ;
+    rdfs:label "syntax" ;
+    rdfs:range search:SearchTermSyntax ;
+    skos:definition "Determines how the search term is interpreted" .
+
+search:traversal a owl:ObjectProperty ;
+    rdfs:label "traversal" ;
+    rdfs:range search:GraphFunction .
+
+schema1:identifier a owl:Class ;
+    rdfs:label "IDENTIFIER" .
+
+sssom:object_id a owl:DatatypeProperty ;
+    rdfs:label "object_id" ;
+    rdfs:range xsd:string ;
+    skos:definition "The CURIE of the matched term" ;
+    skos:exactMatch sssom:object_id .
+
+sssom:object_label a owl:DatatypeProperty ;
+    rdfs:label "object_label" ;
+    rdfs:range xsd:string ;
+    skos:definition "The label/name of the matched term" ;
+    skos:exactMatch sssom:object_label .
+
+sssom:object_match_field a owl:DatatypeProperty ;
+    rdfs:label "object_match_field" ;
+    rdfs:range xsd:string ;
+    skos:definition "The field/property in which the match was found" ;
+    skos:exactMatch sssom:object_match_field .
+
+sssom:object_source a owl:DatatypeProperty ;
+    rdfs:label "object_source" ;
+    rdfs:range xsd:string ;
+    skos:definition "The ontology or other source that contains the matched term" ;
+    skos:exactMatch sssom:object_source .
+
+sssom:object_source_version a owl:DatatypeProperty ;
+    rdfs:label "object_source_version" ;
+    rdfs:range xsd:string ;
+    skos:definition "Version IRI or version string of the source of the object term." ;
+    skos:exactMatch sssom:object_source_version .
+
+rdf:Property a owl:Class ;
+    rdfs:label "ANYTHING" .
+
+rdfs:comment a owl:Class ;
+    rdfs:label "COMMENT" .
+
+rdfs:label a owl:Class ;
+    rdfs:label "LABEL" .
+
+skos:altLabel a owl:Class ;
+    rdfs:label "ALIAS" .
+
+skos:definition a owl:Class ;
+    rdfs:label "DEFINITION" .
+
+<https://w3id.org/linkml/search_datamodel/BooleanOperator#AND> a owl:Class ;
+    rdfs:label "AND" .
+
+<https://w3id.org/linkml/search_datamodel/BooleanOperator#NOT> a owl:Class ;
+    rdfs:label "NOT" .
+
+<https://w3id.org/linkml/search_datamodel/BooleanOperator#OR> a owl:Class ;
+    rdfs:label "OR" .
+
+<https://w3id.org/linkml/search_datamodel/BooleanOperator#XOR> a owl:Class ;
+    rdfs:label "XOR" .
+
+search:GraphFunction a owl:Class ;
+    rdfs:label "GraphFunction" ;
+    owl:unionOf ( <https://w3id.org/linkml/search_datamodel/GraphFunction#DESCENDANT_OF> <https://w3id.org/linkml/search_datamodel/GraphFunction#ANCESTOR_OF> <https://w3id.org/linkml/search_datamodel/GraphFunction#PROPER_DESCENDANT_OF> <https://w3id.org/linkml/search_datamodel/GraphFunction#PROPER_ANCESTOR_OF> <https://w3id.org/linkml/search_datamodel/GraphFunction#PARENT_OF> <https://w3id.org/linkml/search_datamodel/GraphFunction#CHILD_OF> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/search_datamodel/GraphFunction#ANCESTOR_OF>,
+        <https://w3id.org/linkml/search_datamodel/GraphFunction#CHILD_OF>,
+        <https://w3id.org/linkml/search_datamodel/GraphFunction#DESCENDANT_OF>,
+        <https://w3id.org/linkml/search_datamodel/GraphFunction#PARENT_OF>,
+        <https://w3id.org/linkml/search_datamodel/GraphFunction#PROPER_ANCESTOR_OF>,
+        <https://w3id.org/linkml/search_datamodel/GraphFunction#PROPER_DESCENDANT_OF> .
+
+<https://w3id.org/linkml/search_datamodel/GraphFunction#ANCESTOR_OF> a owl:Class ;
+    rdfs:label "ANCESTOR_OF" .
+
+<https://w3id.org/linkml/search_datamodel/GraphFunction#CHILD_OF> a owl:Class ;
+    rdfs:label "CHILD_OF" .
+
+<https://w3id.org/linkml/search_datamodel/GraphFunction#DESCENDANT_OF> a owl:Class ;
+    rdfs:label "DESCENDANT_OF" .
+
+<https://w3id.org/linkml/search_datamodel/GraphFunction#PARENT_OF> a owl:Class ;
+    rdfs:label "PARENT_OF" .
+
+<https://w3id.org/linkml/search_datamodel/GraphFunction#PROPER_ANCESTOR_OF> a owl:Class ;
+    rdfs:label "PROPER_ANCESTOR_OF" .
+
+<https://w3id.org/linkml/search_datamodel/GraphFunction#PROPER_DESCENDANT_OF> a owl:Class ;
+    rdfs:label "PROPER_DESCENDANT_OF" .
+
+search:SearchProperty a owl:Class ;
+    rdfs:label "SearchProperty" ;
+    owl:unionOf ( schema1:identifier rdfs:label skos:altLabel rdfs:comment skos:definition <https://w3id.org/linkml/search_datamodel/SearchProperty#INFORMATIVE_TEXT> rdf:Property ) ;
+    linkml:permissible_values schema1:identifier,
+        rdf:Property,
+        rdfs:comment,
+        rdfs:label,
+        skos:altLabel,
+        skos:definition,
+        <https://w3id.org/linkml/search_datamodel/SearchProperty#INFORMATIVE_TEXT> .
+
+<https://w3id.org/linkml/search_datamodel/SearchProperty#INFORMATIVE_TEXT> a owl:Class ;
+    rdfs:label "INFORMATIVE_TEXT" .
+
+search:SearchTermSyntax a owl:Class ;
+    rdfs:label "SearchTermSyntax" ;
+    owl:unionOf ( <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#PLAINTEXT> <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#REGULAR_EXPRESSION> <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#SQL> <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#LUCENE> <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#STARTS_WITH> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#LUCENE>,
+        <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#PLAINTEXT>,
+        <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#REGULAR_EXPRESSION>,
+        <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#SQL>,
+        <https://w3id.org/linkml/search_datamodel/SearchTermSyntax#STARTS_WITH> .
+
+<https://w3id.org/linkml/search_datamodel/SearchTermSyntax#LUCENE> a owl:Class ;
+    rdfs:label "LUCENE" .
+
+<https://w3id.org/linkml/search_datamodel/SearchTermSyntax#PLAINTEXT> a owl:Class ;
+    rdfs:label "PLAINTEXT" .
+
+<https://w3id.org/linkml/search_datamodel/SearchTermSyntax#REGULAR_EXPRESSION> a owl:Class ;
+    rdfs:label "REGULAR_EXPRESSION" .
+
+<https://w3id.org/linkml/search_datamodel/SearchTermSyntax#SQL> a owl:Class ;
+    rdfs:label "SQL" .
+
+<https://w3id.org/linkml/search_datamodel/SearchTermSyntax#STARTS_WITH> a owl:Class ;
+    rdfs:label "STARTS_WITH" .
+
+search:cursor a owl:DatatypeProperty .
+
+search:SearchResult a owl:Class ;
+    rdfs:label "SearchResult" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_match_field ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty search:rank ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_source_version ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_label ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty search:snippet ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty search:matches_full_search_term ] ;
+    skos:definition "An individual search result" .
+
+search:ComplexQuery a owl:Class ;
+    rdfs:label "ComplexQuery" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass search:SearchBaseConfiguration ;
+            owl:onProperty search:atom ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom search:ComplexQuery ;
+            owl:onProperty search:any_of ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom search:ComplexQuery ;
+            owl:onProperty search:all_of ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty search:path_to ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom search:ComplexQuery ;
+            owl:onProperty search:none_of ] .
+
+search:SearchBaseConfiguration a owl:Class ;
+    rdfs:label "SearchBaseConfiguration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty search:is_fuzzy ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty search:cursor ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty search:is_partial ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty search:is_complete ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom search:SearchProperty ;
+            owl:onProperty search:properties ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass search:SearchTermSyntax ;
+            owl:onProperty search:syntax ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty search:categories ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty search:search_terms ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty search:include_obsoletes_in_results ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty search:limit ] ;
+    skos:definition "A user-specified configuration that determines how a particular search operation works" .
+
+
+

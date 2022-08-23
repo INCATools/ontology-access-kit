@@ -1,0 +1,343 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vm: <https://w3id.org/linkml/validation-model/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+vm:ExternalReferenceValidationResult a owl:Class ;
+    rdfs:label "ExternalReferenceValidationResult" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty vm:number_of_attempts ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vm:url ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vm:time_checked ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty vm:http_response_code ],
+        vm:ValidationResult ;
+    skos:definition "A validation result where the check is to determine if a link to an external resource is still valid" .
+
+vm:RepairReport a owl:Class ;
+    rdfs:label "RepairReport" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom vm:RepairOperation ;
+            owl:onProperty sh:result ],
+        vm:Report ;
+    skos:definition "A report that consists of repair operation results" .
+
+vm:ValidationReport a owl:Class ;
+    rdfs:label "ValidationReport" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom vm:ValidationResult ;
+            owl:onProperty sh:result ],
+        vm:Report ;
+    skos:definition "A report that consists of validation results" ;
+    skos:exactMatch sh:ValidationReport .
+
+vm:ValidationResultType a owl:Class ;
+    rdfs:label "ValidationResultType" ;
+    owl:unionOf ( sh:DatatypeConstraintComponent sh:MinCountConstraintComponent sh:MaxCountConstraintComponent vm:DeprecatedPropertyComponent sh:MaxLengthConstraintComponent sh:MinLengthConstraintComponent sh:PatternConstraintComponent sh:ClosedConstraintComponent ) ;
+    linkml:permissible_values sh:ClosedConstraintComponent,
+        sh:DatatypeConstraintComponent,
+        sh:MaxCountConstraintComponent,
+        sh:MaxLengthConstraintComponent,
+        sh:MinCountConstraintComponent,
+        sh:MinLengthConstraintComponent,
+        sh:PatternConstraintComponent,
+        vm:DeprecatedPropertyComponent .
+
+linkml:validation_results a owl:Ontology ;
+    rdfs:label "validaton-results" ;
+    IAO:0000700 vm:RepairConfiguration,
+        vm:Report,
+        vm:Result,
+        vm:TypeSeverityKeyValue,
+        vm:ValidationConfiguration ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Validation Results Datamodel" ;
+    linkml:generation_date "2022-08-18T13:12:33" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "validation_datamodel.yaml" ;
+    linkml:source_file_date "2022-05-31T11:12:37" ;
+    linkml:source_file_size 7223 .
+
+vm:RepairConfiguration a owl:Class ;
+    rdfs:label "RepairConfiguration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty vm:dry_run ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass vm:ValidationConfiguration ;
+            owl:onProperty vm:validation_configuration ] ;
+    skos:definition "Configuration parameters for execution of validation repairs" .
+
+vm:RepairOperation a owl:Class ;
+    rdfs:label "RepairOperation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty vm:modified ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass vm:ValidationResult ;
+            owl:onProperty vm:repairs ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vm:info ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty vm:successful ],
+        vm:Result ;
+    skos:definition "The result of performing an individual repair" .
+
+vm:dry_run a owl:DatatypeProperty ;
+    rdfs:label "dry_run" ;
+    rdfs:range xsd:boolean .
+
+vm:http_response_code a owl:DatatypeProperty ;
+    rdfs:label "http_response_code" ;
+    rdfs:range xsd:integer .
+
+vm:instantiates a owl:DatatypeProperty ;
+    rdfs:label "instantiates" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The type of the subject" ;
+    skos:exactMatch sh:sourceShape .
+
+vm:max_number_results_per_type a owl:DatatypeProperty ;
+    rdfs:label "max_number_results_per_type" ;
+    rdfs:range xsd:integer ;
+    skos:definition "if set then truncate results such that no more than this number of results are reported per type" .
+
+vm:modified a owl:DatatypeProperty ;
+    rdfs:label "modified" ;
+    rdfs:range xsd:boolean .
+
+vm:number_of_attempts a owl:DatatypeProperty ;
+    rdfs:label "number_of_attempts" ;
+    rdfs:range xsd:integer .
+
+vm:object_str a owl:DatatypeProperty ;
+    rdfs:label "object_str" ;
+    rdfs:range xsd:string .
+
+vm:predicate a owl:DatatypeProperty ;
+    rdfs:label "predicate" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The predicate or property of the subject which the result is about" ;
+    skos:relatedMatch sh:resultPath .
+
+vm:repairs a owl:ObjectProperty ;
+    rdfs:label "repairs" ;
+    rdfs:range vm:ValidationResult .
+
+vm:schema_path a owl:DatatypeProperty ;
+    rdfs:label "schema_path" ;
+    rdfs:range xsd:string ;
+    skos:definition "allows overriding the default OMO schema" .
+
+vm:source a owl:DatatypeProperty ;
+    rdfs:label "source" ;
+    rdfs:range xsd:anyURI .
+
+vm:successful a owl:DatatypeProperty ;
+    rdfs:label "successful" ;
+    rdfs:range xsd:boolean .
+
+vm:time_checked a owl:DatatypeProperty ;
+    rdfs:label "time_checked" ;
+    rdfs:range xsd:string .
+
+vm:type_severity_map a owl:ObjectProperty ;
+    rdfs:label "type_severity_map" ;
+    rdfs:range vm:TypeSeverityKeyValue ;
+    skos:definition "Allows overriding of severity of a particular type" .
+
+vm:url a owl:DatatypeProperty ;
+    rdfs:label "url" ;
+    rdfs:range xsd:string .
+
+vm:validation_configuration a owl:ObjectProperty ;
+    rdfs:label "validation_configuration" ;
+    rdfs:range vm:ValidationConfiguration ;
+    skos:definition "repair configurations include validation configurations" .
+
+sh:ClosedConstraintComponent a owl:Class ;
+    rdfs:label "ClosedConstraintComponent" .
+
+sh:DatatypeConstraintComponent a owl:Class ;
+    rdfs:label "DatatypeConstraintComponent" .
+
+sh:Info a owl:Class ;
+    rdfs:label "INFO" .
+
+sh:MaxCountConstraintComponent a owl:Class ;
+    rdfs:label "MaxCountConstraintComponent" .
+
+sh:MaxLengthConstraintComponent a owl:Class ;
+    rdfs:label "MaxLengthConstraintComponent" .
+
+sh:MinCountConstraintComponent a owl:Class ;
+    rdfs:label "MinCountConstraintComponent" .
+
+sh:MinLengthConstraintComponent a owl:Class ;
+    rdfs:label "MinLengthConstraintComponent" .
+
+sh:PatternConstraintComponent a owl:Class ;
+    rdfs:label "PatternConstraintComponent" .
+
+sh:Violation a owl:Class ;
+    rdfs:label "ERROR" .
+
+sh:Warning a owl:Class ;
+    rdfs:label "WARNING" .
+
+sh:focusNode a owl:DatatypeProperty ;
+    rdfs:label "subject" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The instance which the result is about" ;
+    skos:exactMatch sh:focusNode .
+
+sh:resultMessage a owl:DatatypeProperty ;
+    rdfs:label "info" ;
+    rdfs:range xsd:string ;
+    skos:definition "additional information about the issue" ;
+    skos:exactMatch sh:resultMessage .
+
+sh:resultSeverity a owl:ObjectProperty ;
+    rdfs:label "severity" ;
+    rdfs:range vm:SeverityOptions ;
+    skos:definition "the severity of the issue" ;
+    skos:exactMatch sh:resultSeverity .
+
+sh:sourceConstraintComponent a owl:DatatypeProperty ;
+    rdfs:label "type" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID" ;
+    skos:exactMatch sh:sourceConstraintComponent .
+
+sh:value a owl:DatatypeProperty ;
+    rdfs:label "object" ;
+    rdfs:range xsd:anyURI ;
+    skos:exactMatch sh:value .
+
+vm:DeprecatedPropertyComponent a owl:Class ;
+    rdfs:label "DeprecatedPropertyComponent" .
+
+<https://w3id.org/linkml/validation-model/SeverityOptions#FATAL> a owl:Class ;
+    rdfs:label "FATAL" .
+
+vm:Report a owl:Class ;
+    rdfs:label "Report" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom vm:Result ;
+            owl:onProperty sh:result ] ;
+    skos:definition "A report object that is a holder to multiple report results" .
+
+vm:SeverityOptions a owl:Class ;
+    rdfs:label "severity_options" ;
+    owl:unionOf ( <https://w3id.org/linkml/validation-model/SeverityOptions#FATAL> sh:Violation sh:Warning sh:Info ) ;
+    linkml:permissible_values sh:Info,
+        sh:Violation,
+        sh:Warning,
+        <https://w3id.org/linkml/validation-model/SeverityOptions#FATAL> .
+
+vm:TypeSeverityKeyValue a owl:Class ;
+    rdfs:label "TypeSeverityKeyValue" ;
+    dcterms:conformsTo "wikidata:Q4818718" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass vm:SeverityOptions ;
+            owl:onProperty vm:severity ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty vm:type ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "key-value pair that maps a validation result type to a severity setting, for overriding default severity" .
+
+vm:ValidationConfiguration a owl:Class ;
+    rdfs:label "ValidationConfiguration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom vm:TypeSeverityKeyValue ;
+            owl:onProperty vm:type_severity_map ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty vm:max_number_results_per_type ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vm:schema_path ] ;
+    skos:definition "Configuration parameters for execution of a validation report" .
+
+sh:result a owl:ObjectProperty ;
+    rdfs:label "results" ;
+    rdfs:range vm:Result ;
+    skos:definition "collection of results" ;
+    skos:exactMatch sh:result .
+
+vm:ValidationResult a owl:Class ;
+    rdfs:label "ValidationResult" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sh:value ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sh:resultMessage ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass vm:SeverityOptions ;
+            owl:onProperty sh:resultSeverity ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty vm:source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty vm:instantiates ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty vm:predicate ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sh:focusNode ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vm:object_str ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sh:sourceConstraintComponent ;
+            owl:qualifiedCardinality 1 ],
+        vm:Result ;
+    skos:definition "An individual result arising from validation of a data instance using a particular rule" ;
+    skos:exactMatch sh:ValidationResult .
+
+vm:Result a owl:Class ;
+    rdfs:label "Result" ;
+    skos:definition "Abstract base class for any individual report result" .
+
+
+

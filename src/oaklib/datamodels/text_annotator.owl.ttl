@@ -1,0 +1,294 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix ann: <https://w3id.org/linkml/text_annotator/> .
+@prefix bpa: <https://bioportal.bioontology.org/annotator/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix oa: <http://www.w3.org/ns/oa#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sssom: <http://w3id.org/sssom/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:text_annotator a owl:Ontology ;
+    rdfs:label "text-annotator" ;
+    IAO:0000700 ann:HasSpan,
+        ann:TextAnnotationConfiguration,
+        ann:TextAnnotationResultSet,
+        ann:TextualElement ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Text Annotator Datamodel" ;
+    rdfs:seeAlso "https://github.com/mapping-commons/sssom/issues/155" ;
+    linkml:generation_date "2022-08-18T13:42:23" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "text_annotator.yaml" ;
+    linkml:source_file_date "2022-06-10T12:27:40" ;
+    linkml:source_file_size 4039 .
+
+ann:TransformationType a owl:Class ;
+    rdfs:label "TransformationType" ;
+    owl:unionOf ( <https://w3id.org/linkml/text_annotator/TransformationType#Stemming> <https://w3id.org/linkml/text_annotator/TransformationType#Lemmatization> <https://w3id.org/linkml/text_annotator/TransformationType#WordOrderNormalization> <https://w3id.org/linkml/text_annotator/TransformationType#Depluralization> <https://w3id.org/linkml/text_annotator/TransformationType#CaseNormalization> <https://w3id.org/linkml/text_annotator/TransformationType#WhitespaceNormalization> <https://w3id.org/linkml/text_annotator/TransformationType#TermExpanson> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/text_annotator/TransformationType#CaseNormalization>,
+        <https://w3id.org/linkml/text_annotator/TransformationType#Depluralization>,
+        <https://w3id.org/linkml/text_annotator/TransformationType#Lemmatization>,
+        <https://w3id.org/linkml/text_annotator/TransformationType#Stemming>,
+        <https://w3id.org/linkml/text_annotator/TransformationType#TermExpanson>,
+        <https://w3id.org/linkml/text_annotator/TransformationType#WhitespaceNormalization>,
+        <https://w3id.org/linkml/text_annotator/TransformationType#WordOrderNormalization> .
+
+ann:TextAnnotationConfiguration a owl:Class ;
+    rdfs:label "TextAnnotationConfiguration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ann:sources ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty ann:matches_whole_text ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ann:limit ] ;
+    skos:definition "configuration for search" .
+
+ann:TextAnnotationResultSet a owl:Class ;
+    rdfs:label "TextAnnotationResultSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom ann:TextAnnotation ;
+            owl:onProperty ann:annotations ] ;
+    skos:definition "A collection of annotation results" .
+
+ann:annotations a owl:ObjectProperty ;
+    rdfs:label "annotations" ;
+    rdfs:range ann:TextAnnotation ;
+    skos:definition "all annotations" .
+
+ann:id a owl:DatatypeProperty ;
+    rdfs:label "id" ;
+    rdfs:range xsd:anyURI .
+
+ann:info a owl:DatatypeProperty ;
+    rdfs:label "info" ;
+    rdfs:range xsd:string .
+
+ann:is_longest_match a owl:DatatypeProperty ;
+    rdfs:label "is_longest_match" ;
+    rdfs:range xsd:boolean .
+
+ann:limit a owl:DatatypeProperty ;
+    rdfs:label "limit" ;
+    rdfs:range xsd:integer .
+
+ann:match_type a owl:DatatypeProperty ;
+    rdfs:label "match_type" ;
+    rdfs:range xsd:string .
+
+ann:parent_document a owl:DatatypeProperty ;
+    rdfs:label "parent_document" ;
+    rdfs:range xsd:anyURI .
+
+ann:source_text a owl:DatatypeProperty ;
+    rdfs:label "source_text" ;
+    rdfs:range xsd:string .
+
+ann:sources a owl:DatatypeProperty ;
+    rdfs:label "sources" ;
+    rdfs:range xsd:string .
+
+ann:text a owl:DatatypeProperty ;
+    rdfs:label "text" ;
+    rdfs:range xsd:string .
+
+sssom:confidence a owl:DatatypeProperty ;
+    rdfs:label "confidence" ;
+    rdfs:range xsd:float ;
+    skos:exactMatch sssom:confidence .
+
+sssom:match_string a owl:DatatypeProperty ;
+    rdfs:label "match_string" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch sssom:match_string .
+
+sssom:object_id a owl:DatatypeProperty ;
+    rdfs:label "object_id" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch sssom:object_id,
+        bpa:annotatedClass.id .
+
+sssom:object_label a owl:DatatypeProperty ;
+    rdfs:label "object_label" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch sssom:object_label,
+        bpa:annotatedClass.prefLabel .
+
+sssom:object_source a owl:DatatypeProperty ;
+    rdfs:label "object_source" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch sssom:object_source .
+
+sssom:predicate_id a owl:DatatypeProperty ;
+    rdfs:label "predicate_id" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch sssom:predicate_id .
+
+ann:HasSpan a owl:Class ;
+    rdfs:label "HasSpan" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ann:subject_start ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:subject_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ann:subject_end ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass ann:TextualElement ;
+            owl:onProperty ann:subject_text_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:subject_label ],
+        linkml:mixin .
+
+ann:TextAnnotation a owl:Class ;
+    rdfs:label "TextAnnotation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass ann:TextualElement ;
+            owl:onProperty ann:subject_text_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:predicate_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:match_string ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:match_type ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:subject_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty ann:is_longest_match ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ann:subject_end ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:subject_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty ann:matches_whole_text ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sssom:confidence ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty ann:subject_start ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:info ],
+        ann:HasSpan ;
+    skos:definition "An individual text annotation" ;
+    skos:exactMatch oa:Annotation .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#CaseNormalization> a owl:Class ;
+    rdfs:label "CaseNormalization" .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#Depluralization> a owl:Class ;
+    rdfs:label "Depluralization" .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#Lemmatization> a owl:Class ;
+    rdfs:label "Lemmatization" .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#Stemming> a owl:Class ;
+    rdfs:label "Stemming" .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#TermExpanson> a owl:Class ;
+    rdfs:label "TermExpanson" .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#WhitespaceNormalization> a owl:Class ;
+    rdfs:label "WhitespaceNormalization" .
+
+<https://w3id.org/linkml/text_annotator/TransformationType#WordOrderNormalization> a owl:Class ;
+    rdfs:label "WordOrderNormalization" .
+
+ann:matches_whole_text a owl:DatatypeProperty .
+
+ann:subject_end a owl:DatatypeProperty ;
+    rdfs:label "subject_end" ;
+    rdfs:range xsd:integer ;
+    skos:exactMatch bpa:to .
+
+ann:subject_label a owl:DatatypeProperty ;
+    rdfs:label "subject_label" ;
+    rdfs:range xsd:string ;
+    skos:definition "The portion of the subject text that is matched, ranging from subject_start to subject_end" ;
+    skos:exactMatch bpa:text .
+
+ann:subject_start a owl:DatatypeProperty ;
+    rdfs:label "subject_start" ;
+    rdfs:range xsd:integer ;
+    skos:exactMatch bpa:from .
+
+ann:subject_text_id a owl:ObjectProperty ;
+    rdfs:label "subject_text_id" ;
+    rdfs:range ann:TextualElement .
+
+sssom:subject_source a owl:DatatypeProperty ;
+    rdfs:label "subject_source" ;
+    rdfs:range xsd:string ;
+    skos:exactMatch sssom:subject_source,
+        oa:hasBody .
+
+ann:TextualElement a owl:Class ;
+    rdfs:label "TextualElement" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty ann:id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:source_text ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty ann:parent_document ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:text ] .
+
+
+

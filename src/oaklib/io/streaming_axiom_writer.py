@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from funowl import Axiom
-from funowl.writers import FunctionalWriter
+from funowl.writers.FunctionalWriter import FunctionalWriter
 
 from oaklib.io.streaming_writer import StreamingWriter
 
@@ -16,13 +16,12 @@ class StreamingAxiomWriter(StreamingWriter):
     functional_writer: FunctionalWriter = None
 
     def emit(self, obj: Axiom):
-        fw = self.functional_writer
+        fw = FunctionalWriter()
         if self.syntax == "ttl":
             self.file.write(str(obj.to_rdf(fw.g)))
-            self.file.write("\n")
         elif self.syntax == "ofn":
             self.file.write(str(obj.to_functional(fw)))
             self.file.write("\n")
         else:
             self.file.write(str(obj))
-            self.file.write("\n")
+        self.file.write("\n")

@@ -1,0 +1,219 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sim: <https://w3id.org/linkml/similarity/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sssom: <http://w3id.org/sssom/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:similarity a owl:Ontology ;
+    rdfs:label "similarity" ;
+    IAO:0000700 sim:PairwiseSimilarity ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Semantic Similarity" ;
+    linkml:generation_date "2022-08-18T13:42:31" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "similarity.yaml" ;
+    linkml:source_file_date "2022-06-23T17:10:28" ;
+    linkml:source_file_size 4269 .
+
+sim:TermPairwiseSimilarity a owl:Class ;
+    rdfs:label "TermPairwiseSimilarity" ;
+    rdfs:subClassOf sim:PairwiseSimilarity ;
+    skos:definition "A simple pairwise similarity between two atomic concepts/terms" .
+
+sim:TermSetPairwiseSimilarity a owl:Class ;
+    rdfs:label "TermSetPairwiseSimilarity" ;
+    rdfs:subClassOf sim:PairwiseSimilarity ;
+    skos:definition "A simple pairwise similarity between two sets of concepts/terms" .
+
+sim:intersection_count a owl:DatatypeProperty ;
+    rdfs:label "intersection_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf sim:score .
+
+sim:overlap_coefficient a owl:DatatypeProperty ;
+    rdfs:label "overlap_coefficient" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score .
+
+sim:subsumed_by_score a owl:DatatypeProperty ;
+    rdfs:label "subsumed_by_score" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score .
+
+sim:subsumes_score a owl:DatatypeProperty ;
+    rdfs:label "subsumes_score" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score .
+
+sim:union_count a owl:DatatypeProperty ;
+    rdfs:label "union_count" ;
+    rdfs:range xsd:integer ;
+    rdfs:subPropertyOf sim:score .
+
+sim:ancestor_id a owl:DatatypeProperty ;
+    rdfs:label "ancestor_id" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "the most recent common ancestor of the two compared entities. If there are multiple MRCAs then the most informative one is selected" .
+
+sim:ancestor_information_content a owl:DatatypeProperty ;
+    rdfs:label "ancestor_information_content" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:information_content ;
+    skos:definition "The IC of the object" .
+
+sim:ancestor_label a owl:DatatypeProperty ;
+    rdfs:label "ancestor_label" ;
+    rdfs:range xsd:string ;
+    skos:definition "the name or label of the ancestor concept" .
+
+sim:ancestor_source a owl:DatatypeProperty ;
+    rdfs:label "ancestor_source" ;
+    rdfs:range xsd:string .
+
+sim:dice_similarity a owl:DatatypeProperty ;
+    rdfs:label "dice_similarity" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score .
+
+sim:jaccard_similarity a owl:DatatypeProperty ;
+    rdfs:label "jaccard_similarity" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score ;
+    skos:definition "The number of concepts in the intersection divided by the number in the union" .
+
+sim:object_information_content a owl:DatatypeProperty ;
+    rdfs:label "object_information_content" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:information_content ;
+    skos:definition "The IC of the object" .
+
+sim:phenodigm_score a owl:DatatypeProperty ;
+    rdfs:label "phenodigm_score" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score ;
+    skos:definition "the geometric mean of the jaccard similarity and the information content" .
+
+sim:subject_information_content a owl:DatatypeProperty ;
+    rdfs:label "subject_information_content" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:information_content ;
+    skos:definition "The IC of the subject" .
+
+sssom:object_id a owl:DatatypeProperty ;
+    rdfs:label "object_id" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The second of the two entities being compared" ;
+    skos:exactMatch sssom:object_id .
+
+sssom:object_label a owl:DatatypeProperty ;
+    rdfs:label "object_label" ;
+    rdfs:range xsd:string ;
+    skos:definition "the label or name for the second entity" ;
+    skos:exactMatch sssom:object_label .
+
+sssom:object_source a owl:DatatypeProperty ;
+    rdfs:label "object_source" ;
+    rdfs:range xsd:string ;
+    skos:definition "the source for the second entity" ;
+    skos:exactMatch sssom:object_source .
+
+sssom:subject_id a owl:DatatypeProperty ;
+    rdfs:label "subject_id" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The first of the two entities being compared" ;
+    skos:exactMatch sssom:subject_id .
+
+sssom:subject_label a owl:DatatypeProperty ;
+    rdfs:label "subject_label" ;
+    rdfs:range xsd:string ;
+    skos:definition "the label or name for the first entity" ;
+    skos:exactMatch sssom:subject_label .
+
+sssom:subject_source a owl:DatatypeProperty ;
+    rdfs:label "subject_source" ;
+    rdfs:range xsd:string ;
+    skos:definition "the source for the first entity" ;
+    skos:exactMatch sssom:subject_source .
+
+sim:PairwiseSimilarity a owl:Class ;
+    rdfs:label "PairwiseSimilarity" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sim:ancestor_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:jaccard_similarity ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:dice_similarity ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:object_information_content ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:subject_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:subject_information_content ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sssom:object_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:ancestor_information_content ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sim:ancestor_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:subject_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sim:ancestor_source ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty sssom:subject_id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sim:phenodigm_score ] ;
+    skos:definition "Abstract grouping for representing individual pairwise similarities" .
+
+sim:information_content a owl:DatatypeProperty ;
+    rdfs:label "information_content" ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf sim:score ;
+    skos:altLabel "IC" ;
+    skos:definition "The IC is the negative log of the probability of the concept" .
+
+sim:score a owl:DatatypeProperty ;
+    rdfs:label "score" ;
+    rdfs:range xsd:string ;
+    skos:definition "Abstract base slot for different kinds of scores" .
+
+
+
