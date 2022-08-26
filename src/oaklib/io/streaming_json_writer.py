@@ -6,8 +6,8 @@ from linkml_runtime import CurieNamespace
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
-from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
 
 
