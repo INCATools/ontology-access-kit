@@ -2606,7 +2606,7 @@ def set_apikey(endpoint, keyval):
     Sets an API key
 
     Example:
-        oak set-apikey -e bioportal MY-KEY-VALUE
+        runoak set-apikey -e bioportal MY-KEY-VALUE
 
     This is stored in an OS-dependent path
     """

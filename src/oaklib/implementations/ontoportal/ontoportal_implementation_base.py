@@ -18,7 +18,6 @@ from oaklib.interfaces import (
 )
 from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
 from oaklib.types import CURIE, URI
-from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
 
 SEARCH_CONFIG = SearchConfiguration()
@@ -51,8 +50,7 @@ class OntoPortalImplementationBase(
                 self.focus_ontology = self.resource.slug
         if not self.ontoportal_client_class:
             raise NotImplementedError("ontoportal_client_class not specified")
-        api_key = get_apikey_value(self.ontoportal_client_class.name)
-        self.client = self.ontoportal_client_class(api_key=api_key)
+        self.client = self.ontoportal_client_class()
 
     def prefix_map(self) -> PREFIX_MAP:
         # TODO

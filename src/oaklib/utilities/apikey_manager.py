@@ -1,54 +1,42 @@
 """
-Functions for managing and accessing API keys
-
-See `<https://github.com/ActiveState/appdirs>`_
+Functions for managing and accessing API keys via :mod:`pystow`.
 """
 
-import logging
-from pathlib import Path
+import pystow
 
-from appdirs import user_config_dir
+__all__ = [
+    "get_apikey_value",
+    "set_apikey_value",
+]
 
-from oaklib.datamodels.vocabulary import APP_NAME
-
-APIKEY_SUFFIX = "apikey.txt"
+APP_NAME = "oaklib"
 
 
-def get_apikey_path(system: str) -> Path:
+def get_apikey_value(key: str, raise_on_missing: bool = False) -> str:
     """
-    Gets the path to where the API key is stored
+    Get the value of the given configuration key.
 
-    :param system: e.g "bioportal"
-    :return:
+    :param key: e.g "bioportal" for the BioPortal API token
+    :param raise_on_missing: If true, will raise a value error if no data is found and no default
+        is given
+    :return: The API key associated with the system
+
+    Configuration can be set in the following ways:
+
+    1. Set `OAKLIB_{key}` in the environment
+    2. Create a configuration file `~/.config/oaklib.ini`
+       and set the `[oaklib]` section in it with the given key
+    3. Use the :func:`set_apikey_value` function to directly
+       create a configuration file
     """
-    p = Path(user_config_dir(APP_NAME)) / f"{system}-{APIKEY_SUFFIX}"
-    logging.info(f"API KEY path = {p}")
-    return p
+    return pystow.get_config(APP_NAME, key, raise_on_missing=raise_on_missing)
 
 
-def get_apikey_value(system: str) -> str:
+def set_apikey_value(key: str, value: str) -> None:
     """
-    Gets the value of a specific API key
+    Set the value for a given configuration key.
 
-    :param system: e.g "bioportal"
-    :return:
+    :param key: e.g. "bioportal"
+    :param value: API key value
     """
-    path = get_apikey_path(system)
-    if not path.exists():
-        raise ValueError(f"No API key found in: {path}")
-    with open(path) as stream:
-        return stream.readlines()[0].strip()
-
-
-def set_apikey_value(system: str, val: str) -> None:
-    """
-    Sets the value for a specific API key
-
-    :param system: e.g. "bioportal"
-    :param val: API key value
-    :return:
-    """
-    dir = Path(user_config_dir(APP_NAME))
-    dir.mkdir(exist_ok=True, parents=True)
-    with open(get_apikey_path(system), "w", encoding="utf-8") as stream:
-        stream.write(val)
+    pystow.write_config(APP_NAME, key, value)
