@@ -664,9 +664,7 @@ class SqlImplementation(
                 svfq = list(svfq)
                 if svfq:
                     if len(svfq) > 1:
-                        raise ValueError(
-                            f"Incorrect rdf structure for equiv axioms for {ixn_node}"
-                        )
+                        raise ValueError(f"Incorrect rdf structure for equiv axioms for {ixn_node}")
                     svf = svfq[0]
                     ldef.restrictions.append(
                         ExistentialRestrictionExpression(
