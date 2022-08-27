@@ -158,6 +158,10 @@ def regex_to_sql_like(regex: str) -> str:
     return like
 
 
+def _is_quoted_url(curie: CURIE):
+    return curie.startswith("<")
+
+
 @dataclass
 class SqlImplementation(
     RelationGraphInterface,
@@ -1189,8 +1193,9 @@ class SqlImplementation(
                 vs = [vs]
             for v in vs:
                 if (curie, k, v) not in visited:
-                    ax = om.Axiom(annotatedSource=curie, annotatedProperty=k, annotatedTarget=v)
-                    yield ax
+                    if not _is_quoted_url(curie):
+                        ax = om.Axiom(annotatedSource=curie, annotatedProperty=k, annotatedTarget=v)
+                        yield ax
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: DifferInterface
