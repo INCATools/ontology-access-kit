@@ -39,7 +39,6 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
-from oaklib.io.streaming_nl_writer import StreamingNaturalLanguageWriter
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -81,6 +80,7 @@ from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
+from oaklib.io.streaming_nl_writer import StreamingNaturalLanguageWriter
 from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWriter
@@ -1974,14 +1974,14 @@ def relationships(
 @if_absent_option
 @set_value_option
 def logical_definitions(
-        terms,
-        predicates: str,
-        direction: str,
-        autolabel: bool,
-        output_type: str,
-        output: str,
-        if_absent: bool,
-        set_value: str,
+    terms,
+    predicates: str,
+    direction: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    if_absent: bool,
+    set_value: str,
 ):
     """
     Show all logical definitions for a term or terms
@@ -1992,7 +1992,7 @@ def logical_definitions(
     writer.autolabel = autolabel
     actual_predicates = _process_predicates_arg(predicates)
     if isinstance(impl, OboGraphInterface):
-        #curies = list(query_terms_iterator(terms, impl))
+        # curies = list(query_terms_iterator(terms, impl))
         has_relationships = defaultdict(bool)
         curies = []
         for curie_it in chunk(query_terms_iterator(terms, impl)):

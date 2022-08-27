@@ -58,7 +58,7 @@ class TestSparqlImplementation(unittest.TestCase):
         expected = [
             ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
             ("http://example.org/i1", RDF_TYPE, "http://example.org/c"),
-            ('http://example.org/b', IS_A, 'http://example.org/a'),
+            ("http://example.org/b", IS_A, "http://example.org/a"),
         ]
         for curie in oi.entities():
             rels = oi.outgoing_relationships(curie)

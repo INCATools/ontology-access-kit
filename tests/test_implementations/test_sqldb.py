@@ -4,10 +4,10 @@ import unittest
 
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
-from oaklib.datamodels import obograph
 from semsql.sqla.semsql import Statements
 from sqlalchemy import delete
 
+from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResultType
@@ -140,8 +140,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         ldef = ldefs[0]
         self.assertEqual(eia, ldef.definedClassId)
         self.assertEqual(["GO:0003674"], ldef.genusIds)
-        r = obograph.ExistentialRestrictionExpression(propertyId="RO:0002212",
-                                                      fillerId="GO:0003824")
+        r = obograph.ExistentialRestrictionExpression(
+            propertyId="RO:0002212", fillerId="GO:0003824"
+        )
         self.assertEqual([r], ldef.restrictions)
         # unionOf logical definitions should NOT be included
         self.assertEqual([], list(self.oi.logical_definitions("NCBITaxon_Union:0000030")))

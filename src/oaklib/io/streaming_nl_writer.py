@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from linkml_runtime.utils.yamlutils import YAMLRoot
+
 from oaklib.datamodels import obograph
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.utilities.nlp.natual_language_generation import NaturalLanguageGenerator
@@ -11,6 +12,7 @@ class StreamingNaturalLanguageWriter(StreamingWriter):
     """
     A writer that streams basic line by line reporting info
     """
+
     natural_language_generator: NaturalLanguageGenerator = None
 
     def emit_curie(self, curie, label=None, **kwargs):
@@ -29,5 +31,3 @@ class StreamingNaturalLanguageWriter(StreamingWriter):
     def _ensure_init(self):
         if self.natural_language_generator is None:
             self.natural_language_generator = NaturalLanguageGenerator(self.ontology_interface)
-
-

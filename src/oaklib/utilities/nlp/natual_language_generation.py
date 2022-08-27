@@ -1,9 +1,15 @@
 from dataclasses import dataclass
 from typing import List
 
-from oaklib import BasicOntologyInterface
 import oaklib.datamodels.obograph as og
-from oaklib.datamodels.vocabulary import IS_A, PART_OF, ONLY_IN_TAXON, IN_TAXON, NEVER_IN_TAXON
+from oaklib import BasicOntologyInterface
+from oaklib.datamodels.vocabulary import (
+    IN_TAXON,
+    IS_A,
+    NEVER_IN_TAXON,
+    ONLY_IN_TAXON,
+    PART_OF,
+)
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 
@@ -24,6 +30,7 @@ class NaturalLanguageGenerator:
     """
     Generates natural language sentences
     """
+
     ontology_interface: BasicOntologyInterface
     mask_symbol: str = "[MASK]"
 
@@ -79,8 +86,10 @@ class NaturalLanguageGenerator:
         s = self.render_node_reference(ldef.definedClassId)
         gs = [self.render_node_reference(g) for g in ldef.genusIds]
         genus = " and ".join(gs)
-        rs = [f"{self.render_predicate(r.propertyId)} a {self.render_node_reference(r.fillerId)}"
-              for r in ldef.restrictions]
+        rs = [
+            f"{self.render_predicate(r.propertyId)} a {self.render_node_reference(r.fillerId)}"
+            for r in ldef.restrictions
+        ]
         rs_str = " and ".join(rs)
         return f"{s} is equivalent to a {genus} that {rs_str}"
 
@@ -91,9 +100,8 @@ class NaturalLanguageGenerator:
             return self.render_node_reference(predicate_id)
 
     def render_node_reference(self, node_id: CURIE) -> TEXT:
-        l = self.ontology_interface.label(node_id)
-        if l:
-            return l
+        lbl = self.ontology_interface.label(node_id)
+        if lbl:
+            return lbl
         else:
             return node_id
-

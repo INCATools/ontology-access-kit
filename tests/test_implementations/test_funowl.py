@@ -38,7 +38,6 @@ class TestFunOwlImplementation(unittest.TestCase):
         else:
             raise NotImplementedError
 
-
     def test_filter_axioms(self):
         FunctionalWriter()
         oi = self.oi

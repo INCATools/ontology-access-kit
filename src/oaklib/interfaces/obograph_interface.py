@@ -5,7 +5,13 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue, LogicalDefinitionAxiom
+from oaklib.datamodels.obograph import (
+    Edge,
+    Graph,
+    LogicalDefinitionAxiom,
+    Node,
+    SynonymPropertyValue,
+)
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,

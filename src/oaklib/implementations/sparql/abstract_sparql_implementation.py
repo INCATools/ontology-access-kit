@@ -9,7 +9,6 @@ import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
 from kgcl_schema.datamodel.kgcl import Change
-from oaklib.utilities.basic_utils import pairs_as_dict
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
@@ -28,8 +27,9 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBO_PURL,
+    RDF_TYPE,
     SEMAPV,
-    SYNONYM_PREDICATES, RDF_TYPE,
+    SYNONYM_PREDICATES,
 )
 from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
@@ -43,6 +43,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
+from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
 from oaklib.utilities.rate_limiter import check_limit
 
@@ -298,7 +299,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         return list(set([self.uri_to_curie(row["s"]["value"]) for row in bindings]))
 
     def outgoing_relationships(
-            self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         uri = self.curie_to_uri(curie)
         if not predicates or IS_A in predicates:
