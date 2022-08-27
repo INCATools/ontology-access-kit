@@ -39,6 +39,7 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
+from oaklib.io.streaming_nl_writer import StreamingNaturalLanguageWriter
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -136,6 +137,7 @@ YAML_FORMAT = "yaml"
 INFO_FORMAT = "info"
 SSSOM_FORMAT = "sssom"
 OWLFUN_FORMAT = "ofn"
+NL_FORMAT = "nl"
 
 ONT_FORMATS = [
     OBO_FORMAT,
@@ -145,6 +147,7 @@ ONT_FORMATS = [
     JSON_FORMAT,
     YAML_FORMAT,
     CSV_FORMAT,
+    NL_FORMAT,
 ]
 
 WRITERS = {
@@ -159,6 +162,7 @@ WRITERS = {
     YAML_FORMAT: StreamingYamlWriter,
     SSSOM_FORMAT: StreamingSssomWriter,
     INFO_FORMAT: StreamingInfoWriter,
+    NL_FORMAT: StreamingNaturalLanguageWriter,
 }
 
 
@@ -181,8 +185,8 @@ class IfAbsent(Enum):
     This indicates the policy when a specific value is not present
     """
 
-    include = "include"
-    exclude = "exclude"
+    absent_only = "absent-only"
+    present_only = "present-only"
 
 
 @unique
@@ -320,9 +324,9 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
 
 def _skip_if_absent(if_absent: bool, v: Any):
     if if_absent:
-        if if_absent == IfAbsent.include.value and v:
+        if if_absent == IfAbsent.absent_only.value and v:
             return True
-        elif if_absent == IfAbsent.exclude.value and not v:
+        elif if_absent == IfAbsent.present_only.value and not v:
             return True
     return False
 
@@ -1932,13 +1936,13 @@ def relationships(
             else:
                 has_relationships[rel[0]] = True
                 has_relationships[rel[2]] = True
-            if if_absent and if_absent == IfAbsent.include.value:
+            if if_absent and if_absent == IfAbsent.absent_only.value:
                 continue
             writer.emit(
                 dict(subject=rel[0], predicate=rel[1], object=rel[2]),
                 label_fields=["subject", "predicate", "object"],
             )
-        if if_absent and if_absent == IfAbsent.include.value:
+        if if_absent and if_absent == IfAbsent.absent_only.value:
             for curie in curies:
                 if not has_relationships[curie]:
                     writer.emit(
@@ -1956,6 +1960,57 @@ def relationships(
                 )
             _apply_changes(impl, changes)
 
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@direction_option
+@autolabel_option
+@output_type_option
+@output_option
+@if_absent_option
+@set_value_option
+def logical_definitions(
+        terms,
+        predicates: str,
+        direction: str,
+        autolabel: bool,
+        output_type: str,
+        output: str,
+        if_absent: bool,
+        set_value: str,
+):
+    """
+    Show all logical definitions for a term or terms
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    actual_predicates = _process_predicates_arg(predicates)
+    if isinstance(impl, OboGraphInterface):
+        #curies = list(query_terms_iterator(terms, impl))
+        has_relationships = defaultdict(bool)
+        curies = []
+        for curie_it in chunk(query_terms_iterator(terms, impl)):
+            curie_chunk = list(curie_it)
+            curies += curie_chunk
+            for ldef in impl.logical_definitions(curie_chunk):
+                if actual_predicates:
+                    if not any(r for r in ldef.restrictions if r.propertyId in actual_predicates):
+                        continue
+                if ldef.definedClassId:
+                    has_relationships[ldef.definedClassId] = True
+                    if if_absent and if_absent == IfAbsent.absent_only.value:
+                        continue
+                    writer.emit(ldef)
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            for curie in curies:
+                if not has_relationships.get(curie, False):
+                    writer.emit({"noLogicalDefinition": curie})
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

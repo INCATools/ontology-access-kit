@@ -24,6 +24,7 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
+from oaklib.datamodels.obograph import LogicalDefinitionAxiom, ExistentialRestrictionExpression
 from semsql.sqla.semsql import (
     AnnotationPropertyNode,
     ClassNode,
@@ -42,7 +43,8 @@ from semsql.sqla.semsql import (
     Prefix,
     RdfsLabelStatement,
     RdfTypeStatement,
-    Statements,
+    Statements, OwlEquivalentClassStatement, RdfListMemberStatement, OwlSomeValuesFrom, RdfFirstStatement,
+    RdfRestStatement,
 )
 from sqlalchemy import and_, create_engine, delete, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
@@ -262,9 +264,11 @@ class SqlImplementation(
         if filter_obsoletes:
             obs_subq = self.session.query(DeprecatedNode.id)
             q = q.filter(Node.id.not_in(obs_subq))
+        logging.info(f"Query: {q}")
         for row in q:
             if row:
-                if not _is_blank(row.id) and not row.id.startswith("<"):
+                #if not _is_blank(row.id) and not row.id.startswith("<"):
+                if not _is_blank(row.id):
                     yield row.id
 
     def obsoletes(self) -> Iterable[CURIE]:
@@ -632,6 +636,49 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         for row in q:
             yield row.subject
+
+    def _rdf_list(self, bnode: str) -> Iterable[str]:
+        for row in self.session.query(RdfFirstStatement).filter(RdfFirstStatement.subject == bnode):
+            yield row.object
+        for row in self.session.query(RdfRestStatement.object).filter(RdfRestStatement.subject == bnode):
+            for x in self._rdf_list(row.object):
+                yield x
+
+    def _ixn_definition(self, ixn: str, subject: CURIE) -> Optional[LogicalDefinitionAxiom]:
+        ldef = LogicalDefinitionAxiom(definedClassId=subject)
+        n = 0
+        for ixn_node in self._rdf_list(ixn):
+            n += 1
+            if _is_blank(ixn_node):
+                svfq = self.session.query(OwlSomeValuesFrom).filter(OwlSomeValuesFrom.id == ixn_node)
+                svfq = list(svfq)
+                if svfq:
+                    if len(svfq) > 1:
+                        raise ValueError(f"Incorrect rdf structure for equiv axioms for {row.subject}")
+                    svf = svfq[0]
+                    ldef.restrictions.append(ExistentialRestrictionExpression(propertyId=svf.on_property,
+                                                                              fillerId=svf.filler))
+                else:
+                    ldef = None
+                    break
+            else:
+                ldef.genusIds.append(ixn_node)
+        if n and ldef:
+            return ldef
+
+    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+        q = self.session.query(OwlEquivalentClassStatement)
+        q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(subjects)))
+        for eq_row in q:
+            ixn_q = self.session.query(Statements).filter(and_(Statements.subject == eq_row.object,
+                                                               Statements.predicate == "owl:intersectionOf"))
+            for ixn in ixn_q:
+                ldef = self._ixn_definition(ixn.object, eq_row.subject)
+                if ldef:
+                    yield ldef
+
+
+
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface

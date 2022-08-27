@@ -89,12 +89,12 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "exclude"]
+                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "present-only"]
             )
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" not in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "include"]
+                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "absent-only"]
             )
             assert "cytoplasm" not in result.stdout
             assert "IAO:0000078" in result.stdout
@@ -106,12 +106,12 @@ class TestCommandLineInterface(unittest.TestCase):
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "exclude"]
+                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "present-only"]
             )
             assert "cytoplasm" in result.stdout
             assert "IAO:0000078" not in result.stdout
             result = self.runner.invoke(
-                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "include"]
+                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "absent-only"]
             )
             assert "cytoplasm" not in result.stdout
             assert "IAO:0000078" in result.stdout

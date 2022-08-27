@@ -209,6 +209,13 @@ classes:
 
   LogicalDefinitionAxiom:
     is_a: Axiom
+    attributes:
+      definedClassId:
+      genusIds:
+        multivalued: true
+      restrictions:
+        multivalued: true
+        range: ExistentialRestrictionExpression
 
   PropertyChainAxiom:
     is_a: Axiom

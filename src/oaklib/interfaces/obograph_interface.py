@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue
+from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue, LogicalDefinitionAxiom
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
@@ -291,6 +291,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         return walk_up(self, start_curies, predicates=predicates)
+
+    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+        raise NotImplementedError
 
     def add_metadata(self, graph: Graph) -> None:
         """

@@ -4,6 +4,7 @@ import unittest
 
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import yaml_dumper
+from oaklib.datamodels import obograph
 from semsql.sqla.semsql import Statements
 from sqlalchemy import delete
 
@@ -131,6 +132,19 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         # logging.info(yaml.dump(obj))
         assert g.nodes
         assert g.edges
+
+    def test_logical_definitions(self):
+        eia = "GO:0004857"
+        ldefs = list(self.oi.logical_definitions([eia]))
+        self.assertEqual(1, len(ldefs))
+        ldef = ldefs[0]
+        self.assertEqual(eia, ldef.definedClassId)
+        self.assertEqual(["GO:0003674"], ldef.genusIds)
+        r = obograph.ExistentialRestrictionExpression(propertyId="RO:0002212",
+                                                      fillerId="GO:0003824")
+        self.assertEqual([r], ldef.restrictions)
+        # unionOf logical definitions should NOT be included
+        self.assertEqual([], list(self.oi.logical_definitions("NCBITaxon_Union:0000030")))
 
     def test_descendants(self):
         curies = list(self.oi.descendants(CELLULAR_COMPONENT))
