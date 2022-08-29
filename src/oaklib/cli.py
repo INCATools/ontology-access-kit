@@ -1862,6 +1862,18 @@ def definitions(terms, output: TextIO, display: str, output_type: str, if_absent
 @output_option
 @if_absent_option
 @set_value_option
+@click.option(
+    "--include-tbox/--no-include-tbox",
+    default=True,
+    show_default=True,
+    help="Include class-class relationships (subclass and existentials)",
+)
+@click.option(
+    "--include-abox/--no-include-abox",
+    default=True,
+    show_default=True,
+    help="Include instance relationships (class and object property assertions)",
+)
 def relationships(
     terms,
     predicates: str,
@@ -1871,6 +1883,8 @@ def relationships(
     output: str,
     if_absent: bool,
     set_value: str,
+    include_tbox: bool,
+    include_abox: bool,
 ):
     """
     Show all relationships for a term or terms
@@ -1916,11 +1930,24 @@ def relationships(
     else:
         writer = StreamingCsvWriter(ontology_interface=impl)
     writer.autolabel = autolabel
+    writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
+    if not (include_tbox or include_abox):
+        raise ValueError("Cannot exclude both tbox AND abox")
     if isinstance(impl, BasicOntologyInterface):
         curies = list(query_terms_iterator(terms, impl))
-        up_it = impl.relationships(curies, predicates=actual_predicates)
-        down_it = impl.relationships(objects=curies, predicates=actual_predicates)
+        up_it = impl.relationships(
+            curies,
+            predicates=actual_predicates,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+        )
+        down_it = impl.relationships(
+            objects=curies,
+            predicates=actual_predicates,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+        )
         if direction is None or direction == Direction.up.value:
             it = up_it
         elif direction == Direction.down.value:
@@ -1928,6 +1955,7 @@ def relationships(
         else:
             it = chain(up_it, down_it)
         has_relationships = defaultdict(bool)
+        logging.info(f"Querying {impl}, iterator: {it}")
         for rel in it:
             if direction is None or direction == Direction.up.value:
                 has_relationships[rel[0]] = True

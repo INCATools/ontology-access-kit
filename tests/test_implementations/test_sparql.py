@@ -55,6 +55,19 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_instance_graph(self):
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_INST_RDF)))
         self.assertIsNotNone(oi.graph)
+        entities = list(oi.entities())
+        self.assertEqual(
+            [
+                "http://example.org/test",
+                "http://example.org/p",
+                "http://example.org/a",
+                "http://example.org/b",
+                "http://example.org/c",
+                "http://example.org/i1",
+                "http://example.org/j",
+            ],
+            entities,
+        )
         expected = [
             ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
             ("http://example.org/i1", RDF_TYPE, "http://example.org/c"),
@@ -67,6 +80,17 @@ class TestSparqlImplementation(unittest.TestCase):
                 if t in expected:
                     expected.remove(t)
         self.assertEqual([], expected)
+        rels = list(oi.relationships())
+        self.assertEqual(
+            [
+                ("http://example.org/b", "rdfs:subClassOf", "http://example.org/a"),
+                ("http://example.org/b", "http://example.org/p", "http://example.org/a"),
+                ("http://example.org/c", "rdfs:subClassOf", "http://example.org/b"),
+                ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
+                ("http://example.org/i1", "rdf:type", "http://example.org/c"),
+            ],
+            rels,
+        )
 
     def test_parents(self):
         parents = self.oi.hierararchical_parents(VACUOLE)

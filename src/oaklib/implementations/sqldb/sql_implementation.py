@@ -73,6 +73,7 @@ from oaklib.datamodels.vocabulary import (
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
     omd_slots,
@@ -98,7 +99,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 
 __all__ = [
     "get_range_xsd_type",
@@ -415,7 +416,6 @@ class SqlImplementation(
             .where(and_(Statements.subject == curie, Statements.predicate == LABEL_PREDICATE))
             .values(value=label)
         )
-        # print(f'{curie} - {label} - {stmt}')
         self._execute(stmt)
 
     def basic_search(
@@ -455,11 +455,22 @@ class SqlImplementation(
             for row in q.distinct():
                 yield str(row.subject)
 
-    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
-        rmap = defaultdict(list)
+    def outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(Edge).filter(Edge.subject == curie):
-            rmap[row.predicate].append(row.object)
-        return rmap
+            yield row.predicate, row.object
+        if not predicates or RDF_TYPE in predicates:
+            q = self.session.query(RdfTypeStatement.object).filter(
+                RdfTypeStatement.subject == curie
+            )
+            cls_subq = self.session.query(ClassNode.id)
+            q = q.filter(RdfTypeStatement.object.in_(cls_subq))
+            for row in q:
+                yield RDF_TYPE, row.object
+
+    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
@@ -468,6 +479,23 @@ class SqlImplementation(
         return rmap
 
     def relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        if include_tbox:
+            for r in self._tbox_relationships(subjects, predicates, objects):
+                yield r
+        if include_abox:
+            for r in self._rdf_type_relationships(subjects, predicates, objects):
+                yield r
+            for r in self._object_property_assertion_relationships(subjects, predicates, objects):
+                yield r
+
+    def _tbox_relationships(
         self,
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
@@ -483,6 +511,46 @@ class SqlImplementation(
         for row in q:
             yield row.subject, row.predicate, row.object
 
+    def _object_property_assertion_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        q = self.session.query(Statements)
+        if subjects:
+            q = q.filter(Statements.subject.in_(tuple(subjects)))
+        if predicates:
+            predicates = set(predicates).difference({IS_A, RDF_TYPE})
+            if not predicates:
+                return
+            q = q.filter(Statements.predicate.in_(tuple(predicates)))
+        else:
+            op_subq = self.session.query(ObjectPropertyNode.id)
+            q = q.filter(Statements.predicate.in_(op_subq))
+        if objects:
+            q = q.filter(Statements.object.in_(tuple(objects)))
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
+    def _rdf_type_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        if predicates and RDF_TYPE not in predicates:
+            return
+        q = self.session.query(Statements).filter(Statements.predicate == RDF_TYPE)
+        if subjects:
+            q = q.filter(Statements.subject.in_(tuple(subjects)))
+        if objects:
+            q = q.filter(Statements.object.in_(tuple(objects)))
+        cls_subq = self.session.query(ClassNode.id)
+        q = q.filter(Statements.object.in_(cls_subq))
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(HasMappingStatement).filter(
             HasMappingStatement.subject == curie
@@ -490,7 +558,6 @@ class SqlImplementation(
             yield row.predicate, row.value
 
     def clone(self, resource: Any) -> None:
-        print(f"{self.resource.scheme} ==> {resource.scheme}")
         if self.resource.scheme == "sqlite":
             if resource.scheme == "sqlite":
                 shutil.copyfile(self.resource.slug, resource.slug)
@@ -963,7 +1030,6 @@ class SqlImplementation(
                     main_q = main_q.filter(
                         Statements.predicate == predicate, Statements.datatype != uri
                     )
-                    # print(main_q)
                     for row in main_q:
                         result = vdm.ValidationResult(
                             subject=row.subject,

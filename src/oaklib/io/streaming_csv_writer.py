@@ -64,7 +64,7 @@ class StreamingCsvWriter(StreamingWriter):
         if isinstance(oi, OboGraphInterface):
             for k, vs in oi.outgoing_relationship_map(curie).items():
                 d[k] = "|".join(vs)
-                d[f"{k}_label"] = "|".join([oi.label(v) for v in vs])
+                d[f"{k}_label"] = "|".join([str(oi.label(v)) for v in vs])
         if isinstance(oi, SemanticSimilarityInterface):
             d["information_content_via_is_a"] = oi.get_information_content(curie, predicates=[IS_A])
             d["information_content_via_is_a_part_of"] = oi.get_information_content(

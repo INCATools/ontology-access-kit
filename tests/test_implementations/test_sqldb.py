@@ -17,6 +17,7 @@ from oaklib.datamodels.vocabulary import (
     LABEL_PREDICATE,
     OWL_THING,
     PART_OF,
+    RDF_TYPE,
 )
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
@@ -42,6 +43,7 @@ from tests import (
 
 DB = INPUT_DIR / "go-nucleus.db"
 SSN_DB = INPUT_DIR / "ssn.db"
+INST_DB = INPUT_DIR / "inst.db"
 MUTABLE_DB = OUTPUT_DIR / "go-nucleus.db"
 MUTABLE_SSN_DB = OUTPUT_DIR / "ssn.db"
 TEST_OUT = OUTPUT_DIR / "go-nucleus.saved.owl"
@@ -55,6 +57,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         bad_ont = INPUT_DIR / "bad-ontology.db"
         self.bad_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{bad_ont}"))
         self.ssn_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{SSN_DB}"))
+        self.inst_oi = SqlImplementation(OntologyResource(INST_DB))
 
     def test_relationships(self):
         oi = self.oi
@@ -62,6 +65,67 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], ["GO:0005737"])
         self.assertCountEqual([IS_A, PART_OF], rels)
+
+    def test_instance_graph(self):
+        oi = self.inst_oi
+        entities = list(oi.entities())
+        self.assertEqual(["ex:a", "ex:b", "ex:c", "ex:i1", "ex:j", "ex:p", "ex:test"], entities)
+        entities = list(oi.entities(owl_type="owl:Class"))
+        self.assertEqual(["ex:a", "ex:b", "ex:c"], entities)
+        rels = list(oi.relationships())
+        self.assertCountEqual(
+            [
+                ("ex:b", "ex:p", "ex:a"),
+                ("ex:b", "rdfs:subClassOf", "ex:a"),
+                ("ex:c", "rdfs:subClassOf", "ex:b"),
+                ("ex:i1", "rdf:type", "ex:c"),
+                ("ex:i1", "ex:p", "ex:j"),
+            ],
+            rels,
+        )
+        rels = list(oi.relationships(include_abox=False))
+        self.assertCountEqual(
+            [
+                ("ex:b", "ex:p", "ex:a"),
+                ("ex:b", "rdfs:subClassOf", "ex:a"),
+                ("ex:c", "rdfs:subClassOf", "ex:b"),
+            ],
+            rels,
+        )
+        rels = list(oi.relationships(include_tbox=False))
+        self.assertCountEqual(
+            [
+                ("ex:i1", "rdf:type", "ex:c"),
+                ("ex:i1", "ex:p", "ex:j"),
+            ],
+            rels,
+        )
+        rels = list(oi.relationships(predicates=[IS_A, RDF_TYPE]))
+        self.assertCountEqual(
+            [
+                ("ex:b", "rdfs:subClassOf", "ex:a"),
+                ("ex:c", "rdfs:subClassOf", "ex:b"),
+                ("ex:i1", "rdf:type", "ex:c"),
+            ],
+            rels,
+        )
+        rels = list(oi.relationships(subjects=["ex:i1"]))
+        self.assertCountEqual(
+            [
+                ("ex:i1", "rdf:type", "ex:c"),
+                ("ex:i1", "ex:p", "ex:j"),
+            ],
+            rels,
+        )
+        rels = list(oi.relationships(objects=["ex:a", "ex:c"]))
+        self.assertCountEqual(
+            [
+                ("ex:b", "ex:p", "ex:a"),
+                ("ex:b", "rdfs:subClassOf", "ex:a"),
+                ("ex:i1", "rdf:type", "ex:c"),
+            ],
+            rels,
+        )
 
     def test_all_nodes(self):
         for curie in self.oi.entities():

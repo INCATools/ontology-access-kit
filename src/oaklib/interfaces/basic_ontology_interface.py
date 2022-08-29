@@ -538,16 +538,20 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def relationships(
         self,
-        subjects: List[CURIE] = None,
-        predicates: List[PRED_CURIE] = None,
-        objects: List[CURIE] = None,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
 
-        :param subjects:
-        :param predicates:
-        :param objects:
+        :param subjects: constrain search to these subjects (i.e outgoing edges)
+        :param predicates: constrain search to these predicates
+        :param objects: constrain search to these objects (i.e incoming edges)
+        :param include_tbox: if true, include class-class relationships (default True)
+        :param include_abox: if true, include instance-instance/class relationships (default True)
         :return:
         """
         if not subjects:
