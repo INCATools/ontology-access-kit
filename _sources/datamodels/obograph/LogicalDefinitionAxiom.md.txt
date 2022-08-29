@@ -12,7 +12,10 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
  classDiagram
       Axiom <|-- LogicalDefinitionAxiom
       
+      LogicalDefinitionAxiom : definedClassId
+      LogicalDefinitionAxiom : genusIds
       LogicalDefinitionAxiom : meta
+      LogicalDefinitionAxiom : restrictions
       
 
 ```
@@ -31,6 +34,9 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 | Name | Cardinality and Range  | Description  |
 | ---  | ---  | --- |
+| [definedClassId](definedClassId.md) | 0..1 <br/> NONE  |   |
+| [genusIds](genusIds.md) | 0..* <br/> NONE  |   |
+| [restrictions](restrictions.md) | 0..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md)  |   |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
@@ -82,6 +88,22 @@ name: LogicalDefinitionAxiom
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
+attributes:
+  definedClassId:
+    name: definedClassId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+  genusIds:
+    name: genusIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+  restrictions:
+    name: restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    range: ExistentialRestrictionExpression
 
 ```
 </details>
@@ -95,6 +117,33 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
 attributes:
+  definedClassId:
+    name: definedClassId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: definedClassId
+    owner: LogicalDefinitionAxiom
+    domain_of:
+    - LogicalDefinitionAxiom
+  genusIds:
+    name: genusIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: genusIds
+    owner: LogicalDefinitionAxiom
+    domain_of:
+    - LogicalDefinitionAxiom
+  restrictions:
+    name: restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: restrictions
+    owner: LogicalDefinitionAxiom
+    domain_of:
+    - LogicalDefinitionAxiom
+    range: ExistentialRestrictionExpression
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

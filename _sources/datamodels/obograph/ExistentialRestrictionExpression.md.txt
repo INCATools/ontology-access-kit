@@ -33,6 +33,11 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 ## Usages
 
 
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | ExistentialRestrictionExpression |
+
+
 
 ## Identifier and Mapping Information
 

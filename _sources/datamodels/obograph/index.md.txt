@@ -33,12 +33,14 @@ Name: obographs_datamodel
 | --- | --- |
 | [basicPropertyValues](basicPropertyValues.md) |  |
 | [comments](comments.md) |  |
+| [definedClassId](definedClassId.md) |  |
 | [definition](definition.md) |  |
 | [deprecated](deprecated.md) |  |
 | [domainRangeAxioms](domainRangeAxioms.md) |  |
 | [edges](edges.md) |  |
 | [equivalentNodesSets](equivalentNodesSets.md) |  |
 | [fillerId](fillerId.md) |  |
+| [genusIds](genusIds.md) |  |
 | [graphs](graphs.md) |  |
 | [id](id.md) |  |
 | [isExact](isExact.md) |  |
@@ -52,6 +54,7 @@ Name: obographs_datamodel
 | [propertyChainAxioms](propertyChainAxioms.md) |  |
 | [propertyId](propertyId.md) |  |
 | [representitiveNodeId](representitiveNodeId.md) |  |
+| [restrictions](restrictions.md) |  |
 | [scope](scope.md) |  |
 | [sub](sub.md) |  |
 | [subsets](subsets.md) |  |

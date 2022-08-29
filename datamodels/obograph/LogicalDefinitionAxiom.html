@@ -86,7 +86,10 @@
              classDiagram
       Axiom &lt;|-- LogicalDefinitionAxiom
       
+      LogicalDefinitionAxiom : definedClassId
+      LogicalDefinitionAxiom : genusIds
       LogicalDefinitionAxiom : meta
+      LogicalDefinitionAxiom : restrictions
       
 
         </div><section id="inheritance">
@@ -109,7 +112,19 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="definedClassId.html"><span class="doc std std-doc">definedClassId</span></a></p></td>
+<td><p>0..1 <br/> NONE</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="genusIds.html"><span class="doc std std-doc">genusIds</span></a></p></td>
+<td><p>0..* <br/> NONE</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="restrictions.html"><span class="doc std std-doc">restrictions</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="doc std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
 <td><p></p></td>
 </tr>
@@ -173,6 +188,22 @@ name: LogicalDefinitionAxiom
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
+attributes:
+  definedClassId:
+    name: definedClassId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+  genusIds:
+    name: genusIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+  restrictions:
+    name: restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    range: ExistentialRestrictionExpression
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -184,6 +215,33 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
 attributes:
+  definedClassId:
+    name: definedClassId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: definedClassId
+    owner: LogicalDefinitionAxiom
+    domain_of:
+    - LogicalDefinitionAxiom
+  genusIds:
+    name: genusIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: genusIds
+    owner: LogicalDefinitionAxiom
+    domain_of:
+    - LogicalDefinitionAxiom
+  restrictions:
+    name: restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: restrictions
+    owner: LogicalDefinitionAxiom
+    domain_of:
+    - LogicalDefinitionAxiom
+    range: ExistentialRestrictionExpression
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

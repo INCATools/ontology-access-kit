@@ -78,6 +78,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-leafs">leafs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-lexmatch">lexmatch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-lint">lint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-logical-definitions">logical-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-mappings">mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-migrate-curies">migrate-curies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-obsoletes">obsoletes</a></li>
@@ -716,7 +717,7 @@ obsolete them all:</p>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv</p>
+<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv | nl</p>
 </dd>
 </dl>
 </dd></dl>
@@ -727,7 +728,7 @@ obsolete them all:</p>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>include | exclude</p>
+<dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1406,7 +1407,7 @@ as queries that can be combined using boolean logic</p>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv</p>
+<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv | nl</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1417,7 +1418,7 @@ as queries that can be combined using boolean logic</p>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>include | exclude</p>
+<dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1601,6 +1602,80 @@ in labels and definitions</p>
 </dd></dl>
 
 </section>
+<section id="runoak-logical-definitions">
+<h4>logical-definitions<a class="headerlink" href="#runoak-logical-definitions" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Show all logical definitions for a term or terms</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak logical-definitions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-p">
+<span id="cmdoption-runoak-logical-definitions-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-direction">
+<span class="sig-name descname"><span class="pre">--direction</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;direction&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-direction" title="Permalink to this definition"></a></dt>
+<dd><p>direction of traversal over edges, which up is subject to object, down is object to subject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>up | down | both</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-autolabel">
+<span id="cmdoption-runoak-logical-definitions-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-O">
+<span id="cmdoption-runoak-logical-definitions-o"></span><span id="cmdoption-runoak-logical-definitions-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-0">
+<span id="cmdoption-runoak-logical-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-0" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-if-absent">
+<span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-if-absent" title="Permalink to this definition"></a></dt>
+<dd><p>determines behavior when the value is not present or is empty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>absent-only | present-only</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-S">
+<span id="cmdoption-runoak-logical-definitions-s"></span><span id="cmdoption-runoak-logical-definitions-set-value"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--set-value</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set_value&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-S" title="Permalink to this definition"></a></dt>
+<dd><p>the value to set for all terms for the given property.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-arg-TERMS">
+<span id="cmdoption-runoak-logical-definitions-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-mappings">
 <h4>mappings<a class="headerlink" href="#runoak-mappings" title="Permalink to this headline"></a></h4>
 <blockquote>
@@ -1736,7 +1811,7 @@ source and the target</p>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv</p>
+<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv | nl</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2049,7 +2124,7 @@ results to viz, using the fill-gaps option</p>
 <dd><p>determines behavior when the value is not present or is empty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>include | exclude</p>
+<dd class="field-odd"><p>absent-only | present-only</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2058,6 +2133,28 @@ results to viz, using the fill-gaps option</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-relationships-S">
 <span id="cmdoption-runoak-relationships-s"></span><span id="cmdoption-runoak-relationships-set-value"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--set-value</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set_value&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-relationships-S" title="Permalink to this definition"></a></dt>
 <dd><p>the value to set for all terms for the given property.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-relationships-include-tbox">
+<span id="cmdoption-runoak-relationships-no-include-tbox"></span><span class="sig-name descname"><span class="pre">--include-tbox</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-tbox</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-tbox" title="Permalink to this definition"></a></dt>
+<dd><p>Include class-class relationships (subclass and existentials)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-relationships-include-abox">
+<span id="cmdoption-runoak-relationships-no-include-abox"></span><span class="sig-name descname"><span class="pre">--include-abox</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-abox</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-abox" title="Permalink to this definition"></a></dt>
+<dd><p>Include instance relationships (class and object property assertions)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -2144,7 +2241,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv</p>
+<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv | nl</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2224,7 +2321,7 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 <dd><p>Desired output type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv</p>
+<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv | nl</p>
 </dd>
 </dl>
 </dd></dl>
