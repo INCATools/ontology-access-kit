@@ -5,7 +5,7 @@ import unittest
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.obograph_utils import (
@@ -32,6 +32,7 @@ from tests import (
 )
 
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
+TEST_INST_RDF = INPUT_DIR / "inst.owl.ttl"
 TEST_MUTABLE_RDF = OUTPUT_DIR / "go-nucleus.owl.ttl"
 
 
@@ -43,11 +44,53 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_relationships(self):
         oi = self.oi
         self.assertIsNotNone(oi.graph)
+        rels = list(oi.outgoing_relationships(VACUOLE))
+        self.assertEqual(2, len(rels))
         rels = oi.outgoing_relationship_map(VACUOLE)
         for k, v in rels.items():
             logging.info(f"{k} = {v}")
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
+
+    def test_instance_graph(self):
+        oi = SparqlImplementation(OntologyResource(slug=str(TEST_INST_RDF)))
+        self.assertIsNotNone(oi.graph)
+        entities = list(oi.entities())
+        self.assertEqual(
+            [
+                "http://example.org/test",
+                "http://example.org/p",
+                "http://example.org/a",
+                "http://example.org/b",
+                "http://example.org/c",
+                "http://example.org/i1",
+                "http://example.org/j",
+            ],
+            entities,
+        )
+        expected = [
+            ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
+            ("http://example.org/i1", RDF_TYPE, "http://example.org/c"),
+            ("http://example.org/b", IS_A, "http://example.org/a"),
+        ]
+        for curie in oi.entities():
+            rels = oi.outgoing_relationships(curie)
+            for k, v in rels:
+                t = (curie, k, v)
+                if t in expected:
+                    expected.remove(t)
+        self.assertEqual([], expected)
+        rels = list(oi.relationships())
+        self.assertEqual(
+            [
+                ("http://example.org/b", "rdfs:subClassOf", "http://example.org/a"),
+                ("http://example.org/b", "http://example.org/p", "http://example.org/a"),
+                ("http://example.org/c", "rdfs:subClassOf", "http://example.org/b"),
+                ("http://example.org/i1", "http://example.org/p", "http://example.org/j"),
+                ("http://example.org/i1", "rdf:type", "http://example.org/c"),
+            ],
+            rels,
+        )
 
     def test_parents(self):
         parents = self.oi.hierararchical_parents(VACUOLE)

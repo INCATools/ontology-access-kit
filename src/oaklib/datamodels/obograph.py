@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-02T15:30:42
+# Generation date: 2022-08-24T14:30:08
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -7,20 +7,33 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, String
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import Bool, empty_dict, empty_list
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import Bool, bnode, empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = "0.0.1"
@@ -440,6 +453,7 @@ class ExistentialRestrictionExpression(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
+@dataclass
 class LogicalDefinitionAxiom(Axiom):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -447,6 +461,34 @@ class LogicalDefinitionAxiom(Axiom):
     class_class_curie: ClassVar[str] = "og:LogicalDefinitionAxiom"
     class_name: ClassVar[str] = "LogicalDefinitionAxiom"
     class_model_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
+
+    definedClassId: Optional[str] = None
+    genusIds: Optional[Union[str, List[str]]] = empty_list()
+    restrictions: Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.definedClassId is not None and not isinstance(self.definedClassId, str):
+            self.definedClassId = str(self.definedClassId)
+
+        if not isinstance(self.genusIds, list):
+            self.genusIds = [self.genusIds] if self.genusIds is not None else []
+        self.genusIds = [v if isinstance(v, str) else str(v) for v in self.genusIds]
+
+        if not isinstance(self.restrictions, list):
+            self.restrictions = [self.restrictions] if self.restrictions is not None else []
+        self.restrictions = [
+            v
+            if isinstance(v, ExistentialRestrictionExpression)
+            else ExistentialRestrictionExpression(**as_dict(v))
+            for v in self.restrictions
+        ]
+
+        super().__post_init__(**kwargs)
 
 
 class PropertyChainAxiom(Axiom):
@@ -755,4 +797,36 @@ slots.graphs = Slot(
     model_uri=OG.graphs,
     domain=None,
     range=Optional[Union[Dict[Union[str, GraphId], Union[dict, Graph]], List[Union[dict, Graph]]]],
+)
+
+slots.logicalDefinitionAxiom__definedClassId = Slot(
+    uri=OG.definedClassId,
+    name="logicalDefinitionAxiom__definedClassId",
+    curie=OG.curie("definedClassId"),
+    model_uri=OG.logicalDefinitionAxiom__definedClassId,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.logicalDefinitionAxiom__genusIds = Slot(
+    uri=OG.genusIds,
+    name="logicalDefinitionAxiom__genusIds",
+    curie=OG.curie("genusIds"),
+    model_uri=OG.logicalDefinitionAxiom__genusIds,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.logicalDefinitionAxiom__restrictions = Slot(
+    uri=OG.restrictions,
+    name="logicalDefinitionAxiom__restrictions",
+    curie=OG.curie("restrictions"),
+    model_uri=OG.logicalDefinitionAxiom__restrictions,
+    domain=None,
+    range=Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ],
 )
