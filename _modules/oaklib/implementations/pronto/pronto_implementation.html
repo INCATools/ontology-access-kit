@@ -189,12 +189,15 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pronto using resource: </span><span class="si">{</span><span class="n">resource</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">resource</span> <span class="ow">and</span> <span class="n">resource</span><span class="o">.</span><span class="n">import_depth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;import_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">import_depth</span>
             <span class="k">if</span> <span class="n">resource</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">ontology</span> <span class="o">=</span> <span class="n">Ontology</span><span class="p">()</span>
             <span class="k">elif</span> <span class="n">resource</span><span class="o">.</span><span class="n">local</span><span class="p">:</span>
-                <span class="n">ontology</span> <span class="o">=</span> <span class="n">Ontology</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">local_path</span><span class="p">))</span>
+                <span class="n">ontology</span> <span class="o">=</span> <span class="n">Ontology</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">local_path</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ontology</span> <span class="o">=</span> <span class="n">Ontology</span><span class="o">.</span><span class="n">from_obo_library</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="p">)</span>
+                <span class="n">ontology</span> <span class="o">=</span> <span class="n">Ontology</span><span class="o">.</span><span class="n">from_obo_library</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ontology</span> <span class="o">=</span> <span class="n">ontology</span>
 
     <span class="nd">@classmethod</span>
