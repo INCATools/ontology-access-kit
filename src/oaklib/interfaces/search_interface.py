@@ -7,6 +7,7 @@ from oaklib.types import CURIE
 
 __all__ = [
     "SearchConfiguration",
+    "SearchInterface"
 ]
 
 

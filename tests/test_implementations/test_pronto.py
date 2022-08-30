@@ -1,6 +1,7 @@
 import logging
 import unittest
 
+import pronto
 from kgcl_schema.datamodel import kgcl
 
 from oaklib.datamodels import obograph
@@ -103,7 +104,6 @@ class TestProntoImplementation(unittest.TestCase):
     def test_labels(self):
         """
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
-        :return:
         """
         oi = self.oi
         label = oi.label("GO:0005773")
@@ -143,8 +143,6 @@ class TestProntoImplementation(unittest.TestCase):
     def test_mappings(self):
         oi = self.oi
         mappings = list(oi.get_sssom_mappings_by_curie(NUCLEUS))
-        # for m in mappings:
-        #    logging.info(yaml_dumper.dumps(m))
         assert any(m for m in mappings if m.object_id == "Wikipedia:Cell_nucleus")
         self.assertEqual(len(mappings), 2)
         for m in mappings:
@@ -176,6 +174,38 @@ class TestProntoImplementation(unittest.TestCase):
         oi = ProntoImplementation.create(OntologyResource(local=False, slug="pato.obo"))
         curies = oi.curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
+
+    @unittest.skip("bug in pronto?")
+    def test_import_behavior(self):
+        """
+        Tests behavior of owl:imports
+
+        by default, imports should be followed
+
+        See: https://github.com/INCATools/ontology-access-kit/issues/248
+        """
+        for slug in ["test_import_root.obo", "test_import_root.obo"]:
+            resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True)
+            #print(resource.local_path)
+            # currently throws exception
+            pronto.Ontology(resource.local_path)
+            oi = ProntoImplementation.create(resource)
+            terms = list(oi.entities(owl_type="owl:Class"))
+            self.assertEqual(2, len(terms))
+
+    def test_no_import_depth(self):
+        """
+        Tests behavior of owl:imports
+
+        do not follow imports if depth is set to zero
+
+        See: https://github.com/INCATools/ontology-access-kit/issues/248
+        """
+        for slug in ["test_import_root.obo", "test_import_root.obo"]:
+            resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True, import_depth=0)
+            oi = ProntoImplementation(resource)
+            terms = list(oi.entities(owl_type="owl:Class"))
+            self.assertEqual(1, len(terms))
 
     @unittest.skip("Hide warnings")
     def test_from_owl(self):
