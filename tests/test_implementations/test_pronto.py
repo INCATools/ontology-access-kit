@@ -175,7 +175,7 @@ class TestProntoImplementation(unittest.TestCase):
         curies = oi.curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
 
-    # @unittest.skip("bug in pronto?")
+    @unittest.skip("https://github.com/althonos/pronto/issues/186")
     def test_import_behavior(self):
         """
         Tests behavior of owl:imports
