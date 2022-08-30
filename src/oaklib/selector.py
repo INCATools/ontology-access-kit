@@ -122,7 +122,9 @@ def get_resource_imp_class_from_suffix_descriptor(
     return impl_class, resource
 
 
-def get_resource_from_shorthand(descriptor: str, format: str = None, import_depth: Optional[int] = None) -> OntologyResource:
+def get_resource_from_shorthand(
+    descriptor: str, format: str = None, import_depth: Optional[int] = None
+) -> OntologyResource:
     """
     Maps from a shorthand descriptor to an OntologyResource.
 

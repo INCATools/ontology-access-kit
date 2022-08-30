@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Type, Union, Optional
+from typing import TYPE_CHECKING, Optional, Type, Union
 
 from class_resolver import HintOrType
 

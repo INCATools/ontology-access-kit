@@ -175,7 +175,7 @@ class TestProntoImplementation(unittest.TestCase):
         curies = oi.curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
 
-    @unittest.skip("bug in pronto?")
+    # @unittest.skip("bug in pronto?")
     def test_import_behavior(self):
         """
         Tests behavior of owl:imports
@@ -186,7 +186,7 @@ class TestProntoImplementation(unittest.TestCase):
         """
         for slug in ["test_import_root.obo", "test_import_root.obo"]:
             resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True)
-            #print(resource.local_path)
+            # print(resource.local_path)
             # currently throws exception
             pronto.Ontology(resource.local_path)
             oi = ProntoImplementation.create(resource)

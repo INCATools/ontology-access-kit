@@ -260,8 +260,7 @@ class TestSparqlImplementation(unittest.TestCase):
 
         See: https://github.com/INCATools/ontology-access-kit/issues/248
         """
-        for slug in ["test_import_root.owl"]:
-            resource = OntologyResource(slug=str(TEST_IMPORTER))
-            oi = SparqlImplementation(resource)
-            terms = list(oi.entities(owl_type="owl:Class"))
-            self.assertCountEqual(['PATO:1', 'PATO:2'], terms)
+        resource = OntologyResource(slug=str(TEST_IMPORTER))
+        oi = SparqlImplementation(resource)
+        terms = list(oi.entities(owl_type="owl:Class"))
+        self.assertCountEqual(["PATO:1", "PATO:2"], terms)

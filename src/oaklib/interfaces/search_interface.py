@@ -5,10 +5,7 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 
-__all__ = [
-    "SearchConfiguration",
-    "SearchInterface"
-]
+__all__ = ["SearchConfiguration", "SearchInterface"]
 
 
 class SearchInterface(BasicOntologyInterface, ABC):

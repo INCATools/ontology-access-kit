@@ -569,7 +569,14 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @input_type_option
 @add_option
 def main(
-    verbose: int, quiet: bool, input: str, input_type: str, add: List, save_as: str, autosave: bool, import_depth: Optional[int]
+    verbose: int,
+    quiet: bool,
+    input: str,
+    input_type: str,
+    add: List,
+    save_as: str,
+    autosave: bool,
+    import_depth: Optional[int],
 ):
     """Run the oaklib Command Line.
 
