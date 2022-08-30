@@ -560,11 +560,23 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
     "--autosave/--no-autosave",
     help="For commands that mutate the ontology, this determines if these are automatically saved in place",
 )
+@click.option(
+    "--import-depth",
+    type=click.INT,
+    help="Maximum depth in the import tree to traverse",
+)
 @input_option
 @input_type_option
 @add_option
 def main(
-    verbose: int, quiet: bool, input: str, input_type: str, add: List, save_as: str, autosave: bool
+    verbose: int,
+    quiet: bool,
+    input: str,
+    input_type: str,
+    add: List,
+    save_as: str,
+    autosave: bool,
+    import_depth: Optional[int],
 ):
     """Run the oaklib Command Line.
 
@@ -593,7 +605,7 @@ def main(
 
     if input:
         impl_class: Type[OntologyInterface]
-        resource = get_resource_from_shorthand(input, format=input_type)
+        resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
         impl_class = resource.implementation_class
         logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)

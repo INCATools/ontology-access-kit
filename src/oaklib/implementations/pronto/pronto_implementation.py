@@ -108,12 +108,15 @@ class ProntoImplementation(
         if self.wrapped_ontology is None:
             resource = self.resource
             logging.info(f"Pronto using resource: {resource}")
+            kwargs = {}
+            if resource and resource.import_depth is not None:
+                kwargs["import_depth"] = resource.import_depth
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
-                ontology = Ontology(str(resource.local_path))
+                ontology = Ontology(str(resource.local_path), **kwargs)
             else:
-                ontology = Ontology.from_obo_library(resource.slug)
+                ontology = Ontology.from_obo_library(resource.slug, **kwargs)
             self.wrapped_ontology = ontology
 
     @classmethod

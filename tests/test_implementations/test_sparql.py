@@ -34,6 +34,7 @@ from tests import (
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_INST_RDF = INPUT_DIR / "inst.owl.ttl"
 TEST_MUTABLE_RDF = OUTPUT_DIR / "go-nucleus.owl.ttl"
+TEST_IMPORTER = INPUT_DIR / "test_import_root.owl"
 
 
 class TestSparqlImplementation(unittest.TestCase):
@@ -249,3 +250,17 @@ class TestSparqlImplementation(unittest.TestCase):
         )
         self.assertCountEqual([], list(oi.descendants(NUCLEUS, predicates=preds, reflexive=False)))
         oi.save()
+
+    @unittest.skip("not yet implemented")
+    def test_import_behavior(self):
+        """
+        Tests behavior of owl:imports
+
+        by default, imports should be followed
+
+        See: https://github.com/INCATools/ontology-access-kit/issues/248
+        """
+        resource = OntologyResource(slug=str(TEST_IMPORTER))
+        oi = SparqlImplementation(resource)
+        terms = list(oi.entities(owl_type="owl:Class"))
+        self.assertCountEqual(["PATO:1", "PATO:2"], terms)

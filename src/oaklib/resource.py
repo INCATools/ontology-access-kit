@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Type, Union
+from typing import TYPE_CHECKING, Optional, Type, Union
 
 from class_resolver import HintOrType
 
@@ -21,16 +21,36 @@ class OntologyResource:
     """
 
     slug: str = None
-    directory: str = None
-    scheme: str = None
-    format: str = None
-    url: str = None
-    readonly: bool = False
-    provider: str = None
-    local: bool = False
-    in_memory: bool = False
-    data: str = None
-    implementation_class: Union[Type] = None
+    """Name or path of ontology resource"""
+
+    directory: Optional[str] = None
+    """For local resources, the directory where the serialization is found"""
+
+    scheme: Optional[str] = None
+    """The scheme of the resource, e.g pronto, sqlite"""
+
+    format: Optional[str] = None
+    """For serialized resources, the serialization format"""
+
+    url: Optional[str] = None
+    """For remote resources, the URL from which it can be obtained"""
+
+    readonly: Optional[bool] = False
+    """Typically true for remote resources"""
+
+    provider: Optional[str] = None
+
+    local: Optional[bool] = True
+    """Is the resource locally on disk or remote?"""
+
+    in_memory: Optional[bool] = False
+
+    data: Optional[str] = None
+
+    implementation_class: Optional[Union[Type]] = None
+
+    import_depth: Optional[int] = None
+    """If set, this determines the maximum depth in the import tree to follow"""
 
     @property
     def local_path(self) -> Path:

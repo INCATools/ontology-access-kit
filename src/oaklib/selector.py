@@ -122,12 +122,15 @@ def get_resource_imp_class_from_suffix_descriptor(
     return impl_class, resource
 
 
-def get_resource_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
+def get_resource_from_shorthand(
+    descriptor: str, format: str = None, import_depth: Optional[int] = None
+) -> OntologyResource:
     """
     Maps from a shorthand descriptor to an OntologyResource.
 
     :param descriptor:
-    :param format:
+    :param format: file format/syntax, e.g obo, turtle
+    :param import_depth: maximum import depth to traverse
     :return:
     """
     from oaklib.implementations import (
@@ -137,6 +140,7 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
     )
 
     resource = OntologyResource(format=format)
+    resource.import_depth = import_depth
     resource.slug = descriptor
     impl_class: Optional[Type[OntologyInterface]] = None
     if descriptor:
