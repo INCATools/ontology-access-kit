@@ -239,16 +239,19 @@ please merge in advance using ROBOT if this is your desired behavior.</p>
 </section>
 <section id="without-docker">
 <h3>Without docker<a class="headerlink" href="#without-docker" title="Permalink to this headline"></a></h3>
+<p><strong>Prerequisites</strong></p>
+<p>For this to work you will need to install the following dependencies and ensure they’re loaded in your <cite>PATH</cite>.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/balhoff/relation-graph#installation">relation-graph</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ontodev/rdftab.rs#installation">rdftab</a></p></li>
+<li><p><cite>riot</cite> - On MacOS, can install using <a class="reference external" href="https://brew.sh/">HomeBrew</a> via: <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">jena</span></code></p></li>
+</ol>
+<p>Then, run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">semsql</span> <span class="n">make</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">obi</span><span class="o">.</span><span class="n">db</span>
 </pre></div>
 </div>
-<p>However, for this to work you will need two dependencies loaded and on your path</p>
-<ul class="simple">
-<li><p>rdftab</p></li>
-<li><p>relation-graph</p></li>
-</ul>
-<p>Consult the <cite>SemSQL &lt;https://github.com/INCATools/semantic-sql&gt;</cite> docs for more details.</p>
-<p>In future we hope to wrap these more seamlessly in Python</p>
+<p>Consult the <a class="reference external" href="https://github.com/INCATools/semantic-sql">SemSQL docs</a> for more details.</p>
+<p>In future we hope to wrap these more seamlessly in Python.</p>
 </section>
 </section>
 <section id="validating-an-ontology">
