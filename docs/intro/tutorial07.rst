@@ -99,18 +99,25 @@ You can then query the file as normal:
 Without docker
 ^^^^^^^^^
 
+**Prerequisites**
+
+For this to work you will need to install the following dependencies and ensure they're loaded in your `PATH`.
+
+1. `relation-graph <https://github.com/balhoff/relation-graph#installation>`_
+
+2. `rdftab <https://github.com/ontodev/rdftab.rs#installation>`_  
+
+3. `riot` - On MacOS, can install using `HomeBrew <https://brew.sh/>`_ via: ``brew install jena``
+
+Then, run:
+
 .. code-block::
 
    semsql make path/to/obi.db
 
-However, for this to work you will need two dependencies loaded and on your path
+Consult the `SemSQL docs <https://github.com/INCATools/semantic-sql>`_ for more details.
 
-- rdftab
-- relation-graph
-
-Consult the `SemSQL <https://github.com/INCATools/semantic-sql>` docs for more details.
-
-In future we hope to wrap these more seamlessly in Python
+In future we hope to wrap these more seamlessly in Python.
 
 Validating an ontology
 -----------------
