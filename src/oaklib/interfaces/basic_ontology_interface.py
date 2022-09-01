@@ -15,10 +15,8 @@ from oaklib.datamodels.vocabulary import (
     OWL_THING,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
-from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix, get_obo_prefix_map
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.utilities.basic_utils import get_curie_prefix, get_obo_prefix_map
 
 NC_NAME = str
 PREFIX_MAP = Mapping[NC_NAME, URI]
