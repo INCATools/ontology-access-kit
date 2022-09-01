@@ -95,7 +95,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface):
                     logging.warning(
                         "could not compress URI %s with functional writer context %s",
                         uri,
-                        self.functional_writer.g.namespaces(),
+                        list(self.functional_writer.g.namespaces()),
                     )
                     continue
                 else:
