@@ -4,10 +4,9 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-from oaklib.types import CURIE
+from prefixmaps.io import load_context
 
-HERE = Path(__file__).parent.resolve()
-OBO_PREFIX_MAP_PATH = HERE.joinpath("obo_context.jsonld")
+from oaklib.types import CURIE
 
 
 def pairs_as_dict(pairs: Iterable[Tuple[Any, Any]]) -> Dict[Any, List[Any]]:
@@ -43,4 +42,4 @@ def get_curie_prefix(curie: CURIE) -> Optional[str]:
 
 @lru_cache(1)
 def get_obo_prefix_map():
-    return json.loads(OBO_PREFIX_MAP_PATH.read_text())["@context"]
+    return load_context("obo")
