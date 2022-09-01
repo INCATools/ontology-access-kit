@@ -1,10 +1,17 @@
 import logging
 from abc import ABC
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from oaklib.datamodels.obograph import Edge, Graph, Node, SynonymPropertyValue
+from oaklib.datamodels.obograph import (
+    Edge,
+    Graph,
+    LogicalDefinitionAxiom,
+    Node,
+    SynonymPropertyValue,
+)
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
@@ -105,11 +112,13 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         raise NotImplementedError
 
-    def synonym_property_values(self, subject: CURIE) -> List[SynonymPropertyValue]:
-        return self.synonym_map_for_curies(subject)[subject]
+    def synonym_property_values(
+        self, subject: Union[CURIE, Iterable[CURIE]]
+    ) -> Iterator[Tuple[CURIE, SynonymPropertyValue]]:
+        raise NotImplementedError
 
     def synonym_map_for_curies(
-        self, subject: Union[CURIE, List[CURIE]]
+        self, subject: Union[CURIE, Iterable[CURIE]]
     ) -> Dict[CURIE, List[SynonymPropertyValue]]:
         """
         Get a map of SynonymPropertyValue objects keyed by curie
@@ -117,7 +126,10 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param subject: curie or list of curies
         :return:
         """
-        raise NotImplementedError
+        d = defaultdict(list)
+        for curie, spv in self.synonym_property_values(subject):
+            d[curie].append(spv)
+        return d
 
     def _graph(self, triples: Iterable[RELATIONSHIP]) -> Graph:
         node_map: Dict[str, Node] = {}
@@ -285,6 +297,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         return walk_up(self, start_curies, predicates=predicates)
+
+    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+        raise NotImplementedError
 
     def add_metadata(self, graph: Graph) -> None:
         """

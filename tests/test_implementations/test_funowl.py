@@ -5,26 +5,38 @@ from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import AxiomFilter
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from tests import CHEBI_NUCLEUS, HUMAN, INPUT_DIR, NUCLEUS, VACUOLE
 
 TEST_ONT = INPUT_DIR / "go-nucleus.ofn"
+TEST_INST_ONT = INPUT_DIR / "inst.ofn"
 NEW_NAME = "new name"
 
 
 class TestFunOwlImplementation(unittest.TestCase):
     def setUp(self) -> None:
         resource = OntologyResource(TEST_ONT)
-        oi = FunOwlImplementation(resource)
-        self.oi = oi
+        self.oi = FunOwlImplementation(resource)
 
     def test_entities(self):
         curies = list(self.oi.entities())
         self.assertIn(NUCLEUS, curies)
         self.assertIn(CHEBI_NUCLEUS, curies)
         self.assertIn(HUMAN, curies)
+
+    @unittest.skip("OboGraph not yet implemented")
+    def test_edges(self):
+        oi = self.oi
+        curies = list(oi.entities())
+        if isinstance(oi, OboGraphInterface):
+            for curie in curies:
+                for rel in oi.outgoing_relationships(curie):
+                    print(rel)
+        else:
+            raise NotImplementedError
 
     def test_filter_axioms(self):
         FunctionalWriter()

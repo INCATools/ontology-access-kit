@@ -39,7 +39,11 @@ from semsql.sqla.semsql import (
     ObjectPropertyNode,
     OntologyNode,
     OwlAxiomAnnotation,
+    OwlEquivalentClassStatement,
+    OwlSomeValuesFrom,
     Prefix,
+    RdfFirstStatement,
+    RdfRestStatement,
     RdfsLabelStatement,
     RdfTypeStatement,
     Statements,
@@ -52,6 +56,10 @@ import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
+from oaklib.datamodels.obograph import (
+    ExistentialRestrictionExpression,
+    LogicalDefinitionAxiom,
+)
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
@@ -61,9 +69,11 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
     HAS_SYNONYM_TYPE,
+    IN_CATEGORY_PREDS,
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
     omd_slots,
@@ -88,8 +98,8 @@ from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
-from oaklib.types import CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import get_curie_prefix
+from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
+from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 
 __all__ = [
     "get_range_xsd_type",
@@ -147,6 +157,10 @@ def regex_to_sql_like(regex: str) -> str:
         like = f"{like}%"
     logging.info(f"Translated {regex} => {like}")
     return like
+
+
+def _is_quoted_url(curie: CURIE):
+    return curie.startswith("<")
 
 
 @dataclass
@@ -261,9 +275,11 @@ class SqlImplementation(
         if filter_obsoletes:
             obs_subq = self.session.query(DeprecatedNode.id)
             q = q.filter(Node.id.not_in(obs_subq))
+        logging.info(f"Query: {q}")
         for row in q:
             if row:
-                if not _is_blank(row.id) and not row.id.startswith("<"):
+                # if not _is_blank(row.id) and not row.id.startswith("<"):
+                if not _is_blank(row.id):
                     yield row.id
 
     def obsoletes(self) -> Iterable[CURIE]:
@@ -376,6 +392,18 @@ class SqlImplementation(
         ):
             yield self._get_subset_curie(row.subject)
 
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        for row in self.session.query(Statements).filter(
+            Statements.predicate == IN_SUBSET, Statements.subject.in_(list(curies))
+        ):
+            yield row.subject, self._get_subset_curie(row.object)
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        for row in self.session.query(Statements).filter(
+            Statements.predicate.in_(IN_CATEGORY_PREDS), Statements.subject.in_(list(curies))
+        ):
+            yield row.subject, self._get_subset_curie(row.object)
+
     def _execute(self, stmt):
         self.session.execute(stmt)
         self.session.flush()
@@ -388,7 +416,6 @@ class SqlImplementation(
             .where(and_(Statements.subject == curie, Statements.predicate == LABEL_PREDICATE))
             .values(value=label)
         )
-        # print(f'{curie} - {label} - {stmt}')
         self._execute(stmt)
 
     def basic_search(
@@ -428,11 +455,22 @@ class SqlImplementation(
             for row in q.distinct():
                 yield str(row.subject)
 
-    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
-        rmap = defaultdict(list)
+    def outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(Edge).filter(Edge.subject == curie):
-            rmap[row.predicate].append(row.object)
-        return rmap
+            yield row.predicate, row.object
+        if not predicates or RDF_TYPE in predicates:
+            q = self.session.query(RdfTypeStatement.object).filter(
+                RdfTypeStatement.subject == curie
+            )
+            cls_subq = self.session.query(ClassNode.id)
+            q = q.filter(RdfTypeStatement.object.in_(cls_subq))
+            for row in q:
+                yield RDF_TYPE, row.object
+
+    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
@@ -441,6 +479,23 @@ class SqlImplementation(
         return rmap
 
     def relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        if include_tbox:
+            for r in self._tbox_relationships(subjects, predicates, objects):
+                yield r
+        if include_abox:
+            for r in self._rdf_type_relationships(subjects, predicates, objects):
+                yield r
+            for r in self._object_property_assertion_relationships(subjects, predicates, objects):
+                yield r
+
+    def _tbox_relationships(
         self,
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
@@ -456,6 +511,46 @@ class SqlImplementation(
         for row in q:
             yield row.subject, row.predicate, row.object
 
+    def _object_property_assertion_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        q = self.session.query(Statements)
+        if subjects:
+            q = q.filter(Statements.subject.in_(tuple(subjects)))
+        if predicates:
+            predicates = set(predicates).difference({IS_A, RDF_TYPE})
+            if not predicates:
+                return
+            q = q.filter(Statements.predicate.in_(tuple(predicates)))
+        else:
+            op_subq = self.session.query(ObjectPropertyNode.id)
+            q = q.filter(Statements.predicate.in_(op_subq))
+        if objects:
+            q = q.filter(Statements.object.in_(tuple(objects)))
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
+    def _rdf_type_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        if predicates and RDF_TYPE not in predicates:
+            return
+        q = self.session.query(Statements).filter(Statements.predicate == RDF_TYPE)
+        if subjects:
+            q = q.filter(Statements.subject.in_(tuple(subjects)))
+        if objects:
+            q = q.filter(Statements.object.in_(tuple(objects)))
+        cls_subq = self.session.query(ClassNode.id)
+        q = q.filter(Statements.object.in_(cls_subq))
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         for row in self.session.query(HasMappingStatement).filter(
             HasMappingStatement.subject == curie
@@ -463,7 +558,6 @@ class SqlImplementation(
             yield row.predicate, row.value
 
     def clone(self, resource: Any) -> None:
-        print(f"{self.resource.scheme} ==> {resource.scheme}")
         if self.resource.scheme == "sqlite":
             if resource.scheme == "sqlite":
                 shutil.copyfile(self.resource.slug, resource.slug)
@@ -544,26 +638,22 @@ class SqlImplementation(
                     meta.basicPropertyValues.append(pv)
         return n
 
-    def synonym_map_for_curies(
-        self, subject: Union[CURIE, List[CURIE]]
-    ) -> Dict[CURIE, List[obograph.SynonymPropertyValue]]:
+    def synonym_property_values(
+        self, subject: Union[CURIE, Iterable[CURIE]]
+    ) -> Iterator[Tuple[CURIE, obograph.SynonymPropertyValue]]:
         if isinstance(subject, CURIE):
             subject = [subject]
         q = self.session.query(Statements).filter(Statements.subject.in_(tuple(subject)))
         q = q.filter(Statements.predicate.in_(SYNONYM_PREDICATES))
-        syn_rows = list(q)
-        logging.info(f"Fetching info on {len(syn_rows)} synonyms")
-        d = defaultdict(list)
-        for row in syn_rows:
+        for row in q:
             spv = obograph.SynonymPropertyValue(pred=row.predicate, val=row.value)
-            d[row.subject].append(spv)
             anns = self._axiom_annotations(row.subject, row.predicate, value=row.value)
             for ann in anns:
                 if ann.predicate == HAS_SYNONYM_TYPE:
                     spv.synonymType = ann.object
                 if ann.predicate == HAS_DBXREF:
                     spv.xrefs.append(ann.object)
-        return d
+            yield row.subject, spv
 
     def _axiom_annotations(
         self, subject: CURIE, predicate: CURIE, object: CURIE = None, value: Any = None
@@ -623,6 +713,57 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         for row in q:
             yield row.subject
+
+    def _rdf_list(self, bnode: str) -> Iterable[str]:
+        for row in self.session.query(RdfFirstStatement).filter(RdfFirstStatement.subject == bnode):
+            yield row.object
+        for row in self.session.query(RdfRestStatement.object).filter(
+            RdfRestStatement.subject == bnode
+        ):
+            for x in self._rdf_list(row.object):
+                yield x
+
+    def _ixn_definition(self, ixn: str, subject: CURIE) -> Optional[LogicalDefinitionAxiom]:
+        ldef = LogicalDefinitionAxiom(definedClassId=subject)
+        n = 0
+        for ixn_node in self._rdf_list(ixn):
+            n += 1
+            if _is_blank(ixn_node):
+                svfq = self.session.query(OwlSomeValuesFrom).filter(
+                    OwlSomeValuesFrom.id == ixn_node
+                )
+                svfq = list(svfq)
+                if svfq:
+                    if len(svfq) > 1:
+                        raise ValueError(f"Incorrect rdf structure for equiv axioms for {ixn_node}")
+                    svf = svfq[0]
+                    ldef.restrictions.append(
+                        ExistentialRestrictionExpression(
+                            propertyId=svf.on_property, fillerId=svf.filler
+                        )
+                    )
+                else:
+                    ldef = None
+                    break
+            else:
+                ldef.genusIds.append(ixn_node)
+        if n and ldef:
+            return ldef
+
+    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+        q = self.session.query(OwlEquivalentClassStatement)
+        q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(subjects)))
+        for eq_row in q:
+            ixn_q = self.session.query(Statements).filter(
+                and_(
+                    Statements.subject == eq_row.object,
+                    Statements.predicate == "owl:intersectionOf",
+                )
+            )
+            for ixn in ixn_q:
+                ldef = self._ixn_definition(ixn.object, eq_row.subject)
+                if ldef:
+                    yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface
@@ -889,7 +1030,6 @@ class SqlImplementation(
                     main_q = main_q.filter(
                         Statements.predicate == predicate, Statements.datatype != uri
                     )
-                    # print(main_q)
                     for row in main_q:
                         result = vdm.ValidationResult(
                             subject=row.subject,
@@ -1119,8 +1259,9 @@ class SqlImplementation(
                 vs = [vs]
             for v in vs:
                 if (curie, k, v) not in visited:
-                    ax = om.Axiom(annotatedSource=curie, annotatedProperty=k, annotatedTarget=v)
-                    yield ax
+                    if not _is_quoted_url(curie):
+                        ax = om.Axiom(annotatedSource=curie, annotatedProperty=k, annotatedTarget=v)
+                        yield ax
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: DifferInterface

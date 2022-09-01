@@ -80,6 +80,7 @@ from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
+from oaklib.io.streaming_nl_writer import StreamingNaturalLanguageWriter
 from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
 from oaklib.io.streaming_obo_writer import StreamingOboWriter
 from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWriter
@@ -104,6 +105,7 @@ from oaklib.utilities.lexical.lexical_indexer import (
     load_mapping_rules,
     save_lexical_index,
 )
+from oaklib.utilities.lint_utils import lint_ontology
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
@@ -135,6 +137,7 @@ YAML_FORMAT = "yaml"
 INFO_FORMAT = "info"
 SSSOM_FORMAT = "sssom"
 OWLFUN_FORMAT = "ofn"
+NL_FORMAT = "nl"
 
 ONT_FORMATS = [
     OBO_FORMAT,
@@ -144,6 +147,7 @@ ONT_FORMATS = [
     JSON_FORMAT,
     YAML_FORMAT,
     CSV_FORMAT,
+    NL_FORMAT,
 ]
 
 WRITERS = {
@@ -158,14 +162,31 @@ WRITERS = {
     YAML_FORMAT: StreamingYamlWriter,
     SSSOM_FORMAT: StreamingSssomWriter,
     INFO_FORMAT: StreamingInfoWriter,
+    NL_FORMAT: StreamingNaturalLanguageWriter,
 }
 
 
 @unique
 class Direction(Enum):
+    """
+    Permissible directions for graph traversal
+    """
+
     up = "up"
     down = "down"
     both = "both"
+
+
+@unique
+class IfAbsent(Enum):
+    """
+    Permissible values for --if-absent
+
+    This indicates the policy when a specific value is not present
+    """
+
+    absent_only = "absent-only"
+    present_only = "present-only"
 
 
 @unique
@@ -193,17 +214,44 @@ input_option = click.option(
 add_option = click.option(
     "-a", "--add", multiple=True, help="additional implementation specification."
 )
+all_ontologies_option = click.option(
+    "--all/--no-all",
+    default=False,
+    show_default=True,
+    help="If true, show all ontologies. Use in place of passing an explicit list",
+)
 set_operation_option = click.option(
     "--operation",
     type=click.Choice([x.value for x in SetOperation]),
     help="set operation, where left set is stdin list and right set is arguments.",
+)
+set_value_option = click.option(
+    "-S",
+    "--set-value",
+    help="the value to set for all terms for the given property.",
 )
 direction_option = click.option(
     "--direction",
     type=click.Choice([x.value for x in Direction]),
     help="direction of traversal over edges, which up is subject to object, down is object to subject.",
 )
-input_type_option = click.option("-I", "--input-type", help="Input type.")
+if_absent_option = click.option(
+    "--if-absent",
+    type=click.Choice([x.value for x in IfAbsent]),
+    help="determines behavior when the value is not present or is empty.",
+)
+owl_type_option = click.option(
+    "--owl-type", help="only include entities of this type, e.g. owl:Class, rdf:Property"
+)
+input_type_option = click.option(
+    "-I", "--input-type", help="Input format. Permissible values vary depending on the context"
+)
+dry_run_option = click.option(
+    "--dry-run/--no-dry-run",
+    default=False,
+    show_default=False,
+    help="If true, nothing will be modified by executing command",
+)
 autolabel_option = click.option(
     "--autolabel/--no-autolabel",
     default=True,
@@ -274,6 +322,15 @@ def _shorthand_to_pred_curie(shorthand: str) -> PRED_CURIE:
         return shorthand
 
 
+def _skip_if_absent(if_absent: bool, v: Any):
+    if if_absent:
+        if if_absent == IfAbsent.absent_only.value and v:
+            return True
+        elif if_absent == IfAbsent.present_only.value and not v:
+            return True
+    return False
+
+
 def _get_writer(
     output_type: str,
     impl: OntologyInterface,
@@ -291,6 +348,17 @@ def _get_writer(
     if isinstance(w, StreamingRdfWriter) and datamodel is not None:
         w.schemaview = package_schemaview(datamodel.__name__)
     return w
+
+
+def _apply_changes(impl, changes):
+    if changes:
+        logging.info(f"Applying {len(changes)} changes")
+        if isinstance(impl, PatcherInterface):
+            for change in changes:
+                impl.apply_patch(change)
+            impl.save()
+        else:
+            raise NotImplementedError(f"Cannot apply {len(changes)} changes")
 
 
 # A list whose members are either strings (search terms, curies, or directives)
@@ -481,18 +549,34 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @click.option(
-    "--save-to",
+    "--save-as",
     help="For commands that mutate the ontology, this specifies where changes are saved to",
 )
+# @click.option(
+#    "--save-as-syntax",
+#    help="For commands that mutate the ontology, this specifies the syntax for saving",
+# )
 @click.option(
     "--autosave/--no-autosave",
     help="For commands that mutate the ontology, this determines if these are automatically saved in place",
+)
+@click.option(
+    "--import-depth",
+    type=click.INT,
+    help="Maximum depth in the import tree to traverse",
 )
 @input_option
 @input_type_option
 @add_option
 def main(
-    verbose: int, quiet: bool, input: str, input_type: str, add: List, save_to: str, autosave: bool
+    verbose: int,
+    quiet: bool,
+    input: str,
+    input_type: str,
+    add: List,
+    save_as: str,
+    autosave: bool,
+    import_depth: Optional[int],
 ):
     """Run the oaklib Command Line.
 
@@ -521,7 +605,7 @@ def main(
 
     if input:
         impl_class: Type[OntologyInterface]
-        resource = get_resource_from_shorthand(input, format=input_type)
+        resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
         impl_class = resource.implementation_class
         logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)
@@ -530,10 +614,10 @@ def main(
         if settings.impl:
             impls = [settings.impl] + impls
         settings.impl = AggregatorImplementation(implementations=impls)
-    if save_to:
+    if save_as:
         if autosave:
-            raise ValueError("Cannot specify both --save-to and --autosave")
-        settings.impl = settings.impl.clone(get_resource_from_shorthand(save_to))
+            raise ValueError("Cannot specify both --save-as and --autosave")
+        settings.impl = settings.impl.clone(get_resource_from_shorthand(save_as))
         settings.autosave = True
 
 
@@ -571,6 +655,10 @@ def search(terms, output_type: str, output: TextIO):
 
     For more on search, see https://incatools.github.io/ontology-access-kit/interfaces/search.html
 
+    .. warning::
+
+       The behavior of search is not yet fully unified across endpoints
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -587,17 +675,26 @@ def search(terms, output_type: str, output: TextIO):
 
 @main.command()
 @output_option
-def all_subsets(output: str):
+def subsets(output: str):
     """
-    Shows all subsets
+    Shows information on subsets
 
     Example:
-        runoak -i obolibrary:go.obo all-subsets
+
+        runoak -i obolibrary:go.obo subsets
 
     Example:
-        runoak -i cl.owl all-subsets
+
+        runoak -i cl.owl subsets
 
     For background on subsets, see https://incatools.github.io/ontology-access-kit/concepts.html#subsets
+
+    Note you can use subsets in selector queries for other commands; e.g. to fetch all
+    terms (directly) in goslim_generic in GO:
+
+    Example:
+
+        runoak -i sqlite:obo:go info .in goslim_generic
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -633,8 +730,16 @@ def obsoletes(output_type: str, output: str):
 @output_option
 def ontologies(output: str):
     """
-    Shows ontologies
+    Shows all ontologies
 
+    If the input is a pre-merged ontology, then the output of this command is trivially
+    a single line, with the name of the input ontology
+
+    This command is more meaningful when the input is a multi-ontology endpoint, e.g
+
+        runoak -i ubergraph ontologies
+
+    In future this command will be expanded to allow showing more metadata about each ontology
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -646,14 +751,30 @@ def ontologies(output: str):
 
 @main.command()
 @output_option
+@all_ontologies_option
 @click.argument("ontologies", nargs=-1)
-def ontology_versions(ontologies, output: str):
+def ontology_versions(ontologies, output: str, all: bool):
     """
     Shows ontology versions
+
+    Currently only implemented for BioPortal
+
+    Example:
+
+        runoak -i bioportal: ontology-versions mp
+
+    All ontologies:
+
+        runoak -i bioportal ontology-versions --all
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
     if isinstance(impl, BasicOntologyInterface):
+        if len(ontologies) == 0:
+            if all:
+                ontologies = list(impl.ontologies())
+            else:
+                raise ValueError("Must pass one or more ontologies OR --all")
         for ont in list(ontologies):
             for v in impl.ontology_versions(ont):
                 obj = dict(ontology=ont, version=v)
@@ -665,14 +786,9 @@ def ontology_versions(ontologies, output: str):
 @main.command()
 @output_option
 @output_type_option
-@click.option(
-    "--all/--no-all",
-    default=False,
-    show_default=True,
-    help="If true, show all ontologies. Use in place of passing an explicit list",
-)
+@all_ontologies_option
 @click.argument("ontologies", nargs=-1)
-def ontology_metadata(ontologies, output_type: str, output: str, all):
+def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     """
     Shows ontology metadata
 
@@ -751,29 +867,6 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
             else:
                 metadata = impl.entity_metadata_map(curie)
                 writer.emit(metadata)
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
-@click.argument("subset")
-@output_option
-def list_subset(subset, output: str):
-    """
-    Shows IDs in a given subset
-
-    Example:
-        runoak -i obolibrary:go.obo list-subset goslim_generic
-
-    Example:
-        oak -i sqlite:notebooks/input/go.db list-subset goslim_agr
-
-    https://incatools.github.io/ontology-access-kit/concepts.html#subsets
-    """
-    impl = settings.impl
-    if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.subset_members(subset):
-            print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -898,7 +991,8 @@ def viz(
     For general background on what is meant by a graph in OAK,
     see https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
 
-    :: note:
+    .. note::
+
        This requires that `obographviz <https://github.com/INCATools/obographviz>`_ is installed.
 
     Example:
@@ -1036,8 +1130,18 @@ def tree(
 
         runoak -i envo.db tree ENVO:00000372 -p i,p
 
+    This produces output like:
+
+    .code::
+
+                        * [i] ENVO:00000094 ! volcanic feature
+                            * [i] ENVO:00000247 ! volcano
+                                * [i] ENVO:00000403 ! shield volcano
+                                    * [i] **ENVO:00000372 ! pyroclastic shield volcano**
+
+
     Note: for many ontologies the tree view will explode, especially if no predicates are specified.
-    You may wish to start with the is-a tree.
+    You may wish to start with the is-a tree (-p i).
 
     You can use the --gap-fill option to create a minimal tree:
 
@@ -1136,19 +1240,22 @@ def tree(
 @output_option
 def ancestors(terms, predicates, statistics: bool, output_type: str, output: str):
     """
-    List all ancestors
+    List all ancestors of a given term or terms.
+
+    Here ancestor means the transitive closure of the parent relationship, where
+    a parent includes all relationship types, not just is-a.
 
     Example:
 
         runoak -i cl.owl ancestors CL:4023094
 
-    Note that ancestors is by default over ALL relationship types
-
-    Constrained to is-a and part-of:
+    This will show ancestry over the full relationship graph. Like any relational
+    OAK command, this can be filtered by relationship type (predicate), using --predicate (-p).
+    For exampple, constrained to is-a and part-of:
 
         runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
 
-    Same, on ubergraph:
+    Multiple backends can be used, including ubergraph:
 
         runoak -i ubergraph: ancestors CL:4023094 -p i,BFO:0000050
 
@@ -1198,7 +1305,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 
 @main.command()
 @click.argument("terms", nargs=-1)
-@click.option("--target", multiple=True)
+@click.option("--target", multiple=True, help="end point of path")
 @click.option(
     "--flat/--no-flat",
     default=False,
@@ -1308,13 +1415,14 @@ def paths(
 @ontological_output_type_option
 def siblings(terms, predicates, output_type: str, output: str):
     """
-    List all siblings
+    List all siblings of a specified term or terms
 
     Example:
 
         runoak -i cl.owl siblings CL:4023094
 
-    Note that ancestors is by default over ALL relationship types
+    Note that siblings is by default over ALL relationship types, so we recommend
+    always being explicit and passing a predicate using -p (--predicates)
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -1346,7 +1454,18 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
     """
     List all descendants of a term
 
-    See examples for 'ancestors' command
+    Example:
+
+        runoak -i sqlite:obo:obi descendants assay -p i
+
+    Example:
+
+        runoak -i sqlite:obo:uberon descendants heart -p i,p
+
+    This is the inverse of the 'ancestors' command; see the documentation for
+    that command. But note that 'descendants' commands have the potential to be more
+    "explosive" than ancestors commands, especially for high level terms, and for when
+    predicates are not specified
 
     More background:
 
@@ -1374,11 +1493,20 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
 @output_type_option
 def dump(terms, output, output_type: str):
     """
-    Exports an ontology
+    Exports (dumps) the entire contents of an ontology
 
     Example:
 
-        runoak -i prontolib:pato.obo dump -o pato.json -O json
+        runoak -i pato.obo dump -o pato.json -O json
+
+    Example:
+
+        runoak -i pato.owl dump -o pato.ttl -O turtle
+
+    Currently each implementation only supports a subset of formats.
+
+    The dump command is also blocked for remote endpoints such as Ubergraph,
+    to avoid killer queries
 
     """
     impl = settings.impl
@@ -1576,19 +1704,50 @@ def all_similarity(
 @output_type_option
 def info(terms, output: TextIO, display: str, output_type: str):
     """
-    Show info on terms
+    Show information on term or set of terms
 
     Example:
 
-        runoak -i cl.owl info CL:4023094
+        runoak -i sqlite:obo:cl info CL:4023094
+
+    The default output is minimal, showing only ID and label
+
+    The --output-type (-O) option can be used to specify other formats for the output.
+
+    Currently there are only a few output types are supported. More will be provided in future.
 
     In OBO format:
 
         runoak -i cl.owl info CL:4023094 -O obo
 
+    As CSV:
+
+        runoak -i cl.obo info CL:4023094 -O csv
+
+    The info output format can be parameterized with --display (-D)
+
     With xrefs and definitions:
 
         runoak -i cl.owl info CL:4023094 -D x,d
+
+    With all information:
+
+        runoak -i cl.owl info CL:4023094 -D all
+
+    Like all OAK commands, input term lists can be multivalued, a mixture of IDs and labels, as well
+    as queries that can be combined using boolean logic
+
+    Info on two STATO terms:
+
+        runoak -i ontobee:stato info STATO:0000286 STATO:0000287 -O obo
+
+    All terms in ENVO with the string "forest" in them:
+
+        runoak -i sqlite:obo:envo info l~forest
+
+    Info on all subtypes of "statistical hypothesis test" in STATO:
+
+        runoak -i sqlite:obo:stato info .desc//p=i 'statistical hypothesis test'
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
@@ -1604,13 +1763,15 @@ def info(terms, output: TextIO, display: str, output_type: str):
 @output_option
 @display_option
 @ontological_output_type_option
-def labels(terms, output: TextIO, display: str, output_type: str):
+@if_absent_option
+@set_value_option
+def labels(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
     """
-    Show labels for terms
+    Show labels for term or list of terms
 
     Example:
 
-        runoak -i cl.owl labels CL:4023094
+        runoak -i cl.owl labels CL:4023093 CL:4023094
 
     You can use the ".all" selector to show all labels:
 
@@ -1618,15 +1779,43 @@ def labels(terms, output: TextIO, display: str, output_type: str):
 
         runoak -i cl.owl labels .all
 
+    (this may be blocked for remote endpoints)
+
+    You can query for terms that have either no label, or to include only ones with labels:
+
+    Nodes with no labels:
+
+        runoak -i cl.owl labels .all --if-absent exclude
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    if len(terms) == 0:
+        raise ValueError("You must specify a list of terms. Use '.all' for all terms")
+    n = 0
+    changes = []
     for curie_it in chunk(query_terms_iterator(terms, impl)):
         logging.info("** Next chunk:")
+        n += 1
         for curie, label in impl.labels(curie_it):
-            writer.emit(dict(id=curie, label=label))
+            obj = dict(id=curie, label=label)
+            if set_value is not None:
+                obj["new_value"] = set_value
+                if set_value != label:
+                    changes.append(
+                        kgcl.NodeRename(
+                            id="x", about_node=curie, old_value=label, new_value=set_value
+                        )
+                    )
+                else:
+                    logging.info(f"No change for {curie}")
+            if _skip_if_absent(if_absent, label):
+                continue
+            writer.emit(obj)
+    if n == 0:
+        raise ValueError(f"No results for input: {terms}")
+    _apply_changes(impl, changes)
 
 
 @main.command()
@@ -1634,15 +1823,17 @@ def labels(terms, output: TextIO, display: str, output_type: str):
 @output_option
 @display_option
 @ontological_output_type_option
-def definitions(terms, output: TextIO, display: str, output_type: str):
+@if_absent_option
+@set_value_option
+def definitions(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
     """
-    Show definitions for terms
+    Show textual definitions for term or set of terms
 
     Example:
 
         runoak -i sqlite:obo:envo definitions 'tropical biome' 'temperate biome'
 
-    You can use the ".all" selector to show all definitions:
+    You can use the ".all" selector to show all definitions for all terms in the ontology:
 
     Example:
 
@@ -1653,10 +1844,25 @@ def definitions(terms, output: TextIO, display: str, output_type: str):
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    changes = []
     for curie in query_terms_iterator(terms, impl):
         if isinstance(impl, BasicOntologyInterface):
             defn = impl.definition(curie)
-            writer.emit(dict(id=curie, definition=defn))
+            obj = dict(id=curie, definition=defn)
+            if set_value is not None:
+                obj["new_value"] = set_value
+                if set_value != defn:
+                    changes.append(
+                        kgcl.NodeTextDefinitionChange(
+                            id="x", about_node=curie, old_value=defn, new_value=set_value
+                        )
+                    )
+                else:
+                    logging.info(f"No change for {curie}")
+            if _skip_if_absent(if_absent, defn):
+                continue
+            writer.emit(obj)
+    _apply_changes(impl, changes)
 
 
 @main.command()
@@ -1666,16 +1872,67 @@ def definitions(terms, output: TextIO, display: str, output_type: str):
 @autolabel_option
 @output_type_option
 @output_option
+@if_absent_option
+@set_value_option
+@click.option(
+    "--include-tbox/--no-include-tbox",
+    default=True,
+    show_default=True,
+    help="Include class-class relationships (subclass and existentials)",
+)
+@click.option(
+    "--include-abox/--no-include-abox",
+    default=True,
+    show_default=True,
+    help="Include instance relationships (class and object property assertions)",
+)
 def relationships(
-    terms, predicates: str, direction: str, autolabel: bool, output_type: str, output: str
+    terms,
+    predicates: str,
+    direction: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    if_absent: bool,
+    set_value: str,
+    include_tbox: bool,
+    include_abox: bool,
 ):
     """
     Show all relationships for a term or terms
 
-    Example:
-        runoak -i cl.owl relationships CL:4023094
+    By default, this shows all relationships where the input term(s) are the *subjects*
 
-    Note: this subcommand will become redundant with other commands like info
+    Example:
+
+        runoak -i cl.db relationships CL:4023094
+
+    Like all OAK commands, a label can be passed instead of a CURIE
+
+    Example:
+
+        runoak -i cl.db relationships neuron
+
+    To reverse the direction, and query where the search term(s) are *objects*, use the --direction flag:
+
+    Example:
+
+        runoak -i cl.db relationships --direction down neuron
+
+    Multiple terms can be passed
+
+    Example:
+
+        runoak -i uberon.db relationships heart liver lung
+
+    And like all OAK commands, a query can be passed rather than an explicit term list
+
+    The following query lists all arteries in the limb together which what structures they supply
+
+    Query:
+
+        runoak -i uberon.db relationships -p RO:0002178 .desc//p=i "artery" .and .desc//p=i,p "limb"
+
     """
     impl = settings.impl
     if output_type == "obo":
@@ -1685,22 +1942,115 @@ def relationships(
     else:
         writer = StreamingCsvWriter(ontology_interface=impl)
     writer.autolabel = autolabel
+    writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
+    if not (include_tbox or include_abox):
+        raise ValueError("Cannot exclude both tbox AND abox")
     if isinstance(impl, BasicOntologyInterface):
         curies = list(query_terms_iterator(terms, impl))
-        up_it = impl.relationships(curies, predicates=actual_predicates)
-        down_it = impl.relationships(objects=curies, predicates=actual_predicates)
+        up_it = impl.relationships(
+            curies,
+            predicates=actual_predicates,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+        )
+        down_it = impl.relationships(
+            objects=curies,
+            predicates=actual_predicates,
+            include_abox=include_abox,
+            include_tbox=include_tbox,
+        )
         if direction is None or direction == Direction.up.value:
             it = up_it
         elif direction == Direction.down.value:
             it = down_it
         else:
             it = chain(up_it, down_it)
+        has_relationships = defaultdict(bool)
+        logging.info(f"Querying {impl}, iterator: {it}")
         for rel in it:
+            if direction is None or direction == Direction.up.value:
+                has_relationships[rel[0]] = True
+            elif direction == Direction.down.value:
+                has_relationships[rel[2]] = True
+            else:
+                has_relationships[rel[0]] = True
+                has_relationships[rel[2]] = True
+            if if_absent and if_absent == IfAbsent.absent_only.value:
+                continue
             writer.emit(
                 dict(subject=rel[0], predicate=rel[1], object=rel[2]),
                 label_fields=["subject", "predicate", "object"],
             )
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            for curie in curies:
+                if not has_relationships[curie]:
+                    writer.emit(
+                        dict(subject=curie, predicate=None, object=None),
+                        label_fields=["subject", "predicate", "object"],
+                    )
+        if set_value:
+            if len(actual_predicates) != 1:
+                raise ValueError(f"predicates={actual_predicates}, expected exactly one")
+            pred = actual_predicates[0]
+            changes = []
+            for curie in curies:
+                changes.append(
+                    kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
+                )
+            _apply_changes(impl, changes)
+
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@predicates_option
+@direction_option
+@autolabel_option
+@output_type_option
+@output_option
+@if_absent_option
+@set_value_option
+def logical_definitions(
+    terms,
+    predicates: str,
+    direction: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    if_absent: bool,
+    set_value: str,
+):
+    """
+    Show all logical definitions for a term or terms
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
+    writer.autolabel = autolabel
+    actual_predicates = _process_predicates_arg(predicates)
+    if isinstance(impl, OboGraphInterface):
+        # curies = list(query_terms_iterator(terms, impl))
+        has_relationships = defaultdict(bool)
+        curies = []
+        for curie_it in chunk(query_terms_iterator(terms, impl)):
+            curie_chunk = list(curie_it)
+            curies += curie_chunk
+            for ldef in impl.logical_definitions(curie_chunk):
+                if actual_predicates:
+                    if not any(r for r in ldef.restrictions if r.propertyId in actual_predicates):
+                        continue
+                if ldef.definedClassId:
+                    has_relationships[ldef.definedClassId] = True
+                    if if_absent and if_absent == IfAbsent.absent_only.value:
+                        continue
+                    writer.emit(ldef)
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            for curie in curies:
+                if not has_relationships.get(curie, False):
+                    writer.emit({"noLogicalDefinition": curie})
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1708,17 +2058,36 @@ def relationships(
 @main.command()
 @filter_obsoletes_option
 @output_option
-def terms(output: str, filter_obsoletes: bool):
+@owl_type_option
+def terms(output: str, owl_type, filter_obsoletes: bool):
     """
     List all terms in the ontology
 
     Example:
 
         runoak -i db/cob.db terms
+
+    All terms without obsoletes:
+
+        runoak -i prontolib:cl.obo  terms --filter-obsoletes
+
+    By default "terms" is considered to be any entity type in the ontology. Use --owl-type to constrain this:
+
+    Classes:
+
+        runoak -i sqlite:obo:ro terms --owl-type owl:Class
+
+    Relationship types (Object properties):
+
+        runoak -i sqlite:obo:ro terms --owl-type owl:ObjectProperty
+
+    Annotation properties:
+
+        runoak -i sqlite:obo:omo terms --owl-type owl:AnnotationProperty
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        for curie in impl.entities(filter_obsoletes=filter_obsoletes):
+        for curie in impl.entities(filter_obsoletes=filter_obsoletes, owl_type=owl_type):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1729,16 +2098,22 @@ def terms(output: str, filter_obsoletes: bool):
 @predicates_option
 def roots(output: str, predicates: str):
     """
-    List all root in the ontology
+    List all root nodes in the ontology
+
+    Like all OAK relational commands, this is parameterized by --predicates (-p).
+    Note that the default is to return the roots of the relation graph over *all* predicates.
+    This can sometimes give unintuitive results, so we recommend always being explicit
+    and parameterizing
 
     Example:
 
-        runoak -i db/cob.db terms
+        runoak -i db/cob.db roots
 
-    Note that the default is to return the roots of the relation graph over *all* predicates
+    This command is a wrapper onto the "roots" command in the BasicOntologyInterface.
 
+    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
+      oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots
 
-    TODO: filter obsoletes
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
@@ -1752,22 +2127,58 @@ def roots(output: str, predicates: str):
 @main.command()
 @output_option
 @predicates_option
-def leafs(output: str, predicates: str):
+@filter_obsoletes_option
+def leafs(output: str, predicates: str, filter_obsoletes: bool):
     """
     List all leaf nodes in the ontology
+
+    Like all OAK relational commands, this is parameterized by --predicates (-p).
+    Note that the default is to return the roots of the relation graph over *all* predicates
 
     Example:
 
         runoak -i db/cob.db leafs
 
-    Note that the default is to return the roots of the relation graph over *all* predicates
+    This command is a wrapper onto the "leafs" command in the BasicOntologyInterface.
 
-    TODO: filter obsoletes
+    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
+      oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs
     """
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in impl.leafs(actual_predicates):
+        for curie in impl.leafs(actual_predicates, filter_obsoletes=filter_obsoletes):
+            print(f"{curie} ! {impl.label(curie)}")
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@predicates_option
+@filter_obsoletes_option
+def singletons(output: str, predicates: str, filter_obsoletes: bool):
+    """
+    List all singleton nodes in the ontology
+
+    Like all OAK relational commands, this is parameterized by --predicates (-p).
+    Note that the default is to return the singletons of the relation graph over *all* predicates
+
+    Obsoletes are filtered by default
+
+    Example:
+
+        runoak -i db/cob.db singletons
+
+    This command is a wrapper onto the "singletons" command in the BasicOntologyInterface.
+
+    - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
+      oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons
+    """
+    impl = settings.impl
+    if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        for curie in impl.singletons(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1776,28 +2187,47 @@ def leafs(output: str, predicates: str):
 @main.command()
 @output_option
 @output_type_option
-@click.option("--maps-to-source")
+@autolabel_option
+@click.option(
+    "--maps-to-source", help="Return only mappings with subject or object source equal to this"
+)
 @click.argument("terms", nargs=-1)
-def mappings(terms, maps_to_source, output, output_type):
+def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
     """
-    List all SSSOM mappings in the ontology
+    List all mappings encoded in the ontology
 
-    Example (YAML):
+    Example:
 
-        runoak -i db/envo.db mappings
+        runoak -i sqlite:obo:envo mappings
 
-    TODO: TSV
+    The default output is SSSOM YAML. To use the (canonical) csv format:
+
+        runoak -i sqlite:obo:envo mappings -O sssom
+
+    By default, labels are not included. Use --autolabel to include labels (but note
+    that if the label is not in the source ontology, then no label will be retrieved)
+
+        runoak -i sqlite:obo:envo mappings -O sssom
+
+    To constrain the mapped object source:
+
+        runoak -i sqlite:obo:foodon mappings -O sssom --maps-to-source SUBSET_SIREN
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
+    writer.autolabel = autolabel
     if isinstance(impl, MappingProviderInterface):
         if len(terms) == 0:
             for mapping in impl.sssom_mappings_by_source(subject_or_object_source=maps_to_source):
+                if autolabel:
+                    impl.inject_mapping_labels([mapping])
                 writer.emit(mapping)
         else:
             for curie in query_terms_iterator(terms, impl):
                 for mapping in impl.get_sssom_mappings_by_curie(curie):
+                    if autolabel:
+                        impl.inject_mapping_labels([mapping])
                     writer.emit(mapping)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1815,27 +2245,37 @@ def aliases(terms, output, obo_model):
 
         runoak -i ubergraph:uberon aliases UBERON:0001988
 
-    Example:
+    TERMS should be either an explicit list of terms or queries, or can be a selector query,
+    such as '.all' to fetch all terms in the ontology
+
+    Show all aliases:
 
         runoak -i db/envo.db aliases .all
+
+    Currently the core behavior of this command assumes a simple datamodel for aliases, where an aliases
+    is a simple property-value tuples, with the property being from some standard vocabulary (e.g. skos:altLabel,
+    oboInOwl, etc)
+
+    If you know the synonyms follow the OBO/oboInOwl datamodel you can pass --obo-model, this will give back
+    richer data if present in the ontology, including synonym categories/types, synonym provenance
+
+    In future, this may become the default
     """
     impl = settings.impl
     writer = StreamingCsvWriter(output)
     if obo_model:
         if isinstance(impl, OboGraphInterface):
             curies = list(query_terms_iterator(terms, impl))
-            syn_map = impl.synonym_map_for_curies(curies)
-            for curie, spvs in syn_map.items():
-                for spv in spvs:
-                    writer.emit(
-                        dict(
-                            curie=curie,
-                            pred=spv.pred,
-                            value=spv.val,
-                            type=spv.synonymType,
-                            xrefs=spv.xrefs,
-                        )
+            for curie, spv in impl.synonym_property_values(curies):
+                writer.emit(
+                    dict(
+                        curie=curie,
+                        pred=spv.pred,
+                        value=spv.val,
+                        type=spv.synonymType,
+                        xrefs=spv.xrefs,
                     )
+                )
         else:
             raise NotImplementedError
     else:
@@ -1850,18 +2290,40 @@ def aliases(terms, output, obo_model):
 
 @main.command()
 @output_option
+@output_type_option
+@click.argument("terms", nargs=-1)
+def term_subsets(terms, output, output_type):
+    """
+    List subsets for a term or set of terms
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    if isinstance(impl, BasicOntologyInterface):
+        curies_it = query_terms_iterator(terms, impl)
+        for curie, subset in impl.terms_subsets(curies_it):
+            writer.emit(dict(curie=curie, subset=subset))
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@predicates_option
 @click.argument("subsets", nargs=-1)
-def subset_rollups(subsets: list, output):
+def expand_subsets(subsets: list, output, predicates):
     """
     For each subset provide a mapping of each term in the ontology to a subset
 
     Example:
 
-        runoak -i db/pato.db subset-rollups attribute_slim value_slim
+        runoak -i db/pato.db expand-subsets attribute_slim value_slim
     """
     impl = settings.impl
     # writer = StreamingCsvWriter(output)
     if isinstance(impl, OboGraphInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        if not actual_predicates:
+            actual_predicates = [IS_A, PART_OF]
         impl.enable_transitive_query_cache()
         term_curies = list(impl.entities())
         output.write("\t".join(["subset", "term", "subset_term"]))
@@ -1870,7 +2332,7 @@ def subset_rollups(subsets: list, output):
             logging.info(f"SUBSETS={subsets}")
         for subset in subsets:
             logging.info(f"Subset={subset}")
-            m = roll_up_to_named_subset(impl, subset, term_curies, predicates=[IS_A, PART_OF])
+            m = roll_up_to_named_subset(impl, subset, term_curies, predicates=actual_predicates)
             for term, mapped_to in m.items():
                 for tgt in mapped_to:
                     output.write("\t".join([subset, term, tgt]))
@@ -1883,19 +2345,18 @@ def subset_rollups(subsets: list, output):
 @main.command()
 @output_option
 @output_type_option
-def all_axioms(output: str, output_type: str):
+@click.option("--category-system", help="Example: biolink, cob, bfo, dbpedia, ...")
+@click.argument("terms", nargs=-1)
+def term_categories(terms, output, output_type):
     """
-    List all axioms
-
-    TODO: this will be replaced by "axioms" command
+    List categories for a term or set of terms
     """
     impl = settings.impl
-    if isinstance(impl, OwlInterface):
-        writer = StreamingAxiomWriter(
-            output, syntax=output_type, functional_writer=impl.functional_writer
-        )
-        for axiom in impl.axioms():
-            writer.emit(axiom)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    if isinstance(impl, BasicOntologyInterface):
+        curies_it = query_terms_iterator(terms, impl)
+        for curie, subset in impl.terms_categories(curies_it):
+            writer.emit(dict(curie=curie, subset=subset))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1911,8 +2372,23 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
     """
     Filters axioms
 
+    Example:
+
+        runoak -i cl.ofn axiom
+
+    The above will write all axioms.
+
+    You can filter by axiom type:
+
+    Example:
+
+        runoak -i cl.ofn axiom --axiom-type SubClassOf
+
+
     """
     impl = settings.impl
+    writer = StreamingAxiomWriter(syntax=output_type, functional_writer=impl.functional_writer)
+    writer.output = output
     if terms:
         curies = [curie for curie in query_terms_iterator(terms, impl)]
     else:
@@ -1924,7 +2400,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
         if axiom_type:
             conditions.set_type(axiom_type)
         for axiom in impl.filter_axioms(conditions=conditions):
-            print(axiom)
+            writer.emit(axiom)
 
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1949,7 +2425,9 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 @click.argument("terms", nargs=-1)
 def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicates: List, output):
     """
-    List all taxon constraints for a term or terms
+    Compute all taxon constraints for a term or terms
+
+    Note that this *computes* the taxon constraints rather than doing a lookup
 
     Example:
 
@@ -1957,7 +2435,11 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
 
     Example:
 
-        runoak -i db/uberon.db taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p
+        runoak -i sqlite:obo:uberon taxon-constraints UBERON:0003884 UBERON:0003941 -p i,p
+
+    This command is a wrapper onto taxon_constraints_utils:
+
+    - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils
     """
     impl = settings.impl
     writer = StreamingYamlWriter(output)
@@ -1986,11 +2468,20 @@ def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicate
 @output_option
 @predicates_option
 @click.argument("constraints", nargs=-1)
-def add_taxon_constraints(constraints, evolution_file, predicates: List, output):
+def eval_taxon_constraints(constraints, evolution_file, predicates: List, output):
     """
     Test candidate taxon constraints
 
-    For the -E option, accepts the format used in https://arxiv.org/abs/1802.06004
+    Multiple candidate constraints can be passed as arguments. these are in the form of triples
+    separated by periods.
+
+    Example:
+
+        runoak  -i db/go.db eval-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
+        never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
+
+    The --evolution-file (-E) option can be used to pass in a file of candidates.
+    This should follow the format used in https://arxiv.org/abs/1802.06004
 
     E.g.
 
@@ -1998,12 +2489,7 @@ def add_taxon_constraints(constraints, evolution_file, predicates: List, output)
 
     Example:
 
-        runoak  -i db/go.db add-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv
-
-    Example:
-
-        runoak  -i db/go.db add-taxon-constraints -p i,p GO:0005743 only NCBITaxon:2759
-        never NCBITaxon:2 . GO:0005634 only NCBITaxon:2
+        runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv
 
     """
     actual_predicates = _process_predicates_arg(predicates)
@@ -2067,6 +2553,10 @@ def validate(output: str, cutoff: int):
     Example:
 
         runoak  -i db/ecto.db validate -o results.tsv
+
+    For more information, see the OAK how-to guide:
+
+    - https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html
     """
     writer = StreamingCsvWriter(output)
     impl = settings.impl
@@ -2107,6 +2597,10 @@ def validate_multiple(dbs, output, schema, cutoff: int):
     Validate multiple ontologies against ontology metadata
 
     See the validate command - this is the same except you can pass a list of databases
+
+    For more information, see the OAK how-to guide:
+
+    - https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html
     """
     writer = StreamingCsvWriter(output)
     config = ValidationConfiguration()
@@ -2160,24 +2654,6 @@ def check_definitions(output: str):
 
 
 @main.command()
-@click.argument("terms", nargs=-1)
-@output_option
-def extract_subset(terms, output: str):
-    """
-    Extracts a subset
-
-    TODO: INCOMPLETE
-    """
-    impl = settings.impl
-    if isinstance(impl, SubsetterInterface):
-        curies = query_terms_iterator(terms, impl)
-        subont = impl.extract_subset_ontology(curies)
-        print(f"TODO: {subont}")
-    else:
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-
-
-@main.command()
 @click.argument("curie_pairs", nargs=-1)
 @click.option(
     "--replace/--no-replace", default=False, show_default=True, help="If true, will update in place"
@@ -2188,7 +2664,19 @@ def migrate_curies(curie_pairs, replace: bool, output_type, output: str):
     """
     Rewires an ontology replacing all instances of an ID or IDs
 
-    runoak -i db/uberon.db migrate-curies --replace SRC1=TGT1 SRC2=TGT2
+    Note: the specified ontology is modified in place
+
+    The input for this command is a list equals-separated pairs, specifying the
+    source and the target
+
+    Example:
+
+        runoak -i db/uberon.db migrate-curies --replace SRC1=TGT1 SRC2=TGT2
+
+    This command is a wrapper onto the "migrate_curies" command in the PatcherInterface
+
+    - https://incatools.github.io/ontology-access-kit/interfaces/patcher.html#
+    oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies
     """
     impl = settings.impl
     curie_map = {}
@@ -2246,24 +2734,40 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
-    """Generates lexical index and mappings.
-
-    See :ref:`.lexical_index_to_sssom`
+    """
+    Performs lexical matching between pairs of terms in one more more ontologies
 
     Examples:
 
         runoak -i foo.obo lexmatch -o foo.sssom.tsv
 
-    Outputting intermediate index:
+    In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.
+
+    It is more common to map between all pairs of terms in two ontology files. To avoid a merge
+    preprocessing step:
+
+        runoak -i foo.obo -a bar.obo lexmatch -o foo.sssom.tsv
+
+    lexmatch implements a simple algorithm:
+
+    - create a lexical index, keyed by normalized strings of labels, synonyms
+    - report all pairs of entities that have the same key
+
+    The lexical index can be exported (in native YAML) using -L:
 
         runoak -i foo.obo lexmatch -L foo.index.yaml -o foo.sssom.tsv
 
     Note: if you run the above command a second time it will be faster as the index
-    will be reused
+    will be reused.
 
     Using custom rules:
 
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
+
+    Full documentation:
+
+    - https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.lexical.lexical_indexer.html#
+    module-oaklib.utilities.lexical.lexical_indexer
     """
     impl = settings.impl
     if rules_file:
@@ -2296,15 +2800,15 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 @click.argument("terms", nargs=-1)
 def diff_terms(output, other_ontology, terms):
     """
-    EXPERIMENTAL
+    Compares a pair of terms in two ontologies
 
-    :param output:
-    :param other_ontology:
-    :param terms:
-    :return:
+    EXPERIMENTAL
     """
     impl = settings.impl
-    other_impl = get_implementation_from_shorthand(other_ontology)
+    if other_ontology is None:
+        other_impl = impl
+    else:
+        other_impl = get_implementation_from_shorthand(other_ontology)
     terms = list(query_terms_iterator(terms, impl))
     if len(terms) == 2:
         [term, other_term] = terms
@@ -2374,7 +2878,8 @@ def diff(simple: bool, output, output_type, other_ontology):
 @click.argument("commands", nargs=-1)
 def apply(commands, output, output_type):
     """
-    Applies a patch to an ontology
+    Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
+    https://github.com/INCATools/kgcl
 
     Example:
 
@@ -2391,6 +2896,7 @@ def apply(commands, output, output_type):
     This command is still experimental. Some things to bear in mind:
 
     - for some ontologies, CURIEs may not work, instead specify a full URI surrounded by <>s
+    - only a subset of KGCL commands are supported by each backend
     """
     impl = settings.impl
     if isinstance(impl, PatcherInterface):
@@ -2415,17 +2921,20 @@ def apply_obsolete(output, output_type, terms):
     """
     Sets an ontology element to be obsolete
 
-    WARNING: this command may be replaced by a more general KGCL change command
-    in future
-
     Example:
 
         runoak -i my.obo apply-obsolete MY:0002200 -o my-modified.obo
+
+    Multiple terms can be passed, as labels, IDs, or using OAK queries:
+
+        runoak -i my.obo apply-obsolete MY:1 MY:2 MY:3 ... -o my-modified.obo
 
     This may be chained, for example to take all terms matching a search query and then
     obsolete them all:
 
         runoak -i my.db search 'l/^Foo/` | runoak -i my.db --autosave apply-obsolete -
+
+    This command is partially redundant with the more general "apply" command
     """
     impl = settings.impl
     if isinstance(impl, PatcherInterface):
@@ -2442,10 +2951,43 @@ def apply_obsolete(output, output_type, terms):
 
 
 @main.command()
+@click.option("--output", "-o")
+@click.option("--report-format", help="Output format for reporting proposed/applied changes")
+@dry_run_option
+@output_type_option
+def lint(output, output_type, report_format, dry_run: bool):
+    """
+    Lints an ontology, applying changes in place
+
+    The current implementation is highly incomplete, and only handles
+    linting of syntactic patterns (chains of whitespace, trailing whitespace)
+    in labels and definitions
+
+    Implementations
+
+    - owl, in functional syntax
+    - obo
+    """
+    impl = settings.impl
+    writer = _get_writer(report_format, impl, StreamingYamlWriter)
+    if isinstance(impl, PatcherInterface):
+        impl.autosave = settings.autosave
+        changes = lint_ontology(impl, dry_run=dry_run)
+        for _, change in changes:
+            writer.emit(change)
+        if output:
+            impl.dump(output, output_type)
+        else:
+            print(impl.dump(syntax=output_type))
+    else:
+        raise NotImplementedError
+
+
+@main.command()
 @click.option("-S", "--source", multiple=True, help="ontology prefixes  e.g. HP, MP")
 @click.option(
     "--mapping-input",
-    help="File of mappings in SSSOM format. If not provided then mappings in ontoogy are used",
+    help="File of mappings in SSSOM format. If not provided then mappings in ontology(ies) are used",
 )
 @click.option("--other-input", help="Additional input file")
 @click.option("--other-input-type", help="Type of additional input file")
@@ -2476,10 +3018,33 @@ def diff_via_mappings(
     output,
 ):
     """
-    Calculates a relational diff between ontologies in two sources using the combined mappings
-    from both
+    Calculates cross-ontology diff using mappings
 
-    E.g. use MP and HP mappings to give a report on how these ontologies are structurally different.
+    Given a pair of ontologies, and mappings that connect terms in both ontologies, this
+    command will perform a structural comparison of all mapped pairs of terms
+
+    Example:
+
+        runoak -i sqlite:obo:uberon --other-input sqlite:obo:zfa  --source UBERON --source ZFA -O csv
+
+    Note the above command does not have any mapping file specified; the mappings that are distributed within
+    each ontology is used (in this case, Uberon contains mappings to ZFA)
+
+    If the mappings are provided externally:
+
+        runoak -i ont1.obo --other-input ont2.obo --mapping-input mappings.sssom.tsv
+
+    (in the above example, --source is not passed, so all mappings are tested)
+
+    If there are no existing mappings, you can use the lexmatch command to generate them:
+
+        runoak -i ont1.obo -a ont2.obo lexmatch -o mappings.sssom.stv
+        runoak -i ont1.obo --other-input ont2.obo --mapping-input mappings.sssom.tsv
+
+    The output from this command follows the cross-ontology-diff data model
+    (https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html)
+
+    This can be serialized in YAML or TSV form
     """
     oi = settings.impl
     writer = _get_writer(
@@ -2564,6 +3129,8 @@ def fill_table(
     """
     Fills missing values in a table of ontology elements
 
+    See https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.table_filler
+
     Given a TSV with a populated ID column, and unpopulated columns for definition, label, mappings, ancestors,
     this will iterate through each row filling in each missing value by performing ontology lookups.
 
@@ -2637,11 +3204,11 @@ def fill_table(
     This is a powerful command with many ways of configuring it - we will add separate docs for this soon,
     for now please file an issue on github with any questions
 
-    TODO: allow for an option that will perform fuzzy matches of labels
-    TODO: reverse lookup is not provided for all fields, such as definitions
-    TODO: add an option to detect inconsistencies
-    TODO: add logical for obsoletion/replaced by
-    TODO: use most optimized method for whichever backend
+    - TODO: allow for an option that will perform fuzzy matches of labels
+    - TODO: reverse lookup is not provided for all fields, such as definitions
+    - TODO: add an option to detect inconsistencies
+    - TODO: add logical for obsoletion/replaced by
+    - TODO: use most optimized method for whichever backend
     """
     tf = TableFiller(settings.impl)
     with open(table_file) as input_file:

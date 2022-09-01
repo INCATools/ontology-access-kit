@@ -5,27 +5,62 @@ Part 7: SQLite files
 
 The most efficient way to work with OAK is through SQLite files. OAK accepts SQLite files that follow the `Semantic SQL <https://github.com/INCATools/semantic-sql>`_ schema.
 
-The :ref:`SqlImplementation` wraps SQLite or any relational database.
+The :ref:`sql_implementation` wraps SQLite or any relational database.
 
+.. hint::
+
+    You may also want to try the `Semantic-SQL tutorial <https://github.com/INCATools/semantic-sql/blob/main/notebooks/SemanticSQL-Tutorial.ipynb>`_
 
 Download a SQLite file
 ----------------
 
-You can download ready made SQLite files for any :term:`OBO` Librray ontology
+You can download ready made SQLite files for any :term:`OBO` Libray ontology
 
-For example: https://s3.amazonaws.com/bbop-sqlite/hp.db
+For example: the Cell Ontology (CL) is available from https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
 
-You can also use the ``obosqlite`` ontology selector:
+Example
+^^^^^
+
+.. code-block::
+
+    wget https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
+    gzip -d cl.db.gz
+    runoak -i cl.db relationships "enteric neuron"
+
+This will show all relationships centered around the subject of CL:0007011:
+
+.. csv-table:: Ancestor statistics
+    :header: id, label, visits, distance
+
+    subject,predicate,object,subject_label,predicate_label,object_label
+    CL:0007011,BFO:0000050,UBERON:0002005,enteric neuron,part of,enteric nervous system
+    CL:0007011,RO:0002100,UBERON:0002005,enteric neuron,has soma location,enteric nervous system
+    CL:0007011,RO:0002202,CL:0002607,enteric neuron,develops from,migratory enteric neural crest cell
+    CL:0007011,rdfs:subClassOf,CL:0000029,enteric neuron,None,neural crest derived neuron
+    CL:0007011,rdfs:subClassOf,CL:0000107,enteric neuron,None,autonomic neuron
+
+.. hint::
+
+    OAK will automatically treat anything with ``.db`` as a sqlite database
+
+You can be more explicit and force the sqlite adapter to be used, regardless of suffix using a ``sqlite`` :ref:`selector`:
+
+.. code-block::
+
+    wget https://s3.amazonaws.com/bbop-sqlite/cl.db.gz
+    gzip -d cl.db.gz
+    runoak -i sqlite:cl.db relationships "enteric neuron"
+
+Fetching ready-made SQLite files
+^^^^^
+
+You can also specify that the sqlite file should be loaded from the repository:
 
 .. code-block::
 
     runoak -i sqlite:obo:pato search t~shape
 
 This will download the pato.db sqlite file once, and cache it
-
-.. warning::
-
-    The ready-made SQLite files are not made at regular intervals
 
 Building your own SQLite files
 -------------------
@@ -64,18 +99,34 @@ You can then query the file as normal:
 Without docker
 ^^^^^^^^^
 
+**Prerequisites**
+
+For this to work you will need to install the following dependencies and ensure they're loaded in your `PATH`.
+
+1. `relation-graph <https://github.com/balhoff/relation-graph#installation>`_
+
+2. `rdftab <https://github.com/ontodev/rdftab.rs#installation>`_  
+
+3. `riot` - On MacOS, can install using `HomeBrew <https://brew.sh/>`_ via: ``brew install jena``
+
+Then, run:
+
 .. code-block::
 
    semsql make path/to/obi.db
 
-However, for this to work you will need two dependencies loaded and on your path
+Consult the `SemSQL docs <https://github.com/INCATools/semantic-sql>`_ for more details.
 
-- rdftab
-- relation-graph
+In future we hope to wrap these more seamlessly in Python.
 
-Consult the `SemSQL <https://github.com/INCATools/semantic-sql>` docs for more details.
+Validating an ontology
+-----------------
 
-In future we hope to wrap these more seamlessly in Python
+the SQLite implementation is the most efficient way to validate an ontology
+
+.. code-block::
+
+    runoak -i sqlite:obo:cl validate
 
 Other RDBMSs
 ------------

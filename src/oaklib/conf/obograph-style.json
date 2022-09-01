@@ -82,6 +82,16 @@
         "wgs84:lat", "wgs84:long", "sosa:hasSimpleResult"
     ],
     "prefixProperties": {
+        "UPHENO": {
+            "fillcolor": "black",
+            "fontcolor": "white"
+        },
+        "MP": {
+            "fillcolor": "pink"
+        },
+        "HP": {
+            "fillcolor": "mediumturquoise"
+        },
         "UBERON": {
             "fillcolor": "yellow"
         },
@@ -89,7 +99,7 @@
             "fillcolor": "azure2"
         },
         "OBI": {
-            "fillcolor": "mediumturquoise"
+            "fillcolor": "burlywood1"
         },
         "GO": {
             "fillcolor": "pink"

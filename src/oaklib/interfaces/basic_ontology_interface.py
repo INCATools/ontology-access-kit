@@ -17,6 +17,8 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix, get_obo_prefix_map
+from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 NC_NAME = str
 PREFIX_MAP = Mapping[NC_NAME, URI]
@@ -211,7 +213,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         returns iterator over all known entity CURIEs
 
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
-        :param owl_type: e.g. owl:Class
+        :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
         :return: iterator
         """
         raise NotImplementedError
@@ -238,7 +240,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         # this interface-level method should be replaced by specific implementations
-        logging.info("Using naive approach for root detection, may be slow")
+        logging.info(
+            f"Using naive approach for root detection, may be slow. Predicates={predicates}"
+        )
         candidates = []
         for curie in self.entities(owl_type=OWL_CLASS):
             if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
@@ -299,6 +303,41 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             if term not in exclusion_list:
                 yield term
 
+    def singletons(
+        self, predicates: List[PRED_CURIE] = None, filter_obsoletes=True
+    ) -> Iterable[CURIE]:
+        """
+        All singleton nodes, where a singleton has no connections using the specified
+        predicate list
+
+        :param predicates:
+        :param ignore_owl_nothing:
+        :param filter_obsoletes:
+        :return:
+        """
+        # TODO: use a more efficient algorithm
+        candidates = list(
+            self.roots(predicates=predicates, ignore_owl_thing=True, filter_obsoletes=True)
+        )
+        logging.info(f"Candidates: {len(candidates)}; filtering using {predicates}")
+        for subject, pred, object in self.all_relationships():
+            if subject == object:
+                continue
+            if subject == OWL_NOTHING:
+                continue
+            if object in candidates:
+                if predicates is None or pred in predicates:
+                    candidates.remove(object)
+                    logging.debug(f"Not a singleton: {object} [inv({pred}) {subject}]")
+        if filter_obsoletes:
+            exclusion_list = list(self.obsoletes())
+        else:
+            exclusion_list = []
+        exclusion_list += [OWL_THING, OWL_NOTHING]
+        for term in candidates:
+            if term not in exclusion_list:
+                yield term
+
     def subsets(self) -> Iterable[SUBSET_CURIE]:
         """
         returns iterator over all known subset CURIEs
@@ -311,13 +350,35 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def subset_curies(self) -> Iterable[SUBSET_CURIE]:
         return self.subsets()
 
-    @deprecated("Replaced by subset_curies()")
+    @deprecated("Replaced by subsets()")
     def all_subset_curies(self) -> Iterable[SUBSET_CURIE]:
         return self.subsets()
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         """
         returns iterator over all CURIEs belonging to a subset
+
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        """
+        returns iterator over all subsets a term belongs to
+
+        :return: iterator
+        """
+        # TODO: replace with adaptor-specific
+        logging.info("Using naive method for fetching subsets")
+        curies = list(curies)
+        for s in self.subsets():
+            for t in self.subset_members(s):
+                if t in curies:
+                    yield t, s
+
+    def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
+        """
+        returns iterator over all categories a term or terms belongs to
 
         :return: iterator
         """
@@ -330,6 +391,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def label(self, curie: CURIE) -> Optional[str]:
         """
         fetches the unique label for a CURIE
+
+        The CURIE may be for a class, individual, property, or ontology
+
+        :param curie:
+        :return:
+        """
+        raise NotImplementedError
+
+    def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+        """
+        fetches comments for a CURIE or CURIEs
 
         The CURIE may be for a class, individual, property, or ontology
 
@@ -483,16 +555,20 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def relationships(
         self,
-        subjects: List[CURIE] = None,
-        predicates: List[PRED_CURIE] = None,
-        objects: List[CURIE] = None,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
 
-        :param subjects:
-        :param predicates:
-        :param objects:
+        :param subjects: constrain search to these subjects (i.e outgoing edges)
+        :param predicates: constrain search to these predicates
+        :param objects: constrain search to these objects (i.e incoming edges)
+        :param include_tbox: if true, include class-class relationships (default True)
+        :param include_abox: if true, include instance-instance/class relationships (default True)
         :return:
         """
         if not subjects:

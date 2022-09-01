@@ -83,6 +83,39 @@ class TestCommandLineInterface(unittest.TestCase):
                 self.assertIn("Wikipedia:Cell_nucleus", contents)
                 self.assertNotIn("A membrane-bounded organelle", contents)
 
+    def test_labels(self):
+        for input_arg in [f"sqlite:{TEST_DB}"]:
+            result = self.runner.invoke(main, ["-i", str(input_arg), "labels", ".all"])
+            assert "cytoplasm" in result.stdout
+            assert "IAO:0000078" in result.stdout
+            result = self.runner.invoke(
+                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "present-only"]
+            )
+            assert "cytoplasm" in result.stdout
+            assert "IAO:0000078" not in result.stdout
+            result = self.runner.invoke(
+                main, ["-i", str(input_arg), "labels", ".all", "--if-absent", "absent-only"]
+            )
+            assert "cytoplasm" not in result.stdout
+            assert "IAO:0000078" in result.stdout
+
+    def test_definitions(self):
+        for input_arg in [f"sqlite:{TEST_DB}"]:
+            result = self.runner.invoke(main, ["-i", str(input_arg), "definitions", ".all"])
+            print(result.stdout)
+            assert "cytoplasm" in result.stdout
+            assert "IAO:0000078" in result.stdout
+            result = self.runner.invoke(
+                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "present-only"]
+            )
+            assert "cytoplasm" in result.stdout
+            assert "IAO:0000078" not in result.stdout
+            result = self.runner.invoke(
+                main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "absent-only"]
+            )
+            assert "cytoplasm" not in result.stdout
+            assert "IAO:0000078" in result.stdout
+
     # OBOGRAPH
 
     def test_obograph_local(self):
@@ -170,6 +203,10 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(main, ["-i", input_arg, "leafs", "-p", "i"])
             out = result.stdout
             assert NUCLEAR_ENVELOPE in out
+            result = self.runner.invoke(main, ["-i", input_arg, "singletons", "-p", "i"])
+            out = result.stdout
+            print(out)
+            assert NUCLEAR_ENVELOPE not in out
 
     # MAPPINGS
 

@@ -1,10 +1,12 @@
 import importlib
 import logging
+import os
 import pkgutil
 from pathlib import Path
 from typing import Optional, Type
 
 from oaklib import BasicOntologyInterface
+from oaklib import datamodels as datamodels_package
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.bioportal.agroportal_implementation import (
     AgroportalImplementation,
@@ -111,6 +113,8 @@ def get_resource_imp_class_from_suffix_descriptor(
         impl_class = SparqlImplementation
         resource.format = "xml"
         logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
+    elif suffix == "ofn":
+        impl_class = FunOwlImplementation
     else:
         resource.local = True
         impl_class = ProntoImplementation
@@ -118,12 +122,15 @@ def get_resource_imp_class_from_suffix_descriptor(
     return impl_class, resource
 
 
-def get_resource_from_shorthand(descriptor: str, format: str = None) -> OntologyResource:
+def get_resource_from_shorthand(
+    descriptor: str, format: str = None, import_depth: Optional[int] = None
+) -> OntologyResource:
     """
     Maps from a shorthand descriptor to an OntologyResource.
 
     :param descriptor:
-    :param format:
+    :param format: file format/syntax, e.g obo, turtle
+    :param import_depth: maximum import depth to traverse
     :return:
     """
     from oaklib.implementations import (
@@ -133,9 +140,24 @@ def get_resource_from_shorthand(descriptor: str, format: str = None) -> Ontology
     )
 
     resource = OntologyResource(format=format)
+    resource.import_depth = import_depth
     resource.slug = descriptor
     impl_class: Optional[Type[OntologyInterface]] = None
     if descriptor:
+        # Pre-processing
+        if descriptor.startswith("datamodel:"):
+            # introspect the internal OAK datamodel.
+            # the oak data models are intended for programmatic use, but the documentation
+            # is also exposed as a pseudo-ontology by default.
+            # this allows us to do things such as use the OAK CLI to find all classes
+            # or fields in a data model, see their hierarchy, etc
+            # this is currently an advanced/experimental feature, if useful
+            # it should be exposed in user-facing sphinx docs.
+            descriptor = descriptor.replace("datamodel:", "")
+            dm_path = os.path.dirname(datamodels_package.__file__)
+            descriptor = f"{Path(dm_path)/descriptor}.owl.ttl"
+            logging.info(f"Introspecting datamodel from {descriptor}")
+            resource.slug = descriptor
         if ":" in descriptor:
             toks = descriptor.split(":")
             scheme = toks[0]

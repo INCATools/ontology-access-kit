@@ -31,6 +31,7 @@ SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
 
+IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]
 
 OWL_CLASS = "owl:Class"
 OWL_OBJECT_PROPERTY = "owl:ObjectProperty"

@@ -8,13 +8,21 @@ from funowl.converters.functional_converter import to_python
 from funowl.writers.FunctionalWriter import FunctionalWriter
 from kgcl_schema.datamodel import kgcl
 
-from oaklib.datamodels.vocabulary import DEPRECATED_PREDICATE, LABEL_PREDICATE
+from oaklib.datamodels.vocabulary import (
+    DEFAULT_PREFIX_MAP,
+    DEPRECATED_PREDICATE,
+    HAS_DEFINITION_CURIE,
+    LABEL_PREDICATE,
+    OBO_PURL,
+)
+from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
-from oaklib.types import CURIE
+from oaklib.interfaces.patcher_interface import PatcherInterface
+from oaklib.types import CURIE, URI
 
 
 @dataclass
-class FunOwlImplementation(OwlInterface):
+class FunOwlImplementation(OwlInterface, PatcherInterface):
     """
     An experimental partial implementation of :ref:`OwlInterface`
 
@@ -44,12 +52,42 @@ class FunOwlImplementation(OwlInterface):
     def _ontology(self):
         return self.ontology_document.ontology
 
+    def prefix_map(self) -> PREFIX_MAP:
+        # TODO
+        return DEFAULT_PREFIX_MAP
+
     def entity_iri_to_curie(self, entity: IRI) -> CURIE:
         uri = entity.to_rdf(self.functional_writer.g)
         return self.uri_to_curie(str(uri))
 
     def curie_to_entity_iri(self, curie: CURIE) -> IRI:
         return IRI(self.curie_to_uri(curie))
+
+    def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
+        # TODO: do not hardcode OBO
+        pm = self.prefix_map()
+        for k, v in pm.items():
+            if uri.startswith(v):
+                return uri.replace(v, f"{k}:")
+        if uri.startswith(OBO_PURL):
+            uri = uri.replace(OBO_PURL, "")
+            return uri.replace("_", ":")
+        return uri
+
+    def _single_valued_assignment(self, curie: CURIE, property: CURIE) -> Optional[str]:
+        labels = [a.value for a in self.annotation_assertion_axioms(curie, property=property)]
+        if labels:
+            if len(labels) > 1:
+                logging.warning(f"Multiple labels for {curie} = {labels}")
+            val = labels[0]
+            rdf_v = val.to_rdf(self.functional_writer.g)
+            if isinstance(rdf_v, rdflib.Literal):
+                return rdf_v.value
+            else:
+                raise ValueError(f"Label must be literal, not {val}")
+
+    def definition(self, curie: CURIE) -> Optional[str]:
+        return self._single_valued_assignment(curie, HAS_DEFINITION_CURIE)
 
     def label(self, curie: CURIE) -> str:
         labels = [
@@ -69,17 +107,7 @@ class FunOwlImplementation(OwlInterface):
         for ax in self._ontology.axioms:
             if isinstance(ax, Declaration):
                 uri = ax.v.full_uri(self.functional_writer.g)
-                try:
-                    yv = self.uri_to_curie(str(uri))
-                except ValueError:
-                    logging.warning(
-                        "could not compress URI %s with functional writer context %s",
-                        uri,
-                        self.functional_writer.g.namespaces(),
-                    )
-                    continue
-                else:
-                    yield yv
+                yield self.uri_to_curie(str(uri))
 
     def axioms(self, reasoner: Optional[ReasonerConfiguration] = None) -> Iterable[Axiom]:
         ont = self._ontology
@@ -99,7 +127,7 @@ class FunOwlImplementation(OwlInterface):
         if path is None:
             print(out)
         elif isinstance(path, str):
-            with open(path, "wb") as file:
+            with open(path, "w", encoding="UTF-8") as file:
                 file.write(str(out))
         else:
             path.write(str(out))
@@ -124,6 +152,8 @@ class FunOwlImplementation(OwlInterface):
             about = patch.about_node
             if isinstance(patch, kgcl.NodeRename):
                 self._set_annotation_predicate_value(about, LABEL_PREDICATE, patch.new_value)
+            elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+                self._set_annotation_predicate_value(about, HAS_DEFINITION_CURIE, patch.new_value)
             elif isinstance(patch, kgcl.NewSynonym):
                 raise NotImplementedError
             elif isinstance(patch, kgcl.NodeObsoletion):

@@ -51,10 +51,8 @@ class StreamingInfoWriter(StreamingWriter):
                 defn = oi.definition(curie)
                 if defn:
                     self.file.write(f' "{defn}"')
-            if (
-                show_all
-                or "ic" in self.display_options
-                and isinstance(oi, SemanticSimilarityInterface)
+            if "ic" in self.display_options and (
+                show_all and isinstance(oi, SemanticSimilarityInterface)
             ):
                 ic = oi.get_information_content(curie)
                 self.file.write(f" IC: {ic}")

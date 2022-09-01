@@ -86,17 +86,3 @@ class SearchConfiguration(SearchBaseConfiguration):
 
         many of these parameters are not yet implemented
     """
-
-    @deprecated()
-    def use_label_only(self) -> "SearchConfiguration":
-        self.include_label = False
-        self.include_id = False
-        self.include_definition = False
-        self.include_aliases = False
-        self.properties = [SearchProperty.LABEL]
-        return self
-
-
-query_grammar = r"""
-query: disj | conj
-"""

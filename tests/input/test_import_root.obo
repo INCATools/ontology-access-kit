@@ -1,0 +1,7 @@
+format-version: 1.2
+ontology: test_import_root
+import: http://purl.obolibrary.org/obo/test_imported_ontology.owl
+
+[Term]
+id: PATO:0000001
+name: term in root

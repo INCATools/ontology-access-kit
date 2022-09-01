@@ -27,6 +27,7 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OBO_PURL,
+    RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
 )
@@ -42,6 +43,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
+from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
 from oaklib.utilities.rate_limiter import check_limit
 
@@ -292,24 +294,53 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         bindings = self._query(query)
         return list(set([self.uri_to_curie(row["s"]["value"]) for row in bindings]))
 
-    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
+    def outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         uri = self.curie_to_uri(curie)
-        rels = defaultdict(list)
-        rels[IS_A] = self.hierararchical_parents(curie)
-        query = SparqlQuery(
-            select=["?p", "?o"],
-            where=[
-                f"<{uri}> <{RDFS.subClassOf}> [owl:onProperty ?p ; owl:someValuesFrom ?o]",
-                "FILTER (isIRI(?o))",
-            ],
-        )
-        bindings = self._query(query)
-        for row in bindings:
-            pred = self.uri_to_curie(row["p"]["value"])
-            obj = self.uri_to_curie(row["o"]["value"])
-            if obj not in rels[pred]:
-                rels[pred].append(obj)
-        return rels
+        if not predicates or IS_A in predicates:
+            for p in self.hierararchical_parents(curie):
+                yield IS_A, p
+        if not predicates or predicates != [IS_A]:
+            query = SparqlQuery(
+                select=["?p", "?o"],
+                where=[
+                    f"<{uri}> <{RDFS.subClassOf}> [owl:onProperty ?p ; owl:someValuesFrom ?o]",
+                    "FILTER (isIRI(?o))",
+                ],
+            )
+            bindings = self._query(query)
+            for row in bindings:
+                pred = self.uri_to_curie(row["p"]["value"])
+                obj = self.uri_to_curie(row["o"]["value"])
+                yield pred, obj
+            query = SparqlQuery(
+                select=["?p", "?o"],
+                where=[
+                    f"<{uri}> ?p ?o",
+                    "?p rdf:type owl:ObjectProperty",
+                ],
+            )
+            bindings = self._query(query)
+            for row in bindings:
+                pred = self.uri_to_curie(row["p"]["value"])
+                obj = self.uri_to_curie(row["o"]["value"])
+                yield pred, obj
+            if not predicates or RDF_TYPE in predicates:
+                query = SparqlQuery(
+                    select=["?o"],
+                    where=[
+                        f"<{uri}> rdf:type ?o",
+                        "?o a owl:Class",
+                    ],
+                )
+                bindings = self._query(query)
+                for row in bindings:
+                    obj = self.uri_to_curie(row["o"]["value"])
+                    yield RDF_TYPE, obj
+
+    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
 
     def incoming_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
         uri = self.curie_to_uri(curie)

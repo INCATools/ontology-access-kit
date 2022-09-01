@@ -27,7 +27,9 @@ If you like you can directly convert an iterator to a list:
     >>> curies = list(oi.basic_search("cell"))
 
 However, this may be an anti-pattern if the implementation is a remote service and the results include possible thousands of results,
-as this will block on waiting for all results
+as this will block on waiting for all results.
+
+For more on iterators, see `How to Use Generators and yield in Python <https://realpython.com/introduction-to-python-generators/>`_
 
 Weaving calls together
 ^^^^^^^^^^^^^^^^^^^^^^

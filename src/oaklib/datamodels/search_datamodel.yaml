@@ -40,6 +40,8 @@ types:
 
 classes:
   SearchBaseConfiguration:
+    todos:
+      - rename this SearchConfiguration
     description: A user-specified configuration that determines how a particular search operation works
     attributes:
       search_terms:
@@ -66,46 +68,41 @@ classes:
         range: integer
         description: >-
           when the number of search results exceed the limit this can be used to iterate through results
-      is_regular_expression:
-        range: boolean
-        deprecated: use the syntax slot
       is_partial:
         range: boolean
-        deprecated: use is_complete
+        description: allows matches where the search term is a subset of the full span
       is_complete:
         range: boolean
-        description: restricts search results to matches of the full span of the string
-      include_id:
-        range: boolean
-        deprecated: use properties to explicitly list properties
-      include_label:
-        range: boolean
-        deprecated: use properties to explicitly list properties
-      include_aliases:
-        range: boolean
-        deprecated: use properties to explicitly list properties
-      include_definition:
-        range: boolean
-        deprecated: use properties to explicitly list properties
+        deprecated: use is_partial
       include_obsoletes_in_results:
         range: boolean
         deprecated: use properties to explicitly list properties
+      is_fuzzy:
+        range: boolean
       categories:
         multivalued: true
+        range: uriorcurie
+        description: categories that should be matched
 
-  BooleanQuery:
+  ComplexQuery:
     attributes:
-      operator:
-        range: BooleanOperator
-      operands:
-        range: BooleanQuery
+      all_of:
+        range: ComplexQuery
         multivalued: true
+      any_of:
+        range: ComplexQuery
+        multivalued: true
+      none_of:
+        range: ComplexQuery
+        multivalued: true
+      path_to:
       atom:
-        range: AtomicQuery
+        range: SearchBaseConfiguration
 
-  AtomicQuery:
+  PathExpression:
+    description: A path query
     attributes:
-      graph_function:
+      traversal:
         range: GraphFunction
       graph_predicates:
         range: uriorcurie

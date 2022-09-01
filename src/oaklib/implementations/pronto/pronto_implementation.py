@@ -1,5 +1,6 @@
 import logging
 import re
+import shutil
 import sys
 import tempfile
 
@@ -7,7 +8,7 @@ import tempfile
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import pronto
 import sssom_schema as sssom
@@ -47,6 +48,14 @@ from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 
 warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
+
+
+def _synonym_scope_pred(s: pronto.Synonym) -> str:
+    scope = s.scope.upper()
+    if scope in SCOPE_TO_SYNONYM_PRED_MAP:
+        return SCOPE_TO_SYNONYM_PRED_MAP[scope]
+    else:
+        raise ValueError(f"Unknown scope: {scope}")
 
 
 @dataclass
@@ -98,12 +107,15 @@ class ProntoImplementation(
         if self.wrapped_ontology is None:
             resource = self.resource
             logging.info(f"Pronto using resource: {resource}")
+            kwargs = {}
+            if resource and resource.import_depth is not None:
+                kwargs["import_depth"] = resource.import_depth
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
-                ontology = Ontology(str(resource.local_path))
+                ontology = Ontology(str(resource.local_path), **kwargs)
             else:
-                ontology = Ontology.from_obo_library(resource.slug)
+                ontology = Ontology.from_obo_library(resource.slug, **kwargs)
             self.wrapped_ontology = ontology
 
     @classmethod
@@ -214,11 +226,17 @@ class ProntoImplementation(
                 yield t.id
 
     def subsets(self) -> Iterable[CURIE]:
+        reported = set()
+        for s in self.wrapped_ontology.metadata.subsetdefs:
+            reported.add(s.name)
+            yield s.name
+        # also yield implicit subsets
         subsets = set()
         for t in self.wrapped_ontology.terms():
             subsets.update(t.subsets)
         for subset in subsets:
-            yield subset
+            if subset not in reported:
+                yield subset
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
@@ -316,8 +334,15 @@ class ProntoImplementation(
                 t.relationships[predicate_term] = []
             t.relationships[predicate_term].add(filler_term)
 
-    def definition(self, curie: CURIE) -> str:
-        return self._entity(curie).definition
+    def definition(self, curie: CURIE) -> Optional[str]:
+        e = self._entity(curie)
+        return e.definition if e else None
+
+    def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+        for curie in curies:
+            e = self._entity(curie)
+            if e:
+                yield curie, e.comment
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         t = self._entity(curie)
@@ -326,11 +351,7 @@ class ProntoImplementation(
         m = defaultdict(list)
         m[LABEL_PREDICATE] = [t.name]
         for s in t.synonyms:
-            scope = s.scope.upper()
-            if scope in SCOPE_TO_SYNONYM_PRED_MAP:
-                pred = SCOPE_TO_SYNONYM_PRED_MAP[scope]
-            else:
-                raise ValueError(f"Unknown scope: {scope}")
+            pred = _synonym_scope_pred(s)
             m[pred].append(s.description)
         return m
 
@@ -363,11 +384,12 @@ class ProntoImplementation(
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
         m = defaultdict(list)
-        for ann in t.annotations:
-            if isinstance(ann, LiteralPropertyValue):
-                m[ann.property].append(ann.literal)
-            elif isinstance(ann, ResourcePropertyValue):
-                m[ann.property].append(ann.resource)
+        if t:
+            for ann in t.annotations:
+                if isinstance(ann, LiteralPropertyValue):
+                    m[ann.property].append(ann.literal)
+                elif isinstance(ann, ResourcePropertyValue):
+                    m[ann.property].append(ann.resource)
         return m
 
     def create_subontology(self, curies: List[CURIE]) -> "ProntoImplementation":
@@ -380,12 +402,22 @@ class ProntoImplementation(
             # TODO - complete object
         return ProntoImplementation(wrapped_ontology=subontology)
 
-    def dump(self, path: str = None, syntax: str = None):
+    def clone(self, resource: Any) -> None:
+        shutil.copyfile(self.resource.slug, resource.slug)
+        return type(self)(resource)
+
+    def dump(self, path: str = None, syntax: str = "obo"):
         if isinstance(path, str):
             with open(path, "wb") as file:
                 self.wrapped_ontology.dump(file, format=syntax)
         else:
             self.wrapped_ontology.dump(path, format=syntax)
+
+    def save(
+        self,
+    ):
+        logging.info("Committing and flushing changes")
+        self.dump(self.resource.slug)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface
@@ -447,6 +479,23 @@ class ProntoImplementation(
         nodes = [self.node(curie) for curie in self.entities()]
         edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
         return Graph(id="TODO", nodes=nodes, edges=edges)
+
+    def synonym_property_values(
+        self, subject: Union[CURIE, Iterable[CURIE]]
+    ) -> Iterator[Tuple[CURIE, obograph.SynonymPropertyValue]]:
+        if isinstance(subject, CURIE):
+            subject = [subject]
+        for curie in subject:
+            e = self._entity(curie)
+            if e:
+                for s in e.synonyms:
+                    pred = _synonym_scope_pred(s)
+                    xrefs = [x.id for x in s.xrefs]
+                    t = s.type.id if s.type else None
+                    spv = obograph.SynonymPropertyValue(
+                        pred=pred, val=s.description, xrefs=xrefs, synonymType=t
+                    )
+                    yield curie, spv
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface
@@ -523,12 +572,17 @@ class ProntoImplementation(
             for syn in t.synonyms:
                 if syn.description == patch.old_value:
                     syn.description = patch.new_value
+        elif isinstance(patch, kgcl.NodeTextDefinitionChange):
+            t = self._entity(patch.about_node, strict=True)
+            xrefs = t.definition.xrefs if t.definition else []
+            t.definition = pronto.Definition(patch.new_value, xrefs=xrefs)
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._entity(patch.about_node, strict=True)
             # Get scope from patch.qualifier
             # rather than forcing all synonyms to be related.
             scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             t.add_synonym(description=patch.new_value, scope=scope)
-
+        elif isinstance(patch, kgcl.EdgeCreation):
+            self.add_relationship(patch.subject, patch.predicate, patch.object)
         else:
-            raise NotImplementedError
+            raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")

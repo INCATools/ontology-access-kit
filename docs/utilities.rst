@@ -23,3 +23,4 @@ being turned into :ref:`interfaces`.
    subsets.slimmer_utils
    apikey_manager
    taxon/taxon_constraint_utils
+   table_filler
