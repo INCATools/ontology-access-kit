@@ -1,10 +1,8 @@
-import json
 from collections import defaultdict
 from functools import lru_cache
-from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-from prefixmaps.io import load_context
+from prefixmaps.io.parser import load_context
 
 from oaklib.types import CURIE
 
@@ -42,4 +40,4 @@ def get_curie_prefix(curie: CURIE) -> Optional[str]:
 
 @lru_cache(1)
 def get_obo_prefix_map():
-    return load_context("obo")
+    return load_context("obo").as_dict()
