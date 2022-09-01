@@ -1,11 +1,12 @@
 import logging
 from abc import ABC
-from collections import ChainMap
 from dataclasses import field
+from functools import lru_cache
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
 
 import curies
 from deprecation import deprecated
+from prefixmaps.io.parser import load_context
 
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
@@ -16,7 +17,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
-from oaklib.utilities.basic_utils import get_curie_prefix, get_obo_prefix_map
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 NC_NAME = str
 PREFIX_MAP = Mapping[NC_NAME, URI]
@@ -25,6 +26,22 @@ ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
 # ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
+
+MISSING_PREFIX_MAP = dict(
+    EFO="http://www.ebi.ac.uk/efo/EFO_",
+    SCTID="http://snomed.info/id/",
+)
+
+
+@lru_cache(1)
+def get_default_prefix_map() -> Mapping[str, str]:
+    """Construct a default prefix map using a :mod:`prefixmaps.datamodel.Context` object."""
+    obo_context = load_context("obo")
+    for prefix, uri_prefix in DEFAULT_PREFIX_MAP.items():
+        obo_context.add_prefix(prefix, uri_prefix)
+    for prefix, uri_prefix in MISSING_PREFIX_MAP.items():
+        obo_context.add_prefix(prefix, uri_prefix)
+    return obo_context.as_dict()
 
 
 class BasicOntologyInterface(OntologyInterface, ABC):
@@ -92,14 +109,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :return: prefix map
         """
-        return ChainMap(
-            get_obo_prefix_map(),
-            DEFAULT_PREFIX_MAP,
-            dict(
-                EFO="http://www.ebi.ac.uk/efo/EFO_",
-                SCTID="http://snomed.info/id/",
-            ),
-        )
+        return get_default_prefix_map()
 
     @deprecated("Replaced by prefix_map")
     def get_prefix_map(self) -> PREFIX_MAP:
