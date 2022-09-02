@@ -82,14 +82,16 @@
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
+<span class="kn">import</span> <span class="nn">curies</span>
 <span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">prefixmaps.io.parser</span> <span class="kn">import</span> <span class="n">load_context</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BIOPORTAL_PURL</span><span class="p">,</span>
+    <span class="n">DEFAULT_PREFIX_MAP</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
-    <span class="n">OBO_PURL</span><span class="p">,</span>
     <span class="n">OWL_CLASS</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
@@ -99,12 +101,28 @@
 <span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">get_curie_prefix</span>
 
 <span class="n">NC_NAME</span> <span class="o">=</span> <span class="nb">str</span>
-<span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NC_NAME</span><span class="p">,</span> <span class="n">URI</span><span class="p">]</span>
+<span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">NC_NAME</span><span class="p">,</span> <span class="n">URI</span><span class="p">]</span>
 <span class="n">RELATIONSHIP_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
 <span class="n">ALIAS_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="n">METADATA_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="c1"># ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]</span>
 <span class="n">RELATIONSHIP</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]</span>
+
+<span class="n">MISSING_PREFIX_MAP</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">EFO</span><span class="o">=</span><span class="s2">&quot;http://www.ebi.ac.uk/efo/EFO_&quot;</span><span class="p">,</span>
+    <span class="n">SCTID</span><span class="o">=</span><span class="s2">&quot;http://snomed.info/id/&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_default_prefix_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Construct a default prefix map using a :mod:`prefixmaps.datamodel.Context` object.&quot;&quot;&quot;</span>
+    <span class="n">obo_context</span> <span class="o">=</span> <span class="n">load_context</span><span class="p">(</span><span class="s2">&quot;obo&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">uri_prefix</span> <span class="ow">in</span> <span class="n">DEFAULT_PREFIX_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">obo_context</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">uri_prefix</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">uri_prefix</span> <span class="ow">in</span> <span class="n">MISSING_PREFIX_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">obo_context</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">uri_prefix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obo_context</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="BasicOntologyInterface"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">[docs]</a><span class="k">class</span> <span class="nc">BasicOntologyInterface</span><span class="p">(</span><span class="n">OntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -161,20 +179,34 @@
 
     <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">autosave</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">_converter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="BasicOntologyInterface.prefix_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a dictionary mapping all prefixes known to the resource to their URI expansion</span>
+<span class="sd">        Return a dictionary mapping all prefixes known to the resource to their URI expansion.</span>
+
+<span class="sd">        By default, this returns a combination of the  OBO Foundry prefix map with</span>
+<span class="sd">        the default OAKlib prefix map (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).</span>
 
 <span class="sd">        :return: prefix map</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">return</span> <span class="n">get_default_prefix_map</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.get_prefix_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by prefix_map&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.curie_to_uri"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">[docs]</a>    <span class="k">def</span> <span class="nf">curie_to_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">URI</span><span class="p">]:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">converter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a converter for this ontology interface&#39;s prefix map.</span>
+
+<span class="sd">        :return: A converter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="o">=</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="o">.</span><span class="n">from_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span>
+
+<div class="viewcode-block" id="BasicOntologyInterface.curie_to_uri"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">[docs]</a>    <span class="k">def</span> <span class="nf">curie_to_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">URI</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expands a CURIE to a URI</span>
 
@@ -182,24 +214,19 @@
 <span class="sd">        :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">curie</span>
-        <span class="n">pm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">pfx</span><span class="p">,</span> <span class="n">local_id</span> <span class="o">=</span> <span class="n">parts</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bad CURIE: </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2"> parts: </span><span class="si">{</span><span class="n">parts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">curie</span>
-        <span class="k">if</span> <span class="n">pfx</span> <span class="ow">in</span> <span class="n">pm</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pm</span><span class="p">[</span><span class="n">pfx</span><span class="p">]</span><span class="si">}{</span><span class="n">local_id</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># TODO: not hardcode</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OBO_PURL</span><span class="si">}{</span><span class="n">pfx</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">local_id</span><span class="si">}</span><span class="s2">&quot;</span></div>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">strict</span><span class="p">:</span>
+            <span class="n">prefix_map_text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">uri_prefix</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">uri_prefix</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.prefix_map() does not support expanding </span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;This ontology interface contains </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">())</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> prefixes:</span><span class="se">\n</span><span class="si">{</span><span class="n">prefix_map_text</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.uri_to_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">[docs]</a>    <span class="k">def</span> <span class="nf">uri_to_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.uri_to_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.uri_to_curie">[docs]</a>    <span class="k">def</span> <span class="nf">uri_to_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Contracts a URI to a CURIE</span>
 
@@ -210,19 +237,17 @@
 <span class="sd">        :param strict: Boolean [default: True]</span>
 <span class="sd">        :return: CURIE</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pm</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">uri</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">OBO_PURL</span><span class="p">):</span>
-            <span class="c1"># TODO: do not hardcode OBO purl behavior</span>
-            <span class="n">uri</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OBO_PURL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">uri</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">BIOPORTAL_PURL</span><span class="p">):</span>
-            <span class="c1"># TODO: do not hardcode OBO purl behavior</span>
-            <span class="n">uri</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BIOPORTAL_PURL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">uri</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">uri</span></div>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">strict</span><span class="p">:</span>
+            <span class="n">prefix_map_text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">uri_prefix</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">uri_prefix</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.prefix_map() does not support compressing </span><span class="si">{</span><span class="n">uri</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;This ontology interface contains </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">())</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> prefixes:</span><span class="se">\n</span><span class="si">{</span><span class="n">prefix_map_text</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.ontologies"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies">[docs]</a>    <span class="k">def</span> <span class="nf">ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
