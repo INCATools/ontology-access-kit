@@ -1,5 +1,6 @@
 import itertools
 import logging
+import os
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
@@ -18,11 +19,16 @@ class TestBioportal(unittest.TestCase):
 
     def setUp(self) -> None:
         cls = BioportalImplementation
+        api_key = None
         try:
-            get_apikey_value(cls.ontoportal_client_class.name)
+            api_key = get_apikey_value(cls.ontoportal_client_class.name)
         except ValueError:
+            envar_key = "BIOPORTAL_API_KEY"
+            if envar_key in os.environ:
+                api_key = os.environ[envar_key]
+        if api_key is None:
             self.skipTest("Skipping bioportal tests, no API key set")
-        impl = cls()
+        impl = cls(api_key=api_key)
         self.impl = impl
 
     def test_text_annotator(self):

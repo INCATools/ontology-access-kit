@@ -41,6 +41,7 @@ class OntoPortalImplementationBase(
 ):
 
     ontoportal_client_class: ClassVar[type[PreconfiguredOntoPortalClient]] = None
+    api_key: Union[str, None] = None
 
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     ontology_cache: Dict[URI, str] = field(default_factory=lambda: {})
@@ -52,8 +53,9 @@ class OntoPortalImplementationBase(
                 self.focus_ontology = self.resource.slug
         if not self.ontoportal_client_class:
             raise NotImplementedError("ontoportal_client_class not specified")
-        api_key = get_apikey_value(self.ontoportal_client_class.name)
-        self.client = self.ontoportal_client_class(api_key=api_key)
+        if not self.api_key:
+            self.api_key = get_apikey_value(self.ontoportal_client_class.name)
+        self.client = self.ontoportal_client_class(api_key=self.api_key)
 
     def prefix_map(self) -> PREFIX_MAP:
         context = load_multi_context(["obo", "bioportal"])
