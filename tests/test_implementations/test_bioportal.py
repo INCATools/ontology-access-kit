@@ -8,7 +8,7 @@ from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
-from tests import DIGIT, HUMAN, NEURON, VACUOLE
+from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
 class TestBioportal(unittest.TestCase):
@@ -56,8 +56,8 @@ class TestBioportal(unittest.TestCase):
 
     def test_ancestors(self):
         ancestors = list(self.impl.ancestors(VACUOLE))
-        assert "http://purl.obolibrary.org/obo/GO_0005575" in ancestors  # cellular_component
-        assert "http://purl.obolibrary.org/obo/GO_0005737" in ancestors  # cytoplasm
+        assert CELLULAR_COMPONENT in ancestors  # cellular_component
+        assert CYTOPLASM in ancestors  # cytoplasm
 
     def test_ontologies(self):
         ontologies = list(self.impl.ontologies())

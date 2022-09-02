@@ -6,6 +6,7 @@ from urllib.parse import quote
 
 import requests
 from ontoportal_client.api import PreconfiguredOntoPortalClient
+from prefixmaps.io.parser import load_multi_context
 from sssom_schema import Mapping
 
 from oaklib.datamodels.search import SearchConfiguration
@@ -55,8 +56,8 @@ class OntoPortalImplementationBase(
         self.client = self.ontoportal_client_class(api_key=api_key)
 
     def prefix_map(self) -> PREFIX_MAP:
-        # TODO
-        return {}
+        context = load_multi_context(["obo", "bioportal"])
+        return context.as_dict()
 
     def _get_response(self, *args, **kwargs):
         check_limit()
@@ -143,11 +144,14 @@ class OntoPortalImplementationBase(
             ac_obj = obj["annotatedClass"]
             for x in obj["annotations"]:
                 try:
+                    object_id = self.uri_to_curie(ac_obj["@id"], strict=False)
+                    if object_id is None:
+                        object_id = ac_obj["@id"]
                     ann = TextAnnotation(
                         subject_start=x["from"],
                         subject_end=x["to"],
                         subject_label=x["text"],
-                        object_id=self.uri_to_curie(ac_obj["@id"]),
+                        object_id=object_id,
                         object_label=ac_obj["prefLabel"],
                         object_source=ac_obj["links"]["ontology"],
                         match_type=x["matchType"],
@@ -189,7 +193,7 @@ class OntoPortalImplementationBase(
         collection = obj["collection"]
         while len(collection) > 0:
             result = collection[0]
-            curie = self.uri_to_curie(result["@id"])
+            curie = self.uri_to_curie(result["@id"], use_uri_fallback=True)
             label = result.get("prefLabel", None)
             self.label_cache[curie] = label
             logging.debug(f"M: {curie} => {label}")
@@ -254,7 +258,7 @@ class OntoPortalImplementationBase(
         body = response.json()
         for ancestor in body:
             self.add_uri_to_ontology_mapping(ancestor)
-            yield ancestor["@id"]
+            yield self.uri_to_curie(ancestor["@id"], strict=False, use_uri_fallback=True)
 
     def _get_ontology_and_uri_from_id(self, id: Union[CURIE, URI]) -> Tuple[str, URI]:
         if id in self.ontology_cache:
