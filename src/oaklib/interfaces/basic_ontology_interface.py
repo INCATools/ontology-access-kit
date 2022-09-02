@@ -1,14 +1,16 @@
 import logging
 from abc import ABC
 from dataclasses import field
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from functools import lru_cache
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
 
+import curies
 from deprecation import deprecated
+from prefixmaps.io.parser import load_context
 
 from oaklib.datamodels.vocabulary import (
-    BIOPORTAL_PURL,
+    DEFAULT_PREFIX_MAP,
     IS_A,
-    OBO_PURL,
     OWL_CLASS,
     OWL_NOTHING,
     OWL_THING,
@@ -18,12 +20,28 @@ from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix
 
 NC_NAME = str
-PREFIX_MAP = Dict[NC_NAME, URI]
+PREFIX_MAP = Mapping[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
 ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
 # ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
+
+MISSING_PREFIX_MAP = dict(
+    EFO="http://www.ebi.ac.uk/efo/EFO_",
+    SCTID="http://snomed.info/id/",
+)
+
+
+@lru_cache(1)
+def get_default_prefix_map() -> Mapping[str, str]:
+    """Construct a default prefix map using a :mod:`prefixmaps.datamodel.Context` object."""
+    obo_context = load_context("obo")
+    for prefix, uri_prefix in DEFAULT_PREFIX_MAP.items():
+        obo_context.add_prefix(prefix, uri_prefix)
+    for prefix, uri_prefix in MISSING_PREFIX_MAP.items():
+        obo_context.add_prefix(prefix, uri_prefix)
+    return obo_context.as_dict()
 
 
 class BasicOntologyInterface(OntologyInterface, ABC):
@@ -80,20 +98,34 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     strict: bool = False
     autosave: bool = field(default_factory=lambda: True)
+    _converter: Optional[curies.Converter] = None
 
     def prefix_map(self) -> PREFIX_MAP:
         """
-        Returns a dictionary mapping all prefixes known to the resource to their URI expansion
+        Return a dictionary mapping all prefixes known to the resource to their URI expansion.
+
+        By default, this returns a combination of the  OBO Foundry prefix map with
+        the default OAKlib prefix map (see :data:`oaklib.datamodels.vocabulary.DEFAULT_PREFIX_MAP`).
 
         :return: prefix map
         """
-        raise NotImplementedError
+        return get_default_prefix_map()
 
     @deprecated("Replaced by prefix_map")
     def get_prefix_map(self) -> PREFIX_MAP:
         return self.prefix_map()
 
-    def curie_to_uri(self, curie: CURIE, strict=False) -> Optional[URI]:
+    @property
+    def converter(self) -> curies.Converter:
+        """Get a converter for this ontology interface's prefix map.
+
+        :return: A converter
+        """
+        if self._converter is None:
+            self._converter = curies.Converter.from_prefix_map(self.prefix_map())
+        return self._converter
+
+    def curie_to_uri(self, curie: CURIE, strict: bool = False) -> Optional[URI]:
         """
         Expands a CURIE to a URI
 
@@ -101,24 +133,19 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
         :return:
         """
-        if curie.startswith("http"):
-            return curie
-        pm = self.prefix_map()
-        parts = curie.split(":")
-        if len(parts) == 2:
-            pfx, local_id = parts
-        else:
-            if strict:
-                raise ValueError(f"Bad CURIE: {curie} parts: {parts}")
-            else:
-                return curie
-        if pfx in pm:
-            return f"{pm[pfx]}{local_id}"
-        else:
-            # TODO: not hardcode
-            return f"{OBO_PURL}{pfx}_{local_id}"
+        rv = self.converter.expand(curie)
+        if rv is None and strict:
+            prefix_map_text = "\n".join(
+                f"  {prefix} -> {uri_prefix}"
+                for prefix, uri_prefix in sorted(self.converter.data.items())
+            )
+            raise ValueError(
+                f"{self.__class__.__name__}.prefix_map() does not support expanding {curie}.\n"
+                f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
+            )
+        return rv
 
-    def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
+    def uri_to_curie(self, uri: URI, strict: bool = True) -> Optional[CURIE]:
         """
         Contracts a URI to a CURIE
 
@@ -129,19 +156,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param strict: Boolean [default: True]
         :return: CURIE
         """
-        pm = self.prefix_map()
-        for k, v in pm.items():
-            if uri.startswith(v):
-                return uri.replace(v, f"{k}:")
-        if uri.startswith(OBO_PURL):
-            # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f"{OBO_PURL}", "")
-            return uri.replace("_", ":")
-        if uri.startswith(BIOPORTAL_PURL):
-            # TODO: do not hardcode OBO purl behavior
-            uri = uri.replace(f"{BIOPORTAL_PURL}", "")
-            return uri.replace("_", ":")
-        return uri
+        rv = self.converter.compress(uri)
+        if rv is None and strict:
+            prefix_map_text = "\n".join(
+                f"  {prefix} -> {uri_prefix}"
+                for prefix, uri_prefix in sorted(self.converter.data.items())
+            )
+            raise ValueError(
+                f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
+                f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
+            )
+        return rv
 
     def ontologies(self) -> Iterable[CURIE]:
         """

@@ -36,7 +36,6 @@ from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
     PRED_CURIE,
-    PREFIX_MAP,
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -168,9 +167,6 @@ class ProntoImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    def prefix_map(self) -> PREFIX_MAP:
-        return {}
 
     def _entity(self, curie: CURIE, strict=False):
         for r in self.wrapped_ontology.relationships():
@@ -375,7 +371,15 @@ class ProntoImplementation(
                     # m[s.property].append(v)
                     yield s.property, v
                 elif isinstance(s, ResourcePropertyValue):
-                    yield s.property, self.uri_to_curie(s.resource)
+                    try:
+                        tail = self.uri_to_curie(s.resource)
+                    except ValueError:
+                        logging.warning(
+                            "%s could not compress URI %s", self.__class__.__name__, s.resource
+                        )
+                        continue
+                    else:
+                        yield s.property, tail
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
