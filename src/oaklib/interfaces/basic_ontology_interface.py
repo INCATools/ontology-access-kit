@@ -145,7 +145,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             )
         return rv
 
-    def uri_to_curie(self, uri: URI, strict: bool = True) -> Optional[CURIE]:
+    def uri_to_curie(self, uri: URI, strict: bool = True, use_uri_fallback=False) -> Optional[CURIE]:
         """
         Contracts a URI to a CURIE
 
@@ -154,6 +154,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :param uri: URI
         :param strict: Boolean [default: True]
+        :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]
         :return: CURIE
         """
         rv = self.converter.compress(uri)
@@ -166,6 +167,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
                 f"This ontology interface contains {len(self.prefix_map()):,} prefixes:\n{prefix_map_text}"
             )
+        if rv is None and use_uri_fallback:
+            return uri
         return rv
 
     def ontologies(self) -> Iterable[CURIE]:
