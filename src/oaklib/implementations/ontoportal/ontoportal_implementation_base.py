@@ -193,7 +193,7 @@ class OntoPortalImplementationBase(
         collection = obj["collection"]
         while len(collection) > 0:
             result = collection[0]
-            curie = self.uri_to_curie(result["@id"])
+            curie = self.uri_to_curie(result["@id"], use_uri_fallback=True)
             label = result.get("prefLabel", None)
             self.label_cache[curie] = label
             logging.debug(f"M: {curie} => {label}")

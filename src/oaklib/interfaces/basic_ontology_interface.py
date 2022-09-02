@@ -160,6 +160,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return: CURIE
         """
         rv = self.converter.compress(uri)
+        if use_uri_fallback:
+            strict = False
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
