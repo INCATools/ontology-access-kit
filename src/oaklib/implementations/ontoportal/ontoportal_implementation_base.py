@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import requests
 from ontoportal_client.api import PreconfiguredOntoPortalClient
-from prefixmaps.io.parser import load_context, load_multi_context
+from prefixmaps.io.parser import load_multi_context
 from sssom_schema import Mapping
 
 from oaklib.datamodels.search import SearchConfiguration
@@ -58,7 +58,6 @@ class OntoPortalImplementationBase(
     def prefix_map(self) -> PREFIX_MAP:
         context = load_multi_context(["obo", "bioportal"])
         return context.as_dict()
-
 
     def _get_response(self, *args, **kwargs):
         check_limit()

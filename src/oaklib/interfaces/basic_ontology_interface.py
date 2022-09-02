@@ -145,7 +145,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             )
         return rv
 
-    def uri_to_curie(self, uri: URI, strict: bool = True, use_uri_fallback=False) -> Optional[CURIE]:
+    def uri_to_curie(
+        self, uri: URI, strict: bool = True, use_uri_fallback=False
+    ) -> Optional[CURIE]:
         """
         Contracts a URI to a CURIE
 

@@ -8,7 +8,7 @@ from oaklib.implementations.bioportal.bioportal_implementation import (
     BioportalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
-from tests import DIGIT, HUMAN, NEURON, VACUOLE, CELLULAR_COMPONENT, CYTOPLASM
+from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
 
 class TestBioportal(unittest.TestCase):
