@@ -40,7 +40,7 @@ class OntologyResource:
 
     provider: Optional[str] = None
 
-    local: Optional[bool] = True
+    local: Optional[bool] = False
     """Is the resource locally on disk or remote?"""
 
     in_memory: Optional[bool] = False
