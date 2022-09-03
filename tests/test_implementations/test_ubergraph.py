@@ -93,7 +93,7 @@ class TestUbergraphImplementation(unittest.TestCase):
         assert "UBERON:0002101" in curies
 
     # OboGraph
-    #@unittest.skip("HTTP Error 504: Gateway Time-out")
+    # @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors([VACUOLE]))
