@@ -8,7 +8,7 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
 
 
 @dataclass
-class BioportalImplementation(OntoPortalImplementationBase):
+class BioPortalImplementation(OntoPortalImplementationBase):
     """
     Implementation over bioportal endpoint
 

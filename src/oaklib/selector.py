@@ -8,12 +8,14 @@ from typing import Optional, Type
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.implementations import GildaImplementation
-from oaklib.implementations.bioportal.agroportal_implementation import (
-    AgroportalImplementation,
+from oaklib.implementations.ontoportal.agroportal_implementation import (
+    AgroPortalImplementation,
 )
-from oaklib.implementations.bioportal.bioportal_implementation import (
-    BioportalImplementation,
+from oaklib.implementations.ontoportal.bioportal_implementation import (
+    BioPortalImplementation,
 )
+from oaklib.implementations.ontoportal.ecoportal_implementation import EcoPortalImplementation
+from oaklib.implementations.ontoportal.matportal_implementation import MatPortalImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
@@ -41,6 +43,7 @@ RDF_SUFFIX_TO_FORMAT = {
     "json-ld": "json-ld",
 }
 
+# Deprecated?
 SCHEME_DICT = {
     "sqlite": SqlImplementation,
     "ubergraph": UbergraphImplementation,
@@ -48,8 +51,10 @@ SCHEME_DICT = {
     "lov": LovImplementation,
     "sparql": SparqlImplementation,
     "rdflib": SparqlImplementation,
-    "bioportal": BioportalImplementation,
-    "agroportal": AgroportalImplementation,
+    "bioportal": BioPortalImplementation,
+    "agroportal": AgroPortalImplementation,
+    "ecoportal": EcoPortalImplementation,
+    "matportal": MatPortalImplementation,
     "wikidata": WikidataImplementation,
     "ols": OlsImplementation,
     "funowl": FunOwlImplementation,

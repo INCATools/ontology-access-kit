@@ -5,20 +5,20 @@ import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 
-from oaklib.implementations.bioportal.bioportal_implementation import (
-    BioportalImplementation,
+from oaklib.implementations.ontoportal.bioportal_implementation import (
+    BioPortalImplementation,
 )
 from oaklib.utilities.apikey_manager import get_apikey_value
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
-
+# TODO: use mock tests
 class TestBioportal(unittest.TestCase):
     """
     Tests :ref:`BioportalImplementation`
     """
 
     def setUp(self) -> None:
-        cls = BioportalImplementation
+        cls = BioPortalImplementation
         api_key = None
         try:
             api_key = get_apikey_value(cls.ontoportal_client_class.name)

@@ -8,7 +8,7 @@ from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
 
 
 @dataclass
-class AgroportalImplementation(OntoPortalImplementationBase):
+class AgroPortalImplementation(OntoPortalImplementationBase):
     """
     Implementation over agroportal endpoint
 
