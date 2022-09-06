@@ -11,6 +11,7 @@ from oaklib.implementations.ontoportal.bioportal_implementation import (
 from oaklib.utilities.apikey_manager import get_apikey_value
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, HUMAN, NEURON, VACUOLE
 
+
 # TODO: use mock tests
 class TestBioportal(unittest.TestCase):
     """
