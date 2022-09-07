@@ -17,6 +17,9 @@ from oaklib.implementations.ontoportal.matportal_implementation import (
     MatPortalImplementation,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.simpleobo.simple_obo_implementation import (
+    SimpleOboImplementation,
+)
 from oaklib.implementations.sparql.lov_implementation import LovImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
@@ -38,6 +41,7 @@ __all__ = [
     "OlsImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
+    "SimpleOboImplementation",
     "SqlImplementation",
     "UbergraphImplementation",
     "LovImplementation",
@@ -55,6 +59,7 @@ implementation_resolver.synonyms.update(
     {
         "obolibrary": ProntoImplementation,
         "prontolib": ProntoImplementation,
+        "simpleobo": SimpleOboImplementation,
         "sqlite": SqlImplementation,
         "rdflib": SparqlImplementation,
     }
