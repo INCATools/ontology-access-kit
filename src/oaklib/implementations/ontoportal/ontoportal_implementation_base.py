@@ -18,6 +18,7 @@ from oaklib.interfaces import (
     TextAnnotatorInterface,
 )
 from oaklib.interfaces.basic_ontology_interface import METADATA_MAP, PREFIX_MAP
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, URI
 from oaklib.utilities.apikey_manager import get_apikey_value
 from oaklib.utilities.rate_limiter import check_limit
@@ -37,7 +38,7 @@ SOURCE_TO_PREDICATE = {
 
 @dataclass
 class OntoPortalImplementationBase(
-    TextAnnotatorInterface, SearchInterface, MappingProviderInterface, ABC
+    TextAnnotatorInterface, OboGraphInterface, SearchInterface, MappingProviderInterface, ABC
 ):
 
     ontoportal_client_class: ClassVar[type[PreconfiguredOntoPortalClient]] = None
@@ -111,7 +112,7 @@ class OntoPortalImplementationBase(
                         m[k] = v
         return m
 
-    def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
+    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
         label_cache = self.label_cache
         for curie in curies:
             logging.debug(f"LOOKUP: {curie}")

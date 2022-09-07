@@ -1,15 +1,21 @@
 from class_resolver import ClassResolver
 
-from oaklib.implementations.bioportal.agroportal_implementation import (
-    AgroportalImplementation,
-)
-from oaklib.implementations.bioportal.bioportal_implementation import (
-    BioportalImplementation,
-)
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
+from oaklib.implementations.ontoportal.agroportal_implementation import (
+    AgroPortalImplementation,
+)
+from oaklib.implementations.ontoportal.bioportal_implementation import (
+    BioPortalImplementation,
+)
+from oaklib.implementations.ontoportal.ecoportal_implementation import (
+    EcoPortalImplementation,
+)
+from oaklib.implementations.ontoportal.matportal_implementation import (
+    MatPortalImplementation,
+)
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.sparql.lov_implementation import LovImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
@@ -25,8 +31,10 @@ from oaklib.interfaces import OntologyInterface
 __all__ = [
     "implementation_resolver",
     # Concrete classes
-    "AgroportalImplementation",
-    "BioportalImplementation",
+    "AgroPortalImplementation",
+    "BioPortalImplementation",
+    "EcoPortalImplementation",
+    "MatPortalImplementation",
     "OlsImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
