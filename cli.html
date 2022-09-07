@@ -537,6 +537,10 @@ For exampple, constrained to is-a and part-of:</p>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl apply “rename CL:0000561 to ‘amacrine neuron’”  -o cl.owl.ttl -O ttl</p>
 </div></blockquote>
+<p>On an obo format file:</p>
+<blockquote>
+<div><p>runoak -i simpleobo:go-edit.obo apply “rename GO:0005634 from ‘nucleus’ to ‘foo’” -o go-edit-new.obo</p>
+</div></blockquote>
 <p>With URIs:</p>
 <blockquote>
 <div><p>runoak -i cl.owl.ttl apply           “rename &lt;<a class="reference external" href="http://purl.obolibrary.org/obo/CL_0000561">http://purl.obolibrary.org/obo/CL_0000561</a>&gt; from ‘amacrine cell’ to ‘amacrine neuron’”            -o cl.owl.ttl -O ttl</p>
