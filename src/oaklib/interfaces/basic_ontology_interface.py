@@ -441,7 +441,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         # default implementation: may be overridden for efficiency
         for curie in curies:
-            yield [curie, self.label(curie)]
+            yield curie, self.label(curie)
 
     @deprecated("Use labels(...)")
     def get_labels_for_curies(self, **kwargs) -> Iterable[Tuple[CURIE, str]]:

@@ -24,6 +24,9 @@ from oaklib.implementations.ontoportal.matportal_implementation import (
     MatPortalImplementation,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.simpleobo.simple_obo_implementation import (
+    SimpleOboImplementation,
+)
 from oaklib.implementations.sparql.lov_implementation import LovImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
@@ -63,6 +66,7 @@ SCHEME_DICT = {
     "ols": OlsImplementation,
     "funowl": FunOwlImplementation,
     "pronto": ProntoImplementation,
+    "simpleobo": SimpleOboImplementation,
     "obolibrary": ProntoImplementation,
     "prontolib": ProntoImplementation,
     "gilda": GildaImplementation,
