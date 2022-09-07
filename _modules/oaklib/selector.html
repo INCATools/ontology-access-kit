@@ -89,15 +89,21 @@
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">datamodels</span> <span class="k">as</span> <span class="n">datamodels_package</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">GildaImplementation</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.agroportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AgroportalImplementation</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.bioportal.bioportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BioportalImplementation</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.funowl.funowl_implementation</span> <span class="kn">import</span> <span class="n">FunOwlImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ols.ols_implementation</span> <span class="kn">import</span> <span class="n">OlsImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.agroportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AgroPortalImplementation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.bioportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BioPortalImplementation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.ecoportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EcoPortalImplementation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.matportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MatPortalImplementation</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.pronto.pronto_implementation</span> <span class="kn">import</span> <span class="n">ProntoImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.lov_implementation</span> <span class="kn">import</span> <span class="n">LovImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.sparql.sparql_implementation</span> <span class="kn">import</span> <span class="n">SparqlImplementation</span>
@@ -122,6 +128,7 @@
     <span class="s2">&quot;json-ld&quot;</span><span class="p">:</span> <span class="s2">&quot;json-ld&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
+<span class="c1"># Deprecated?</span>
 <span class="n">SCHEME_DICT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;sqlite&quot;</span><span class="p">:</span> <span class="n">SqlImplementation</span><span class="p">,</span>
     <span class="s2">&quot;ubergraph&quot;</span><span class="p">:</span> <span class="n">UbergraphImplementation</span><span class="p">,</span>
@@ -129,8 +136,10 @@
     <span class="s2">&quot;lov&quot;</span><span class="p">:</span> <span class="n">LovImplementation</span><span class="p">,</span>
     <span class="s2">&quot;sparql&quot;</span><span class="p">:</span> <span class="n">SparqlImplementation</span><span class="p">,</span>
     <span class="s2">&quot;rdflib&quot;</span><span class="p">:</span> <span class="n">SparqlImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;bioportal&quot;</span><span class="p">:</span> <span class="n">BioportalImplementation</span><span class="p">,</span>
-    <span class="s2">&quot;agroportal&quot;</span><span class="p">:</span> <span class="n">AgroportalImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;bioportal&quot;</span><span class="p">:</span> <span class="n">BioPortalImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;agroportal&quot;</span><span class="p">:</span> <span class="n">AgroPortalImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;ecoportal&quot;</span><span class="p">:</span> <span class="n">EcoPortalImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;matportal&quot;</span><span class="p">:</span> <span class="n">MatPortalImplementation</span><span class="p">,</span>
     <span class="s2">&quot;wikidata&quot;</span><span class="p">:</span> <span class="n">WikidataImplementation</span><span class="p">,</span>
     <span class="s2">&quot;ols&quot;</span><span class="p">:</span> <span class="n">OlsImplementation</span><span class="p">,</span>
     <span class="s2">&quot;funowl&quot;</span><span class="p">:</span> <span class="n">FunOwlImplementation</span><span class="p">,</span>
