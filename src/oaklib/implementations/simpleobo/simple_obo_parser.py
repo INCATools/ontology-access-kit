@@ -39,10 +39,13 @@ TAG_SUBSET = "subset"
 TAG_OBSOLETE = "is_obsolete"
 TAG_NAME = "name"
 TAG_DEF = "def"
-TAG_DBXREF = "dbxref"
+TAG_XREF = "xref"
 TAG_COMMENT = "comment"
 TAG_SYNONYM = "synonym"
 TAG_DEFINITION = "def"
+TAG_IS_A = "is_a"
+TAG_RELATIONSHIP = "relationship"
+TAG_INTERSECTION_OF = "intersection_of"
 SYNONYM_TUPLE = Tuple[PRED_CURIE, str, Optional[str], List[CURIE]]
 
 
@@ -116,6 +119,19 @@ class Structure:
         :return:
         """
         return [v.split(" ")[0] for v in self._values(tag)]
+
+    def pair_values(self, tag: TAG) -> List[Tuple[str, str]]:
+        """
+        Get values for a tag as a pair-tuple, consistent with the relationship tag
+
+        :param tag:
+        :return:
+        """
+        pairs = []
+        for v in self._values(tag):
+            toks = v.split(" ")
+            pairs.append((toks[0], toks[1]))
+        return pairs
 
     def singular_value(self, tag: TAG, strict=False) -> Optional[str]:
         """

@@ -10,16 +10,24 @@ from kgcl_schema.datamodel import kgcl
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph
-from oaklib.datamodels.vocabulary import IS_A, LABEL_PREDICATE, SEMAPV, SKOS_CLOSE_MATCH
+from oaklib.datamodels.vocabulary import (
+    HAS_DBXREF,
+    IS_A,
+    LABEL_PREDICATE,
+    SEMAPV,
+    SKOS_CLOSE_MATCH,
+)
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_COMMENT,
-    TAG_DBXREF,
     TAG_DEFINITION,
+    TAG_IS_A,
     TAG_NAME,
     TAG_OBSOLETE,
+    TAG_RELATIONSHIP,
     TAG_SUBSET,
     TAG_SUBSETDEF,
     TAG_SYNONYM,
+    TAG_XREF,
     OboDocument,
     Stanza,
     _synonym_scope_pred,
@@ -33,7 +41,8 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
-from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
+from oaklib.utilities.basic_utils import pairs_as_dict
 
 
 @dataclass
@@ -164,6 +173,30 @@ class SimpleOboImplementation(
             m[pred].append(syn)
         return m
 
+    def _get_relationship_type_curie(self, rel_type: str) -> PRED_CURIE:
+        for _, x in self.simple_mappings_by_curie(rel_type):
+            if x.startswith("BFO:") or x.startswith("RO:"):
+                return x
+        return rel_type
+
+    def outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        t = self._stanza(curie)
+        for v in t.simple_values(TAG_IS_A):
+            yield IS_A, v
+        for pred, v in t.pair_values(TAG_RELATIONSHIP):
+            # TODO: this is inefficient as it performs a lookup each time
+            yield self._get_relationship_type_curie(pred), v
+
+    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
+
+    def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        t = self._stanza(curie, strict=True)
+        for v in t.simple_values(TAG_XREF):
+            yield HAS_DBXREF, v
+
     def clone(self, resource: OntologyResource) -> "SimpleOboImplementation":
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
@@ -188,7 +221,7 @@ class SimpleOboImplementation(
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
         s = self._stanza(curie)
         if s:
-            for x in s.simple_values(TAG_DBXREF):
+            for x in s.simple_values(TAG_XREF):
                 yield sssom.Mapping(
                     subject_id=curie,
                     predicate_id=SKOS_CLOSE_MATCH,
@@ -198,7 +231,7 @@ class SimpleOboImplementation(
         # TODO: use a cache to avoid re-calculating
         for s in self.obo_document.stanzas:
             if s:
-                for x in s.simple_values(TAG_DBXREF):
+                for x in s.simple_values(TAG_XREF):
                     if x == curie:
                         yield sssom.Mapping(
                             subject_id=s.id,
