@@ -2885,6 +2885,10 @@ def apply(commands, output, output_type):
 
         runoak -i cl.owl.ttl apply "rename CL:0000561 to 'amacrine neuron'"  -o cl.owl.ttl -O ttl
 
+    On an obo format file:
+
+        runoak -i simpleobo:go-edit.obo apply "rename GO:0005634 from 'nucleus' to 'foo'" -o go-edit-new.obo
+
     With URIs:
 
         runoak -i cl.owl.ttl apply \
