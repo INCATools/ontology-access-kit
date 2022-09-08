@@ -36,7 +36,9 @@ def get_apikey_value(system: str) -> str:
     :return:
     """
     if f"{system.upper()}_{APIKEY_ENV_SUFFIX}" in os.environ:
-        logging.info(f"Using API key from {system.upper()}_{APIKEY_ENV_SUFFIX} environment variable")
+        logging.info(
+            f"Using API key from {system.upper()}_{APIKEY_ENV_SUFFIX} environment variable"
+        )
         api_key = os.environ[f"{system.upper()}_{APIKEY_ENV_SUFFIX}"]
         return api_key
     else:

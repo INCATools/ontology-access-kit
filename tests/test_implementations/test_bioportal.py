@@ -1,6 +1,5 @@
 import itertools
 import logging
-import os
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
