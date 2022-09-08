@@ -238,12 +238,12 @@ cd ontology-access-kit
 poetry install
 ```
 
-Testing:
+Testing locally:
 ```shell
 poetry run python -m unittest discover
 ```
 
-Code quality:
+Code quality locally:
 ```shell   
 poetry run tox
 ```
