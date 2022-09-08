@@ -38,11 +38,12 @@ def get_apikey_value(system: str) -> str:
     if BIOPORTAL_API_KEY in os.environ:
         api_key = os.environ[BIOPORTAL_API_KEY]
         return api_key
-    path = get_apikey_path(system)
-    if not path.exists():
-        raise ValueError(f"No API key found in: {path}")
-    with open(path) as stream:
-        return stream.readlines()[0].strip()
+    else:
+        path = get_apikey_path(system)
+        if not path.exists():
+            raise ValueError(f"No API key found in: {path}")
+        with open(path) as stream:
+            return stream.readlines()[0].strip()
 
 
 def set_apikey_value(system: str, val: str) -> None:
