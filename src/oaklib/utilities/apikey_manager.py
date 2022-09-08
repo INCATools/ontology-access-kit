@@ -13,7 +13,7 @@ from appdirs import user_config_dir
 from oaklib.datamodels.vocabulary import APP_NAME
 
 APIKEY_SUFFIX = "apikey.txt"
-APIKEY_ENV_SUFFIX = "_API_KEY"
+APIKEY_ENV_SUFFIX = "API_KEY"
 
 
 def get_apikey_path(system: str) -> Path:
@@ -36,6 +36,7 @@ def get_apikey_value(system: str) -> str:
     :return:
     """
     if f"{system.upper()}_{APIKEY_ENV_SUFFIX}" in os.environ:
+        logging.info(f"Using API key from {system.upper()}_{APIKEY_ENV_SUFFIX} environment variable")
         api_key = os.environ[f"{system.upper()}_{APIKEY_ENV_SUFFIX}"]
         return api_key
     else:
