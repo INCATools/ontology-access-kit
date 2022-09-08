@@ -1,7 +1,5 @@
-import importlib
 import logging
 import os
-import pkgutil
 from pathlib import Path
 from typing import Optional, Type
 
@@ -36,12 +34,6 @@ from oaklib.implementations.wikidata.wikidata_implementation import (
 )
 from oaklib.interfaces import OntologyInterface
 from oaklib.resource import OntologyResource
-
-discovered_plugins = {
-    name: importlib.import_module(name)
-    for finder, name, ispkg in pkgutil.iter_modules()
-    if name.startswith("oakext_") or name.startswith("oakx_")
-}
 
 RDF_SUFFIX_TO_FORMAT = {
     "ttl": "turtle",
@@ -195,16 +187,8 @@ def get_resource_from_shorthand(
                 else:
                     resource.local = True
                 resource.slug = rest
-            else:
-                for ext_name, ext_module in discovered_plugins.items():
-                    try:
-                        if scheme in ext_module.schemes:
-                            impl_class = ext_module.schemes[scheme]
-                            break
-                    except AttributeError:
-                        logging.info(f"Plugin {ext_name} does not declare schemes")
-                if not impl_class:
-                    raise ValueError(f"Scheme {scheme} not known")
+            elif not impl_class:
+                raise ValueError(f"Scheme {scheme} not known")
         else:
             logging.info(f"No schema: assuming file path {descriptor}")
             suffix = descriptor.split(".")[-1]

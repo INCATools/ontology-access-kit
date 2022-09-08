@@ -1,3 +1,7 @@
+import importlib
+import logging
+import pkgutil
+
 from class_resolver import ClassResolver
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
@@ -51,6 +55,12 @@ __all__ = [
     "GildaImplementation",
 ]
 
+discovered_plugins = {
+    name: importlib.import_module(name)
+    for finder, name, ispkg in pkgutil.iter_modules()
+    if name.startswith("oakext_") or name.startswith("oakx_")
+}
+
 implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
     OntologyInterface,
     suffix="Implementation",
@@ -64,3 +74,8 @@ implementation_resolver.synonyms.update(
         "rdflib": SparqlImplementation,
     }
 )
+for name, module in discovered_plugins.items():
+    try:
+        implementation_resolver.synonyms.update(module.schemes)
+    except AttributeError:
+        logging.info(f"Plugin {name} does not declare schemes")
