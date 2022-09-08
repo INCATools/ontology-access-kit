@@ -143,9 +143,7 @@ http://www.projecthalo.com/aura#Tentacle ! Tentacle
 CEPH:0000256 ! tentacle
 ...
 ```
-
-Alternatively, adding "BIOPORTAL_API_KEY" to your environment variables will also work.
-
+Alternatively, you can add "BIOPORTAL_API_KEY" to your environment variables.
 
 Searching over more limited set of ontologies in Ubergraph:
 
