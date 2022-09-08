@@ -17,11 +17,8 @@ from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.networkx_bridge import mappings_to_graph
 from oaklib.utilities.label_utilities import add_labels_to_object
 
-try:
-    from collections import Iterator, defaultdict  # noqa:F811
-except ImportError:  # python versions >= 3.10
-    from collections import defaultdict
-    from collections.abc import Iterator
+from collections import defaultdict
+from collections.abc import Iterator
 
 ONE_TO_ZERO = MappingCardinalityEnum(MappingCardinalityEnum["1:0"])
 ONE_TO_MANY = MappingCardinalityEnum(MappingCardinalityEnum["1:n"])
