@@ -143,6 +143,7 @@ http://www.projecthalo.com/aura#Tentacle ! Tentacle
 CEPH:0000256 ! tentacle
 ...
 ```
+Alternatively, you can add "BIOPORTAL_API_KEY" to your environment variables.
 
 Searching over more limited set of ontologies in Ubergraph:
 
@@ -236,6 +237,17 @@ git clone https://github.com/INCATools/ontology-access-kit.git
 cd ontology-access-kit
 poetry install
 ```
+
+Testing locally:
+```shell
+poetry run python -m unittest discover
+```
+
+Code quality locally:
+```shell   
+poetry run tox
+```
+
 
 ### Potential Refactoring
 Currently all implementations exist in this repo/module, this results in a lot of dependencies

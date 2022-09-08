@@ -5,6 +5,7 @@ See `<https://github.com/ActiveState/appdirs>`_
 """
 
 import logging
+import os
 from pathlib import Path
 
 from appdirs import user_config_dir
@@ -12,6 +13,7 @@ from appdirs import user_config_dir
 from oaklib.datamodels.vocabulary import APP_NAME
 
 APIKEY_SUFFIX = "apikey.txt"
+BIOPORTAL_API_KEY = "BIOPORTAL_API_KEY"
 
 
 def get_apikey_path(system: str) -> Path:
@@ -33,11 +35,15 @@ def get_apikey_value(system: str) -> str:
     :param system: e.g "bioportal"
     :return:
     """
-    path = get_apikey_path(system)
-    if not path.exists():
-        raise ValueError(f"No API key found in: {path}")
-    with open(path) as stream:
-        return stream.readlines()[0].strip()
+    if BIOPORTAL_API_KEY in os.environ:
+        api_key = os.environ[BIOPORTAL_API_KEY]
+        return api_key
+    else:
+        path = get_apikey_path(system)
+        if not path.exists():
+            raise ValueError(f"No API key found in: {path}")
+        with open(path) as stream:
+            return stream.readlines()[0].strip()
 
 
 def set_apikey_value(system: str, val: str) -> None:
