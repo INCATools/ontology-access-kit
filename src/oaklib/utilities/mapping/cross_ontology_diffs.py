@@ -1,5 +1,6 @@
 import logging
-from collections import Iterator, defaultdict
+from collections import defaultdict
+from collections.abc import Iterator
 from copy import deepcopy
 from typing import Dict, List, Optional, Tuple
 
