@@ -144,6 +144,9 @@ CEPH:0000256 ! tentacle
 ...
 ```
 
+Alternatively, adding "BIOPORTAL_API_KEY" to your environment variables will also work.
+
+
 Searching over more limited set of ontologies in Ubergraph:
 
 ```bash
@@ -239,13 +242,14 @@ poetry install
 
 Testing:
 ```shell
-poetry run pytest
+poetry run python -m unittest discover
 ```
 
 Code quality:
 ```shell   
 poetry run tox
 ```
+
 
 ### Potential Refactoring
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
