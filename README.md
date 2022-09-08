@@ -237,6 +237,16 @@ cd ontology-access-kit
 poetry install
 ```
 
+Testing:
+```shell
+poetry run pytest
+```
+
+Code quality:
+```shell   
+poetry run tox
+```
+
 ### Potential Refactoring
 Currently all implementations exist in this repo/module, this results in a lot of dependencies
 
