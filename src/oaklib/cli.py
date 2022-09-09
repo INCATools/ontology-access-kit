@@ -60,7 +60,6 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import (
     BasicOntologyInterface,
     OntologyInterface,
-    RelationGraphInterface,
     SubsetterInterface,
     ValidatorInterface,
 )

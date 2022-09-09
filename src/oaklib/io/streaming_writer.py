@@ -1,6 +1,6 @@
 import atexit
 import sys
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
 
