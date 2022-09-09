@@ -1628,7 +1628,6 @@ def similarity_pair(terms, predicates, output: TextIO):
     help="Score used for summarization",
 )
 @autolabel_option
-@output_option
 @output_type_option
 @click.argument("terms", nargs=-1)
 def similarity(
@@ -1641,7 +1640,7 @@ def similarity(
     ic_minimum,
     main_score_field,
     output_type,
-    output: str,
+    output,
 ):
     """
     All by all similarity
@@ -1690,7 +1689,9 @@ def similarity(
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
+    logging.info(f"out={output} {type(output)}")
     writer.output = output
+    logging.info(f"file={writer.file} {type(writer.output)}")
     if main_score_field and isinstance(writer, HeatmapWriter):
         writer.value_field = main_score_field
     if isinstance(impl, SemanticSimilarityInterface):
@@ -1732,6 +1733,7 @@ def similarity(
                     continue
             writer.emit(sim)
         writer.finish()
+        writer.file.close()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
