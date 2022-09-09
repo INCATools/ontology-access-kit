@@ -30,6 +30,7 @@ RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
 MISSING_PREFIX_MAP = dict(
     EFO="http://www.ebi.ac.uk/efo/EFO_",
     SCTID="http://snomed.info/id/",
+    ORPHANET="http://www.orpha.net/ORDO/Orphanet_",
 )
 
 
