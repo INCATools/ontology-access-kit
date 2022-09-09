@@ -16,7 +16,6 @@ from oaklib.datamodels.similarity import (
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
-from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.obograph_utils import as_digraph
 from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
