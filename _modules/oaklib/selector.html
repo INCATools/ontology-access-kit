@@ -79,10 +79,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.selector</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pkgutil</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
@@ -117,12 +115,6 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.resource</span> <span class="kn">import</span> <span class="n">OntologyResource</span>
-
-<span class="n">discovered_plugins</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">finder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ispkg</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;oakext_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;oakx_&quot;</span><span class="p">)</span>
-<span class="p">}</span>
 
 <span class="n">RDF_SUFFIX_TO_FORMAT</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;ttl&quot;</span><span class="p">:</span> <span class="s2">&quot;turtle&quot;</span><span class="p">,</span>
@@ -276,16 +268,8 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">rest</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">ext_name</span><span class="p">,</span> <span class="n">ext_module</span> <span class="ow">in</span> <span class="n">discovered_plugins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="n">ext_module</span><span class="o">.</span><span class="n">schemes</span><span class="p">:</span>
-                            <span class="n">impl_class</span> <span class="o">=</span> <span class="n">ext_module</span><span class="o">.</span><span class="n">schemes</span><span class="p">[</span><span class="n">scheme</span><span class="p">]</span>
-                            <span class="k">break</span>
-                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">ext_name</span><span class="si">}</span><span class="s2"> does not declare schemes&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">impl_class</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scheme </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2"> not known&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">impl_class</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scheme </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2"> not known&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No schema: assuming file path </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">suffix</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
