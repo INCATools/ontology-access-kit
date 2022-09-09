@@ -1479,6 +1479,25 @@ networkx = "*"
 dev = ["pre-commit", "pytest"]
 
 [[package]]
+name = "ols-client"
+version = "0.1.1"
+description = "A client to the EBI Ontology Lookup Service"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+class-resolver = "*"
+click = "*"
+more-click = "*"
+pystow = "*"
+requests = "*"
+
+[package.extras]
+tests = ["coverage", "pytest"]
+docs = ["sphinx-automodapi", "sphinx-autodoc-typehints", "sphinx-click", "sphinx-rtd-theme", "sphinx"]
+
+[[package]]
 name = "ontoportal-client"
 version = "0.0.3"
 description = "A client to BioPortal and other OntoPortal instances."
@@ -2689,7 +2708,7 @@ gilda = ["gilda"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2ca75b037f14194f676036ddb281ddfc519cb328d67c96cc450d5a396c502958"
+content-hash = "fdfad1b8c6190beffe40676f4c5548b4f7e94de8e62f6422d548ff004c7e8c0f"
 
 [metadata.files]
 adeft = [
@@ -3258,6 +3277,7 @@ obonet = [
     {file = "obonet-0.3.0-py3-none-any.whl", hash = "sha256:d436eb4f57afa6f1a48992c3a4132126da9793e1439f667ab23cc74d8e957aee"},
     {file = "obonet-0.3.0.tar.gz", hash = "sha256:fd801166cd28a2ef86126f22c8e3da30f5c3b6a3adfc62536abea1aa9956a2b4"},
 ]
+ols-client = []
 ontoportal-client = []
 openpyxl = [
     {file = "openpyxl-3.0.10-py2.py3-none-any.whl", hash = "sha256:0ab6d25d01799f97a9464630abacbb34aafecdcaa0ef3cba6d6b3499867d0355"},

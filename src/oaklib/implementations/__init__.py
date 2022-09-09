@@ -6,7 +6,7 @@ from class_resolver import ClassResolver
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
-from oaklib.implementations.ols.ols_implementation import OlsImplementation
+from oaklib.implementations.ols import OlsImplementation, TIBOlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.ontoportal.agroportal_implementation import (
     AgroPortalImplementation,
@@ -43,6 +43,7 @@ __all__ = [
     "EcoPortalImplementation",
     "MatPortalImplementation",
     "OlsImplementation",
+    "TIBOlsImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
     "SimpleOboImplementation",

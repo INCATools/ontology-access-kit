@@ -30,6 +30,7 @@ ontoportal-client = "0.0.3"
 curies = "^0.1.5"
 bioregistry = "^0.5.64"
 prefixmaps = "^0.1.2"
+ols-client = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

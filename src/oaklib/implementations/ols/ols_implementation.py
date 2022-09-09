@@ -1,10 +1,9 @@
-import logging
-import urllib
 from collections import ChainMap
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, Iterator, List, Tuple, Union
+from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Tuple, Union
 
 import requests
+from ols_client import Client, EBIClient, TIBClient
 from sssom_schema import Mapping
 
 from oaklib.datamodels import oxo
@@ -12,13 +11,22 @@ from oaklib.datamodels.oxo import ScopeEnum
 from oaklib.datamodels.search import SearchConfiguration, SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation
 from oaklib.datamodels.vocabulary import IS_A, SEMAPV
-from oaklib.implementations.ols import SEARCH_CONFIG
-from oaklib.implementations.ols.oxo_utils import load_oxo_payload
 from oaklib.interfaces.basic_ontology_interface import PREFIX_MAP
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.types import CURIE, PRED_CURIE
+
+from .constants import SEARCH_CONFIG
+from .oxo_utils import load_oxo_payload
+
+__all__ = [
+    # Abstract classes
+    "BaseOlsImplementation",
+    # Concrete classes
+    "OlsImplementation",
+    "TIBOlsImplementation",
+]
 
 ANNOTATION = Dict[str, Any]
 SEARCH_ROWS = 50
@@ -32,19 +40,20 @@ oxo_pred_mappings = {
 
 
 @dataclass
-class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProviderInterface):
+class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProviderInterface):
     """
     Implementation over OLS and OxO APIs
     """
 
-    ols_api_key: str = None
+    ols_client_class: ClassVar[type[Client]]
     label_cache: Dict[CURIE, str] = field(default_factory=lambda: {})
     base_url = "https://www.ebi.ac.uk/spot/oxo/api/mappings"
-    ols_base_url = "https://www.ebi.ac.uk/ols/api"
     _prefix_map: Dict[str, str] = field(default_factory=lambda: {})
     focus_ontology: str = None
+    client: Client = field(init=False)
 
     def __post_init__(self):
+        self.client = self.ols_client_class()
         if self.focus_ontology is None:
             if self.resource:
                 self.focus_ontology = self.resource.slug
@@ -71,10 +80,10 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     def ancestors(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[CURIE]:
-        query = "hierarchicalAncestors"
+        func = self.client.iter_hierarchical_ancestors
         if predicates:
             if predicates == [IS_A]:
-                query = "ancestors"
+                func = self.client.iter_ancestors
             elif IS_A not in predicates:
                 raise NotImplementedError(f"OLS always include {IS_A}, you selected: {predicates}")
         if not isinstance(start_curies, list):
@@ -82,19 +91,9 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
         ancs = set()
         ontology = self.focus_ontology
         for curie in start_curies:
-            term_id = self.curie_to_uri(curie)
-            # must be double encoded https://www.ebi.ac.uk/ols/docs/api
-            term_id_quoted = urllib.parse.quote(term_id, safe="")
-            term_id_quoted = urllib.parse.quote(term_id_quoted, safe="")
-            url = f"{self.ols_base_url}/ontologies/{ontology}/terms/{term_id_quoted}/{query}"
-            logging.debug(f"URL={url}")
-            result = requests.get(url)
-            obj = result.json()
-            if result.status_code == 200 and "_embedded" in obj:
-                ancs.update([x["obo_id"] for x in obj["_embedded"]["terms"]])
-            else:
-                logging.debug(f"No ancestors for {url} (maybe ontology not indexed in OLS?)")
-                ancs = []
+            iri = self.curie_to_uri(curie)
+            records = func(ontology=ontology, iri=iri)
+            ancs.update(record["obo_id"] for record in records)
         return list(ancs)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -119,7 +118,6 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
             query_fields.update(["description"])
 
         params = {
-            "q": search_term,
             "type": "class",
             "local": "true",
             "fieldList": "iri,label",
@@ -134,19 +132,10 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
         if self.focus_ontology:
             params["ontology"] = self.focus_ontology.lower()
 
-        finished = False
-        while not finished:
-            response = requests.get(f"{self.ols_base_url}/search", params=params)
-            logging.debug(f"URL={response.url}")
-            body = response.json()
-            params["start"] += params["rows"]
-            if params["start"] > body["response"]["numFound"]:
-                finished = True
-            for doc in body["response"]["docs"]:
-                curie = self.uri_to_curie(doc["iri"])
-                label = doc["label"]
-                self.label_cache[curie] = label
-                yield curie
+        for record in self.client.search(search_term, params=params):
+            curie = self.uri_to_curie(record["iri"])
+            self.label_cache[curie] = record["label"]
+            yield curie
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: MappingsInterface
@@ -199,3 +188,15 @@ class OlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProvider
     #                 msdoc.mapping_set.mappings.append(m)
     #                 n += 1
     #     return n
+
+
+class OlsImplementation(BaseOlsImplementation):
+    """Implementation for the EBI OLS instance."""
+
+    ols_client_class = EBIClient
+
+
+class TIBOlsImplementation(BaseOlsImplementation):
+    """Implementation for the TIB Hannover OLS instance."""
+
+    ols_client_class = TIBClient

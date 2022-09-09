@@ -1,3 +1,13 @@
-from oaklib.datamodels.search import SearchConfiguration
+from .constants import SEARCH_CONFIG
+from .ols_implementation import (
+    BaseOlsImplementation,
+    OlsImplementation,
+    TIBOlsImplementation,
+)
 
-SEARCH_CONFIG = SearchConfiguration()
+__all__ = [
+    "SEARCH_CONFIG",
+    "BaseOlsImplementation",
+    "OlsImplementation",
+    "TIBOlsImplementation",
+]
