@@ -479,7 +479,18 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_similarity(self):
         result = self.runner.invoke(
             main,
-            ["-i", TEST_DB, "similarity", NUCLEAR_MEMBRANE, "@", VACUOLE, "-p", "i,p", "-o", TEST_OUT],
+            [
+                "-i",
+                TEST_DB,
+                "similarity",
+                NUCLEAR_MEMBRANE,
+                "@",
+                VACUOLE,
+                "-p",
+                "i,p",
+                "-o",
+                TEST_OUT,
+            ],
         )
         self.assertEqual(0, result.exit_code)
         out = self._out(TEST_OUT)
