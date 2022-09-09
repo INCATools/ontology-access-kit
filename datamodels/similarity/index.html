@@ -117,8 +117,14 @@ Name: similarity</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="PairwiseSimilarity.html"><span class="doc std std-doc">PairwiseSimilarity</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="BestMatch.html"><span class="doc std std-doc">BestMatch</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PairwiseSimilarity.html"><span class="doc std std-doc">PairwiseSimilarity</span></a></p></td>
 <td><p>Abstract grouping for representing individual pairwise similarities</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="TermInfo.html"><span class="doc std std-doc">TermInfo</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="TermPairwiseSimilarity.html"><span class="doc std std-doc">TermPairwiseSimilarity</span></a></p></td>
 <td><p>A simple pairwise similarity between two atomic concepts/terms</p></td>
@@ -150,17 +156,53 @@ Name: similarity</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="ancestor_source.html"><span class="doc std std-doc">ancestor_source</span></a></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="average_score.html"><span class="doc std std-doc">average_score</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="best_score.html"><span class="doc std std-doc">best_score</span></a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="dice_similarity.html"><span class="doc std std-doc">dice_similarity</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="information_content.html"><span class="doc std std-doc">information_content</span></a></p></td>
-<td><p>The IC is the negative log of the probability of the concept</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="intersection_count.html"><span class="doc std std-doc">intersection_count</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="jaccard_similarity.html"><span class="doc std std-doc">jaccard_similarity</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="information_content.html"><span class="doc std std-doc">information_content</span></a></p></td>
+<td><p>The IC is the negative log of the probability of the concept</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="intersection_count.html"><span class="doc std std-doc">intersection_count</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="jaccard_similarity.html"><span class="doc std std-doc">jaccard_similarity</span></a></p></td>
 <td><p>The number of concepts in the intersection divided by the number in the union</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="match_source.html"><span class="doc std std-doc">match_source</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="match_source_label.html"><span class="doc std std-doc">match_source_label</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="match_subsumer.html"><span class="doc std std-doc">match_subsumer</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="match_subsumer_label.html"><span class="doc std std-doc">match_subsumer_label</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="match_target.html"><span class="doc std std-doc">match_target</span></a></p></td>
+<td><p>the entity matches</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="match_target_label.html"><span class="doc std std-doc">match_target_label</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="metric.html"><span class="doc std std-doc">metric</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="object_best_matches.html"><span class="doc std std-doc">object_best_matches</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
 <td><p>The second of the two entities being compared</p></td>
@@ -174,26 +216,38 @@ Name: similarity</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
 <td><p>the source for the second entity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="overlap_coefficient.html"><span class="doc std std-doc">overlap_coefficient</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="object_termset.html"><span class="doc std std-doc">object_termset</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="doc std std-doc">phenodigm_score</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="overlap_coefficient.html"><span class="doc std std-doc">overlap_coefficient</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="doc std std-doc">phenodigm_score</span></a></p></td>
 <td><p>the geometric mean of the jaccard similarity and the information content</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="score.html"><span class="doc std std-doc">score</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="score.html"><span class="doc std std-doc">score</span></a></p></td>
 <td><p>Abstract base slot for different kinds of scores</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_id.html"><span class="doc std std-doc">subject_id</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="similarity.html"><span class="doc std std-doc">similarity</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_best_matches.html"><span class="doc std std-doc">subject_best_matches</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_id.html"><span class="doc std std-doc">subject_id</span></a></p></td>
 <td><p>The first of the two entities being compared</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_information_content.html"><span class="doc std std-doc">subject_information_content</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_information_content.html"><span class="doc std std-doc">subject_information_content</span></a></p></td>
 <td><p>The IC of the subject</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
 <td><p>the label or name for the first entity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
 <td><p>the source for the first entity</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subject_termset.html"><span class="doc std std-doc">subject_termset</span></a></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subsumed_by_score.html"><span class="doc std std-doc">subsumed_by_score</span></a></p></td>
 <td><p></p></td>

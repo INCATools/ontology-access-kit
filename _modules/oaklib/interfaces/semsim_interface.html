@@ -81,12 +81,19 @@
   <h1>Source code for oaklib.interfaces.semsim_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">statistics</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 
-<span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="n">TermPairwiseSimilarity</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BestMatch</span><span class="p">,</span>
+    <span class="n">TermInfo</span><span class="p">,</span>
+    <span class="n">TermPairwiseSimilarity</span><span class="p">,</span>
+    <span class="n">TermSetPairwiseSimilarity</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
@@ -96,7 +103,8 @@
 
 <div class="viewcode-block" id="SemanticSimilarityInterface"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface">[docs]</a><span class="k">class</span> <span class="nc">SemanticSimilarityInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    TODO: consider direct use of nxontology</span>
+<span class="sd">    An interface for calculating similarity measures between pairs of terms or</span>
+<span class="sd">    collections of terms</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SemanticSimilarityInterface.most_recent_common_ancestors"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.most_recent_common_ancestors">[docs]</a>    <span class="k">def</span> <span class="nf">most_recent_common_ancestors</span><span class="p">(</span>
@@ -254,19 +262,88 @@
         <span class="k">return</span> <span class="n">sim</span></div>
 
     <span class="k">def</span> <span class="nf">termset_pairwise_similarity</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermPairwiseSimilarity</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermSetPairwiseSimilarity</span><span class="p">:</span>
+        <span class="n">curies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">subjects</span> <span class="o">+</span> <span class="n">objects</span><span class="p">)</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_by_all_pairwise_similarity</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">))</span>
+        <span class="n">bm_subject_score</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">bm_subject</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bm_subject_sim</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bm_object_score</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">bm_object</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bm_object_sim</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">TermSetPairwiseSimilarity</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">subject_termset</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">TermInfo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">object_termset</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">TermInfo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">subject_id</span>
+            <span class="n">ot</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">object_id</span>
+            <span class="k">if</span> <span class="n">pair</span><span class="o">.</span><span class="n">ancestor_information_content</span> <span class="o">&gt;</span> <span class="n">bm_subject_score</span><span class="p">[</span><span class="n">st</span><span class="p">]:</span>
+                <span class="n">bm_subject_score</span><span class="p">[</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">ancestor_information_content</span>
+                <span class="n">bm_subject</span><span class="p">[</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="n">ot</span>
+                <span class="n">bm_subject_sim</span><span class="p">[</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
+                <span class="n">curies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ot</span><span class="p">)</span>
+                <span class="n">curies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pair</span><span class="o">.</span><span class="n">ancestor_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pair</span><span class="o">.</span><span class="n">ancestor_information_content</span> <span class="o">&gt;</span> <span class="n">bm_object_score</span><span class="p">[</span><span class="n">ot</span><span class="p">]:</span>
+                <span class="n">bm_object_score</span><span class="p">[</span><span class="n">ot</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">ancestor_information_content</span>
+                <span class="n">bm_object</span><span class="p">[</span><span class="n">ot</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+                <span class="n">bm_object_sim</span><span class="p">[</span><span class="n">ot</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
+                <span class="n">curies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ot</span><span class="p">)</span>
+                <span class="n">curies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pair</span><span class="o">.</span><span class="n">ancestor_id</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">bm_subject</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">bm_subject_score</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">subject_best_matches</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">BestMatch</span><span class="p">(</span>
+                <span class="n">s</span><span class="p">,</span> <span class="n">match_target</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span> <span class="n">similarity</span><span class="o">=</span><span class="n">bm_subject_sim</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">bm_object</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">bm_object_score</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="n">sim</span><span class="o">.</span><span class="n">object_best_matches</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">BestMatch</span><span class="p">(</span>
+                <span class="n">s</span><span class="p">,</span> <span class="n">match_target</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span> <span class="n">similarity</span><span class="o">=</span><span class="n">bm_object_sim</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">scores</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">average_score</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">label_ix</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">curies</span><span class="p">)}</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">subject_termset</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">object_termset</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">subject_best_matches</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">sim</span><span class="o">.</span><span class="n">object_best_matches</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">match_target_label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">match_target</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">match_source_label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">match_source</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">similarity</span><span class="o">.</span><span class="n">ancestor_label</span> <span class="o">=</span> <span class="n">label_ix</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">similarity</span><span class="o">.</span><span class="n">ancestor_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">all_by_all_pairwise_similarity</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">sim</span>
+
+<div class="viewcode-block" id="SemanticSimilarityInterface.all_by_all_pairwise_similarity"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.all_by_all_pairwise_similarity">[docs]</a>    <span class="k">def</span> <span class="nf">all_by_all_pairwise_similarity</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">objects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TermPairwiseSimilarity</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute similarity for all combinations of terms in subsets vs all terms in objects</span>
+
+<span class="sd">        :param subjects:</span>
+<span class="sd">        :param objects:</span>
+<span class="sd">        :param predicates:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objects</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span></div>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairwise_similarity</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

@@ -67,6 +67,11 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 ## Usages
 
 
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [BestMatch](BestMatch.md) | [similarity](similarity.md) | range | TermPairwiseSimilarity |
+
+
 
 ## Identifier and Mapping Information
 
@@ -108,6 +113,22 @@ description: A simple pairwise similarity between two atomic concepts/terms
 from_schema: https://w3id.org/linkml/similarity
 rank: 1000
 is_a: PairwiseSimilarity
+slots:
+- subject_id
+- subject_label
+- subject_source
+- object_id
+- object_label
+- object_source
+- ancestor_id
+- ancestor_label
+- ancestor_source
+- object_information_content
+- subject_information_content
+- ancestor_information_content
+- jaccard_similarity
+- dice_similarity
+- phenodigm_score
 
 ```
 </details>
@@ -131,7 +152,7 @@ attributes:
     alias: subject_id
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: uriorcurie
     required: true
   subject_label:
@@ -143,7 +164,7 @@ attributes:
     alias: subject_label
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: string
   subject_source:
     name: subject_source
@@ -154,7 +175,7 @@ attributes:
     alias: subject_source
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: string
   object_id:
     name: object_id
@@ -165,7 +186,7 @@ attributes:
     alias: object_id
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: uriorcurie
   object_label:
     name: object_label
@@ -176,7 +197,7 @@ attributes:
     alias: object_label
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: string
   object_source:
     name: object_source
@@ -187,7 +208,7 @@ attributes:
     alias: object_source
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: string
   ancestor_id:
     name: ancestor_id
@@ -200,7 +221,7 @@ attributes:
     alias: ancestor_id
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: uriorcurie
   ancestor_label:
     name: ancestor_label
@@ -210,7 +231,7 @@ attributes:
     alias: ancestor_label
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: string
   ancestor_source:
     name: ancestor_source
@@ -219,7 +240,7 @@ attributes:
     alias: ancestor_source
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: string
   object_information_content:
     name: object_information_content
@@ -230,7 +251,7 @@ attributes:
     alias: object_information_content
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: NegativeLogValue
   subject_information_content:
     name: subject_information_content
@@ -241,7 +262,7 @@ attributes:
     alias: subject_information_content
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: NegativeLogValue
   ancestor_information_content:
     name: ancestor_information_content
@@ -252,7 +273,7 @@ attributes:
     alias: ancestor_information_content
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: NegativeLogValue
   jaccard_similarity:
     name: jaccard_similarity
@@ -264,7 +285,7 @@ attributes:
     alias: jaccard_similarity
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: ZeroToOne
   dice_similarity:
     name: dice_similarity
@@ -274,7 +295,7 @@ attributes:
     alias: dice_similarity
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: ZeroToOne
   phenodigm_score:
     name: phenodigm_score
@@ -286,7 +307,7 @@ attributes:
     alias: phenodigm_score
     owner: TermPairwiseSimilarity
     domain_of:
-    - PairwiseSimilarity
+    - TermPairwiseSimilarity
     range: NonNegativeFloat
     equals_expression: sqrt({jaccard_similarity} * {information_content})
 

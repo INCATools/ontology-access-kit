@@ -56,7 +56,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#command-line-docs">Command Line Docs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#runoak">runoak</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-aliases">aliases</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-all-similarity">all-similarity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-ancestors">ancestors</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-annotate">annotate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply">apply</a></li>
@@ -92,6 +91,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-set-apikey">set-apikey</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-siblings">siblings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-similarity">similarity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-similarity-pair">similarity-pair</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-singletons">singletons</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-subsets">subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
@@ -99,6 +99,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-term-metadata">term-metadata</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-term-subsets">term-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-terms">terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-termset-similarity">termset-similarity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-tree">tree</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-validate">validate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
@@ -309,90 +310,6 @@ richer data if present in the ontology, including synonym categories/types, syno
 <dt class="sig sig-object std" id="cmdoption-runoak-aliases-arg-TERMS">
 <span id="cmdoption-runoak-aliases-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-aliases-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
-</dd></dl>
-
-</section>
-<section id="runoak-all-similarity">
-<h4>all-similarity<a class="headerlink" href="#runoak-all-similarity" title="Permalink to this headline"></a></h4>
-<blockquote>
-<div><p>All by all similarity</p>
-<p>This calculates a similarity matrix for two sets of terms.</p>
-<p>Example:</p>
-<blockquote>
-<div><p>runoak -i hp.db all-similarity -p i –set1-file HPO-TERMS1 –set2-file HPO-TERMS2 -O csv</p>
-</div></blockquote>
-<p>The .all term syntax can be used to select all terms in an ontology</p>
-<p>Example:</p>
-<blockquote>
-<div><p>runoak -i ma.db all-similarity -p i,p –set1 .all –set2 .all</p>
-</div></blockquote>
-<p>This can be mixed with other term selectors; for example to calculate the similarity of “neuron”
-vs all terms in CL:</p>
-<blockquote>
-<div><p>runoak -i cl.db all-similarity -p i,p –set1 .all –set2 neuron</p>
-</div></blockquote>
-<p>An example pipeline to do all by all over all phenotypes in HPO:</p>
-<blockquote>
-<div><p>runoak -i hp.db descendants -p i HP:0000118 &gt; HPO
-runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
-</div></blockquote>
-</div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak all-similarity <span class="o">[</span>OPTIONS<span class="o">]</span>
-</pre></div>
-</div>
-<p class="rubric">Options</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-p">
-<span id="cmdoption-runoak-all-similarity-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-p" title="Permalink to this definition"></a></dt>
-<dd><p>A comma-separated list of predicates</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-set1">
-<span class="sig-name descname"><span class="pre">--set1</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set1&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-set1" title="Permalink to this definition"></a></dt>
-<dd><p>List of curies or curie queries for the first set. If empty uses all</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-set2">
-<span class="sig-name descname"><span class="pre">--set2</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set2&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-set2" title="Permalink to this definition"></a></dt>
-<dd><p>List of curies or curie queries for the second set. If empty uses all</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-set1-file">
-<span class="sig-name descname"><span class="pre">--set1-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set1_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-set1-file" title="Permalink to this definition"></a></dt>
-<dd><p>ID file for set1</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-set2-file">
-<span class="sig-name descname"><span class="pre">--set2-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set2_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-set2-file" title="Permalink to this definition"></a></dt>
-<dd><p>ID file for set2</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-jaccard-minimum">
-<span class="sig-name descname"><span class="pre">--jaccard-minimum</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;jaccard_minimum&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-jaccard-minimum" title="Permalink to this definition"></a></dt>
-<dd><p>Minimum value for jaccard score</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-ic-minimum">
-<span class="sig-name descname"><span class="pre">--ic-minimum</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;ic_minimum&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-ic-minimum" title="Permalink to this definition"></a></dt>
-<dd><p>Minimum value for information content</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-o">
-<span id="cmdoption-runoak-all-similarity-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-all-similarity-O">
-<span id="cmdoption-runoak-all-similarity-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-all-similarity-O" title="Permalink to this definition"></a></dt>
-<dd><p>Desired output type</p>
 </dd></dl>
 
 </section>
@@ -631,6 +548,7 @@ obsolete them all:</p>
 <blockquote>
 <div><p>runoak -i cl.ofn axiom –axiom-type SubClassOf</p>
 </div></blockquote>
+<p>Note this currently only works with the funowl adapter, on functional syntax files</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak axioms <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2146,6 +2064,17 @@ results to viz, using the fill-gaps option</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-relationships-include-entailed">
+<span id="cmdoption-runoak-relationships-no-include-entailed"></span><span class="sig-name descname"><span class="pre">--include-entailed</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-entailed</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-entailed" title="Permalink to this definition"></a></dt>
+<dd><p>Include entailed indirect relationships</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-relationships-include-tbox">
 <span id="cmdoption-runoak-relationships-no-include-tbox"></span><span class="sig-name descname"><span class="pre">--include-tbox</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-tbox</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-relationships-include-tbox" title="Permalink to this definition"></a></dt>
 <dd><p>Include class-class relationships (subclass and existentials)</p>
@@ -2347,7 +2276,125 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 <section id="runoak-similarity">
 <h4>similarity<a class="headerlink" href="#runoak-similarity" title="Permalink to this headline"></a></h4>
 <blockquote>
+<div><p>All by all similarity</p>
+<p>This calculates a similarity matrix for two sets of terms.</p>
+<p>Input sets of a terms can be specified in different ways:</p>
+<ul class="simple">
+<li><p>via a file</p></li>
+<li><p>via explicit lists of terms or queries</p></li>
+</ul>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i hp.db all-similarity -p i –set1-file HPO-TERMS1 –set2-file HPO-TERMS2 -O csv</p>
+</div></blockquote>
+<p>This will compare every term in TERMS1 vs TERMS2</p>
+<p>Alternatively standard OAK term queries can be used, with “&#64;” separating the two lists</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i hp.db all-similarity -p i TERM_1 TERM_2 … TERM_N &#64; TERM_N+1 … TERM_M</p>
+</div></blockquote>
+<p>The .all term syntax can be used to select all terms in an ontology</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i ma.db all-similarity -p i,p .all &#64; .all</p>
+</div></blockquote>
+<p>This can be mixed with other term selectors; for example to calculate the similarity of “neuron”
+vs all terms in CL:</p>
+<blockquote>
+<div><p>runoak -i cl.db all-similarity -p i,p .all &#64; neuron</p>
+</div></blockquote>
+<p>An example pipeline to do all by all over all phenotypes in HPO:</p>
+<p>Explicit:</p>
+<blockquote>
+<div><p>runoak -i hp.db descendants -p i HP:0000118 &gt; HPO
+runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
+</div></blockquote>
+<p>The same thing can be done more compactly with term queries:</p>
+<blockquote>
+<div><p>runoak -i hp.db all-similarity -p i .desc//p=i HP:0000118 &#64; .desc//p=i HP:0000118</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-p">
+<span id="cmdoption-runoak-similarity-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-set1-file">
+<span class="sig-name descname"><span class="pre">--set1-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set1_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-set1-file" title="Permalink to this definition"></a></dt>
+<dd><p>ID file for set1</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-set2-file">
+<span class="sig-name descname"><span class="pre">--set2-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set2_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-set2-file" title="Permalink to this definition"></a></dt>
+<dd><p>ID file for set2</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-jaccard-minimum">
+<span class="sig-name descname"><span class="pre">--jaccard-minimum</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;jaccard_minimum&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-jaccard-minimum" title="Permalink to this definition"></a></dt>
+<dd><p>Minimum value for jaccard score</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-ic-minimum">
+<span class="sig-name descname"><span class="pre">--ic-minimum</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;ic_minimum&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-ic-minimum" title="Permalink to this definition"></a></dt>
+<dd><p>Minimum value for information content</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-o">
+<span id="cmdoption-runoak-similarity-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-o" title="Permalink to this definition"></a></dt>
+<dd><p>path to output</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-main-score-field">
+<span class="sig-name descname"><span class="pre">--main-score-field</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;main_score_field&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-main-score-field" title="Permalink to this definition"></a></dt>
+<dd><p>Score used for summarization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>phenodigm_score</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-autolabel">
+<span id="cmdoption-runoak-similarity-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-O">
+<span id="cmdoption-runoak-similarity-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-arg-TERMS">
+<span id="cmdoption-runoak-similarity-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="runoak-similarity-pair">
+<h4>similarity-pair<a class="headerlink" href="#runoak-similarity-pair" title="Permalink to this headline"></a></h4>
+<blockquote>
 <div><p>Determine pairwise similarity between two terms using a variety of metrics</p>
+<p>NOTE: this command may be deprecated, consider using similarity</p>
 <p>Note: We recommend always specifying explicit predicate lists</p>
 <p>Example:</p>
 <blockquote>
@@ -2367,26 +2414,26 @@ the MRCA</p>
 </div></blockquote>
 <p>Background: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html</a></p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity-pair <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-similarity-p">
-<span id="cmdoption-runoak-similarity-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-p" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-pair-p">
+<span id="cmdoption-runoak-similarity-pair-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-p" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-similarity-o">
-<span id="cmdoption-runoak-similarity-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-o" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-pair-o">
+<span id="cmdoption-runoak-similarity-pair-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-similarity-arg-TERMS">
-<span id="cmdoption-runoak-similarity-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-pair-arg-TERMS">
+<span id="cmdoption-runoak-similarity-pair-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
@@ -2454,6 +2501,10 @@ terms (directly) in goslim_generic in GO:</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go info .in goslim_generic</p>
+</div></blockquote>
+<p>See also:</p>
+<blockquote>
+<div><p>term-subsets command, which shows relationships of terms to subsets</p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak subsets <span class="o">[</span>OPTIONS<span class="o">]</span>
@@ -2535,6 +2586,7 @@ terms (directly) in goslim_generic in GO:</p>
 <h4>term-categories<a class="headerlink" href="#runoak-term-categories" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>List categories for a term or set of terms</p>
+<p>TODO</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-categories <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
@@ -2686,6 +2738,57 @@ terms (directly) in goslim_generic in GO:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-terms-owl-type">
 <span class="sig-name descname"><span class="pre">--owl-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;owl_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-terms-owl-type" title="Permalink to this definition"></a></dt>
 <dd><p>only include entities of this type, e.g. owl:Class, rdf:Property</p>
+</dd></dl>
+
+</section>
+<section id="runoak-termset-similarity">
+<h4>termset-similarity<a class="headerlink" href="#runoak-termset-similarity" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Termset similarity</p>
+<p>This calculates a similarity matrix for two sets of terms.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i go.db termset-similarity -p i,p nucleus membrane &#64; “nuclear membrane” vacuole -p i,p</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak termset-similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-p">
+<span id="cmdoption-runoak-termset-similarity-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-o">
+<span id="cmdoption-runoak-termset-similarity-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-O">
+<span id="cmdoption-runoak-termset-similarity-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-autolabel">
+<span id="cmdoption-runoak-termset-similarity-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-termset-similarity-arg-TERMS">
+<span id="cmdoption-runoak-termset-similarity-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-termset-similarity-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>

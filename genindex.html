@@ -169,6 +169,10 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-autolabel">runoak-relationships command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-autolabel">runoak-similarity command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-autolabel">runoak-termset-similarity command line option</a>
+</li>
       </ul></li>
       <li>
     --autosave
@@ -299,7 +303,7 @@
     --ic-minimum
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-ic-minimum">runoak-all-similarity command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-similarity-ic-minimum">runoak-similarity command line option</a>
 </li>
       </ul></li>
       <li>
@@ -327,6 +331,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-abox">runoak-relationships command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --include-entailed
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-relationships-include-entailed">runoak-relationships command line option</a>
 </li>
       </ul></li>
       <li>
@@ -368,7 +379,7 @@
     --jaccard-minimum
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-jaccard-minimum">runoak-all-similarity command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-similarity-jaccard-minimum">runoak-similarity command line option</a>
 </li>
       </ul></li>
       <li>
@@ -376,6 +387,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-L">runoak-lexmatch command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --main-score-field
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-similarity-main-score-field">runoak-similarity command line option</a>
 </li>
       </ul></li>
       <li>
@@ -477,6 +495,10 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-autolabel">runoak-relationships command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-autolabel">runoak-similarity command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-autolabel">runoak-termset-similarity command line option</a>
+</li>
       </ul></li>
       <li>
     --no-autosave
@@ -533,6 +555,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-abox">runoak-relationships command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-include-entailed
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-relationships-include-entailed">runoak-relationships command line option</a>
 </li>
       </ul></li>
       <li>
@@ -662,8 +691,6 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
 </li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-o">runoak-all-similarity command line option</a>
-</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-0">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-o">runoak-annotate command line option</a>
@@ -732,6 +759,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">runoak-similarity command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-o">runoak-similarity-pair command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-singletons-o">runoak-singletons command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
@@ -746,6 +775,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-terms-o">runoak-terms command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-o">runoak-termset-similarity command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-tree-0">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-o">runoak-validate command line option</a>
@@ -759,8 +790,6 @@
     --output-type
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-O">runoak-all-similarity command line option</a>
-</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-O">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
@@ -807,11 +836,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-siblings-O">runoak-siblings command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-O">runoak-similarity command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-O">runoak-term-categories command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-O">runoak-term-metadata command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-subsets-O">runoak-term-subsets command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-O">runoak-termset-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-O">runoak-tree command line option</a>
 </li>
@@ -838,8 +871,6 @@
     --predicates
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-p">runoak-all-similarity command line option</a>
-</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-p">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-p">runoak-descendants command line option</a>
@@ -866,9 +897,13 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-p">runoak-similarity command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-p">runoak-similarity-pair command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-singletons-p">runoak-singletons command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-p">runoak-taxon-constraints command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-p">runoak-termset-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-p">runoak-tree command line option</a>
 </li>
@@ -968,31 +1003,17 @@
 </li>
       </ul></li>
       <li>
-    --set1
-
-      <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set1">runoak-all-similarity command line option</a>
-</li>
-      </ul></li>
-      <li>
     --set1-file
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set1-file">runoak-all-similarity command line option</a>
-</li>
-      </ul></li>
-      <li>
-    --set2
-
-      <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set2">runoak-all-similarity command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-similarity-set1-file">runoak-similarity command line option</a>
 </li>
       </ul></li>
       <li>
     --set2-file
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set2-file">runoak-all-similarity command line option</a>
+        <li><a href="cli.html#cmdoption-runoak-similarity-set2-file">runoak-similarity command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1128,8 +1149,6 @@
     -O
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-O">runoak-all-similarity command line option</a>
-</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-O">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-annotate-O">runoak-annotate command line option</a>
@@ -1176,11 +1195,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-siblings-O">runoak-siblings command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-O">runoak-similarity command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-O">runoak-term-categories command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-O">runoak-term-metadata command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-subsets-O">runoak-term-subsets command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-O">runoak-termset-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-O">runoak-tree command line option</a>
 </li>
@@ -1192,8 +1215,6 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-aliases-o">runoak-aliases command line option</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-o">runoak-all-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-0">runoak-ancestors command line option</a>
 </li>
@@ -1263,6 +1284,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">runoak-similarity command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-o">runoak-similarity-pair command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-singletons-o">runoak-singletons command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
@@ -1277,6 +1300,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-terms-o">runoak-terms command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-o">runoak-termset-similarity command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-tree-0">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-validate-o">runoak-validate command line option</a>
@@ -1290,8 +1315,6 @@
     -p
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-p">runoak-all-similarity command line option</a>
-</li>
         <li><a href="cli.html#cmdoption-runoak-ancestors-p">runoak-ancestors command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-descendants-p">runoak-descendants command line option</a>
@@ -1318,9 +1341,13 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-p">runoak-similarity command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-p">runoak-similarity-pair command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-singletons-p">runoak-singletons command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-p">runoak-taxon-constraints command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-p">runoak-termset-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-p">runoak-tree command line option</a>
 </li>
@@ -1401,6 +1428,8 @@
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">alias_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.aliases_by_curie">aliases_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.all_by_all_pairwise_similarity">all_by_all_pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_entity_curies">all_entity_curies() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
@@ -1542,9 +1571,9 @@
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships_by_curie">entailed_incoming_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships">entailed_incoming_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships_by_curie">entailed_outgoing_relationships_by_curie() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
+      <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships">entailed_outgoing_relationships() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">entailed_relationships_between() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
@@ -1959,35 +1988,6 @@
         <li><a href="cli.html#cmdoption-runoak-aliases-o">-o</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-aliases-arg-TERMS">TERMS</a>
-</li>
-      </ul></li>
-      <li>
-    runoak-all-similarity command line option
-
-      <ul>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-ic-minimum">--ic-minimum</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-jaccard-minimum">--jaccard-minimum</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-o">--output</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-O">--output-type</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-p">--predicates</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set1">--set1</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set1-file">--set1-file</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set2">--set2</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-set2-file">--set2-file</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-o">-o</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-O">-O</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-all-similarity-p">-p</a>
 </li>
       </ul></li>
       <li>
@@ -2413,8 +2413,6 @@
         <li><a href="cli.html#cmdoption-runoak-lint-O">-O</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-logical-definitions command line option
 
@@ -2467,6 +2465,8 @@
         <li><a href="cli.html#cmdoption-runoak-mappings-arg-TERMS">TERMS</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     runoak-migrate-curies command line option
 
@@ -2585,11 +2585,15 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-abox">--include-abox</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-relationships-include-entailed">--include-entailed</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-tbox">--include-tbox</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-autolabel">--no-autolabel</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-abox">--no-include-abox</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-relationships-include-entailed">--no-include-entailed</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-relationships-include-tbox">--no-include-tbox</a>
 </li>
@@ -2674,15 +2678,48 @@
     runoak-similarity command line option
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-similarity-autolabel">--autolabel</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-ic-minimum">--ic-minimum</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-jaccard-minimum">--jaccard-minimum</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-main-score-field">--main-score-field</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-autolabel">--no-autolabel</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-p">--predicates</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-set1-file">--set1-file</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-set2-file">--set2-file</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-similarity-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-O">-O</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-p">-p</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-arg-TERMS">TERMS</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-similarity-pair command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-p">--predicates</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-p">-p</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-arg-TERMS">TERMS</a>
 </li>
       </ul></li>
       <li>
@@ -2802,6 +2839,29 @@
         <li><a href="cli.html#cmdoption-runoak-terms-owl-type">--owl-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-terms-o">-o</a>
+</li>
+      </ul></li>
+      <li>
+    runoak-termset-similarity command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-autolabel">--autolabel</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-autolabel">--no-autolabel</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-p">--predicates</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-p">-p</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-arg-TERMS">TERMS</a>
 </li>
       </ul></li>
       <li>
@@ -3050,6 +3110,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-arg-TERMS">runoak-similarity command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-similarity-pair-arg-TERMS">runoak-similarity-pair command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-arg-TERMS">runoak-taxon-constraints command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-arg-TERMS">runoak-term-categories command line option</a>
@@ -3057,6 +3119,8 @@
         <li><a href="cli.html#cmdoption-runoak-term-metadata-arg-TERMS">runoak-term-metadata command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-subsets-arg-TERMS">runoak-term-subsets command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-termset-similarity-arg-TERMS">runoak-termset-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-tree-arg-TERMS">runoak-tree command line option</a>
 </li>
