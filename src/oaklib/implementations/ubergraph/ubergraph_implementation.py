@@ -168,14 +168,14 @@ class UbergraphImplementation(
             obj = self.uri_to_curie(row["o"]["value"])
             yield sub, pred, obj
 
-    def entailed_outgoing_relationships_by_curie(
+    def entailed_outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self._get_outgoing_edges_by_curie(
             curie, graph=RelationGraphEnum.redundant, predicates=predicates
         )
 
-    def entailed_incoming_relationships_by_curie(
+    def entailed_incoming_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self._get_incoming_edges_by_curie(

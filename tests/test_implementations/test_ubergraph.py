@@ -45,7 +45,7 @@ class TestUbergraphImplementation(unittest.TestCase):
     @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_entailed_relationships(self):
         ont = self.oi
-        rels = list(ont.entailed_outgoing_relationships_by_curie(VACUOLE))
+        rels = list(ont.entailed_outgoing_relationships(VACUOLE))
         self.assertIn((IS_A, VACUOLE), rels)
         self.assertIn((IS_A, ICMBO), rels)
         self.assertIn((IS_A, CELLULAR_COMPONENT), rels)

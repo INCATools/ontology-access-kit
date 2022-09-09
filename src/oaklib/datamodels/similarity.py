@@ -1,24 +1,39 @@
 # Auto generated from similarity.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-13T10:39:24
+# Generation date: 2022-09-07T23:25:27
 # Schema: similarity
 #
 # id: https://w3id.org/linkml/similarity
-# description: A datamodel for representing similarity between terms or lists of terms.
+# description: A datamodel for representing semantic similarity between terms or lists of terms.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from linkml_runtime.linkml_model.types import Float, Integer
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Float, Integer, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
-from linkml_runtime.utils.metamodelcore import URIorCURIE
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import URIorCURIE, bnode, empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -72,10 +87,19 @@ class ItemCount(Integer):
 
 
 # Class references
+class TermInfoId(extended_str):
+    pass
 
 
-@dataclass
+class BestMatchMatchSource(extended_str):
+    pass
+
+
 class PairwiseSimilarity(YAMLRoot):
+    """
+    Abstract grouping for representing individual pairwise similarities
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = SIM.PairwiseSimilarity
@@ -83,7 +107,21 @@ class PairwiseSimilarity(YAMLRoot):
     class_name: ClassVar[str] = "PairwiseSimilarity"
     class_model_uri: ClassVar[URIRef] = SIM.PairwiseSimilarity
 
-    subject_id: Optional[Union[str, URIorCURIE]] = None
+
+@dataclass
+class TermPairwiseSimilarity(PairwiseSimilarity):
+    """
+    A simple pairwise similarity between two atomic concepts/terms
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SIM.TermPairwiseSimilarity
+    class_class_curie: ClassVar[str] = "sim:TermPairwiseSimilarity"
+    class_name: ClassVar[str] = "TermPairwiseSimilarity"
+    class_model_uri: ClassVar[URIRef] = SIM.TermPairwiseSimilarity
+
+    subject_id: Union[str, URIorCURIE] = None
     subject_label: Optional[str] = None
     subject_source: Optional[str] = None
     object_id: Optional[Union[str, URIorCURIE]] = None
@@ -100,7 +138,9 @@ class PairwiseSimilarity(YAMLRoot):
     phenodigm_score: Optional[Union[float, NonNegativeFloat]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.subject_id is not None and not isinstance(self.subject_id, URIorCURIE):
+        if self._is_empty(self.subject_id):
+            self.MissingRequiredField("subject_id")
+        if not isinstance(self.subject_id, URIorCURIE):
             self.subject_id = URIorCURIE(self.subject_id)
 
         if self.subject_label is not None and not isinstance(self.subject_label, str):
@@ -158,22 +198,146 @@ class PairwiseSimilarity(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
-class TermPairwiseSimilarity(PairwiseSimilarity):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = SIM.TermPairwiseSimilarity
-    class_class_curie: ClassVar[str] = "sim:TermPairwiseSimilarity"
-    class_name: ClassVar[str] = "TermPairwiseSimilarity"
-    class_model_uri: ClassVar[URIRef] = SIM.TermPairwiseSimilarity
-
-
+@dataclass
 class TermSetPairwiseSimilarity(PairwiseSimilarity):
+    """
+    A simple pairwise similarity between two sets of concepts/terms
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = SIM.TermSetPairwiseSimilarity
     class_class_curie: ClassVar[str] = "sim:TermSetPairwiseSimilarity"
     class_name: ClassVar[str] = "TermSetPairwiseSimilarity"
     class_model_uri: ClassVar[URIRef] = SIM.TermSetPairwiseSimilarity
+
+    subject_termset: Optional[
+        Union[Dict[Union[str, TermInfoId], Union[dict, "TermInfo"]], List[Union[dict, "TermInfo"]]]
+    ] = empty_dict()
+    object_termset: Optional[
+        Union[Dict[Union[str, TermInfoId], Union[dict, "TermInfo"]], List[Union[dict, "TermInfo"]]]
+    ] = empty_dict()
+    subject_best_matches: Optional[
+        Union[
+            Dict[Union[str, BestMatchMatchSource], Union[dict, "BestMatch"]],
+            List[Union[dict, "BestMatch"]],
+        ]
+    ] = empty_dict()
+    object_best_matches: Optional[
+        Union[
+            Dict[Union[str, BestMatchMatchSource], Union[dict, "BestMatch"]],
+            List[Union[dict, "BestMatch"]],
+        ]
+    ] = empty_dict()
+    average_score: Optional[float] = None
+    best_score: Optional[float] = None
+    metric: Optional[Union[str, URIorCURIE]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        self._normalize_inlined_as_dict(
+            slot_name="subject_termset", slot_type=TermInfo, key_name="id", keyed=True
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="object_termset", slot_type=TermInfo, key_name="id", keyed=True
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="subject_best_matches",
+            slot_type=BestMatch,
+            key_name="match_source",
+            keyed=True,
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="object_best_matches",
+            slot_type=BestMatch,
+            key_name="match_source",
+            keyed=True,
+        )
+
+        if self.average_score is not None and not isinstance(self.average_score, float):
+            self.average_score = float(self.average_score)
+
+        if self.best_score is not None and not isinstance(self.best_score, float):
+            self.best_score = float(self.best_score)
+
+        if self.metric is not None and not isinstance(self.metric, URIorCURIE):
+            self.metric = URIorCURIE(self.metric)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class TermInfo(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SIM.TermInfo
+    class_class_curie: ClassVar[str] = "sim:TermInfo"
+    class_name: ClassVar[str] = "TermInfo"
+    class_model_uri: ClassVar[URIRef] = SIM.TermInfo
+
+    id: Union[str, TermInfoId] = None
+    label: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, TermInfoId):
+            self.id = TermInfoId(self.id)
+
+        if self.label is not None and not isinstance(self.label, str):
+            self.label = str(self.label)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class BestMatch(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SIM.BestMatch
+    class_class_curie: ClassVar[str] = "sim:BestMatch"
+    class_name: ClassVar[str] = "BestMatch"
+    class_model_uri: ClassVar[URIRef] = SIM.BestMatch
+
+    match_source: Union[str, BestMatchMatchSource] = None
+    match_source_label: Optional[str] = None
+    match_target: Optional[str] = None
+    match_target_label: Optional[str] = None
+    score: Optional[float] = None
+    match_subsumer: Optional[Union[str, URIorCURIE]] = None
+    match_subsumer_label: Optional[str] = None
+    similarity: Optional[Union[dict, TermPairwiseSimilarity]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.match_source):
+            self.MissingRequiredField("match_source")
+        if not isinstance(self.match_source, BestMatchMatchSource):
+            self.match_source = BestMatchMatchSource(self.match_source)
+
+        if self.match_source_label is not None and not isinstance(self.match_source_label, str):
+            self.match_source_label = str(self.match_source_label)
+
+        if self.match_target is not None and not isinstance(self.match_target, str):
+            self.match_target = str(self.match_target)
+
+        if self.match_target_label is not None and not isinstance(self.match_target_label, str):
+            self.match_target_label = str(self.match_target_label)
+
+        if self.score is not None and not isinstance(self.score, float):
+            self.score = float(self.score)
+
+        if self.match_subsumer is not None and not isinstance(self.match_subsumer, URIorCURIE):
+            self.match_subsumer = URIorCURIE(self.match_subsumer)
+
+        if self.match_subsumer_label is not None and not isinstance(self.match_subsumer_label, str):
+            self.match_subsumer_label = str(self.match_subsumer_label)
+
+        if self.similarity is not None and not isinstance(self.similarity, TermPairwiseSimilarity):
+            self.similarity = TermPairwiseSimilarity(**as_dict(self.similarity))
+
+        super().__post_init__(**kwargs)
 
 
 # Enumerations
@@ -190,7 +354,7 @@ slots.subject_id = Slot(
     curie=SSSOM.curie("subject_id"),
     model_uri=SIM.subject_id,
     domain=None,
-    range=Optional[Union[str, URIorCURIE]],
+    range=Union[str, URIorCURIE],
 )
 
 slots.subject_label = Slot(
@@ -380,4 +544,171 @@ slots.union_count = Slot(
     model_uri=SIM.union_count,
     domain=None,
     range=Optional[Union[int, ItemCount]],
+)
+
+slots.subject_termset = Slot(
+    uri=SIM.subject_termset,
+    name="subject_termset",
+    curie=SIM.curie("subject_termset"),
+    model_uri=SIM.subject_termset,
+    domain=None,
+    range=Optional[
+        Union[Dict[Union[str, TermInfoId], Union[dict, TermInfo]], List[Union[dict, TermInfo]]]
+    ],
+)
+
+slots.object_termset = Slot(
+    uri=SIM.object_termset,
+    name="object_termset",
+    curie=SIM.curie("object_termset"),
+    model_uri=SIM.object_termset,
+    domain=None,
+    range=Optional[
+        Union[Dict[Union[str, TermInfoId], Union[dict, TermInfo]], List[Union[dict, TermInfo]]]
+    ],
+)
+
+slots.subject_best_matches = Slot(
+    uri=SIM.subject_best_matches,
+    name="subject_best_matches",
+    curie=SIM.curie("subject_best_matches"),
+    model_uri=SIM.subject_best_matches,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, BestMatchMatchSource], Union[dict, BestMatch]],
+            List[Union[dict, BestMatch]],
+        ]
+    ],
+)
+
+slots.object_best_matches = Slot(
+    uri=SIM.object_best_matches,
+    name="object_best_matches",
+    curie=SIM.curie("object_best_matches"),
+    model_uri=SIM.object_best_matches,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, BestMatchMatchSource], Union[dict, BestMatch]],
+            List[Union[dict, BestMatch]],
+        ]
+    ],
+)
+
+slots.metric = Slot(
+    uri=SIM.metric,
+    name="metric",
+    curie=SIM.curie("metric"),
+    model_uri=SIM.metric,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.average_score = Slot(
+    uri=SIM.average_score,
+    name="average_score",
+    curie=SIM.curie("average_score"),
+    model_uri=SIM.average_score,
+    domain=None,
+    range=Optional[float],
+)
+
+slots.best_score = Slot(
+    uri=SIM.best_score,
+    name="best_score",
+    curie=SIM.curie("best_score"),
+    model_uri=SIM.best_score,
+    domain=None,
+    range=Optional[float],
+)
+
+slots.termInfo__id = Slot(
+    uri=SIM.id,
+    name="termInfo__id",
+    curie=SIM.curie("id"),
+    model_uri=SIM.termInfo__id,
+    domain=None,
+    range=URIRef,
+)
+
+slots.termInfo__label = Slot(
+    uri=RDFS.label,
+    name="termInfo__label",
+    curie=RDFS.curie("label"),
+    model_uri=SIM.termInfo__label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.bestMatch__match_source = Slot(
+    uri=SIM.match_source,
+    name="bestMatch__match_source",
+    curie=SIM.curie("match_source"),
+    model_uri=SIM.bestMatch__match_source,
+    domain=None,
+    range=URIRef,
+)
+
+slots.bestMatch__match_source_label = Slot(
+    uri=SIM.match_source_label,
+    name="bestMatch__match_source_label",
+    curie=SIM.curie("match_source_label"),
+    model_uri=SIM.bestMatch__match_source_label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.bestMatch__match_target = Slot(
+    uri=SIM.match_target,
+    name="bestMatch__match_target",
+    curie=SIM.curie("match_target"),
+    model_uri=SIM.bestMatch__match_target,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.bestMatch__match_target_label = Slot(
+    uri=SIM.match_target_label,
+    name="bestMatch__match_target_label",
+    curie=SIM.curie("match_target_label"),
+    model_uri=SIM.bestMatch__match_target_label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.bestMatch__score = Slot(
+    uri=SIM.score,
+    name="bestMatch__score",
+    curie=SIM.curie("score"),
+    model_uri=SIM.bestMatch__score,
+    domain=None,
+    range=Optional[float],
+)
+
+slots.bestMatch__match_subsumer = Slot(
+    uri=SIM.match_subsumer,
+    name="bestMatch__match_subsumer",
+    curie=SIM.curie("match_subsumer"),
+    model_uri=SIM.bestMatch__match_subsumer,
+    domain=None,
+    range=Optional[Union[str, URIorCURIE]],
+)
+
+slots.bestMatch__match_subsumer_label = Slot(
+    uri=SIM.match_subsumer_label,
+    name="bestMatch__match_subsumer_label",
+    curie=SIM.curie("match_subsumer_label"),
+    model_uri=SIM.bestMatch__match_subsumer_label,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.bestMatch__similarity = Slot(
+    uri=SIM.similarity,
+    name="bestMatch__similarity",
+    curie=SIM.curie("similarity"),
+    model_uri=SIM.bestMatch__similarity,
+    domain=None,
+    range=Optional[Union[dict, TermPairwiseSimilarity]],
 )

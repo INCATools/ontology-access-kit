@@ -479,16 +479,25 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_similarity(self):
         result = self.runner.invoke(
             main,
-            ["-i", TEST_DB, "similarity", NUCLEAR_MEMBRANE, VACUOLE, "-p", "i,p", "-o", TEST_OUT],
+            [
+                "-i",
+                TEST_DB,
+                "similarity",
+                NUCLEAR_MEMBRANE,
+                "@",
+                VACUOLE,
+                "-p",
+                "i,p",
+                "-o",
+                TEST_OUT,
+            ],
         )
-        # out = result.stdout
-        result.stderr
         self.assertEqual(0, result.exit_code)
-        out = self._out()
+        out = self._out(TEST_OUT)
         self.assertIn(IMBO, out)
         with open(TEST_OUT) as f:
-            obj = yaml.safe_load(f)
-            # logging.info(obj)
+            objs = list(yaml.load_all(f, yaml.SafeLoader))
+            obj = objs[0]
             self.assertEqual(obj["subject_id"], NUCLEAR_MEMBRANE)
             self.assertEqual(obj["object_id"], VACUOLE)
             self.assertEqual(obj["ancestor_id"], IMBO)

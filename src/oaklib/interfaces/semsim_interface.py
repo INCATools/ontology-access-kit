@@ -1,11 +1,18 @@
 import logging
 import math
+import statistics
 from abc import ABC
+from collections import defaultdict
 from typing import Iterable, Iterator, List, Tuple
 
 import networkx as nx
 
-from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.similarity import (
+    BestMatch,
+    TermInfo,
+    TermPairwiseSimilarity,
+    TermSetPairwiseSimilarity,
+)
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -15,7 +22,8 @@ from oaklib.utilities.semsim.similarity_utils import setwise_jaccard_similarity
 
 class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     """
-    TODO: consider direct use of nxontology
+    An interface for calculating similarity measures between pairs of terms or
+    collections of terms
     """
 
     def most_recent_common_ancestors(
@@ -173,9 +181,69 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         return sim
 
     def termset_pairwise_similarity(
-        self, subjects: List[CURIE], objects: List[CURIE], predicates: List[PRED_CURIE] = None
-    ) -> TermPairwiseSimilarity:
-        raise NotImplementedError
+        self,
+        subjects: List[CURIE],
+        objects: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        labels=False,
+    ) -> TermSetPairwiseSimilarity:
+        curies = set(subjects + objects)
+        pairs = list(self.all_by_all_pairwise_similarity(subjects, objects, predicates=predicates))
+        bm_subject_score = defaultdict(float)
+        bm_subject = {}
+        bm_subject_sim = {}
+        bm_object_score = defaultdict(float)
+        bm_object = {}
+        bm_object_sim = {}
+        sim = TermSetPairwiseSimilarity()
+        for x in subjects:
+            sim.subject_termset[x] = TermInfo(x)
+        for x in objects:
+            sim.object_termset[x] = TermInfo(x)
+        for pair in pairs:
+            st = pair.subject_id
+            ot = pair.object_id
+            if pair.ancestor_information_content > bm_subject_score[st]:
+                bm_subject_score[st] = pair.ancestor_information_content
+                bm_subject[st] = ot
+                bm_subject_sim[st] = pair
+                curies.add(ot)
+                curies.add(pair.ancestor_id)
+            if pair.ancestor_information_content > bm_object_score[ot]:
+                bm_object_score[ot] = pair.ancestor_information_content
+                bm_object[ot] = st
+                bm_object_sim[ot] = pair
+                curies.add(ot)
+                curies.add(pair.ancestor_id)
+        scores = []
+        for s, t in bm_subject.items():
+            score = bm_subject_score[s]
+            sim.subject_best_matches[s] = BestMatch(
+                s, match_target=t, score=score, similarity=bm_subject_sim[s]
+            )
+            scores.append(score)
+        for s, t in bm_object.items():
+            score = bm_object_score[s]
+            sim.object_best_matches[s] = BestMatch(
+                s, match_target=t, score=score, similarity=bm_object_sim[s]
+            )
+            scores.append(score)
+        if not scores:
+            scores = [0.0]
+        sim.average_score = statistics.mean(scores)
+        sim.best_score = max(scores)
+        if labels:
+            label_ix = {k: v for k, v in self.labels(curies)}
+            for x in list(sim.subject_termset.values()) + list(sim.object_termset.values()):
+                x.label = label_ix.get(x.id, None)
+            for x in list(sim.subject_best_matches.values()) + list(
+                sim.object_best_matches.values()
+            ):
+                x.match_target_label = label_ix.get(x.match_target, None)
+                x.match_source_label = label_ix.get(x.match_source, None)
+                x.similarity.ancestor_label = label_ix.get(x.similarity.ancestor_id, None)
+
+        return sim
 
     def all_by_all_pairwise_similarity(
         self,
@@ -183,6 +251,15 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
+        """
+        Compute similarity for all combinations of terms in subsets vs all terms in objects
+
+        :param subjects:
+        :param objects:
+        :param predicates:
+        :return:
+        """
+        objects = list(objects)
         for s in subjects:
             for o in objects:
                 yield self.pairwise_similarity(s, o, predicates=predicates)

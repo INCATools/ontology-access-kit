@@ -63,6 +63,9 @@ class StreamingWriter(ABC):
     def close(self):
         pass
 
+    def finish(self):
+        pass
+
     def line(self, v: str):
         self.file.write(f"{v}\n")
 

@@ -456,9 +456,13 @@ class SqlImplementation(
                 yield str(row.subject)
 
     def outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        for row in self.session.query(Edge).filter(Edge.subject == curie):
+        if entailed:
+            tbl = EntailedEdge
+        else:
+            tbl = Edge
+        for row in self.session.query(tbl).filter(tbl.subject == curie):
             yield row.predicate, row.object
         if not predicates or RDF_TYPE in predicates:
             q = self.session.query(RdfTypeStatement.object).filter(
@@ -471,6 +475,11 @@ class SqlImplementation(
 
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
+
+    def entailed_outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        return self.outgoing_relationships(curie, predicates, entailed=True)
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
@@ -485,9 +494,12 @@ class SqlImplementation(
         objects: List[CURIE] = None,
         include_tbox: bool = True,
         include_abox: bool = True,
+        include_entailed: bool = False,
     ) -> Iterator[RELATIONSHIP]:
         if include_tbox:
-            for r in self._tbox_relationships(subjects, predicates, objects):
+            for r in self._tbox_relationships(
+                subjects, predicates, objects, include_entailed=include_entailed
+            ):
                 yield r
         if include_abox:
             for r in self._rdf_type_relationships(subjects, predicates, objects):
@@ -500,14 +512,20 @@ class SqlImplementation(
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
         objects: List[CURIE] = None,
+        include_entailed: bool = False,
     ) -> Iterator[RELATIONSHIP]:
-        q = self.session.query(Edge)
+        if include_entailed:
+            tbl = EntailedEdge
+        else:
+            tbl = Edge
+        q = self.session.query(tbl)
         if subjects:
-            q = q.filter(Edge.subject.in_(tuple(subjects)))
+            q = q.filter(tbl.subject.in_(tuple(subjects)))
         if predicates:
-            q = q.filter(Edge.predicate.in_(tuple(predicates)))
+            q = q.filter(tbl.predicate.in_(tuple(predicates)))
         if objects:
-            q = q.filter(Edge.object.in_(tuple(objects)))
+            q = q.filter(tbl.object.in_(tuple(objects)))
+        logging.info(f"Tbox query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -1118,6 +1136,8 @@ class SqlImplementation(
 
         subjects_ancs = tuples_to_map(self.multi_ancestors(list(subjects), predicates=predicates))
         objects_ancs = tuples_to_map(self.multi_ancestors(list(objects), predicates=predicates))
+        logging.info(f"SUBJECT ANCS={len(subjects_ancs)}")
+        logging.info(f"OBJECT ANCS={len(objects_ancs)}")
         for s, s_ancs in subjects_ancs.items():
             for o, o_ancs in objects_ancs.items():
                 logging.info(f"s={s} o={o}")
