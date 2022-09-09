@@ -575,6 +575,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         objects: Iterable[CURIE] = None,
         include_tbox: bool = True,
         include_abox: bool = True,
+        include_entailed: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
         Returns all matching relationships
@@ -584,6 +585,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param objects: constrain search to these objects (i.e incoming edges)
         :param include_tbox: if true, include class-class relationships (default True)
         :param include_abox: if true, include instance-instance/class relationships (default True)
+        :param include_entailed:
         :return:
         """
         if not subjects:

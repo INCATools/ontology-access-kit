@@ -1,6 +1,6 @@
 import atexit
 import sys
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
 
@@ -61,6 +61,9 @@ class StreamingWriter(ABC):
         raise NotImplementedError
 
     def close(self):
+        pass
+
+    def finish(self):
         pass
 
     def line(self, v: str):

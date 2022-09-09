@@ -38,6 +38,7 @@ from tests import (
     NUCLEAR_ENVELOPE,
     NUCLEUS,
     OUTPUT_DIR,
+    PHOTORECEPTOR_OUTER_SEGMENT,
     VACUOLE,
 )
 
@@ -652,3 +653,37 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         for row in rows:
             logging.info(row)
         self.assertEqual([], rows)
+
+    # SemSim
+    def test_pairwise_similarity(self):
+        terms = [NUCLEUS, VACUOLE, NUCLEAR_ENVELOPE, PHOTORECEPTOR_OUTER_SEGMENT]
+        pairs = list(self.oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
+        for pair in pairs:
+            if pair.subject_id == pair.object_id:
+                self.assertGreater(pair.jaccard_similarity, 0.99)
+                self.assertGreater(pair.phenodigm_score, 0.5)
+        termsets = [
+            (
+                [NUCLEUS, VACUOLE],
+                [NUCLEAR_ENVELOPE, PHOTORECEPTOR_OUTER_SEGMENT],
+                [IS_A],
+                (3, 5),
+                (3, 5),
+            ),
+            (
+                [NUCLEUS, VACUOLE],
+                [NUCLEAR_ENVELOPE, PHOTORECEPTOR_OUTER_SEGMENT],
+                [IS_A, PART_OF],
+                (5, 10),
+                (5, 10),
+            ),
+            ([NUCLEUS, VACUOLE], [HUMAN], [IS_A], (0, 0), (0, 0)),
+        ]
+        for ts in termsets:
+            ts1, ts2, ps, avg_range, max_range = ts
+            sim = self.oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
+            print(yaml_dumper.dumps(sim))
+            self.assertGreaterEqual(sim.average_score, avg_range[0])
+            self.assertLessEqual(sim.average_score, avg_range[1])
+            self.assertGreaterEqual(sim.best_score, max_range[0])
+            self.assertLessEqual(sim.best_score, max_range[1])

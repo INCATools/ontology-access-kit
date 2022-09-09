@@ -17,7 +17,30 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         and formally correct set of entailments.
     """
 
+    def entailed_outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        """
+        The return relationship map is keyed by relationship type, where the values
+        are the 'parents' or fillers
+
+        OWL formulation:
+
+         - is_a: {P : SubClassOf(C P), class(P)}
+         - R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}
+
+        :param curie: the 'child' term
+        :param predicates:
+        :return:
+        """
+        raise NotImplementedError
+
     def entailed_outgoing_relationships_by_curie(
+        self, *args, **kwargs
+    ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        return self.entailed_outgoing_relationships(*args, **kwargs)
+
+    def entailed_incoming_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
@@ -36,22 +59,9 @@ class RelationGraphInterface(BasicOntologyInterface, ABC):
         raise NotImplementedError
 
     def entailed_incoming_relationships_by_curie(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, *args, **kwargs
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        """
-        The return relationship map is keyed by relationship type, where the values
-        are the 'parents' or fillers
-
-        OWL formulation:
-
-         - is_a: {P : SubClassOf(C P), class(P)}
-         - R: {P : SubClassOf(C ObjectSomeValuesFrom( RP), class(P), property(P)}
-
-        :param curie: the 'child' term
-        :param predicates:
-        :return:
-        """
-        raise NotImplementedError
+        return self.entailed_incoming_relationships(*args, **kwargs)
 
     def entailed_relationships_between(self, subject: CURIE, object: CURIE) -> Iterable[PRED_CURIE]:
         """

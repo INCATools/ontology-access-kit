@@ -41,6 +41,11 @@ classes:
     abstract: true
     description: >-
       Abstract grouping for representing individual pairwise similarities
+
+  TermPairwiseSimilarity:
+    is_a: PairwiseSimilarity
+    description: >-
+      A simple pairwise similarity between two atomic concepts/terms
     slots:
       - subject_id
       - subject_label
@@ -58,15 +63,43 @@ classes:
       - dice_similarity
       - phenodigm_score
 
-  TermPairwiseSimilarity:
-    is_a: PairwiseSimilarity
-    description: >-
-      A simple pairwise similarity between two atomic concepts/terms
-
   TermSetPairwiseSimilarity:
     is_a: PairwiseSimilarity
     description: >-
       A simple pairwise similarity between two sets of concepts/terms
+    slots:
+      - subject_termset
+      - object_termset
+      - subject_best_matches
+      - object_best_matches
+      - average_score
+      - best_score
+      - metric
+
+  TermInfo:
+    attributes:
+      id:
+        identifier: true
+      label:
+        slot_uri: rdfs:label
+
+  BestMatch:
+    attributes:
+      match_source:
+        identifier: true
+        comments:
+          - note that the match_source is either the subject or the object
+      match_source_label:
+      match_target:
+        description: the entity matches
+      match_target_label:
+      score:
+        range: float
+      match_subsumer:
+        range: uriorcurie
+      match_subsumer_label:
+      similarity:
+        range: TermPairwiseSimilarity
 
 types:
   ZeroToOne:
@@ -161,4 +194,27 @@ slots:
   union_count:
     is_a: score
     range: ItemCount
+  # TermSets
+  subject_termset:
+    range: TermInfo
+    multivalued: true
+    inlined: true
+  object_termset:
+    range: TermInfo
+    multivalued: true
+    inlined: true
+  subject_best_matches:
+    range: BestMatch
+    multivalued: true
+    inlined: true
+  object_best_matches:
+    range: BestMatch
+    multivalued: true
+    inlined: true
+  metric:
+    range: uriorcurie
+  average_score:
+    range: float
+  best_score:
+    range: float
 

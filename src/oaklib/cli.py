@@ -60,6 +60,7 @@ from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.interfaces import (
     BasicOntologyInterface,
     OntologyInterface,
+    RelationGraphInterface,
     SubsetterInterface,
     ValidatorInterface,
 )
@@ -73,6 +74,7 @@ from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
+from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
@@ -138,6 +140,7 @@ INFO_FORMAT = "info"
 SSSOM_FORMAT = "sssom"
 OWLFUN_FORMAT = "ofn"
 NL_FORMAT = "nl"
+HEATMAP_FORMAT = "heatmap"
 
 ONT_FORMATS = [
     OBO_FORMAT,
@@ -163,6 +166,7 @@ WRITERS = {
     SSSOM_FORMAT: StreamingSssomWriter,
     INFO_FORMAT: StreamingInfoWriter,
     NL_FORMAT: StreamingNaturalLanguageWriter,
+    HEATMAP_FORMAT: HeatmapWriter,
 }
 
 
@@ -695,6 +699,10 @@ def subsets(output: str):
     Example:
 
         runoak -i sqlite:obo:go info .in goslim_generic
+
+    See also:
+
+        term-subsets command, which shows relationships of terms to subsets
     """
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
@@ -1552,9 +1560,11 @@ def extract_triples(terms, predicates, output, output_type: str = "ttl"):
 @predicates_option
 @output_option
 @click.argument("terms", nargs=-1)
-def similarity(terms, predicates, output: TextIO):
+def similarity_pair(terms, predicates, output: TextIO):
     """
     Determine pairwise similarity between two terms using a variety of metrics
+
+    NOTE: this command may be deprecated, consider using similarity
 
     Note: We recommend always specifying explicit predicate lists
 
@@ -1594,16 +1604,6 @@ def similarity(terms, predicates, output: TextIO):
 @main.command()
 @predicates_option
 @click.option(
-    "--set1",
-    multiple=True,
-    help="List of curies or curie queries for the first set. If empty uses all",
-)
-@click.option(
-    "--set2",
-    multiple=True,
-    help="List of curies or curie queries for the second set. If empty uses all",
-)
-@click.option(
     "--set1-file",
     help="ID file for set1",
 )
@@ -1621,71 +1621,110 @@ def similarity(terms, predicates, output: TextIO):
     type=float,
     help="Minimum value for information content",
 )
+@click.option("-o", "--output", help="path to output")
+@click.option(
+    "--main-score-field",
+    default="phenodigm_score",
+    show_default=True,
+    help="Score used for summarization",
+)
+@autolabel_option
 @output_option
 @output_type_option
-def all_similarity(
+@click.argument("terms", nargs=-1)
+def similarity(
+    terms,
     predicates,
-    set1,
-    set2,
     set1_file,
     set2_file,
+    autolabel: bool,
     jaccard_minimum,
     ic_minimum,
+    main_score_field,
     output_type,
-    output: TextIO,
+    output: str,
 ):
     """
     All by all similarity
 
     This calculates a similarity matrix for two sets of terms.
 
+    Input sets of a terms can be specified in different ways:
+
+    - via a file
+    - via explicit lists of terms or queries
+
     Example:
 
         runoak -i hp.db all-similarity -p i --set1-file HPO-TERMS1 --set2-file HPO-TERMS2 -O csv
+
+    This will compare every term in TERMS1 vs TERMS2
+
+    Alternatively standard OAK term queries can be used, with "@" separating the two lists
+
+    Example:
+
+        runoak -i hp.db all-similarity -p i TERM_1 TERM_2 ... TERM_N @ TERM_N+1 ... TERM_M
 
     The .all term syntax can be used to select all terms in an ontology
 
     Example:
 
-        runoak -i ma.db all-similarity -p i,p --set1 .all --set2 .all
+        runoak -i ma.db all-similarity -p i,p .all @ .all
 
     This can be mixed with other term selectors; for example to calculate the similarity of "neuron"
     vs all terms in CL:
 
-        runoak -i cl.db all-similarity -p i,p --set1 .all --set2 neuron
+        runoak -i cl.db all-similarity -p i,p .all @ neuron
 
     An example pipeline to do all by all over all phenotypes in HPO:
+
+    Explicit:
 
         runoak -i hp.db descendants -p i HP:0000118 > HPO
         runoak -i hp.db all-similarity -p i --set1-file HPO --set2-file HPO -O csv -o RESULTS.tsv
 
+    The same thing can be done more compactly with term queries:
+
+        runoak -i hp.db all-similarity -p i .desc//p=i HP:0000118 @ .desc//p=i HP:0000118
 
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
+    writer.output = output
+    if main_score_field and isinstance(writer, HeatmapWriter):
+        writer.value_field = main_score_field
     if isinstance(impl, SemanticSimilarityInterface):
-        if len(set1) == 0:
+        set1it = None
+        set2it = None
+        if not (set1_file or set2_file):
+            terms = list(terms)
+            ix = terms.index("@")
+            logging.info(f"Splitting terms {terms} on {ix}")
+            set1it = query_terms_iterator(terms[0:ix], impl)
+            set2it = query_terms_iterator(terms[ix + 1 :], impl)
+        else:
             if set1_file:
                 logging.info(f"Getting set1 from {set1_file}")
                 with open(set1_file) as file:
                     set1it = list(curies_from_file(file))
             else:
-                set1it = impl.entities()
-        else:
-            set1it = query_terms_iterator(set1, impl)
-        if len(set2) == 0:
+                set1it = query_terms_iterator(terms, impl)
             if set2_file:
                 logging.info(f"Getting set2 from {set2_file}")
                 with open(set2_file) as file:
                     set2it = list(curies_from_file(file))
             else:
-                set2it = impl.entities()
-        else:
-            set2it = query_terms_iterator(set2, impl)
+                set2it = query_terms_iterator(terms, impl)
         actual_predicates = _process_predicates_arg(predicates)
         for sim in impl.all_by_all_pairwise_similarity(
             set1it, set2it, predicates=actual_predicates
         ):
+            if autolabel:
+                # TODO: this can be made more efficient
+                sim.subject_label = impl.label(sim.subject_id)
+                sim.object_label = impl.label(sim.object_id)
+                sim.ancestor_label = impl.label(sim.ancestor_id)
             if jaccard_minimum is not None:
                 if sim.jaccard_similarity < jaccard_minimum:
                     continue
@@ -1693,6 +1732,48 @@ def all_similarity(
                 if sim.ancestor_information_content < ic_minimum:
                     continue
             writer.emit(sim)
+        writer.finish()
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@predicates_option
+@output_option
+@output_type_option
+@autolabel_option
+@click.argument("terms", nargs=-1)
+def termset_similarity(
+    terms,
+    predicates,
+    autolabel,
+    output_type,
+    output: TextIO,
+):
+    """
+    Termset similarity
+
+    This calculates a similarity matrix for two sets of terms.
+
+    Example:
+
+        runoak -i go.db termset-similarity -p i,p nucleus membrane @ "nuclear membrane" vacuole -p i,p
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
+    if isinstance(impl, SemanticSimilarityInterface):
+        terms = list(terms)
+        ix = terms.index("@")
+        set1 = list(query_terms_iterator(terms[0:ix], impl))
+        set2 = list(query_terms_iterator(terms[ix + 1 :], impl))
+        logging.info(f"Set1={set1}")
+        logging.info(f"Set2={set2}")
+        actual_predicates = _process_predicates_arg(predicates)
+        sim = impl.termset_pairwise_similarity(
+            set1, set2, predicates=actual_predicates, labels=autolabel
+        )
+        writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1875,6 +1956,12 @@ def definitions(terms, output: TextIO, display: str, output_type: str, if_absent
 @if_absent_option
 @set_value_option
 @click.option(
+    "--include-entailed/--no-include-entailed",
+    default=False,
+    show_default=True,
+    help="Include entailed indirect relationships",
+)
+@click.option(
     "--include-tbox/--no-include-tbox",
     default=True,
     show_default=True,
@@ -1895,6 +1982,7 @@ def relationships(
     output: str,
     if_absent: bool,
     set_value: str,
+    include_entailed: bool,
     include_tbox: bool,
     include_abox: bool,
 ):
@@ -1953,12 +2041,14 @@ def relationships(
             predicates=actual_predicates,
             include_abox=include_abox,
             include_tbox=include_tbox,
+            include_entailed=include_entailed,
         )
         down_it = impl.relationships(
             objects=curies,
             predicates=actual_predicates,
             include_abox=include_abox,
             include_tbox=include_tbox,
+            include_entailed=include_entailed,
         )
         if direction is None or direction == Direction.up.value:
             it = up_it
@@ -2350,6 +2440,8 @@ def expand_subsets(subsets: list, output, predicates):
 def term_categories(terms, output, output_type):
     """
     List categories for a term or set of terms
+
+    TODO
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2384,7 +2476,7 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 
         runoak -i cl.ofn axiom --axiom-type SubClassOf
 
-
+    Note this currently only works with the funowl adapter, on functional syntax files
     """
     impl = settings.impl
     writer = StreamingAxiomWriter(syntax=output_type, functional_writer=impl.functional_writer)
