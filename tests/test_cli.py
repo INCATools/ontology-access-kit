@@ -32,7 +32,7 @@ BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
 TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
 TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
-TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
+MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 
 
@@ -196,6 +196,7 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual(nucleus_node["lbl"], "nucleus")
 
     def test_roots_and_leafs(self):
+        # TODO: improve performance for ttl
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", str(TEST_OWL_RDF)]:
             result = self.runner.invoke(main, ["-i", input_arg, "roots", "-p", "i"])
             out = result.stdout
@@ -504,28 +505,139 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertGreater(obj["jaccard_similarity"], 0.5)
             self.assertGreater(obj["ancestor_information_content"], 3.0)
 
+    def test_diffs(self):
+        outfile = f"{OUTPUT_DIR}/diff.txt"
+        combos = [
+            #            (True, TEST_ONT),
+            # (True, f"sqlite:{TEST_DB}"),
+            (False, TEST_OWL_RDF),
+            (True, TEST_OWL_RDF),
+        ]
+        for simple, input_arg in combos:
+            alt_input = str(input_arg).replace("nucleus.", "nucleus-modified.")
+            args = ["-i", str(input_arg), "diff"]
+            if simple:
+                args += ["--simple"]
+            args += ["-X", alt_input, "-o", outfile]
+            print(args)
+            result = self.runner.invoke(main, args)
+            self.assertEqual(0, result.exit_code)
+            out = self._out(path=outfile)
+            # print(out)
+            if simple:
+                obj = json.loads(out)
+                print(obj)
+                self.assertEqual("GO:0033673", obj["about_node"])
+
     def test_diff_via_mappings(self):
-        outfile = f"{OUTPUT_DIR}/diff-mapping-test-cli.sssom"
-        result = self.runner.invoke(
-            main,
-            [
-                "-i",
-                TEST_OBO,
-                "diff-via-mappings",
-                "--mapping-input",
-                TEST_SSSOM_MAPPING,
-                "--intra",
-                "-S",
-                "X",
-                "-S",
-                "Y",
-                "-o",
-                outfile,
-            ],
-        )
-        result.stderr
-        self.assertEqual(0, result.exit_code)
-        with open(outfile) as f:
-            docs = yaml.load_all(f, yaml.FullLoader)
-            for doc in docs:
-                self.assertTrue(type(doc), dict)
+        cases = [
+            (
+                [],
+                [
+                    {
+                        "category": "IndirectFormOfEdgeOnRight",
+                        "left_object_id": "X:1",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "X:2",
+                        "right_object_id": "Y:1",
+                        "right_subject_id": "Y:2",
+                    },
+                    {
+                        "category": "Identical",
+                        "left_object_id": "X:2",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "X:3",
+                        "right_object_id": "Y:2",
+                        "right_predicate_ids": ["rdfs:subClassOf"],
+                        "right_subject_id": "Y:3",
+                    },
+                    {
+                        "category": "NoRelationship",
+                        "left_object_id": "X:3",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "X:4",
+                        "right_object_id": "Y:3",
+                        "right_subject_id": "Y:4",
+                    },
+                    {
+                        "category": "NonEntailedRelationship",
+                        "left_object_id": "X:4",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "X:5",
+                        "right_object_id": "Y:4",
+                        "right_subject_id": "Y:5",
+                    },
+                    {
+                        "category": "MissingMapping",
+                        "left_object_id": "Y:1",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "Y:1b",
+                        "subject_mapping_cardinality": "1:0",
+                    },
+                    {
+                        "category": "MissingMapping",
+                        "left_object_id": "Y:1b",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "Y:2",
+                        "subject_mapping_cardinality": "1:n",
+                    },
+                    {
+                        "category": "Identical",
+                        "left_object_id": "Y:2",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "Y:3",
+                        "right_object_id": "X:2",
+                        "right_predicate_ids": ["rdfs:subClassOf"],
+                        "right_subject_id": "X:3",
+                    },
+                    {
+                        "category": "MoreSpecificPredicateOnRight",
+                        "left_object_id": "Y:4",
+                        "left_predicate_id": "BFO:0000050",
+                        "left_subject_id": "Y:5",
+                        "right_object_id": "X:4",
+                        "right_subject_id": "X:5",
+                    },
+                ],
+            ),
+            (
+                ["X:1"],
+                [
+                    {
+                        "category": "IndirectFormOfEdgeOnRight",
+                        "left_object_id": "X:1",
+                        "left_predicate_id": "rdfs:subClassOf",
+                        "left_subject_id": "X:2",
+                        "right_object_id": "Y:1",
+                        "right_subject_id": "Y:2",
+                    },
+                ],
+            ),
+        ]
+        for terms, expected in cases:
+            outfile = f"{OUTPUT_DIR}/diff-mapping-test-cli-t{'-'.join(terms)}.yaml"
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    MAPPING_DIFF_TEST_OBO,
+                    "diff-via-mappings",
+                    "--mapping-input",
+                    TEST_SSSOM_MAPPING,
+                    "--no-autolabel",
+                    "--intra",
+                    "-S",
+                    "X",
+                    "-S",
+                    "Y",
+                    "-o",
+                    outfile,
+                ]
+                + terms,
+            )
+            self.assertEqual(0, result.exit_code)
+
+            with open(outfile) as f:
+                docs = list(yaml.load_all(f, yaml.FullLoader))
+                expected += [None]
+                self.assertCountEqual(expected, docs)

@@ -43,6 +43,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
+from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
@@ -80,6 +81,7 @@ from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
 from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
+from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
 from oaklib.io.streaming_nl_writer import StreamingNaturalLanguageWriter
 from oaklib.io.streaming_obo_json_writer import StreamingOboJsonWriter
@@ -139,6 +141,7 @@ INFO_FORMAT = "info"
 SSSOM_FORMAT = "sssom"
 OWLFUN_FORMAT = "ofn"
 NL_FORMAT = "nl"
+KGCL_FORMAT = "kgcl"
 HEATMAP_FORMAT = "heatmap"
 
 ONT_FORMATS = [
@@ -165,6 +168,7 @@ WRITERS = {
     SSSOM_FORMAT: StreamingSssomWriter,
     INFO_FORMAT: StreamingInfoWriter,
     NL_FORMAT: StreamingNaturalLanguageWriter,
+    KGCL_FORMAT: StreamingKGCLWriter,
     HEATMAP_FORMAT: HeatmapWriter,
 }
 
@@ -2058,7 +2062,6 @@ def relationships(
         else:
             it = chain(up_it, down_it)
         has_relationships = defaultdict(bool)
-        logging.info(f"Querying {impl}, iterator: {it}")
         for rel in it:
             if direction is None or direction == Direction.up.value:
                 has_relationships[rel[0]] = True
@@ -2959,8 +2962,7 @@ def diff(simple: bool, output, output_type, other_ontology):
                 writer.emit(change)
         else:
             for change in impl.diff(other_impl):
-                print(change)
-                # writer.emit(change)
+                writer.emit(change)
     else:
         raise NotImplementedError
 
@@ -3086,7 +3088,7 @@ def lint(output, output_type, report_format, dry_run: bool):
     "--mapping-input",
     help="File of mappings in SSSOM format. If not provided then mappings in ontology(ies) are used",
 )
-@click.option("--other-input", help="Additional input file")
+@click.option("--other-input", "-X", help="Additional input file")
 @click.option("--other-input-type", help="Type of additional input file")
 @click.option(
     "--intra/--no-intra",
@@ -3094,25 +3096,36 @@ def lint(output, output_type, report_format, dry_run: bool):
     show_default=True,
     help="If true, then all sources are in the main input ontology",
 )
+@autolabel_option
 @click.option(
-    "--add-labels/--no-add-labels",
+    "--include-identity-mappings/--no-include-identity-mappings",
     default=False,
     show_default=True,
-    help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs",
+    help="Use identity relation as mapping; use this for two versions of the same ontology",
+)
+@click.option(
+    "--filter-category-identical/--no-filter-category-identical",
+    default=False,
+    show_default=True,
+    help="Do not report cases where a relationship has not changed",
 )
 @predicates_option
 @output_option
 @output_type_option
+@click.argument("terms", nargs=-1)
 def diff_via_mappings(
     source,
     mapping_input,
     intra,
-    add_labels,
+    autolabel,
+    include_identity_mappings: bool,
+    filter_category_identical: bool,
     other_input,
     other_input_type,
     predicates,
     output_type,
     output,
+    terms,
 ):
     """
     Calculates cross-ontology diff using mappings
@@ -3174,15 +3187,24 @@ def diff_via_mappings(
             )
     else:
         sources = None
+    if terms:
+        entities = list(query_terms_iterator(terms, oi))
+    else:
+        logging.info("No term list provided, will compare all mapped terms")
+        entities = None
     actual_predicates = _process_predicates_arg(predicates)
     for r in calculate_pairwise_relational_diff(
         oi,
         other_oi,
         sources=sources,
+        entities=entities,
         mappings=mappings,
-        add_labels=add_labels,
+        add_labels=autolabel,
+        include_identity=include_identity_mappings,
         predicates=actual_predicates,
     ):
+        if filter_category_identical and r.category == DiffCategory(DiffCategory.Identical):
+            continue
         writer.emit(r)
 
 

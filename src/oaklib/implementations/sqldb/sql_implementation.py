@@ -66,6 +66,7 @@ from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
+    EQUIVALENT_CLASS,
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
     HAS_SYNONYM_TYPE,
@@ -472,6 +473,14 @@ class SqlImplementation(
             q = q.filter(RdfTypeStatement.object.in_(cls_subq))
             for row in q:
                 yield RDF_TYPE, row.object
+        if tbl == Edge and (not predicates or EQUIVALENT_CLASS in predicates):
+            q = self.session.query(OwlEquivalentClassStatement.object).filter(
+                RdfTypeStatement.subject == curie
+            )
+            cls_subq = self.session.query(ClassNode.id)
+            q = q.filter(RdfTypeStatement.object.in_(cls_subq))
+            for row in q:
+                yield EQUIVALENT_CLASS, row.object
 
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
@@ -501,6 +510,11 @@ class SqlImplementation(
                 subjects, predicates, objects, include_entailed=include_entailed
             ):
                 yield r
+            for r in self._equivalent_class_relationships(subjects, predicates, objects):
+                yield r
+            if subjects or objects:
+                for s, p, o in self._equivalent_class_relationships(objects, predicates, subjects):
+                    yield o, p, s
         if include_abox:
             for r in self._rdf_type_relationships(subjects, predicates, objects):
                 yield r
@@ -560,6 +574,24 @@ class SqlImplementation(
         if predicates and RDF_TYPE not in predicates:
             return
         q = self.session.query(Statements).filter(Statements.predicate == RDF_TYPE)
+        if subjects:
+            q = q.filter(Statements.subject.in_(tuple(subjects)))
+        if objects:
+            q = q.filter(Statements.object.in_(tuple(objects)))
+        cls_subq = self.session.query(ClassNode.id)
+        q = q.filter(Statements.object.in_(cls_subq))
+        for row in q:
+            yield row.subject, row.predicate, row.object
+
+    def _equivalent_class_relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+    ) -> Iterator[RELATIONSHIP]:
+        if predicates and EQUIVALENT_CLASS not in predicates:
+            return
+        q = self.session.query(Statements).filter(Statements.predicate == EQUIVALENT_CLASS)
         if subjects:
             q = q.filter(Statements.subject.in_(tuple(subjects)))
         if objects:

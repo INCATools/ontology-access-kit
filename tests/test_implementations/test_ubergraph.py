@@ -33,7 +33,6 @@ class TestUbergraphImplementation(unittest.TestCase):
         oi = UbergraphImplementation()
         self.oi = oi
 
-    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_relationships(self):
         ont = self.oi
         rels = ont.outgoing_relationship_map(VACUOLE)
@@ -42,7 +41,6 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn(CYTOPLASM, rels[PART_OF])
 
-    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_entailed_relationships(self):
         ont = self.oi
         rels = list(ont.entailed_outgoing_relationships(VACUOLE))
@@ -52,13 +50,11 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn((PART_OF, CYTOPLASM), rels)
         self.assertIn((PART_OF, CELL), rels)
 
-    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_labels(self):
         label = self.oi.label(DIGIT)
         self.assertEqual(label, "digit")
         self.assertIn(DIGIT, self.oi.curies_by_label(label))
 
-    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_synonyms(self):
         syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
         logging.info(syns)
@@ -79,13 +75,11 @@ class TestUbergraphImplementation(unittest.TestCase):
             ],
         )
 
-    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_definition(self):
         defn = self.oi.definition("GO:0005575")
         logging.info(defn)
         assert defn
 
-    @unittest.skip("HTTP Error 503: Service Temporarily Unavailable")
     def test_search(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("limb", config=config))
@@ -122,7 +116,6 @@ class TestUbergraphImplementation(unittest.TestCase):
         # self.assertIn(VACUOLE, ancs)
         self.assertIn(CELL, ancs)
 
-    @unittest.skip("HTTP Error 502: Bad Gateway")
     def test_descendants(self):
         oi = self.oi
         descs = list(oi.descendants([CYTOPLASM]))
@@ -136,7 +129,6 @@ class TestUbergraphImplementation(unittest.TestCase):
         self.assertIn(CYTOPLASM, descs)
         self.assertNotIn(VACUOLE, descs)
 
-    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_ancestor_graph(self):
         oi = self.oi
         for preds in [None, [IS_A], [IS_A, PART_OF]]:
@@ -153,7 +145,6 @@ class TestUbergraphImplementation(unittest.TestCase):
             else:
                 assert CELL in node_ids
 
-    @unittest.skip("HTTP Error 504: Gateway Time-out")
     def test_gap_fill(self):
         oi = self.oi
         rels = list(
@@ -173,14 +164,15 @@ class TestUbergraphImplementation(unittest.TestCase):
             ],
         )
 
-    @unittest.skip("Too rigid")
+    @unittest.skip("Timeout")
     def test_common_ancestors(self):
         oi = self.oi
         for preds in [None, [IS_A], [PART_OF], [IS_A, PART_OF]]:
             ancs = list(oi.common_ancestors(NUCLEUS, THYLAKOID, preds))
             logging.info(f"{preds} ==> {ancs}")
             if preds == [PART_OF]:
-                self.assertEqual(ancs, [CELL])
+                # self.assertEqual(ancs, [CELL])
+                self.assertIn(CELL, ancs)
             elif preds == [IS_A]:
                 self.assertNotIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
@@ -188,7 +180,7 @@ class TestUbergraphImplementation(unittest.TestCase):
                 self.assertIn(CELL, ancs)
                 self.assertIn(CELLULAR_COMPONENT, ancs)
 
-    @unittest.skip("Too slow")
+    @unittest.skip("Timeout")
     def test_most_recent_common_ancestors(self):
         oi = self.oi
         for preds in [[IS_A], [PART_OF], [IS_A, PART_OF]]:

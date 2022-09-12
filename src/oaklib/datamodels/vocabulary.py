@@ -51,7 +51,6 @@ IN_TAXON = "RO:0002162"
 PRESENT_IN_TAXON = "RO:0002175"
 
 OBO_PURL = "http://purl.obolibrary.org/obo/"
-BIOPORTAL_PURL = "http://purl.bioontology.org/ontology/"
 
 IN_SUBSET = omd.slots.in_subset.curie
 

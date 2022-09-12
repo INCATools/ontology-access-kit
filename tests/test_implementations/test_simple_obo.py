@@ -29,6 +29,7 @@ from tests import (
     OUTPUT_DIR,
     VACUOLE,
 )
+from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_SIMPLE_ONT = INPUT_DIR / "go-nucleus-simple.obo"
@@ -41,14 +42,21 @@ class TestSimpleOboImplementation(unittest.TestCase):
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = SimpleOboImplementation(resource)
         self.oi = oi
+        self.compliance_tester = ComplianceTester(self)
 
-    def test_relationships(self):
+    def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")
         for k, v in rels.items():
             logging.info(f"{k} = {v}")
         self.assertCountEqual(rels[IS_A], ["GO:0043231"])
         self.assertCountEqual(rels[PART_OF], [CYTOPLASM])
+
+    def test_relationships(self):
+        self.compliance_tester.test_relationships(self.oi)
+
+    def test_equiv_relationships(self):
+        self.compliance_tester.test_equiv_relationships(self.oi)
 
     @unittest.skip("TODO")
     def test_gci_relationships(self):
@@ -58,7 +66,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertCountEqual(rels[ONLY_IN_TAXON], [CELLULAR_ORGANISMS])
         self.assertNotIn(PART_OF, rels)  # GCI relations excluded
 
-    @unittest.skip("TODO")
     def test_incoming_relationships(self):
         oi = self.oi
         rels = oi.incoming_relationship_map(CYTOPLASM)
