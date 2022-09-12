@@ -5,7 +5,7 @@ Utilities for working with networkx
 NetworkX is a popular python package for working with graphs
 """
 from collections import defaultdict
-from typing import Dict, List, Tuple, Iterable
+from typing import Dict, Iterable, List, Tuple
 
 import networkx as nx
 from sssom_schema import Mapping
