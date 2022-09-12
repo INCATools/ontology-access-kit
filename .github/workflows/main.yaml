@@ -80,19 +80,12 @@ jobs:
         run: poetry install --no-interaction --extras gilda
 
       #----------------------------------------------
-      #              run test suite   
-      #----------------------------------------------
-      - name: Run tests
-        run: poetry run python -m unittest discover
-        env:
-          BIOPORTAL_API_KEY: ${{ secrets.BIOPORTAL_API_KEY }}
-
-      #----------------------------------------------
-      #              coverage report   
+      #        run test suite + coverage report
       #----------------------------------------------
       - name: Generate coverage results
         run: |
-          poetry run coverage run -m unittest discover
+          poetry run coverage run -p -m pytest tests/
+          poetry run coverage combine
           poetry run coverage xml
           poetry run coverage report -m
         env:
