@@ -4,22 +4,14 @@ Utilities for working with networkx
 
 NetworkX is a popular python package for working with graphs
 """
-from typing import Dict, List, Tuple
-
-from sssom_schema import Mapping
-
-from oaklib.types import CURIE, PRED_CURIE
-
-try:
-    # Python <= 3.9
-    from collections import Iterable, defaultdict
-except ImportError:
-    # Python > 3.9
-    from collections.abc import Iterable
+from collections import defaultdict
+from typing import Dict, Iterable, List, Tuple
 
 import networkx as nx
+from sssom_schema import Mapping
 
 from oaklib.interfaces.basic_ontology_interface import RELATIONSHIP
+from oaklib.types import CURIE, PRED_CURIE
 
 
 def mappings_to_graph(mappings: Iterable[Mapping]) -> nx.Graph:

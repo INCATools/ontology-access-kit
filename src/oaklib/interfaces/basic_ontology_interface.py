@@ -1,5 +1,6 @@
 import logging
 from abc import ABC
+from collections import defaultdict
 from dataclasses import field
 from functools import lru_cache
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
@@ -175,6 +176,21 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if rv is None and use_uri_fallback:
             return uri
         return rv
+
+    @property
+    def _relationship_index(self) -> Dict[CURIE, List[RELATIONSHIP]]:
+        if self._relationship_index_cache:
+            return self._relationship_index_cache
+        ix = defaultdict(list)
+        for rel in self._all_relationships():
+            s, p, o = rel
+            ix[s].append(rel)
+            ix[o].append(rel)
+        self._relationship_index_cache = ix
+        return self._relationship_index_cache
+
+    def _all_relationships(self) -> Iterator[RELATIONSHIP]:
+        raise NotImplementedError
 
     def ontologies(self) -> Iterable[CURIE]:
         """
