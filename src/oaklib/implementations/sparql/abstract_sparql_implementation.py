@@ -9,6 +9,8 @@ import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
 from kgcl_schema.datamodel.kgcl import Change
+from kgcl_schema.grammar.parser import parse_statement
+from lark import UnexpectedCharacters
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
@@ -37,6 +39,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     PRED_CURIE,
     PREFIX_MAP,
+    RELATIONSHIP,
     RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
@@ -52,6 +55,8 @@ LANGUAGE_TAG = str
 
 
 def _sparql_values(var_name: str, vals: List[str]):
+    if vals is None:
+        return None
     return f'VALUES ?{var_name} {{ {" ".join(vals)} }}'
 
 
@@ -338,6 +343,38 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 for row in bindings:
                     obj = self.uri_to_curie(row["o"]["value"])
                     yield RDF_TYPE, obj
+
+    def relationships(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = True,
+    ) -> Iterator[RELATIONSHIP]:
+        """
+        Returns all matching relationships
+
+        :param subjects: constrain search to these subjects (i.e outgoing edges)
+        :param predicates: constrain search to these predicates
+        :param objects: constrain search to these objects (i.e incoming edges)
+        :param include_tbox: if true, include class-class relationships (default True)
+        :param include_abox: if true, include instance-instance/class relationships (default True)
+        :param include_entailed:
+        :return:
+        """
+        if not subjects:
+            subjects = list(self.entities())
+        logging.info(f"Subjects: {len(subjects)}")
+        for subject in subjects:
+            for this_predicate, this_objects in self.outgoing_relationship_map(subject).items():
+                if predicates and this_predicate not in predicates:
+                    continue
+                for this_object in this_objects:
+                    if objects and this_object not in objects:
+                        continue
+                    yield subject, this_predicate, this_object
 
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
@@ -677,7 +714,17 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             if isinstance(other_ontology, AbstractSparqlImplementation):
                 if other_ontology.graph:
                     for change in kgcl_diff.diff(self.graph, other_ontology.graph):
-                        yield change
+                        if isinstance(change, str):
+                            # TODO: fix KGCL so changes are returned as objects
+                            try:
+                                change = parse_statement(change)
+                            except UnexpectedCharacters as e:
+                                # TODO: fix KGCL so this never occurs
+                                logging.error(f"Cannot serialize: {change}, problem with KGCL")
+                                logging.error(f"Original error: {e}")
+                                change = None
+                        if change:
+                            yield change
                 else:
                     raise NotImplementedError("Diff is only implemented for local graphs")
             else:

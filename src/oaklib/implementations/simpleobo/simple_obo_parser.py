@@ -44,6 +44,7 @@ TAG_COMMENT = "comment"
 TAG_SYNONYM = "synonym"
 TAG_DEFINITION = "def"
 TAG_IS_A = "is_a"
+TAG_EQUIVALENT_TO = "equivalent_to"
 TAG_RELATIONSHIP = "relationship"
 TAG_INTERSECTION_OF = "intersection_of"
 SYNONYM_TUPLE = Tuple[PRED_CURIE, str, Optional[str], List[CURIE]]
@@ -131,6 +132,16 @@ class Structure:
         for v in self._values(tag):
             toks = v.split(" ")
             pairs.append((toks[0], toks[1]))
+        return pairs
+
+    def intersection_of_tuples(self) -> List[Tuple[CURIE, Optional[CURIE]]]:
+        pairs = []
+        for v in self._values(TAG_INTERSECTION_OF):
+            toks = [x for x in v.split(" ") if x]
+            if toks[1].startswith("!"):
+                pairs.append(toks[0], None)
+            else:
+                pairs.append((toks[0], toks[1]))
         return pairs
 
     def singular_value(self, tag: TAG, strict=False) -> Optional[str]:

@@ -22,6 +22,7 @@ from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
+    EQUIVALENT_CLASS,
     HAS_DBXREF,
     IS_A,
     LABEL_PREDICATE,
@@ -36,6 +37,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
     PRED_CURIE,
+    RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -46,6 +48,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
+from oaklib.utilities.basic_utils import pairs_as_dict
 
 warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
 
@@ -102,6 +105,7 @@ class ProntoImplementation(
     """
 
     wrapped_ontology: Ontology = None
+    _relationship_index_cache: Dict[CURIE, List[RELATIONSHIP]] = None
 
     def __post_init__(self):
         if self.wrapped_ontology is None:
@@ -122,6 +126,27 @@ class ProntoImplementation(
     @deprecated("old style")
     def create(cls, resource: OntologyResource = None) -> "ProntoImplementation":
         return ProntoImplementation(resource=resource)
+
+    def _all_relationships(self) -> Iterator[RELATIONSHIP]:
+        for s in self.entities(filter_obsoletes=False):
+            term = self._entity(s)
+            if isinstance(term, Term):
+                # only "Terms" in pronto have relationships
+                for o in term.superclasses(distance=1):
+                    if o.id != s:
+                        yield s, IS_A, o.id
+                for rel_type, parents in term.relationships.items():
+                    p = self._get_pronto_relationship_type_curie(rel_type)
+                    try:
+                        for o in parents:
+                            yield s, p, o.id
+                    except KeyError:
+                        pass
+                if term.equivalent_to:
+                    for o in term.equivalent_to.ids:
+                        # symmetric
+                        yield s, EQUIVALENT_CLASS, o
+                        yield o, EQUIVALENT_CLASS, s
 
     def store(self, resource: OntologyResource = None) -> None:
         if resource is None:
@@ -272,35 +297,45 @@ class ProntoImplementation(
                 return x.id
         return rel_type.id
 
-    def outgoing_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
-        # See: https://github.com/althonos/pronto/issues/119
-        term = self._entity(curie)
-        if isinstance(term, Term):
-            # only "Terms" in pronto have relationships
-            rels = {IS_A: [p.id for p in term.superclasses(distance=1) if p.id != curie]}
-            for rel_type, parents in term.relationships.items():
-                pred = self._get_pronto_relationship_type_curie(rel_type)
-                rels[pred] = [p.id for p in parents]
-        else:
-            rels = {}
-        return rels
+    def relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+    ) -> Iterator[RELATIONSHIP]:
+        for s in self._relationship_index.keys():
+            if subjects is not None and s not in subjects:
+                continue
+            for s2, p, o in self._relationship_index[s]:
+                if s2 == s:
+                    if predicates is not None and p not in predicates:
+                        continue
+                    if objects is not None and o not in objects:
+                        continue
+                    yield s, p, o
 
-    def incoming_relationship_map(self, curie: CURIE, isa_only: bool = False) -> RELATIONSHIP_MAP:
-        term = self._entity(curie)
-        if isinstance(term, Term):
-            # only "Terms" in pronto have relationships
-            rels = {IS_A: [p.id for p in term.subclasses(distance=1) if p.id != curie]}
-            for xt in self.wrapped_ontology.terms():
-                for rel_type, parents in xt.relationships.items():
-                    pred = self._get_pronto_relationship_type_curie(rel_type)
-                    for p in parents:
-                        if curie == p.id:
-                            if pred not in rels:
-                                rels[pred] = []
-                            rels[pred].append(xt.id)
-        else:
-            rels = {}
-        return rels
+    def outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        for s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
+            if s == curie:
+                yield p, o
+
+    def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
+
+    def incoming_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        for s, p, o in self.relationships(None, predicates, [curie], include_entailed=entailed):
+            if o == curie:
+                yield p, s
+
+    def incoming_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
 
     def create_entity(
         self,

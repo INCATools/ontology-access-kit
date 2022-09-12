@@ -1,4 +1,5 @@
 import logging
+import re
 import shutil
 import sys
 from collections import defaultdict
@@ -10,7 +11,10 @@ from kgcl_schema.datamodel import kgcl
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import Edge, Graph
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
+    EQUIVALENT_CLASS,
     HAS_DBXREF,
     IS_A,
     LABEL_PREDICATE,
@@ -20,6 +24,7 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_COMMENT,
     TAG_DEFINITION,
+    TAG_EQUIVALENT_TO,
     TAG_IS_A,
     TAG_NAME,
     TAG_OBSOLETE,
@@ -33,7 +38,11 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     _synonym_scope_pred,
     parse_obo_document,
 )
-from oaklib.interfaces.basic_ontology_interface import ALIAS_MAP, RELATIONSHIP_MAP
+from oaklib.interfaces.basic_ontology_interface import (
+    ALIAS_MAP,
+    RELATIONSHIP,
+    RELATIONSHIP_MAP,
+)
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -63,6 +72,7 @@ class SimpleOboImplementation(
     """
 
     obo_document: OboDocument = None
+    _relationship_index_cache: Dict[CURIE, List[RELATIONSHIP]] = None
 
     def __post_init__(self):
         if self.obo_document is None:
@@ -85,6 +95,25 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: BasicOntologyInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def _all_relationships(self) -> Iterator[RELATIONSHIP]:
+        logging.info("Commencing indexing")
+        n = 0
+        for s in self.entities(filter_obsoletes=False):
+            t = self._stanza(s)
+            for v in t.simple_values(TAG_IS_A):
+                n += 1
+                yield s, IS_A, v
+            for v in t.simple_values(TAG_EQUIVALENT_TO):
+                n += 1
+                yield s, EQUIVALENT_CLASS, v
+                yield v, EQUIVALENT_CLASS, s
+            for p, v in t.pair_values(TAG_RELATIONSHIP):
+                yield s, self._get_relationship_type_curie(p), v
+            # for p, v in t.intersection_of_tuples():
+            #    n += 1
+            #    yield s, self._get_relationship_type_curie(p), v
+        logging.info(f"Indexed {n} relationships")
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         od = self.obo_document
@@ -179,18 +208,103 @@ class SimpleOboImplementation(
                 return x
         return rel_type
 
-    def outgoing_relationships(
+    def xoutgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         t = self._stanza(curie)
         for v in t.simple_values(TAG_IS_A):
             yield IS_A, v
         for pred, v in t.pair_values(TAG_RELATIONSHIP):
+            if predicates is not None and pred not in predicates:
+                continue
             # TODO: this is inefficient as it performs a lookup each time
             yield self._get_relationship_type_curie(pred), v
 
+    def xoutgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
+
+    def relationships(
+        self,
+        subjects: List[CURIE] = None,
+        predicates: List[PRED_CURIE] = None,
+        objects: List[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = False,
+    ) -> Iterator[RELATIONSHIP]:
+        for s in self._relationship_index.keys():
+            if subjects is not None and s not in subjects:
+                continue
+            for s2, p, o in self._relationship_index[s]:
+                if s2 == s:
+                    if predicates is not None and p not in predicates:
+                        continue
+                    if objects is not None and o not in objects:
+                        continue
+                    yield s, p, o
+
+    def outgoing_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        for s, p, o in self.relationships([curie], predicates, include_entailed=entailed):
+            if s == curie:
+                yield p, o
+
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
+
+    def incoming_relationships(
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        for s, p, o in self.relationships(None, predicates, [curie], include_entailed=entailed):
+            if o == curie:
+                yield p, s
+
+    def incoming_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
+
+    def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
+        # TODO: move up
+        if config is None:
+            config = SearchConfiguration()
+        matches = []
+        mfunc = None
+        if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
+            mfunc = lambda label: str(label).startswith(search_term)
+        elif config.syntax == SearchTermSyntax(SearchTermSyntax.REGULAR_EXPRESSION):
+            prog = re.compile(search_term)
+            mfunc = lambda label: prog.search(label)
+        elif config.is_partial:
+            mfunc = lambda label: search_term in str(label)
+        else:
+            mfunc = lambda label: label == search_term
+        search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
+        logging.info(f"SEARCH={search_term}")
+        for t in self.entities():
+            lbl = self.label(t)
+            logging.debug(f"T={t} // {config}")
+            if (
+                search_all
+                or SearchProperty(SearchProperty.LABEL)
+                or config.properties not in config.properties
+            ):
+                if lbl and mfunc(lbl):
+                    matches.append(t)
+                    logging.info(f"Name match to {t}")
+                    continue
+            if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+                if mfunc(t):
+                    matches.append(t)
+                    logging.info(f"identifier match to {t}")
+                    continue
+            if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
+                for syn in self.entity_aliases(t):
+                    if mfunc(syn):
+                        logging.info(f"Syn match to {t}")
+                        matches.append(t)
+                        continue
+        for m in matches:
+            yield m
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         t = self._stanza(curie, strict=True)
@@ -245,7 +359,7 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
-        t = self._stanza(curie)
+        t = self._stanza(curie, strict=False)
         if t is None:
             return obograph.Node(id=curie)
         else:
