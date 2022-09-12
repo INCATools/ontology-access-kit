@@ -837,7 +837,7 @@ runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</
 (<a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html">https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html</a>)</p>
 <p>This can be serialized in YAML or TSV form</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-via-mappings <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-via-mappings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -854,8 +854,8 @@ runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-other-input">
-<span class="sig-name descname"><span class="pre">--other-input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-other-input" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-X">
+<span id="cmdoption-runoak-diff-via-mappings-x"></span><span id="cmdoption-runoak-diff-via-mappings-other-input"></span><span class="sig-name descname"><span class="pre">-X</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--other-input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-X" title="Permalink to this definition"></a></dt>
 <dd><p>Additional input file</p>
 </dd></dl>
 
@@ -877,9 +877,31 @@ runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-add-labels">
-<span id="cmdoption-runoak-diff-via-mappings-no-add-labels"></span><span class="sig-name descname"><span class="pre">--add-labels</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-add-labels</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-add-labels" title="Permalink to this definition"></a></dt>
-<dd><p>Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs</p>
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-autolabel">
+<span id="cmdoption-runoak-diff-via-mappings-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-include-identity-mappings">
+<span id="cmdoption-runoak-diff-via-mappings-no-include-identity-mappings"></span><span class="sig-name descname"><span class="pre">--include-identity-mappings</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-identity-mappings</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-include-identity-mappings" title="Permalink to this definition"></a></dt>
+<dd><p>Use identity relation as mapping; use this for two versions of the same ontology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-filter-category-identical">
+<span id="cmdoption-runoak-diff-via-mappings-no-filter-category-identical"></span><span class="sig-name descname"><span class="pre">--filter-category-identical</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-filter-category-identical</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-filter-category-identical" title="Permalink to this definition"></a></dt>
+<dd><p>Do not report cases where a relationship has not changed</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
 <dd class="field-odd"><p>False</p>
@@ -903,6 +925,13 @@ runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</
 <dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-O">
 <span id="cmdoption-runoak-diff-via-mappings-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-via-mappings-arg-TERMS">
+<span id="cmdoption-runoak-diff-via-mappings-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-via-mappings-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>
