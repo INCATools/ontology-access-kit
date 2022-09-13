@@ -32,7 +32,9 @@ class OntologyBuilder:
         self.changes.append(change)
         return self
 
-    def add_class(self, id: CURIE, name: str = None, is_as: List[CURIE] = None) -> "OntologyBuilder":
+    def add_class(
+        self, id: CURIE, name: str = None, is_as: List[CURIE] = None
+    ) -> "OntologyBuilder":
         """
         Adds a new class
 
@@ -58,7 +60,9 @@ class OntologyBuilder:
         """
         return self.add_relationship(subject, IS_A, object)
 
-    def add_relationship(self, subject: CURIE, predicate: PRED_CURIE, object: CURIE) -> "OntologyBuilder":
+    def add_relationship(
+        self, subject: CURIE, predicate: PRED_CURIE, object: CURIE
+    ) -> "OntologyBuilder":
         """
         Adds a relationship
 
@@ -69,7 +73,9 @@ class OntologyBuilder:
         :param object:
         :return:
         """
-        return self._add(kgcl.EdgeCreation(_change_id(), subject=subject, predicate=predicate, object=object))
+        return self._add(
+            kgcl.EdgeCreation(_change_id(), subject=subject, predicate=predicate, object=object)
+        )
 
     def build(self) -> PatcherInterface:
         for change in self.changes:

@@ -80,7 +80,6 @@ from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
-from oaklib.io.streaming_json_lines_writer import StreamingJsonLinesWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
@@ -3062,7 +3061,7 @@ def apply(
         if output:
             impl.dump(output, output_type)
         elif overwrite:
-            logging.info(f"Over-writing")
+            logging.info("Over-writing")
             impl.dump(impl.resource.local_path)
     else:
         raise NotImplementedError
