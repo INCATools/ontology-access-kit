@@ -6,7 +6,11 @@ from class_resolver import ClassResolver
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.gilda import GildaImplementation
-from oaklib.implementations.ols.ols_implementation import OlsImplementation
+from oaklib.implementations.ols import (
+    BaseOlsImplementation,
+    OlsImplementation,
+    TIBOlsImplementation,
+)
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.ontoportal.agroportal_implementation import (
     AgroPortalImplementation,
@@ -19,6 +23,9 @@ from oaklib.implementations.ontoportal.ecoportal_implementation import (
 )
 from oaklib.implementations.ontoportal.matportal_implementation import (
     MatPortalImplementation,
+)
+from oaklib.implementations.ontoportal.ontoportal_implementation_base import (
+    OntoPortalImplementationBase,
 )
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
@@ -43,6 +50,7 @@ __all__ = [
     "EcoPortalImplementation",
     "MatPortalImplementation",
     "OlsImplementation",
+    "TIBOlsImplementation",
     "OntobeeImplementation",
     "ProntoImplementation",
     "SimpleOboImplementation",
@@ -64,6 +72,10 @@ discovered_plugins = {
 implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
     OntologyInterface,
     suffix="Implementation",
+    skip={
+        OntoPortalImplementationBase,
+        BaseOlsImplementation,
+    },
 )
 implementation_resolver.synonyms.update(
     {

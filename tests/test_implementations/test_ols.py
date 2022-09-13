@@ -11,7 +11,6 @@ from oaklib.resource import OntologyResource
 from tests import CELLULAR_COMPONENT, CYTOPLASM, DIGIT, VACUOLE
 
 
-@unittest.skip("TODO: use mock tests, this fails whenever OLS is down")
 class TestOlsImplementation(unittest.TestCase):
     def setUp(self) -> None:
         oi = OlsImplementation(OntologyResource("go"))
@@ -39,7 +38,7 @@ class TestOlsImplementation(unittest.TestCase):
 
     def test_basic_search(self):
         self.oi.focus_ontology = None
-        results = list(itertools.islice(self.oi.basic_search("epilepsy"), 20))
+        results = list(self.oi.basic_search("epilepsy"))
         self.assertIn("MONDO:0005027", results)
 
     def test_focus_ontology_search(self):
