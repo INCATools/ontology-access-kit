@@ -24,7 +24,7 @@ class TestBioportal(unittest.TestCase):
             api_key = get_apikey_value(cls.ontoportal_client_class.name)
         except ValueError:
             self.skipTest("no API key for this source {}".format(cls.ontoportal_client_class.name))
-        if api_key is None:
+        if not api_key:
             self.skipTest("Skipping bioportal tests, no API key set")
         impl = cls(api_key=api_key)
         self.impl = impl
