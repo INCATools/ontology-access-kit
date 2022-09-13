@@ -12,9 +12,16 @@ URI: [http://www.geneontology.org/formats/oboInOwl#consider](http://www.geneonto
 
 
 
+
+
 ## Properties
 
- * Range: [Any](Any.md)
+* Range: [Any](Any.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -37,3 +44,26 @@ URI: [http://www.geneontology.org/formats/oboInOwl#consider](http://www.geneonto
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: consider
+comments:
+- '{''RULE'': ''subject must be deprecated''}'
+in_subset:
+- go permitted profile
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: obsoletion_related_property
+domain: ObsoleteAspect
+slot_uri: oio:consider
+multivalued: true
+alias: consider
+domain_of:
+- HasLifeCycle
+range: Any
+
+```
+</details>

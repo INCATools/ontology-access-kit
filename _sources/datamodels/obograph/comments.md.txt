@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/comments](https://github.com/gen
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/comments](https://github.com/gen
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: comments
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: comments
+domain_of:
+- Meta
+range: string
+
+```
+</details>

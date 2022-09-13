@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/text_annotator/sources](https://w3id.org/linkml/te
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/text_annotator/sources](https://w3id.org/linkml/te
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: sources
+from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
+multivalued: true
+alias: sources
+domain_of:
+- TextAnnotationConfiguration
+range: string
+
+```
+</details>

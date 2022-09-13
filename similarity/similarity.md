@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/similarity/similarity](https://w3id.org/linkml/sim
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [TermPairwiseSimilarity](TermPairwiseSimilarity.md)
+* Range: [TermPairwiseSimilarity](TermPairwiseSimilarity.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/similarity/similarity](https://w3id.org/linkml/sim
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: similarity
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+alias: similarity
+domain_of:
+- BestMatch
+range: TermPairwiseSimilarity
+
+```
+</details>

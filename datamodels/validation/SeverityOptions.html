@@ -126,6 +126,31 @@
 </ul>
 </section>
 </section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: severity_options
+from_schema: https://w3id.org/linkml/validation_results
+exact_mappings:
+- sh:Severity
+rank: 1000
+permissible_values:
+  FATAL:
+    text: FATAL
+  ERROR:
+    text: ERROR
+    meaning: sh:Violation
+  WARNING:
+    text: WARNING
+    meaning: sh:Warning
+  INFO:
+    text: INFO
+    meaning: sh:Info
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 

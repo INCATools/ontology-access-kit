@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000112](http://purl.obolibrary.org/obo
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,25 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000112](http://purl.obolibrary.org/obo
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: example_of_usage
+in_subset:
+- allotrope permitted profile
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+exact_mappings:
+- skos:example
+rank: 1000
+is_a: informative_property
+slot_uri: IAO:0000112
+multivalued: true
+alias: example_of_usage
+domain_of:
+- HasUserInformation
+range: string
+
+```
+</details>

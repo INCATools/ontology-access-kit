@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/validation-model/time_checked](https://w3id.org/li
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/validation-model/time_checked](https://w3id.org/li
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: time_checked
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+alias: time_checked
+domain_of:
+- ExternalReferenceValidationResult
+range: string
+
+```
+</details>

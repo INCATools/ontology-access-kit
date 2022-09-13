@@ -7,9 +7,16 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasOBONamespace](http://www.g
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,20 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasOBONamespace](http://www.g
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: has_obo_namespace
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+slot_uri: oio:hasOBONamespace
+multivalued: true
+alias: has_obo_namespace
+domain_of:
+- HasCategory
+range: string
+
+```
+</details>

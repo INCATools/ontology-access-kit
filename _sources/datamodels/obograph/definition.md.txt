@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/definition](https://github.com/g
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [DefinitionPropertyValue](DefinitionPropertyValue.md)
+* Range: [DefinitionPropertyValue](DefinitionPropertyValue.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/definition](https://github.com/g
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: definition
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: definition
+domain_of:
+- Meta
+range: DefinitionPropertyValue
+
+```
+</details>

@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/lexical_index/params](https://w3id.org/linkml/lexi
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/lexical_index/params](https://w3id.org/linkml/lexi
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: params
+description: Any parameters to be applied to the transformation algorithm
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+alias: params
+domain_of:
+- LexicalTransformation
+range: string
+
+```
+</details>

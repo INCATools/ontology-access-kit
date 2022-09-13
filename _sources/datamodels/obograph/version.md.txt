@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/version](https://github.com/gene
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/version](https://github.com/gene
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: version
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: version
+domain_of:
+- Meta
+range: string
+
+```
+</details>

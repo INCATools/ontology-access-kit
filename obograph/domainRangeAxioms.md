@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/domainRangeAxioms](https://githu
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [DomainRangeAxiom](DomainRangeAxiom.md)
+* Range: [DomainRangeAxiom](DomainRangeAxiom.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/domainRangeAxioms](https://githu
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: domainRangeAxioms
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: domainRangeAxioms
+domain_of:
+- Graph
+range: DomainRangeAxiom
+
+```
+</details>

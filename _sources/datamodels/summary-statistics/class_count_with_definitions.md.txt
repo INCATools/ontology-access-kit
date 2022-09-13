@@ -12,9 +12,16 @@ URI: [https://w3id.org/linkml/reportclass_count_with_definitions](https://w3id.o
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,20 @@ URI: [https://w3id.org/linkml/reportclass_count_with_definitions](https://w3id.o
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: class_count_with_definitions
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: class_count_with_definitions
+domain_of:
+- SummaryStatisticCollection
+slot_group: class_statistic_group
+range: integer
+
+```
+</details>

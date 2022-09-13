@@ -12,9 +12,16 @@ URI: [https://w3id.org/linkml/similarity/subsumed_by_score](https://w3id.org/lin
 
 
 
+
+
 ## Properties
 
- * Range: [ZeroToOne](ZeroToOne.md)
+* Range: [ZeroToOne](ZeroToOne.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,17 @@ URI: [https://w3id.org/linkml/similarity/subsumed_by_score](https://w3id.org/lin
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: subsumed_by_score
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: score
+alias: subsumed_by_score
+range: ZeroToOne
+
+```
+</details>

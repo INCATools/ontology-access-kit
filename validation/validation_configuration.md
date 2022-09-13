@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/validation-model/validation_configuration](https:/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [ValidationConfiguration](ValidationConfiguration.md)
+* Range: [ValidationConfiguration](ValidationConfiguration.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/validation-model/validation_configuration](https:/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: validation_configuration
+description: repair configurations include validation configurations
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+alias: validation_configuration
+domain_of:
+- RepairConfiguration
+range: ValidationConfiguration
+
+```
+</details>

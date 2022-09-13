@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2004/02/skos/core#exactMatch](http://www.w3.org/2004/02/
 
 
 
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,21 @@ URI: [http://www.w3.org/2004/02/skos/core#exactMatch](http://www.w3.org/2004/02/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: exactMatch
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: match
+slot_uri: skos:exactMatch
+multivalued: true
+alias: exactMatch
+domain_of:
+- HasMappings
+range: Thing
+
+```
+</details>

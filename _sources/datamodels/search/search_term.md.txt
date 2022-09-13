@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/search_datamodel/search_term](https://w3id.org/lin
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+* Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/search_datamodel/search_term](https://w3id.org/lin
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: search_term
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: search_term
+domain_of:
+- PathExpression
+range: SearchBaseConfiguration
+
+```
+</details>

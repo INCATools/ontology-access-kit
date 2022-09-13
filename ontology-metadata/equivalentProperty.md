@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 
 
 
+
+
 ## Properties
 
- * Range: [Property](Property.md)
+* Range: [Property](Property.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,23 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: equivalentProperty
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+mixins:
+- match_aspect
+slot_uri: owl:equivalentProperty
+multivalued: true
+alias: equivalentProperty
+domain_of:
+- ObjectProperty
+range: Property
+
+```
+</details>

@@ -7,9 +7,16 @@ URI: [http://w3id.org/sssom/object_label](http://w3id.org/sssom/object_label)
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,21 @@ URI: [http://w3id.org/sssom/object_label](http://w3id.org/sssom/object_label)
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object_label
+from_schema: https://w3id.org/linkml/text_annotator
+exact_mappings:
+- bpa:annotatedClass.prefLabel
+rank: 1000
+slot_uri: sssom:object_label
+alias: object_label
+domain_of:
+- TextAnnotation
+range: string
+
+```
+</details>

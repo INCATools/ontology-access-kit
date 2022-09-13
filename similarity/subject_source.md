@@ -9,9 +9,16 @@ URI: [http://w3id.org/sssom/subject_source](http://w3id.org/sssom/subject_source
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [http://w3id.org/sssom/subject_source](http://w3id.org/sssom/subject_source
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: subject_source
+description: the source for the first entity
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+slot_uri: sssom:subject_source
+alias: subject_source
+domain_of:
+- TermPairwiseSimilarity
+range: string
+
+```
+</details>

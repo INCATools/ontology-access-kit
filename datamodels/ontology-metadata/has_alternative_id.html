@@ -97,6 +97,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="comments">
@@ -113,6 +114,33 @@
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: has_alternative_id
+description: Relates a live term to a deprecated ID that was merged in
+deprecated: This is deprecated as it is redundant with the inverse replaced_by triple
+comments:
+- '{''RULE'': ''object must NOT be deprecated''}'
+in_subset:
+- go permitted profile
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+see_also:
+- https://github.com/owlcs/owlapi/issues/317
+rank: 1000
+is_a: obsoletion_related_property
+domain: NotObsoleteAspect
+slot_uri: oio:hasAlternativeId
+multivalued: true
+alias: has_alternative_id
+domain_of:
+- HasLifeCycle
+range: uriorcurie
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

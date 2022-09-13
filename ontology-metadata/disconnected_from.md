@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/schema/disconnected_from](http://purl.oboli
 
 
 
+
+
 ## Properties
 
- * Range: [Class](Class.md)
+* Range: [Class](Class.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,19 @@ URI: [http://purl.obolibrary.org/obo/schema/disconnected_from](http://purl.oboli
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: disconnected_from
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: shortcut_annotation_property
+alias: disconnected_from
+domain_of:
+- Class
+range: Class
+
+```
+</details>

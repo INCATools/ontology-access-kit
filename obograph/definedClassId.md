@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/definedClassId](https://github.c
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: NONE
+* Range: NONE
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,17 @@ URI: [https://github.com/geneontology/obographs/definedClassId](https://github.c
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: definedClassId
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: definedClassId
+domain_of:
+- LogicalDefinitionAxiom
+
+```
+</details>

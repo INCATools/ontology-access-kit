@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/search_terms](https://w3id.org/li
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [SearchTerm](SearchTerm.md)
+* Range: [SearchTerm](SearchTerm.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -35,3 +42,23 @@ URI: [https://w3id.org/linkml/search_datamodel/search_terms](https://w3id.org/li
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: search_terms
+description: An individual search term. The syntax is determined by the syntax slot
+comments:
+- This slot is optional when the configuration is used to paramterize multiple searches
+- If multiple terms are provided this is treated as a union query
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+multivalued: true
+alias: search_terms
+domain_of:
+- SearchBaseConfiguration
+range: SearchTerm
+
+```
+</details>

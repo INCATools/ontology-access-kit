@@ -7,9 +7,16 @@ URI: [http://www.geneontology.org/formats/oboInOwl#notes](http://www.geneontolog
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,21 @@ URI: [http://www.geneontology.org/formats/oboInOwl#notes](http://www.geneontolog
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: notes
+deprecated: deprecated oboInOwl property
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+slot_uri: oio:notes
+multivalued: true
+alias: notes
+domain_of:
+- Axiom
+range: string
+
+```
+</details>

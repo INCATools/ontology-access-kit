@@ -9,9 +9,16 @@ URI: [https://w3id.org/shacl/condition](https://w3id.org/shacl/condition)
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [Precondition](Precondition.md)
+* Range: [Precondition](Precondition.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [https://w3id.org/shacl/condition](https://w3id.org/shacl/condition)
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: preconditions
+description: all of the criteria that must be true before a rule is fired
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
+slot_uri: sh:condition
+alias: preconditions
+domain_of:
+- MappingRule
+range: Precondition
+
+```
+</details>

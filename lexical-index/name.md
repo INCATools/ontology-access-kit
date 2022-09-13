@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/lexical_index/name](https://w3id.org/linkml/lexica
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/lexical_index/name](https://w3id.org/linkml/lexica
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: name
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+key: true
+alias: name
+domain_of:
+- LexicalTransformationPipeline
+range: string
+
+```
+</details>

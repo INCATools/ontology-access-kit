@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#onProperty](http://www.w3.org/2002/07/owl#on
 
 
 
+
+
 ## Properties
 
- * Range: [PropertyExpression](PropertyExpression.md)
+* Range: [PropertyExpression](PropertyExpression.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,21 @@ URI: [http://www.w3.org/2002/07/owl#onProperty](http://www.w3.org/2002/07/owl#on
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: onProperty
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:onProperty
+multivalued: true
+alias: onProperty
+domain_of:
+- Restriction
+range: PropertyExpression
+
+```
+</details>

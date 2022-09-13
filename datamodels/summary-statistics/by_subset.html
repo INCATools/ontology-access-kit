@@ -88,6 +88,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="FacetStatistics.html"><span class="doc std std-doc">FacetStatistics</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="comments">
@@ -104,6 +105,26 @@
 <li><p>from schema: https://w3id.org/linkml/summary_statistics</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: by_subset
+description: statistics keyed by ontology subset
+comments:
+- For example, GO metagenomics_slim
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+multivalued: true
+alias: by_subset
+domain_of:
+- GlobalStatistics
+range: FacetStatistics
+inlined: true
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

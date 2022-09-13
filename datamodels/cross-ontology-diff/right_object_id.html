@@ -93,6 +93,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></li>
+<li><p>Multivalued: None</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -103,6 +104,25 @@
 <li><p>from schema: https://w3id.org/linkml/cross_ontology_diff</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: right_object_id
+description: The object (parent) of the matched/right edge, if matchable
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixins:
+- right_side
+- object
+alias: right_object_id
+domain_of:
+- RelationalDiff
+range: EntityReference
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

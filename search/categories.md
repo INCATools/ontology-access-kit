@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/categories](https://w3id.org/link
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [https://w3id.org/linkml/search_datamodel/categories](https://w3id.org/link
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: categories
+description: categories that should be matched
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+multivalued: true
+alias: categories
+domain_of:
+- SearchBaseConfiguration
+range: uriorcurie
+
+```
+</details>

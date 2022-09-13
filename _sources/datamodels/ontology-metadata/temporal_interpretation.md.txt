@@ -7,9 +7,16 @@ URI: [http://purl.obolibrary.org/obo/RO_0001900](http://purl.obolibrary.org/obo/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [NamedIndividual](NamedIndividual.md)
+* Range: [NamedIndividual](NamedIndividual.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://purl.obolibrary.org/obo/RO_0001900](http://purl.obolibrary.org/obo/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: temporal_interpretation
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+slot_uri: RO:0001900
+alias: temporal_interpretation
+domain_of:
+- ObjectProperty
+range: NamedIndividual
+
+```
+</details>

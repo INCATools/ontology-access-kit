@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/lexical_index/element_term](https://w3id.org/linkm
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/lexical_index/element_term](https://w3id.org/linkm
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: element_term
+description: the original term used in the element
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+alias: element_term
+domain_of:
+- RelationshipToTerm
+range: string
+
+```
+</details>

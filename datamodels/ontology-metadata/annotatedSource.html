@@ -96,6 +96,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p></li>
+<li><p>Multivalued: None</p></li>
 </ul>
 </section>
 <section id="todos">
@@ -112,6 +113,28 @@
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: annotatedSource
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+exact_mappings:
+- rdf:subject
+rank: 1000
+is_a: reification_predicate
+slot_uri: owl:annotatedSource
+alias: annotatedSource
+domain_of:
+- Axiom
+relational_role: SUBJECT
+range: NamedObject
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

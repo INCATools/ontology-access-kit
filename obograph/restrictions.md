@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/restrictions](https://github.com
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md)
+* Range: [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/restrictions](https://github.com
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: restrictions
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: restrictions
+domain_of:
+- LogicalDefinitionAxiom
+range: ExistentialRestrictionExpression
+
+```
+</details>

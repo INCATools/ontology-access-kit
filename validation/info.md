@@ -9,9 +9,16 @@ URI: [http://www.w3.org/ns/shacl#resultMessage](http://www.w3.org/ns/shacl#resul
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,21 @@ URI: [http://www.w3.org/ns/shacl#resultMessage](http://www.w3.org/ns/shacl#resul
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: info
+description: additional information about the issue
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+slot_uri: sh:resultMessage
+alias: info
+domain_of:
+- ValidationResult
+- RepairOperation
+range: string
+
+```
+</details>

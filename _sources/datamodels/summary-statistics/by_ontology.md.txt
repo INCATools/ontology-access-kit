@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/reportby_ontology](https://w3id.org/linkml/reportb
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [FacetStatistics](FacetStatistics.md)
+* Range: [FacetStatistics](FacetStatistics.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -34,3 +41,24 @@ URI: [https://w3id.org/linkml/reportby_ontology](https://w3id.org/linkml/reportb
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: by_ontology
+description: statistics keyed by ontology
+comments:
+- if a large ontology collection like OntoBee is indexed then it makes sense to break
+  stats into each sub-ontology
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+multivalued: true
+alias: by_ontology
+domain_of:
+- GlobalStatistics
+range: FacetStatistics
+inlined: true
+
+```
+</details>

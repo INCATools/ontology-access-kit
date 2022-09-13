@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/search_datamodel/atom](https://w3id.org/linkml/sea
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+* Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/search_datamodel/atom](https://w3id.org/linkml/sea
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: atom
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: atom
+domain_of:
+- ComplexQuery
+range: SearchBaseConfiguration
+
+```
+</details>

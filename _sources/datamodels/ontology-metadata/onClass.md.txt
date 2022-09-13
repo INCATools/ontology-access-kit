@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#onClass](http://www.w3.org/2002/07/owl#onCla
 
 
 
+
+
 ## Properties
 
- * Range: [ClassExpression](ClassExpression.md)
+* Range: [ClassExpression](ClassExpression.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,18 @@ URI: [http://www.w3.org/2002/07/owl#onClass](http://www.w3.org/2002/07/owl#onCla
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: onClass
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:onClass
+alias: onClass
+range: ClassExpression
+
+```
+</details>

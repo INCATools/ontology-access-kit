@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#qualifiedCardinality](http://www.w3.org/2002
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,18 @@ URI: [http://www.w3.org/2002/07/owl#qualifiedCardinality](http://www.w3.org/2002
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: qualifiedCardinality
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:qualifiedCardinality
+alias: qualifiedCardinality
+range: string
+
+```
+</details>

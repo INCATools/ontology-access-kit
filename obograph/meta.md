@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/meta](https://github.com/geneont
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [Meta](Meta.md)
+* Range: [Meta](Meta.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,22 @@ URI: [https://github.com/geneontology/obographs/meta](https://github.com/geneont
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: meta
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: meta
+domain_of:
+- GraphDocument
+- Graph
+- Node
+- PropertyValue
+- Axiom
+range: Meta
+
+```
+</details>

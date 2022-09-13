@@ -7,9 +7,16 @@ URI: [http://www.geneontology.org/formats/oboInOwl#is_metadata_tag](http://www.g
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,20 @@ URI: [http://www.geneontology.org/formats/oboInOwl#is_metadata_tag](http://www.g
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: is_metadata_tag
+deprecated: deprecated oboInOwl property
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+slot_uri: oio:is_metadata_tag
+alias: is_metadata_tag
+domain_of:
+- Property
+range: boolean
+
+```
+</details>

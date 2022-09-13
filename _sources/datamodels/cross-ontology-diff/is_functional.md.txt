@@ -7,9 +7,26 @@ URI: [https://w3id.org/linkml/text_annotator/is_functional](https://w3id.org/lin
 <!-- no inheritance hierarchy -->
 
 
+
+## Mixin Usage
+
+| mixed into | description | range | domain |
+| --- | --- | --- | --- |
+| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontology | None |  |
+| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontology | None |  |
+
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Multivalued: None
+
+
+
+
+* Mixin: True
+
 
 
 
@@ -28,3 +45,17 @@ URI: [https://w3id.org/linkml/text_annotator/is_functional](https://w3id.org/lin
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: is_functional
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixin: true
+alias: is_functional
+range: boolean
+
+```
+</details>

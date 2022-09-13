@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/OBI_9991118](http://purl.obolibrary.org/obo
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,21 @@ URI: [http://purl.obolibrary.org/obo/OBI_9991118](http://purl.obolibrary.org/obo
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: IEDB_alternative_term
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: alternative_term
+slot_uri: OBI:9991118
+multivalued: true
+alias: IEDB_alternative_term
+domain_of:
+- HasSynonyms
+range: string
+
+```
+</details>

@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/validation-model/object_str](https://w3id.org/link
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/validation-model/object_str](https://w3id.org/link
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object_str
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+alias: object_str
+domain_of:
+- ValidationResult
+range: string
+
+```
+</details>

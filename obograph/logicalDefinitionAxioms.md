@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/logicalDefinitionAxioms](https:/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)
+* Range: [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/logicalDefinitionAxioms](https:/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: logicalDefinitionAxioms
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: logicalDefinitionAxioms
+domain_of:
+- Graph
+range: LogicalDefinitionAxiom
+
+```
+</details>

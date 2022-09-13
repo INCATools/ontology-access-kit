@@ -9,9 +9,16 @@ URI: [http://w3id.org/sssom/object_match_field](http://w3id.org/sssom/object_mat
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [http://w3id.org/sssom/object_match_field](http://w3id.org/sssom/object_mat
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object_match_field
+description: The field/property in which the match was found
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+slot_uri: sssom:object_match_field
+alias: object_match_field
+domain_of:
+- SearchResult
+range: string
+
+```
+</details>

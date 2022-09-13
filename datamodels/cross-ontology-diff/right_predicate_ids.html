@@ -97,6 +97,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -107,6 +108,33 @@
 <li><p>from schema: https://w3id.org/linkml/cross_ontology_diff</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: right_predicate_ids
+description: '* If the match type is consistent, then all consistent predicates.
+<ul class="simple">
+<li><p>If the match type is identical, then the identical predicate.</p></li>
+<li><p>If the match type is OtherRelationship, then all predicates that form a path between
+right subject and object’
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixins:</p></li>
+</ul>
+<ul class="simple">
+<li><p>right_side</p></li>
+<li><p>predicate
+multivalued: true
+alias: right_predicate_ids
+domain_of:</p></li>
+<li><p>RelationalDiff
+range: EntityReference</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#intersectionOf](http://www.w3.org/2002/07/ow
 
 
 
+
+
 ## Properties
 
- * Range: [ClassExpression](ClassExpression.md)
+* Range: [ClassExpression](ClassExpression.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -37,3 +44,22 @@ URI: [http://www.w3.org/2002/07/owl#intersectionOf](http://www.w3.org/2002/07/ow
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: intersectionOf
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:intersectionOf
+alias: intersectionOf
+domain_of:
+- ClassExpression
+range: ClassExpression
+
+```
+</details>

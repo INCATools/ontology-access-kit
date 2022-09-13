@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://git
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [EquivalentNodesSet](EquivalentNodesSet.md)
+* Range: [EquivalentNodesSet](EquivalentNodesSet.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://git
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: equivalentNodesSets
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: equivalentNodesSets
+domain_of:
+- Graph
+range: EquivalentNodesSet
+
+```
+</details>

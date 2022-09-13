@@ -96,6 +96,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a></p></li>
+<li><p>Multivalued: False</p></li>
 </ul>
 </section>
 <section id="comments">
@@ -114,6 +115,35 @@
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: label
+comments:
+- SHOULD follow OBO label guidelines
+- MUST be unique within an ontology
+- SHOULD be unique across OBO
+in_subset:
+- allotrope required profile
+- go required profile
+- obi required profile
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+exact_mappings:
+- skos:prefLabel
+rank: 1000
+is_a: core_property
+slot_uri: rdfs:label
+multivalued: false
+alias: label
+domain_of:
+- HasMinimalMetadata
+- Axiom
+range: label type
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

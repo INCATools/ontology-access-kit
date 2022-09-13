@@ -16,6 +16,7 @@ URI: GraphFunction
 | CHILD_OF | None |  | |
 
 
+
 ## Identifier and Mapping Information
 
 
@@ -31,3 +32,27 @@ URI: GraphFunction
 
 
 
+
+## Schema
+
+<details>
+```yaml
+name: GraphFunction
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+permissible_values:
+  DESCENDANT_OF:
+    text: DESCENDANT_OF
+  ANCESTOR_OF:
+    text: ANCESTOR_OF
+  PROPER_DESCENDANT_OF:
+    text: PROPER_DESCENDANT_OF
+  PROPER_ANCESTOR_OF:
+    text: PROPER_ANCESTOR_OF
+  PARENT_OF:
+    text: PARENT_OF
+  CHILD_OF:
+    text: CHILD_OF
+
+```
+</details>

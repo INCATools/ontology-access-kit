@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/text_annotator/subject_start](https://w3id.org/lin
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [Position](Position.md)
+* Range: [Position](Position.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,20 @@ URI: [https://w3id.org/linkml/text_annotator/subject_start](https://w3id.org/lin
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: subject_start
+from_schema: https://w3id.org/linkml/text_annotator
+exact_mappings:
+- bpa:from
+rank: 1000
+alias: subject_start
+domain_of:
+- HasSpan
+range: Position
+
+```
+</details>

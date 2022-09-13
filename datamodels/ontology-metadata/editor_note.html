@@ -96,6 +96,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="NarrativeText.html"><span class="doc std std-doc">NarrativeText</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -106,6 +107,24 @@
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: editor_note
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: provenance_property
+slot_uri: IAO:0000116
+multivalued: true
+alias: editor_note
+domain_of:
+- HasProvenance
+range: narrative text
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

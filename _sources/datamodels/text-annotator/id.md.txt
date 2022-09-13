@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/text_annotator/id](https://w3id.org/linkml/text_an
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/text_annotator/id](https://w3id.org/linkml/text_an
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: id
+from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
+identifier: true
+alias: id
+domain_of:
+- TextualElement
+range: uriorcurie
+
+```
+</details>

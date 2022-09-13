@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/similarity/ancestor_id](https://w3id.org/linkml/si
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -34,3 +41,22 @@ URI: [https://w3id.org/linkml/similarity/ancestor_id](https://w3id.org/linkml/si
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: ancestor_id
+description: the most recent common ancestor of the two compared entities. If there
+  are multiple MRCAs then the most informative one is selected
+todos:
+- decide on what to do when there are multiple possible ancestos
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+alias: ancestor_id
+domain_of:
+- TermPairwiseSimilarity
+range: uriorcurie
+
+```
+</details>

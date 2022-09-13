@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000116](http://purl.obolibrary.org/obo
 
 
 
+
+
 ## Properties
 
- * Range: [NarrativeText](NarrativeText.md)
+* Range: [NarrativeText](NarrativeText.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,21 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000116](http://purl.obolibrary.org/obo
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: editor_note
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: provenance_property
+slot_uri: IAO:0000116
+multivalued: true
+alias: editor_note
+domain_of:
+- HasProvenance
+range: narrative text
+
+```
+</details>

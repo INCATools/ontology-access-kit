@@ -13,9 +13,16 @@ URI: [https://w3id.org/linkml/text_annotator/right_predicate_labels](https://w3i
 
 
 
+
+
 ## Properties
 
- * Range: [Label](Label.md)
+* Range: [Label](Label.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -34,3 +41,24 @@ URI: [https://w3id.org/linkml/text_annotator/right_predicate_labels](https://w3i
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: right_predicate_labels
+description: The names corresponding to the right_predicate_ids
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixins:
+- right_side
+- predicate
+- label
+multivalued: true
+alias: right_predicate_labels
+domain_of:
+- RelationalDiff
+range: Label
+
+```
+</details>

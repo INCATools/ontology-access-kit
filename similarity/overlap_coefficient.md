@@ -12,9 +12,16 @@ URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/l
 
 
 
+
+
 ## Properties
 
- * Range: [ZeroToOne](ZeroToOne.md)
+* Range: [ZeroToOne](ZeroToOne.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,17 @@ URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/l
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: overlap_coefficient
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: score
+alias: overlap_coefficient
+range: ZeroToOne
+
+```
+</details>

@@ -7,9 +7,16 @@ URI: [http://purl.obolibrary.org/obo/schema/object](http://purl.obolibrary.org/o
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://purl.obolibrary.org/obo/schema/object](http://purl.obolibrary.org/o
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+alias: object
+domain_of:
+- Annotation
+relational_role: OBJECT
+range: string
+
+```
+</details>

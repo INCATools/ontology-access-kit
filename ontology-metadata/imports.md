@@ -7,9 +7,16 @@ URI: [http://www.w3.org/2002/07/owl#imports](http://www.w3.org/2002/07/owl#impor
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://www.w3.org/2002/07/owl#imports](http://www.w3.org/2002/07/owl#impor
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: imports
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+slot_uri: owl:imports
+alias: imports
+domain_of:
+- Ontology
+range: string
+
+```
+</details>

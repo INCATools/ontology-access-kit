@@ -87,7 +87,13 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="alternative_term.html"><span class="doc std std-doc">alternative_term</span></a></p>
 <ul>
-<li><p><strong>synonym</strong></p></li>
+<li><p><strong>synonym</strong></p>
+<ul>
+<li><p><a class="reference internal" href="has_exact_synonym.html"><span class="doc std std-doc">has_exact_synonym</span></a></p></li>
+<li><p><a class="reference internal" href="has_narrow_synonym.html"><span class="doc std std-doc">has_narrow_synonym</span></a></p></li>
+<li><p><a class="reference internal" href="has_broad_synonym.html"><span class="doc std std-doc">has_broad_synonym</span></a></p></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -96,6 +102,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -106,6 +113,23 @@
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: synonym
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: alternative_term
+abstract: true
+slot_uri: OIO:hasSynonym
+multivalued: true
+alias: synonym
+range: label type
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

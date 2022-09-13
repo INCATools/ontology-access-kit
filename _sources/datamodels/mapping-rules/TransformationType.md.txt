@@ -17,6 +17,7 @@ URI: TransformationType
 | TermExpanson | None | Expand terms using a dictionary | |
 
 
+
 ## Identifier and Mapping Information
 
 
@@ -32,3 +33,42 @@ URI: TransformationType
 
 
 
+
+## Schema
+
+<details>
+```yaml
+name: TransformationType
+description: A controlled datamodels of the types of transformation that can be applied
+  to
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+permissible_values:
+  Stemming:
+    text: Stemming
+    description: Removal of the last few characters of a word to yield a stem term
+      for each word in the term
+  Lemmatization:
+    text: Lemmatization
+    description: Contextual reduction of a word to its base form for each word in
+      the term
+  WordOrderNormalization:
+    text: WordOrderNormalization
+    description: reorder words in the term to a standard order such that comparisons
+      are order-independent
+  Depluralization:
+    text: Depluralization
+    description: Transform plural form to singular form for each word in a term
+  CaseNormalization:
+    text: CaseNormalization
+    description: Transform term to a standard case, typically lowercase
+  WhitespaceNormalization:
+    text: WhitespaceNormalization
+    description: Trim whitespace, condense whitespace runs, and transform all non-space
+      whitespace to spaces
+  TermExpanson:
+    text: TermExpanson
+    description: Expand terms using a dictionary
+
+```
+</details>

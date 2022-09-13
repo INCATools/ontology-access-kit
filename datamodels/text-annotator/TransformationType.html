@@ -141,6 +141,45 @@
 </ul>
 </section>
 </section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: TransformationType
+description: A controlled datamodels of the types of transformation that can be applied
+  to
+from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
+permissible_values:
+  Stemming:
+    text: Stemming
+    description: Removal of the last few characters of a word to yield a stem term
+      for each word in the term
+  Lemmatization:
+    text: Lemmatization
+    description: Contextual reduction of a word to its base form for each word in
+      the term
+  WordOrderNormalization:
+    text: WordOrderNormalization
+    description: reorder words in the term to a standard order such that comparisons
+      are order-independent
+  Depluralization:
+    text: Depluralization
+    description: Transform plural form to singular form for each word in a term
+  CaseNormalization:
+    text: CaseNormalization
+    description: Transform term to a standard case, typically lowercase
+  WhitespaceNormalization:
+    text: WhitespaceNormalization
+    description: Trim whitespace, condense whitespace runs, and transform all non-space
+      whitespace to spaces
+  TermExpanson:
+    text: TermExpanson
+    description: Expand terms using a dictionary
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 

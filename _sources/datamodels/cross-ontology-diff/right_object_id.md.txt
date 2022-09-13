@@ -13,9 +13,16 @@ URI: [https://w3id.org/linkml/text_annotator/right_object_id](https://w3id.org/l
 
 
 
+
+
 ## Properties
 
- * Range: [EntityReference](EntityReference.md)
+* Range: [EntityReference](EntityReference.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -34,3 +41,22 @@ URI: [https://w3id.org/linkml/text_annotator/right_object_id](https://w3id.org/l
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: right_object_id
+description: The object (parent) of the matched/right edge, if matchable
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixins:
+- right_side
+- object
+alias: right_object_id
+domain_of:
+- RelationalDiff
+range: EntityReference
+
+```
+</details>

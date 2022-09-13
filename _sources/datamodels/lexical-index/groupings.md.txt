@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/lexical_index/groupings](https://w3id.org/linkml/l
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [LexicalGrouping](LexicalGrouping.md)
+* Range: [LexicalGrouping](LexicalGrouping.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -30,3 +37,21 @@ URI: [https://w3id.org/linkml/lexical_index/groupings](https://w3id.org/linkml/l
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: groupings
+description: all groupings
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+multivalued: true
+alias: groupings
+domain_of:
+- LexicalIndex
+range: LexicalGrouping
+inlined: true
+
+```
+</details>

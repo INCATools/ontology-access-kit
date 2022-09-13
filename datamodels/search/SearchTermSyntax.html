@@ -131,6 +131,35 @@
 </ul>
 </section>
 </section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: SearchTermSyntax
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+permissible_values:
+  PLAINTEXT:
+    text: PLAINTEXT
+    description: The search term is plain text with no special syntax
+  REGULAR_EXPRESSION:
+    text: REGULAR_EXPRESSION
+    description: The search term is a regular expression, ECMAscript style assumed
+  SQL:
+    text: SQL
+    description: The search term is SQL LIKE syntax, with percent symbols acting as
+      wildcards
+  LUCENE:
+    text: LUCENE
+    description: The search term is in Lucene/Solr syntax
+  STARTS_WITH:
+    text: STARTS_WITH
+    description: The search term is plain text but the matched field must start with
+      the search term
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 

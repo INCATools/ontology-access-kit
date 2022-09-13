@@ -7,9 +7,16 @@ URI: [http://purl.obolibrary.org/obo/NCIT_P378](http://purl.obolibrary.org/obo/N
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://purl.obolibrary.org/obo/NCIT_P378](http://purl.obolibrary.org/obo/N
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: NCIT_definition_source
+deprecated: use OMO over NCIT
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+deprecated_element_has_exact_replacement: definition_source
+rank: 1000
+slot_uri: NCIT:P378
+alias: NCIT_definition_source
+range: string
+
+```
+</details>

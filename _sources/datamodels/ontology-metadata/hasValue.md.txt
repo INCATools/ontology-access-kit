@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasV
 
 
 
+
+
 ## Properties
 
- * Range: [Any](Any.md)
+* Range: [Any](Any.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -37,3 +44,20 @@ URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasV
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: hasValue
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:hasValue
+alias: hasValue
+range: Any
+
+```
+</details>

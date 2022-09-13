@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/scope](https://github.com/geneon
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [ScopesEnum](ScopesEnum.md)
+* Range: [ScopesEnum](ScopesEnum.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/scope](https://github.com/geneon
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: scope
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: scope
+domain_of:
+- SynonymPropertyValue
+range: scopes_enum
+
+```
+</details>

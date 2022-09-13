@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/lexical_index/type](https://w3id.org/linkml/lexica
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [TransformationType](TransformationType.md)
+* Range: [TransformationType](TransformationType.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/lexical_index/type](https://w3id.org/linkml/lexica
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: type
+description: The type of transformation
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+alias: type
+domain_of:
+- LexicalTransformation
+range: TransformationType
+
+```
+</details>

@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/reportclass_statistic_group](https://w3id.org/link
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -36,3 +43,21 @@ URI: [https://w3id.org/linkml/reportclass_statistic_group](https://w3id.org/link
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: class_statistic_group
+annotations:
+  count_of:
+    tag: count_of
+    value: owl:Class
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+alias: class_statistic_group
+is_grouping_slot: true
+range: string
+
+```
+</details>

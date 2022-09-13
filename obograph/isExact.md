@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/isExact](https://github.com/gene
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/isExact](https://github.com/gene
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: isExact
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: isExact
+domain_of:
+- SynonymPropertyValue
+range: boolean
+
+```
+</details>

@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/similarity/best_score](https://w3id.org/linkml/sim
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
+* Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/similarity/best_score](https://w3id.org/linkml/sim
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: best_score
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+alias: best_score
+domain_of:
+- TermSetPairwiseSimilarity
+range: float
+
+```
+</details>

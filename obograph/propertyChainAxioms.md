@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://git
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [PropertyChainAxiom](PropertyChainAxiom.md)
+* Range: [PropertyChainAxiom](PropertyChainAxiom.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://git
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: propertyChainAxioms
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: propertyChainAxioms
+domain_of:
+- Graph
+range: PropertyChainAxiom
+
+```
+</details>

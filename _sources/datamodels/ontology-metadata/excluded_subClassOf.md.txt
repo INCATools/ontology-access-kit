@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_subClassOf](http://purl.obo
 
 
 
+
+
 ## Properties
 
- * Range: [Class](Class.md)
+* Range: [Class](Class.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,20 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_subClassOf](http://purl.obo
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: excluded_subClassOf
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: excluded_axiom
+multivalued: true
+alias: excluded_subClassOf
+domain_of:
+- HasLifeCycle
+range: Class
+
+```
+</details>

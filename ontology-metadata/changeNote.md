@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2004/02/skos/core#changeNote](http://www.w3.org/2004/02/
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,21 @@ URI: [http://www.w3.org/2004/02/skos/core#changeNote](http://www.w3.org/2004/02/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: changeNote
+in_subset:
+- allotrope permitted profile
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: skos:changeNote
+multivalued: true
+alias: changeNote
+range: string
+
+```
+</details>

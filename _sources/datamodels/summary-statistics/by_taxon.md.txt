@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/reportby_taxon](https://w3id.org/linkml/reportby_t
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [FacetStatistics](FacetStatistics.md)
+* Range: [FacetStatistics](FacetStatistics.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -30,3 +37,21 @@ URI: [https://w3id.org/linkml/reportby_taxon](https://w3id.org/linkml/reportby_t
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: by_taxon
+description: statistics keyed by organism taxon
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+multivalued: true
+alias: by_taxon
+domain_of:
+- GlobalStatistics
+range: FacetStatistics
+inlined: true
+
+```
+</details>

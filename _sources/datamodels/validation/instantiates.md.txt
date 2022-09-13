@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/validation-model/instantiates](https://w3id.org/li
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,21 @@ URI: [https://w3id.org/linkml/validation-model/instantiates](https://w3id.org/li
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: instantiates
+description: The type of the subject
+from_schema: https://w3id.org/linkml/validation_results
+exact_mappings:
+- sh:sourceShape
+rank: 1000
+alias: instantiates
+domain_of:
+- ValidationResult
+range: uriorcurie
+
+```
+</details>

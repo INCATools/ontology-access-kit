@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#members](http://www.w3.org/2002/07/owl#membe
 
 
 
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,18 @@ URI: [http://www.w3.org/2002/07/owl#members](http://www.w3.org/2002/07/owl#membe
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: members
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:members
+alias: members
+range: Thing
+
+```
+</details>

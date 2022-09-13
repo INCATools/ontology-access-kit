@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/search_datamodel/results](https://w3id.org/linkml/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [SearchResult](SearchResult.md)
+* Range: [SearchResult](SearchResult.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/search_datamodel/results](https://w3id.org/linkml/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: results
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+multivalued: true
+alias: results
+domain_of:
+- SearchResultSet
+range: SearchResult
+
+```
+</details>

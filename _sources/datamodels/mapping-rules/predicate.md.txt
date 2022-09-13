@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/lexical_index/predicate](https://w3id.org/linkml/l
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/lexical_index/predicate](https://w3id.org/linkml/l
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: predicate
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+alias: predicate
+domain_of:
+- RelationshipToTerm
+range: uriorcurie
+
+```
+</details>

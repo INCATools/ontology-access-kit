@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/validation-model/http_response_code](https://w3id.
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/validation-model/http_response_code](https://w3id.
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: http_response_code
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+alias: http_response_code
+domain_of:
+- ExternalReferenceValidationResult
+range: integer
+
+```
+</details>

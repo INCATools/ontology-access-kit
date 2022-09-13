@@ -12,9 +12,16 @@ URI: [http://purl.org/dc/terms/conformsTo](http://purl.org/dc/terms/conformsTo)
 
 
 
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,21 @@ URI: [http://purl.org/dc/terms/conformsTo](http://purl.org/dc/terms/conformsTo)
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: conformsTo
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: dcterms:conformsTo
+multivalued: true
+alias: conformsTo
+domain_of:
+- HasCategory
+range: Thing
+
+```
+</details>

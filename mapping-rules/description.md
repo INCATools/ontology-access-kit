@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/description](https://w3id.
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/description](https://w3id.
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: description
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
+alias: description
+domain_of:
+- MappingRule
+range: string
+
+```
+</details>

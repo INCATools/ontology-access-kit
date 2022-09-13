@@ -96,6 +96,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></li>
+<li><p>Multivalued: None</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -106,6 +107,23 @@
 <li><p>from schema: https://w3id.org/linkml/summary_statistics</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: individual_count
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: individual_count
+domain_of:
+- SummaryStatisticCollection
+slot_group: individual_statistic_group
+range: integer
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

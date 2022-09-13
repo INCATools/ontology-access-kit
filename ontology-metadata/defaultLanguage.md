@@ -12,9 +12,16 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,18 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: defaultLanguage
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: protege:defaultLanguage
+alias: defaultLanguage
+range: string
+
+```
+</details>

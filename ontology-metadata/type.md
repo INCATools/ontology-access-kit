@@ -12,9 +12,16 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#type](http://www.w3.org/1999/02
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,22 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#type](http://www.w3.org/1999/02
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: type
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: rdf:type
+multivalued: true
+designates_type: true
+alias: type
+domain_of:
+- Thing
+range: uriorcurie
+
+```
+</details>

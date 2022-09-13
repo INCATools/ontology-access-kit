@@ -12,9 +12,16 @@ URI: [https://w3id.org/linkml/similarity/intersection_count](https://w3id.org/li
 
 
 
+
+
 ## Properties
 
- * Range: [ItemCount](ItemCount.md)
+* Range: [ItemCount](ItemCount.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,17 @@ URI: [https://w3id.org/linkml/similarity/intersection_count](https://w3id.org/li
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: intersection_count
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: score
+alias: intersection_count
+range: ItemCount
+
+```
+</details>

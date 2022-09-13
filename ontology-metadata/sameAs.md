@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs
 
 
 
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -37,3 +44,23 @@ URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: sameAs
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+mixins:
+- match_aspect
+slot_uri: owl:sameAs
+multivalued: true
+alias: sameAs
+range: Thing
+
+```
+</details>

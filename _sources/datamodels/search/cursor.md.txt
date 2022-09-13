@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/cursor](https://w3id.org/linkml/s
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,21 @@ URI: [https://w3id.org/linkml/search_datamodel/cursor](https://w3id.org/linkml/s
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: cursor
+description: when the number of search results exceed the limit this can be used to
+  iterate through results
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: cursor
+domain_of:
+- SearchBaseConfiguration
+- SearchResultSet
+range: integer
+
+```
+</details>

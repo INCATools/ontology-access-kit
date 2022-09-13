@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/snippet](https://w3id.org/linkml/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/search_datamodel/snippet](https://w3id.org/linkml/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: snippet
+description: shows how the field was matched
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: snippet
+domain_of:
+- SearchResult
+range: string
+
+```
+</details>

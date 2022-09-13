@@ -79,13 +79,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.implementations.ols.ols_implementation</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">urllib</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">ols_client</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">EBIClient</span><span class="p">,</span> <span class="n">TIBClient</span>
 <span class="kn">from</span> <span class="nn">sssom_schema</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels</span> <span class="kn">import</span> <span class="n">oxo</span>
@@ -93,13 +92,22 @@
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span><span class="p">,</span> <span class="n">SearchProperty</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.text_annotator</span> <span class="kn">import</span> <span class="n">TextAnnotation</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">SEMAPV</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ols</span> <span class="kn">import</span> <span class="n">SEARCH_CONFIG</span>
-<span class="kn">from</span> <span class="nn">oaklib.implementations.ols.oxo_utils</span> <span class="kn">import</span> <span class="n">load_oxo_payload</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">PREFIX_MAP</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.text_annotator_interface</span> <span class="kn">import</span> <span class="n">TextAnnotatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">SEARCH_CONFIG</span>
+<span class="kn">from</span> <span class="nn">.oxo_utils</span> <span class="kn">import</span> <span class="n">load_oxo_payload</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Abstract classes</span>
+    <span class="s2">&quot;BaseOlsImplementation&quot;</span><span class="p">,</span>
+    <span class="c1"># Concrete classes</span>
+    <span class="s2">&quot;OlsImplementation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TIBOlsImplementation&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="n">ANNOTATION</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <span class="n">SEARCH_ROWS</span> <span class="o">=</span> <span class="mi">50</span>
@@ -112,20 +120,21 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="OlsImplementation"><a class="viewcode-back" href="../../../../implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">OlsImplementation</span><span class="p">(</span><span class="n">TextAnnotatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">):</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">BaseOlsImplementation</span><span class="p">(</span><span class="n">TextAnnotatorInterface</span><span class="p">,</span> <span class="n">SearchInterface</span><span class="p">,</span> <span class="n">MappingProviderInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation over OLS and OxO APIs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">ols_api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ols_client_class</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Client</span><span class="p">]]</span>
     <span class="n">label_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{})</span>
     <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.ebi.ac.uk/spot/oxo/api/mappings&quot;</span>
-    <span class="n">ols_base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.ebi.ac.uk/ols/api&quot;</span>
     <span class="n">_prefix_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">{})</span>
     <span class="n">focus_ontology</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ols_client_class</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">slug</span>
@@ -152,10 +161,10 @@
     <span class="k">def</span> <span class="nf">ancestors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;hierarchicalAncestors&quot;</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">iter_hierarchical_ancestors</span>
         <span class="k">if</span> <span class="n">predicates</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">predicates</span> <span class="o">==</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">]:</span>
-                <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;ancestors&quot;</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">iter_ancestors</span>
             <span class="k">elif</span> <span class="n">IS_A</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OLS always include </span><span class="si">{</span><span class="n">IS_A</span><span class="si">}</span><span class="s2">, you selected: </span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -163,19 +172,9 @@
         <span class="n">ancs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">ontology</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">start_curies</span><span class="p">:</span>
-            <span class="n">term_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
-            <span class="c1"># must be double encoded https://www.ebi.ac.uk/ols/docs/api</span>
-            <span class="n">term_id_quoted</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">term_id</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">term_id_quoted</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">term_id_quoted</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ols_base_url</span><span class="si">}</span><span class="s2">/ontologies/</span><span class="si">{</span><span class="n">ontology</span><span class="si">}</span><span class="s2">/terms/</span><span class="si">{</span><span class="n">term_id_quoted</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;URL=</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="s2">&quot;_embedded&quot;</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
-                <span class="n">ancs</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;obo_id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;_embedded&quot;</span><span class="p">][</span><span class="s2">&quot;terms&quot;</span><span class="p">]])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No ancestors for </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> (maybe ontology not indexed in OLS?)&quot;</span><span class="p">)</span>
-                <span class="n">ancs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">iri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">ontology</span><span class="o">=</span><span class="n">ontology</span><span class="p">,</span> <span class="n">iri</span><span class="o">=</span><span class="n">iri</span><span class="p">)</span>
+            <span class="n">ancs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">&quot;obo_id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">ancs</span><span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
@@ -200,7 +199,6 @@
             <span class="n">query_fields</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">&quot;description&quot;</span><span class="p">])</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">search_term</span><span class="p">,</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;class&quot;</span><span class="p">,</span>
             <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
             <span class="s2">&quot;fieldList&quot;</span><span class="p">:</span> <span class="s2">&quot;iri,label&quot;</span><span class="p">,</span>
@@ -215,19 +213,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;ontology&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">focus_ontology</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-        <span class="n">finished</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">while</span> <span class="ow">not</span> <span class="n">finished</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ols_base_url</span><span class="si">}</span><span class="s2">/search&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;URL=</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;rows&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;numFound&quot;</span><span class="p">]:</span>
-                <span class="n">finished</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">][</span><span class="s2">&quot;docs&quot;</span><span class="p">]:</span>
-                <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;iri&quot;</span><span class="p">])</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
-                <span class="k">yield</span> <span class="n">curie</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">search_term</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">):</span>
+            <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri_to_curie</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="s2">&quot;iri&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label_cache</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="n">curie</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: MappingsInterface</span>
@@ -257,7 +246,7 @@
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">oxo_s</span><span class="o">.</span><span class="n">curie</span><span class="p">,</span> <span class="n">oxo_s</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="n">oxo_o</span><span class="o">.</span><span class="n">curie</span><span class="p">,</span> <span class="n">oxo_o</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-            <span class="k">yield</span> <span class="n">mapping</span></div>
+            <span class="k">yield</span> <span class="n">mapping</span>
 
     <span class="c1"># def fill_gaps(self, msdoc: MappingSetDocument, confidence: float = 1.0) -&gt; int:</span>
     <span class="c1">#     curie_map = curie_to_uri_map(msdoc)</span>
@@ -280,6 +269,18 @@
     <span class="c1">#                 msdoc.mapping_set.mappings.append(m)</span>
     <span class="c1">#                 n += 1</span>
     <span class="c1">#     return n</span>
+
+
+<div class="viewcode-block" id="OlsImplementation"><a class="viewcode-back" href="../../../../implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">[docs]</a><span class="k">class</span> <span class="nc">OlsImplementation</span><span class="p">(</span><span class="n">BaseOlsImplementation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementation for the EBI OLS instance.&quot;&quot;&quot;</span>
+
+    <span class="n">ols_client_class</span> <span class="o">=</span> <span class="n">EBIClient</span></div>
+
+
+<span class="k">class</span> <span class="nc">TIBOlsImplementation</span><span class="p">(</span><span class="n">BaseOlsImplementation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementation for the TIB Hannover OLS instance.&quot;&quot;&quot;</span>
+
+    <span class="n">ols_client_class</span> <span class="o">=</span> <span class="n">TIBClient</span>
 </pre></div>
 
            </div>

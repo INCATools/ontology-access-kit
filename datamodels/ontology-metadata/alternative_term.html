@@ -85,13 +85,22 @@
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p><strong>alternative_term</strong></p></li>
+<li><p><strong>alternative_term</strong></p>
+<ul>
+<li><p><a class="reference internal" href="ISA_alternative_term.html"><span class="doc std std-doc">ISA_alternative_term</span></a></p></li>
+<li><p><a class="reference internal" href="IEDB_alternative_term.html"><span class="doc std std-doc">IEDB_alternative_term</span></a></p></li>
+<li><p><a class="reference internal" href="OBO_foundry_unique_label.html"><span class="doc std std-doc">OBO_foundry_unique_label</span></a></p></li>
+<li><p><a class="reference internal" href="synonym.html"><span class="doc std std-doc">synonym</span></a></p></li>
+<li><p><a class="reference internal" href="editor_preferred_term.html"><span class="doc std std-doc">editor_preferred_term</span></a></p></li>
+</ul>
+</li>
 </ul>
 </section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -102,6 +111,27 @@
 <li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: alternative_term
+in_subset:
+- allotrope permitted profile
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+exact_mappings:
+- skos:altLabel
+rank: 1000
+slot_uri: IAO:0000118
+multivalued: true
+alias: alternative_term
+domain_of:
+- HasSynonyms
+range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

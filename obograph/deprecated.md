@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/deprecated](https://github.com/g
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/deprecated](https://github.com/g
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: deprecated
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: deprecated
+domain_of:
+- Meta
+range: boolean
+
+```
+</details>

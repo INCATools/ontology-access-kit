@@ -12,9 +12,32 @@ URI: [https://w3id.org/linkml/text_annotator/left_side](https://w3id.org/linkml/
 
 
 
+
+## Mixin Usage
+
+| mixed into | description | range | domain |
+| --- | --- | --- | --- |
+| [left_subject_id](left_subject_id.md) | The subject (child) of the source/left edge | EntityReference |  |
+| [left_object_id](left_object_id.md) | The object (parent) of the source/left edge | EntityReference |  |
+| [left_predicate_id](left_predicate_id.md) | The predicate (relation) of the source/left edge | EntityReference |  |
+| [left_subject_label](left_subject_label.md) | The name of the subject (child) of the source/left edge | Label |  |
+| [left_object_label](left_object_label.md) | The name of the object (parent) of the source/left edge | Label |  |
+| [left_predicate_label](left_predicate_label.md) | The name of the predicate of the source/left edge | Label |  |
+| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontology | None |  |
+| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontology | None |  |
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
+* Mixin: True
+
 
 
 
@@ -33,3 +56,18 @@ URI: [https://w3id.org/linkml/text_annotator/left_side](https://w3id.org/linkml/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: left_side
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+is_a: side
+mixin: true
+alias: left_side
+range: string
+
+```
+</details>

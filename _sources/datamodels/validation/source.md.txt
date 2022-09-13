@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/validation-model/source](https://w3id.org/linkml/v
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/validation-model/source](https://w3id.org/linkml/v
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: source
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+alias: source
+domain_of:
+- ValidationResult
+range: uriorcurie
+
+```
+</details>

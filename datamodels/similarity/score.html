@@ -86,13 +86,26 @@
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p><strong>score</strong></p></li>
+<li><p><strong>score</strong></p>
+<ul>
+<li><p><a class="reference internal" href="information_content.html"><span class="doc std std-doc">information_content</span></a></p></li>
+<li><p><a class="reference internal" href="jaccard_similarity.html"><span class="doc std std-doc">jaccard_similarity</span></a></p></li>
+<li><p><a class="reference internal" href="dice_similarity.html"><span class="doc std std-doc">dice_similarity</span></a></p></li>
+<li><p><a class="reference internal" href="phenodigm_score.html"><span class="doc std std-doc">phenodigm_score</span></a></p></li>
+<li><p><a class="reference internal" href="overlap_coefficient.html"><span class="doc std std-doc">overlap_coefficient</span></a></p></li>
+<li><p><a class="reference internal" href="subsumes_score.html"><span class="doc std std-doc">subsumes_score</span></a></p></li>
+<li><p><a class="reference internal" href="subsumed_by_score.html"><span class="doc std std-doc">subsumed_by_score</span></a></p></li>
+<li><p><a class="reference internal" href="intersection_count.html"><span class="doc std std-doc">intersection_count</span></a></p></li>
+<li><p><a class="reference internal" href="union_count.html"><span class="doc std std-doc">union_count</span></a></p></li>
+</ul>
+</li>
 </ul>
 </section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Multivalued: None</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -103,6 +116,23 @@
 <li><p>from schema: https://w3id.org/linkml/similarity</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: score
+description: Abstract base slot for different kinds of scores
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+abstract: true
+alias: score
+domain_of:
+- BestMatch
+range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

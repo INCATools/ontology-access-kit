@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/IAO_0010000](http://purl.obolibrary.org/obo
 
 
 
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,20 @@ URI: [http://purl.obolibrary.org/obo/IAO_0010000](http://purl.obolibrary.org/obo
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: has_axiom_label
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: provenance_property
+slot_uri: IAO:0010000
+alias: has_axiom_label
+domain_of:
+- Axiom
+range: Thing
+
+```
+</details>

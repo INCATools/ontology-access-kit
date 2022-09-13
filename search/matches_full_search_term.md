@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/matches_full_search_term](https:/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/search_datamodel/matches_full_search_term](https:/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: matches_full_search_term
+description: Does the matched field match the full string
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: matches_full_search_term
+domain_of:
+- SearchResult
+range: boolean
+
+```
+</details>

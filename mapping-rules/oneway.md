@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/oneway](https://w3id.org/l
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/oneway](https://w3id.org/l
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: oneway
+description: if true then subject and object can be switched and predicate inverted
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
+ifabsent: 'False'
+alias: oneway
+domain_of:
+- MappingRule
+range: boolean
+
+```
+</details>

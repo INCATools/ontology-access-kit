@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/weight](https://w3id.org/l
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
+* Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,22 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/weight](https://w3id.org/l
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: weight
+description: Weighting of the rule, positive increases the confidence, negative decreases
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+see_also:
+- https://en.wikipedia.org/wiki/Logit
+- https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+rank: 1000
+alias: weight
+domain_of:
+- Postcondition
+range: float
+
+```
+</details>

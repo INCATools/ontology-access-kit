@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2000/01/rdf-schema#comment](http://www.w3.org/2000/01/rd
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -37,3 +44,25 @@ URI: [http://www.w3.org/2000/01/rdf-schema#comment](http://www.w3.org/2000/01/rd
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: comment
+comments:
+- in obo format, a term cannot have more than one comment
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: rdfs:comment
+multivalued: true
+alias: comment
+domain_of:
+- HasUserInformation
+- Ontology
+- Axiom
+range: string
+
+```
+</details>

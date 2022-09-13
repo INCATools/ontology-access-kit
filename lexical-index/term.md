@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/lexical_index/term](https://w3id.org/linkml/lexica
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [https://w3id.org/linkml/lexical_index/term](https://w3id.org/linkml/lexica
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: term
+description: A normalized term that groups ontology elements
+from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
+key: true
+alias: term
+domain_of:
+- LexicalGrouping
+range: string
+
+```
+</details>

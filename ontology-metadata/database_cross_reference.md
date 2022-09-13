@@ -12,9 +12,16 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasDbXref](http://www.geneont
 
 
 
+
+
 ## Properties
 
- * Range: [CURIELiteral](CURIELiteral.md)
+* Range: [CURIELiteral](CURIELiteral.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -33,3 +40,22 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasDbXref](http://www.geneont
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: database_cross_reference
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: match
+slot_uri: oio:hasDbXref
+multivalued: true
+alias: database_cross_reference
+domain_of:
+- HasMappings
+- Axiom
+range: CURIELiteral
+
+```
+</details>

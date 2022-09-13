@@ -12,9 +12,16 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_from_QC_check](http://purl.
 
 
 
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,19 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_from_QC_check](http://purl.
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: excluded_from_QC_check
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: excluded_axiom
+alias: excluded_from_QC_check
+domain_of:
+- HasLifeCycle
+range: Thing
+
+```
+</details>

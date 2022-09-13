@@ -10,12 +10,22 @@ URI: [http://purl.obolibrary.org/obo/schema/core_property](http://purl.obolibrar
 ## Inheritance
 
 * **core_property**
+    * [id](id.md)
+    * [label](label.md)
+    * [definition](definition.md)
+
+
 
 
 
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -34,3 +44,18 @@ URI: [http://purl.obolibrary.org/obo/schema/core_property](http://purl.obolibrar
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: core_property
+description: abstract grouping of core properties
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+abstract: true
+alias: core_property
+range: string
+
+```
+</details>

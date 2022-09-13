@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/properties](https://w3id.org/link
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [SearchProperty](SearchProperty.md)
+* Range: [SearchProperty](SearchProperty.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -30,3 +37,20 @@ URI: [https://w3id.org/linkml/search_datamodel/properties](https://w3id.org/link
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: properties
+description: determines which properties are searched over
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+multivalued: true
+alias: properties
+domain_of:
+- SearchBaseConfiguration
+range: SearchProperty
+
+```
+</details>

@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/text_annotator/object_mapping_cardinality](https:/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [MappingCardinalityEnum](MappingCardinalityEnum.md)
+* Range: [MappingCardinalityEnum](MappingCardinalityEnum.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/text_annotator/object_mapping_cardinality](https:/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object_mapping_cardinality
+description: The mapping cardinality of the object pair
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+alias: object_mapping_cardinality
+domain_of:
+- RelationalDiff
+range: MappingCardinalityEnum
+
+```
+</details>

@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/similarity/ancestor_label](https://w3id.org/linkml
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/similarity/ancestor_label](https://w3id.org/linkml
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: ancestor_label
+description: the name or label of the ancestor concept
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+alias: ancestor_label
+domain_of:
+- TermPairwiseSimilarity
+range: string
+
+```
+</details>

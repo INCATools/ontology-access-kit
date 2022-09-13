@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/reportby_subset](https://w3id.org/linkml/reportby_
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [FacetStatistics](FacetStatistics.md)
+* Range: [FacetStatistics](FacetStatistics.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -34,3 +41,23 @@ URI: [https://w3id.org/linkml/reportby_subset](https://w3id.org/linkml/reportby_
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: by_subset
+description: statistics keyed by ontology subset
+comments:
+- For example, GO metagenomics_slim
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+multivalued: true
+alias: by_subset
+domain_of:
+- GlobalStatistics
+range: FacetStatistics
+inlined: true
+
+```
+</details>

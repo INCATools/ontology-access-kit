@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/synonymType](https://github.com/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/synonymType](https://github.com/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: synonymType
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: synonymType
+domain_of:
+- SynonymPropertyValue
+range: string
+
+```
+</details>

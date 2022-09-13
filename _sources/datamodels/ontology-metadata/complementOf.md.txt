@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#complementOf](http://www.w3.org/2002/07/owl#
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -37,3 +44,22 @@ URI: [http://www.w3.org/2002/07/owl#complementOf](http://www.w3.org/2002/07/owl#
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: complementOf
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:complementOf
+alias: complementOf
+domain_of:
+- ClassExpression
+range: string
+
+```
+</details>

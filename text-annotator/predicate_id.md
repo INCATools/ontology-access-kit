@@ -7,9 +7,16 @@ URI: [http://w3id.org/sssom/predicate_id](http://w3id.org/sssom/predicate_id)
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://w3id.org/sssom/predicate_id](http://w3id.org/sssom/predicate_id)
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: predicate_id
+from_schema: https://w3id.org/linkml/text_annotator
+rank: 1000
+slot_uri: sssom:predicate_id
+alias: predicate_id
+domain_of:
+- TextAnnotation
+range: string
+
+```
+</details>

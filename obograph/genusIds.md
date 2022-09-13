@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/genusIds](https://github.com/gen
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: NONE
+* Range: NONE
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://github.com/geneontology/obographs/genusIds](https://github.com/gen
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: genusIds
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: genusIds
+domain_of:
+- LogicalDefinitionAxiom
+
+```
+</details>

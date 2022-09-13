@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2000/01/rdf-schema#domain](http://www.w3.org/2000/01/rdf
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -37,3 +44,23 @@ URI: [http://www.w3.org/2000/01/rdf-schema#domain](http://www.w3.org/2000/01/rdf
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: domain
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: rdfs:domain
+multivalued: true
+alias: domain
+domain_of:
+- Property
+range: string
+
+```
+</details>

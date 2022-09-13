@@ -15,9 +15,16 @@ URI: [https://w3id.org/linkml/similarity/object_information_content](https://w3i
 
 
 
+
+
 ## Properties
 
- * Range: [NegativeLogValue](NegativeLogValue.md)
+* Range: [NegativeLogValue](NegativeLogValue.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -36,3 +43,20 @@ URI: [https://w3id.org/linkml/similarity/object_information_content](https://w3i
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object_information_content
+description: The IC of the object
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: information_content
+alias: object_information_content
+domain_of:
+- TermPairwiseSimilarity
+range: NegativeLogValue
+
+```
+</details>

@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/graphs](https://github.com/geneo
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [Graph](Graph.md)
+* Range: [Graph](Graph.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,21 @@ URI: [https://github.com/geneontology/obographs/graphs](https://github.com/geneo
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: graphs
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: graphs
+domain_of:
+- GraphDocument
+range: Graph
+inlined: true
+inlined_as_list: true
+
+```
+</details>

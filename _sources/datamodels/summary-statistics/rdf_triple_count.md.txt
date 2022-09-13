@@ -12,9 +12,16 @@ URI: [https://w3id.org/linkml/reportrdf_triple_count](https://w3id.org/linkml/re
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,20 @@ URI: [https://w3id.org/linkml/reportrdf_triple_count](https://w3id.org/linkml/re
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: rdf_triple_count
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: rdf_triple_count
+domain_of:
+- SummaryStatisticCollection
+slot_group: owl_statistic_group
+range: integer
+
+```
+</details>

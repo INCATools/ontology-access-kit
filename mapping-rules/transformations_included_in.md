@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_i
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_i
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: transformations_included_in
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
+multivalued: true
+alias: transformations_included_in
+domain_of:
+- Precondition
+range: string
+
+```
+</details>

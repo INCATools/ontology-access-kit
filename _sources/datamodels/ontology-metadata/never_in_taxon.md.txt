@@ -7,9 +7,16 @@ URI: [http://purl.obolibrary.org/obo/RO_0002161](http://purl.obolibrary.org/obo/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [Class](Class.md)
+* Range: [Class](Class.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,20 @@ URI: [http://purl.obolibrary.org/obo/RO_0002161](http://purl.obolibrary.org/obo/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: never_in_taxon
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+slot_uri: RO:0002161
+multivalued: true
+alias: never_in_taxon
+domain_of:
+- Class
+range: Class
+
+```
+</details>

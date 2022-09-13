@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/search_datamodel/all_of](https://w3id.org/linkml/s
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [ComplexQuery](ComplexQuery.md)
+* Range: [ComplexQuery](ComplexQuery.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/search_datamodel/all_of](https://w3id.org/linkml/s
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: all_of
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+multivalued: true
+alias: all_of
+domain_of:
+- ComplexQuery
+range: ComplexQuery
+
+```
+</details>

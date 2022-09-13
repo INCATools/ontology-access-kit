@@ -12,9 +12,16 @@ URI: [https://w3id.org/linkml/reportobject_property_count](https://w3id.org/link
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -33,3 +40,20 @@ URI: [https://w3id.org/linkml/reportobject_property_count](https://w3id.org/link
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object_property_count
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: object_property_count
+domain_of:
+- SummaryStatisticCollection
+slot_group: property_statistic_group
+range: integer
+
+```
+</details>

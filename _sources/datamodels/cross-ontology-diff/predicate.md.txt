@@ -7,9 +7,32 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate](http://www.w3.org/19
 <!-- no inheritance hierarchy -->
 
 
+
+## Mixin Usage
+
+| mixed into | description | range | domain |
+| --- | --- | --- | --- |
+| [left_predicate_id](left_predicate_id.md) | The predicate (relation) of the source/left edge | EntityReference |  |
+| [left_predicate_label](left_predicate_label.md) | The name of the predicate of the source/left edge | Label |  |
+| [right_predicate_ids](right_predicate_ids.md) | * If the match type is consistent, then all consistent predicates.
+* If the match type is identical, then the identical predicate.
+* If the match type is OtherRelationship, then all predicates that form a path between right subject and object | EntityReference |  |
+| [right_predicate_labels](right_predicate_labels.md) | The names corresponding to the right_predicate_ids | Label |  |
+| [subject_mapping_predicate](subject_mapping_predicate.md) | The mapping predicate that holds between left_subject_id and right_subject_id | EntityReference |  |
+| [object_mapping_predicate](object_mapping_predicate.md) | The mapping predicate that holds between left_object_id and right_object_id | EntityReference |  |
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
+* Mixin: True
+
 
 
 
@@ -28,3 +51,18 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate](http://www.w3.org/19
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: predicate
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixin: true
+slot_uri: rdf:predicate
+alias: predicate
+range: string
+
+```
+</details>

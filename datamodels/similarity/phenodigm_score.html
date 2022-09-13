@@ -97,6 +97,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="NonNegativeFloat.html"><span class="doc std std-doc">NonNegativeFloat</span></a></p></li>
+<li><p>Multivalued: None</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -107,6 +108,24 @@
 <li><p>from schema: https://w3id.org/linkml/similarity</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: phenodigm_score
+description: the geometric mean of the jaccard similarity and the information content
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: score
+alias: phenodigm_score
+domain_of:
+- TermPairwiseSimilarity
+range: NonNegativeFloat
+equals_expression: sqrt({jaccard_similarity} * {information_content})
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

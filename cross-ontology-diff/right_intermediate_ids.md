@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/text_annotator/right_intermediate_ids](https://w3i
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [EntityReference](EntityReference.md)
+* Range: [EntityReference](EntityReference.md)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://w3id.org/linkml/text_annotator/right_intermediate_ids](https://w3i
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: right_intermediate_ids
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+multivalued: true
+alias: right_intermediate_ids
+domain_of:
+- RelationalDiff
+range: EntityReference
+
+```
+</details>

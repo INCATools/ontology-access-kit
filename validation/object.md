@@ -7,9 +7,16 @@ URI: [http://www.w3.org/ns/shacl#value](http://www.w3.org/ns/shacl#value)
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://www.w3.org/ns/shacl#value](http://www.w3.org/ns/shacl#value)
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: object
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+slot_uri: sh:value
+alias: object
+domain_of:
+- ValidationResult
+range: uriorcurie
+
+```
+</details>

@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#propertyChainAxiom](http://www.w3.org/2002/0
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -37,3 +44,23 @@ URI: [http://www.w3.org/2002/07/owl#propertyChainAxiom](http://www.w3.org/2002/0
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: propertyChainAxiom
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:propertyChainAxiom
+multivalued: true
+alias: propertyChainAxiom
+domain_of:
+- ObjectProperty
+range: string
+
+```
+</details>

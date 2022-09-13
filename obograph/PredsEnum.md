@@ -14,6 +14,7 @@ URI: PredsEnum
 | hasRelatedSynonym | None |  | |
 
 
+
 ## Identifier and Mapping Information
 
 
@@ -29,3 +30,23 @@ URI: PredsEnum
 
 
 
+
+## Schema
+
+<details>
+```yaml
+name: preds_enum
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+permissible_values:
+  hasExactSynonym:
+    text: hasExactSynonym
+  hasNarrowSynonym:
+    text: hasNarrowSynonym
+  hasBroadSynonym:
+    text: hasBroadSynonym
+  hasRelatedSynonym:
+    text: hasRelatedSynonym
+
+```
+</details>

@@ -12,9 +12,16 @@ URI: [http://www.w3.org/2002/07/owl#someValuesFrom](http://www.w3.org/2002/07/ow
 
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -37,3 +44,23 @@ URI: [http://www.w3.org/2002/07/owl#someValuesFrom](http://www.w3.org/2002/07/ow
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: someValuesFrom
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:someValuesFrom
+multivalued: true
+alias: someValuesFrom
+domain_of:
+- Restriction
+range: string
+
+```
+</details>

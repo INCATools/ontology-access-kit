@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/lbl](https://github.com/geneonto
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/lbl](https://github.com/geneonto
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: lbl
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: lbl
+domain_of:
+- Graph
+- Node
+range: string
+
+```
+</details>

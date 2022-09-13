@@ -7,9 +7,16 @@ URI: [https://w3id.org/linkml/validation-model/repairs](https://w3id.org/linkml/
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [ValidationResult](ValidationResult.md)
+* Range: [ValidationResult](ValidationResult.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,18 @@ URI: [https://w3id.org/linkml/validation-model/repairs](https://w3id.org/linkml/
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: repairs
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+alias: repairs
+domain_of:
+- RepairOperation
+range: ValidationResult
+
+```
+</details>

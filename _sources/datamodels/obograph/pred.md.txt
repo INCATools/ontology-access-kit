@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/pred](https://github.com/geneont
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/pred](https://github.com/geneont
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: pred
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: pred
+domain_of:
+- Edge
+- PropertyValue
+range: string
+
+```
+</details>

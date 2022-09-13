@@ -7,9 +7,16 @@ URI: [http://purl.obolibrary.org/obo/schema/predicate](http://purl.obolibrary.or
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [http://purl.obolibrary.org/obo/schema/predicate](http://purl.obolibrary.or
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: predicate
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+alias: predicate
+domain_of:
+- Annotation
+relational_role: PREDICATE
+range: string
+
+```
+</details>

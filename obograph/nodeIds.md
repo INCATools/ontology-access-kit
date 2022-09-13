@@ -7,9 +7,16 @@ URI: [https://github.com/geneontology/obographs/nodeIds](https://github.com/gene
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
 
 
 
@@ -28,3 +35,19 @@ URI: [https://github.com/geneontology/obographs/nodeIds](https://github.com/gene
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: nodeIds
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: nodeIds
+domain_of:
+- EquivalentNodesSet
+range: string
+
+```
+</details>

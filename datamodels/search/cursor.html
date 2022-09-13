@@ -88,6 +88,7 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></li>
+<li><p>Multivalued: None</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -98,6 +99,24 @@
 <li><p>from schema: https://w3id.org/linkml/search_datamodel</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: cursor
+description: when the number of search results exceed the limit this can be used to
+  iterate through results
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: cursor
+domain_of:
+- SearchBaseConfiguration
+- SearchResultSet
+range: integer
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

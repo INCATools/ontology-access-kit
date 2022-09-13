@@ -85,13 +85,44 @@
 <section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p><strong>side</strong></p></li>
+<li><p><strong>side</strong></p>
+<ul>
+<li><p><a class="reference internal" href="left_side.html"><span class="doc std std-doc">left_side</span></a></p></li>
+<li><p><a class="reference internal" href="right_side.html"><span class="doc std std-doc">right_side</span></a></p></li>
 </ul>
+</li>
+</ul>
+</section>
+<section id="mixin-usage">
+<h2>Mixin Usage<a class="headerlink" href="#mixin-usage" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>mixed into</p></th>
+<th class="head"><p>description</p></th>
+<th class="head"><p>range</p></th>
+<th class="head"><p>domain</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="left_side.html"><span class="doc std std-doc">left_side</span></a></p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_side.html"><span class="doc std std-doc">right_side</span></a></p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Multivalued: None</p></li>
+<li><p>Mixin: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -102,6 +133,20 @@
 <li><p>from schema: https://w3id.org/linkml/cross_ontology_diff</p></li>
 </ul>
 </section>
+</section>
+<section id="linkml-specification">
+<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<details>
+```yaml
+name: side
+from_schema: https://w3id.org/linkml/cross_ontology_diff
+rank: 1000
+mixin: true
+alias: side
+range: string
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

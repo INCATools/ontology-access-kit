@@ -9,9 +9,16 @@ URI: [https://w3id.org/linkml/search_datamodel/syntax](https://w3id.org/linkml/s
 <!-- no inheritance hierarchy -->
 
 
+
+
 ## Properties
 
- * Range: [SearchTermSyntax](SearchTermSyntax.md)
+* Range: [SearchTermSyntax](SearchTermSyntax.md)
+* Multivalued: None
+
+
+
+
 
 
 
@@ -30,3 +37,19 @@ URI: [https://w3id.org/linkml/search_datamodel/syntax](https://w3id.org/linkml/s
 
 
 
+
+## LinkML Specification
+
+<details>
+```yaml
+name: syntax
+description: Determines how the search term is interpreted
+from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
+alias: syntax
+domain_of:
+- SearchBaseConfiguration
+range: SearchTermSyntax
+
+```
+</details>
