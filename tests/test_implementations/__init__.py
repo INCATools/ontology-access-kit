@@ -196,7 +196,7 @@ class ComplianceTester:
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
                 print(f"Cannot find: {change_obj}")
-                #else:
+                # else:
                 #    raise ValueError(f"Cannot find: {change_obj}")
             # not all changes are easily recapitulated yet; e.g.
             for ch in expected_changes:

@@ -12,9 +12,10 @@ from prefixmaps.io.parser import load_context
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     IS_A,
+    LABEL_PREDICATE,
     OWL_CLASS,
     OWL_NOTHING,
-    OWL_THING, LABEL_PREDICATE,
+    OWL_THING,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
@@ -675,7 +676,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def aliases_by_curie(self, curie: CURIE) -> List[str]:
         return self.entity_aliases(curie)
 
-    def alias_relationships(self, curie: CURIE, exclude_labels: bool = False) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+    def alias_relationships(
+        self, curie: CURIE, exclude_labels: bool = False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         amap = self.entity_alias_map(curie)
         for k, vs in amap.items():
             if exclude_labels and k == LABEL_PREDICATE:

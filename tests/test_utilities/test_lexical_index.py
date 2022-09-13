@@ -2,7 +2,11 @@ import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 
-from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType, LexicalTransformationPipeline
+from oaklib.datamodels.lexical_index import (
+    LexicalTransformation,
+    LexicalTransformationPipeline,
+    TransformationType,
+)
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import (
@@ -45,12 +49,14 @@ class TestLexicalIndex(unittest.TestCase):
         builder.build()
         cases = [
             (None, {"foo bar": ["X:1", "X:2", "X:3"]}),
-            ([LexicalTransformation(TransformationType.CaseNormalization)],
-             {"foo bar": ["X:1", "X:2"],
-              "foo  bar": ["X:3"]}),
-            ([LexicalTransformation(TransformationType.WhitespaceNormalization)],
-             {"foo bar": ["X:1", "X:3"],
-              "FOO BAR": ["X:2"]}),
+            (
+                [LexicalTransformation(TransformationType.CaseNormalization)],
+                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"]},
+            ),
+            (
+                [LexicalTransformation(TransformationType.WhitespaceNormalization)],
+                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"]},
+            ),
         ]
         for trs, expected in cases:
             if trs:
@@ -62,10 +68,6 @@ class TestLexicalIndex(unittest.TestCase):
             for k, v in lexical_index.groupings.items():
                 groupings[k] = [x.element for x in v.relationships]
             self.assertEqual(expected, groupings)
-
-
-
-
 
     def test_save(self):
         save_lexical_index(self.lexical_index, TEST_OUT)

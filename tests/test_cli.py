@@ -519,15 +519,15 @@ class TestCommandLineInterface(unittest.TestCase):
             if simple:
                 args += ["--simple"]
             args += ["-X", alt_input, "-o", outfile]
-            #print(args)
+            # print(args)
             result = self.runner.invoke(main, args)
             self.assertEqual(0, result.exit_code)
             out = self._out(path=outfile)
-            #print(out)
+            # print(out)
             if simple:
                 objs = json.loads(out)
                 obj = objs[0]
-                #print(obj)
+                # print(obj)
                 self.assertEqual("GO:0033673", obj["about_node"])
 
     def test_diff_via_mappings(self):

@@ -2990,7 +2990,15 @@ def diff(simple: bool, output, output_type, other_ontology):
 @output_type_option
 @overwrite_option
 @click.argument("commands", nargs=-1)
-def apply(commands, output, output_type, changes_input: TextIO, changes_format, parse_only: bool, overwrite: bool):
+def apply(
+    commands,
+    output,
+    output_type,
+    changes_input: TextIO,
+    changes_format,
+    parse_only: bool,
+    overwrite: bool,
+):
     """
     Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
     https://github.com/INCATools/kgcl
@@ -3032,6 +3040,7 @@ def apply(commands, output, output_type, changes_input: TextIO, changes_format, 
         for file in files:
             if changes_format == "json":
                 import kgcl_schema.utils as kgcl_utilities
+
                 objs = json.load(file)
                 for obj in objs:
                     obj["type"] = obj["@type"]

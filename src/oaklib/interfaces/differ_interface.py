@@ -55,7 +55,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
             e1_label = self.label(e1)
             e2_label = other_ontology.label(e1)
             if e1_label != e2_label:
-                yield kgcl.NodeRename(id=_gen_id(), about_node=e1, old_value=e1_label, new_value=e2_label)
+                yield kgcl.NodeRename(
+                    id=_gen_id(), about_node=e1, old_value=e1_label, new_value=e2_label
+                )
             e1_rels = set(self.outgoing_relationships(e1))
             e2_rels = set(other_ontology.outgoing_relationships(e1))
             for rel in e1_rels.difference(e2_arels):
@@ -64,7 +66,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 switches = list({r[0] for r in e2_rels if r[1] == filler})
                 if len(switches) == 1:
                     e2_rels = set([x for x in e2_rels if x[1] != filler])
-                    yield kgcl.PredicateChange(id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0])
+                    yield kgcl.PredicateChange(
+                        id=_gen_id(), about_edge=edge, old_value=pred, new_value=switches[0]
+                    )
                 else:
                     yield kgcl.NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
             for rel in e2_rels.difference(e1_rels):

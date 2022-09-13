@@ -462,7 +462,7 @@ class SimpleOboImplementation(
             t.add_tag_value(TAG_SYNONYM, f'"{v}" {scope} []')
         elif isinstance(patch, kgcl.RemoveSynonym):
             t = self._stanza(patch.about_node, strict=True)
-            #scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
+            # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             v = patch.old_value.replace('"', '\\"')
             t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
         elif isinstance(patch, kgcl.NodeMove):
