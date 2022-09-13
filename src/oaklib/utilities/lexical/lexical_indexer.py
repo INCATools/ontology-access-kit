@@ -102,7 +102,7 @@ def create_lexical_index(
                 for pipeline in pipelines:
                     term2 = term
                     for tr in pipeline.transformations:
-                        term2 = apply_transformation(term, tr)
+                        term2 = apply_transformation(term2, tr)
                     rel = RelationshipToTerm(
                         predicate=pred, element=curie, element_term=term, pipeline=pipeline.name
                     )
@@ -328,6 +328,7 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
     :return:
     """
     typ = str(transformation.type)
+    logging.debug(f"Applying: {transformation}")
     if typ == TransformationType.CaseNormalization.text:
         return term.lower()
     elif typ == TransformationType.WhitespaceNormalization.text:
