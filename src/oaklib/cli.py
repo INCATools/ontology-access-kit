@@ -7,6 +7,7 @@ Executed using "runoak" command
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
+import json
 import logging
 import re
 import subprocess
@@ -37,7 +38,7 @@ import rdflib
 import sssom.writers as sssom_writers
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import yaml_dumper
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
@@ -270,6 +271,12 @@ filter_obsoletes_option = click.option(
     default=True,
     show_default=True,
     help="If set, results will exclude obsoletes",
+)
+overwrite_option = click.option(
+    "--overwrite/--no-overwrite",
+    default=False,
+    show_default=False,
+    help="If set, any changes applied will be saved back to the input file/source",
 )
 output_option = click.option(
     "-o",
@@ -2940,6 +2947,8 @@ def diff(simple: bool, output, output_type, other_ontology):
     """
     Diff between two ontologies
 
+    Produces a list of Changes that are required to go from the main input ontology to the other ontology
+
     The --simple option will compare the lists of terms in each ontology. This is currently
     implemented for most endpoints.
 
@@ -2953,7 +2962,7 @@ def diff(simple: bool, output, output_type, other_ontology):
     - Currently the return format is ONLY the KGCL change DSL. In future YAML, JSON, RDF will be an option
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingJsonLinesWriter)
+    writer = _get_writer(output_type, impl, StreamingJsonWriter)
     writer.output = output
     other_impl = get_implementation_from_shorthand(other_ontology)
     if isinstance(impl, DifferInterface):
@@ -2963,15 +2972,25 @@ def diff(simple: bool, output, output_type, other_ontology):
         else:
             for change in impl.diff(other_impl):
                 writer.emit(change)
+        writer.finish()
     else:
         raise NotImplementedError
 
 
 @main.command()
 @click.option("--output", "-o")
+@click.option("--changes-input", type=click.File(mode="r"), help="Path to an input changes file")
+@click.option("--changes-format", help="Format of the changes file (json or kgcl)")
+@click.option(
+    "--parse-only/--no-parse-only",
+    default=False,
+    show_default=True,
+    help="if true, only perform the parse of KCGL and do not apply",
+)
 @output_type_option
+@overwrite_option
 @click.argument("commands", nargs=-1)
-def apply(commands, output, output_type):
+def apply(commands, output, output_type, changes_input: TextIO, changes_format, parse_only: bool, overwrite: bool):
     """
     Applies a patch to an ontology. The patch should be specified using KGCL syntax, see
     https://github.com/INCATools/kgcl
@@ -3000,14 +3019,42 @@ def apply(commands, output, output_type):
     impl = settings.impl
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
+        changes = []
+        files = []
+        if changes_input:
+            files.append(changes_input)
         for command in commands:
-            change = kgcl_parser.parse_statement(command)
+            if command == "-":
+                files.append(sys.stdin)
+            else:
+                change = kgcl_parser.parse_statement(command)
+                changes.append(change)
+        for file in files:
+            if changes_format == "json":
+                import kgcl_schema.utils as kgcl_utilities
+                objs = json.load(file)
+                for obj in objs:
+                    obj["type"] = obj["@type"]
+                    del obj["@type"]
+                print(objs)
+                changes = kgcl_utilities.from_dict({"change_set": objs}).change_set
+            else:
+                for line in file.readlines():
+                    change = kgcl_parser.parse_statement(line.strip())
+                    changes.append(change)
+        for change in changes:
             logging.info(f"Change: {change}")
-            impl.apply_patch(change)
-        if not settings.autosave and not output:
+            if parse_only:
+                print(json_dumper.dumps(change))
+            else:
+                impl.apply_patch(change)
+        if not settings.autosave and not overwrite and not output:
             logging.warning("--autosave not passed, changes are NOT saved")
         if output:
             impl.dump(output, output_type)
+        elif overwrite:
+            logging.info(f"Over-writing")
+            impl.dump(impl.resource.local_path)
     else:
         raise NotImplementedError
 

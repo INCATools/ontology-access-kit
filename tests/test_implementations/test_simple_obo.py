@@ -1,5 +1,6 @@
 import logging
 import unittest
+from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
 
@@ -24,6 +25,7 @@ from tests import (
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
+    HUMAN,
     INPUT_DIR,
     NUCLEUS,
     OUTPUT_DIR,
@@ -159,7 +161,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
         self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
 
-    @unittest.skip("TODO")
+    # @unittest.skip("TODO")
     def test_save(self):
         oi = SimpleOboImplementation()
         OUTPUT_DIR.mkdir(exist_ok=True)
@@ -285,7 +287,22 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
     def test_patcher(self):
-        resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
+        original_oi = deepcopy(oi)
+
+        def roundtrip(oi_in: OntologyResource):
+            out_file = str(OUTPUT_DIR / "post-kgcl.obo")
+            oi_in.dump(out_file, syntax="obo")
+            resource2 = OntologyResource(slug=out_file, local=True)
+            return SimpleOboImplementation(resource2)
+
+        self.compliance_tester.test_patcher(
+            self.oi, original_oi=original_oi, roundtrip_function=roundtrip
+        )
+
+    def test_patcher2(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
         oi = SimpleOboImplementation(resource)
         oi.apply_patch(
             kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE")
@@ -302,6 +319,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
                 new_value="foo bar",
             )
         )
+        oi.apply_patch(
+            kgcl.NewSynonym(id=generate_change_id(), about_node=HUMAN, new_value="people")
+        )
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
@@ -309,4 +329,8 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertCountEqual(
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
+        )
+        self.assertCountEqual(
+            ["people", "Homo sapiens"],
+            oi2.entity_aliases(HUMAN),
         )
