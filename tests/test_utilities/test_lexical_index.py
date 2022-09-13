@@ -1,7 +1,5 @@
 import unittest
 
-from linkml_runtime.dumpers import yaml_dumper
-
 from oaklib.datamodels.lexical_index import (
     LexicalTransformation,
     LexicalTransformationPipeline,

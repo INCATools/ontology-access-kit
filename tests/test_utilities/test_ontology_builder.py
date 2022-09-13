@@ -1,20 +1,7 @@
 import unittest
 
-from linkml_runtime.dumpers import yaml_dumper
-
-from oaklib.datamodels.lexical_index import (
-    LexicalTransformation,
-    LexicalTransformationPipeline,
-    TransformationType,
-)
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.resource import OntologyResource
-from oaklib.utilities.lexical.lexical_indexer import (
-    create_lexical_index,
-    save_lexical_index,
-)
 from oaklib.utilities.ontology_builder import OntologyBuilder
-from tests import INPUT_DIR, OUTPUT_DIR
 
 
 class TestOntologyBuilder(unittest.TestCase):
