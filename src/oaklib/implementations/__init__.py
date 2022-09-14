@@ -1,7 +1,3 @@
-import importlib
-import logging
-import pkgutil
-
 from class_resolver import ClassResolver
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
@@ -63,12 +59,6 @@ __all__ = [
     "GildaImplementation",
 ]
 
-discovered_plugins = {
-    name: importlib.import_module(name)
-    for finder, name, ispkg in pkgutil.iter_modules()
-    if name.startswith("oakext_") or name.startswith("oakx_")
-}
-
 implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
     OntologyInterface,
     suffix="Implementation",
@@ -86,8 +76,14 @@ implementation_resolver.synonyms.update(
         "rdflib": SparqlImplementation,
     }
 )
-for name, module in discovered_plugins.items():
-    try:
-        implementation_resolver.synonyms.update(module.schemes)
-    except AttributeError:
-        logging.info(f"Plugin {name} does not declare schemes")
+
+# Plugins which want to register an implementation should use
+# the entrypoint group "oaklib.plugins". The name of the entry
+# point will be used as a possible match against the input scheme
+# prefix. The value of the entry point should be an implementation
+# class.
+#
+# See also:
+# https://packaging.python.org/en/latest/specifications/entry-points/
+# https://class-resolver.readthedocs.io/en/latest/api/class_resolver.ClassResolver.html#class_resolver.ClassResolver.register_entrypoint
+implementation_resolver.register_entrypoint("oaklib.plugins")
