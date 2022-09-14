@@ -79,9 +79,9 @@ implementation_resolver.synonyms.update(
 
 # Plugins which want to register an implementation should use
 # the entrypoint group "oaklib.plugins". The name of the entry
-# point will be used as a possible match against the input scheme 
+# point will be used as a possible match against the input scheme
 # prefix. The value of the entry point should be an implementation
-# class. 
+# class.
 #
 # See also:
 # https://packaging.python.org/en/latest/specifications/entry-points/
