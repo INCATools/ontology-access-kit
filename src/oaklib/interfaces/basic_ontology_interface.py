@@ -12,6 +12,7 @@ from prefixmaps.io.parser import load_context
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     IS_A,
+    LABEL_PREDICATE,
     OWL_CLASS,
     OWL_NOTHING,
     OWL_THING,
@@ -99,7 +100,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     """
 
     strict: bool = False
+
     autosave: bool = field(default_factory=lambda: True)
+    """For adapters that wrap a transactional source (e.g sqlite), this controls
+    whether results should be autocommitted after each operation"""
+
     _converter: Optional[curies.Converter] = None
 
     def prefix_map(self) -> PREFIX_MAP:
@@ -671,6 +676,16 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     @deprecated("Use entity_aliases(curie)")
     def aliases_by_curie(self, curie: CURIE) -> List[str]:
         return self.entity_aliases(curie)
+
+    def alias_relationships(
+        self, curie: CURIE, exclude_labels: bool = False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        amap = self.entity_alias_map(curie)
+        for k, vs in amap.items():
+            if exclude_labels and k == LABEL_PREDICATE:
+                continue
+            for v in vs:
+                yield k, v
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         """

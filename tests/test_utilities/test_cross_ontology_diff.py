@@ -30,6 +30,15 @@ class TestStructuralDiff(unittest.TestCase):
         self.oi = oi
         self.owl_oi = SparqlImplementation(OntologyResource(str(TEST_OWL)))
 
+    def test_initial_check(self):
+        cases = [
+            ("Y:5", [IS_A], ["Y:5"]),
+            ("Y:5", [IS_A, IS_A], ["Y:5"]),
+        ]
+        for oi in [self.oi, self.owl_oi]:
+            for subject, preds, ancs in cases:
+                self.assertEqual(ancs, list(oi.ancestors([subject], predicates=preds)))
+
     def test_structural_diff(self):
         with open(EXPECTED) as f:
             expected_results = yaml.safe_load(f)

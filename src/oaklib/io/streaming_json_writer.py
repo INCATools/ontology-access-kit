@@ -1,5 +1,5 @@
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Union
 
 from linkml_runtime import CurieNamespace
@@ -27,9 +27,18 @@ class StreamingJsonWriter(StreamingWriter):
 
     """
 
-    def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
+    current_entry_number: int = field(default_factory=lambda: 0)
+
+    def emit(self, obj: Union[YAMLRoot, dict, str], label_fields=None):
+        if self.current_entry_number == 0:
+            self.file.write("[\n")
+        else:
+            self.file.write(",\n")
+        self.current_entry_number += 1
         if isinstance(obj, dict):
             self.file.write(json.dumps(obj))
+        elif isinstance(obj, YAMLRoot):
+            self.file.write(json_dumper.dumps(obj))
         else:
             oi = self.ontology_interface
             if isinstance(oi, OboGraphInterface):
@@ -40,3 +49,6 @@ class StreamingJsonWriter(StreamingWriter):
 
     def emit_curie(self, curie: CURIE, label=None):
         raise NotImplementedError
+
+    def finish(self):
+        self.file.write("]\n")

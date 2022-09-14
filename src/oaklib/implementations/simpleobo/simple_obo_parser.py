@@ -7,9 +7,9 @@ specified toml-like structure, consisting of stanzas of tag-val pairs.
 The precise parsing of each tag-val pair is delayed until precise semantics are required
 """
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional, TextIO, Tuple, Union
+from typing import List, Mapping, Optional, TextIO, Tuple, Union
 
 from oaklib.datamodels.vocabulary import SCOPE_TO_SYNONYM_PRED_MAP
 from oaklib.types import CURIE, PRED_CURIE
@@ -17,8 +17,8 @@ from oaklib.types import CURIE, PRED_CURIE
 re_tag_value = re.compile(r"^(\S+):\s*(.*)$")
 re_stanza_type = re.compile(r"^\[(\w+)\]$")
 re_empty = re.compile(r"^\S*$")
-re_synonym1 = re.compile(r'^"(.*)"\s+(\w+)\s+\[(.*)\]$')
-re_synonym2 = re.compile(r'^"(.*)"\s+(\w+)\s+(\w+)\s+\[(.*)\]$')
+re_synonym1 = re.compile(r'^"(.*)"\s+(\w+)\s+\[(.*)\](?:\s+\{(.*)\})?$')
+re_synonym2 = re.compile(r'^"(.*)"\s+(\w+)\s+(\w+)\s+\[(.*)\](?:\s+\{(.*)\})?$')
 re_quoted_simple = re.compile(r'^"(.*)"\s+\[')
 
 
@@ -105,8 +105,11 @@ class Structure:
     Abstract grouping for Stanzas and Headers
     """
 
-    tag_values: List[TagValue]
+    tag_values: List[TagValue] = field(default_factory=lambda: [])
     """List of all tag-value pairs for this stanza or header"""
+
+    def _simple_value(self, v) -> str:
+        return v.split(" ")[0]
 
     def _values(self, tag: TAG) -> List[str]:
         return [tv.value for tv in self.tag_values if tv.tag == tag]
@@ -119,7 +122,7 @@ class Structure:
         :param tag:
         :return:
         """
-        return [v.split(" ")[0] for v in self._values(tag)]
+        return [self._simple_value(v) for v in self._values(tag)]
 
     def pair_values(self, tag: TAG) -> List[Tuple[str, str]]:
         """
@@ -139,7 +142,7 @@ class Structure:
         for v in self._values(TAG_INTERSECTION_OF):
             toks = [x for x in v.split(" ") if x]
             if toks[1].startswith("!"):
-                pairs.append(toks[0], None)
+                pairs.append((toks[0], None))
             else:
                 pairs.append((toks[0], toks[1]))
         return pairs
@@ -206,6 +209,47 @@ class Structure:
         if not is_set:
             self.add_tag_value(tag, val)
 
+    def remove_simple_tag_value(self, tag: TAG, val: str) -> None:
+        """
+        removes a simple tag-value such as is_a
+
+        :param tag:
+        :param val:
+        :return:
+        """
+        n = 0
+        tvs = []
+        for tv in self.tag_values:
+            if tv.tag == tag:
+                if self._simple_value(tv.value) == val:
+                    n += 1
+                    continue
+            tvs.append(tv)
+        if not n:
+            raise ValueError(f"No values to set for {tag} = {val}")
+        self.tag_values = tvs
+
+    def remove_pairwise_tag_value(self, tag: TAG, val1: str, val2: str) -> None:
+        """
+        removes a simple tag-value such as is_a
+
+        :param tag:
+        :param val:
+        :return:
+        """
+        n = 0
+        tvs = []
+        for tv in self.tag_values:
+            if tv.tag == tag:
+                vals = tv.value.split(" ")
+                if vals[0:2] == [val1, val2]:
+                    n += 1
+                    continue
+            tvs.append(tv)
+        if not n:
+            raise ValueError(f"No values to set for {tag} = {val1} {val2}")
+        self.tag_values = tvs
+
     def add_tag_value(self, tag: TAG, val: str) -> None:
         """
         Adds a tag-value pair
@@ -244,10 +288,10 @@ class Header(Structure):
 class Stanza(Structure):
     """A Term or Typedef stanza"""
 
-    id: Optional[str]
+    id: Optional[str] = None
     """Unique identifier"""
 
-    type: str
+    type: Optional[str] = None
     """Stanza type, either Term or Typedef"""
 
 
@@ -255,8 +299,11 @@ class Stanza(Structure):
 class OboDocument:
     """An OBO Document is a header plus zero or more stanzas"""
 
-    header: Header
-    stanzas: List[Stanza]
+    header: Header = field(default_factory=lambda: Header())
+    stanzas: Mapping[CURIE, Stanza] = field(default_factory=lambda: {})
+
+    def add_stanza(self, stanza: Stanza) -> None:
+        self.stanzas[stanza.id] = stanza
 
     def dump(self, file: TextIO) -> None:
         """Export to a file
@@ -264,7 +311,7 @@ class OboDocument:
         :param file:
         """
         self._dump_tag_values(self.header.tag_values, file)
-        for s in self.stanzas:
+        for s in self.stanzas.values():
             file.write(f"[{s.type}]\n")
             self._dump_tag_values(s.tag_values, file)
 
@@ -283,6 +330,7 @@ def parse_obo_document(path: Union[str, Path]) -> OboDocument:
     """
     tag_values: List[TagValue] = []
     obo_document: Optional[OboDocument] = None
+    stanzas = []
     with open(path) as stream:
         for line in stream.readlines():
             line = line.rstrip()
@@ -296,20 +344,21 @@ def parse_obo_document(path: Union[str, Path]) -> OboDocument:
                 if typ != STANZA_TERM and typ != STANZA_TYPEDEF:
                     raise ValueError(f"Bad type: {typ}")
                 if obo_document is None:
-                    obo_document = OboDocument(header=Header(tag_values=tag_values), stanzas=[])
+                    obo_document = OboDocument(header=Header(tag_values=tag_values))
                 else:
-                    obo_document.stanzas[-1].tag_values = tag_values
+                    stanzas[-1].tag_values = tag_values
                 tag_values = []
                 stanza = Stanza(id=None, type=typ, tag_values=[])
-                obo_document.stanzas.append(stanza)
+                stanzas.append(stanza)
             elif re_tag_value.match(line):
                 (tag, val) = re_tag_value.match(line).groups()
                 tag_values.append(TagValue(tag, val))
                 if tag == "id":
-                    obo_document.stanzas[-1].id = val
+                    stanzas[-1].id = val
             elif re_empty.match(line):
                 continue
             else:
                 raise ValueError(f"Cannot parse: {line}")
-        obo_document.stanzas[-1].tag_values = tag_values
+        stanzas[-1].tag_values = tag_values
+    obo_document.stanzas = {stanza.id: stanza for stanza in stanzas}
     return obo_document

@@ -4,13 +4,19 @@ import shutil
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import sssom_schema as sssom
 from kgcl_schema.datamodel import kgcl
 
 from oaklib.datamodels import obograph
-from oaklib.datamodels.obograph import Edge, Graph
+from oaklib.datamodels.obograph import (
+    Edge,
+    ExistentialRestrictionExpression,
+    Graph,
+    LogicalDefinitionAxiom,
+)
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
@@ -43,6 +49,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
+from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -54,9 +61,14 @@ from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 
+def _is_isa(x: str):
+    return x == IS_A or x.lower() == "is_a" or x.lower() == "isa"
+
+
 @dataclass
 class SimpleOboImplementation(
     ValidatorInterface,
+    DifferInterface,
     RdfInterface,
     OboGraphInterface,
     SearchInterface,
@@ -77,7 +89,10 @@ class SimpleOboImplementation(
     def __post_init__(self):
         if self.obo_document is None:
             resource = self.resource
-            self.obo_document = parse_obo_document(resource.local_path)
+            if resource and resource.local_path:
+                self.obo_document = parse_obo_document(resource.local_path)
+            else:
+                self.obo_document = OboDocument()
 
     def store(self, resource: OntologyResource = None) -> None:
         if resource is None:
@@ -85,7 +100,7 @@ class SimpleOboImplementation(
         od = self.obo_document
         if resource.local:
             if resource.slug:
-                with open(str(resource.local_path), "wb") as f:
+                with open(str(resource.local_path), "w", encoding="UTF-8") as f:
                     od.dump(f)
             else:
                 od.dump(sys.stdout.buffer)
@@ -117,12 +132,12 @@ class SimpleOboImplementation(
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         od = self.obo_document
-        for s in od.stanzas:
-            yield s.id
+        for s_id in od.stanzas.keys():
+            yield s_id
 
     def obsoletes(self) -> Iterable[CURIE]:
         od = self.obo_document
-        for s in od.stanzas:
+        for s in od.stanzas.values():
             if s.get_boolean_value(TAG_OBSOLETE):
                 yield s.id
 
@@ -133,19 +148,15 @@ class SimpleOboImplementation(
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         od = self.obo_document
-        for s in od.stanzas:
+        for s in od.stanzas.values():
             if subset in s.simple_values(TAG_SUBSET):
                 yield s.id
 
     def _stanza(self, curie: CURIE, strict=True) -> Optional[Stanza]:
-        stanzas = [s for s in self.obo_document.stanzas if s.id == curie]
-        if len(stanzas) > 1:
-            raise ValueError(f"Duplicate id: {curie}")
-        if stanzas:
-            return stanzas[0]
-        else:
-            if strict:
-                raise ValueError(f"No such stanza {curie}")
+        stanza = self.obo_document.stanzas.get(curie, None)
+        if strict and not stanza:
+            raise ValueError(f"No such stanza {curie}")
+        return stanza
 
     def label(self, curie: CURIE) -> Optional[str]:
         s = self._stanza(curie, False)
@@ -163,8 +174,19 @@ class SimpleOboImplementation(
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         return [
-            s.id for s in self.obo_document.stanzas if s.singular_value(TAG_NAME, False) == label
+            s.id
+            for s in self.obo_document.stanzas.values()
+            if s.singular_value(TAG_NAME, False) == label
         ]
+
+    def _lookup(self, label_or_curie: str) -> CURIE:
+        if ":" in label_or_curie and " " not in label_or_curie:
+            return label_or_curie
+        else:
+            candidates = self.curies_by_label(label_or_curie)
+            if len(candidates) != 1:
+                raise ValueError(f"{label_or_curie} => {candidates}")
+            return candidates[0]
 
     def create_entity(
         self,
@@ -173,10 +195,9 @@ class SimpleOboImplementation(
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
     ) -> CURIE:
-        stanza = Stanza(curie, type)
+        stanza = Stanza(id=curie, type=type)
         stanza.add_tag_value(TAG_NAME, label)
-        # TODO
-        return curie
+        self.obo_document.add_stanza(stanza)
 
     def definition(self, curie: CURIE) -> Optional[str]:
         s = self._stanza(curie)
@@ -208,20 +229,10 @@ class SimpleOboImplementation(
                 return x
         return rel_type
 
-    def xoutgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
-    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
-        t = self._stanza(curie)
-        for v in t.simple_values(TAG_IS_A):
-            yield IS_A, v
-        for pred, v in t.pair_values(TAG_RELATIONSHIP):
-            if predicates is not None and pred not in predicates:
-                continue
-            # TODO: this is inefficient as it performs a lookup each time
-            yield self._get_relationship_type_curie(pred), v
-
-    def xoutgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
-        return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
+    def _get_relationship_type_shorthand(self, rel_type: PRED_CURIE) -> str:
+        for _, x in self.simple_mappings_by_curie(rel_type):
+            return x
+        return rel_type
 
     def relationships(
         self,
@@ -307,16 +318,18 @@ class SimpleOboImplementation(
             yield m
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
-        t = self._stanza(curie, strict=True)
-        for v in t.simple_values(TAG_XREF):
-            yield HAS_DBXREF, v
+        t = self._stanza(curie, strict=False)
+        if t:
+            for v in t.simple_values(TAG_XREF):
+                yield HAS_DBXREF, v
 
     def clone(self, resource: OntologyResource) -> "SimpleOboImplementation":
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
 
     def dump(self, path: str = None, syntax: str = "obo"):
-        if isinstance(path, str):
+        if isinstance(path, str) or isinstance(path, Path):
+            logging.info(f"Saving to {path}")
             with open(path, "w", encoding="UTF-8") as file:
                 self.obo_document.dump(file)
         else:
@@ -372,6 +385,19 @@ class SimpleOboImplementation(
         edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
         return Graph(id="TODO", nodes=nodes, edges=edges)
 
+    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+        for s in subjects:
+            t = self._stanza(s, strict=False)
+            ldef_tuples = t.intersection_of_tuples()
+            if ldef_tuples:
+                ldef = LogicalDefinitionAxiom(definedClassId=s)
+                for m1, m2 in ldef_tuples:
+                    if m2:
+                        ldef.restrictions.append(ExistentialRestrictionExpression(m1, m2))
+                    else:
+                        ldef.genusIds.append(m1)
+                yield ldef
+
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -379,6 +405,14 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def different_from(self, entity: CURIE, other_ontology: DifferInterface) -> bool:
+        t1 = self._stanza(entity, strict=False)
+        if t1:
+            t2 = other_ontology._stanza(entity, strict=False)
+            if t2:
+                return str(t1) != str(t2)
+        return True
 
     def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
         raise NotImplementedError
@@ -426,5 +460,26 @@ class SimpleOboImplementation(
             scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             v = patch.new_value.replace('"', '\\"')
             t.add_tag_value(TAG_SYNONYM, f'"{v}" {scope} []')
+        elif isinstance(patch, kgcl.RemoveSynonym):
+            t = self._stanza(patch.about_node, strict=True)
+            # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
+            v = patch.old_value.replace('"', '\\"')
+            t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
+        elif isinstance(patch, kgcl.NodeMove):
+            logging.warning(f"Cannot handle {patch}")
+        elif isinstance(patch, kgcl.PredicateChange):
+            e = patch.about_edge
+            subject = self._lookup(e.subject)
+            object = self._lookup(e.object)
+            t = self._stanza(subject, strict=True)
+            if _is_isa(patch.old_value):
+                t.remove_simple_tag_value(TAG_IS_A, object)
+            else:
+                pred = self._get_relationship_type_shorthand(patch.old_value)
+                t.remove_pairwise_tag_value(TAG_RELATIONSHIP, pred, object)
+            if _is_isa(patch.new_value):
+                t.add_tag_value(TAG_IS_A, object)
+            else:
+                t.add_tag_value(TAG_RELATIONSHIP, f"{patch.new_value} {object}")
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")

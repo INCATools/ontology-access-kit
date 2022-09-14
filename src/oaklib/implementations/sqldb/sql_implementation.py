@@ -463,7 +463,11 @@ class SqlImplementation(
             tbl = EntailedEdge
         else:
             tbl = Edge
-        for row in self.session.query(tbl).filter(tbl.subject == curie):
+        q = self.session.query(tbl).filter(tbl.subject == curie)
+        if predicates:
+            q = q.filter(tbl.predicate.in_(predicates))
+        logging.debug(f"Querying outgoing, curie={curie}, predicates={predicates}, q={q}")
+        for row in q:
             yield row.predicate, row.object
         if not predicates or RDF_TYPE in predicates:
             q = self.session.query(RdfTypeStatement.object).filter(
@@ -475,10 +479,10 @@ class SqlImplementation(
                 yield RDF_TYPE, row.object
         if tbl == Edge and (not predicates or EQUIVALENT_CLASS in predicates):
             q = self.session.query(OwlEquivalentClassStatement.object).filter(
-                RdfTypeStatement.subject == curie
+                OwlEquivalentClassStatement.subject == curie
             )
             cls_subq = self.session.query(ClassNode.id)
-            q = q.filter(RdfTypeStatement.object.in_(cls_subq))
+            q = q.filter(OwlEquivalentClassStatement.object.in_(cls_subq))
             for row in q:
                 yield EQUIVALENT_CLASS, row.object
 

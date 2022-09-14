@@ -302,6 +302,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     def outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        if predicates:
+            predicates = list(set(predicates))
         uri = self.curie_to_uri(curie)
         if not predicates or IS_A in predicates:
             for p in self.hierararchical_parents(curie):

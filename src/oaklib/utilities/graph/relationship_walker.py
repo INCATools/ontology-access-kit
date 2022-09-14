@@ -40,15 +40,13 @@ def walk_up(
     rels = []
     visited = copy(next_curies)
     while len(next_curies) > 0:
-        logging.debug(f"Walking graph; {len(next_curies)} in stack")
+        logging.debug(f"Walking graph; {len(next_curies)} in stack; {next_curies} {predicates}")
         next_curie = next_curies.pop()
-        for pred, fillers in oi.outgoing_relationship_map(next_curie).items():
-            if not predicates or pred in predicates:
-                for filler in fillers:
-                    if filler not in visited:
-                        next_curies.append(filler)
-                        visited.append(filler)
-                    rels.append((next_curie, pred, filler))
+        for pred, filler in oi.outgoing_relationships(next_curie, predicates):
+            if filler not in visited:
+                next_curies.append(filler)
+                visited.append(filler)
+            rels.append((next_curie, pred, filler))
     for rel in rels:
         yield rel
 

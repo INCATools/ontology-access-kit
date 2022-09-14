@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 
 from kgcl_schema.datamodel.kgcl import Change
@@ -15,7 +16,11 @@ class StreamingKGCLWriter(StreamingWriter):
 
     def emit_obj(self, obj: YAMLRoot):
         if isinstance(obj, Change):
-            self.file.write(render(obj))
-            self.file.write("\n")
+            kgcl_text = render(obj)
+            if kgcl_text:
+                self.file.write(kgcl_text)
+                self.file.write("\n")
+            else:
+                logging.error(f"Cannot render: {obj}")
         else:
             raise ValueError(f"{obj} is not a change object")

@@ -287,6 +287,8 @@ class ProntoImplementation(
                 return True
             else:
                 return False
+        else:
+            raise ValueError(f"No such ID: {curie}")
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         return [t.id for t in self.wrapped_ontology.terms() if t.name == label]
@@ -601,7 +603,11 @@ class ProntoImplementation(
             t = self._entity(patch.about_node, strict=True)
             raise NotImplementedError
         elif isinstance(patch, kgcl.NodeCreation):
-            self.create_entity(patch.about_node, patch.name)
+            # TODO: decide which field to use in KGCL
+            if patch.about_node:
+                self.create_entity(patch.about_node, patch.name)
+            else:
+                self.create_entity(patch.node_id, patch.name)
         elif isinstance(patch, kgcl.SynonymReplacement):
             t = self._entity(patch.about_node, strict=True)
             for syn in t.synonyms:
