@@ -479,9 +479,38 @@ For exampple, constrained to is-a and part-of:</p>
 <dd></dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-changes-input">
+<span class="sig-name descname"><span class="pre">--changes-input</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;changes_input&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-changes-input" title="Permalink to this definition"></a></dt>
+<dd><p>Path to an input changes file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-changes-format">
+<span class="sig-name descname"><span class="pre">--changes-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;changes_format&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-changes-format" title="Permalink to this definition"></a></dt>
+<dd><p>Format of the changes file (json or kgcl)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-parse-only">
+<span id="cmdoption-runoak-apply-no-parse-only"></span><span class="sig-name descname"><span class="pre">--parse-only</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-parse-only</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-parse-only" title="Permalink to this definition"></a></dt>
+<dd><p>if true, only perform the parse of KCGL and do not apply</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-apply-O">
 <span id="cmdoption-runoak-apply-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-apply-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-apply-overwrite">
+<span id="cmdoption-runoak-apply-no-overwrite"></span><span class="sig-name descname"><span class="pre">--overwrite</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-overwrite</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-apply-overwrite" title="Permalink to this definition"></a></dt>
+<dd><p>If set, any changes applied will be saved back to the input file/source</p>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
@@ -736,6 +765,7 @@ predicates are not specified</p>
 <h4>diff<a class="headerlink" href="#runoak-diff" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Diff between two ontologies</p>
+<p>Produces a list of Changes that are required to go from the main input ontology to the other ontology</p>
 <p>The –simple option will compare the lists of terms in each ontology. This is currently
 implemented for most endpoints.</p>
 <p>If –simple is not set, then this will do a complete diff, and return the diff as KGCL
