@@ -76,4 +76,14 @@ implementation_resolver.synonyms.update(
         "rdflib": SparqlImplementation,
     }
 )
+
+# Plugins which want to register an implementation should use
+# the entrypoint group "oaklib.plugins". The name of the entry
+# point will be used as a possible match against the input scheme 
+# prefix. The value of the entry point should be an implementation
+# class. 
+#
+# See also:
+# https://packaging.python.org/en/latest/specifications/entry-points/
+# https://class-resolver.readthedocs.io/en/latest/api/class_resolver.ClassResolver.html#class_resolver.ClassResolver.register_entrypoint
 implementation_resolver.register_entrypoint("oaklib.plugins")
