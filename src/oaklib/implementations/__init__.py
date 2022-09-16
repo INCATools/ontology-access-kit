@@ -1,3 +1,4 @@
+from functools import cache
 from class_resolver import ClassResolver
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
@@ -39,7 +40,7 @@ from oaklib.implementations.wikidata.wikidata_implementation import (
 from oaklib.interfaces import OntologyInterface
 
 __all__ = [
-    "implementation_resolver",
+    "get_implementation_resolver",
     # Concrete classes
     "AgroPortalImplementation",
     "BioPortalImplementation",
@@ -59,31 +60,35 @@ __all__ = [
     "GildaImplementation",
 ]
 
-implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
-    OntologyInterface,
-    suffix="Implementation",
-    skip={
-        OntoPortalImplementationBase,
-        BaseOlsImplementation,
-    },
-)
-implementation_resolver.synonyms.update(
-    {
-        "obolibrary": ProntoImplementation,
-        "prontolib": ProntoImplementation,
-        "simpleobo": SimpleOboImplementation,
-        "sqlite": SqlImplementation,
-        "rdflib": SparqlImplementation,
-    }
-)
+@cache
+def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
+    implementation_resolver: ClassResolver[OntologyInterface] = ClassResolver.from_subclasses(
+        OntologyInterface,
+        suffix="Implementation",
+        skip={
+            OntoPortalImplementationBase,
+            BaseOlsImplementation,
+        },
+    )
+    implementation_resolver.synonyms.update(
+        {
+            "obolibrary": ProntoImplementation,
+            "prontolib": ProntoImplementation,
+            "simpleobo": SimpleOboImplementation,
+            "sqlite": SqlImplementation,
+            "rdflib": SparqlImplementation,
+        }
+    )
 
-# Plugins which want to register an implementation should use
-# the entrypoint group "oaklib.plugins". The name of the entry
-# point will be used as a possible match against the input scheme
-# prefix. The value of the entry point should be an implementation
-# class.
-#
-# See also:
-# https://packaging.python.org/en/latest/specifications/entry-points/
-# https://class-resolver.readthedocs.io/en/latest/api/class_resolver.ClassResolver.html#class_resolver.ClassResolver.register_entrypoint
-implementation_resolver.register_entrypoint("oaklib.plugins")
+    # Plugins which want to register an implementation should use
+    # the entrypoint group "oaklib.plugins". The name of the entry
+    # point will be used as a possible match against the input scheme
+    # prefix. The value of the entry point should be an implementation
+    # class.
+    #
+    # See also:
+    # https://packaging.python.org/en/latest/specifications/entry-points/
+    # https://class-resolver.readthedocs.io/en/latest/api/class_resolver.ClassResolver.html#class_resolver.ClassResolver.register_entrypoint
+    implementation_resolver.register_entrypoint("oaklib.plugins")
+
+    return implementation_resolver
