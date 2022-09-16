@@ -1,4 +1,5 @@
 from functools import cache
+
 from class_resolver import ClassResolver
 
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
@@ -59,6 +60,7 @@ __all__ = [
     "FunOwlImplementation",
     "GildaImplementation",
 ]
+
 
 @cache
 def get_implementation_resolver() -> ClassResolver[OntologyInterface]:
