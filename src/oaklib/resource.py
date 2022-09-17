@@ -66,7 +66,8 @@ class OntologyResource:
         self, implementation: HintOrType["OntologyInterface"] = None, **kwargs
     ) -> "OntologyInterface":
         """Materialize the ontology resource with the given implementation."""
-        from .implementations import SqlImplementation, implementation_resolver
+        from .implementations import SqlImplementation, get_implementation_resolver
 
+        implementation_resolver = get_implementation_resolver()
         cls = implementation_resolver.lookup(implementation, default=SqlImplementation)
         return implementation_resolver.make(cls, kwargs, resource=self)

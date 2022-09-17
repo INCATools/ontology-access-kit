@@ -92,9 +92,9 @@ def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]
         raise NotImplementedError("Web requests not implemented yet")
     else:
         # return SCHEME_DICT[scheme]
-        from oaklib.implementations import implementation_resolver
+        from oaklib.implementations import get_implementation_resolver
 
-        return implementation_resolver.lookup(scheme)
+        return get_implementation_resolver().lookup(scheme)
 
 
 def get_resource_imp_class_from_suffix_descriptor(
