@@ -40,6 +40,7 @@ import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
+from prefixmaps.io.parser import load_multi_context
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
@@ -574,9 +575,19 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
     help="For commands that mutate the ontology, this determines if these are automatically saved in place",
 )
 @click.option(
+    "--named-prefix-map",
+    multiple=True,
+    help="the name of a prefix map, e.g. obo, prefixcc",
+)
+@click.option(
+    "--prefix",
+    multiple=True,
+    help="prefix=expansion pair",
+)
+@click.option(
     "--import-depth",
     type=click.INT,
-    help="Maximum depth in the import tree to traverse",
+    help="Maximum depth in the import tree to traverse. Currently this is only used by the pronto adapter",
 )
 @input_option
 @input_type_option
@@ -589,6 +600,8 @@ def main(
     add: List,
     save_as: str,
     autosave: bool,
+    named_prefix_map,
+    prefix,
     import_depth: Optional[int],
 ):
     """Run the oaklib Command Line.
@@ -632,6 +645,15 @@ def main(
             raise ValueError("Cannot specify both --save-as and --autosave")
         settings.impl = settings.impl.clone(get_resource_from_shorthand(save_as))
         settings.autosave = True
+    if prefix:
+        for p in prefix:
+            [pfx, ns] = p.split("=", 1)
+            if isinstance(settings.impl, BasicOntologyInterface):
+                settings.impl.prefix_map()[pfx] = ns
+    if named_prefix_map:
+        pm = load_multi_context(list(named_prefix_map))
+        for pfx, ns in pm.as_dict().items():
+            settings.impl.prefix_map()[pfx] = ns
 
 
 @main.command()
@@ -1122,6 +1144,8 @@ def viz(
     type=int,
     help="Trim nodes that are equal to or greater than this distance from terms",
 )
+@click.option("--skip", multiple=True, help="Exclude paths that contain this node")
+@click.option("--root", multiple=True, help="Use this node or nodes as roots")
 @click.argument("terms", nargs=-1)
 @predicates_option
 @output_type_option
@@ -1135,6 +1159,8 @@ def tree(
     add_mrcas,
     stylemap,
     configure,
+    skip,
+    root,
     output_type: str,
     output: TextIO,
 ):
@@ -1236,6 +1262,8 @@ def tree(
             graph,
             seeds=curies,
             predicates=actual_predicates,
+            start_curies=list(root) if root else None,
+            skip=list(skip) if skip else None,
             format=output_type,
             stylemap=stylemap,
             output=output,

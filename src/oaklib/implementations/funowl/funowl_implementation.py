@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Optional
+from typing import Any, Iterable, List, Mapping, Optional
 
 import rdflib
 from funowl import IRI, AnnotationAssertion, Axiom, Declaration, OntologyDocument
@@ -13,13 +13,14 @@ from oaklib.datamodels.vocabulary import (
     HAS_DEFINITION_CURIE,
     LABEL_PREDICATE,
 )
+from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.owl_interface import OwlInterface, ReasonerConfiguration
 from oaklib.interfaces.patcher_interface import PatcherInterface
-from oaklib.types import CURIE
+from oaklib.types import CURIE, PRED_CURIE
 
 
 @dataclass
-class FunOwlImplementation(OwlInterface, PatcherInterface):
+class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     """
     An experimental partial implementation of :ref:`OwlInterface`
 
@@ -139,7 +140,12 @@ class FunOwlImplementation(OwlInterface, PatcherInterface):
             )
         )
 
-    def apply_patch(self, patch: kgcl.Change) -> None:
+    def apply_patch(
+        self,
+        patch: kgcl.Change,
+        activity: kgcl.Activity = None,
+        metadata: Mapping[PRED_CURIE, Any] = None,
+    ) -> Optional[kgcl.Change]:
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node
             if isinstance(patch, kgcl.NodeRename):
@@ -167,3 +173,4 @@ class FunOwlImplementation(OwlInterface, PatcherInterface):
             raise NotImplementedError(f"Cannot handle patches of type {type(patch)}")
         else:
             raise NotImplementedError
+        return patch

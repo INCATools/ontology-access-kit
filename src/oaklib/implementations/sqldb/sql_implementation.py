@@ -1,6 +1,7 @@
 import logging
 import math
 import shutil
+import typing
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
@@ -1210,7 +1211,12 @@ class SqlImplementation(
         )
         self._execute(stmt)
 
-    def apply_patch(self, patch: kgcl.Change) -> None:
+    def apply_patch(
+        self,
+        patch: kgcl.Change,
+        activity: kgcl.Activity = None,
+        metadata: typing.Mapping[PRED_CURIE, Any] = None,
+    ) -> Optional[kgcl.Change]:
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node
             if isinstance(patch, kgcl.NodeRename):
@@ -1270,6 +1276,7 @@ class SqlImplementation(
             raise NotImplementedError
         if self.autosave:
             self.save()
+        return patch
 
     def save(
         self,

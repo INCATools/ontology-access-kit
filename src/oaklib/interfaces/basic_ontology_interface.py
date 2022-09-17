@@ -186,6 +186,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def _relationship_index(self) -> Dict[CURIE, List[RELATIONSHIP]]:
         if self._relationship_index_cache:
             return self._relationship_index_cache
+        logging.info("Building relationship")
         ix = defaultdict(list)
         for rel in self._all_relationships():
             s, p, o = rel
@@ -193,6 +194,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             ix[o].append(rel)
         self._relationship_index_cache = ix
         return self._relationship_index_cache
+
+    def _rebuild_relationship_index(self):
+        self._relationship_index_cache = None
+        self._relationship_index
 
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
         raise NotImplementedError
