@@ -109,16 +109,28 @@ any operation from <a class="reference internal" href="../glossary.html#term-KGC
 <p>See <a class="reference external" href="https://github.com/INCATools/kgcl">KGCL</a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">
-<span class="sig-name descname"><span class="pre">apply_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">kgcl_schema.datamodel.kgcl.Change</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/patcher_interface.html#PatcherInterface.apply_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">apply_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">kgcl_schema.datamodel.kgcl.Change</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">kgcl_schema.datamodel.kgcl.Activity</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">kgcl_schema.datamodel.kgcl.Change</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/patcher_interface.html#PatcherInterface.apply_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch" title="Permalink to this definition"></a></dt>
 <dd><p>Applies a change description</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>patch</strong> – TBD use KGCL</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patch</strong> – TBD use KGCL</p></li>
+<li><p><strong>activity</strong> – </p></li>
+<li><p><strong>metadata</strong> – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>if successful, return copy of change object with additional metadata attached</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using">
+<span class="sig-name descname"><span class="pre">auto_add_contributor_using</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using" title="Permalink to this definition"></a></dt>
+<dd><p>If provided, then any creators of or contributors on a Change object are
+propagated to the entity after application of that change, using this property.
+If this is set then the recommended value is dct:contributor</p>
 </dd></dl>
 
 <dl class="py method">

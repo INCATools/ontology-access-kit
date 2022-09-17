@@ -80,12 +80,12 @@
              
   <h1>Source code for oaklib.interfaces.patcher_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="n">Change</span>
+<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="n">Activity</span><span class="p">,</span> <span class="n">Change</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
 
 
 <div class="viewcode-block" id="PatcherInterface"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">[docs]</a><span class="k">class</span> <span class="nc">PatcherInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -95,12 +95,21 @@
 <span class="sd">    See `KGCL &lt;https://github.com/INCATools/kgcl&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PatcherInterface.apply_patch"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">[docs]</a>    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">Change</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">auto_add_contributor_using</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;If provided, then any creators of or contributors on a Change object are</span>
+<span class="sd">       propagated to the entity after application of that change, using this property.</span>
+<span class="sd">       If this is set then the recommended value is dct:contributor&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PatcherInterface.apply_patch"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">[docs]</a>    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span> <span class="n">activity</span><span class="p">:</span> <span class="n">Activity</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies a change description</span>
 
 <span class="sd">        :param patch: TBD use KGCL</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param activity:</span>
+<span class="sd">        :param metadata:</span>
+<span class="sd">        :return: if successful, return copy of change object with additional metadata attached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 

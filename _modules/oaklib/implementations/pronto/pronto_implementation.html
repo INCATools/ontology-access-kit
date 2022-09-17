@@ -89,7 +89,7 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">pronto</span>
 <span class="kn">import</span> <span class="nn">sssom_schema</span> <span class="k">as</span> <span class="nn">sssom</span>
@@ -667,7 +667,12 @@
     <span class="k">def</span> <span class="nf">migrate_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">patch</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">,</span>
+        <span class="n">activity</span><span class="p">:</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Activity</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">]:</span>
         <span class="k">def</span> <span class="nf">_clean</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
             <span class="c1"># TODO: remove this when this is fixed: https://github.com/INCATools/kgcl-rdflib/issues/43</span>
             <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">):</span>
@@ -707,7 +712,8 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">EdgeCreation</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">patch</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">patch</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cannot handle KGCL type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cannot handle KGCL type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">patch</span></div>
 </pre></div>
 
            </div>

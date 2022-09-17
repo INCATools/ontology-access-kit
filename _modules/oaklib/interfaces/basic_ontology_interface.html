@@ -267,6 +267,7 @@
     <span class="k">def</span> <span class="nf">_relationship_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building relationship&quot;</span><span class="p">)</span>
         <span class="n">ix</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_relationships</span><span class="p">():</span>
             <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">rel</span>
@@ -274,6 +275,10 @@
             <span class="n">ix</span><span class="p">[</span><span class="n">o</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span> <span class="o">=</span> <span class="n">ix</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span>
+
+    <span class="k">def</span> <span class="nf">_rebuild_relationship_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index</span>
 
     <span class="k">def</span> <span class="nf">_all_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>

@@ -245,9 +245,21 @@ the command line interface understands shortcuts for these:</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-named-prefix-map">
+<span class="sig-name descname"><span class="pre">--named-prefix-map</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;named_prefix_map&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-named-prefix-map" title="Permalink to this definition"></a></dt>
+<dd><p>the name of a prefix map, e.g. obo, prefixcc</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-prefix">
+<span class="sig-name descname"><span class="pre">--prefix</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;prefix&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-prefix" title="Permalink to this definition"></a></dt>
+<dd><p>prefix=expansion pair</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-import-depth">
 <span class="sig-name descname"><span class="pre">--import-depth</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;import_depth&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-import-depth" title="Permalink to this definition"></a></dt>
-<dd><p>Maximum depth in the import tree to traverse</p>
+<dd><p>Maximum depth in the import tree to traverse. Currently this is only used by the pronto adapter</p>
 </dd></dl>
 
 <dl class="std option">
@@ -2962,6 +2974,18 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dt class="sig sig-object std" id="cmdoption-runoak-tree-max-hops">
 <span class="sig-name descname"><span class="pre">--max-hops</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;max_hops&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-max-hops" title="Permalink to this definition"></a></dt>
 <dd><p>Trim nodes that are equal to or greater than this distance from terms</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-skip">
+<span class="sig-name descname"><span class="pre">--skip</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;skip&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-skip" title="Permalink to this definition"></a></dt>
+<dd><p>Exclude paths that contain this node</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-tree-root">
+<span class="sig-name descname"><span class="pre">--root</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;root&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-tree-root" title="Permalink to this definition"></a></dt>
+<dd><p>Use this node or nodes as roots</p>
 </dd></dl>
 
 <dl class="std option">
