@@ -7,12 +7,7 @@ from kgcl_schema.datamodel import kgcl
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import (
-    HAS_PART,
-    IS_A,
-    ONLY_IN_TAXON,
-    PART_OF,
-)
+from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
