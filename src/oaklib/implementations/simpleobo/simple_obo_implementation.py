@@ -5,7 +5,7 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import sssom_schema as sssom
 from kgcl_schema.datamodel import kgcl
@@ -275,7 +275,7 @@ class SimpleOboImplementation(
         return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
 
     def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
-        # TODO: move up
+        # TODO: move up, avoid repeating code
         if config is None:
             config = SearchConfiguration()
         matches = []
@@ -414,10 +414,19 @@ class SimpleOboImplementation(
                 return str(t1) != str(t2)
         return True
 
-    def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
-        raise NotImplementedError
+    def migrate_curies(self, curie_map: Mapping[CURIE, CURIE]) -> None:
+        od = self.obo_document
+        for t in od.stanzas.values():
+            t.replace_token(curie_map)
+        od.reindex()
+        self._rebuild_relationship_index()
 
-    def apply_patch(self, patch: kgcl.Change) -> None:
+    def apply_patch(
+        self,
+        patch: kgcl.Change,
+        activity: kgcl.Activity = None,
+        metadata: Mapping[PRED_CURIE, Any] = None,
+    ) -> kgcl.Change:
         od = self.obo_document
 
         def _clean(v: str) -> str:
@@ -483,3 +492,4 @@ class SimpleOboImplementation(
                 t.add_tag_value(TAG_RELATIONSHIP, f"{patch.new_value} {object}")
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
+        return patch

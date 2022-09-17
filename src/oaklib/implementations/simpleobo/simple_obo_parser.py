@@ -98,6 +98,11 @@ class TagValue:
         v = v.replace('"', '\\"')
         self.value = re.sub(r'^"(.*)"\s+', f'"{v}" ', self.value)
 
+    def replace_token(self, curie_map: Mapping[CURIE, CURIE]):
+        toks = self.value.split(" ")
+        toks = [curie_map.get(x, x) for x in toks]
+        self.value = " ".join(toks)
+
 
 @dataclass
 class Structure:
@@ -294,6 +299,12 @@ class Stanza(Structure):
     type: Optional[str] = None
     """Stanza type, either Term or Typedef"""
 
+    def replace_token(self, curie_map: Mapping[CURIE, CURIE]):
+        if self.id in curie_map:
+            self.id = curie_map[self.id]
+        for tv in self.tag_values:
+            tv.replace_token(curie_map)
+
 
 @dataclass
 class OboDocument:
@@ -304,6 +315,9 @@ class OboDocument:
 
     def add_stanza(self, stanza: Stanza) -> None:
         self.stanzas[stanza.id] = stanza
+
+    def reindex(self) -> None:
+        self.stanzas = {s.id: s for s in self.stanzas.values()}
 
     def dump(self, file: TextIO) -> None:
         """Export to a file

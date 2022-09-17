@@ -1,10 +1,10 @@
 from abc import ABC
-from typing import Dict
+from typing import Any, Dict, Mapping, Optional
 
-from kgcl_schema.datamodel.kgcl import Change
+from kgcl_schema.datamodel.kgcl import Activity, Change
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
-from oaklib.types import CURIE
+from oaklib.types import CURIE, PRED_CURIE
 
 
 class PatcherInterface(BasicOntologyInterface, ABC):
@@ -14,12 +14,21 @@ class PatcherInterface(BasicOntologyInterface, ABC):
     See `KGCL <https://github.com/INCATools/kgcl>`_
     """
 
-    def apply_patch(self, patch: Change) -> None:
+    auto_add_contributor_using: PRED_CURIE = None
+    """If provided, then any creators of or contributors on a Change object are
+       propagated to the entity after application of that change, using this property.
+       If this is set then the recommended value is dct:contributor"""
+
+    def apply_patch(
+        self, patch: Change, activity: Activity = None, metadata: Mapping[PRED_CURIE, Any] = None
+    ) -> Optional[Change]:
         """
         Applies a change description
 
         :param patch: TBD use KGCL
-        :return:
+        :param activity:
+        :param metadata:
+        :return: if successful, return copy of change object with additional metadata attached
         """
         raise NotImplementedError
 

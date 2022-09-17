@@ -557,7 +557,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_migrate_curies(self):
         """
-        Tests the SQL store can be modified
+        Tests migrate_curies operations works on a SQL backend
+
+        This test is a mutation test, so a copy of the test database will be made
         """
         shutil.copyfile(DB, MUTABLE_DB)
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))

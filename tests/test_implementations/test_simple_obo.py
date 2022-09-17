@@ -25,8 +25,11 @@ from tests import (
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
+    FAKE_ID,
+    FAKE_PREDICATE,
     HUMAN,
     INPUT_DIR,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
     OUTPUT_DIR,
     VACUOLE,
@@ -334,3 +337,34 @@ class TestSimpleOboImplementation(unittest.TestCase):
             ["people", "Homo sapiens"],
             oi2.entity_aliases(HUMAN),
         )
+
+    def test_migrate_curies(self):
+        """
+        Tests migrate_curies operations works on a simple obo backend
+
+        This test is a mutation test, so a copy of the test database will be made
+        """
+        oi = self.oi
+        label = oi.label(NUCLEUS)
+        preds = [IS_A, PART_OF]
+        preds_rewired = [IS_A, FAKE_PREDICATE]
+        expected_ancs = list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+        expected_descs = list(oi.descendants(NUCLEUS, predicates=preds, reflexive=False))
+        oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})
+        out_file = str(OUTPUT_DIR / "post-migrate.obo")
+        oi.dump(out_file, syntax="obo")
+        self.assertEqual(label, oi.label(FAKE_ID))
+        self.assertIsNone(oi.label(NUCLEUS))
+        self.assertEqual([FAKE_ID], oi.curies_by_label("nucleus"))
+        # query with rewired preds should be the same
+        self.assertCountEqual(
+            expected_ancs, list(oi.ancestors(FAKE_ID, predicates=preds_rewired, reflexive=False))
+        )
+        # query with UNrewired preds should be incomplete
+        self.assertNotIn(CELL, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+        # query with rewired preds should be the same
+        self.assertCountEqual(
+            expected_descs, list(oi.descendants(FAKE_ID, predicates=preds_rewired, reflexive=False))
+        )
+        # query with UNrewired preds should be incomplete
+        self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))

@@ -8,7 +8,7 @@ import tempfile
 import warnings
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import pronto
 import sssom_schema as sssom
@@ -586,7 +586,12 @@ class ProntoImplementation(
     def migrate_curies(self, curie_map: Dict[CURIE, CURIE]) -> None:
         pass
 
-    def apply_patch(self, patch: kgcl.Change) -> None:
+    def apply_patch(
+        self,
+        patch: kgcl.Change,
+        activity: kgcl.Activity = None,
+        metadata: Mapping[PRED_CURIE, Any] = None,
+    ) -> Optional[kgcl.Change]:
         def _clean(v: str) -> str:
             # TODO: remove this when this is fixed: https://github.com/INCATools/kgcl-rdflib/issues/43
             if v.startswith("'"):
@@ -627,3 +632,4 @@ class ProntoImplementation(
             self.add_relationship(patch.subject, patch.predicate, patch.object)
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
+        return patch

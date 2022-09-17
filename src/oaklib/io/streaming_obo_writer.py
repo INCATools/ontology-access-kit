@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from typing import Any
 
-from oaklib.datamodels.vocabulary import IS_A, SYNONYM_PRED_TO_SCOPE_MAP
+from sssom.constants import OWL_EQUIVALENT_CLASS
+
+from oaklib.datamodels.vocabulary import IS_A, RDF_TYPE, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.io.streaming_writer import StreamingWriter
@@ -47,7 +49,15 @@ class StreamingOboWriter(StreamingWriter):
             for p in rmap.get(IS_A, []):
                 self.line(f"is_a: {p} ! {oi.label(p)}")
             for r, ps in rmap.items():
-                if r != IS_A:
+                if r != IS_A and r != RDF_TYPE and r != OWL_EQUIVALENT_CLASS:
                     for p in ps:
                         self.line(f"relationship: {r} {p} ! {oi.label(p)}")
+            for ldef in oi.logical_definitions([curie]):
+                for p in ldef.genusIds:
+                    self.line(f"intersection_of: {p} ! {oi.label(p)}")
+                for r in ldef.restrictions:
+                    self.line(
+                        f"intersection_of: {r.propertyId} {r.fillerId} ! {oi.label(r.fillerId)}"
+                    )
+
         self.line("\n")

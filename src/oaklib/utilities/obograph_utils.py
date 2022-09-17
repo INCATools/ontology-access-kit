@@ -433,6 +433,7 @@ def reflexive(edge: Edge) -> bool:
 def graph_to_tree(
     graph: Graph,
     predicates: List[PRED_CURIE] = None,
+    skip: List[CURIE] = None,
     output: TextIO = None,
     start_curies: List[CURIE] = None,
     seeds: List[CURIE] = None,
@@ -446,6 +447,7 @@ def graph_to_tree(
 
     :param graph: input graph
     :param predicates: predicates to traverse over
+    :param skip: omit paths that include this entity
     :param output: where to write tree text
     :param start_curies: seed nodes
     :param seeds: nodes to highlight
@@ -509,6 +511,8 @@ def graph_to_tree(
         output.write("\n")
         child_edges = children_ix.get(n, [])
         for child_edge in child_edges:
+            if skip and child_edge.sub in skip:
+                continue
             if not reflexive(child_edge):
                 if child_edge.sub not in stack:
                     todo.append((stack + [n], child_edge.pred, child_edge.sub))

@@ -1,13 +1,15 @@
 import logging
+import typing
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
 import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
+from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change
 from kgcl_schema.grammar.parser import parse_statement
 from lark import UnexpectedCharacters
@@ -704,10 +706,16 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         )
         self._sparql_update(q)
 
-    def apply_patch(self, patch: Change) -> None:
+    def apply_patch(
+        self,
+        patch: kgcl.Change,
+        activity: kgcl.Activity = None,
+        metadata: typing.Mapping[PRED_CURIE, Any] = None,
+    ) -> Optional[kgcl.Change]:
         if self.graph:
             logging.info(f"Applying: {patch} to {self.graph}")
             kgcl_patcher.apply_patch([patch], self.graph)
+            return patch
         else:
             raise NotImplementedError("Apply patch is only implemented for local graphs")
 
