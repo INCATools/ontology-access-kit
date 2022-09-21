@@ -61,3 +61,14 @@ rules:
     postconditions:
       predicate_id: skos:narrowMatch
       weight: 2.0
+
+  - synonymizer:
+      the_rule: Remove parentheses boundo info from the label.
+      match: '\([^)]*\)'
+      match_scope: "*"
+      replacement: ""
+      tests:
+        input: "ChS ABC lyase (activity)"
+        output: "ChS ABC lyase"
+
+      
