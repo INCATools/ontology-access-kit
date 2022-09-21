@@ -107,7 +107,7 @@ def create_lexical_index(
                     continue
                 else:
                     # Option 2: Apply synonymizer here.
-                    if len(synonym_rules) > 0:
+                    if synonym_rules:
                         pre_syn_term = term
                         term = apply_synonymizer(term, synonym_rules)
                         if pre_syn_term != term:
