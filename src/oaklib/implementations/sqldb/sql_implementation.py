@@ -332,7 +332,7 @@ class SqlImplementation(
             return row.value
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
-        m = {"id": curie}
+        m = {"id": [curie]}
         # subquery = self.session.query(AnnotationPropertyNode.id)
         subquery = self.session.query(RdfTypeStatement.subject).filter(
             RdfTypeStatement.object == "owl:AnnotationProperty"
@@ -351,7 +351,7 @@ class SqlImplementation(
                     m[row.predicate] = [m[row.predicate]]
                 m[row.predicate].append(v)
             else:
-                m[row.predicate] = v
+                m[row.predicate] = [v]
         return m
 
     def ontologies(self) -> Iterable[CURIE]:
@@ -490,12 +490,45 @@ class SqlImplementation(
     def outgoing_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
         return pairs_as_dict(self.outgoing_relationships(*args, **kwargs))
 
+    def incoming_relationships(
+            self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False
+    ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
+        if entailed:
+            tbl = EntailedEdge
+        else:
+            tbl = Edge
+        q = self.session.query(tbl).filter(tbl.object == curie)
+        if predicates:
+            q = q.filter(tbl.predicate.in_(predicates))
+        logging.debug(f"Querying incoming, curie={curie}, predicates={predicates}, q={q}")
+        for row in q:
+            yield row.predicate, row.subject
+        if not predicates or RDF_TYPE in predicates:
+            q = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == curie
+            )
+            cls_subq = self.session.query(ClassNode.id)
+            q = q.filter(RdfTypeStatement.subject.in_(cls_subq))
+            for row in q:
+                yield RDF_TYPE, row.subject
+        if tbl == Edge and (not predicates or EQUIVALENT_CLASS in predicates):
+            q = self.session.query(OwlEquivalentClassStatement.subject).filter(
+                OwlEquivalentClassStatement.object == curie
+            )
+            cls_subq = self.session.query(ClassNode.id)
+            q = q.filter(OwlEquivalentClassStatement.subject.in_(cls_subq))
+            for row in q:
+                yield EQUIVALENT_CLASS, row.subject
+
+    def incoming_relationship_map(self, *args, **kwargs) -> RELATIONSHIP_MAP:
+        return pairs_as_dict(self.incoming_relationships(*args, **kwargs))
+
     def entailed_outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self.outgoing_relationships(curie, predicates, entailed=True)
 
-    def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
+    def __OLDincoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         rmap = defaultdict(list)
         for row in self.session.query(Edge).filter(Edge.object == curie):
             rmap[row.predicate].append(row.subject)

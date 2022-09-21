@@ -31,6 +31,7 @@ class StreamingCsvWriter(StreamingWriter):
     delimiter: str = "\t"
     writer: csv.DictWriter = None
     keys: List[str] = None
+    include_information_content: bool = None
 
     def emit(self, obj: Union[YAMLRoot, Dict, CURIE], label_fields=None):
         if isinstance(obj, dict):
@@ -55,22 +56,22 @@ class StreamingCsvWriter(StreamingWriter):
             definition=oi.definition(curie),
         )
         for k, vs in oi.entity_alias_map(curie).items():
-            d[k] = "|".join(vs)
+            if k != "id":
+                d[k] = "|".join([str(v) for v in vs])
         for _, x in oi.simple_mappings_by_curie(curie):
             d["mappings"] = x
         for k, vs in oi.entity_metadata_map(curie).items():
-            if k not in [HAS_DBXREF, HAS_DEFINITION_CURIE]:
+            if k not in [HAS_DBXREF, HAS_DEFINITION_CURIE, "id"]:
                 d[k] = str(vs)
         if isinstance(oi, OboGraphInterface):
             for k, vs in oi.outgoing_relationship_map(curie).items():
                 d[k] = "|".join(vs)
                 d[f"{k}_label"] = "|".join([str(oi.label(v)) for v in vs])
-        if isinstance(oi, SemanticSimilarityInterface):
+        if self.include_information_content and isinstance(oi, SemanticSimilarityInterface):
             d["information_content_via_is_a"] = oi.get_information_content(curie, predicates=[IS_A])
             d["information_content_via_is_a_part_of"] = oi.get_information_content(
                 curie, predicates=[IS_A, PART_OF]
             )
-
         return d
 
     def emit_curie(self, curie: CURIE, label=None):
