@@ -76,6 +76,8 @@ classes:
       pipeline:
         range: LexicalTransformationPipeline
         multivalued: true
+      synonymized:
+        range: boolean
 
   Activity:
     description: Generic grouping for any lexical operation

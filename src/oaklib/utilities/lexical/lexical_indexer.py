@@ -86,7 +86,6 @@ def create_lexical_index(
     :param synonym_rules: list of synonymizer rules to apply
     :return: An index over an ontology keyed by lexical unit.
     """
-    synonymized = False # Flag indicating whether the term was synonymized or not.
     if pipelines is None:
         # Option 1: Apply synonymizer here as step1 and push the other two down.
         step1 = LexicalTransformation(TransformationType.CaseNormalization)
@@ -102,6 +101,7 @@ def create_lexical_index(
         mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
+                synonymized = False # Flag indicating whether the term was synonymized or not.
                 if not term:
                     logging.debug(f"No term for {curie}.{pred} (expected for aggregator interface)")
                     continue
@@ -117,7 +117,7 @@ def create_lexical_index(
                     for tr in pipeline.transformations:
                         term2 = apply_transformation(term2, tr)
                     rel = RelationshipToTerm(
-                        predicate=pred, element=curie, element_term=term, pipeline=pipeline.name
+                        predicate=pred, element=curie, element_term=term, pipeline=pipeline.name, synonymized=synonymized
                     )
                     if term2 not in ix.groupings:
                         ix.groupings[term2] = LexicalGrouping(term=term2)
@@ -214,6 +214,11 @@ def create_mapping(
     :param confidence: Confidence score., defaults to None
     :return: Mapping object.
     """
+    #TODO Remove hard-coded SYNONYMIZED
+    mapping_justification = SEMAPV.LexicalMatching.value
+    if r1.synonymized or r2.synonymized:
+        mapping_justification = mapping_justification+ "SYNONYMIZED"
+
     return Mapping(
         subject_id=r1.element,
         object_id=r2.element,
@@ -222,7 +227,7 @@ def create_mapping(
         match_string=term,
         subject_match_field=[r1.predicate],
         object_match_field=[r2.predicate],
-        mapping_justification=SEMAPV.LexicalMatching.value,
+        mapping_justification=mapping_justification,
         mapping_tool="oaklib",
     )
 
