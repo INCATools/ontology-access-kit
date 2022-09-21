@@ -81,6 +81,7 @@ from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.io.streaming_info_writer import StreamingInfoWriter
+from oaklib.io.streaming_jinja_writer import StreamingJinjaWriter
 from oaklib.io.streaming_json_writer import StreamingJsonWriter
 from oaklib.io.streaming_kgcl_writer import StreamingKGCLWriter
 from oaklib.io.streaming_markdown_writer import StreamingMarkdownWriter
@@ -143,6 +144,7 @@ SSSOM_FORMAT = "sssom"
 OWLFUN_FORMAT = "ofn"
 NL_FORMAT = "nl"
 KGCL_FORMAT = "kgcl"
+JINJA_FORMAT = "jinja"
 HEATMAP_FORMAT = "heatmap"
 
 ONT_FORMATS = [
@@ -171,6 +173,7 @@ WRITERS = {
     NL_FORMAT: StreamingNaturalLanguageWriter,
     KGCL_FORMAT: StreamingKGCLWriter,
     HEATMAP_FORMAT: HeatmapWriter,
+    JINJA_FORMAT: StreamingJinjaWriter,
 }
 
 
@@ -351,14 +354,21 @@ def _get_writer(
     default_type: Type[StreamingWriter] = StreamingInfoWriter,
     datamodel: ModuleType = None,
 ) -> StreamingWriter:
+    params = {}
     if output_type is None:
         typ = default_type
     else:
+        if "//" in output_type:
+            output_type, param_str = output_type.split("//")
+            params = {}
+            for kv in param_str.split(","):
+                [k, v] = kv.split("=", 1)
+                params[k] = v
         if output_type in WRITERS:
             typ = WRITERS[output_type]
         else:
             raise ValueError(f"Unrecognized output type: {output_type}")
-    w = typ(ontology_interface=impl)
+    w = typ(ontology_interface=impl, **params)
     if isinstance(w, StreamingRdfWriter) and datamodel is not None:
         w.schemaview = package_schemaview(datamodel.__name__)
     return w
@@ -883,8 +893,14 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     show_default=True,
     help="if true then fetch axiom triples with annotations",
 )
+@click.option(
+    "--tuples/--no-tuples",
+    default=False,
+    show_default=True,
+    help="if true then show results as simple tuples",
+)
 @click.argument("terms", nargs=-1)
-def term_metadata(terms, reification: bool, output_type: str, output: str):
+def term_metadata(terms, reification: bool, tuples: bool, output_type: str, output: str):
     """
     Shows term metadata
     """
@@ -904,8 +920,12 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
                 else:
                     raise NotImplementedError
             else:
-                metadata = impl.entity_metadata_map(curie)
-                writer.emit(metadata)
+                if tuples:
+                    for s, p, o, typ in impl.entities_metadata([curie]):
+                        writer.emit(dict(subject=s, predicate=p, object=o, datatype=typ))
+                else:
+                    metadata = impl.entity_metadata_map(curie)
+                    writer.emit(metadata)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2224,7 +2244,10 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 @main.command()
 @output_option
 @predicates_option
-def roots(output: str, predicates: str):
+@click.option("--with-prefix",
+              multiple=True,
+              help="Restrict to terms with this prefix(es)")
+def roots(output: str, predicates: str, with_prefix):
     """
     List all root nodes in the ontology
 
@@ -2237,6 +2260,19 @@ def roots(output: str, predicates: str):
 
         runoak -i db/cob.db roots
 
+    Many ontologies have native roots as subclasses of terms from other ontologies. To
+    see native roots or to filter to an ID prefix, use --with-prefix.
+
+    Example:
+
+        runoak -i sqlite:obo:obi roots -p i --with-prefix OBI
+
+    Note this returns a lot of terms, as OBI heavily subclasses other ontologies
+
+    Another example:
+
+        runoak -i sqlite:obo:ms roots --with-prefix MS
+
     This command is a wrapper onto the "roots" command in the BasicOntologyInterface.
 
     - https://incatools.github.io/ontology-access-kit/interfaces/basic.html#
@@ -2246,7 +2282,7 @@ def roots(output: str, predicates: str):
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in impl.roots(actual_predicates):
+        for curie in impl.roots(actual_predicates, id_prefixes=list(with_prefix) if with_prefix else None):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")

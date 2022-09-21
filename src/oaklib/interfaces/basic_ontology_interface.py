@@ -25,7 +25,7 @@ NC_NAME = str
 PREFIX_MAP = Mapping[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
 ALIAS_MAP = Dict[PRED_CURIE, List[str]]
-METADATA_MAP = Dict[PRED_CURIE, List[str]]
+METADATA_MAP = Dict[PRED_CURIE, List[Any]]
 # ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
 
@@ -404,6 +404,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         raise NotImplementedError
 
+    def entities_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        return self.terms_subsets(curies)
+
     def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
         """
         returns iterator over all subsets a term belongs to
@@ -417,6 +420,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             for t in self.subset_members(s):
                 if t in curies:
                     yield t, s
+
+    def entities_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
+        return self.terms_categories(curies)
 
     def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
         """
@@ -707,6 +713,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     @deprecated("Replaced by alias_map(curie)")
     def alias_map_by_curie(self, curie: CURIE) -> ALIAS_MAP:
         return self.entity_alias_map(curie)
+
+    def entities_metadata(self, curies: List[CURIE]) -> Iterator[Tuple[CURIE, PRED_CURIE, Any, str]]:
+        for curie in curies:
+            m = self.entity_metadata_map(curie)
+            for p, vs in m.items():
+                for v in vs:
+                    yield curie, p, v, type(v)
+
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         """

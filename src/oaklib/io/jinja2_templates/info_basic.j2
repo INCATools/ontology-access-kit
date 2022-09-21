@@ -1,0 +1,19 @@
+ID: {{obj}}
+URI: {{oi.curie_to_uri(obj)}}
+Name: {{oi.label(obj)}}
+Def: {{oi.definition(obj)}}
+Subsets:
+{% for _, s in oi.entities_subsets([obj]) -%}
+- {{s}}
+{% endfor %}
+
+Parents:
+{% for p,o in oi.outgoing_relationships(obj) -%}
+- {{p}} {{o}} {{oi.label(o)}}
+{% endfor %}
+
+Children:
+{% for p,o in oi.incoming_relationships(obj) -%}
+- INV({{p}}) {{o}} {{oi.label(o)}}
+{% endfor %}
+
