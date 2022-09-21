@@ -144,7 +144,7 @@
         <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
         <oboInOwl:hasBroadSynonym>bone</oboInOwl:hasBroadSynonym>
         <oboInOwl:hasDbXref>UBERON:0001474</oboInOwl:hasDbXref>
-        <rdfs:label>bone element</rdfs:label>
+        <rdfs:label>bone element(this is test data)</rdfs:label>
     </owl:Class>
     
 
