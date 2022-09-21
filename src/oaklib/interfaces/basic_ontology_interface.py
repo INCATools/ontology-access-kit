@@ -517,7 +517,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param isa_only: restrict hierarchical parents to isa only
         :return:
         """
-        return self.outgoing_relationship_map(curie)[IS_A]
+        return self.outgoing_relationship_map(curie).get(IS_A, [])
 
     def outgoing_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
