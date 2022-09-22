@@ -1,5 +1,5 @@
 # Auto generated from lexical_index.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-09-21T18:27:58
+# Generation date: 2022-09-21T22:36:28
 # Schema: lexical-index
 #
 # id: https://w3id.org/linkml/lexical_index
