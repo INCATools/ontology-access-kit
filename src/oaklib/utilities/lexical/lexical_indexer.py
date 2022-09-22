@@ -31,7 +31,7 @@ from oaklib.datamodels.lexical_index import (
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRuleCollection,
     Precondition,
-    Synonymizer
+    Synonymizer,
 )
 from oaklib.datamodels.vocabulary import (
     SEMAPV,
@@ -73,7 +73,7 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
 def create_lexical_index(
     oi: BasicOntologyInterface,
     pipelines: List[LexicalTransformationPipeline] = None,
-    synonym_rules:List[Synonymizer] = None
+    synonym_rules: List[Synonymizer] = None,
 ) -> LexicalIndex:
     """
     Generates a LexicalIndex keyed by normalized terms
@@ -101,7 +101,7 @@ def create_lexical_index(
         mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
-                synonymized = False # Flag indicating whether the term was synonymized or not.
+                synonymized = False  # Flag indicating whether the term was synonymized or not.
                 if not term:
                     logging.debug(f"No term for {curie}.{pred} (expected for aggregator interface)")
                     continue
@@ -117,7 +117,11 @@ def create_lexical_index(
                     for tr in pipeline.transformations:
                         term2 = apply_transformation(term2, tr)
                     rel = RelationshipToTerm(
-                        predicate=pred, element=curie, element_term=term, pipeline=pipeline.name, synonymized=synonymized
+                        predicate=pred,
+                        element=curie,
+                        element_term=term,
+                        pipeline=pipeline.name,
+                        synonymized=synonymized,
                     )
                     if term2 not in ix.groupings:
                         ix.groupings[term2] = LexicalGrouping(term=term2)
@@ -214,10 +218,10 @@ def create_mapping(
     :param confidence: Confidence score., defaults to None
     :return: Mapping object.
     """
-    #TODO Remove hard-coded SYNONYMIZED
+    # TODO Remove hard-coded SYNONYMIZED
     mapping_justification = SEMAPV.LexicalMatching.value
     if r1.synonymized or r2.synonymized:
-        mapping_justification = mapping_justification+ "SYNONYMIZED"
+        mapping_justification = mapping_justification + "SYNONYMIZED"
 
     return Mapping(
         subject_id=r1.element,
@@ -356,11 +360,13 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
         )
 
-def apply_synonymizer(term: str, rules: List[Synonymizer])-> str:
+
+def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
     for rule in rules:
-        term = re.sub(rule.match,rule.replacement, term)
+        term = re.sub(rule.match, rule.replacement, term)
 
     return term.rstrip()
+
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
     """

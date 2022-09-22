@@ -2912,7 +2912,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
             ix = load_lexical_index(lexical_index_file)
         else:
             logging.info("Creating index")
-            syn_rules = [ x.synonymizer for x in ruleset.rules if x.synonymizer]
+            syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
             ix = create_lexical_index(impl, synonym_rules=syn_rules)
         if lexical_index_file:
             if recreate:
