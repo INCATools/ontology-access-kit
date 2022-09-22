@@ -113,16 +113,16 @@ def create_lexical_index(
         mapping_map = pairs_as_dict(oi.simple_mappings_by_curie(curie))
         for pred, terms in {**alias_map, **mapping_map}.items():
             for term in terms:
-                synonymized = False  # Flag indicating whether the term was synonymized or not.
                 if not term:
                     logging.debug(f"No term for {curie}.{pred} (expected for aggregator interface)")
                     continue
 
                 for pipeline in pipelines:
+                    synonymized = False  # Flag indicating whether the term was synonymized or not.
                     term2 = term
                     for tr in pipeline.transformations:
                         term2 = apply_transformation(term2, tr)
-                        if tr.type == TransformationType.Synonymization.text and term2 != term:
+                        if tr.type.code == TransformationType.Synonymization and term2 != term:
                             synonymized = True
 
                     rel = RelationshipToTerm(
