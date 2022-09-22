@@ -1,5 +1,5 @@
-from string import whitespace
 import unittest
+from string import whitespace
 
 from oaklib.datamodels.lexical_index import (
     LexicalTransformation,
@@ -61,7 +61,7 @@ class TestLexicalIndex(unittest.TestCase):
                 match=r"\[[^)]*\]",
                 match_scope="*",
                 replacement="",
-            )
+            ),
         ]
 
         case_norm = LexicalTransformation(TransformationType.CaseNormalization)
@@ -69,14 +69,31 @@ class TestLexicalIndex(unittest.TestCase):
         synonymization = LexicalTransformation(TransformationType.Synonymization, params=syn_param)
 
         cases = [
-            (None, {"foo bar": ["X:1", "X:2", "X:3"], "foo bar (foo bar)": ["X:4"], "foo bar [foo bar]": ["X:5"]}),
+            (
+                None,
+                {
+                    "foo bar": ["X:1", "X:2", "X:3"],
+                    "foo bar (foo bar)": ["X:4"],
+                    "foo bar [foo bar]": ["X:5"],
+                },
+            ),
             (
                 [case_norm],
-                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"], "foo bar (foo bar)": ["X:4"], "foo bar [foo bar]": ["X:5"]},
+                {
+                    "foo bar": ["X:1", "X:2"],
+                    "foo  bar": ["X:3"],
+                    "foo bar (foo bar)": ["X:4"],
+                    "foo bar [foo bar]": ["X:5"],
+                },
             ),
             (
                 [whitespace_norm],
-                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"], "foo bar (foo bar)": ["X:4"], "foo bar [foo bar]": ["X:5"]},
+                {
+                    "foo bar": ["X:1", "X:3"],
+                    "FOO BAR": ["X:2"],
+                    "foo bar (foo bar)": ["X:4"],
+                    "foo bar [foo bar]": ["X:5"],
+                },
             ),
             (
                 [synonymization],
