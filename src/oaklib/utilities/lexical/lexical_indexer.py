@@ -28,6 +28,7 @@ from oaklib.datamodels.lexical_index import (
     RelationshipToTerm,
     TransformationType,
 )
+from oaklib.datamodels.mapping_rules_datamodel import Test  # noqa: F401
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRuleCollection,
     Precondition,
@@ -87,10 +88,21 @@ def create_lexical_index(
     :return: An index over an ontology keyed by lexical unit.
     """
     if pipelines is None:
-        # Option 1: Apply synonymizer here as step1 and push the other two down.
+        # Option 1: Apply synonymizer here.
         step1 = LexicalTransformation(TransformationType.CaseNormalization)
         step2 = LexicalTransformation(TransformationType.WhitespaceNormalization)
-        pipelines = [LexicalTransformationPipeline(name="default", transformations=[step1, step2])]
+        step3 = LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
+        if synonym_rules:
+            pipelines = [
+                LexicalTransformationPipeline(
+                    name="default_with_synonymizer", transformations=[step1, step2, step3]
+                )
+            ]
+        else:
+            pipelines = [
+                LexicalTransformationPipeline(name="default", transformations=[step1, step2])
+            ]
+
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
     for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
@@ -105,17 +117,14 @@ def create_lexical_index(
                 if not term:
                     logging.debug(f"No term for {curie}.{pred} (expected for aggregator interface)")
                     continue
-                else:
-                    # Option 2: Apply synonymizer here.
-                    if synonym_rules:
-                        pre_syn_term = term
-                        term = apply_synonymizer(term, synonym_rules)
-                        if pre_syn_term != term:
-                            synonymized = True
+
                 for pipeline in pipelines:
                     term2 = term
                     for tr in pipeline.transformations:
                         term2 = apply_transformation(term2, tr)
+                        if tr.type == TransformationType.Synonymization.text and term2 != term:
+                            synonymized = True
+
                     rel = RelationshipToTerm(
                         predicate=pred,
                         element=curie,
@@ -355,6 +364,8 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
         return term.lower()
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
+    elif typ == TransformationType.Synonymization.text:
+        return apply_synonymizer(term, eval(transformation.params))
     else:
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
@@ -364,7 +375,6 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
 def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
     for rule in rules:
         term = re.sub(rule.match, rule.replacement, term)
-
     return term.rstrip()
 
 
