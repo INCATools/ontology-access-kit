@@ -49,26 +49,26 @@ class TestLexicalIndex(unittest.TestCase):
         builder.build()
         syn_param = [
             Synonymizer(
-                    the_rule='Remove parentheses bound info from the label.',
-                    match='\([^)]*\)',
-                    match_scope='*',
-                    replacement='',
-                )
-            ]
+                the_rule="Remove parentheses bound info from the label.",
+                match="\([^)]*\)",
+                match_scope="*",
+                replacement="",
+            )
+        ]
 
         cases = [
-            (None, {"foo bar": ["X:1", "X:2", "X:3"], 'foo bar (foo bar)': ['X:4']}),
+            (None, {"foo bar": ["X:1", "X:2", "X:3"], "foo bar (foo bar)": ["X:4"]}),
             (
                 [LexicalTransformation(TransformationType.CaseNormalization)],
-                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"], 'foo bar (foo bar)': ['X:4']},
+                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"], "foo bar (foo bar)": ["X:4"]},
             ),
             (
                 [LexicalTransformation(TransformationType.WhitespaceNormalization)],
-                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"], 'foo bar (foo bar)': ['X:4']},
+                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"], "foo bar (foo bar)": ["X:4"]},
             ),
             (
-                [LexicalTransformation(TransformationType.Synonymization,params=syn_param)],
-                {'FOO BAR': ['X:2'], 'foo  bar': ['X:3'], 'foo bar': ['X:1', 'X:4']},
+                [LexicalTransformation(TransformationType.Synonymization, params=syn_param)],
+                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4"]},
             ),
         ]
 
@@ -81,9 +81,11 @@ class TestLexicalIndex(unittest.TestCase):
                     include_syn_rules = True
             else:
                 pipelines = None
-            
+
             if include_syn_rules:
-                lexical_index = create_lexical_index(oi, pipelines=pipelines, synonym_rules=syn_param)
+                lexical_index = create_lexical_index(
+                    oi, pipelines=pipelines, synonym_rules=syn_param
+                )
             else:
                 lexical_index = create_lexical_index(oi, pipelines=pipelines)
 
