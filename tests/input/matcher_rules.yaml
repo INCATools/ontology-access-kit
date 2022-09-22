@@ -67,8 +67,5 @@ rules:
       match: '\([^)]*\)'
       match_scope: "*"
       replacement: ""
-      tests:
-        input: "ChS ABC lyase (activity)"
-        output: "ChS ABC lyase"
 
       
