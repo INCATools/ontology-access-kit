@@ -450,6 +450,8 @@ class TestCommandLineInterface(unittest.TestCase):
             contents = "\n".join(stream.readlines())
             self.assertIn("skos:closeMatch", contents)
             self.assertIn("skos:exactMatch", contents)
+            # TODO change below once mapping_justification for this is finalized.
+            self.assertIn("SYNONYMIZED", contents)
         self.assertEqual("", err)
 
     def test_lexmatch_sqlite(self):
