@@ -5,6 +5,7 @@ from oaklib.datamodels.lexical_index import (
     LexicalTransformationPipeline,
     TransformationType,
 )
+from oaklib.datamodels.mapping_rules_datamodel import Synonymizer
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import (
@@ -44,24 +45,48 @@ class TestLexicalIndex(unittest.TestCase):
         builder.add_class("X:1", "foo bar")
         builder.add_class("X:2", "FOO BAR")
         builder.add_class("X:3", "foo  bar")
+        builder.add_class("X:4", "foo bar (foo bar)")
         builder.build()
+        syn_param = [
+            Synonymizer(
+                    the_rule='Remove parentheses bound info from the label.',
+                    match='\([^)]*\)',
+                    match_scope='*',
+                    replacement='',
+                )
+            ]
+
         cases = [
-            (None, {"foo bar": ["X:1", "X:2", "X:3"]}),
+            (None, {"foo bar": ["X:1", "X:2", "X:3"], 'foo bar (foo bar)': ['X:4']}),
             (
                 [LexicalTransformation(TransformationType.CaseNormalization)],
-                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"]},
+                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"], 'foo bar (foo bar)': ['X:4']},
             ),
             (
                 [LexicalTransformation(TransformationType.WhitespaceNormalization)],
-                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"]},
+                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"], 'foo bar (foo bar)': ['X:4']},
+            ),
+            (
+                [LexicalTransformation(TransformationType.Synonymization,params=syn_param)],
+                {'FOO BAR': ['X:2'], 'foo  bar': ['X:3'], 'foo bar': ['X:1', 'X:4']},
             ),
         ]
+
+        include_syn_rules = False
+
         for trs, expected in cases:
             if trs:
                 pipelines = [LexicalTransformationPipeline(name="default", transformations=trs)]
+                if trs[0].type.code.text == "Synonymization":
+                    include_syn_rules = True
             else:
                 pipelines = None
-            lexical_index = create_lexical_index(oi, pipelines=pipelines)
+            
+            if include_syn_rules:
+                lexical_index = create_lexical_index(oi, pipelines=pipelines, synonym_rules=syn_param)
+            else:
+                lexical_index = create_lexical_index(oi, pipelines=pipelines)
+
             groupings = {}
             for k, v in lexical_index.groupings.items():
                 groupings[k] = [x.element for x in v.relationships]
