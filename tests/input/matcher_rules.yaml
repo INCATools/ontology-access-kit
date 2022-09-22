@@ -64,7 +64,7 @@ rules:
 
   - synonymizer:
       the_rule: Remove parentheses bound info from the label.
-      match: '\([^)]*\)'
+      match: r'\([^)]*\)'
       match_scope: "*"
       replacement: ""
 
