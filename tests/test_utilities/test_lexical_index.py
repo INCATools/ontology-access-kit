@@ -50,7 +50,7 @@ class TestLexicalIndex(unittest.TestCase):
         syn_param = [
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="\([^)]*\)",
+                match=r"\([^)]*\)",
                 match_scope="*",
                 replacement="",
             )
