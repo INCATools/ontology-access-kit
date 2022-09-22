@@ -28,7 +28,6 @@ from oaklib.datamodels.lexical_index import (
     RelationshipToTerm,
     TransformationType,
 )
-
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRuleCollection,
     Precondition,
