@@ -46,6 +46,7 @@ class TestLexicalIndex(unittest.TestCase):
         builder.add_class("X:2", "FOO BAR")
         builder.add_class("X:3", "foo  bar")
         builder.add_class("X:4", "foo bar (foo bar)")
+        builder.add_class("X:5", "foo bar [foo bar]")
         builder.build()
         syn_param = [
             Synonymizer(
@@ -53,22 +54,28 @@ class TestLexicalIndex(unittest.TestCase):
                 match=r"\([^)]*\)",
                 match_scope="*",
                 replacement="",
+            ),
+            Synonymizer(
+                the_rule="Remove parentheses bound info from the label.",
+                match=r"\[[^)]*\]",
+                match_scope="*",
+                replacement="",
             )
         ]
 
         cases = [
-            (None, {"foo bar": ["X:1", "X:2", "X:3"], "foo bar (foo bar)": ["X:4"]}),
+            (None, {"foo bar": ["X:1", "X:2", "X:3"], "foo bar (foo bar)": ["X:4"], "foo bar [foo bar]": ["X:5"]}),
             (
                 [LexicalTransformation(TransformationType.CaseNormalization)],
-                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"], "foo bar (foo bar)": ["X:4"]},
+                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"], "foo bar (foo bar)": ["X:4"], "foo bar [foo bar]": ["X:5"]},
             ),
             (
                 [LexicalTransformation(TransformationType.WhitespaceNormalization)],
-                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"], "foo bar (foo bar)": ["X:4"]},
+                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"], "foo bar (foo bar)": ["X:4"], "foo bar [foo bar]": ["X:5"]},
             ),
             (
                 [LexicalTransformation(TransformationType.Synonymization, params=syn_param)],
-                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4"]},
+                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4", "X:5"]},
             ),
         ]
 

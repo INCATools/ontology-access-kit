@@ -68,4 +68,10 @@ rules:
       match_scope: "*"
       replacement: ""
 
+  - synonymizer:
+      the_rule: Remove box brackets bound info from the label.
+      match: r'\[[^)]]*\)'
+      match_scope: "*"
+      replacement: ""
+
       
