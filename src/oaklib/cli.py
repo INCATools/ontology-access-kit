@@ -103,6 +103,7 @@ from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import (
     add_labels_from_uris,
+    apply_synonymizer,
     create_lexical_index,
     lexical_index_to_sssom,
     load_lexical_index,
@@ -3432,6 +3433,82 @@ def fill_table(
         metadata.set_missing_value_token(missing_value_token)
         tf.fill_table(input_table, table_metadata=metadata)
         table_filler.write_table(input_table, output, delimiter=delimiter)
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option(
+    "--rules-file",
+    "-R",
+    help="path to rules file. Conforms to rules_datamodel.\
+        e.g. https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml",
+)
+@click.option(
+    "--apply-patch/--no-apply-patch",
+    default=False,
+    show_default=True,
+    help="Apply KGCL syntax generated based on the synonymizer rules file.",
+)
+@click.option(
+    "--patch",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Output patch file containing KGCL commands.",
+)
+@output_option
+@output_type_option
+def synonymize(terms, rules_file, apply_patch, patch, output, output_type):
+    """
+    Apply synonymizer rule from the rules file to generate KGCL syntax
+    see https://github.com/INCATools/kgcl.
+
+    Example:
+        runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch
+    """
+    impl = settings.impl
+
+    if rules_file:
+        ruleset = load_mapping_rules(rules_file)
+    else:
+        ruleset = None
+
+    if isinstance(impl, OboGraphInterface):
+        syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+
+        terms_to_synonymize = {}
+        change_list = []
+
+        for curie in query_terms_iterator(terms, impl):
+            # for rule in syn_rules:
+            for _, aliases in impl.entity_alias_map(curie).items():
+                matches = []
+                if aliases is not None:
+                    # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
+                    for alias in aliases:
+                        if alias:
+                            new_alias = apply_synonymizer(alias, syn_rules)
+                            if new_alias != alias:
+                                matches.append(new_alias)
+
+                if len(matches) > 0:
+                    terms_to_synonymize[curie] = matches
+                    change = kgcl.NewSynonym(
+                        id="kgcl_change_id_" + str(len(terms_to_synonymize)),
+                        about_node=curie,
+                        old_value=alias,
+                        new_value=new_alias,
+                        qualifier="exact",
+                    )
+                    change_list.append(change)
+                    if patch:
+                        patch.write(str(change))
+                        patch.write("\n")
+
+        if apply_patch and len(change_list) > 0:
+            _apply_changes(impl, change_list)
+
+
+# runoak -i tests/input/synonym-test.owl synonymize -R tests/input/matcher_rules.yaml  .all --patch test.kgcl
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
 import unittest
-from string import whitespace
 
 from oaklib.datamodels.lexical_index import (
     LexicalTransformation,
@@ -52,13 +51,13 @@ class TestLexicalIndex(unittest.TestCase):
         syn_param = [
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="r'\([^)]*\)'",
+                match="r'\([^)]*\)'", # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="r'\[[^)]*\]'",
+                match="r'\[[^)]*\]'", # noqa W605
                 match_scope="*",
                 replacement="",
             ),
