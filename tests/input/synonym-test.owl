@@ -1,0 +1,638 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://example.org/test.owl#"
+     xml:base="http://example.org/test.owl"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:inca="https://w3id.org/inca/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:shacl="http://www.w3.org/ns/shacl#"
+     xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#"
+     xmlns:ontology="http://dbpedia.org/ontology/">
+    <owl:Ontology rdf:about="http://example.org/test.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dbpedia.org/ontology/category -->
+
+    <owl:AnnotationProperty rdf:about="http://dbpedia.org/ontology/category"/>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym"/>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasDbXref -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasDbXref"/>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasExactSynonym -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasExactSynonym"/>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym"/>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#label -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#label"/>
+    
+
+
+    <!-- http://www.w3.org/ns/shacl#declare -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/ns/shacl#declare"/>
+    
+
+
+    <!-- http://www.w3.org/ns/shacl#namespace -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/ns/shacl#namespace"/>
+    
+
+
+    <!-- http://www.w3.org/ns/shacl#prefix -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/ns/shacl#prefix"/>
+    
+
+
+    <!-- https://w3id.org/inca/pattern -->
+
+    <owl:AnnotationProperty rdf:about="https://w3id.org/inca/pattern"/>
+    
+
+
+    <!-- https://w3id.org/inca/replacement -->
+
+    <owl:AnnotationProperty rdf:about="https://w3id.org/inca/replacement"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/a/bone_of_foot -->
+
+    <owl:Class rdf:about="http://example.org/a/bone_of_foot">
+        <rdfs:subClassOf rdf:resource="http://example.org/a/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>bone of foot</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/a/bone_of_hand -->
+
+    <owl:Class rdf:about="http://example.org/a/bone_of_hand">
+        <rdfs:subClassOf rdf:resource="http://example.org/a/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>bone of hand</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/a/organ -->
+
+    <owl:Class rdf:about="http://example.org/a/organ"/>
+    
+
+
+    <!-- http://example.org/x/appendage -->
+
+    <owl:Class rdf:about="http://example.org/x/appendage">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>appendage</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/bone_element -->
+
+    <owl:Class rdf:about="http://example.org/x/bone_element">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasBroadSynonym>bone</oboInOwl:hasBroadSynonym>
+        <oboInOwl:hasDbXref>UBERON:0001474</oboInOwl:hasDbXref>
+        <rdfs:label>bone element(this is test data)</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/bone_of_head -->
+
+    <owl:Class rdf:about="http://example.org/x/bone_of_head">
+        <rdfs:subClassOf rdf:resource="http://example.org/a/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>BONE, HEAD</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/bone_tissue -->
+
+    <owl:Class rdf:about="http://example.org/x/bone_tissue">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/tissue"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasBroadSynonym>bone</oboInOwl:hasBroadSynonym>
+        <oboInOwl:hasDbXref>UBERON:0002481</oboInOwl:hasDbXref>
+        <rdfs:label>bone tissue [this is test data]</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/eye -->
+
+    <owl:Class rdf:about="http://example.org/x/eye">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0000970</oboInOwl:hasDbXref>
+        <rdfs:label>eye</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/eyeball -->
+
+    <owl:Class rdf:about="http://example.org/x/eyeball">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/region"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0010230</oboInOwl:hasDbXref>
+        <rdfs:label>eyeball (this is [test data])</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/foot -->
+
+    <owl:Class rdf:about="http://example.org/x/foot">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002387</oboInOwl:hasDbXref>
+        <oboInOwl:hasExactSynonym>foot</oboInOwl:hasExactSynonym>
+        <rdfs:label>pes</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/hand -->
+
+    <owl:Class rdf:about="http://example.org/x/hand">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002398</oboInOwl:hasDbXref>
+        <oboInOwl:hasExactSynonym>hand</oboInOwl:hasExactSynonym>
+        <rdfs:label>manus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/heart -->
+
+    <owl:Class rdf:about="http://example.org/x/heart">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>BAD:ORGAN</oboInOwl:hasDbXref>
+        <oboInOwl:hasDbXref>UBERON:0000948</oboInOwl:hasDbXref>
+        <rdfs:label>heart</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/hindlimb -->
+
+    <owl:Class rdf:about="http://example.org/x/hindlimb">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>hindlimb</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/liver -->
+
+    <owl:Class rdf:about="http://example.org/x/liver">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>BAD:ORGAN</oboInOwl:hasDbXref>
+        <oboInOwl:hasDbXref>UBERON:0002107</oboInOwl:hasDbXref>
+        <rdfs:label>liver</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/lung -->
+
+    <owl:Class rdf:about="http://example.org/x/lung">
+        <rdfs:subClassOf rdf:resource="http://example.org/x/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>BAD:ORGAN</oboInOwl:hasDbXref>
+        <oboInOwl:hasDbXref>UBERON:0002048</oboInOwl:hasDbXref>
+        <rdfs:label>lung</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/obsolete_leg -->
+
+    <owl:Class rdf:about="http://example.org/x/obsolete_leg">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasRelatedSynonym>hindlimb</oboInOwl:hasRelatedSynonym>
+        <rdfs:label>leg</rdfs:label>
+        <owl:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:deprecated>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/organ -->
+
+    <owl:Class rdf:about="http://example.org/x/organ">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label xml:lang="en">organ</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/region -->
+
+    <owl:Class rdf:about="http://example.org/x/region">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>region</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/tail_structure -->
+
+    <owl:Class rdf:about="http://example.org/x/tail_structure">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>tail structure</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/x/tissue -->
+
+    <owl:Class rdf:about="http://example.org/x/tissue">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>tissue</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/appendage -->
+
+    <owl:Class rdf:about="http://example.org/y/appendage">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>appendages</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/bone -->
+
+    <owl:Class rdf:about="http://example.org/y/bone">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0001474</oboInOwl:hasDbXref>
+        <oboInOwl:hasRelatedSynonym>bone element</oboInOwl:hasRelatedSynonym>
+        <rdfs:label>bones</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/eye -->
+
+    <owl:Class rdf:about="http://example.org/y/eye">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0000970</oboInOwl:hasDbXref>
+        <rdfs:label>eyes</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/foot -->
+
+    <owl:Class rdf:about="http://example.org/y/foot">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002387</oboInOwl:hasDbXref>
+        <rdfs:label>feet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/hand -->
+
+    <owl:Class rdf:about="http://example.org/y/hand">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002398</oboInOwl:hasDbXref>
+        <rdfs:label>hands</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/head_bone -->
+
+    <owl:Class rdf:about="http://example.org/y/head_bone">
+        <rdfs:subClassOf rdf:resource="http://example.org/a/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>head bone</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/heart -->
+
+    <owl:Class rdf:about="http://example.org/y/heart">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0000948</oboInOwl:hasDbXref>
+        <rdfs:label>hearts</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/leg -->
+
+    <owl:Class rdf:about="http://example.org/y/leg">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasExactSynonym>leg</oboInOwl:hasExactSynonym>
+        <rdfs:label>legs</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/liver -->
+
+    <owl:Class rdf:about="http://example.org/y/liver">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002107</oboInOwl:hasDbXref>
+        <rdfs:label>livers</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/lung -->
+
+    <owl:Class rdf:about="http://example.org/y/lung">
+        <rdfs:subClassOf rdf:resource="http://example.org/y/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002048</oboInOwl:hasDbXref>
+        <rdfs:label>lungs</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/organ -->
+
+    <owl:Class rdf:about="http://example.org/y/organ">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>organs</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/region -->
+
+    <owl:Class rdf:about="http://example.org/y/region">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>regions</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/y/tissue -->
+
+    <owl:Class rdf:about="http://example.org/y/tissue">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>tissues</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/appendage -->
+
+    <owl:Class rdf:about="http://example.org/z/appendage">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>APPENDAGE</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/bone_element -->
+
+    <owl:Class rdf:about="http://example.org/z/bone_element">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasBroadSynonym>bone</oboInOwl:hasBroadSynonym>
+        <oboInOwl:hasDbXref>UBERON:0001474</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/bone_tissue -->
+
+    <owl:Class rdf:about="http://example.org/z/bone_tissue">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/tissue"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasBroadSynonym>bone</oboInOwl:hasBroadSynonym>
+        <oboInOwl:hasDbXref>UBERON:0002481</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/eye -->
+
+    <owl:Class rdf:about="http://example.org/z/eye">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0000970</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/eyeball -->
+
+    <owl:Class rdf:about="http://example.org/z/eyeball">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/region"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0010230</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/foot -->
+
+    <owl:Class rdf:about="http://example.org/z/foot">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002387</oboInOwl:hasDbXref>
+        <oboInOwl:hasExactSynonym>foot</oboInOwl:hasExactSynonym>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/hand -->
+
+    <owl:Class rdf:about="http://example.org/z/hand">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002398</oboInOwl:hasDbXref>
+        <oboInOwl:hasExactSynonym>hand</oboInOwl:hasExactSynonym>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/heart -->
+
+    <owl:Class rdf:about="http://example.org/z/heart">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0000948</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/hindlimb -->
+
+    <owl:Class rdf:about="http://example.org/z/hindlimb">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>hindlimb</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/liver -->
+
+    <owl:Class rdf:about="http://example.org/z/liver">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002107</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/lung -->
+
+    <owl:Class rdf:about="http://example.org/z/lung">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/organ"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>UBERON:0002048</oboInOwl:hasDbXref>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/organ -->
+
+    <owl:Class rdf:about="http://example.org/z/organ">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <oboInOwl:hasDbXref>BAD:ORGAN</oboInOwl:hasDbXref>
+        <rdfs:label>ORGAN</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/region -->
+
+    <owl:Class rdf:about="http://example.org/z/region">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>REGION</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/tail -->
+
+    <owl:Class rdf:about="http://example.org/z/tail">
+        <rdfs:subClassOf rdf:resource="http://example.org/z/appendage"/>
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>tail</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/z/tissue -->
+
+    <owl:Class rdf:about="http://example.org/z/tissue">
+        <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
+        <rdfs:label>TISSUE</rdfs:label>
+    </owl:Class>
+    <rdf:Description>
+        <shacl:declare>
+            <rdf:Description>
+                <shacl:namespace>http://example.org/y/</shacl:namespace>
+                <shacl:prefix>y</shacl:prefix>
+            </rdf:Description>
+        </shacl:declare>
+        <shacl:declare>
+            <rdf:Description>
+                <shacl:namespace>http://example.org/x/</shacl:namespace>
+                <shacl:prefix>x</shacl:prefix>
+            </rdf:Description>
+        </shacl:declare>
+        <shacl:declare>
+            <rdf:Description>
+                <shacl:namespace>http://example.org/z/</shacl:namespace>
+                <shacl:prefix>z</shacl:prefix>
+            </rdf:Description>
+        </shacl:declare>
+        <shacl:declare>
+            <rdf:Description>
+                <shacl:namespace>http://example.org/a/</shacl:namespace>
+                <shacl:prefix>a</shacl:prefix>
+            </rdf:Description>
+        </shacl:declare>
+        <shacl:declare>
+            <rdf:Description>
+                <shacl:namespace>https://w3id.org/biolink/vocab/</shacl:namespace>
+                <shacl:prefix>biolink</shacl:prefix>
+            </rdf:Description>
+        </shacl:declare>
+    </rdf:Description>
+    <rdf:Description>
+        <inca:pattern>structure</inca:pattern>
+        <inca:replacement></inca:replacement>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.6) https://github.com/owlcs/owlapi -->
+
