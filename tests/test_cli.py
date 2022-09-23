@@ -419,7 +419,7 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_check_definitions(self):
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
             logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(main, ["-i", input_arg, "check-definitions"])
+            result = self.runner.invoke(main, ["-i", input_arg, "validate-definitions"])
             out = result.stdout
             err = result.stderr
             logging.info(f"ERR={err}")
