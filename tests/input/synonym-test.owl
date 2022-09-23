@@ -166,7 +166,7 @@
         <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
         <oboInOwl:hasBroadSynonym>bone</oboInOwl:hasBroadSynonym>
         <oboInOwl:hasDbXref>UBERON:0002481</oboInOwl:hasDbXref>
-        <rdfs:label>bone tissue</rdfs:label>
+        <rdfs:label>bone tissue [this is test data]</rdfs:label>
     </owl:Class>
     
 
@@ -199,7 +199,7 @@
         <rdfs:subClassOf rdf:resource="http://example.org/x/appendage"/>
         <ontology:category rdf:resource="https://w3id.org/biolink/vocab/AnatomicalEntity"/>
         <oboInOwl:hasDbXref>UBERON:0002387</oboInOwl:hasDbXref>
-        <oboInOwl:hasExactSynonym>foot [this is test data]</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>foot</oboInOwl:hasExactSynonym>
         <rdfs:label>pes</rdfs:label>
     </owl:Class>
     
