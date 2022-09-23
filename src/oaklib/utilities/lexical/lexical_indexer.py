@@ -373,7 +373,7 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
 
 def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
     for rule in rules:
-        term = re.sub(rule.match, rule.replacement, term)
+        term = re.sub(eval(rule.match), rule.replacement, term)
     return term.rstrip()
 
 
