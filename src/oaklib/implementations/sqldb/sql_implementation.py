@@ -231,6 +231,8 @@ class SqlImplementation(
                 locator = f"sqlite:///{locator}"
             else:
                 path = Path(locator.replace("sqlite:", "")).absolute()
+                if not path.exists():
+                    raise FileNotFoundError(f"File does not exist: {path}")
                 locator = f"sqlite:///{path}"
             logging.info(f"Locator, post-processed: {locator}")
             self.engine = create_engine(locator)
