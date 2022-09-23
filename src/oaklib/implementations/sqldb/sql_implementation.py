@@ -75,6 +75,8 @@ from oaklib.datamodels.vocabulary import (
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    OWL_NOTHING,
+    OWL_THING,
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
@@ -469,6 +471,8 @@ class SqlImplementation(
             q = q.filter(tbl.predicate.in_(predicates))
         logging.debug(f"Querying outgoing, curie={curie}, predicates={predicates}, q={q}")
         for row in q:
+            if self.exclude_owl_top_and_bottom and row.object == OWL_THING:
+                continue
             yield row.predicate, row.object
         if not predicates or RDF_TYPE in predicates:
             q = self.session.query(RdfTypeStatement.object).filter(
@@ -477,6 +481,8 @@ class SqlImplementation(
             cls_subq = self.session.query(ClassNode.id)
             q = q.filter(RdfTypeStatement.object.in_(cls_subq))
             for row in q:
+                if self.exclude_owl_top_and_bottom and row.object == OWL_THING:
+                    continue
                 yield RDF_TYPE, row.object
         if tbl == Edge and (not predicates or EQUIVALENT_CLASS in predicates):
             q = self.session.query(OwlEquivalentClassStatement.object).filter(
@@ -514,6 +520,10 @@ class SqlImplementation(
             for r in self._tbox_relationships(
                 subjects, predicates, objects, include_entailed=include_entailed
             ):
+                if self.exclude_owl_top_and_bottom and r[2] == OWL_THING:
+                    continue
+                if self.exclude_owl_top_and_bottom and r[0] == OWL_NOTHING:
+                    continue
                 yield r
             for r in self._equivalent_class_relationships(subjects, predicates, objects):
                 yield r
