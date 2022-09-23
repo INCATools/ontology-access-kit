@@ -306,6 +306,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         if predicates:
             predicates = list(set(predicates))
+        pred_quris = [self.curie_to_sparql(p) for p in predicates] if predicates else None
         uri = self.curie_to_uri(curie)
         if not predicates or IS_A in predicates:
             for p in self.hierararchical_parents(curie):
@@ -318,6 +319,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                     "FILTER (isIRI(?o))",
                 ],
             )
+            query.add_values("p", pred_quris)
             bindings = self._query(query)
             for row in bindings:
                 pred = self.uri_to_curie(row["p"]["value"])
@@ -330,6 +332,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                     "?p rdf:type owl:ObjectProperty",
                 ],
             )
+            query.add_values("p", pred_quris)
             bindings = self._query(query)
             for row in bindings:
                 pred = self.uri_to_curie(row["p"]["value"])

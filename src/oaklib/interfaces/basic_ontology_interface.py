@@ -105,6 +105,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     """For adapters that wrap a transactional source (e.g sqlite), this controls
     whether results should be autocommitted after each operation"""
 
+    exclude_owl_top_and_bottom: bool = field(default_factory=lambda: True)
+    """Do not include owl:Thing or owl:Nothing"""
+
     _converter: Optional[curies.Converter] = None
 
     def prefix_map(self) -> PREFIX_MAP:
