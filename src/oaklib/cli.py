@@ -9,7 +9,9 @@ Executed using "runoak" command
 import itertools
 import json
 import logging
+import random
 import re
+import secrets
 import subprocess
 import sys
 from collections import defaultdict
@@ -523,6 +525,10 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             pass
         elif term.startswith(".all"):
             chain_it(impl.entities())
+        elif term.startswith(".rand"):
+            for x in impl.entities():
+                if secrets.randbelow(100) == 0:
+                    yield x
         elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
@@ -2769,7 +2775,7 @@ def validate_multiple(dbs, output, schema, cutoff: int):
 
 @main.command()
 @output_option
-def check_definitions(output: str):
+def validate_definitions(output: str):
     """
     Check definitions
 
