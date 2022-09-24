@@ -186,6 +186,9 @@
     <span class="sd">&quot;&quot;&quot;For adapters that wrap a transactional source (e.g sqlite), this controls</span>
 <span class="sd">    whether results should be autocommitted after each operation&quot;&quot;&quot;</span>
 
+    <span class="n">exclude_owl_top_and_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Do not include owl:Thing or owl:Nothing&quot;&quot;&quot;</span>
+
     <span class="n">_converter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="BasicOntologyInterface.prefix_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>

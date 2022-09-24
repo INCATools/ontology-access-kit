@@ -156,6 +156,8 @@
     <span class="n">IN_SUBSET</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
+    <span class="n">OWL_NOTHING</span><span class="p">,</span>
+    <span class="n">OWL_THING</span><span class="p">,</span>
     <span class="n">RDF_TYPE</span><span class="p">,</span>
     <span class="n">SEMAPV</span><span class="p">,</span>
     <span class="n">SYNONYM_PREDICATES</span><span class="p">,</span>
@@ -310,6 +312,8 @@
                 <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">locator</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">locator</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File does not exist: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">locator</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Locator, post-processed: </span><span class="si">{</span><span class="n">locator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span>
@@ -550,6 +554,8 @@
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">predicates</span><span class="p">))</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Querying outgoing, curie=</span><span class="si">{</span><span class="n">curie</span><span class="si">}</span><span class="s2">, predicates=</span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2">, q=</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="k">yield</span> <span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">predicates</span> <span class="ow">or</span> <span class="n">RDF_TYPE</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">RdfTypeStatement</span><span class="o">.</span><span class="n">object</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
@@ -558,6 +564,8 @@
             <span class="n">cls_subq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ClassNode</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">RdfTypeStatement</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">cls_subq</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">RDF_TYPE</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">object</span>
         <span class="k">if</span> <span class="n">tbl</span> <span class="o">==</span> <span class="n">Edge</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">predicates</span> <span class="ow">or</span> <span class="n">EQUIVALENT_CLASS</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">):</span>
             <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">OwlEquivalentClassStatement</span><span class="o">.</span><span class="n">object</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
@@ -595,6 +603,10 @@
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tbox_relationships</span><span class="p">(</span>
                 <span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span>
             <span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">OWL_THING</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_owl_top_and_bottom</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">OWL_NOTHING</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">r</span>
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equivalent_class_relationships</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">objects</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">r</span>

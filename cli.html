@@ -61,7 +61,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply">apply</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply-obsolete">apply-obsolete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-check-definitions">check-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-definitions">definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-descendants">descendants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff">diff</a></li>
@@ -102,6 +101,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-termset-similarity">termset-similarity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-tree">tree</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-validate">validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-validate-definitions">validate-definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-validate-multiple">validate-multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-viz">viz</a></li>
 </ul>
@@ -630,23 +630,6 @@ obsolete them all:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-axioms-arg-TERMS">
 <span id="cmdoption-runoak-axioms-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-axioms-arg-TERMS" title="Permalink to this definition"></a></dt>
 <dd><p>Optional argument(s)</p>
-</dd></dl>
-
-</section>
-<section id="runoak-check-definitions">
-<h4>check-definitions<a class="headerlink" href="#runoak-check-definitions" title="Permalink to this headline"></a></h4>
-<blockquote>
-<div><p>Check definitions</p>
-<p>REDUNDANT WITH VALIDATE - may be obsoleted</p>
-</div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak check-definitions <span class="o">[</span>OPTIONS<span class="o">]</span>
-</pre></div>
-</div>
-<p class="rubric">Options</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-check-definitions-o">
-<span id="cmdoption-runoak-check-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-check-definitions-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
 </section>
@@ -3046,6 +3029,23 @@ to at least one of the seeds (highlighted with asterisks) by a path of length 1.
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-validate-o">
 <span id="cmdoption-runoak-validate-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+</section>
+<section id="runoak-validate-definitions">
+<h4>validate-definitions<a class="headerlink" href="#runoak-validate-definitions" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Check definitions</p>
+<p>REDUNDANT WITH VALIDATE - may be obsoleted</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-definitions <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-definitions-o">
+<span id="cmdoption-runoak-validate-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
