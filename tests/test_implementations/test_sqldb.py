@@ -41,6 +41,7 @@ from tests import (
     PHOTORECEPTOR_OUTER_SEGMENT,
     VACUOLE,
 )
+from tests.test_implementations import ComplianceTester
 
 DB = INPUT_DIR / "go-nucleus.db"
 SSN_DB = INPUT_DIR / "ssn.db"
@@ -59,13 +60,29 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.bad_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{bad_ont}"))
         self.ssn_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{SSN_DB}"))
         self.inst_oi = SqlImplementation(OntologyResource(INST_DB))
+        self.compliance_tester = ComplianceTester(self)
 
+    def test_empty_db(self) -> None:
+        """Should raise error when connecting to an empty db."""
+        res = OntologyResource(slug=f"sqlite:///{str(INPUT_DIR / 'NO_SUCH_FILE')}")
+        with self.assertRaises(FileNotFoundError):
+            _ = SqlImplementation(res)
+
+    @unittest.skip("Contents of go-nucleus file need to be aligned")
     def test_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        self.compliance_tester.test_relationships(oi, ignore_annotation_edges=False)
+
+    def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map(VACUOLE)
-        self.assertCountEqual(rels[IS_A], ["GO:0043231"])
+        self.assertCountEqual(rels[IS_A], [IMBO])
         self.assertCountEqual(rels[PART_OF], ["GO:0005737"])
         self.assertCountEqual([IS_A, PART_OF], rels)
+        rels = list(oi.outgoing_relationships(VACUOLE))
+        self.assertCountEqual([(IS_A, IMBO), (PART_OF, CYTOPLASM)], rels)
+        hier_parents = list(oi.hierararchical_parents(VACUOLE))
+        self.assertEqual([IMBO], hier_parents)
 
     def test_instance_graph(self):
         oi = self.inst_oi
@@ -431,6 +448,8 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_multiset_mrcas(self):
         oi = self.oi
+        orig_exclude_owl_top_and_bottom = oi.exclude_owl_top_and_bottom
+        oi.exclude_owl_top_and_bottom = False
         results = oi.multiset_most_recent_common_ancestors(
             [NUCLEUS, VACUOLE, NUCLEAR_ENVELOPE, FUNGI], predicates=[IS_A, PART_OF], asymmetric=True
         )
@@ -443,6 +462,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             ("GO:0005773", "NCBITaxon:4751", "owl:Thing"),
             ("GO:0005634", "GO:0005773", "GO:0043231"),
         ]
+        oi.exclude_owl_top_and_bottom = orig_exclude_owl_top_and_bottom
         self.assertCountEqual(expected, list(results))
         for s, o, lca in expected:
             results = list(oi.most_recent_common_ancestors(s, o, predicates=[IS_A, PART_OF]))

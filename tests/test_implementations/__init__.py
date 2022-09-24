@@ -10,7 +10,13 @@ from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib import BasicOntologyInterface
-from oaklib.datamodels.vocabulary import EQUIVALENT_CLASS, IS_A, ONLY_IN_TAXON, PART_OF
+from oaklib.datamodels.vocabulary import (
+    EQUIVALENT_CLASS,
+    IS_A,
+    NEVER_IN_TAXON,
+    ONLY_IN_TAXON,
+    PART_OF,
+)
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -44,7 +50,7 @@ class ComplianceTester:
     test: unittest.TestCase
     """Link back to the calling test"""
 
-    def test_relationships(self, oi: BasicOntologyInterface):
+    def test_relationships(self, oi: BasicOntologyInterface, ignore_annotation_edges=False):
         """
         Tests relationship methods for compliance
 
@@ -61,6 +67,9 @@ class ComplianceTester:
             (CELLULAR_COMPONENT, True, [(CELLULAR_COMPONENT, IS_A, "BFO:0000040")]),
         ]
         for curie, complete, expected_rels in cases:
+            print(f"TESTS FOR {curie}")
+            if ignore_annotation_edges:
+                expected_rels = [r for r in expected_rels if r[1] != NEVER_IN_TAXON]
             rels = list(oi.relationships([curie]))
             preds = set()
             for rv in expected_rels:
