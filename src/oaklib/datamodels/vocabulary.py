@@ -88,3 +88,4 @@ class SEMAPV(Enum):
     MappingChaining = "semapv:MappingChaining"
     MappingReview = "semapv:MappingReview"
     ManualMappingCuration = "semapv:ManualMappingCuration"
+    RegularExpressionReplacement = "semapv:RegularExpressionReplacement"

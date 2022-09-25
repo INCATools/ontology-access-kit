@@ -229,7 +229,7 @@ def create_mapping(
     # TODO Remove hard-coded SYNONYMIZED
     mapping_justification = SEMAPV.LexicalMatching.value
     if r1.synonymized or r2.synonymized:
-        mapping_justification = mapping_justification + "SYNONYMIZED"
+        mapping_justification = SEMAPV.RegularExpressionReplacement.value
 
     return Mapping(
         subject_id=r1.element,
