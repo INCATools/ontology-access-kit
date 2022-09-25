@@ -120,9 +120,10 @@ def create_lexical_index(
                     synonymized = False  # Flag indicating whether the term was synonymized or not.
                     term2 = term
                     for tr in pipeline.transformations:
-                        term2 = apply_transformation(term2, tr)
-                        if tr.type.code == TransformationType.Synonymization and term2 != term:
-                            synonymized = True
+                        if tr.type.code == TransformationType.Synonymization:
+                            synonymized, term2 = apply_transformation(term2, tr)
+                        else:
+                            term2 = apply_transformation(term2, tr)
 
                     rel = RelationshipToTerm(
                         predicate=pred,
@@ -371,9 +372,13 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
 
 
 def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
+    tmp_term = term
     for rule in rules:
         term = re.sub(eval(rule.match), rule.replacement, term)
-    return term.rstrip()
+    if tmp_term == term:
+        return False, term.rstrip()
+    else:
+        return True, term.rstrip()
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
