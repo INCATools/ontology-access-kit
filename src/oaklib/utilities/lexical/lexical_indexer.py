@@ -226,7 +226,6 @@ def create_mapping(
     :param confidence: Confidence score., defaults to None
     :return: Mapping object.
     """
-    # TODO Remove hard-coded SYNONYMIZED
     mapping_justification = SEMAPV.LexicalMatching.value
     if r1.synonymized or r2.synonymized:
         mapping_justification = SEMAPV.RegularExpressionReplacement.value
