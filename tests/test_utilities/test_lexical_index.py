@@ -51,13 +51,13 @@ class TestLexicalIndex(unittest.TestCase):
         syn_param = [
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="r'\([^)]*\)'", # noqa W605
+                match="r'\([^)]*\)'",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
             Synonymizer(
                 the_rule="Remove parentheses bound info from the label.",
-                match="r'\[[^)]*\]'", # noqa W605
+                match="r'\[[^)]*\]'",  # noqa W605
                 match_scope="*",
                 replacement="",
             ),
