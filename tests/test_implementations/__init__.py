@@ -36,10 +36,11 @@ from tests import (
     MAMMALIA,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
+    PHOTOSYNTHETIC_MEMBRANE,
     PROTEIN1,
     PROTEIN2,
     SUBATOMIC_PARTICLE,
-    VACUOLE, PHOTOSYNTHETIC_MEMBRANE,
+    VACUOLE,
 )
 
 
@@ -273,10 +274,20 @@ class ComplianceTester:
             ),
         )
         # test map
-        assocs = list(oi.map_associations([PROTEIN1, PROTEIN2], object_closure_predicates=[IS_A, PART_OF], subset_entities=[IMBO, HUMAN]))
+        assocs = list(
+            oi.map_associations(
+                [PROTEIN1, PROTEIN2],
+                object_closure_predicates=[IS_A, PART_OF],
+                subset_entities=[IMBO, HUMAN],
+            )
+        )
         for a in assocs:
             test.assertEqual(a[2], IMBO)
-        assocs = list(oi.map_associations([PROTEIN1, PROTEIN2], object_closure_predicates=[IS_A, PART_OF],
-                                          subset_entities=[HUMAN, PHOTOSYNTHETIC_MEMBRANE]))
+        assocs = list(
+            oi.map_associations(
+                [PROTEIN1, PROTEIN2],
+                object_closure_predicates=[IS_A, PART_OF],
+                subset_entities=[HUMAN, PHOTOSYNTHETIC_MEMBRANE],
+            )
+        )
         test.assertEqual([], assocs)
-

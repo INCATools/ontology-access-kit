@@ -43,7 +43,7 @@ class Parser(ABC):
             return lambda _: None
         ix = column_reference.index
         if ix is None:
-            raise ValueError(f"Column reference must have index")
+            raise ValueError("Column reference must have index")
 
         def _lookup(vals: List[Any]) -> Any:
             return vals[ix]

@@ -9,8 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from oaklib.interfaces.association_provider_interface import ASSOCIATION
-from oaklib.types import CURIE, PRED_CURIE, ASSOCIATION
+from oaklib.types import ASSOCIATION, CURIE, PRED_CURIE
 
 COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", "source"]
 

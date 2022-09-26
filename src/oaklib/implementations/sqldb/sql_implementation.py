@@ -675,11 +675,7 @@ class SqlImplementation(
     # Implements: AssocationProviderInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def associations(
-        self,
-        *args,
-        **kwargs
-    ) -> Iterator[ASSOCIATION]:
+    def associations(self, *args, **kwargs) -> Iterator[ASSOCIATION]:
         q = self._associations_query(*args, **kwargs)
         for row in q:
             yield row.subject, row.predicate, row.object, []

@@ -1,4 +1,4 @@
-from typing import Tuple, Any, Optional, List
+from typing import Any, List, Optional, Tuple
 
 CURIE = str
 LABEL = str

@@ -33,7 +33,9 @@ from oaklib.datamodels.vocabulary import (
     SEMAPV,
     SKOS_CLOSE_MATCH,
 )
-from oaklib.interfaces.association_provider_interface import AssociationProviderInterface
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,

@@ -1,10 +1,9 @@
-import logging
 from abc import ABC
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE, ASSOCIATION
+from oaklib.types import ASSOCIATION, CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.associations.association_index import AssociationIndex
 
 
@@ -74,7 +73,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         if objects and object_closure_predicates:
             if isinstance(self, OboGraphInterface):
                 # TODO: use more efficient procedure when object has many descendants
-                objects = list(self.descendants(list(objects), predicates=object_closure_predicates))
+                objects = list(
+                    self.descendants(list(objects), predicates=object_closure_predicates)
+                )
             else:
                 raise NotImplementedError
         ix = self._association_index
