@@ -3486,8 +3486,8 @@ def synonymize(terms, rules_file, apply_patch, patch, output, output_type):
                     # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
                     for alias in aliases:
                         if alias:
-                            new_alias = apply_synonymizer(alias, syn_rules)
-                            if new_alias != alias:
+                            synonymized, new_alias = apply_synonymizer(alias, syn_rules)
+                            if synonymized:
                                 matches.append(new_alias)
 
                 if len(matches) > 0:
