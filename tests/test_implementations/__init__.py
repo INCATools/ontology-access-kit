@@ -13,9 +13,14 @@ from oaklib import BasicOntologyInterface
 from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
     IS_A,
+    LOCATED_IN,
     NEVER_IN_TAXON,
     ONLY_IN_TAXON,
     PART_OF,
+)
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+    associations_subjects,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -29,9 +34,12 @@ from tests import (
     HUMAN,
     IMBO,
     MAMMALIA,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
+    PROTEIN1,
+    PROTEIN2,
     SUBATOMIC_PARTICLE,
-    VACUOLE,
+    VACUOLE, PHOTOSYNTHETIC_MEMBRANE,
 )
 
 
@@ -211,3 +219,64 @@ class ComplianceTester:
             for ch in expected_changes:
                 print(f"Not found: {ch}")
             test.assertLessEqual(len(expected_changes), 3)
+
+    def test_store_associations(self, oi: AssociationProviderInterface):
+        """
+        Tests ability to store then retrieve assocations.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (PROTEIN1, LOCATED_IN, NUCLEUS, []),
+            (PROTEIN1, LOCATED_IN, VACUOLE, []),
+            (PROTEIN2, LOCATED_IN, NUCLEAR_MEMBRANE, []),
+        ]
+        oi.store_associations(cases)
+        assocs = list(oi.associations())
+        test.assertCountEqual(cases, assocs)
+        assocs = list(oi.associations(subjects=[PROTEIN1, PROTEIN2]))
+        test.assertCountEqual(cases, assocs)
+        for p in [PROTEIN1, PROTEIN2]:
+            assocs = list(oi.associations([p]))
+            filtered_cases = [case for case in cases if case[0] == p]
+            test.assertCountEqual(filtered_cases, assocs)
+        # direct queries
+        test.assertEqual(
+            [PROTEIN1], list(associations_subjects(oi.associations(objects=[NUCLEUS])))
+        )
+        test.assertEqual(
+            [PROTEIN1], list(associations_subjects(oi.associations(objects=[VACUOLE])))
+        )
+        test.assertEqual(
+            [PROTEIN1], list(associations_subjects(oi.associations(objects=[NUCLEUS, VACUOLE])))
+        )
+        test.assertEqual(
+            [PROTEIN2], list(associations_subjects(oi.associations(objects=[NUCLEAR_MEMBRANE])))
+        )
+        # closures
+        test.assertEqual(
+            [PROTEIN1],
+            list(
+                associations_subjects(
+                    oi.associations(objects=[IMBO], object_closure_predicates=[IS_A])
+                )
+            ),
+        )
+        test.assertEqual(
+            [PROTEIN1, PROTEIN2],
+            list(
+                associations_subjects(
+                    oi.associations(objects=[IMBO], object_closure_predicates=[IS_A, PART_OF])
+                )
+            ),
+        )
+        # test map
+        assocs = list(oi.map_associations([PROTEIN1, PROTEIN2], object_closure_predicates=[IS_A, PART_OF], subset_entities=[IMBO, HUMAN]))
+        for a in assocs:
+            test.assertEqual(a[2], IMBO)
+        assocs = list(oi.map_associations([PROTEIN1, PROTEIN2], object_closure_predicates=[IS_A, PART_OF],
+                                          subset_entities=[HUMAN, PHOTOSYNTHETIC_MEMBRANE]))
+        test.assertEqual([], assocs)
+

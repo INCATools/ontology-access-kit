@@ -11,6 +11,7 @@ from prefixmaps.io.parser import load_context
 
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
+    HAS_ONTOLOGY_ROOT_TERM,
     IS_A,
     LABEL_PREDICATE,
     OWL_CLASS,
@@ -100,10 +101,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     """
 
     strict: bool = False
+    """Raise exceptions when entities not found in ID-based lookups"""
 
     autosave: bool = field(default_factory=lambda: True)
     """For adapters that wrap a transactional source (e.g sqlite), this controls
-    whether results should be autocommitted after each operation"""
+    whether results should be auto-committed after each operation"""
 
     exclude_owl_top_and_bottom: bool = field(default_factory=lambda: True)
     """Do not include owl:Thing or owl:Nothing"""
@@ -137,7 +139,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def curie_to_uri(self, curie: CURIE, strict: bool = False) -> Optional[URI]:
         """
-        Expands a CURIE to a URI
+        Expands a CURIE to a URI.
 
         :param curie:
         :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded
@@ -159,7 +161,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, uri: URI, strict: bool = True, use_uri_fallback=False
     ) -> Optional[CURIE]:
         """
-        Contracts a URI to a CURIE
+        Contracts a URI to a CURIE.
 
         If strict conditions hold, then no URI can map to more than one CURIE
         (i.e one URI base should not start with another).
@@ -167,7 +169,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param uri: URI
         :param strict: Boolean [default: True]
         :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]
-        :return: CURIE
+        :return: contracted URI, or original URI if no contraction possible
         """
         rv = self.converter.compress(uri)
         if use_uri_fallback:
@@ -200,14 +202,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def _rebuild_relationship_index(self):
         self._relationship_index_cache = None
-        self._relationship_index
+        _ = self._relationship_index  # force re-index
 
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
         raise NotImplementedError
 
     def ontologies(self) -> Iterable[CURIE]:
         """
-        returns iterator over all known ontology CURIEs
+        Yields all known ontology CURIEs.
 
         Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.
         Even when a single ontology is wrapped, there may be multiple ontologies included as imports
@@ -226,7 +228,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def obsoletes(self) -> Iterable[CURIE]:
         """
-        returns iterator over all known CURIEs that are obsolete
+        Yields all known CURIEs that are obsolete.
 
         :return: iterator
         """
@@ -238,15 +240,16 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def ontology_versions(self, ontology: CURIE) -> Iterable[str]:
         """
-        returns iterator over all version identifiers for an ontology
+        Yields all version identifiers for an ontology.
+
         :param ontology:
         :return: iterator
         """
         raise NotImplementedError
 
-    def ontology_metadata(self, ontology: CURIE) -> METADATA_MAP:
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
         """
-        Basic metadata about an ontology
+        Property-values metadata map with metadata about an ontology.
 
         :param ontology:
         :return:
@@ -255,7 +258,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """
-        returns iterator over all known entity CURIEs
+        Yields all known entity CURIEs.
 
         :param filter_obsoletes: if True, exclude any obsolete/deprecated element
         :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class
@@ -272,15 +275,27 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         ignore_owl_thing=True,
         filter_obsoletes=True,
+        annotated_roots=False,
         id_prefixes: List[CURIE] = None,
     ) -> Iterable[CURIE]:
         """
-        All root nodes, where root is defined as any node that is not the subject of
-        a relationship with one of the specified predicates
+        Yields all entities without a parent.
 
-        :param predicates:
+        Note that the concept of a "root" in an ontology can be ambiguous:
+
+        - is the (trivial) owl:Thing included (OWL tautology)?
+        - are we asking for the root of the is-a graph, or a subset of predicates?
+        - do we include parents in imported/merged other ontologies (e.g. BFO)?
+        - do we include obsolete nodes (which are typically singletons)?
+
+        This method will yield entities that are not the subject of an edge, considering
+        only edges with a given set of predicates, optionally ignoring owl:Thing, and
+        optionally constraining to a given set of entity CURIE prefixes
+
+        :param predicates: predicates to be considered (default: all)
         :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
+        :param annotated_roots: use nodes explicitly annotated as root
         :param id_prefixes: limit search to specific prefixes
         :return:
         """
@@ -289,6 +304,14 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             f"Using naive approach for root detection, may be slow. Predicates={predicates}"
         )
         candidates = []
+        if annotated_roots:
+            for ontology in self.ontologies():
+                meta = self.ontology_metadata_map(ontology)
+                candidates += meta.get(HAS_ONTOLOGY_ROOT_TERM, [])
+            logging.info(f"  Annotated roots: {candidates}")
+            for candidate in candidates:
+                yield candidate
+            return
         for curie in self.entities(owl_type=OWL_CLASS):
             if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
                 candidates.append(curie)
@@ -319,10 +342,19 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True
     ) -> Iterable[CURIE]:
         """
-        All leaf nodes, where root is defined as any node that is not the object of
-        a relationship with one of the specified predicates
+        Yields all nodes that have no children.
 
-        :param predicates:
+        Note that the concept of a "leaf" in an ontology can be ambiguous:
+
+        - is the (trivial) owl:Nothing included (OWL tautology)?
+        - are we asking for the leaf of the is-a graph, or the whole graph?
+        - do we include obsolete nodes (which are typically singletons)?
+
+        This method will yield entities that are not the object of an edge, considering
+        only edges with a given set of predicates, optionally ignoring owl:Nothing, and
+        optionally constraining to a given set of entity CURIE prefixes.
+
+        :param predicates: predicates to be considered (default: all)
         :param ignore_owl_nothing: do not consider artificial/trivial owl:Nothing when calculating (default=True)
         :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)
         :return:
@@ -352,6 +384,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, predicates: List[PRED_CURIE] = None, filter_obsoletes=True
     ) -> Iterable[CURIE]:
         """
+        Yields entities that have neither parents nor children.
+
         All singleton nodes, where a singleton has no connections using the specified
         predicate list
 
@@ -385,7 +419,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def subsets(self) -> Iterable[SUBSET_CURIE]:
         """
-        returns iterator over all known subset CURIEs
+        Yields all subsets (slims) defined in the ontology.
+
+        All subsets yielded are contracted to their short form.
 
         :return: iterator
         """
@@ -401,7 +437,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         """
-        returns iterator over all CURIEs belonging to a subset
+        Yields all entities belonging to the specified subset.
 
         :return: iterator
         """
@@ -409,7 +445,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def terms_subsets(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, SUBSET_CURIE]]:
         """
-        returns iterator over all subsets a term belongs to
+        Yields entity-subset pairs for the given set of entities.
 
         :return: iterator
         """
@@ -423,7 +459,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def terms_categories(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CATEGORY_CURIE]]:
         """
-        returns iterator over all categories a term or terms belongs to
+        Yields all categories an entity or entities belongs to.
 
         :return: iterator
         """
@@ -435,7 +471,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def label(self, curie: CURIE) -> Optional[str]:
         """
-        fetches the unique label for a CURIE
+        fetches the unique label for a CURIE.
 
         The CURIE may be for a class, individual, property, or ontology
 
@@ -446,7 +482,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         """
-        fetches comments for a CURIE or CURIEs
+        Yields entity-comment pairs for a CURIE or CURIEs.
 
         The CURIE may be for a class, individual, property, or ontology
 
@@ -461,7 +497,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
         """
-        fetches the unique label for a CURIE
+        Yields entity-label pairs for a CURIE or CURIEs.
 
         The CURIE may be for a class, individual, property, or ontology
 
@@ -479,7 +515,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def set_label(self, curie: CURIE, label: str) -> bool:
         """
-        updates the label
+        Sets the value of a label for a CURIE.
 
         :param curie:
         :param label:
@@ -489,7 +525,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def curies_by_label(self, label: str) -> List[CURIE]:
         """
-        Fetches all curies with a given label
+        Fetches all curies with a given label.
 
         This SHOULD return maximum one CURIE but there are circumstances where multiple CURIEs
         may share a label
@@ -505,7 +541,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         """
-        Returns all hierarchical parents
+        Returns all hierarchical parents.
 
         The definition of hierarchical parent depends on the provider. For example, in OLS,
         this will return part-of parents for GO, as well as is-a
@@ -524,6 +560,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def outgoing_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
+        Returns a predicate-objects map with outgoing relationships for a node.
+
         The return relationship map is keyed by relationship type, where the values
         are the 'parents' or fillers
 
@@ -545,7 +583,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
-        Returns relationships where the input curie in the subject
+        Yields relationships where the input curie in the subject.
 
         :param curie:
         :param predicates: if None, do not filter
@@ -565,7 +603,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def incoming_relationship_map(self, curie: CURIE) -> RELATIONSHIP_MAP:
         """
-        Returns a map of all the relationships where the object is the input CURIE
+        Returns a predicate-subjects map with incoming relationships for a node.
 
         See :ref:outgoing_relationship_map:
 
@@ -608,7 +646,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         include_entailed: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         """
-        Returns all matching relationships
+        Yields all relationships matching query constraints.
 
         :param subjects: constrain search to these subjects (i.e outgoing edges)
         :param predicates: constrain search to these predicates
@@ -637,7 +675,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     @deprecated("Use relationships()")
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         """
-        returns iterator over all known relationships
+        Yields all known relationships.
 
         :return:
         """
@@ -648,9 +686,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def definition(self, curie: CURIE) -> Optional[str]:
         """
+        Lookup the text definition of an entity.
 
         :param curie:
-        :return:x`
+        :return:
         """
         raise NotImplementedError()
 
@@ -660,7 +699,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         """
-        Yields mappings for a given subject, where each mapping is represented as a simple tuple
+        Yields mappings for a given subject.
+
+        Here, each mapping is represented as a simple tuple.
 
         :param curie:
         :return: iterator over predicate-object tuples
@@ -713,6 +754,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         """
+        Lookup basic metadata for a given entity.
+
         Returns a dictionary keyed by property predicate, with a list of zero or more values,
         where each key corresponds to any of a set of open-ended metadata predicates
 
@@ -727,7 +770,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None
     ) -> CURIE:
         """
-        Adds an entity to the resource
+        Creates and stores an entity.
 
         :param curie:
         :param label:
@@ -738,7 +781,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def save(self):
         """
-        Saves current state
+        Saves current state.
 
         :return:
         """
@@ -746,7 +789,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def dump(self, path: str = None, syntax: str = None):
         """
-        Exports current state
+        Exports current state.
 
         :param path:
         :param syntax:
@@ -756,7 +799,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def clone(self, resource: Any) -> None:
         """
-        Clones the ontology interface to a new resource
+        Clones the ontology interface to a new resource.
 
         :param resource:
         :return:

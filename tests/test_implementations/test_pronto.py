@@ -231,6 +231,9 @@ class TestProntoImplementation(unittest.TestCase):
             )
         )
 
+    def test_store_associations(self):
+        self.compliance_tester.test_store_associations(self.oi)
+
     def test_qc(self):
         oi = self.oi
         for t in oi.term_curies_without_definitions():

@@ -48,6 +48,7 @@ from semsql.sqla.semsql import (
     RdfsLabelStatement,
     RdfTypeStatement,
     Statements,
+    TermAssociation,
 )
 from sqlalchemy import and_, create_engine, delete, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
@@ -84,6 +85,10 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces.association_provider_interface import (
+    ASSOCIATION,
+    AssociationProviderInterface,
+)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
@@ -179,6 +184,7 @@ class SqlImplementation(
     SemanticSimilarityInterface,
     MetadataInterface,
     DifferInterface,
+    AssociationProviderInterface,
     ABC,
 ):
     """
@@ -361,6 +367,9 @@ class SqlImplementation(
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
             yield row.id
+
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
+        return self.entity_metadata_map(ontology)
 
     def _get_subset_curie(self, curie: str) -> str:
         if "#" in curie:
@@ -661,6 +670,71 @@ class SqlImplementation(
             raise NotImplementedError
         else:
             raise NotImplementedError
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: AssocationProviderInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def associations(
+        self,
+        *args,
+        **kwargs
+    ) -> Iterator[ASSOCIATION]:
+        q = self._associations_query(*args, **kwargs)
+        for row in q:
+            yield row.subject, row.predicate, row.object, []
+
+    def _associations_query(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+    ) -> Iterator[ASSOCIATION]:
+        q = self.session.query(TermAssociation)
+        if property_filter:
+            raise NotImplementedError
+        if subjects:
+            if subject_closure_predicates:
+                subquery = self.session.query(EntailedEdge.subject).filter(
+                    EntailedEdge.object.in_(objects)
+                )
+                subquery = subquery.filter(EntailedEdge.predicate.in_(subject_closure_predicates))
+                logging.info(f"Object subquery: {q} // {object_closure_predicates}")
+                q = q.filter(TermAssociation.subject.in_(subquery))
+            else:
+                q = q.filter(TermAssociation.subject.in_(tuple(subjects)))
+        if predicates:
+            if predicate_closure_predicates:
+                raise NotImplementedError
+            else:
+                q = q.filter(TermAssociation.predicate.in_(tuple(predicates)))
+        if objects:
+            if object_closure_predicates:
+                subquery = self.session.query(EntailedEdge.subject).filter(
+                    EntailedEdge.object.in_(objects)
+                )
+                subquery = subquery.filter(EntailedEdge.predicate.in_(object_closure_predicates))
+                logging.info(f"Object subquery: {q} // {object_closure_predicates}")
+                q = q.filter(TermAssociation.object.in_(subquery))
+            else:
+                q = q.filter(TermAssociation.object.in_(tuple(objects)))
+        logging.info(f"Association query: {q}")
+        return q
+
+    def store_associations(self, associations: Iterable[ASSOCIATION]) -> bool:
+        for association in associations:
+            subject, predicate, object, properties = association
+            if properties:
+                raise NotImplementedError
+            stmt = insert(TermAssociation).values(
+                subject=subject, predicate=predicate, object=object
+            )
+            self._execute(stmt)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

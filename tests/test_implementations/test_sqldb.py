@@ -473,6 +473,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             else:
                 self.assertEqual([lca], results)
 
+    def test_store_associations(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        oi.autosave = True
+        self.compliance_tester.test_store_associations(oi)
+
     def test_gap_fill(self):
         oi = self.oi
         # note that HUMAN will be deselected as it is a singleton in the is-a/part-of graph

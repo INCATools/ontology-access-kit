@@ -43,9 +43,27 @@ def roll_up_to_named_subset(
     :return: Dictionary of rolled up subset of CURIEs.
     """
     # see https://metacpan.org/dist/go-perl/view/scripts/map2slim
-    terms_in_subset = set(oi.subset_members(subset))
-    # print(f'SUBSET={list(terms_in_subset)}')
+    terms_in_subset = list(oi.subset_members(subset))
     logging.info(f"Terms in {subset} = {len(terms_in_subset)}")
+    return roll_up_to_subset(oi, terms_in_subset, curies, predicates)
+
+
+def roll_up_to_subset(
+    oi: OboGraphInterface,
+    terms_in_subset: List[CURIE],
+    curies: List[CURIE],
+    predicates: List[PRED_CURIE] = None,
+) -> Dict[CURIE, List[CURIE]]:
+    """
+    As :ref:`roll_up_to_named_subset` but with an explicit list of terms to roll up to
+
+    :param oi:
+    :param terms_in_subset:
+    :param curies:
+    :param predicates:
+    :return:
+    """
+    terms_in_subset = set(terms_in_subset)
     subset_anc_map = {
         t: [a for a in oi.ancestors(t, predicates) if a != t and a in terms_in_subset]
         for t in terms_in_subset

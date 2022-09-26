@@ -317,12 +317,14 @@ classes:
         range: Property
       
   AnnotationProperty:
+    description: A property used in non-logical axioms
     is_a: Property
     class_uri: owl:AnnotationProperty
     slots:
     - shorthand
     
   ObjectProperty:
+    description: A property that connects two objects in logical axioms
     is_a: Property
     class_uri: owl:ObjectProperty
     mixins:
@@ -337,23 +339,29 @@ classes:
     - propertyChainAxiom
     
   TransitiveProperty:
+    description: An ObjectProperty with the property of transitivity
     is_a: ObjectProperty
     
   NamedIndividual:
+    description: An instance that has a IRI
     is_a: Term
     class_uri: owl:NamedIndividual
     #slots:
     #- type
 
   Annotation:
+    description: A reified property-object pair
     represents_relationship: true
     attributes:
       predicate:
         relational_role: PREDICATE
+        #required: true
       object:
         relational_role: OBJECT
+        #required: true
     
   Axiom:
+    description: A logical or non-logical statement
     class_uri: owl:Axiom
     represents_relationship: true
     exact_mappings:
@@ -593,6 +601,7 @@ slots:
     slot_uri: IAO:0000700
     multivalued: true
     range: Class
+    #recommended: true
   # patterns
   conformsTo:
     is_a: informative_property
