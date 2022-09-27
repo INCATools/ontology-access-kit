@@ -104,6 +104,7 @@ def get_resource_imp_class_from_suffix_descriptor(
         ProntoImplementation,
         SparqlImplementation,
         SqlImplementation,
+        SimpleOboImplementation
     )
 
     if suffix == "db" or (resource.format and resource.format == "sqlite"):
@@ -120,6 +121,8 @@ def get_resource_imp_class_from_suffix_descriptor(
         logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
     elif suffix == "ofn":
         impl_class = FunOwlImplementation
+    elif suffix == "obo":
+        impl_class = SimpleOboImplementation
     else:
         resource.local = True
         impl_class = ProntoImplementation

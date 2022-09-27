@@ -466,7 +466,10 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
             # rather than forcing all synonyms to be related.
-            scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
+            if type(patch.qualifier) == str:
+                scope = patch.qualifier.upper()
+            else:
+                scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             v = patch.new_value.replace('"', '\\"')
             t.add_tag_value(TAG_SYNONYM, f'"{v}" {scope} []')
         elif isinstance(patch, kgcl.RemoveSynonym):
