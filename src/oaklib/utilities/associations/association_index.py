@@ -9,7 +9,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from oaklib.types import ASSOCIATION, CURIE, PRED_CURIE
+from oaklib.datamodels.association import Association
+from oaklib.types import CURIE, PRED_CURIE
 
 COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", "source"]
 
@@ -32,10 +33,10 @@ class AssociationIndex:
         self._session = session_cls()
         self._engine = engine
 
-    def populate(self, associations: Iterable[ASSOCIATION]):
-        associations = [(s, p, o) for s, p, o, _ in associations]
+    def populate(self, associations: Iterable[Association]):
+        tups = [(a.subject, a.predicate, a.object) for a in associations]
         self._connection.executemany(
-            "insert into term_association(subject, predicate, object) values (?,?,?)", associations
+            "insert into term_association(subject, predicate, object) values (?,?,?)", tups
         )
 
     def lookup(
@@ -44,7 +45,7 @@ class AssociationIndex:
         predicates: Iterable[PRED_CURIE] = None,
         objects: Iterable[CURIE] = None,
         property_filter: Dict[PRED_CURIE, Any] = None,
-    ) -> Iterator[ASSOCIATION]:
+    ) -> Iterator[Association]:
         session = self._session
         q = session.query(TermAssociation)
         if property_filter:
@@ -57,4 +58,4 @@ class AssociationIndex:
             q = q.filter(TermAssociation.object.in_(tuple(objects)))
         logging.info(f"Association query: {q}")
         for row in q:
-            yield row.subject, row.predicate, row.object, []
+            yield Association(subject=row.subject, predicate=row.predicate, object=row.object)

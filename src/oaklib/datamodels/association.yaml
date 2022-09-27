@@ -1,0 +1,39 @@
+id: https://w3id.org/oak/association
+title: OAK Association Data Model
+name: association
+description: >-
+  A datamodel for representing generic associations
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  assoc: https://w3id.org/oak/association/
+imports:
+  - linkml:types
+default_prefix: assoc
+
+classes:
+
+  Association:
+    description: A generic association between a thing (subject) and another thing (object)
+    slots:
+      - subject
+      - predicate
+      - object
+      - property_values
+  PropertyValue:
+    slots:
+      - predicate
+      - object
+
+slots:
+  subject:
+    range: uriorcurie
+  predicate:
+    range: uriorcurie
+  object:
+    range: uriorcurie
+  property_values:
+    multivalued: true
+    range: PropertyValue
+    inlined: true

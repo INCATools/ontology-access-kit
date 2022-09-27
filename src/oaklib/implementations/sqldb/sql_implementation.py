@@ -58,6 +58,7 @@ import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
+from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
     ExistentialRestrictionExpression,
     LogicalDefinitionAxiom,
@@ -86,7 +87,6 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
 from oaklib.interfaces.association_provider_interface import (
-    ASSOCIATION,
     AssociationProviderInterface,
 )
 from oaklib.interfaces.basic_ontology_interface import (
@@ -675,10 +675,10 @@ class SqlImplementation(
     # Implements: AssocationProviderInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def associations(self, *args, **kwargs) -> Iterator[ASSOCIATION]:
+    def associations(self, *args, **kwargs) -> Iterator[Association]:
         q = self._associations_query(*args, **kwargs)
         for row in q:
-            yield row.subject, row.predicate, row.object, []
+            yield Association(row.subject, row.predicate, row.object)
 
     def _associations_query(
         self,
@@ -690,7 +690,7 @@ class SqlImplementation(
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
-    ) -> Iterator[ASSOCIATION]:
+    ) -> Any:
         q = self.session.query(TermAssociation)
         if property_filter:
             raise NotImplementedError
@@ -722,15 +722,15 @@ class SqlImplementation(
         logging.info(f"Association query: {q}")
         return q
 
-    def store_associations(self, associations: Iterable[ASSOCIATION]) -> bool:
-        for association in associations:
-            subject, predicate, object, properties = association
-            if properties:
+    def store_associations(self, associations: Iterable[Association]) -> bool:
+        for a in associations:
+            if a.property_values:
                 raise NotImplementedError
             stmt = insert(TermAssociation).values(
-                subject=subject, predicate=predicate, object=object
+                subject=a.subject, predicate=a.predicate, object=a.object
             )
             self._execute(stmt)
+        return True
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

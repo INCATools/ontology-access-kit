@@ -1,13 +1,14 @@
 from abc import ABC
 from typing import Any, Dict, Iterable, Iterator, List, Optional
 
+from oaklib.datamodels.association import Association
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-from oaklib.types import ASSOCIATION, CURIE, PRED_CURIE, SUBSET_CURIE
+from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.associations.association_index import AssociationIndex
 
 
-def associations_subjects(associations: Iterable[ASSOCIATION]) -> Iterator[CURIE]:
+def associations_subjects(associations: Iterable[Association]) -> Iterator[CURIE]:
     """
     Yields distinct subjects for all associations.
 
@@ -16,13 +17,13 @@ def associations_subjects(associations: Iterable[ASSOCIATION]) -> Iterator[CURIE
     """
     seen = set()
     for a in associations:
-        if a[0] in seen:
+        if a.subject in seen:
             continue
-        yield a[0]
-        seen.add(a[0])
+        yield a.subject
+        seen.add(a.subject)
 
 
-def associations_objects(associations: Iterable[ASSOCIATION]) -> Iterator[CURIE]:
+def associations_objects(associations: Iterable[Association]) -> Iterator[CURIE]:
     """
     Yields distinct subjects for all associations.
 
@@ -31,10 +32,10 @@ def associations_objects(associations: Iterable[ASSOCIATION]) -> Iterator[CURIE]
     """
     seen = set()
     for a in associations:
-        if a[2] in seen:
+        if a.object in seen:
             continue
-        yield a[2]
-        seen.add(a[2])
+        yield a.object
+        seen.add(a.object)
 
 
 class AssociationProviderInterface(BasicOntologyInterface, ABC):
@@ -55,7 +56,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
-    ) -> Iterator[ASSOCIATION]:
+    ) -> Iterator[Association]:
         """
         Yield all matching associations.
 
@@ -82,7 +83,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         for a in ix.lookup(subjects, predicates, objects):
             yield a
 
-    def store_associations(self, associations: Iterable[ASSOCIATION]) -> bool:
+    def store_associations(self, associations: Iterable[Association]) -> bool:
         """
 
         :param associations:
@@ -106,7 +107,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
-    ) -> Iterator[ASSOCIATION]:
+    ) -> Iterator[Association]:
         # Default implementation: this may be overridden for efficiency
         if subset is None and subset_entities is None:
             raise ValueError("Must pass ONE OF subset OR subset_entities")
@@ -125,8 +126,13 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         )
         if isinstance(self, OboGraphInterface):
             for association in association_it:
-                obj = association[2]
+                obj = association.object
                 ancs = list(self.ancestors([obj], predicates=object_closure_predicates))
                 for mapped_obj in subset_entities.intersection(ancs):
-                    association = association[0], association[1], mapped_obj, association[3]
+                    association = Association(
+                        association.subject,
+                        association.predicate,
+                        mapped_obj,
+                        property_values=association.property_values,
+                    )
                     yield association

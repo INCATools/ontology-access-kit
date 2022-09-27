@@ -221,8 +221,8 @@ class ProntoImplementation(
             return self.wrapped_ontology.create_term(curie)
 
     def _create_pred(self, curie: CURIE, exist_ok=True):
-        if curie in self.wrapped_ontology:
-            return self.wrapped_ontology[curie]
+        if curie in self.wrapped_ontology.relationships():
+            return self.wrapped_ontology.get_relationship(curie)
         else:
             return self.wrapped_ontology.create_relationship(curie)
 

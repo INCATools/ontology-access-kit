@@ -10,6 +10,7 @@ from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib import BasicOntologyInterface
+from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
     IS_A,
@@ -230,18 +231,19 @@ class ComplianceTester:
         """
         test = self.test
         cases = [
-            (PROTEIN1, LOCATED_IN, NUCLEUS, []),
-            (PROTEIN1, LOCATED_IN, VACUOLE, []),
-            (PROTEIN2, LOCATED_IN, NUCLEAR_MEMBRANE, []),
+            (PROTEIN1, LOCATED_IN, NUCLEUS),
+            (PROTEIN1, LOCATED_IN, VACUOLE),
+            (PROTEIN2, LOCATED_IN, NUCLEAR_MEMBRANE),
         ]
-        oi.store_associations(cases)
+        assoc_cases = [Association(*a) for a in cases]
+        oi.store_associations(assoc_cases)
         assocs = list(oi.associations())
-        test.assertCountEqual(cases, assocs)
+        test.assertCountEqual(assoc_cases, assocs)
         assocs = list(oi.associations(subjects=[PROTEIN1, PROTEIN2]))
-        test.assertCountEqual(cases, assocs)
+        test.assertCountEqual(assoc_cases, assocs)
         for p in [PROTEIN1, PROTEIN2]:
             assocs = list(oi.associations([p]))
-            filtered_cases = [case for case in cases if case[0] == p]
+            filtered_cases = [case for case in assoc_cases if case.subject == p]
             test.assertCountEqual(filtered_cases, assocs)
         # direct queries
         test.assertEqual(
@@ -282,7 +284,7 @@ class ComplianceTester:
             )
         )
         for a in assocs:
-            test.assertEqual(a[2], IMBO)
+            test.assertEqual(a.object, IMBO)
         assocs = list(
             oi.map_associations(
                 [PROTEIN1, PROTEIN2],

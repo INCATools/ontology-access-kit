@@ -167,7 +167,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
 
     def test_save(self):
-        oi = ProntoImplementation.create()
+        oi = ProntoImplementation()
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.create_entity(
             "FOO:1", label="foo", relationships={IS_A: ["FOO:2"], "part_of": ["FOO:3"]}
@@ -179,7 +179,7 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_from_obo_library(self):
-        oi = ProntoImplementation.create(OntologyResource(local=False, slug="pato.obo"))
+        oi = ProntoImplementation(OntologyResource(local=False, slug="pato.obo"))
         curies = oi.curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
 

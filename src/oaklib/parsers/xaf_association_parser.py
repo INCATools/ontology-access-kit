@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from typing import Iterator, TextIO
 
-from oaklib.interfaces.association_provider_interface import ASSOCIATION
+from oaklib.datamodels.association import Association
 from oaklib.parsers.association_parser import AssociationParser
 from oaklib.parsers.parser_base import ColumnReference
 
@@ -15,7 +15,7 @@ class XafAssociationParser(AssociationParser):
     predicate_column: ColumnReference = None
     object_column: ColumnReference = None
 
-    def parse(self, file: TextIO) -> Iterator[ASSOCIATION]:
+    def parse(self, file: TextIO) -> Iterator[Association]:
         """
         Yields annotations from a GAF or GAF-like file
 
@@ -32,4 +32,4 @@ class XafAssociationParser(AssociationParser):
             s = lookup_subject(vals)
             p = lookup_predicate(vals)
             o = lookup_object(vals)
-            yield s, p, o, []
+            yield Association(s, p, o)

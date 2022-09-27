@@ -24,23 +24,25 @@ class AssociationIndexTest(unittest.TestCase):
         ix.create()
         with open(GAF) as file:
             associations = list(parser.parse(file))
+            print(associations)
             ix.populate(associations)
             retrieved = list(ix.lookup())
             for r in retrieved:
+                print(r)
                 self.assertIn(r, associations)
             for a in associations:
                 self.assertIn(a, retrieved)
             proteins = list(associations_subjects(associations))
             terms = list(associations_objects(associations))
-            for p in proteins[0:3]:
-                retrieved = list(ix.lookup(subjects=[p]))
-                expected = [a for a in associations if a[0] == p]
+            for pr in proteins[0:3]:
+                retrieved = list(ix.lookup(subjects=[pr]))
+                expected = [a for a in associations if a.subject == pr]
                 self.assertCountEqual(
                     list(associations_objects(expected)), list(associations_objects(retrieved))
                 )
             for t in terms[0:3]:
                 retrieved = list(ix.lookup(objects=[t]))
-                expected = [a for a in associations if a[2] == t]
+                expected = [a for a in associations if a.object == t]
                 self.assertCountEqual(
                     list(associations_objects(expected)), list(associations_objects(retrieved))
                 )

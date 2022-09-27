@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Iterator, TextIO
 
-from oaklib.implementations.ols.ols_implementation import ANNOTATION
+from oaklib.datamodels.association import Association
 from oaklib.parsers.parser_base import Parser
 
 
@@ -12,5 +12,5 @@ class AssociationParser(Parser, ABC):
     """Base class for all association parsers."""
 
     @abstractmethod
-    def parse(self, file: TextIO) -> Iterator[ANNOTATION]:
+    def parse(self, file: TextIO) -> Iterator[Association]:
         raise NotImplementedError
