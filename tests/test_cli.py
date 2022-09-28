@@ -35,7 +35,6 @@ TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
 MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
 TEST_SYNONYMIZER_OBO = INPUT_DIR / "synonym-test.obo"
-TEST_SYNONYMIZER_OUTPUT = OUTPUT_DIR / "synonym-test-outpu.obo"
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 
 
@@ -649,6 +648,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 self.assertCountEqual(expected, docs)
 
     def test_synonymizer(self):
+        patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
+        outfile = OUTPUT_DIR / "synonym-test-output.obo"
         result = self.runner.invoke(
             main,
             [
@@ -657,14 +658,18 @@ class TestCommandLineInterface(unittest.TestCase):
                 "synonymize",
                 "-R",
                 RULES_FILE,
-                " .all ",
                 "--patch",
-                f"{OUTPUT_DIR}/test-synonymize.kgcl",
+                patch_file,
+                "--apply-patch",
                 "-o",
-                TEST_SYNONYMIZER_OUTPUT,
+                outfile,
+                ".all",
             ],
         )
-        self.assertEqual(0, result.exit_code)
-        import pdb
 
-        pdb.set_trace()
+        self.assertEqual(0, result.exit_code)
+        with open(patch_file, "r") as p, open(outfile, "r") as t:
+            patch = p.readlines()
+            self.assertTrue(len(patch), 3)
+            output = t.readlines()
+            self.assertTrue('synonym: "bone element" EXACT []\n' in output)
