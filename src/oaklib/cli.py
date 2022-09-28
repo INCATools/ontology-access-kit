@@ -3508,7 +3508,8 @@ def synonymize(terms, rules_file, apply_patch, patch, output, output_type):
             _apply_changes(impl, change_list)
 
 
-# runoak -i tests/input/synonym-test.obo synonymize -R tests/input/matcher_rules.yaml  .all --patch test.kgcl --apply-patch
+# runoak -i tests/input/synonym-test.obo synonymize -R 
+# tests/input/matcher_rules.yaml  .all --patch test.kgcl --apply-patch
 
 
 if __name__ == "__main__":

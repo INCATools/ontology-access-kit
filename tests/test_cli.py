@@ -34,6 +34,9 @@ TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
 TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
 MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
+TEST_SYNONYMIZER_OBO = INPUT_DIR / "synonym-test.obo"
+TEST_SYNONYMIZER_OUTPUT = OUTPUT_DIR / "synonym-test-outpu.obo"
+RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 
 
 class TestCommandLineInterface(unittest.TestCase):
@@ -438,7 +441,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 f"pronto:{INPUT_DIR}/matcher-test.owl",
                 "lexmatch",
                 "-R",
-                f"{INPUT_DIR}/matcher_rules.yaml",
+                RULES_FILE,
                 "-o",
                 outfile,
             ],
@@ -463,7 +466,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 f"sqlite:{INPUT_DIR}/matcher-test.db",
                 "lexmatch",
                 "-R",
-                f"{INPUT_DIR}/matcher_rules.yaml",
+                RULES_FILE,
                 "-o",
                 outfile,
             ],
@@ -644,3 +647,24 @@ class TestCommandLineInterface(unittest.TestCase):
                 docs = list(yaml.load_all(f, yaml.FullLoader))
                 expected += [None]
                 self.assertCountEqual(expected, docs)
+
+    def test_synonymizer(self):
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                TEST_SYNONYMIZER_OBO,
+                "synonymize",
+                "-R",
+                RULES_FILE,
+                " .all ",
+                "--patch",
+                f"{OUTPUT_DIR}/test-synonymize.kgcl",
+                "-o",
+                TEST_SYNONYMIZER_OUTPUT,
+            ],
+        )
+        self.assertEqual(0, result.exit_code)
+        import pdb
+
+        pdb.set_trace()

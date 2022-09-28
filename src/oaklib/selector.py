@@ -102,9 +102,9 @@ def get_resource_imp_class_from_suffix_descriptor(
 ):
     from oaklib.implementations import (
         ProntoImplementation,
+        SimpleOboImplementation,
         SparqlImplementation,
         SqlImplementation,
-        SimpleOboImplementation
     )
 
     if suffix == "db" or (resource.format and resource.format == "sqlite"):
