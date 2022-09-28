@@ -34,7 +34,7 @@ TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
 TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
 MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
-TEST_SYNONYMIZER_OBO = INPUT_DIR / "synonym-test.obo"
+TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
 RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 
 

@@ -3465,6 +3465,7 @@ def synonymize(terms, rules_file, apply_patch, patch, output):
         runoak -i foo.obo synonymize -R foo_rules.yaml --patch patch.kgcl --apply-patch
     """
     impl = settings.impl
+    # TODO: Eventually get this from settings as above
 
     if rules_file:
         ruleset = load_mapping_rules(rules_file)
