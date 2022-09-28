@@ -3456,8 +3456,7 @@ def fill_table(
     help="Output patch file containing KGCL commands.",
 )
 @output_option
-@output_type_option
-def synonymize(terms, rules_file, apply_patch, patch, output, output_type):
+def synonymize(terms, rules_file, apply_patch, patch, output):
     """
     Apply synonymizer rule from the rules file to generate KGCL syntax
     see https://github.com/INCATools/kgcl.
