@@ -3505,6 +3505,8 @@ def synonymize(terms, rules_file, apply_patch, patch, output, output_type):
                         patch.write("\n")
 
         if apply_patch and len(change_list) > 0:
+            if output:
+                impl.resource.slug = output
             _apply_changes(impl, change_list)
 
 
