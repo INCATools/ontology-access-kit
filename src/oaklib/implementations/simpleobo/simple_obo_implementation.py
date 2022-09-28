@@ -356,9 +356,9 @@ class SimpleOboImplementation(
                     mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
         # TODO: use a cache to avoid re-calculating
-        for s in self.obo_document.stanzas:
-            if s:
-                for x in s.simple_values(TAG_XREF):
+        for _, stanza in self.obo_document.stanzas.items():
+            if len(stanza.simple_values(TAG_XREF)) > 0:
+                for x in stanza.simple_values(TAG_XREF):
                     if x == curie:
                         yield sssom.Mapping(
                             subject_id=s.id,
