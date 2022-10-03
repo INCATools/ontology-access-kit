@@ -98,7 +98,7 @@ classes:
   Synonymizer:
    attributes:
     the_rule:
-      description: Descrition of the rule.
+      description: Description of the rule.
       range: string
     match:
       description: Reg-ex rule to match substrings in labels.
