@@ -371,3 +371,11 @@ class TestProntoImplementation(unittest.TestCase):
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
         )
+
+    # SemanticSimilarityInterface
+    def test_common_ancestors(self):
+        self.compliance_tester.test_common_ancestors(self.oi)
+
+    @unittest.skip("Not implemented")
+    def test_pairwise_similarity(self):
+        self.compliance_tester.test_pairwise_similarity(self.oi)

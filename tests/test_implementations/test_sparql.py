@@ -271,3 +271,8 @@ class TestSparqlImplementation(unittest.TestCase):
         oi = SparqlImplementation(resource)
         terms = list(oi.entities(owl_type="owl:Class"))
         self.assertCountEqual(["PATO:1", "PATO:2"], terms)
+
+    # SemanticSimilarity
+    def test_common_ancestors(self):
+        # TODO: this is currently slow
+        self.compliance_tester.test_common_ancestors(self.oi)

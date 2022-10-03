@@ -48,6 +48,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
@@ -73,6 +74,7 @@ class ProntoImplementation(
     MappingProviderInterface,
     PatcherInterface,
     AssociationProviderInterface,
+    SemanticSimilarityInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:

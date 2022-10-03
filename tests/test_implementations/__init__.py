@@ -1,3 +1,7 @@
+"""Compliance tests for multiple interfaces.
+
+See <https://github.com/INCATools/ontology-access-kit/issues/291>_
+"""
 import json
 import logging
 import unittest
@@ -17,6 +21,7 @@ from oaklib.datamodels.vocabulary import (
     LOCATED_IN,
     NEVER_IN_TAXON,
     ONLY_IN_TAXON,
+    OWL_THING,
     PART_OF,
 )
 from oaklib.interfaces.association_provider_interface import (
@@ -25,19 +30,29 @@ from oaklib.interfaces.association_provider_interface import (
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from tests import (
+    ARCHAEA,
+    BACTERIA,
+    BIOLOGICAL_PROCESS,
     CELL,
+    CELLULAR_ANATOMICAL_ENTITY,
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
     EUKARYOTA,
+    FAKE_ID,
+    FUNGI,
     HUMAN,
     IMBO,
     MAMMALIA,
+    NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
+    PHOTORECEPTOR_OUTER_SEGMENT,
     PHOTOSYNTHETIC_MEMBRANE,
+    PLASMA_MEMBRANE,
     PROTEIN1,
     PROTEIN2,
     SUBATOMIC_PARTICLE,
@@ -54,17 +69,31 @@ def _as_json_dict_no_id(change: Change) -> dict:
 @dataclass
 class ComplianceTester:
     """
-    Tests for compliance against expected behavior
+    Tests for compliance against expected behavior.
+
+    This is intended to be called from an implementation-specific unit test.
+    Each such unit test can call compliance within this class.
+
+    It is recommended that within the `setUp` method of the unit test,
+    the following is performed.
+
+    >>> self.compliance_tester = ComplianceTester(self)
+
+    Then individual test can call this:
+
+    >>> def test_foo(self):
+    >>>    self.compliance_tester.test_foo(self.oi)
     """
 
     test: unittest.TestCase
-    """Link back to the calling test"""
+    """Link back to implementation-specific unit test."""
 
     def test_relationships(self, oi: BasicOntologyInterface, ignore_annotation_edges=False):
         """
-        Tests relationship methods for compliance
+        Tests relationship methods for compliance.
 
         :param oi:
+        :param ignore_annotation_edges: ignore edges representing OWL annotation assertion axioms
         :return:
         """
         test = self.test
@@ -77,7 +106,7 @@ class ComplianceTester:
             (CELLULAR_COMPONENT, True, [(CELLULAR_COMPONENT, IS_A, "BFO:0000040")]),
         ]
         for curie, complete, expected_rels in cases:
-            print(f"TESTS FOR {curie}")
+            logging.info(f"TESTS FOR {curie}")
             if ignore_annotation_edges:
                 expected_rels = [r for r in expected_rels if r[1] != NEVER_IN_TAXON]
             rels = list(oi.relationships([curie]))
@@ -108,7 +137,10 @@ class ComplianceTester:
 
     def test_equiv_relationships(self, oi: BasicOntologyInterface):
         """
-        Tests equivalence relationship methods for compliance
+        Tests equivalence relationship methods for compliance.
+
+        The test suite includes a single equivalence axiom between named classes,
+        between CHEBI and BFO roles.
 
         :param oi:
         :return:
@@ -118,7 +150,6 @@ class ComplianceTester:
         for c1, c2 in pairs:
             for s1, s2 in [(c1, c2), (c2, c1)]:
                 rels = oi.outgoing_relationship_map(s1)
-                # print(rels)
                 test.assertCountEqual(rels[EQUIVALENT_CLASS], [s2])
 
     def test_patcher(
@@ -128,10 +159,10 @@ class ComplianceTester:
         roundtrip_function: Callable = None,
     ):
         """
-        Tests conformance to a patcher interface
+        Tests conformance to a patcher interface.
 
         This will apply changes to an input ontology, it will then diff the modified ontology
-        to recapitulate the changes
+        to recapitulate the changes.
 
         :param oi:
         :param original_oi:
@@ -224,7 +255,7 @@ class ComplianceTester:
 
     def test_store_associations(self, oi: AssociationProviderInterface):
         """
-        Tests ability to store then retrieve assocations.
+        Tests ability to store then retrieve associations.
 
         :param oi:
         :return:
@@ -236,7 +267,7 @@ class ComplianceTester:
             (PROTEIN2, LOCATED_IN, NUCLEAR_MEMBRANE),
         ]
         assoc_cases = [Association(*a) for a in cases]
-        oi.store_associations(assoc_cases)
+        oi.add_associations(assoc_cases)
         assocs = list(oi.associations())
         test.assertCountEqual(assoc_cases, assocs)
         assocs = list(oi.associations(subjects=[PROTEIN1, PROTEIN2]))
@@ -293,3 +324,172 @@ class ComplianceTester:
             )
         )
         test.assertEqual([], assocs)
+        counts = oi.association_subject_counts(object_closure_predicates=[IS_A, PART_OF])
+        count_map = {}
+        for k, v in counts:
+            count_map[k] = v
+            test.assertLessEqual(v, 2)
+        test.assertEqual(1, count_map[NUCLEAR_MEMBRANE])
+        test.assertEqual(2, count_map[NUCLEUS])
+        test.assertEqual(2, count_map[IMBO])
+        if isinstance(oi, SemanticSimilarityInterface):
+            try:
+                self.test_information_content_scores(oi, use_associations=True)
+            except NotImplementedError:
+                logging.info(f"Not yet implemented for {type(oi)}")
+
+    def test_common_ancestors(self, oi: SemanticSimilarityInterface):
+        """
+        Tests behavior of common ancestors and most recent common ancestors.
+
+        Pairs of entities are tested to determine if their common ancestors and
+        MRCAs match what is expected, when filtered by a specified predicate list.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        expecteced = [
+            (NUCLEUS, NUCLEUS, [IS_A], None, [NUCLEUS]),
+            (NUCLEUS, VACUOLE, [IS_A], None, [IMBO]),
+            (NUCLEUS, IMBO, [IS_A], None, [IMBO]),
+            # (NUCLEUS, NUCLEUS, [], None, [NUCLEUS]),
+            (NUCLEUS, NUCLEUS, [IS_A, PART_OF], None, [NUCLEUS]),
+            (NUCLEAR_ENVELOPE, NUCLEUS, [IS_A, PART_OF], None, [NUCLEUS]),
+            (NUCLEAR_ENVELOPE, NUCLEUS, [IS_A], None, [CELLULAR_ANATOMICAL_ENTITY]),
+            (BIOLOGICAL_PROCESS, NUCLEUS, [IS_A], [OWL_THING], [OWL_THING]),
+        ]
+        for x, y, preds, expected_ancs, expected_mrcas in expecteced:
+            ancs = list(oi.common_ancestors(x, y, preds))
+            ancs_flipped = list(oi.common_ancestors(y, x, preds))
+            mrcas = list(oi.most_recent_common_ancestors(x, y, preds))
+            mrcas_flipped = list(oi.most_recent_common_ancestors(y, x, preds))
+            if expected_ancs is not None:
+                test.assertCountEqual(expected_ancs, ancs)
+            test.assertCountEqual(
+                expected_mrcas, mrcas, f"different MRCA results for {x} v {y} with {preds}"
+            )
+            for a in mrcas:
+                test.assertIn(a, ancs)
+            test.assertCountEqual(ancs, ancs_flipped)
+            test.assertCountEqual(mrcas, mrcas_flipped)
+
+    def test_information_content_scores(
+        self, oi: SemanticSimilarityInterface, use_associations: bool = False
+    ):
+        """
+        Tests calculation of IC scores.
+
+        Ensures the constraint that child terms should have greater than or equal IC to their parents.
+
+        When the ontology is used as the corpus, the constraint is stronger, and it must be less than.
+
+        :param oi:
+        :param use_associations: use associations as the background set
+        :return:
+        """
+        test = self.test
+        terms = [
+            NUCLEUS,
+            VACUOLE,
+            NUCLEAR_ENVELOPE,
+            PHOTORECEPTOR_OUTER_SEGMENT,
+            IMBO,
+            CELLULAR_COMPONENT,
+            FUNGI,
+            EUKARYOTA,
+            OWL_THING,
+        ]
+        posets = [
+            (FUNGI, EUKARYOTA),
+            (NUCLEAR_ENVELOPE, NUCLEUS),
+            (NUCLEUS, IMBO),
+            (IMBO, CELLULAR_COMPONENT),
+        ]
+        m = {}
+        for curie, score in oi.information_content_scores(
+            terms, object_closure_predicates=[IS_A, PART_OF], use_associations=use_associations
+        ):
+            m[curie] = score
+        # universal root node always has zero information
+        test.assertEqual(m[OWL_THING], 0.0)
+        for child, parent in posets:
+            if use_associations:
+                if child in m and parent in m:
+                    print(f"{m[child]} > {m[parent]}")
+                    test.assertGreaterEqual(m[child], m[parent])
+            else:
+                test.assertGreater(m[child], m[parent])
+
+    def test_pairwise_similarity(self, oi: SemanticSimilarityInterface):
+        test = self.test
+        # test non-existent item
+        sim = oi.pairwise_similarity(NUCLEUS, FAKE_ID)
+        # print(sim)
+        test.assertEqual(0.0, sim.ancestor_information_content)
+        test.assertEqual(0.0, sim.jaccard_similarity)
+        terms = [NUCLEUS, FAKE_ID]
+        pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
+        test.assertEqual(4, len(pairs))
+        for pair in pairs:
+            if pair.subject_id == pair.object_id:
+                test.assertGreater(pair.jaccard_similarity, 0.99)
+            else:
+                test.assertEqual(0.0, pair.ancestor_information_content)
+        terms = [
+            NUCLEUS,
+            VACUOLE,
+            NUCLEAR_ENVELOPE,
+            PLASMA_MEMBRANE,
+            BACTERIA,
+            CELLULAR_ORGANISMS,
+            FAKE_ID,
+        ]
+        # test each member vs itself
+        pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
+        distances = {}
+        for pair in pairs:
+            if pair.subject_id == pair.object_id:
+                test.assertGreater(pair.jaccard_similarity, 0.99)
+                if pair.subject_id == FAKE_ID:
+                    test.assertIsNone(pair.phenodigm_score)
+                else:
+                    test.assertGreater(pair.phenodigm_score, 0.5)
+            distances[(pair.subject_id, pair.object_id)] = 1 - pair.jaccard_similarity
+        # test triangle inequality
+        for x in terms:
+            for y in terms:
+                for z in terms:
+                    test.assertGreaterEqual(
+                        distances[(x, y)] + distances[(y, z)], distances[(x, z)]
+                    )
+        termsets = [
+            (
+                [NUCLEUS, VACUOLE],
+                [NUCLEAR_ENVELOPE],
+                [IS_A],
+                5.66,
+                5.66,
+            ),
+            (
+                [NUCLEUS, VACUOLE],
+                [NUCLEAR_ENVELOPE],
+                [IS_A, PART_OF],
+                8.28,
+                8.53,
+            ),
+            (
+                [CYTOPLASM, BACTERIA],
+                [CYTOPLASM, BACTERIA],
+                [IS_A, PART_OF],
+                7.7,
+                8.1,
+            ),
+            ([NUCLEUS, VACUOLE], [BACTERIA, ARCHAEA], [IS_A], 0.0, 0.0),
+        ]
+        error_range = 1.0
+        for ts in termsets:
+            ts1, ts2, ps, expected_avg, expected_max = ts
+            sim = oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
+            test.assertLess(abs(sim.average_score - expected_avg), error_range)
+            test.assertLess(abs(sim.best_score - expected_max), error_range)

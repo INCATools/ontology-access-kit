@@ -1,5 +1,6 @@
 from abc import ABC
-from typing import Any, Dict, Iterable, Iterator, List, Optional
+from collections import defaultdict
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from oaklib.datamodels.association import Association
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -83,8 +84,9 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         for a in ix.lookup(subjects, predicates, objects):
             yield a
 
-    def store_associations(self, associations: Iterable[Association]) -> bool:
+    def add_associations(self, associations: Iterable[Association]) -> bool:
         """
+        Store a collection of associations for later retrievals.
 
         :param associations:
         :return:
@@ -94,6 +96,35 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
             self._association_index.create()
         self._association_index.populate(associations)
         return True
+
+    def association_subject_counts(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+    ) -> Iterator[Tuple[CURIE, int]]:
+        association_it = self.associations(
+            subjects=subjects,
+            predicates=predicates,
+            property_filter=property_filter,
+            subject_closure_predicates=subject_closure_predicates,
+            predicate_closure_predicates=predicate_closure_predicates,
+            include_modified=include_modified,
+        )
+        object_to_subject_map = defaultdict(set)
+        if isinstance(self, OboGraphInterface):
+            for association in association_it:
+                subject = association.subject
+                obj = association.object
+                ancs = list(self.ancestors([obj], predicates=object_closure_predicates))
+                for anc in ancs:
+                    object_to_subject_map[anc].add(subject)
+        for k, v in object_to_subject_map.items():
+            yield k, len(v)
 
     def map_associations(
         self,

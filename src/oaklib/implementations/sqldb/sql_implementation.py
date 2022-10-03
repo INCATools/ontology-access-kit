@@ -21,6 +21,7 @@ from typing import (
 
 import rdflib
 import semsql.builder.builder as semsql_builder
+import sqlalchemy.orm
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -50,7 +51,7 @@ from semsql.sqla.semsql import (
     Statements,
     TermAssociation,
 )
-from sqlalchemy import and_, create_engine, delete, insert, text, update
+from sqlalchemy import and_, create_engine, delete, func, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
 from sssom_schema import Mapping
 
@@ -206,7 +207,7 @@ class SqlImplementation(
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
     _prefix_map: PREFIX_MAP = None
-    _information_content_cache: Dict[Tuple[CURIE, Set[PRED_CURIE]], float] = None
+    _information_content_cache: Dict[Tuple, float] = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -690,8 +691,12 @@ class SqlImplementation(
         predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
+        query: sqlalchemy.orm.Query = None,
     ) -> Any:
-        q = self.session.query(TermAssociation)
+        if query:
+            q = query
+        else:
+            q = self.session.query(TermAssociation)
         if property_filter:
             raise NotImplementedError
         if subjects:
@@ -722,7 +727,7 @@ class SqlImplementation(
         logging.info(f"Association query: {q}")
         return q
 
-    def store_associations(self, associations: Iterable[Association]) -> bool:
+    def add_associations(self, associations: Iterable[Association]) -> bool:
         for a in associations:
             if a.property_values:
                 raise NotImplementedError
@@ -824,7 +829,7 @@ class SqlImplementation(
         for row in q:
             yield row.object
 
-    def multi_ancestors(
+    def _multi_ancestors(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[RELATIONSHIP]:
         q = self.session.query(EntailedEdge)
@@ -832,6 +837,7 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.subject.in_(tuple(start_curies)))
         else:
             q = q.filter(EntailedEdge.subject == start_curies)
+            start_curies = list(start_curies)
         if predicates is not None:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         logging.debug(f"Ancestors query, start from {start_curies}: {q}")
@@ -839,7 +845,10 @@ class SqlImplementation(
             yield row.subject, row.predicate, row.object
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
     ) -> Iterable[CURIE]:
         q = self.session.query(EntailedEdge)
         if isinstance(start_curies, list):
@@ -1219,27 +1228,47 @@ class SqlImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SemSim
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    def get_information_content(
-        self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
-    ):
-        if self._information_content_cache is None:
-            self._information_content_cache = {}
-        if predicates is None:
-            key = curie, None
-        else:
-            key = curie, tuple(set(predicates))
-        if key not in self._information_content_cache:
-            num_nodes = self.session.query(Node.id).count()
-            q = self.session.query(EntailedEdge.subject)
-            q = q.filter(EntailedEdge.object == curie)
+
+    def information_content_scores(
+        self,
+        curies: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        curies = list(curies)
+        if use_associations:
+            q = self.session.query(EntailedEdge.object, func.count(TermAssociation.subject))
+            q = q.filter(EntailedEdge.subject == TermAssociation.object)
+            if curies:
+                q = q.filter(EntailedEdge.object.in_(curies))
             if predicates:
-                q = q.filter(EntailedEdge.predicate.in_(predicates))
-            num_descs = q.count()
-            ic = -math.log(num_descs / num_nodes) / math.log(2)
-            self._information_content_cache[key] = ic
+                q = q.filter(TermAssociation.predicate.in_(predicates))
+            if object_closure_predicates:
+                q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
+            q = q.group_by(EntailedEdge.object)
+            num_nodes = (
+                self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
+            )
         else:
-            logging.debug(f"Using cached value for {key}")
-        return self._information_content_cache[key]
+            num_nodes = self.session.query(Node.id).count()
+            q = self.session.query(EntailedEdge.object, func.count(EntailedEdge.subject))
+            if predicates:
+                raise ValueError("predicates not valid unless use_associations=True")
+            if object_closure_predicates:
+                q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
+            if curies:
+                q = q.filter(EntailedEdge.object.in_(curies))
+            q = q.group_by(EntailedEdge.object)
+        yielded_owl_thing = False
+        for row in q:
+            curie, freq = row
+            yield curie, -math.log(freq / num_nodes) / math.log(2)
+            if curie == OWL_THING:
+                yielded_owl_thing = True
+        # inject owl:Thing, which always has zero information
+        if (OWL_THING in curies or not curies) and not yielded_owl_thing:
+            yield OWL_THING, 0.0
 
     def all_by_all_pairwise_similarity(
         self,
@@ -1247,21 +1276,33 @@ class SqlImplementation(
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
-        def tuples_to_map(relationships: Iterable[RELATIONSHIP]) -> Dict[CURIE, List[CURIE]]:
-            rmap = defaultdict(list)
+        def tuples_to_map(
+            entities: List[CURIE], relationships: Iterable[RELATIONSHIP]
+        ) -> Dict[CURIE, Set[CURIE]]:
+            rmap = defaultdict(set)
             for r in relationships:
-                rmap[r[0]].append(r[2])
+                rmap[r[0]].add(r[2])
+            for e in entities:
+                rmap[e].add(e)
             return rmap
 
-        subjects_ancs = tuples_to_map(self.multi_ancestors(list(subjects), predicates=predicates))
-        objects_ancs = tuples_to_map(self.multi_ancestors(list(objects), predicates=predicates))
+        subjects = list(subjects)
+        objects = list(objects)
+        subjects_ancs = tuples_to_map(
+            subjects, self._multi_ancestors(subjects, predicates=predicates)
+        )
+        objects_ancs = tuples_to_map(objects, self._multi_ancestors(objects, predicates=predicates))
         logging.info(f"SUBJECT ANCS={len(subjects_ancs)}")
         logging.info(f"OBJECT ANCS={len(objects_ancs)}")
         for s, s_ancs in subjects_ancs.items():
             for o, o_ancs in objects_ancs.items():
                 logging.info(f"s={s} o={o}")
                 yield self.pairwise_similarity(
-                    s, o, predicates=predicates, subject_ancestors=s_ancs, object_ancestors=o_ancs
+                    s,
+                    o,
+                    predicates=predicates,
+                    subject_ancestors=list(s_ancs),
+                    object_ancestors=list(o_ancs),
                 )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

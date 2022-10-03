@@ -10,6 +10,7 @@ from oaklib.interfaces.mapping_provider_interface import MappingProviderInterfac
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 
 
 @dataclass
@@ -20,6 +21,7 @@ class SparqlImplementation(
     MappingProviderInterface,
     OboGraphInterface,
     PatcherInterface,
+    SemanticSimilarityInterface,
 ):
     """
     Wraps any local or remote sparql endpoint

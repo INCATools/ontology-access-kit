@@ -21,5 +21,9 @@ class XafAssociationParserTest(unittest.TestCase):
             assocs = list(parser.parse(file))
             for association in assocs:
                 logging.info(association)
-            self.assertIn(Association(subject='Q9BPZ7', predicate=None, object='GO:0005737', property_values=[]),
-                          assocs)
+            self.assertIn(
+                Association(
+                    subject="Q9BPZ7", predicate=None, object="GO:0005737", property_values=[]
+                ),
+                assocs,
+            )
