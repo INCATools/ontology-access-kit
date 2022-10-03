@@ -1,4 +1,6 @@
 # Slot: object
+_The object node on left or right side_
+
 
 URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
@@ -53,6 +55,7 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#object](http://www.w3.org/1999/
 <details>
 ```yaml
 name: object
+description: The object node on left or right side
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 mixin: true

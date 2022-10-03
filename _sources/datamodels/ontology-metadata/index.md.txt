@@ -9,13 +9,13 @@ Name: Ontology-Metadata
 
 | Class | Description |
 | --- | --- |
-| [Annotation](Annotation.md) |  |
-| [AnnotationProperty](AnnotationProperty.md) |  |
+| [Annotation](Annotation.md) | A reified property-object pair |
+| [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |
 | [AnnotationPropertyMixin](AnnotationPropertyMixin.md) | Groups all annotation property bundles |
 | [Anonymous](Anonymous.md) | Abstract root class for all anonymous (non-named; lacking an identifier) expr... |
 | [AnonymousClassExpression](AnonymousClassExpression.md) |  |
 | [Any](Any.md) |  |
-| [Axiom](Axiom.md) |  |
+| [Axiom](Axiom.md) | A logical or non-logical statement |
 | [Class](Class.md) |  |
 | [ClassExpression](ClassExpression.md) |  |
 | [Expression](Expression.md) |  |
@@ -26,10 +26,10 @@ Name: Ontology-Metadata
 | [HasProvenance](HasProvenance.md) |  |
 | [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |
 | [HasUserInformation](HasUserInformation.md) |  |
-| [NamedIndividual](NamedIndividual.md) |  |
+| [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |
 | [NamedObject](NamedObject.md) | Anything with an IRI |
 | [NotObsoleteAspect](NotObsoleteAspect.md) | Auto-classifies anything that is not obsolete |
-| [ObjectProperty](ObjectProperty.md) |  |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |
 | [ObsoleteAspect](ObsoleteAspect.md) | Auto-classifies anything that is obsolete |
 | [Ontology](Ontology.md) | An OWL ontology |
 | [Property](Property.md) |  |
@@ -38,7 +38,7 @@ Name: Ontology-Metadata
 | [Subset](Subset.md) | A collection of terms grouped for some purpose |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
 | [Thing](Thing.md) |  |
-| [TransitiveProperty](TransitiveProperty.md) |  |
+| [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity |
 
 
 ## Slots

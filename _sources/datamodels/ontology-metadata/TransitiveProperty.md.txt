@@ -1,4 +1,6 @@
 # Class: TransitiveProperty
+_An ObjectProperty with the property of transitivity_
+
 
 
 
@@ -204,6 +206,7 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/schema/Transi
 <details>
 ```yaml
 name: TransitiveProperty
+description: An ObjectProperty with the property of transitivity
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: ObjectProperty
@@ -216,6 +219,7 @@ is_a: ObjectProperty
 <details>
 ```yaml
 name: TransitiveProperty
+description: An ObjectProperty with the property of transitivity
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: ObjectProperty

@@ -1,0 +1,58 @@
+# Slot: subject
+_The thing which the association is about._
+
+
+URI: [rdf:subject](rdf:subject)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Properties
+
+* Range: [xsd:anyURI](xsd:anyURI)
+* Multivalued: None
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/oak/association
+
+
+
+
+## LinkML Specification
+
+<details>
+```yaml
+name: subject
+description: The thing which the association is about.
+from_schema: https://w3id.org/oak/association
+exact_mappings:
+- oa:hasBody
+rank: 1000
+slot_uri: rdf:subject
+alias: subject
+domain_of:
+- Association
+range: uriorcurie
+
+```
+</details>

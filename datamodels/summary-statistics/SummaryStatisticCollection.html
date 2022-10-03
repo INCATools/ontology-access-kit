@@ -97,7 +97,7 @@
       SummaryStatisticCollection : datatype_property_count
       SummaryStatisticCollection : description_logic_profile
       SummaryStatisticCollection : distinct_synonym_count
-      SummaryStatisticCollection : equivalentclasses_axiom_count
+      SummaryStatisticCollection : equivalent_classes_axiom_count
       SummaryStatisticCollection : individual_count
       SummaryStatisticCollection : mapping_count
       SummaryStatisticCollection : named_individual_count
@@ -200,7 +200,7 @@
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="equivalentclasses_axiom_count.html"><span class="doc std std-doc">equivalentclasses_axiom_count</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="equivalent_classes_axiom_count.html"><span class="doc std std-doc">equivalent_classes_axiom_count</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
 <td><p></p></td>
 </tr>
@@ -371,8 +371,8 @@ attributes:
     rank: 1000
     is_a: count_statistic
     slot_group: owl_statistic_group
-  equivalentclasses_axiom_count:
-    name: equivalentclasses_axiom_count
+  equivalent_classes_axiom_count:
+    name: equivalent_classes_axiom_count
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -601,12 +601,12 @@ attributes:
     - SummaryStatisticCollection
     slot_group: owl_statistic_group
     range: integer
-  equivalentclasses_axiom_count:
-    name: equivalentclasses_axiom_count
+  equivalent_classes_axiom_count:
+    name: equivalent_classes_axiom_count
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
-    alias: equivalentclasses_axiom_count
+    alias: equivalent_classes_axiom_count
     owner: SummaryStatisticCollection
     domain_of:
     - SummaryStatisticCollection

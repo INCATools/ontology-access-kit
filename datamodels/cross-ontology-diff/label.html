@@ -81,6 +81,7 @@
              
   <section id="slot-label">
 <h1>Slot: label<a class="headerlink" href="#slot-label" title="Permalink to this headline"></a></h1>
+<p><em>human readable label</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/2000/01/rdf-schema#label">http://www.w3.org/2000/01/rdf-schema#label</a></p>
 <!-- no inheritance hierarchy -->
 <section id="mixin-usage">
@@ -130,7 +131,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Range: <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></li>
 <li><p>Multivalued: None</p></li>
 <li><p>Mixin: True</p></li>
 </ul>
@@ -149,12 +150,13 @@
 <details>
 ```yaml
 name: label
+description: human readable label
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 mixin: true
 slot_uri: rdfs:label
 alias: label
-range: string
+range: Label
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

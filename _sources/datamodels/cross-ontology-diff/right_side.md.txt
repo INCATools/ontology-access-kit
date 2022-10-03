@@ -1,4 +1,6 @@
 # Slot: right_side
+_The second ontology is arbitrarily designated the right side_
+
 
 URI: [https://w3id.org/linkml/text_annotator/right_side](https://w3id.org/linkml/text_annotator/right_side)
 
@@ -62,6 +64,7 @@ URI: [https://w3id.org/linkml/text_annotator/right_side](https://w3id.org/linkml
 <details>
 ```yaml
 name: right_side
+description: The second ontology is arbitrarily designated the right side
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 is_a: side

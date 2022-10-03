@@ -1,6 +1,6 @@
 # Label
 
-None
+A string that is used as a human-readable label
 
 URI: http://www.w3.org/2001/XMLSchema#string
 

@@ -1,4 +1,6 @@
 # Slot: side
+_left or right side_
+
 
 URI: [https://w3id.org/linkml/text_annotator/side](https://w3id.org/linkml/text_annotator/side)
 
@@ -18,8 +20,8 @@ URI: [https://w3id.org/linkml/text_annotator/side](https://w3id.org/linkml/text_
 
 | mixed into | description | range | domain |
 | --- | --- | --- | --- |
-| [left_side](left_side.md) | None | None |  |
-| [right_side](right_side.md) | None | None |  |
+| [left_side](left_side.md) | The first ontology is arbitrarily designated the left side | None |  |
+| [right_side](right_side.md) | The second ontology is arbitrarily designated the right side | None |  |
 
 
 
@@ -57,6 +59,7 @@ URI: [https://w3id.org/linkml/text_annotator/side](https://w3id.org/linkml/text_
 <details>
 ```yaml
 name: side
+description: left or right side
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 mixin: true

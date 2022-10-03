@@ -81,7 +81,7 @@
              
   <section id="class-structurediffresultset">
 <h1>Class: StructureDiffResultSet<a class="headerlink" href="#class-structurediffresultset" title="Permalink to this headline"></a></h1>
-<p><em>A collection of relational diff results results</em></p>
+<p><em>A collection of relational diff results</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/text_annotator/StructureDiffResultSet">ann:StructureDiffResultSet</a></p>
 <div class="mermaid">
              classDiagram
@@ -106,12 +106,12 @@
 <td><p>all differences between a pair of ontologies</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_source.html"><span class="doc std std-doc">left_source</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Source.html"><span class="doc std std-doc">Source</span></a></p></td>
+<td><p>Ontology source for left entities</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="right_source.html"><span class="doc std std-doc">right_source</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Source.html"><span class="doc std std-doc">Source</span></a></p></td>
+<td><p>Ontology source for right entities</p></td>
 </tr>
 </tbody>
 </table>
@@ -154,7 +154,7 @@
 <details>
 ```yaml
 name: StructureDiffResultSet
-description: A collection of relational diff results results
+description: A collection of relational diff results
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 attributes:
@@ -168,12 +168,16 @@ attributes:
     inlined: true
   left_source:
     name: left_source
+    description: Ontology source for left entities
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     rank: 1000
+    range: Source
   right_source:
     name: right_source
+    description: Ontology source for right entities
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     rank: 1000
+    range: Source
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -181,7 +185,7 @@ attributes:
 &lt;details&gt;
 ```yaml
 name: StructureDiffResultSet
-description: A collection of relational diff results results
+description: A collection of relational diff results
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 attributes:
@@ -199,22 +203,24 @@ attributes:
     inlined: true
   left_source:
     name: left_source
+    description: Ontology source for left entities
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     rank: 1000
     alias: left_source
     owner: StructureDiffResultSet
     domain_of:
     - StructureDiffResultSet
-    range: string
+    range: Source
   right_source:
     name: right_source
+    description: Ontology source for right entities
     from_schema: https://w3id.org/linkml/cross_ontology_diff
     rank: 1000
     alias: right_source
     owner: StructureDiffResultSet
     domain_of:
     - StructureDiffResultSet
-    range: string
+    range: Source
 
 </pre></div>
 </div>

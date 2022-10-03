@@ -92,6 +92,7 @@
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">DEFAULT_PREFIX_MAP</span><span class="p">,</span>
+    <span class="n">HAS_ONTOLOGY_ROOT_TERM</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
     <span class="n">OWL_CLASS</span><span class="p">,</span>
@@ -181,10 +182,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="sd">&quot;&quot;&quot;Raise exceptions when entities not found in ID-based lookups&quot;&quot;&quot;</span>
 
     <span class="n">autosave</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;For adapters that wrap a transactional source (e.g sqlite), this controls</span>
-<span class="sd">    whether results should be autocommitted after each operation&quot;&quot;&quot;</span>
+<span class="sd">    whether results should be auto-committed after each operation&quot;&quot;&quot;</span>
 
     <span class="n">exclude_owl_top_and_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Do not include owl:Thing or owl:Nothing&quot;&quot;&quot;</span>
@@ -218,7 +220,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.curie_to_uri"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curie_to_uri">[docs]</a>    <span class="k">def</span> <span class="nf">curie_to_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">URI</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Expands a CURIE to a URI</span>
+<span class="sd">        Expands a CURIE to a URI.</span>
 
 <span class="sd">        :param curie:</span>
 <span class="sd">        :param strict: (Default is False) if True, exceptions will be raised if curie cannot be expanded</span>
@@ -240,7 +242,7 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">URI</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_uri_fallback</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Contracts a URI to a CURIE</span>
+<span class="sd">        Contracts a URI to a CURIE.</span>
 
 <span class="sd">        If strict conditions hold, then no URI can map to more than one CURIE</span>
 <span class="sd">        (i.e one URI base should not start with another).</span>
@@ -248,7 +250,7 @@
 <span class="sd">        :param uri: URI</span>
 <span class="sd">        :param strict: Boolean [default: True]</span>
 <span class="sd">        :param use_uri_fallback: if cannot be contracted, use the URI as a CURIE proxy [default: True]</span>
-<span class="sd">        :return: CURIE</span>
+<span class="sd">        :return: contracted URI, or original URI if no contraction possible</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">use_uri_fallback</span><span class="p">:</span>
@@ -281,14 +283,14 @@
 
     <span class="k">def</span> <span class="nf">_rebuild_relationship_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index_cache</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relationship_index</span>  <span class="c1"># force re-index</span>
 
     <span class="k">def</span> <span class="nf">_all_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 <div class="viewcode-block" id="BasicOntologyInterface.ontologies"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontologies">[docs]</a>    <span class="k">def</span> <span class="nf">ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all known ontology CURIEs</span>
+<span class="sd">        Yields all known ontology CURIEs.</span>
 
 <span class="sd">        Many OntologyInterfaces will wrap a single ontology, others will wrap multiple.</span>
 <span class="sd">        Even when a single ontology is wrapped, there may be multiple ontologies included as imports</span>
@@ -307,7 +309,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.obsoletes"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">[docs]</a>    <span class="k">def</span> <span class="nf">obsoletes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all known CURIEs that are obsolete</span>
+<span class="sd">        Yields all known CURIEs that are obsolete.</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -319,15 +321,16 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.ontology_versions"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_versions">[docs]</a>    <span class="k">def</span> <span class="nf">ontology_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ontology</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all version identifiers for an ontology</span>
+<span class="sd">        Yields all version identifiers for an ontology.</span>
+
 <span class="sd">        :param ontology:</span>
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.ontology_metadata"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">ontology_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ontology</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">METADATA_MAP</span><span class="p">:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.ontology_metadata_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.ontology_metadata_map">[docs]</a>    <span class="k">def</span> <span class="nf">ontology_metadata_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ontology</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">METADATA_MAP</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Basic metadata about an ontology</span>
+<span class="sd">        Property-values metadata map with metadata about an ontology.</span>
 
 <span class="sd">        :param ontology:</span>
 <span class="sd">        :return:</span>
@@ -336,7 +339,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.entities"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">[docs]</a>    <span class="k">def</span> <span class="nf">entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">owl_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all known entity CURIEs</span>
+<span class="sd">        Yields all known entity CURIEs.</span>
 
 <span class="sd">        :param filter_obsoletes: if True, exclude any obsolete/deprecated element</span>
 <span class="sd">        :param owl_type: CURIE for RDF metaclass for the object, e.g. owl:Class</span>
@@ -353,15 +356,27 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ignore_owl_thing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">annotated_roots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">id_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        All root nodes, where root is defined as any node that is not the subject of</span>
-<span class="sd">        a relationship with one of the specified predicates</span>
+<span class="sd">        Yields all entities without a parent.</span>
 
-<span class="sd">        :param predicates:</span>
+<span class="sd">        Note that the concept of a &quot;root&quot; in an ontology can be ambiguous:</span>
+
+<span class="sd">        - is the (trivial) owl:Thing included (OWL tautology)?</span>
+<span class="sd">        - are we asking for the root of the is-a graph, or a subset of predicates?</span>
+<span class="sd">        - do we include parents in imported/merged other ontologies (e.g. BFO)?</span>
+<span class="sd">        - do we include obsolete nodes (which are typically singletons)?</span>
+
+<span class="sd">        This method will yield entities that are not the subject of an edge, considering</span>
+<span class="sd">        only edges with a given set of predicates, optionally ignoring owl:Thing, and</span>
+<span class="sd">        optionally constraining to a given set of entity CURIE prefixes</span>
+
+<span class="sd">        :param predicates: predicates to be considered (default: all)</span>
 <span class="sd">        :param ignore_owl_thing: do not consider artificial/trivial owl:Thing when calculating (default=True)</span>
 <span class="sd">        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)</span>
+<span class="sd">        :param annotated_roots: use nodes explicitly annotated as root</span>
 <span class="sd">        :param id_prefixes: limit search to specific prefixes</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -370,6 +385,14 @@
             <span class="sa">f</span><span class="s2">&quot;Using naive approach for root detection, may be slow. Predicates=</span><span class="si">{</span><span class="n">predicates</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">annotated_roots</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ontology</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontologies</span><span class="p">():</span>
+                <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontology_metadata_map</span><span class="p">(</span><span class="n">ontology</span><span class="p">)</span>
+                <span class="n">candidates</span> <span class="o">+=</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HAS_ONTOLOGY_ROOT_TERM</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Annotated roots: </span><span class="si">{</span><span class="n">candidates</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">candidate</span>
+            <span class="k">return</span>
         <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">id_prefixes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">get_curie_prefix</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="ow">in</span> <span class="n">id_prefixes</span><span class="p">:</span>
                 <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
@@ -400,10 +423,19 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore_owl_nothing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        All leaf nodes, where root is defined as any node that is not the object of</span>
-<span class="sd">        a relationship with one of the specified predicates</span>
+<span class="sd">        Yields all nodes that have no children.</span>
 
-<span class="sd">        :param predicates:</span>
+<span class="sd">        Note that the concept of a &quot;leaf&quot; in an ontology can be ambiguous:</span>
+
+<span class="sd">        - is the (trivial) owl:Nothing included (OWL tautology)?</span>
+<span class="sd">        - are we asking for the leaf of the is-a graph, or the whole graph?</span>
+<span class="sd">        - do we include obsolete nodes (which are typically singletons)?</span>
+
+<span class="sd">        This method will yield entities that are not the object of an edge, considering</span>
+<span class="sd">        only edges with a given set of predicates, optionally ignoring owl:Nothing, and</span>
+<span class="sd">        optionally constraining to a given set of entity CURIE prefixes.</span>
+
+<span class="sd">        :param predicates: predicates to be considered (default: all)</span>
 <span class="sd">        :param ignore_owl_nothing: do not consider artificial/trivial owl:Nothing when calculating (default=True)</span>
 <span class="sd">        :param filter_obsoletes: do not include obsolete/deprecated nodes in results (default=True)</span>
 <span class="sd">        :return:</span>
@@ -433,6 +465,8 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields entities that have neither parents nor children.</span>
+
 <span class="sd">        All singleton nodes, where a singleton has no connections using the specified</span>
 <span class="sd">        predicate list</span>
 
@@ -466,7 +500,9 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.subsets"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets">[docs]</a>    <span class="k">def</span> <span class="nf">subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SUBSET_CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all known subset CURIEs</span>
+<span class="sd">        Yields all subsets (slims) defined in the ontology.</span>
+
+<span class="sd">        All subsets yielded are contracted to their short form.</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -482,7 +518,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.subset_members"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subset_members">[docs]</a>    <span class="k">def</span> <span class="nf">subset_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">SUBSET_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all CURIEs belonging to a subset</span>
+<span class="sd">        Yields all entities belonging to the specified subset.</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -490,7 +526,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.terms_subsets"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_subsets">[docs]</a>    <span class="k">def</span> <span class="nf">terms_subsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all subsets a term belongs to</span>
+<span class="sd">        Yields entity-subset pairs for the given set of entities.</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -504,7 +540,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.terms_categories"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.terms_categories">[docs]</a>    <span class="k">def</span> <span class="nf">terms_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CATEGORY_CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all categories a term or terms belongs to</span>
+<span class="sd">        Yields all categories an entity or entities belongs to.</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -516,7 +552,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.label"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.label">[docs]</a>    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        fetches the unique label for a CURIE</span>
+<span class="sd">        fetches the unique label for a CURIE.</span>
 
 <span class="sd">        The CURIE may be for a class, individual, property, or ontology</span>
 
@@ -527,7 +563,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.comments"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.comments">[docs]</a>    <span class="k">def</span> <span class="nf">comments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        fetches comments for a CURIE or CURIEs</span>
+<span class="sd">        Yields entity-comment pairs for a CURIE or CURIEs.</span>
 
 <span class="sd">        The CURIE may be for a class, individual, property, or ontology</span>
 
@@ -542,7 +578,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.labels"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.labels">[docs]</a>    <span class="k">def</span> <span class="nf">labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        fetches the unique label for a CURIE</span>
+<span class="sd">        Yields entity-label pairs for a CURIE or CURIEs.</span>
 
 <span class="sd">        The CURIE may be for a class, individual, property, or ontology</span>
 
@@ -560,7 +596,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.set_label"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label">[docs]</a>    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        updates the label</span>
+<span class="sd">        Sets the value of a label for a CURIE.</span>
 
 <span class="sd">        :param curie:</span>
 <span class="sd">        :param label:</span>
@@ -570,7 +606,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.curies_by_label"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.curies_by_label">[docs]</a>    <span class="k">def</span> <span class="nf">curies_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fetches all curies with a given label</span>
+<span class="sd">        Fetches all curies with a given label.</span>
 
 <span class="sd">        This SHOULD return maximum one CURIE but there are circumstances where multiple CURIEs</span>
 <span class="sd">        may share a label</span>
@@ -586,7 +622,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.hierararchical_parents"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.hierararchical_parents">[docs]</a>    <span class="k">def</span> <span class="nf">hierararchical_parents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">isa_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns all hierarchical parents</span>
+<span class="sd">        Returns all hierarchical parents.</span>
 
 <span class="sd">        The definition of hierarchical parent depends on the provider. For example, in OLS,</span>
 <span class="sd">        this will return part-of parents for GO, as well as is-a</span>
@@ -605,6 +641,8 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.outgoing_relationship_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationship_map">[docs]</a>    <span class="k">def</span> <span class="nf">outgoing_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a predicate-objects map with outgoing relationships for a node.</span>
+
 <span class="sd">        The return relationship map is keyed by relationship type, where the values</span>
 <span class="sd">        are the &#39;parents&#39; or fillers</span>
 
@@ -626,7 +664,7 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns relationships where the input curie in the subject</span>
+<span class="sd">        Yields relationships where the input curie in the subject.</span>
 
 <span class="sd">        :param curie:</span>
 <span class="sd">        :param predicates: if None, do not filter</span>
@@ -646,7 +684,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.incoming_relationship_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationship_map">[docs]</a>    <span class="k">def</span> <span class="nf">incoming_relationship_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RELATIONSHIP_MAP</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a map of all the relationships where the object is the input CURIE</span>
+<span class="sd">        Returns a predicate-subjects map with incoming relationships for a node.</span>
 
 <span class="sd">        See :ref:outgoing_relationship_map:</span>
 
@@ -689,7 +727,7 @@
         <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns all matching relationships</span>
+<span class="sd">        Yields all relationships matching query constraints.</span>
 
 <span class="sd">        :param subjects: constrain search to these subjects (i.e outgoing edges)</span>
 <span class="sd">        :param predicates: constrain search to these predicates</span>
@@ -718,7 +756,7 @@
 <div class="viewcode-block" id="BasicOntologyInterface.all_relationships"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_relationships">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use relationships()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">all_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        returns iterator over all known relationships</span>
+<span class="sd">        Yields all known relationships.</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -729,9 +767,10 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.definition"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">[docs]</a>    <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lookup the text definition of an entity.</span>
 
 <span class="sd">        :param curie:</span>
-<span class="sd">        :return:x`</span>
+<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
@@ -741,7 +780,9 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.simple_mappings_by_curie"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie">[docs]</a>    <span class="k">def</span> <span class="nf">simple_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yields mappings for a given subject, where each mapping is represented as a simple tuple</span>
+<span class="sd">        Yields mappings for a given subject.</span>
+
+<span class="sd">        Here, each mapping is represented as a simple tuple.</span>
 
 <span class="sd">        :param curie:</span>
 <span class="sd">        :return: iterator over predicate-object tuples</span>
@@ -794,6 +835,8 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.entity_metadata_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_metadata_map">[docs]</a>    <span class="k">def</span> <span class="nf">entity_metadata_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">METADATA_MAP</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lookup basic metadata for a given entity.</span>
+
 <span class="sd">        Returns a dictionary keyed by property predicate, with a list of zero or more values,</span>
 <span class="sd">        where each key corresponds to any of a set of open-ended metadata predicates</span>
 
@@ -808,7 +851,7 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">RELATIONSHIP_MAP</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CURIE</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds an entity to the resource</span>
+<span class="sd">        Creates and stores an entity.</span>
 
 <span class="sd">        :param curie:</span>
 <span class="sd">        :param label:</span>
@@ -819,7 +862,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.save"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Saves current state</span>
+<span class="sd">        Saves current state.</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -827,7 +870,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.dump"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">syntax</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Exports current state</span>
+<span class="sd">        Exports current state.</span>
 
 <span class="sd">        :param path:</span>
 <span class="sd">        :param syntax:</span>
@@ -837,7 +880,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.clone"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clones the ontology interface to a new resource</span>
+<span class="sd">        Clones the ontology interface to a new resource.</span>
 
 <span class="sd">        :param resource:</span>
 <span class="sd">        :return:</span>

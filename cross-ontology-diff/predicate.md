@@ -1,4 +1,6 @@
 # Slot: predicate
+_The relationship type between subject and object on left or right side_
+
 
 URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
@@ -57,6 +59,7 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate](http://www.w3.org/19
 <details>
 ```yaml
 name: predicate
+description: The relationship type between subject and object on left or right side
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 mixin: true

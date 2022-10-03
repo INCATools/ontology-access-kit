@@ -16,6 +16,7 @@ URI: ValidationResultType
 | MinLengthConstraintComponent | sh:MinLengthConstraintComponent | constraint where the slot value must have a length equal to or less than a sp... | |
 | PatternConstraintComponent | sh:PatternConstraintComponent | constraint where the slot value must match a given regular expression pattern | |
 | ClosedConstraintComponent | sh:ClosedConstraintComponent | constraint where the slot value must be allowable for the type of an instance | |
+| RuleConstraintComponent | None | constraint where the structure of an object must conform to a specified rule | |
 
 
 
@@ -106,6 +107,10 @@ permissible_values:
       element:
         tag: element
         value: linkml:attributes
+  RuleConstraintComponent:
+    text: RuleConstraintComponent
+    description: constraint where the structure of an object must conform to a specified
+      rule
 
 ```
 </details>

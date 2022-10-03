@@ -1,4 +1,6 @@
 # Class: Axiom
+_A logical or non-logical statement_
+
 
 
 
@@ -109,6 +111,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 <details>
 ```yaml
 name: Axiom
+description: A logical or non-logical statement
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 exact_mappings:
 - rdf:Statement
@@ -159,6 +162,7 @@ represents_relationship: true
 <details>
 ```yaml
 name: Axiom
+description: A logical or non-logical statement
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 exact_mappings:
 - rdf:Statement

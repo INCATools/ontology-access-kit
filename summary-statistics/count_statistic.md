@@ -24,7 +24,7 @@ URI: [https://w3id.org/linkml/reportcount_statistic](https://w3id.org/linkml/rep
     * [owl_axiom_count](owl_axiom_count.md)
     * [rdf_triple_count](rdf_triple_count.md)
     * [subclass_of_axiom_count](subclass_of_axiom_count.md)
-    * [equivalentclasses_axiom_count](equivalentclasses_axiom_count.md)
+    * [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md)
     * [distinct_synonym_count](distinct_synonym_count.md)
     * [synonym_statement_count](synonym_statement_count.md)
     * [mapping_count](mapping_count.md)

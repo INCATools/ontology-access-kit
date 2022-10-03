@@ -1,4 +1,6 @@
 # Slot: left_source
+_Ontology source for left entities_
+
 
 URI: [https://w3id.org/linkml/text_annotator/left_source](https://w3id.org/linkml/text_annotator/left_source)
 
@@ -11,7 +13,7 @@ URI: [https://w3id.org/linkml/text_annotator/left_source](https://w3id.org/linkm
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [Source](Source.md)
 * Multivalued: None
 
 
@@ -41,12 +43,13 @@ URI: [https://w3id.org/linkml/text_annotator/left_source](https://w3id.org/linkm
 <details>
 ```yaml
 name: left_source
+description: Ontology source for left entities
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 alias: left_source
 domain_of:
 - StructureDiffResultSet
-range: string
+range: Source
 
 ```
 </details>

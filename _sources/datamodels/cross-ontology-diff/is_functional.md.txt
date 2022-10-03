@@ -1,4 +1,6 @@
 # Slot: is_functional
+_Maps to exactly one thing_
+
 
 URI: [https://w3id.org/linkml/text_annotator/is_functional](https://w3id.org/linkml/text_annotator/is_functional)
 
@@ -51,6 +53,7 @@ URI: [https://w3id.org/linkml/text_annotator/is_functional](https://w3id.org/lin
 <details>
 ```yaml
 name: is_functional
+description: Maps to exactly one thing
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 mixin: true

@@ -1,4 +1,6 @@
 # Class: NamedIndividual
+_An instance that has a IRI_
+
 
 
 
@@ -193,6 +195,7 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 <details>
 ```yaml
 name: NamedIndividual
+description: An instance that has a IRI
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: Term
@@ -206,6 +209,7 @@ class_uri: owl:NamedIndividual
 <details>
 ```yaml
 name: NamedIndividual
+description: An instance that has a IRI
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: Term

@@ -1,4 +1,6 @@
 # Class: ObjectProperty
+_A property that connects two objects in logical axioms_
+
 
 
 
@@ -205,6 +207,7 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
 <details>
 ```yaml
 name: ObjectProperty
+description: A property that connects two objects in logical axioms
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: Property
@@ -228,6 +231,7 @@ class_uri: owl:ObjectProperty
 <details>
 ```yaml
 name: ObjectProperty
+description: A property that connects two objects in logical axioms
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: Property

@@ -1,4 +1,6 @@
 # Class: AnnotationProperty
+_A property used in non-logical axioms_
+
 
 
 
@@ -196,6 +198,7 @@ URI: [owl:AnnotationProperty](http://www.w3.org/2002/07/owl#AnnotationProperty)
 <details>
 ```yaml
 name: AnnotationProperty
+description: A property used in non-logical axioms
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: Property
@@ -211,6 +214,7 @@ class_uri: owl:AnnotationProperty
 <details>
 ```yaml
 name: AnnotationProperty
+description: A property used in non-logical axioms
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 is_a: Property

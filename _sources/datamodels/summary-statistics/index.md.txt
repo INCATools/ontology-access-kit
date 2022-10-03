@@ -33,7 +33,7 @@ Name: summary-statistics
 | [datatype_property_count](datatype_property_count.md) |  |
 | [description_logic_profile](description_logic_profile.md) |  |
 | [distinct_synonym_count](distinct_synonym_count.md) |  |
-| [equivalentclasses_axiom_count](equivalentclasses_axiom_count.md) |  |
+| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) |  |
 | [facet](facet.md) |  |
 | [individual_count](individual_count.md) |  |
 | [individual_statistic_group](individual_statistic_group.md) |  |

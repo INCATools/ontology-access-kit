@@ -27,7 +27,7 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
       GlobalStatistics : datatype_property_count
       GlobalStatistics : description_logic_profile
       GlobalStatistics : distinct_synonym_count
-      GlobalStatistics : equivalentclasses_axiom_count
+      GlobalStatistics : equivalent_classes_axiom_count
       GlobalStatistics : individual_count
       GlobalStatistics : mapping_count
       GlobalStatistics : named_individual_count
@@ -79,7 +79,7 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 | [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
 | [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
 | [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
-| [equivalentclasses_axiom_count](equivalentclasses_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
+| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
 | [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
 | [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
 | [mapping_count](mapping_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
@@ -429,12 +429,12 @@ attributes:
     - SummaryStatisticCollection
     slot_group: owl_statistic_group
     range: integer
-  equivalentclasses_axiom_count:
-    name: equivalentclasses_axiom_count
+  equivalent_classes_axiom_count:
+    name: equivalent_classes_axiom_count
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
-    alias: equivalentclasses_axiom_count
+    alias: equivalent_classes_axiom_count
     owner: GlobalStatistics
     domain_of:
     - SummaryStatisticCollection

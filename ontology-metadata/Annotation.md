@@ -1,4 +1,6 @@
 # Class: Annotation
+_A reified property-object pair_
+
 
 
 
@@ -75,6 +77,7 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 <details>
 ```yaml
 name: Annotation
+description: A reified property-object pair
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 attributes:
@@ -98,6 +101,7 @@ represents_relationship: true
 <details>
 ```yaml
 name: Annotation
+description: A reified property-object pair
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 attributes:

@@ -1,4 +1,6 @@
 # Slot: label
+_human readable label_
+
 
 URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-schema#label)
 
@@ -23,7 +25,7 @@ URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [Label](Label.md)
 * Multivalued: None
 
 
@@ -55,12 +57,13 @@ URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-
 <details>
 ```yaml
 name: label
+description: human readable label
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 mixin: true
 slot_uri: rdfs:label
 alias: label
-range: string
+range: Label
 
 ```
 </details>
