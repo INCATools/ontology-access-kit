@@ -1487,6 +1487,7 @@ class Axiom(YAMLRoot):
 
         if self.annotatedSource is not None and not isinstance(self.annotatedSource, NamedObjectId):
             self.annotatedSource = NamedObjectId(self.annotatedSource)
+            self.annotatedSource = NamedObjectId(self.annotatedSource)
 
         if not isinstance(self.annotations, list):
             self.annotations = [self.annotations] if self.annotations is not None else []

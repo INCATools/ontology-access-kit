@@ -3,6 +3,9 @@
 Bioportal Endpoint
 ==================
 
+The Bioportal adapter uses `ontoportal-client <https://github.com/cthoyt/ontoportal-client>`_ to connect to
+any OntoPortal endpoint.
+
 .. warning ::
 
    Highly incomplete!

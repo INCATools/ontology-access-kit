@@ -3,6 +3,8 @@
 __pycache__
 .ipynb_checkpoints/
 docs/_build/
+docs/src/
+docs/datamodels/*/*.md
 tests/output/
 
 dist/
@@ -10,7 +12,7 @@ db/
 
 notebooks/output/*json
 notebooks/output/*tsv
-notebooks/input/go.db
+notebooks/input/*
 
 
 notebooks/api-key.txt

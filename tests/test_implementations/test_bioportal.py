@@ -76,7 +76,7 @@ class TestBioportal(unittest.TestCase):
         self.assertIn("v3.2.1", versions)
 
     def test_ontology_metadata(self):
-        metadata = self.impl.ontology_metadata("OBI")
+        metadata = self.impl.ontology_metadata_map("OBI")
         self.assertIn("title", metadata)
         self.assertEqual(metadata["title"], "Ontology for Biomedical Investigations")
         self.assertIn("homepage", metadata)

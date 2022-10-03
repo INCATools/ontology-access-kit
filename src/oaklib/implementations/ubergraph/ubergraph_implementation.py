@@ -152,6 +152,9 @@ class UbergraphImplementation(
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
         objects: List[CURIE] = None,
+        include_tbox: bool = True,
+        include_abox: bool = True,
+        include_entailed: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
         query.graph = RelationGraphEnum.nonredundant.value

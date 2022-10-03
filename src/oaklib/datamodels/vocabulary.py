@@ -30,6 +30,7 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
+HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
 
 IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]
 
@@ -43,6 +44,7 @@ RDF_TYPE = "rdf:type"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
 PART_OF = "BFO:0000050"
+LOCATED_IN = "RO:0001025"
 DEVELOPS_FROM = "RO:0002202"
 HAS_PART = "BFO:0000051"
 ONLY_IN_TAXON = "RO:0002160"

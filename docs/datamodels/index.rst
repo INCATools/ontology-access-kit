@@ -32,6 +32,7 @@ not need this.
    mapping-rules/index
    text-annotator/index
    cross-ontology-diff/index
+   association/index
 
 
 
