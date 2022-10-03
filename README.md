@@ -29,7 +29,8 @@ These interfaces are *separated* from any particular [backend](https://incatools
 ## Documentation:
 
 - [incatools.github.io/ontology-access-kit](https://incatools.github.io/ontology-access-kit)
-- [workshop slides](https://www.slideshare.net/cmungall/ontology-access-kit-workshop-intro-slidespptx)
+- [Inaugural OAK Workshop slides](https://www.slideshare.net/cmungall/ontology-access-kit-workshop-intro-slidespptx)
+- [OBO Tools Session slides](https://docs.google.com/presentation/d/1m0vFK0F-1StCiVNCCJRdvj3aSjF2gXw-oIF4Jezmsso/edit#slide=id.p)
 
 ## Contributing
 
