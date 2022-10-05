@@ -6,6 +6,7 @@ from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import GildaImplementation
 from tests import CELL_CORTEX
 
+
 class TestGilda(unittest.TestCase):
     """Tests for the Gilda annotator."""
 
