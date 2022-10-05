@@ -8,7 +8,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
-scipy = "^1.9.1"
 nxontology = "^0.4.0"
 pronto = "^2.5.0"
 SPARQLWrapper = "*"
@@ -53,7 +52,7 @@ runoak = "oaklib.cli:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
-gilda = ["gilda"]
+gilda = [ "scipy", "gilda"]
 
 [tool.black]
 line-length = 100
