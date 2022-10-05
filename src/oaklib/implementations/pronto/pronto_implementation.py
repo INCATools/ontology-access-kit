@@ -33,6 +33,9 @@ from oaklib.datamodels.vocabulary import (
     SEMAPV,
     SKOS_CLOSE_MATCH,
 )
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
@@ -45,6 +48,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
@@ -69,6 +73,8 @@ class ProntoImplementation(
     SearchInterface,
     MappingProviderInterface,
     PatcherInterface,
+    AssociationProviderInterface,
+    SemanticSimilarityInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:
@@ -217,8 +223,8 @@ class ProntoImplementation(
             return self.wrapped_ontology.create_term(curie)
 
     def _create_pred(self, curie: CURIE, exist_ok=True):
-        if curie in self.wrapped_ontology:
-            return self.wrapped_ontology[curie]
+        if curie in self.wrapped_ontology.relationships():
+            return self.wrapped_ontology.get_relationship(curie)
         else:
             return self.wrapped_ontology.create_relationship(curie)
 

@@ -1,0 +1,56 @@
+id: https://w3id.org/oak/association
+title: OAK Association Data Model
+name: association
+description: |-
+  A datamodel for representing generic associations.
+  
+  The core datamodel is broad, encompassing the W3 Open Annotation data model as well
+  as common ontology annotation data models using in the biosciences.
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  assoc: https://w3id.org/oak/association/
+  oa: http://www.w3.org/ns/oa#
+imports:
+  - linkml:types
+default_prefix: assoc
+
+classes:
+
+  Association:
+    class_uri: oa:Annotation
+    description: A generic association between a thing (subject) and another thing (object).
+    slots:
+      - subject
+      - predicate
+      - object
+      - property_values
+  PropertyValue:
+    description: A generic tag-value that can be associated with an association.
+    slots:
+      - predicate
+      - object
+
+slots:
+  subject:
+    description: The thing which the association is about.
+    slot_uri: rdf:subject
+    range: uriorcurie
+    exact_mappings:
+      - oa:hasBody
+  predicate:
+    description: The type of relationship between the subject and object.
+    slot_uri: rdf:predicate
+    range: uriorcurie
+  object:
+    description: An ontology entity that is associated with the subject.
+    slot_uri: rdf:object
+    range: uriorcurie
+    exact_mappings:
+      - oa:hasTarget
+  property_values:
+    multivalued: true
+    range: PropertyValue
+    inlined: true

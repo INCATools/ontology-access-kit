@@ -21,6 +21,7 @@ from typing import (
 
 import rdflib
 import semsql.builder.builder as semsql_builder
+import sqlalchemy.orm
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.introspection import package_schemaview
@@ -48,8 +49,9 @@ from semsql.sqla.semsql import (
     RdfsLabelStatement,
     RdfTypeStatement,
     Statements,
+    TermAssociation,
 )
-from sqlalchemy import and_, create_engine, delete, insert, text, update
+from sqlalchemy import and_, create_engine, delete, func, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
 from sssom_schema import Mapping
 
@@ -57,6 +59,7 @@ import oaklib.datamodels.ontology_metadata as om
 import oaklib.datamodels.validation_datamodel as vdm
 from oaklib.constants import OAKLIB_MODULE
 from oaklib.datamodels import obograph, ontology_metadata
+from oaklib.datamodels.association import Association
 from oaklib.datamodels.obograph import (
     ExistentialRestrictionExpression,
     LogicalDefinitionAxiom,
@@ -75,6 +78,8 @@ from oaklib.datamodels.vocabulary import (
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    OWL_NOTHING,
+    OWL_THING,
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
@@ -82,6 +87,9 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
+)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
@@ -177,6 +185,7 @@ class SqlImplementation(
     SemanticSimilarityInterface,
     MetadataInterface,
     DifferInterface,
+    AssociationProviderInterface,
     ABC,
 ):
     """
@@ -198,7 +207,7 @@ class SqlImplementation(
     _connection: Any = None
     _ontology_metadata_model: SchemaView = None
     _prefix_map: PREFIX_MAP = None
-    _information_content_cache: Dict[Tuple[CURIE, Set[PRED_CURIE]], float] = None
+    _information_content_cache: Dict[Tuple, float] = None
 
     def __post_init__(self):
         if self.engine is None:
@@ -229,6 +238,8 @@ class SqlImplementation(
                 locator = f"sqlite:///{locator}"
             else:
                 path = Path(locator.replace("sqlite:", "")).absolute()
+                if not path.exists():
+                    raise FileNotFoundError(f"File does not exist: {path}")
                 locator = f"sqlite:///{path}"
             logging.info(f"Locator, post-processed: {locator}")
             self.engine = create_engine(locator)
@@ -358,6 +369,9 @@ class SqlImplementation(
         for row in self.session.query(OntologyNode):
             yield row.id
 
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
+        return self.entity_metadata_map(ontology)
+
     def _get_subset_curie(self, curie: str) -> str:
         if "#" in curie:
             return curie.split("#")[-1]
@@ -469,6 +483,8 @@ class SqlImplementation(
             q = q.filter(tbl.predicate.in_(predicates))
         logging.debug(f"Querying outgoing, curie={curie}, predicates={predicates}, q={q}")
         for row in q:
+            if self.exclude_owl_top_and_bottom and row.object == OWL_THING:
+                continue
             yield row.predicate, row.object
         if not predicates or RDF_TYPE in predicates:
             q = self.session.query(RdfTypeStatement.object).filter(
@@ -477,6 +493,8 @@ class SqlImplementation(
             cls_subq = self.session.query(ClassNode.id)
             q = q.filter(RdfTypeStatement.object.in_(cls_subq))
             for row in q:
+                if self.exclude_owl_top_and_bottom and row.object == OWL_THING:
+                    continue
                 yield RDF_TYPE, row.object
         if tbl == Edge and (not predicates or EQUIVALENT_CLASS in predicates):
             q = self.session.query(OwlEquivalentClassStatement.object).filter(
@@ -514,6 +532,10 @@ class SqlImplementation(
             for r in self._tbox_relationships(
                 subjects, predicates, objects, include_entailed=include_entailed
             ):
+                if self.exclude_owl_top_and_bottom and r[2] == OWL_THING:
+                    continue
+                if self.exclude_owl_top_and_bottom and r[0] == OWL_NOTHING:
+                    continue
                 yield r
             for r in self._equivalent_class_relationships(subjects, predicates, objects):
                 yield r
@@ -651,6 +673,71 @@ class SqlImplementation(
             raise NotImplementedError
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: AssocationProviderInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    def associations(self, *args, **kwargs) -> Iterator[Association]:
+        q = self._associations_query(*args, **kwargs)
+        for row in q:
+            yield Association(row.subject, row.predicate, row.object)
+
+    def _associations_query(
+        self,
+        subjects: Iterable[CURIE] = None,
+        predicates: Iterable[PRED_CURIE] = None,
+        objects: Iterable[CURIE] = None,
+        property_filter: Dict[PRED_CURIE, Any] = None,
+        subject_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        predicate_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        object_closure_predicates: Optional[List[PRED_CURIE]] = None,
+        include_modified: bool = False,
+        query: sqlalchemy.orm.Query = None,
+    ) -> Any:
+        if query:
+            q = query
+        else:
+            q = self.session.query(TermAssociation)
+        if property_filter:
+            raise NotImplementedError
+        if subjects:
+            if subject_closure_predicates:
+                subquery = self.session.query(EntailedEdge.subject).filter(
+                    EntailedEdge.object.in_(objects)
+                )
+                subquery = subquery.filter(EntailedEdge.predicate.in_(subject_closure_predicates))
+                logging.info(f"Object subquery: {q} // {object_closure_predicates}")
+                q = q.filter(TermAssociation.subject.in_(subquery))
+            else:
+                q = q.filter(TermAssociation.subject.in_(tuple(subjects)))
+        if predicates:
+            if predicate_closure_predicates:
+                raise NotImplementedError
+            else:
+                q = q.filter(TermAssociation.predicate.in_(tuple(predicates)))
+        if objects:
+            if object_closure_predicates:
+                subquery = self.session.query(EntailedEdge.subject).filter(
+                    EntailedEdge.object.in_(objects)
+                )
+                subquery = subquery.filter(EntailedEdge.predicate.in_(object_closure_predicates))
+                logging.info(f"Object subquery: {q} // {object_closure_predicates}")
+                q = q.filter(TermAssociation.object.in_(subquery))
+            else:
+                q = q.filter(TermAssociation.object.in_(tuple(objects)))
+        logging.info(f"Association query: {q}")
+        return q
+
+    def add_associations(self, associations: Iterable[Association]) -> bool:
+        for a in associations:
+            if a.property_values:
+                raise NotImplementedError
+            stmt = insert(TermAssociation).values(
+                subject=a.subject, predicate=a.predicate, object=a.object
+            )
+            self._execute(stmt)
+        return True
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -742,7 +829,7 @@ class SqlImplementation(
         for row in q:
             yield row.object
 
-    def multi_ancestors(
+    def _multi_ancestors(
         self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
     ) -> Iterable[RELATIONSHIP]:
         q = self.session.query(EntailedEdge)
@@ -750,6 +837,7 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.subject.in_(tuple(start_curies)))
         else:
             q = q.filter(EntailedEdge.subject == start_curies)
+            start_curies = list(start_curies)
         if predicates is not None:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
         logging.debug(f"Ancestors query, start from {start_curies}: {q}")
@@ -757,7 +845,10 @@ class SqlImplementation(
             yield row.subject, row.predicate, row.object
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
     ) -> Iterable[CURIE]:
         q = self.session.query(EntailedEdge)
         if isinstance(start_curies, list):
@@ -1137,27 +1228,47 @@ class SqlImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SemSim
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    def get_information_content(
-        self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
-    ):
-        if self._information_content_cache is None:
-            self._information_content_cache = {}
-        if predicates is None:
-            key = curie, None
-        else:
-            key = curie, tuple(set(predicates))
-        if key not in self._information_content_cache:
-            num_nodes = self.session.query(Node.id).count()
-            q = self.session.query(EntailedEdge.subject)
-            q = q.filter(EntailedEdge.object == curie)
+
+    def information_content_scores(
+        self,
+        curies: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        curies = list(curies)
+        if use_associations:
+            q = self.session.query(EntailedEdge.object, func.count(TermAssociation.subject))
+            q = q.filter(EntailedEdge.subject == TermAssociation.object)
+            if curies:
+                q = q.filter(EntailedEdge.object.in_(curies))
             if predicates:
-                q = q.filter(EntailedEdge.predicate.in_(predicates))
-            num_descs = q.count()
-            ic = -math.log(num_descs / num_nodes) / math.log(2)
-            self._information_content_cache[key] = ic
+                q = q.filter(TermAssociation.predicate.in_(predicates))
+            if object_closure_predicates:
+                q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
+            q = q.group_by(EntailedEdge.object)
+            num_nodes = (
+                self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
+            )
         else:
-            logging.debug(f"Using cached value for {key}")
-        return self._information_content_cache[key]
+            num_nodes = self.session.query(Node.id).count()
+            q = self.session.query(EntailedEdge.object, func.count(EntailedEdge.subject))
+            if predicates:
+                raise ValueError("predicates not valid unless use_associations=True")
+            if object_closure_predicates:
+                q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
+            if curies:
+                q = q.filter(EntailedEdge.object.in_(curies))
+            q = q.group_by(EntailedEdge.object)
+        yielded_owl_thing = False
+        for row in q:
+            curie, freq = row
+            yield curie, -math.log(freq / num_nodes) / math.log(2)
+            if curie == OWL_THING:
+                yielded_owl_thing = True
+        # inject owl:Thing, which always has zero information
+        if (OWL_THING in curies or not curies) and not yielded_owl_thing:
+            yield OWL_THING, 0.0
 
     def all_by_all_pairwise_similarity(
         self,
@@ -1165,21 +1276,33 @@ class SqlImplementation(
         objects: Iterable[CURIE],
         predicates: List[PRED_CURIE] = None,
     ) -> Iterator[TermPairwiseSimilarity]:
-        def tuples_to_map(relationships: Iterable[RELATIONSHIP]) -> Dict[CURIE, List[CURIE]]:
-            rmap = defaultdict(list)
+        def tuples_to_map(
+            entities: List[CURIE], relationships: Iterable[RELATIONSHIP]
+        ) -> Dict[CURIE, Set[CURIE]]:
+            rmap = defaultdict(set)
             for r in relationships:
-                rmap[r[0]].append(r[2])
+                rmap[r[0]].add(r[2])
+            for e in entities:
+                rmap[e].add(e)
             return rmap
 
-        subjects_ancs = tuples_to_map(self.multi_ancestors(list(subjects), predicates=predicates))
-        objects_ancs = tuples_to_map(self.multi_ancestors(list(objects), predicates=predicates))
+        subjects = list(subjects)
+        objects = list(objects)
+        subjects_ancs = tuples_to_map(
+            subjects, self._multi_ancestors(subjects, predicates=predicates)
+        )
+        objects_ancs = tuples_to_map(objects, self._multi_ancestors(objects, predicates=predicates))
         logging.info(f"SUBJECT ANCS={len(subjects_ancs)}")
         logging.info(f"OBJECT ANCS={len(objects_ancs)}")
         for s, s_ancs in subjects_ancs.items():
             for o, o_ancs in objects_ancs.items():
                 logging.info(f"s={s} o={o}")
                 yield self.pairwise_similarity(
-                    s, o, predicates=predicates, subject_ancestors=s_ancs, object_ancestors=o_ancs
+                    s,
+                    o,
+                    predicates=predicates,
+                    subject_ancestors=list(s_ancs),
+                    object_ancestors=list(o_ancs),
                 )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

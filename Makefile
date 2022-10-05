@@ -5,7 +5,7 @@ test:
 
 ## Compiled
 
-MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff
+MODELS = ontology_metadata  obograph  validation_datamodel summary_statistics_datamodel lexical_index mapping_rules_datamodel text_annotator oxo taxon_constraints similarity search_datamodel cross_ontology_diff association
 
 pyclasses: $(patsubst %, src/oaklib/datamodels/%.py, $(MODELS))
 jsonschema: $(patsubst %, src/oaklib/datamodels/%.schema.json, $(MODELS))
@@ -19,7 +19,7 @@ src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-owl --no-metaclasses --no-type-objects $< > $@.tmp && mv $@.tmp $@
 
 RUN_GENDOC = $(RUN) gen-doc --dialect myst
-gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim
+gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/
@@ -41,6 +41,8 @@ gendoc-search: src/oaklib/datamodels/search_datamodel.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/search
 gendoc-xodiff: src/oaklib/datamodels/cross_ontology_diff.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/cross-ontology-diff
+gendoc-assoc: src/oaklib/datamodels/association.yaml
+	$(RUN_GENDOC)  $< -d docs/datamodels/association
 
 nb:
 	$(RUN) jupyter notebook

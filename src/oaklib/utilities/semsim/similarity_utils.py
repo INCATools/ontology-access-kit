@@ -54,5 +54,4 @@ def compute_all_pairs(sets: Dict[str, List]) -> Iterable[ListPair]:
 def setwise_jaccard_similarity(set1: LIST_OR_SET, set2: LIST_OR_SET) -> float:
     set1 = set(set1)
     set2 = set(set2)
-    # print(f'T = {len(set1)} / {len(set2)} == {set1} / {set2}')
     return len(set1.intersection(set2)) / len(set1.union(set2))

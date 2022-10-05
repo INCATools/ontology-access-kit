@@ -10,6 +10,7 @@ import itertools
 import json
 import logging
 import re
+import secrets
 import subprocess
 import sys
 from collections import defaultdict
@@ -65,6 +66,9 @@ from oaklib.interfaces import (
     OntologyInterface,
     SubsetterInterface,
     ValidatorInterface,
+)
+from oaklib.interfaces.association_provider_interface import (
+    AssociationProviderInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
@@ -178,12 +182,23 @@ WRITERS = {
 @unique
 class Direction(Enum):
     """
-    Permissible directions for graph traversal
+    Permissible directions for graph traversal.
     """
 
     up = "up"
     down = "down"
     both = "both"
+
+
+@unique
+class SubjectOrObjectRole(Enum):
+    """
+    Role of terms in the term list
+    """
+
+    SUBJECT = "subject"
+    OBJECT = "object"
+    BOTH = "both"
 
 
 @unique
@@ -524,6 +539,10 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             pass
         elif term.startswith(".all"):
             chain_it(impl.entities())
+        elif term.startswith(".rand"):
+            for x in impl.entities():
+                if secrets.randbelow(100) == 0:
+                    yield x
         elif term.startswith(".in"):
             subset = terms[0]
             terms = terms[1:]
@@ -869,7 +888,7 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
             if all:
                 raise ValueError("--all should not be used in combination with an explicit lis")
         for ont in list(ontologies):
-            metadata = impl.ontology_metadata(ont)
+            metadata = impl.ontology_metadata_map(ont)
             writer.emit(metadata)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -2225,7 +2244,14 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 @main.command()
 @output_option
 @predicates_option
-def roots(output: str, predicates: str):
+@click.option(
+    "--annotated-roots/--no-annotated-roots",
+    "-A/--no-A",
+    default=False,
+    show_default=True,
+    help="If true, use annotated roots, if present",
+)
+def roots(output: str, predicates: str, annotated_roots: bool):
     """
     List all root nodes in the ontology
 
@@ -2247,7 +2273,7 @@ def roots(output: str, predicates: str):
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in impl.roots(actual_predicates):
+        for curie in impl.roots(actual_predicates, annotated_roots=annotated_roots):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -2668,6 +2694,98 @@ def eval_taxon_constraints(constraints, evolution_file, predicates: List, output
 
 
 @main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@if_absent_option
+@set_value_option
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.option(
+    "--terms-role",
+    type=click.Choice([x.value for x in SubjectOrObjectRole]),
+    default=SubjectOrObjectRole.OBJECT.value,
+    show_default=True,
+    help="How to interpret query terms.",
+)
+@click.argument("terms", nargs=-1)
+def associations(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    terms_role: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    if_absent: bool,
+    set_value: str,
+):
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    actual_association_predicates = _process_predicates_arg(association_predicates)
+    if isinstance(impl, AssociationProviderInterface):
+        curies = list(query_terms_iterator(terms, impl))
+        qs_it = impl.associations(
+            curies,
+            predicates=actual_association_predicates,
+            subject_closure_predicates=actual_predicates,
+        )
+        qo_it = impl.associations(
+            objects=curies,
+            predicates=actual_association_predicates,
+            object_closure_predicates=actual_predicates,
+        )
+        if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+            it = qs_it
+        elif terms_role == SubjectOrObjectRole.OBJECT.value:
+            it = qo_it
+        else:
+            it = chain(qs_it, qo_it)
+        has_relationships = defaultdict(bool)
+        for rel in it:
+            if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
+                has_relationships[rel[0]] = True
+            elif terms_role == SubjectOrObjectRole.OBJECT.value:
+                has_relationships[rel[2]] = True
+            else:
+                has_relationships[rel[0]] = True
+                has_relationships[rel[2]] = True
+            if if_absent and if_absent == IfAbsent.absent_only.value:
+                continue
+            writer.emit(
+                dict(subject=rel[0], predicate=rel[1], object=rel[2]),
+                label_fields=["subject", "predicate", "object"],
+            )
+        if if_absent and if_absent == IfAbsent.absent_only.value:
+            for curie in curies:
+                if not has_relationships[curie]:
+                    writer.emit(
+                        dict(subject=curie, predicate=None, object=None),
+                        label_fields=["subject", "predicate", "object"],
+                    )
+        if set_value:
+            if len(actual_predicates) != 1:
+                raise ValueError(f"predicates={actual_predicates}, expected exactly one")
+            pred = actual_predicates[0]
+            changes = []
+            for curie in curies:
+                changes.append(
+                    kgcl.EdgeCreation(id="x", subject=curie, predicate=pred, object=set_value)
+                )
+            _apply_changes(impl, changes)
+
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
 @click.option(
     "--cutoff",
     default=50,
@@ -2770,7 +2888,7 @@ def validate_multiple(dbs, output, schema, cutoff: int):
 
 @main.command()
 @output_option
-def check_definitions(output: str):
+def validate_definitions(output: str):
     """
     Check definitions
 

@@ -240,5 +240,7 @@ enums:
         description: constraint where the slot value must be allowable for the type of an instance
         annotations:
           element: linkml:attributes
+      RuleConstraintComponent:
+        description: constraint where the structure of an object must conform to a specified rule
 
 

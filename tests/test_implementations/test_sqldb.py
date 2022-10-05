@@ -15,7 +15,6 @@ from oaklib.datamodels.vocabulary import (
     HAS_PART,
     IS_A,
     LABEL_PREDICATE,
-    OWL_THING,
     PART_OF,
     RDF_TYPE,
 )
@@ -38,9 +37,9 @@ from tests import (
     NUCLEAR_ENVELOPE,
     NUCLEUS,
     OUTPUT_DIR,
-    PHOTORECEPTOR_OUTER_SEGMENT,
     VACUOLE,
 )
+from tests.test_implementations import ComplianceTester
 
 DB = INPUT_DIR / "go-nucleus.db"
 SSN_DB = INPUT_DIR / "ssn.db"
@@ -52,6 +51,8 @@ VALIDATION_REPORT_OUT = OUTPUT_DIR / "validation-results.tsv"
 
 
 class TestSqlDatabaseImplementation(unittest.TestCase):
+    """Implementation tests for SqlDatabase adapter."""
+
     def setUp(self) -> None:
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.oi = oi
@@ -59,13 +60,29 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.bad_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{bad_ont}"))
         self.ssn_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{SSN_DB}"))
         self.inst_oi = SqlImplementation(OntologyResource(INST_DB))
+        self.compliance_tester = ComplianceTester(self)
 
+    def test_empty_db(self) -> None:
+        """Should raise error when connecting to an empty db."""
+        res = OntologyResource(slug=f"sqlite:///{str(INPUT_DIR / 'NO_SUCH_FILE')}")
+        with self.assertRaises(FileNotFoundError):
+            _ = SqlImplementation(res)
+
+    @unittest.skip("Contents of go-nucleus file need to be aligned")
     def test_relationships(self):
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        self.compliance_tester.test_relationships(oi, ignore_annotation_edges=False)
+
+    def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map(VACUOLE)
-        self.assertCountEqual(rels[IS_A], ["GO:0043231"])
+        self.assertCountEqual(rels[IS_A], [IMBO])
         self.assertCountEqual(rels[PART_OF], ["GO:0005737"])
         self.assertCountEqual([IS_A, PART_OF], rels)
+        rels = list(oi.outgoing_relationships(VACUOLE))
+        self.assertCountEqual([(IS_A, IMBO), (PART_OF, CYTOPLASM)], rels)
+        hier_parents = list(oi.hierararchical_parents(VACUOLE))
+        self.assertEqual([IMBO], hier_parents)
 
     def test_instance_graph(self):
         oi = self.inst_oi
@@ -431,6 +448,8 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_multiset_mrcas(self):
         oi = self.oi
+        orig_exclude_owl_top_and_bottom = oi.exclude_owl_top_and_bottom
+        oi.exclude_owl_top_and_bottom = False
         results = oi.multiset_most_recent_common_ancestors(
             [NUCLEUS, VACUOLE, NUCLEAR_ENVELOPE, FUNGI], predicates=[IS_A, PART_OF], asymmetric=True
         )
@@ -443,17 +462,21 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             ("GO:0005773", "NCBITaxon:4751", "owl:Thing"),
             ("GO:0005634", "GO:0005773", "GO:0043231"),
         ]
+        oi.exclude_owl_top_and_bottom = orig_exclude_owl_top_and_bottom
         self.assertCountEqual(expected, list(results))
         for s, o, lca in expected:
             results = list(oi.most_recent_common_ancestors(s, o, predicates=[IS_A, PART_OF]))
             # logging.info(f'{s} {o} == {results}')
-            if lca == OWL_THING:
-                # TODO: unify treatment of owl:Thing
-                self.assertEqual([], results)
-            else:
-                self.assertEqual([lca], results)
+            self.assertEqual([lca], results)
+
+    def test_store_associations(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        oi.autosave = True
+        self.compliance_tester.test_store_associations(oi)
 
     def test_gap_fill(self):
+        # TODO: improve performance
         oi = self.oi
         # note that HUMAN will be deselected as it is a singleton in the is-a/part-of graph
         rels = list(
@@ -657,35 +680,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual([], rows)
 
     # SemSim
+
+    def test_information_content_scores(self):
+        self.compliance_tester.test_information_content_scores(self.oi, False)
+
+    def test_common_ancestors(self):
+        self.compliance_tester.test_common_ancestors(self.oi)
+
     def test_pairwise_similarity(self):
-        terms = [NUCLEUS, VACUOLE, NUCLEAR_ENVELOPE, PHOTORECEPTOR_OUTER_SEGMENT]
-        pairs = list(self.oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
-        for pair in pairs:
-            if pair.subject_id == pair.object_id:
-                self.assertGreater(pair.jaccard_similarity, 0.99)
-                self.assertGreater(pair.phenodigm_score, 0.5)
-        termsets = [
-            (
-                [NUCLEUS, VACUOLE],
-                [NUCLEAR_ENVELOPE, PHOTORECEPTOR_OUTER_SEGMENT],
-                [IS_A],
-                (3, 5),
-                (3, 5),
-            ),
-            (
-                [NUCLEUS, VACUOLE],
-                [NUCLEAR_ENVELOPE, PHOTORECEPTOR_OUTER_SEGMENT],
-                [IS_A, PART_OF],
-                (5, 10),
-                (5, 10),
-            ),
-            ([NUCLEUS, VACUOLE], [HUMAN], [IS_A], (0, 0), (0, 0)),
-        ]
-        for ts in termsets:
-            ts1, ts2, ps, avg_range, max_range = ts
-            sim = self.oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
-            print(yaml_dumper.dumps(sim))
-            self.assertGreaterEqual(sim.average_score, avg_range[0])
-            self.assertLessEqual(sim.average_score, avg_range[1])
-            self.assertGreaterEqual(sim.best_score, max_range[0])
-            self.assertLessEqual(sim.best_score, max_range[1])
+        self.compliance_tester.test_pairwise_similarity(self.oi)

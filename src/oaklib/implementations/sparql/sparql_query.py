@@ -28,8 +28,9 @@ class SparqlQuery:
     def add_filter(self, cond: str):
         self.where.append(f"FILTER ( {cond} )")
 
-    def add_values(self, var: str, vals: List[str]):
-        self.where.append(f'VALUES ?{var} {{ {" ".join(vals)} }}')
+    def add_values(self, var: str, vals: Optional[List[str]]):
+        if vals is not None:
+            self.where.append(f'VALUES ?{var} {{ {" ".join(vals)} }}')
 
     def select_str(self):
         distinct = "DISTINCT " if self.distinct else ""

@@ -3,7 +3,7 @@ import math
 import statistics
 from abc import ABC
 from collections import defaultdict
-from typing import Iterable, Iterator, List, Tuple
+from typing import Iterable, Iterator, List, Optional, Tuple
 
 import networkx as nx
 
@@ -13,6 +13,7 @@ from oaklib.datamodels.similarity import (
     TermPairwiseSimilarity,
     TermSetPairwiseSimilarity,
 )
+from oaklib.datamodels.vocabulary import OWL_THING
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -27,7 +28,11 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
     """
 
     def most_recent_common_ancestors(
-        self, subject: CURIE, object: CURIE, predicates: List[PRED_CURIE] = None
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
         """
         Most recent common ancestors (MRCAs) for a pair of entities
@@ -38,6 +43,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param subject:
         :param object:
         :param predicates:
+        :param include_owl_thing:
         :return:
         """
         if isinstance(self, OboGraphInterface):
@@ -49,9 +55,13 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 for caa in self.ancestors(ca, predicates):
                     if caa != ca:
                         ancs_of_common.append(caa)
+            n = 0
             for a in common:
                 if a not in ancs_of_common:
                     yield a
+                    n += 1
+            if n == 0:
+                yield OWL_THING
         else:
             raise NotImplementedError
 
@@ -88,6 +98,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         subject_ancestors: List[CURIE] = None,
         object_ancestors: List[CURIE] = None,
+        include_owl_thing: bool = True,
     ) -> Iterable[CURIE]:
         """
         Common ancestors of a subject-object pair
@@ -97,30 +108,62 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         :param predicates:
         :param subject_ancestors: optional pre-generated ancestor list
         :param object_ancestors: optional pre-generated ancestor list
+        :param include_owl_thing:
         :return:
         """
         if subject_ancestors is not None and object_ancestors is not None:
-            for a in set(subject_ancestors).intersection(set(object_ancestors)):
-                yield a
+            subject_ancestors = set(subject_ancestors)
+            object_ancestors = set(object_ancestors)
         elif isinstance(self, OboGraphInterface):
-            s_ancs = set(self.ancestors(subject, predicates))
-            o_ancs = set(self.ancestors(object, predicates))
-            for a in s_ancs.intersection(o_ancs):
-                yield a
+            subject_ancestors = set(self.ancestors(subject, predicates))
+            object_ancestors = set(self.ancestors(object, predicates))
         else:
             raise NotImplementedError
+        if include_owl_thing:
+            subject_ancestors.add(OWL_THING)
+            object_ancestors.add(OWL_THING)
+        for a in subject_ancestors.intersection(object_ancestors):
+            yield a
 
     def get_information_content(
-        self, curie: CURIE, background: CURIE = None, predicates: List[PRED_CURIE] = None
-    ) -> float:
+        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+    ) -> Optional[float]:
         """
-        Returns the information content of a term
+        Returns the information content of a term.
 
         IC(t) = -log2(Pr(t))
 
         :param curie:
-        :param background:
         :param predicates:
+        :return:
+        """
+        pairs = list(self.information_content_scores([curie], object_closure_predicates=predicates))
+        if pairs:
+            if len(pairs) > 1:
+                raise ValueError(f"Multiple values for IC for {curie} = {pairs}")
+            return pairs[0][1]
+
+    def information_content_scores(
+        self,
+        curies: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
+    ) -> Iterator[Tuple[CURIE, float]]:
+        """
+        Yields entity-score pairs for a given collection of entities.
+
+        The Information Content (IC) score for a term t is determined by:
+
+            IC(t) = -log2(Pr(t))
+
+        Where the probability Pr(t) is determined by the frequency of that term against
+        the whole corpus:
+
+            Pr(t) = freq(t)/|items|
+
+        :param curies:
+        :param object_closure_predicates:
         :return:
         """
         raise NotImplementedError
@@ -153,13 +196,15 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 object_ancestors=object_ancestors,
             )
         )
+        if OWL_THING in cas:
+            cas.remove(OWL_THING)
         ics = {a: self.get_information_content(a, predicates) for a in cas}
         if len(ics) > 0:
             max_ic = max(ics.values())
             best_mrcas = [a for a in cas if ics[a] == max_ic]
             anc = best_mrcas[0]
         else:
-            max_ic = 0
+            max_ic = 0.0
             anc = None
         sim = TermPairwiseSimilarity(
             subject_id=subject,

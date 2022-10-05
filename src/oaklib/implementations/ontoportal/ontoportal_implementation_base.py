@@ -85,7 +85,7 @@ class OntoPortalImplementationBase(
             logging.debug(result)
             yield result["version"]
 
-    def ontology_metadata(self, ontology: CURIE) -> METADATA_MAP:
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
         # TODO: normalize metadata
         results = self._get_json(f"/ontologies/{ontology.upper()}/latest_submission")
         m = {}

@@ -167,7 +167,7 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
 
     def test_save(self):
-        oi = ProntoImplementation.create()
+        oi = ProntoImplementation()
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.create_entity(
             "FOO:1", label="foo", relationships={IS_A: ["FOO:2"], "part_of": ["FOO:3"]}
@@ -179,7 +179,7 @@ class TestProntoImplementation(unittest.TestCase):
         )
 
     def test_from_obo_library(self):
-        oi = ProntoImplementation.create(OntologyResource(local=False, slug="pato.obo"))
+        oi = ProntoImplementation(OntologyResource(local=False, slug="pato.obo"))
         curies = oi.curies_by_label("shape")
         self.assertEqual(["PATO:0000052"], curies)
 
@@ -230,6 +230,9 @@ class TestProntoImplementation(unittest.TestCase):
                 slug="go-nucleus.filtered.obo", directory=OUTPUT_DIR, local=True, format="obo"
             )
         )
+
+    def test_store_associations(self):
+        self.compliance_tester.test_store_associations(self.oi)
 
     def test_qc(self):
         oi = self.oi
@@ -368,3 +371,11 @@ class TestProntoImplementation(unittest.TestCase):
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
         )
+
+    # SemanticSimilarityInterface
+    def test_common_ancestors(self):
+        self.compliance_tester.test_common_ancestors(self.oi)
+
+    @unittest.skip("Not implemented")
+    def test_pairwise_similarity(self):
+        self.compliance_tester.test_pairwise_similarity(self.oi)

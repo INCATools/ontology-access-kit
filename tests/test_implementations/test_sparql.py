@@ -30,6 +30,7 @@ from tests import (
     SHAPE,
     VACUOLE,
 )
+from tests.test_implementations import ComplianceTester
 
 TEST_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_INST_RDF = INPUT_DIR / "inst.owl.ttl"
@@ -41,8 +42,12 @@ class TestSparqlImplementation(unittest.TestCase):
     def setUp(self) -> None:
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_RDF)))
         self.oi = oi
+        self.compliance_tester = ComplianceTester(self)
 
     def test_relationships(self):
+        self.compliance_tester.test_relationships(self.oi, ignore_annotation_edges=True)
+
+    def test_relationships_extra(self):
         oi = self.oi
         self.assertIsNotNone(oi.graph)
         rels = list(oi.outgoing_relationships(VACUOLE))
@@ -52,6 +57,8 @@ class TestSparqlImplementation(unittest.TestCase):
             logging.info(f"{k} = {v}")
         self.assertIn("GO:0043231", rels[IS_A])
         self.assertIn("GO:0005737", rels[PART_OF])
+        rels = oi.outgoing_relationship_map(NUCLEUS)
+        print(rels)
 
     def test_instance_graph(self):
         oi = SparqlImplementation(OntologyResource(slug=str(TEST_INST_RDF)))
@@ -264,3 +271,8 @@ class TestSparqlImplementation(unittest.TestCase):
         oi = SparqlImplementation(resource)
         terms = list(oi.entities(owl_type="owl:Class"))
         self.assertCountEqual(["PATO:1", "PATO:2"], terms)
+
+    # SemanticSimilarity
+    def test_common_ancestors(self):
+        # TODO: this is currently slow
+        self.compliance_tester.test_common_ancestors(self.oi)

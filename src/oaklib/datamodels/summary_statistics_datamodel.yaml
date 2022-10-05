@@ -90,7 +90,7 @@ classes:
       subclass_of_axiom_count:
         is_a: count_statistic
         slot_group: owl_statistic_group
-      equivalentclasses_axiom_count:
+      equivalent_classes_axiom_count:
         is_a: count_statistic
         slot_group: owl_statistic_group
       distinct_synonym_count:

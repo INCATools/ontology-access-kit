@@ -36,18 +36,21 @@ imports:
 types:
   Label:
     typeof: string
+    description: A string that is used as a human-readable label
   EntityReference:
     typeof: uriorcurie
     description: A reference to a mapped entity. This is represented internally as a string, and as a resource in RDF
     uri: rdfs:Resource
-
+  Source:
+    typeof: string
+    description: The name of an ontology that acts as a source
 
 #==================================
 # Classes                         #
 #==================================
 classes:
   StructureDiffResultSet:
-    description: A collection of relational diff results results
+    description: A collection of relational diff results
     attributes:
       results:
         description: all differences between a pair of ontologies
@@ -55,7 +58,11 @@ classes:
         multivalued: true
         inlined: true
       left_source:
+        description: Ontology source for left entities
+        range: Source
       right_source:
+        description: Ontology source for right entities
+        range: Source
 
   RelationalDiff:
     description: |-
@@ -283,23 +290,32 @@ slots:
   label:
     mixin: true
     slot_uri: rdfs:label
+    description: human readable label
+    range: Label
   side:
     mixin: true
+    description: left or right side
   left_side:
     is_a: side
     mixin: true
+    description: The first ontology is arbitrarily designated the left side
   right_side:
     is_a: side
     mixin: true
+    description: The second ontology is arbitrarily designated the right side
   subject:
     mixin: true
     slot_uri: rdf:subject
+    description: The child node on left or right side
   predicate:
     mixin: true
     slot_uri: rdf:predicate
+    description: The relationship type between subject and object on left or right side
   object:
     mixin: true
     slot_uri: rdf:object
+    description: The object node on left or right side
   is_functional:
     mixin: true
     range: boolean
+    description: Maps to exactly one thing
