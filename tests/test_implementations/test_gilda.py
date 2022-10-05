@@ -6,8 +6,6 @@ from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.implementations import GildaImplementation
 from tests import CELL_CORTEX
 
-
-@unittest.skip("Fails in 3.10, see https://github.com/INCATools/ontology-access-kit/issues/299")
 class TestGilda(unittest.TestCase):
     """Tests for the Gilda annotator."""
 
