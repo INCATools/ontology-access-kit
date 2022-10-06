@@ -52,7 +52,7 @@ runoak = "oaklib.cli:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
-gilda = [ "scipy", "gilda"]
+gilda = ["scipy", "gilda"]
 
 [tool.black]
 line-length = 100
