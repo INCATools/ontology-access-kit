@@ -10,6 +10,7 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 ```{mermaid}
  classDiagram
+    class LogicalDefinitionAxiom
       Axiom <|-- LogicalDefinitionAxiom
       
       LogicalDefinitionAxiom : definedClassId
@@ -17,7 +18,6 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
       LogicalDefinitionAxiom : meta
       LogicalDefinitionAxiom : restrictions
       
-
 ```
 
 

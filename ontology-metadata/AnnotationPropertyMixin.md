@@ -14,6 +14,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 ```{mermaid}
  classDiagram
+    class AnnotationPropertyMixin
       AnnotationPropertyMixin <|-- HasMinimalMetadata
       AnnotationPropertyMixin <|-- HasSynonyms
       AnnotationPropertyMixin <|-- HasMappings

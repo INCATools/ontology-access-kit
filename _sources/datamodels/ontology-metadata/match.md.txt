@@ -7,7 +7,7 @@ URI: [http://purl.obolibrary.org/obo/schema/match](http://purl.obolibrary.org/ob
 
 ## Inheritance
 
-* **match** [ match_aspect]
+* **match** [ [match_aspect](match_aspect.md)]
     * [broadMatch](broadMatch.md)
     * [closeMatch](closeMatch.md)
     * [exactMatch](exactMatch.md)

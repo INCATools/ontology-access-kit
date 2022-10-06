@@ -12,9 +12,9 @@ URI: [http://purl.obolibrary.org/obo/schema/logical_predicate](http://purl.oboli
     * [complementOf](complementOf.md)
     * [disjointWith](disjointWith.md)
     * [distinctMembers](distinctMembers.md)
-    * [equivalentClass](equivalentClass.md) [ match_aspect]
-    * [sameAs](sameAs.md) [ match_aspect]
-    * [equivalentProperty](equivalentProperty.md) [ match_aspect]
+    * [equivalentClass](equivalentClass.md) [ [match_aspect](match_aspect.md)]
+    * [sameAs](sameAs.md) [ [match_aspect](match_aspect.md)]
+    * [equivalentProperty](equivalentProperty.md) [ [match_aspect](match_aspect.md)]
     * [hasValue](hasValue.md)
     * [intersectionOf](intersectionOf.md)
     * [inverseOf](inverseOf.md)

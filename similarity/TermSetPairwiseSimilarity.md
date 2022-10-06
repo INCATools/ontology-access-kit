@@ -12,6 +12,7 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 ```{mermaid}
  classDiagram
+    class TermSetPairwiseSimilarity
       PairwiseSimilarity <|-- TermSetPairwiseSimilarity
       
       TermSetPairwiseSimilarity : average_score
@@ -22,7 +23,6 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
       TermSetPairwiseSimilarity : subject_best_matches
       TermSetPairwiseSimilarity : subject_termset
       
-
 ```
 
 

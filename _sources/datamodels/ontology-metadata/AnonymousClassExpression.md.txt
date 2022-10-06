@@ -10,10 +10,14 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 ```{mermaid}
  classDiagram
+    class AnonymousClassExpression
       Anonymous <|-- AnonymousClassExpression
       
       
 
+      AnonymousClassExpression <|-- Restriction
+      
+      
 ```
 
 
@@ -23,7 +27,7 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 ## Inheritance
 * [Anonymous](Anonymous.md)
     * **AnonymousClassExpression**
-        * [Restriction](Restriction.md) [ ClassExpression]
+        * [Restriction](Restriction.md) [ [ClassExpression](ClassExpression.md)]
 
 
 

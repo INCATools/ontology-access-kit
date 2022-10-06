@@ -12,12 +12,19 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 ```{mermaid}
  classDiagram
+    class NamedObject
       Thing <|-- NamedObject
       
       NamedObject : id
       NamedObject : type
       
 
+      NamedObject <|-- Ontology
+      NamedObject <|-- Term
+      
+      NamedObject : id
+      NamedObject : type
+      
 ```
 
 
@@ -28,7 +35,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 * [Thing](Thing.md)
     * **NamedObject**
         * [Ontology](Ontology.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
 
 
 

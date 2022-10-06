@@ -14,6 +14,7 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 ```{mermaid}
  classDiagram
+    class Anonymous
       Anonymous <|-- AnonymousClassExpression
       
       

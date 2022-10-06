@@ -10,6 +10,7 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 ```{mermaid}
  classDiagram
+    class BasicPropertyValue
       PropertyValue <|-- BasicPropertyValue
       
       BasicPropertyValue : meta
@@ -17,7 +18,6 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
       BasicPropertyValue : val
       BasicPropertyValue : xrefs
       
-
 ```
 
 

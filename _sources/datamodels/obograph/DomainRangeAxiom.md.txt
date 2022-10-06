@@ -10,11 +10,11 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 ```{mermaid}
  classDiagram
+    class DomainRangeAxiom
       Axiom <|-- DomainRangeAxiom
       
       DomainRangeAxiom : meta
       
-
 ```
 
 

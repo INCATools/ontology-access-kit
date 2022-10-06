@@ -12,6 +12,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 ```{mermaid}
  classDiagram
+    class Expression
       Expression <|-- ClassExpression
       Expression <|-- PropertyExpression
       

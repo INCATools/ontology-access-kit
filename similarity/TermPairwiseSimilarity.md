@@ -12,6 +12,7 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 ```{mermaid}
  classDiagram
+    class TermPairwiseSimilarity
       PairwiseSimilarity <|-- TermPairwiseSimilarity
       
       TermPairwiseSimilarity : ancestor_id
@@ -30,7 +31,6 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
       TermPairwiseSimilarity : subject_label
       TermPairwiseSimilarity : subject_source
       
-
 ```
 
 

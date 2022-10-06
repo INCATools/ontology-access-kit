@@ -12,6 +12,7 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 ```{mermaid}
  classDiagram
+    class ValidationResult
       Result <|-- ValidationResult
       
       ValidationResult : info
@@ -25,6 +26,18 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
       ValidationResult : type
       
 
+      ValidationResult <|-- ExternalReferenceValidationResult
+      
+      ValidationResult : info
+      ValidationResult : instantiates
+      ValidationResult : object
+      ValidationResult : object_str
+      ValidationResult : predicate
+      ValidationResult : severity
+      ValidationResult : source
+      ValidationResult : subject
+      ValidationResult : type
+      
 ```
 
 

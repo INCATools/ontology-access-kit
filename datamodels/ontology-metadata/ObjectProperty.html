@@ -85,6 +85,7 @@
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#ObjectProperty">owl:ObjectProperty</a></p>
 <div class="mermaid">
              classDiagram
+    class ObjectProperty
       PropertyExpression &lt;|-- ObjectProperty
       Property &lt;|-- ObjectProperty
       
@@ -154,6 +155,73 @@
       ObjectProperty : type
       
 
+      ObjectProperty &lt;|-- TransitiveProperty
+      
+      ObjectProperty : alternative_term
+      ObjectProperty : broadMatch
+      ObjectProperty : category
+      ObjectProperty : closeMatch
+      ObjectProperty : comment
+      ObjectProperty : conformsTo
+      ObjectProperty : consider
+      ObjectProperty : contributor
+      ObjectProperty : created
+      ObjectProperty : created_by
+      ObjectProperty : creation_date
+      ObjectProperty : creator
+      ObjectProperty : curator_note
+      ObjectProperty : database_cross_reference
+      ObjectProperty : date
+      ObjectProperty : definition
+      ObjectProperty : definition_source
+      ObjectProperty : depicted_by
+      ObjectProperty : deprecated
+      ObjectProperty : disjointWith
+      ObjectProperty : domain
+      ObjectProperty : editor_note
+      ObjectProperty : editor_preferred_term
+      ObjectProperty : equivalentProperty
+      ObjectProperty : exactMatch
+      ObjectProperty : example_of_usage
+      ObjectProperty : excluded_from_QC_check
+      ObjectProperty : excluded_subClassOf
+      ObjectProperty : excluded_synonym
+      ObjectProperty : has_alternative_id
+      ObjectProperty : has_broad_synonym
+      ObjectProperty : has_curation_status
+      ObjectProperty : has_exact_synonym
+      ObjectProperty : has_narrow_synonym
+      ObjectProperty : has_obo_namespace
+      ObjectProperty : has_obsolescence_reason
+      ObjectProperty : has_related_synonym
+      ObjectProperty : id
+      ObjectProperty : IEDB_alternative_term
+      ObjectProperty : image
+      ObjectProperty : imported_from
+      ObjectProperty : in_subset
+      ObjectProperty : inverseOf
+      ObjectProperty : is_class_level
+      ObjectProperty : is_cyclic
+      ObjectProperty : is_metadata_tag
+      ObjectProperty : is_transitive
+      ObjectProperty : ISA_alternative_term
+      ObjectProperty : isDefinedBy
+      ObjectProperty : label
+      ObjectProperty : narrowMatch
+      ObjectProperty : OBO_foundry_unique_label
+      ObjectProperty : ontology_term_requester
+      ObjectProperty : page
+      ObjectProperty : propertyChainAxiom
+      ObjectProperty : range
+      ObjectProperty : seeAlso
+      ObjectProperty : shorthand
+      ObjectProperty : should_conform_to
+      ObjectProperty : temporal_interpretation
+      ObjectProperty : term_editor
+      ObjectProperty : term_replaced_by
+      ObjectProperty : term_tracker_item
+      ObjectProperty : type
+      
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -161,11 +229,11 @@
 <ul>
 <li><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p>
 <ul>
-<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]</p>
+<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> <a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a>]</p>
 <ul>
 <li><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p>
 <ul>
-<li><p><strong>ObjectProperty</strong> [ PropertyExpression]</p>
+<li><p><strong>ObjectProperty</strong> [ <a class="reference internal" href="PropertyExpression.html"><span class="doc std std-doc">PropertyExpression</span></a>]</p>
 <ul>
 <li><p><a class="reference internal" href="TransitiveProperty.html"><span class="doc std std-doc">TransitiveProperty</span></a></p></li>
 </ul>

@@ -10,6 +10,7 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 ```{mermaid}
  classDiagram
+    class SynonymPropertyValue
       PropertyValue <|-- SynonymPropertyValue
       
       SynonymPropertyValue : isExact
@@ -20,7 +21,6 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
       SynonymPropertyValue : val
       SynonymPropertyValue : xrefs
       
-
 ```
 
 

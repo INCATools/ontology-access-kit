@@ -12,6 +12,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 ```{mermaid}
  classDiagram
+    class Ontology
       NamedObject <|-- Ontology
       
       Ontology : comment
@@ -27,7 +28,6 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
       Ontology : versionInfo
       Ontology : versionIRI
       
-
 ```
 
 

@@ -12,6 +12,7 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
 
 ```{mermaid}
  classDiagram
+    class ObjectProperty
       PropertyExpression <|-- ObjectProperty
       Property <|-- ObjectProperty
       
@@ -81,6 +82,73 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
       ObjectProperty : type
       
 
+      ObjectProperty <|-- TransitiveProperty
+      
+      ObjectProperty : alternative_term
+      ObjectProperty : broadMatch
+      ObjectProperty : category
+      ObjectProperty : closeMatch
+      ObjectProperty : comment
+      ObjectProperty : conformsTo
+      ObjectProperty : consider
+      ObjectProperty : contributor
+      ObjectProperty : created
+      ObjectProperty : created_by
+      ObjectProperty : creation_date
+      ObjectProperty : creator
+      ObjectProperty : curator_note
+      ObjectProperty : database_cross_reference
+      ObjectProperty : date
+      ObjectProperty : definition
+      ObjectProperty : definition_source
+      ObjectProperty : depicted_by
+      ObjectProperty : deprecated
+      ObjectProperty : disjointWith
+      ObjectProperty : domain
+      ObjectProperty : editor_note
+      ObjectProperty : editor_preferred_term
+      ObjectProperty : equivalentProperty
+      ObjectProperty : exactMatch
+      ObjectProperty : example_of_usage
+      ObjectProperty : excluded_from_QC_check
+      ObjectProperty : excluded_subClassOf
+      ObjectProperty : excluded_synonym
+      ObjectProperty : has_alternative_id
+      ObjectProperty : has_broad_synonym
+      ObjectProperty : has_curation_status
+      ObjectProperty : has_exact_synonym
+      ObjectProperty : has_narrow_synonym
+      ObjectProperty : has_obo_namespace
+      ObjectProperty : has_obsolescence_reason
+      ObjectProperty : has_related_synonym
+      ObjectProperty : id
+      ObjectProperty : IEDB_alternative_term
+      ObjectProperty : image
+      ObjectProperty : imported_from
+      ObjectProperty : in_subset
+      ObjectProperty : inverseOf
+      ObjectProperty : is_class_level
+      ObjectProperty : is_cyclic
+      ObjectProperty : is_metadata_tag
+      ObjectProperty : is_transitive
+      ObjectProperty : ISA_alternative_term
+      ObjectProperty : isDefinedBy
+      ObjectProperty : label
+      ObjectProperty : narrowMatch
+      ObjectProperty : OBO_foundry_unique_label
+      ObjectProperty : ontology_term_requester
+      ObjectProperty : page
+      ObjectProperty : propertyChainAxiom
+      ObjectProperty : range
+      ObjectProperty : seeAlso
+      ObjectProperty : shorthand
+      ObjectProperty : should_conform_to
+      ObjectProperty : temporal_interpretation
+      ObjectProperty : term_editor
+      ObjectProperty : term_replaced_by
+      ObjectProperty : term_tracker_item
+      ObjectProperty : type
+      
 ```
 
 
@@ -90,9 +158,9 @@ URI: [owl:ObjectProperty](http://www.w3.org/2002/07/owl#ObjectProperty)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
             * [Property](Property.md)
-                * **ObjectProperty** [ PropertyExpression]
+                * **ObjectProperty** [ [PropertyExpression](PropertyExpression.md)]
                     * [TransitiveProperty](TransitiveProperty.md)
 
 

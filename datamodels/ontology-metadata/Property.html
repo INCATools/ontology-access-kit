@@ -87,6 +87,7 @@
 <p>URI: <a class="reference external" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property">rdf:Property</a></p>
 <div class="mermaid">
              classDiagram
+    class Property
       Term &lt;|-- Property
       
       Property : alternative_term
@@ -147,6 +148,66 @@
       Property : type
       
 
+      Property &lt;|-- AnnotationProperty
+      Property &lt;|-- ObjectProperty
+      
+      Property : alternative_term
+      Property : broadMatch
+      Property : category
+      Property : closeMatch
+      Property : comment
+      Property : conformsTo
+      Property : consider
+      Property : contributor
+      Property : created
+      Property : created_by
+      Property : creation_date
+      Property : creator
+      Property : curator_note
+      Property : database_cross_reference
+      Property : date
+      Property : definition
+      Property : definition_source
+      Property : depicted_by
+      Property : deprecated
+      Property : domain
+      Property : editor_note
+      Property : editor_preferred_term
+      Property : exactMatch
+      Property : example_of_usage
+      Property : excluded_from_QC_check
+      Property : excluded_subClassOf
+      Property : excluded_synonym
+      Property : has_alternative_id
+      Property : has_broad_synonym
+      Property : has_curation_status
+      Property : has_exact_synonym
+      Property : has_narrow_synonym
+      Property : has_obo_namespace
+      Property : has_obsolescence_reason
+      Property : has_related_synonym
+      Property : id
+      Property : IEDB_alternative_term
+      Property : image
+      Property : imported_from
+      Property : in_subset
+      Property : is_class_level
+      Property : is_metadata_tag
+      Property : ISA_alternative_term
+      Property : isDefinedBy
+      Property : label
+      Property : narrowMatch
+      Property : OBO_foundry_unique_label
+      Property : ontology_term_requester
+      Property : page
+      Property : range
+      Property : seeAlso
+      Property : should_conform_to
+      Property : term_editor
+      Property : term_replaced_by
+      Property : term_tracker_item
+      Property : type
+      
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -154,12 +215,12 @@
 <ul>
 <li><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p>
 <ul>
-<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]</p>
+<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> <a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a>]</p>
 <ul>
 <li><p><strong>Property</strong></p>
 <ul>
 <li><p><a class="reference internal" href="AnnotationProperty.html"><span class="doc std std-doc">AnnotationProperty</span></a></p></li>
-<li><p><a class="reference internal" href="ObjectProperty.html"><span class="doc std std-doc">ObjectProperty</span></a> [ PropertyExpression]</p></li>
+<li><p><a class="reference internal" href="ObjectProperty.html"><span class="doc std std-doc">ObjectProperty</span></a> [ <a class="reference internal" href="PropertyExpression.html"><span class="doc std std-doc">PropertyExpression</span></a>]</p></li>
 </ul>
 </li>
 </ul>

@@ -12,6 +12,7 @@ URI: [oio:Subset](http://www.geneontology.org/formats/oboInOwl#Subset)
 
 ```{mermaid}
  classDiagram
+    class Subset
       AnnotationProperty <|-- Subset
       
       Subset : alternative_term
@@ -72,7 +73,6 @@ URI: [oio:Subset](http://www.geneontology.org/formats/oboInOwl#Subset)
       Subset : term_tracker_item
       Subset : type
       
-
 ```
 
 
@@ -82,7 +82,7 @@ URI: [oio:Subset](http://www.geneontology.org/formats/oboInOwl#Subset)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
             * [Property](Property.md)
                 * [AnnotationProperty](AnnotationProperty.md)
                     * **Subset**

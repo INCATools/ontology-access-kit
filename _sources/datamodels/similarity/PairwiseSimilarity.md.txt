@@ -14,6 +14,7 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 ```{mermaid}
  classDiagram
+    class PairwiseSimilarity
       PairwiseSimilarity <|-- TermPairwiseSimilarity
       PairwiseSimilarity <|-- TermSetPairwiseSimilarity
       

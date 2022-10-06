@@ -14,6 +14,7 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/schema/HasSynonyms)
 
 ```{mermaid}
  classDiagram
+    class HasSynonyms
       AnnotationPropertyMixin <|-- HasSynonyms
       
       HasSynonyms : alternative_term
@@ -27,6 +28,18 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/schema/HasSynonyms)
       HasSynonyms : OBO_foundry_unique_label
       
 
+      HasSynonyms <|-- Term
+      
+      HasSynonyms : alternative_term
+      HasSynonyms : editor_preferred_term
+      HasSynonyms : has_broad_synonym
+      HasSynonyms : has_exact_synonym
+      HasSynonyms : has_narrow_synonym
+      HasSynonyms : has_related_synonym
+      HasSynonyms : IEDB_alternative_term
+      HasSynonyms : ISA_alternative_term
+      HasSynonyms : OBO_foundry_unique_label
+      
 ```
 
 

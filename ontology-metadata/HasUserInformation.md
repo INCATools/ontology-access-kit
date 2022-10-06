@@ -12,6 +12,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 ```{mermaid}
  classDiagram
+    class HasUserInformation
       AnnotationPropertyMixin <|-- HasUserInformation
       
       HasUserInformation : comment
@@ -24,6 +25,17 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
       HasUserInformation : seeAlso
       
 
+      HasUserInformation <|-- Term
+      
+      HasUserInformation : comment
+      HasUserInformation : curator_note
+      HasUserInformation : depicted_by
+      HasUserInformation : example_of_usage
+      HasUserInformation : has_curation_status
+      HasUserInformation : image
+      HasUserInformation : page
+      HasUserInformation : seeAlso
+      
 ```
 
 

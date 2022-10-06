@@ -12,6 +12,7 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 
 ```{mermaid}
  classDiagram
+    class GlobalStatistics
       SummaryStatisticCollection <|-- GlobalStatistics
       
       GlobalStatistics : annotation_property_count
@@ -41,7 +42,6 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
       GlobalStatistics : unsatisfiable_class_count
       GlobalStatistics : untyped_entity_count
       
-
 ```
 
 

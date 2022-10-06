@@ -14,6 +14,7 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/schema/Term)
 
 ```{mermaid}
  classDiagram
+    class Term
       HasSynonyms <|-- Term
       HasLifeCycle <|-- Term
       HasProvenance <|-- Term
@@ -77,6 +78,63 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/schema/Term)
       Term : type
       
 
+      Term <|-- Class
+      Term <|-- Property
+      Term <|-- NamedIndividual
+      
+      Term : alternative_term
+      Term : broadMatch
+      Term : category
+      Term : closeMatch
+      Term : comment
+      Term : conformsTo
+      Term : consider
+      Term : contributor
+      Term : created
+      Term : created_by
+      Term : creation_date
+      Term : creator
+      Term : curator_note
+      Term : database_cross_reference
+      Term : date
+      Term : definition
+      Term : definition_source
+      Term : depicted_by
+      Term : deprecated
+      Term : editor_note
+      Term : editor_preferred_term
+      Term : exactMatch
+      Term : example_of_usage
+      Term : excluded_from_QC_check
+      Term : excluded_subClassOf
+      Term : excluded_synonym
+      Term : has_alternative_id
+      Term : has_broad_synonym
+      Term : has_curation_status
+      Term : has_exact_synonym
+      Term : has_narrow_synonym
+      Term : has_obo_namespace
+      Term : has_obsolescence_reason
+      Term : has_related_synonym
+      Term : id
+      Term : IEDB_alternative_term
+      Term : image
+      Term : imported_from
+      Term : in_subset
+      Term : ISA_alternative_term
+      Term : isDefinedBy
+      Term : label
+      Term : narrowMatch
+      Term : OBO_foundry_unique_label
+      Term : ontology_term_requester
+      Term : page
+      Term : seeAlso
+      Term : should_conform_to
+      Term : term_editor
+      Term : term_replaced_by
+      Term : term_tracker_item
+      Term : type
+      
 ```
 
 
@@ -86,8 +144,8 @@ URI: [omoschema:Term](http://purl.obolibrary.org/obo/schema/Term)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * **Term** [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
-            * [Class](Class.md) [ ClassExpression]
+        * **Term** [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
+            * [Class](Class.md) [ [ClassExpression](ClassExpression.md)]
             * [Property](Property.md)
             * [NamedIndividual](NamedIndividual.md)
 

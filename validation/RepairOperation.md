@@ -12,6 +12,7 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 
 ```{mermaid}
  classDiagram
+    class RepairOperation
       Result <|-- RepairOperation
       
       RepairOperation : info
@@ -19,7 +20,6 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
       RepairOperation : repairs
       RepairOperation : successful
       
-
 ```
 
 

@@ -12,6 +12,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 ```{mermaid}
  classDiagram
+    class TextAnnotation
       HasSpan <|-- TextAnnotation
       
       TextAnnotation : confidence
@@ -30,7 +31,6 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
       TextAnnotation : subject_start
       TextAnnotation : subject_text_id
       
-
 ```
 
 
@@ -38,7 +38,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 ## Inheritance
-* **TextAnnotation** [ HasSpan]
+* **TextAnnotation** [ [HasSpan](HasSpan.md)]
 
 
 

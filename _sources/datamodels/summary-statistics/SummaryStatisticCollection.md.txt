@@ -12,6 +12,7 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 
 ```{mermaid}
  classDiagram
+    class SummaryStatisticCollection
       SummaryStatisticCollection <|-- GlobalStatistics
       SummaryStatisticCollection <|-- FacetStatistics
       

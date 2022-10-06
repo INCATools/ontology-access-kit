@@ -12,6 +12,7 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/schema/Transi
 
 ```{mermaid}
  classDiagram
+    class TransitiveProperty
       ObjectProperty <|-- TransitiveProperty
       
       TransitiveProperty : alternative_term
@@ -79,7 +80,6 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/schema/Transi
       TransitiveProperty : term_tracker_item
       TransitiveProperty : type
       
-
 ```
 
 
@@ -89,9 +89,9 @@ URI: [omoschema:TransitiveProperty](http://purl.obolibrary.org/obo/schema/Transi
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
             * [Property](Property.md)
-                * [ObjectProperty](ObjectProperty.md) [ PropertyExpression]
+                * [ObjectProperty](ObjectProperty.md) [ [PropertyExpression](PropertyExpression.md)]
                     * **TransitiveProperty**
 
 

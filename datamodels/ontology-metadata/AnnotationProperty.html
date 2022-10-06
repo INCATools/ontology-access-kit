@@ -85,6 +85,7 @@
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#AnnotationProperty">owl:AnnotationProperty</a></p>
 <div class="mermaid">
              classDiagram
+    class AnnotationProperty
       Property &lt;|-- AnnotationProperty
       
       AnnotationProperty : alternative_term
@@ -146,6 +147,66 @@
       AnnotationProperty : type
       
 
+      AnnotationProperty &lt;|-- Subset
+      
+      AnnotationProperty : alternative_term
+      AnnotationProperty : broadMatch
+      AnnotationProperty : category
+      AnnotationProperty : closeMatch
+      AnnotationProperty : comment
+      AnnotationProperty : conformsTo
+      AnnotationProperty : consider
+      AnnotationProperty : contributor
+      AnnotationProperty : created
+      AnnotationProperty : created_by
+      AnnotationProperty : creation_date
+      AnnotationProperty : creator
+      AnnotationProperty : curator_note
+      AnnotationProperty : database_cross_reference
+      AnnotationProperty : date
+      AnnotationProperty : definition
+      AnnotationProperty : definition_source
+      AnnotationProperty : depicted_by
+      AnnotationProperty : deprecated
+      AnnotationProperty : domain
+      AnnotationProperty : editor_note
+      AnnotationProperty : editor_preferred_term
+      AnnotationProperty : exactMatch
+      AnnotationProperty : example_of_usage
+      AnnotationProperty : excluded_from_QC_check
+      AnnotationProperty : excluded_subClassOf
+      AnnotationProperty : excluded_synonym
+      AnnotationProperty : has_alternative_id
+      AnnotationProperty : has_broad_synonym
+      AnnotationProperty : has_curation_status
+      AnnotationProperty : has_exact_synonym
+      AnnotationProperty : has_narrow_synonym
+      AnnotationProperty : has_obo_namespace
+      AnnotationProperty : has_obsolescence_reason
+      AnnotationProperty : has_related_synonym
+      AnnotationProperty : id
+      AnnotationProperty : IEDB_alternative_term
+      AnnotationProperty : image
+      AnnotationProperty : imported_from
+      AnnotationProperty : in_subset
+      AnnotationProperty : is_class_level
+      AnnotationProperty : is_metadata_tag
+      AnnotationProperty : ISA_alternative_term
+      AnnotationProperty : isDefinedBy
+      AnnotationProperty : label
+      AnnotationProperty : narrowMatch
+      AnnotationProperty : OBO_foundry_unique_label
+      AnnotationProperty : ontology_term_requester
+      AnnotationProperty : page
+      AnnotationProperty : range
+      AnnotationProperty : seeAlso
+      AnnotationProperty : shorthand
+      AnnotationProperty : should_conform_to
+      AnnotationProperty : term_editor
+      AnnotationProperty : term_replaced_by
+      AnnotationProperty : term_tracker_item
+      AnnotationProperty : type
+      
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -153,7 +214,7 @@
 <ul>
 <li><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p>
 <ul>
-<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]</p>
+<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> <a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a>]</p>
 <ul>
 <li><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p>
 <ul>

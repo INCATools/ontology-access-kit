@@ -10,6 +10,7 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 
 ```{mermaid}
  classDiagram
+    class DefinitionPropertyValue
       PropertyValue <|-- DefinitionPropertyValue
       
       DefinitionPropertyValue : meta
@@ -17,7 +18,6 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
       DefinitionPropertyValue : val
       DefinitionPropertyValue : xrefs
       
-
 ```
 
 

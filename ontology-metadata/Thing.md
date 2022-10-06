@@ -12,6 +12,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 ```{mermaid}
  classDiagram
+    class Thing
       Thing <|-- NamedObject
       
       Thing : type

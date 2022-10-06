@@ -12,6 +12,7 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 ```{mermaid}
  classDiagram
+    class HasMappings
       AnnotationPropertyMixin <|-- HasMappings
       
       HasMappings : broadMatch
@@ -21,6 +22,14 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
       HasMappings : narrowMatch
       
 
+      HasMappings <|-- Term
+      
+      HasMappings : broadMatch
+      HasMappings : closeMatch
+      HasMappings : database_cross_reference
+      HasMappings : exactMatch
+      HasMappings : narrowMatch
+      
 ```
 
 

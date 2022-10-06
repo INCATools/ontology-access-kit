@@ -8,7 +8,7 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 ## Inheritance
 
 * [logical_predicate](logical_predicate.md)
-    * **equivalentProperty** [ match_aspect]
+    * **equivalentProperty** [ [match_aspect](match_aspect.md)]
 
 
 

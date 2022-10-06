@@ -12,6 +12,7 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 ```{mermaid}
  classDiagram
+    class HasProvenance
       AnnotationPropertyMixin <|-- HasProvenance
       
       HasProvenance : contributor
@@ -29,6 +30,22 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
       HasProvenance : term_tracker_item
       
 
+      HasProvenance <|-- Term
+      
+      HasProvenance : contributor
+      HasProvenance : created
+      HasProvenance : created_by
+      HasProvenance : creation_date
+      HasProvenance : creator
+      HasProvenance : date
+      HasProvenance : definition_source
+      HasProvenance : editor_note
+      HasProvenance : imported_from
+      HasProvenance : isDefinedBy
+      HasProvenance : ontology_term_requester
+      HasProvenance : term_editor
+      HasProvenance : term_tracker_item
+      
 ```
 
 

@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/text_annotator/subject_mapping_predicate](https://
 
 ## Inheritance
 
-* **subject_mapping_predicate** [ subject predicate]
+* **subject_mapping_predicate** [ [subject](subject.md) [predicate](predicate.md)]
 
 
 

@@ -12,6 +12,7 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 ```{mermaid}
  classDiagram
+    class HasCategory
       AnnotationPropertyMixin <|-- HasCategory
       
       HasCategory : category
@@ -20,6 +21,13 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
       HasCategory : in_subset
       
 
+      HasCategory <|-- Term
+      
+      HasCategory : category
+      HasCategory : conformsTo
+      HasCategory : has_obo_namespace
+      HasCategory : in_subset
+      
 ```
 
 

@@ -12,6 +12,7 @@ URI: [owl:AnnotationProperty](http://www.w3.org/2002/07/owl#AnnotationProperty)
 
 ```{mermaid}
  classDiagram
+    class AnnotationProperty
       Property <|-- AnnotationProperty
       
       AnnotationProperty : alternative_term
@@ -73,6 +74,66 @@ URI: [owl:AnnotationProperty](http://www.w3.org/2002/07/owl#AnnotationProperty)
       AnnotationProperty : type
       
 
+      AnnotationProperty <|-- Subset
+      
+      AnnotationProperty : alternative_term
+      AnnotationProperty : broadMatch
+      AnnotationProperty : category
+      AnnotationProperty : closeMatch
+      AnnotationProperty : comment
+      AnnotationProperty : conformsTo
+      AnnotationProperty : consider
+      AnnotationProperty : contributor
+      AnnotationProperty : created
+      AnnotationProperty : created_by
+      AnnotationProperty : creation_date
+      AnnotationProperty : creator
+      AnnotationProperty : curator_note
+      AnnotationProperty : database_cross_reference
+      AnnotationProperty : date
+      AnnotationProperty : definition
+      AnnotationProperty : definition_source
+      AnnotationProperty : depicted_by
+      AnnotationProperty : deprecated
+      AnnotationProperty : domain
+      AnnotationProperty : editor_note
+      AnnotationProperty : editor_preferred_term
+      AnnotationProperty : exactMatch
+      AnnotationProperty : example_of_usage
+      AnnotationProperty : excluded_from_QC_check
+      AnnotationProperty : excluded_subClassOf
+      AnnotationProperty : excluded_synonym
+      AnnotationProperty : has_alternative_id
+      AnnotationProperty : has_broad_synonym
+      AnnotationProperty : has_curation_status
+      AnnotationProperty : has_exact_synonym
+      AnnotationProperty : has_narrow_synonym
+      AnnotationProperty : has_obo_namespace
+      AnnotationProperty : has_obsolescence_reason
+      AnnotationProperty : has_related_synonym
+      AnnotationProperty : id
+      AnnotationProperty : IEDB_alternative_term
+      AnnotationProperty : image
+      AnnotationProperty : imported_from
+      AnnotationProperty : in_subset
+      AnnotationProperty : is_class_level
+      AnnotationProperty : is_metadata_tag
+      AnnotationProperty : ISA_alternative_term
+      AnnotationProperty : isDefinedBy
+      AnnotationProperty : label
+      AnnotationProperty : narrowMatch
+      AnnotationProperty : OBO_foundry_unique_label
+      AnnotationProperty : ontology_term_requester
+      AnnotationProperty : page
+      AnnotationProperty : range
+      AnnotationProperty : seeAlso
+      AnnotationProperty : shorthand
+      AnnotationProperty : should_conform_to
+      AnnotationProperty : term_editor
+      AnnotationProperty : term_replaced_by
+      AnnotationProperty : term_tracker_item
+      AnnotationProperty : type
+      
 ```
 
 
@@ -82,7 +143,7 @@ URI: [owl:AnnotationProperty](http://www.w3.org/2002/07/owl#AnnotationProperty)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
             * [Property](Property.md)
                 * **AnnotationProperty**
                     * [Subset](Subset.md)

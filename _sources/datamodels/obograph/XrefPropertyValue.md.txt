@@ -10,6 +10,7 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 
 ```{mermaid}
  classDiagram
+    class XrefPropertyValue
       PropertyValue <|-- XrefPropertyValue
       
       XrefPropertyValue : meta
@@ -17,7 +18,6 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
       XrefPropertyValue : val
       XrefPropertyValue : xrefs
       
-
 ```
 
 

@@ -12,6 +12,7 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
 
 ```{mermaid}
  classDiagram
+    class FacetStatistics
       SummaryStatisticCollection <|-- FacetStatistics
       
       FacetStatistics : annotation_property_count
@@ -38,7 +39,6 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
       FacetStatistics : unsatisfiable_class_count
       FacetStatistics : untyped_entity_count
       
-
 ```
 
 

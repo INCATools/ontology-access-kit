@@ -10,11 +10,11 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 ```{mermaid}
  classDiagram
+    class PropertyChainAxiom
       Axiom <|-- PropertyChainAxiom
       
       PropertyChainAxiom : meta
       
-
 ```
 
 

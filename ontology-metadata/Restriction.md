@@ -12,6 +12,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 ```{mermaid}
  classDiagram
+    class Restriction
       ClassExpression <|-- Restriction
       AnonymousClassExpression <|-- Restriction
       
@@ -27,7 +28,6 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
       Restriction : subClassOf
       Restriction : unionOf
       
-
 ```
 
 
@@ -37,7 +37,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 ## Inheritance
 * [Anonymous](Anonymous.md)
     * [AnonymousClassExpression](AnonymousClassExpression.md)
-        * **Restriction** [ ClassExpression]
+        * **Restriction** [ [ClassExpression](ClassExpression.md)]
 
 
 

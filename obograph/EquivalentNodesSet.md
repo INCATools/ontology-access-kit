@@ -10,13 +10,13 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 ```{mermaid}
  classDiagram
+    class EquivalentNodesSet
       Axiom <|-- EquivalentNodesSet
       
       EquivalentNodesSet : meta
       EquivalentNodesSet : nodeIds
       EquivalentNodesSet : representitiveNodeId
       
-
 ```
 
 

@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/text_annotator/right_subject_label](https://w3id.o
 
 ## Inheritance
 
-* **right_subject_label** [ right_side subject label]
+* **right_subject_label** [ [right_side](right_side.md) [subject](subject.md) [label](label.md)]
 
 
 

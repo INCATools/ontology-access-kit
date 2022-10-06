@@ -12,6 +12,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 ```{mermaid}
  classDiagram
+    class Axiom
       Axiom <|-- DomainRangeAxiom
       Axiom <|-- EquivalentNodesSet
       Axiom <|-- LogicalDefinitionAxiom

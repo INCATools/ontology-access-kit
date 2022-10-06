@@ -7,7 +7,7 @@ URI: [http://www.w3.org/2004/02/skos/core#broadMatch](http://www.w3.org/2004/02/
 
 ## Inheritance
 
-* [match](match.md) [ match_aspect]
+* [match](match.md) [ [match_aspect](match_aspect.md)]
     * **broadMatch**
 
 

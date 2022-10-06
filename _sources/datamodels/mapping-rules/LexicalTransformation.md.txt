@@ -12,12 +12,12 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 ```{mermaid}
  classDiagram
+    class LexicalTransformation
       Activity <|-- LexicalTransformation
       
       LexicalTransformation : params
       LexicalTransformation : type
       
-
 ```
 
 

@@ -12,6 +12,7 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 
 ```{mermaid}
  classDiagram
+    class Property
       Term <|-- Property
       
       Property : alternative_term
@@ -72,6 +73,66 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
       Property : type
       
 
+      Property <|-- AnnotationProperty
+      Property <|-- ObjectProperty
+      
+      Property : alternative_term
+      Property : broadMatch
+      Property : category
+      Property : closeMatch
+      Property : comment
+      Property : conformsTo
+      Property : consider
+      Property : contributor
+      Property : created
+      Property : created_by
+      Property : creation_date
+      Property : creator
+      Property : curator_note
+      Property : database_cross_reference
+      Property : date
+      Property : definition
+      Property : definition_source
+      Property : depicted_by
+      Property : deprecated
+      Property : domain
+      Property : editor_note
+      Property : editor_preferred_term
+      Property : exactMatch
+      Property : example_of_usage
+      Property : excluded_from_QC_check
+      Property : excluded_subClassOf
+      Property : excluded_synonym
+      Property : has_alternative_id
+      Property : has_broad_synonym
+      Property : has_curation_status
+      Property : has_exact_synonym
+      Property : has_narrow_synonym
+      Property : has_obo_namespace
+      Property : has_obsolescence_reason
+      Property : has_related_synonym
+      Property : id
+      Property : IEDB_alternative_term
+      Property : image
+      Property : imported_from
+      Property : in_subset
+      Property : is_class_level
+      Property : is_metadata_tag
+      Property : ISA_alternative_term
+      Property : isDefinedBy
+      Property : label
+      Property : narrowMatch
+      Property : OBO_foundry_unique_label
+      Property : ontology_term_requester
+      Property : page
+      Property : range
+      Property : seeAlso
+      Property : should_conform_to
+      Property : term_editor
+      Property : term_replaced_by
+      Property : term_tracker_item
+      Property : type
+      
 ```
 
 
@@ -81,10 +142,10 @@ URI: [rdf:Property](http://www.w3.org/1999/02/22-rdf-syntax-ns#Property)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
             * **Property**
                 * [AnnotationProperty](AnnotationProperty.md)
-                * [ObjectProperty](ObjectProperty.md) [ PropertyExpression]
+                * [ObjectProperty](ObjectProperty.md) [ [PropertyExpression](PropertyExpression.md)]
 
 
 

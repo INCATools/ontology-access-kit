@@ -12,11 +12,11 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 ```{mermaid}
  classDiagram
+    class ValidationReport
       Report <|-- ValidationReport
       
       ValidationReport : results
       
-
 ```
 
 

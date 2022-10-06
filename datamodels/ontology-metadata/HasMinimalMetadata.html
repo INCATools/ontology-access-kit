@@ -88,12 +88,18 @@
 <p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/schema/HasMinimalMetadata">omoschema:HasMinimalMetadata</a></p>
 <div class="mermaid">
              classDiagram
+    class HasMinimalMetadata
       AnnotationPropertyMixin &lt;|-- HasMinimalMetadata
       
       HasMinimalMetadata : definition
       HasMinimalMetadata : label
       
 
+      HasMinimalMetadata &lt;|-- Term
+      
+      HasMinimalMetadata : definition
+      HasMinimalMetadata : label
+      
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
 <ul class="simple">

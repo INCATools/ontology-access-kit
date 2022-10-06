@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/text_annotator/right_object_label](https://w3id.or
 
 ## Inheritance
 
-* **right_object_label** [ right_side object label]
+* **right_object_label** [ [right_side](right_side.md) [object](object.md) [label](label.md)]
 
 
 

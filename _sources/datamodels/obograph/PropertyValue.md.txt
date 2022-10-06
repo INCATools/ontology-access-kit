@@ -12,6 +12,7 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 ```{mermaid}
  classDiagram
+    class PropertyValue
       PropertyValue <|-- DefinitionPropertyValue
       PropertyValue <|-- BasicPropertyValue
       PropertyValue <|-- XrefPropertyValue

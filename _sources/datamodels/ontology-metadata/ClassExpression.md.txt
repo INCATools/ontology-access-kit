@@ -12,6 +12,7 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 ```{mermaid}
  classDiagram
+    class ClassExpression
       Expression <|-- ClassExpression
       
       ClassExpression : cardinality
@@ -24,6 +25,18 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
       ClassExpression : unionOf
       
 
+      ClassExpression <|-- Class
+      ClassExpression <|-- Restriction
+      
+      ClassExpression : cardinality
+      ClassExpression : complementOf
+      ClassExpression : disjointWith
+      ClassExpression : equivalentClass
+      ClassExpression : intersectionOf
+      ClassExpression : oneOf
+      ClassExpression : subClassOf
+      ClassExpression : unionOf
+      
 ```
 
 

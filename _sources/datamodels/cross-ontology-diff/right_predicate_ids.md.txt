@@ -11,7 +11,7 @@ URI: [https://w3id.org/linkml/text_annotator/right_predicate_ids](https://w3id.o
 
 ## Inheritance
 
-* **right_predicate_ids** [ right_side predicate]
+* **right_predicate_ids** [ [right_side](right_side.md) [predicate](predicate.md)]
 
 
 

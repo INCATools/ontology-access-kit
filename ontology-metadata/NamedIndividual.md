@@ -12,6 +12,7 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 ```{mermaid}
  classDiagram
+    class NamedIndividual
       Term <|-- NamedIndividual
       
       NamedIndividual : alternative_term
@@ -67,7 +68,6 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
       NamedIndividual : term_tracker_item
       NamedIndividual : type
       
-
 ```
 
 
@@ -77,7 +77,7 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
             * **NamedIndividual**
 
 

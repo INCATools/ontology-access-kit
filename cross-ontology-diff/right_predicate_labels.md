@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/text_annotator/right_predicate_labels](https://w3i
 
 ## Inheritance
 
-* **right_predicate_labels** [ right_side predicate label]
+* **right_predicate_labels** [ [right_side](right_side.md) [predicate](predicate.md) [label](label.md)]
 
 
 

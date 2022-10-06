@@ -7,7 +7,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasDbXref](http://www.geneont
 
 ## Inheritance
 
-* [match](match.md) [ match_aspect]
+* [match](match.md) [ [match_aspect](match_aspect.md)]
     * **database_cross_reference**
 
 

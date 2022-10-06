@@ -12,6 +12,7 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 ```{mermaid}
  classDiagram
+    class HasLifeCycle
       AnnotationPropertyMixin <|-- HasLifeCycle
       
       HasLifeCycle : consider
@@ -25,6 +26,18 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
       HasLifeCycle : term_replaced_by
       
 
+      HasLifeCycle <|-- Term
+      
+      HasLifeCycle : consider
+      HasLifeCycle : deprecated
+      HasLifeCycle : excluded_from_QC_check
+      HasLifeCycle : excluded_subClassOf
+      HasLifeCycle : excluded_synonym
+      HasLifeCycle : has_alternative_id
+      HasLifeCycle : has_obsolescence_reason
+      HasLifeCycle : should_conform_to
+      HasLifeCycle : term_replaced_by
+      
 ```
 
 

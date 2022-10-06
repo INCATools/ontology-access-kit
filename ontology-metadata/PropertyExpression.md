@@ -12,11 +12,16 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 ```{mermaid}
  classDiagram
+    class PropertyExpression
       Expression <|-- PropertyExpression
       
       PropertyExpression : disjointWith
       
 
+      PropertyExpression <|-- ObjectProperty
+      
+      PropertyExpression : disjointWith
+      
 ```
 
 

@@ -9,7 +9,7 @@ URI: [https://w3id.org/linkml/text_annotator/left_subject_is_functional](https:/
 
 ## Inheritance
 
-* **left_subject_is_functional** [ left_side is_functional]
+* **left_subject_is_functional** [ [left_side](left_side.md) [is_functional](is_functional.md)]
 
 
 

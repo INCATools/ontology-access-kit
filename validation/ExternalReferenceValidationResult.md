@@ -12,6 +12,7 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 ```{mermaid}
  classDiagram
+    class ExternalReferenceValidationResult
       ValidationResult <|-- ExternalReferenceValidationResult
       
       ExternalReferenceValidationResult : http_response_code
@@ -28,7 +29,6 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
       ExternalReferenceValidationResult : type
       ExternalReferenceValidationResult : url
       
-
 ```
 
 

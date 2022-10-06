@@ -10,6 +10,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 ```{mermaid}
  classDiagram
+    class Class
       ClassExpression <|-- Class
       Term <|-- Class
       
@@ -77,7 +78,6 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
       Class : type
       Class : unionOf
       
-
 ```
 
 
@@ -87,8 +87,8 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
-        * [Term](Term.md) [ HasSynonyms HasLifeCycle HasProvenance HasMappings HasCategory HasUserInformation HasMinimalMetadata]
-            * **Class** [ ClassExpression]
+        * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
+            * **Class** [ [ClassExpression](ClassExpression.md)]
 
 
 

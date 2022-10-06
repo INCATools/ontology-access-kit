@@ -12,12 +12,12 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 ```{mermaid}
  classDiagram
+    class LexicalTransformationPipeline
       Activity <|-- LexicalTransformationPipeline
       
       LexicalTransformationPipeline : name
       LexicalTransformationPipeline : transformations
       
-
 ```
 
 
