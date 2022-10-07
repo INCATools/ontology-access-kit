@@ -1,5 +1,5 @@
 # Auto generated from lexical_index.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-04-11T17:33:31
+# Generation date: 2022-09-21T22:56:24
 # Schema: lexical-index
 #
 # id: https://w3id.org/linkml/lexical_index
@@ -8,20 +8,39 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import URIorCURIE, empty_dict, empty_list
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -58,7 +77,7 @@ class LexicalTransformationPipelineName(extended_str):
 @dataclass
 class LexicalIndex(YAMLRoot):
     """
-    An index over an ontology keyed by lexical unit.
+    An index over an ontology keyed by lexical unit
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -156,6 +175,7 @@ class RelationshipToTerm(YAMLRoot):
             List[Union[str, LexicalTransformationPipelineName]],
         ]
     ] = empty_list()
+    synonymized: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
@@ -178,6 +198,9 @@ class RelationshipToTerm(YAMLRoot):
             else LexicalTransformationPipelineName(v)
             for v in self.pipeline
         ]
+
+        if self.synonymized is not None and not isinstance(self.synonymized, Bool):
+            self.synonymized = Bool(self.synonymized)
 
         super().__post_init__(**kwargs)
 
@@ -290,6 +313,9 @@ class TransformationType(EnumDefinitionImpl):
     TermExpanson = PermissibleValue(
         text="TermExpanson", description="Expand terms using a dictionary"
     )
+    Synonymization = PermissibleValue(
+        text="Synonymization", description="Applying synonymizer rules from matcher_rules.yaml"
+    )
 
     _defn = EnumDefinition(
         name="TransformationType",
@@ -399,6 +425,15 @@ slots.relationshipToTerm__pipeline = Slot(
             List[Union[str, LexicalTransformationPipelineName]],
         ]
     ],
+)
+
+slots.relationshipToTerm__synonymized = Slot(
+    uri=LI.synonymized,
+    name="relationshipToTerm__synonymized",
+    curie=LI.curie("synonymized"),
+    model_uri=LI.relationshipToTerm__synonymized,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )
 
 slots.lexicalTransformationPipeline__name = Slot(

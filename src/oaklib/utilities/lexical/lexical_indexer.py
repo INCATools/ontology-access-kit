@@ -31,6 +31,7 @@ from oaklib.datamodels.lexical_index import (
 from oaklib.datamodels.mapping_rules_datamodel import (
     MappingRuleCollection,
     Precondition,
+    Synonymizer,
 )
 from oaklib.datamodels.vocabulary import (
     SEMAPV,
@@ -70,7 +71,9 @@ def add_labels_from_uris(oi: BasicOntologyInterface):
 
 
 def create_lexical_index(
-    oi: BasicOntologyInterface, pipelines: List[LexicalTransformationPipeline] = None
+    oi: BasicOntologyInterface,
+    pipelines: List[LexicalTransformationPipeline] = None,
+    synonym_rules: List[Synonymizer] = None,
 ) -> LexicalIndex:
     """
     Generates a LexicalIndex keyed by normalized terms
@@ -80,12 +83,25 @@ def create_lexical_index(
 
     :param oi: An ontology interface for making label lookups.
     :param pipelines: list of transformation pipelines to apply
+    :param synonym_rules: list of synonymizer rules to apply
     :return: An index over an ontology keyed by lexical unit.
     """
     if pipelines is None:
+        # Option 1: Apply synonymizer here.
         step1 = LexicalTransformation(TransformationType.CaseNormalization)
         step2 = LexicalTransformation(TransformationType.WhitespaceNormalization)
-        pipelines = [LexicalTransformationPipeline(name="default", transformations=[step1, step2])]
+        step3 = LexicalTransformation(TransformationType.Synonymization, params=synonym_rules)
+        if synonym_rules:
+            pipelines = [
+                LexicalTransformationPipeline(
+                    name="default_with_synonymizer", transformations=[step1, step2, step3]
+                )
+            ]
+        else:
+            pipelines = [
+                LexicalTransformationPipeline(name="default", transformations=[step1, step2])
+            ]
+
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
     for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
@@ -99,12 +115,22 @@ def create_lexical_index(
                 if not term:
                     logging.debug(f"No term for {curie}.{pred} (expected for aggregator interface)")
                     continue
+
                 for pipeline in pipelines:
+                    synonymized = False  # Flag indicating whether the term was synonymized or not.
                     term2 = term
                     for tr in pipeline.transformations:
-                        term2 = apply_transformation(term2, tr)
+                        if tr.type.code == TransformationType.Synonymization:
+                            synonymized, term2 = apply_transformation(term2, tr)
+                        else:
+                            term2 = apply_transformation(term2, tr)
+
                     rel = RelationshipToTerm(
-                        predicate=pred, element=curie, element_term=term, pipeline=pipeline.name
+                        predicate=pred,
+                        element=curie,
+                        element_term=term,
+                        pipeline=pipeline.name,
+                        synonymized=synonymized,
                     )
                     if term2 not in ix.groupings:
                         ix.groupings[term2] = LexicalGrouping(term=term2)
@@ -201,6 +227,10 @@ def create_mapping(
     :param confidence: Confidence score., defaults to None
     :return: Mapping object.
     """
+    mapping_justification = SEMAPV.LexicalMatching.value
+    if r1.synonymized or r2.synonymized:
+        mapping_justification = SEMAPV.RegularExpressionReplacement.value
+
     return Mapping(
         subject_id=r1.element,
         object_id=r2.element,
@@ -209,7 +239,7 @@ def create_mapping(
         match_string=term,
         subject_match_field=[r1.predicate],
         object_match_field=[r2.predicate],
-        mapping_justification=SEMAPV.LexicalMatching.value,
+        mapping_justification=mapping_justification,
         mapping_tool="oaklib",
     )
 
@@ -244,9 +274,9 @@ def inferred_mapping(
     for rule in rules:
         inverted = False
         # determine if preconditions hold for the mapping or its inverse
-        if precondition_holds(rule.preconditions, m1):
+        if rule.preconditions and precondition_holds(rule.preconditions, m1):
             m = m1
-        elif not rule.oneway and precondition_holds(rule.preconditions, m2):
+        elif not rule.oneway and rule.preconditions and precondition_holds(rule.preconditions, m2):
             m = m2
             inverted = True
         else:
@@ -333,10 +363,22 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
         return term.lower()
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
+    elif typ == TransformationType.Synonymization.text:
+        return apply_synonymizer(term, eval(transformation.params))
     else:
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
         )
+
+
+def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
+    tmp_term = term
+    for rule in rules:
+        term = re.sub(eval(rule.match), rule.replacement, term)
+    if tmp_term == term:
+        return False, term.rstrip()
+    else:
+        return True, term.rstrip()
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):

@@ -356,9 +356,9 @@ class SimpleOboImplementation(
                     mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
         # TODO: use a cache to avoid re-calculating
-        for s in self.obo_document.stanzas:
-            if s:
-                for x in s.simple_values(TAG_XREF):
+        for _, stanza in self.obo_document.stanzas.items():
+            if len(stanza.simple_values(TAG_XREF)) > 0:
+                for x in stanza.simple_values(TAG_XREF):
                     if x == curie:
                         yield sssom.Mapping(
                             subject_id=s.id,
@@ -466,7 +466,10 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
             # rather than forcing all synonyms to be related.
-            scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
+            if type(patch.qualifier) == str:
+                scope = patch.qualifier.upper()
+            else:
+                scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             v = patch.new_value.replace('"', '\\"')
             t.add_tag_value(TAG_SYNONYM, f'"{v}" {scope} []')
         elif isinstance(patch, kgcl.RemoveSynonym):

@@ -34,6 +34,8 @@ TEST_OUT_OBO = str(OUTPUT_DIR / "tmp.obo")
 TEST_OUT2 = str(OUTPUT_DIR / "tmp-v2")
 MAPPING_DIFF_TEST_OBO = INPUT_DIR / "unreciprocated-mapping-test.obo"
 TEST_SSSOM_MAPPING = INPUT_DIR / "unreciprocated-mapping-test.sssom.tsv"
+TEST_SYNONYMIZER_OBO = "simpleobo:" + str(INPUT_DIR / "synonym-test.obo")
+RULES_FILE = INPUT_DIR / "matcher_rules.yaml"
 
 
 class TestCommandLineInterface(unittest.TestCase):
@@ -438,7 +440,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 f"pronto:{INPUT_DIR}/matcher-test.owl",
                 "lexmatch",
                 "-R",
-                f"{INPUT_DIR}/matcher_rules.yaml",
+                RULES_FILE,
                 "-o",
                 outfile,
             ],
@@ -450,6 +452,8 @@ class TestCommandLineInterface(unittest.TestCase):
             contents = "\n".join(stream.readlines())
             self.assertIn("skos:closeMatch", contents)
             self.assertIn("skos:exactMatch", contents)
+            # TODO change below once mapping_justification for this is finalized.
+            self.assertIn("semapv:RegularExpressionReplacement", contents)
         self.assertEqual("", err)
 
     def test_lexmatch_sqlite(self):
@@ -461,7 +465,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 f"sqlite:{INPUT_DIR}/matcher-test.db",
                 "lexmatch",
                 "-R",
-                f"{INPUT_DIR}/matcher_rules.yaml",
+                RULES_FILE,
                 "-o",
                 outfile,
             ],
@@ -642,3 +646,30 @@ class TestCommandLineInterface(unittest.TestCase):
                 docs = list(yaml.load_all(f, yaml.FullLoader))
                 expected += [None]
                 self.assertCountEqual(expected, docs)
+
+    def test_synonymizer(self):
+        patch_file = OUTPUT_DIR / "synonym-test-patch.kgcl"
+        outfile = OUTPUT_DIR / "synonym-test-output.obo"
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                TEST_SYNONYMIZER_OBO,
+                "synonymize",
+                "-R",
+                RULES_FILE,
+                "--patch",
+                patch_file,
+                "--apply-patch",
+                "-o",
+                outfile,
+                ".all",
+            ],
+        )
+
+        self.assertEqual(0, result.exit_code)
+        with open(patch_file, "r") as p, open(outfile, "r") as t:
+            patch = p.readlines()
+            self.assertTrue(len(patch), 3)
+            output = t.readlines()
+            self.assertTrue('synonym: "bone element" EXACT []\n' in output)

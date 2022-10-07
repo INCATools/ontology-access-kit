@@ -75,6 +75,8 @@ classes:
       pipeline:
         range: LexicalTransformationPipeline
         multivalued: true
+      synonymized:
+        range: boolean
 
   Activity:
     description: Generic grouping for any lexical operation
@@ -119,3 +121,5 @@ enums:
         description: Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces
       TermExpanson:
         description: Expand terms using a dictionary
+      Synonymization:
+        description: Applying synonymizer rules from matcher_rules.yaml

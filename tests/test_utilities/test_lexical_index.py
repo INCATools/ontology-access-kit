@@ -5,6 +5,7 @@ from oaklib.datamodels.lexical_index import (
     LexicalTransformationPipeline,
     TransformationType,
 )
+from oaklib.datamodels.mapping_rules_datamodel import Synonymizer
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import (
@@ -44,24 +45,82 @@ class TestLexicalIndex(unittest.TestCase):
         builder.add_class("X:1", "foo bar")
         builder.add_class("X:2", "FOO BAR")
         builder.add_class("X:3", "foo  bar")
+        builder.add_class("X:4", "foo bar (foo bar)")
+        builder.add_class("X:5", "foo bar [foo bar]")
         builder.build()
-        cases = [
-            (None, {"foo bar": ["X:1", "X:2", "X:3"]}),
-            (
-                [LexicalTransformation(TransformationType.CaseNormalization)],
-                {"foo bar": ["X:1", "X:2"], "foo  bar": ["X:3"]},
+        syn_param = [
+            Synonymizer(
+                the_rule="Remove parentheses bound info from the label.",
+                match="r'\([^)]*\)'",  # noqa W605
+                match_scope="*",
+                replacement="",
             ),
-            (
-                [LexicalTransformation(TransformationType.WhitespaceNormalization)],
-                {"foo bar": ["X:1", "X:3"], "FOO BAR": ["X:2"]},
+            Synonymizer(
+                the_rule="Remove parentheses bound info from the label.",
+                match="r'\[[^)]*\]'",  # noqa W605
+                match_scope="*",
+                replacement="",
             ),
         ]
+
+        case_norm = LexicalTransformation(TransformationType.CaseNormalization)
+        whitespace_norm = LexicalTransformation(TransformationType.WhitespaceNormalization)
+        synonymization = LexicalTransformation(TransformationType.Synonymization, params=syn_param)
+
+        cases = [
+            (
+                None,
+                {
+                    "foo bar": ["X:1", "X:2", "X:3"],
+                    "foo bar (foo bar)": ["X:4"],
+                    "foo bar [foo bar]": ["X:5"],
+                },
+            ),
+            (
+                [case_norm],
+                {
+                    "foo bar": ["X:1", "X:2"],
+                    "foo  bar": ["X:3"],
+                    "foo bar (foo bar)": ["X:4"],
+                    "foo bar [foo bar]": ["X:5"],
+                },
+            ),
+            (
+                [whitespace_norm],
+                {
+                    "foo bar": ["X:1", "X:3"],
+                    "FOO BAR": ["X:2"],
+                    "foo bar (foo bar)": ["X:4"],
+                    "foo bar [foo bar]": ["X:5"],
+                },
+            ),
+            (
+                [synonymization],
+                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4", "X:5"]},
+            ),
+            (
+                [case_norm, whitespace_norm, synonymization],
+                {"foo bar": ["X:1", "X:2", "X:3", "X:4", "X:5"]},
+            ),
+        ]
+
+        include_syn_rules = False
+
         for trs, expected in cases:
             if trs:
                 pipelines = [LexicalTransformationPipeline(name="default", transformations=trs)]
+                if trs[0].type.code.text == "Synonymization":
+                    include_syn_rules = True
             else:
                 pipelines = None
-            lexical_index = create_lexical_index(oi, pipelines=pipelines)
+
+            if include_syn_rules:
+                lexical_index = create_lexical_index(
+                    oi, pipelines=pipelines, synonym_rules=syn_param
+                )
+            else:
+                lexical_index = create_lexical_index(oi, pipelines=pipelines)
+
             groupings = {}
             for k, v in lexical_index.groupings.items():
                 groupings[k] = [x.element for x in v.relationships]

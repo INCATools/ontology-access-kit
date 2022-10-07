@@ -1,0 +1,294 @@
+format-version: 1.2
+ontology: http://example.org/test.owl
+
+[Term]
+id: bone:element
+name: bone element(this is test data)
+synonym: "bone" BROAD []
+xref: UBERON:0001474
+is_a: http://example.org/x/organ ! organ
+is_a: http://example.org/z/organ ! ORGAN
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: bone:tissue
+name: bone tissue [this is test data]
+synonym: "bone" BROAD []
+xref: UBERON:0002481
+is_a: http://example.org/x/tissue ! tissue
+is_a: http://example.org/z/tissue ! TISSUE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: head:bone
+name: head bone
+is_a: http://example.org/a/organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/a/bone_of_foot
+name: bone of foot
+is_a: http://example.org/a/organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/a/bone_of_hand
+name: bone of hand
+is_a: http://example.org/a/organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/appendage
+name: appendage
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/bone_of_head
+name: BONE, HEAD
+is_a: http://example.org/a/organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/eye
+name: eye
+xref: UBERON:0000970
+is_a: http://example.org/x/organ ! organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/eyeball
+name: eyeball (this is [test data])
+xref: UBERON:0010230
+is_a: http://example.org/x/region ! region
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/foot
+name: pes
+synonym: "foot" EXACT []
+xref: UBERON:0002387
+is_a: http://example.org/x/appendage ! appendage
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/hand
+name: manus
+synonym: "hand" EXACT []
+xref: UBERON:0002398
+is_a: http://example.org/x/appendage ! appendage
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/heart
+name: heart
+xref: BAD:ORGAN
+xref: UBERON:0000948
+is_a: http://example.org/x/organ ! organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/hindlimb
+name: hindlimb
+is_a: http://example.org/x/appendage ! appendage
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/liver
+name: liver
+xref: BAD:ORGAN
+xref: UBERON:0002107
+is_a: http://example.org/x/organ ! organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/lung
+name: lung
+xref: BAD:ORGAN
+xref: UBERON:0002048
+is_a: http://example.org/x/organ ! organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/organ
+name: organ
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/region
+name: region
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/x/tissue
+name: tissue
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/appendage
+name: appendages
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/bone
+name: bones
+synonym: "bone element" RELATED []
+xref: UBERON:0001474
+is_a: http://example.org/y/organ ! organs
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/eye
+name: eyes
+xref: UBERON:0000970
+is_a: http://example.org/y/organ ! organs
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/foot
+name: feet
+xref: UBERON:0002387
+is_a: http://example.org/y/appendage ! appendages
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/hand
+name: hands
+xref: UBERON:0002398
+is_a: http://example.org/y/appendage ! appendages
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/heart
+name: hearts
+xref: UBERON:0000948
+is_a: http://example.org/y/organ ! organs
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/leg
+name: legs
+synonym: "leg" EXACT []
+is_a: http://example.org/y/appendage ! appendages
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/liver
+name: livers
+xref: UBERON:0002107
+is_a: http://example.org/y/organ ! organs
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/lung
+name: lungs
+xref: UBERON:0002048
+is_a: http://example.org/y/organ ! organs
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/organ
+name: organs
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/region
+name: regions
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/y/tissue
+name: tissues
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/appendage
+name: APPENDAGE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/eye
+xref: UBERON:0000970
+is_a: http://example.org/z/organ ! ORGAN
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/eyeball
+xref: UBERON:0010230
+is_a: http://example.org/z/region ! REGION
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/foot
+synonym: "foot" EXACT []
+xref: UBERON:0002387
+is_a: http://example.org/z/appendage ! APPENDAGE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/hand
+synonym: "hand" EXACT []
+xref: UBERON:0002398
+is_a: http://example.org/z/appendage ! APPENDAGE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/heart
+xref: UBERON:0000948
+is_a: http://example.org/z/organ ! ORGAN
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/hindlimb
+name: hindlimb
+is_a: http://example.org/z/appendage ! APPENDAGE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/liver
+xref: UBERON:0002107
+is_a: http://example.org/z/organ ! ORGAN
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/lung
+xref: UBERON:0002048
+is_a: http://example.org/z/organ ! ORGAN
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/organ
+name: ORGAN
+xref: BAD:ORGAN
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/region
+name: REGION
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/tail
+name: tail
+is_a: http://example.org/z/appendage ! APPENDAGE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: http://example.org/z/tissue
+name: TISSUE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+
+[Term]
+id: obsolete:leg
+name: leg
+synonym: "hindlimb" RELATED []
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+is_obsolete: true
+
+[Term]
+id: tail:structure
+name: tail structure
+is_a: http://example.org/z/appendage ! APPENDAGE
+property_value: http://dbpedia.org/ontology/category https://w3id.org/biolink/vocab/AnatomicalEntity
+

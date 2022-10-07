@@ -20,3 +20,5 @@ notebooks/api-key.txt
 .template.db
 .venv
 .tox/
+.coverage.*
+

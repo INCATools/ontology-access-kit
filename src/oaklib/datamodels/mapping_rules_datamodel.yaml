@@ -63,6 +63,9 @@ classes:
       postconditions:
         range: Postcondition
         description: conditions that apply if preconditions match
+      synonymizer:
+        range: Synonymizer
+        description: Normalizing rules to labels. 
 
   Precondition:
     description: A pattern to be matched against an individual SSSOM mapping
@@ -91,3 +94,19 @@ classes:
         see_also:
           - https://en.wikipedia.org/wiki/Logit
           - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
+
+  Synonymizer:
+   attributes:
+    the_rule:
+      description: Description of the rule.
+      range: string
+    match:
+      description: Reg-ex rule to match substrings in labels.
+      range: string
+    match_scope:
+      description: Scope of the reg-ex rule
+      range: string
+    replacement:
+      description: Reg-ex rule to replace substrings in labels
+      range: string
+    

@@ -106,7 +106,7 @@ def get_implementation_class_from_scheme(scheme: str) -> Type[OntologyInterface]
 def get_resource_imp_class_from_suffix_descriptor(
     suffix: str, resource: OntologyResource, descriptor: str
 ):
-    from oaklib.implementations import (
+    from oaklib.implementations import (  # SimpleOboImplementation,
         ProntoImplementation,
         SparqlImplementation,
         SqlImplementation,
@@ -126,6 +126,8 @@ def get_resource_imp_class_from_suffix_descriptor(
         logging.warning("Using rdflib rdf/xml parser; this behavior may change in future")
     elif suffix == "ofn":
         impl_class = FunOwlImplementation
+    # elif suffix == "obo":
+    #     impl_class = SimpleOboImplementation
     else:
         resource.local = True
         impl_class = ProntoImplementation

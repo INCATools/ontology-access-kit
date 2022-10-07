@@ -1,5 +1,5 @@
 # Auto generated from mapping_rules_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-31T13:26:26
+# Generation date: 2022-09-21T23:32:26
 # Schema: mapping-rules
 #
 # id: https://w3id.org/linkml/mapping_rules_datamodel
@@ -7,20 +7,39 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, Float, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_dict, empty_list
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -103,6 +122,7 @@ class MappingRule(YAMLRoot):
     oneway: Optional[Union[bool, Bool]] = False
     preconditions: Optional[Union[dict, "Precondition"]] = None
     postconditions: Optional[Union[dict, "Postcondition"]] = None
+    synonymizer: Optional[Union[dict, "Synonymizer"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.description is not None and not isinstance(self.description, str):
@@ -116,6 +136,9 @@ class MappingRule(YAMLRoot):
 
         if self.postconditions is not None and not isinstance(self.postconditions, Postcondition):
             self.postconditions = Postcondition(**as_dict(self.postconditions))
+
+        if self.synonymizer is not None and not isinstance(self.synonymizer, Synonymizer):
+            self.synonymizer = Synonymizer(**as_dict(self.synonymizer))
 
         super().__post_init__(**kwargs)
 
@@ -221,6 +244,36 @@ class Postcondition(YAMLRoot):
 
 
 @dataclass
+class Synonymizer(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = MRULES.Synonymizer
+    class_class_curie: ClassVar[str] = "mrules:Synonymizer"
+    class_name: ClassVar[str] = "Synonymizer"
+    class_model_uri: ClassVar[URIRef] = MRULES.Synonymizer
+
+    the_rule: Optional[str] = None
+    match: Optional[str] = None
+    match_scope: Optional[str] = None
+    replacement: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.the_rule is not None and not isinstance(self.the_rule, str):
+            self.the_rule = str(self.the_rule)
+
+        if self.match is not None and not isinstance(self.match, str):
+            self.match = str(self.match)
+
+        if self.match_scope is not None and not isinstance(self.match_scope, str):
+            self.match_scope = str(self.match_scope)
+
+        if self.replacement is not None and not isinstance(self.replacement, str):
+            self.replacement = str(self.replacement)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class LexicalIndex(YAMLRoot):
     """
     An index over an ontology keyed by lexical unit
@@ -321,6 +374,7 @@ class RelationshipToTerm(YAMLRoot):
             List[Union[str, LexicalTransformationPipelineName]],
         ]
     ] = empty_list()
+    synonymized: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.predicate is not None and not isinstance(self.predicate, URIorCURIE):
@@ -343,6 +397,9 @@ class RelationshipToTerm(YAMLRoot):
             else LexicalTransformationPipelineName(v)
             for v in self.pipeline
         ]
+
+        if self.synonymized is not None and not isinstance(self.synonymized, Bool):
+            self.synonymized = Bool(self.synonymized)
 
         super().__post_init__(**kwargs)
 
@@ -455,6 +512,9 @@ class TransformationType(EnumDefinitionImpl):
     TermExpanson = PermissibleValue(
         text="TermExpanson", description="Expand terms using a dictionary"
     )
+    Synonymization = PermissibleValue(
+        text="Synonymization", description="Applying synonymizer rules from matcher_rules.yaml"
+    )
 
     _defn = EnumDefinition(
         name="TransformationType",
@@ -519,6 +579,15 @@ slots.mappingRule__postconditions = Slot(
     model_uri=MRULES.mappingRule__postconditions,
     domain=None,
     range=Optional[Union[dict, Postcondition]],
+)
+
+slots.mappingRule__synonymizer = Slot(
+    uri=MRULES.synonymizer,
+    name="mappingRule__synonymizer",
+    curie=MRULES.curie("synonymizer"),
+    model_uri=MRULES.mappingRule__synonymizer,
+    domain=None,
+    range=Optional[Union[dict, Synonymizer]],
 )
 
 slots.precondition__subject_source_one_of = Slot(
@@ -591,6 +660,42 @@ slots.postcondition__weight = Slot(
     model_uri=MRULES.postcondition__weight,
     domain=None,
     range=Optional[float],
+)
+
+slots.synonymizer__the_rule = Slot(
+    uri=MRULES.the_rule,
+    name="synonymizer__the_rule",
+    curie=MRULES.curie("the_rule"),
+    model_uri=MRULES.synonymizer__the_rule,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__match = Slot(
+    uri=MRULES.match,
+    name="synonymizer__match",
+    curie=MRULES.curie("match"),
+    model_uri=MRULES.synonymizer__match,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__match_scope = Slot(
+    uri=MRULES.match_scope,
+    name="synonymizer__match_scope",
+    curie=MRULES.curie("match_scope"),
+    model_uri=MRULES.synonymizer__match_scope,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__replacement = Slot(
+    uri=MRULES.replacement,
+    name="synonymizer__replacement",
+    curie=MRULES.curie("replacement"),
+    model_uri=MRULES.synonymizer__replacement,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.lexicalIndex__groupings = Slot(
@@ -690,6 +795,15 @@ slots.relationshipToTerm__pipeline = Slot(
             List[Union[str, LexicalTransformationPipelineName]],
         ]
     ],
+)
+
+slots.relationshipToTerm__synonymized = Slot(
+    uri=MRULES.synonymized,
+    name="relationshipToTerm__synonymized",
+    curie=MRULES.curie("synonymized"),
+    model_uri=MRULES.relationshipToTerm__synonymized,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )
 
 slots.lexicalTransformationPipeline__name = Slot(
