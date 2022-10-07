@@ -19,7 +19,6 @@ Name: mapping-rules
 | [Postcondition](Postcondition.md) |  |
 | [Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping |
 | [RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term |
-| [Synonymizer](Synonymizer.md) |  |
 
 
 ## Slots
@@ -31,8 +30,6 @@ Name: mapping-rules
 | [element_term](element_term.md) | the original term used in the element |
 | [groupings](groupings.md) | all groupings |
 | [mapping_source_one_of](mapping_source_one_of.md) |  |
-| [match](match.md) | Reg-ex rule to match substrings in labels |
-| [match_scope](match_scope.md) | Scope of the reg-ex rule |
 | [minimum_confidence](minimum_confidence.md) |  |
 | [name](name.md) |  |
 | [object_match_field_one_of](object_match_field_one_of.md) |  |
@@ -46,15 +43,11 @@ Name: mapping-rules
 | [predicate](predicate.md) |  |
 | [predicate_id](predicate_id.md) |  |
 | [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term |
-| [replacement](replacement.md) | Reg-ex rule to replace substrings in labels |
 | [rules](rules.md) | all rules |
 | [source](source.md) |  |
 | [subject_match_field_one_of](subject_match_field_one_of.md) |  |
 | [subject_source_one_of](subject_source_one_of.md) |  |
-| [synonymized](synonymized.md) |  |
-| [synonymizer](synonymizer.md) | Normalizing rules to labels |
 | [term](term.md) | A normalized term that groups ontology elements |
-| [the_rule](the_rule.md) | Description of the rule |
 | [transformations](transformations.md) |  |
 | [transformations_included_in](transformations_included_in.md) |  |
 | [type](type.md) | The type of transformation |

@@ -18,7 +18,6 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
       RelationshipToTerm : pipeline
       RelationshipToTerm : predicate
       RelationshipToTerm : source
-      RelationshipToTerm : synonymized
       
 ```
 
@@ -37,7 +36,6 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 | [element_term](element_term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | the original term used in the element  |
 | [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
 | [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md)  |   |
-| [synonymized](synonymized.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
 
 
 ## Usages
@@ -115,11 +113,6 @@ attributes:
     rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
-  synonymized:
-    name: synonymized
-    from_schema: https://w3id.org/linkml/lexical_index
-    rank: 1000
-    range: boolean
 
 ```
 </details>
@@ -180,15 +173,6 @@ attributes:
     domain_of:
     - RelationshipToTerm
     range: LexicalTransformationPipeline
-  synonymized:
-    name: synonymized
-    from_schema: https://w3id.org/linkml/lexical_index
-    rank: 1000
-    alias: synonymized
-    owner: RelationshipToTerm
-    domain_of:
-    - RelationshipToTerm
-    range: boolean
 
 ```
 </details>

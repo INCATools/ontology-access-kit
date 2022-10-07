@@ -94,7 +94,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-similarity-pair">similarity-pair</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-singletons">singletons</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-subsets">subsets</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#runoak-synonymize">synonymize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-term-categories">term-categories</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-term-metadata">term-metadata</a></li>
@@ -2668,57 +2667,6 @@ terms (directly) in goslim_generic in GO:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-subsets-o">
 <span id="cmdoption-runoak-subsets-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-subsets-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
-</dd></dl>
-
-</section>
-<section id="runoak-synonymize">
-<h4>synonymize<a class="headerlink" href="#runoak-synonymize" title="Permalink to this headline"></a></h4>
-<blockquote>
-<div><p>Apply synonymizer rule from the rules file to generate KGCL syntax
-see <a class="reference external" href="https://github.com/INCATools/kgcl">https://github.com/INCATools/kgcl</a>.</p>
-<dl class="simple">
-<dt>Example:</dt><dd><p>runoak -i foo.obo synonymize -R foo_rules.yaml –patch patch.kgcl –apply-patch</p>
-</dd>
-</dl>
-</div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak synonymize <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
-</pre></div>
-</div>
-<p class="rubric">Options</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-synonymize-R">
-<span id="cmdoption-runoak-synonymize-r"></span><span id="cmdoption-runoak-synonymize-rules-file"></span><span class="sig-name descname"><span class="pre">-R</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--rules-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;rules_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-synonymize-R" title="Permalink to this definition"></a></dt>
-<dd><p>path to rules file. Conforms to rules_datamodel.        e.g. <a class="reference external" href="https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml">https://github.com/INCATools/ontology-access-kit/blob/main/tests/input/matcher_rules.yaml</a></p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-synonymize-apply-patch">
-<span id="cmdoption-runoak-synonymize-no-apply-patch"></span><span class="sig-name descname"><span class="pre">--apply-patch</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-apply-patch</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-synonymize-apply-patch" title="Permalink to this definition"></a></dt>
-<dd><p>Apply KGCL syntax generated based on the synonymizer rules file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Default</dt>
-<dd class="field-odd"><p>False</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-synonymize-patch">
-<span class="sig-name descname"><span class="pre">--patch</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;patch&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-synonymize-patch" title="Permalink to this definition"></a></dt>
-<dd><p>Output patch file containing KGCL commands.</p>
-</dd></dl>
-
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-synonymize-o">
-<span id="cmdoption-runoak-synonymize-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-synonymize-o" title="Permalink to this definition"></a></dt>
-<dd><p>Output file, e.g. obo file</p>
-</dd></dl>
-
-<p class="rubric">Arguments</p>
-<dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-synonymize-arg-TERMS">
-<span id="cmdoption-runoak-synonymize-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-synonymize-arg-TERMS" title="Permalink to this definition"></a></dt>
-<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>

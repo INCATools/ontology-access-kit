@@ -15,7 +15,6 @@ URI: TransformationType
 | CaseNormalization | None | Transform term to a standard case, typically lowercase | |
 | WhitespaceNormalization | None | Trim whitespace, condense whitespace runs, and transform all non-space whites... | |
 | TermExpanson | None | Expand terms using a dictionary | |
-| Synonymization | None | Applying synonymizer rules from matcher_rules | |
 
 
 
@@ -70,9 +69,6 @@ permissible_values:
   TermExpanson:
     text: TermExpanson
     description: Expand terms using a dictionary
-  Synonymization:
-    text: Synonymization
-    description: Applying synonymizer rules from matcher_rules.yaml
 
 ```
 </details>

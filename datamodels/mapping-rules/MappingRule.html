@@ -90,7 +90,6 @@
       MappingRule : oneway
       MappingRule : postconditions
       MappingRule : preconditions
-      MappingRule : synonymizer
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -118,10 +117,6 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Postcondition.html"><span class="doc std std-doc">Postcondition</span></a></p></td>
 <td><p>conditions that apply if preconditions match</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synonymizer.html"><span class="doc std std-doc">synonymizer</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Synonymizer.html"><span class="doc std std-doc">Synonymizer</span></a></p></td>
-<td><p>Normalizing rules to labels</p></td>
 </tr>
 </tbody>
 </table>
@@ -209,12 +204,6 @@ attributes:
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
     range: Postcondition
-  synonymizer:
-    name: synonymizer
-    description: Normalizing rules to labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    rank: 1000
-    range: Synonymizer
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -268,16 +257,6 @@ attributes:
     domain_of:
     - MappingRule
     range: Postcondition
-  synonymizer:
-    name: synonymizer
-    description: Normalizing rules to labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    rank: 1000
-    alias: synonymizer
-    owner: MappingRule
-    domain_of:
-    - MappingRule
-    range: Synonymizer
 
 </pre></div>
 </div>

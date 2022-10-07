@@ -14,7 +14,6 @@
    .. autosummary::
    
       add_labels_from_uris
-      apply_synonymizer
       apply_transformation
       create_lexical_index
       create_mapping
