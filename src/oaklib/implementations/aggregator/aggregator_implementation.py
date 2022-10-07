@@ -34,7 +34,17 @@ class AggregatorImplementation(
     SearchInterface,
     MappingProviderInterface,
 ):
-    """ """
+    """
+    Wraps multiple implementations and integrates results together.
+
+    This allows for multiple implementations to be wrapped, with calls to
+    the aggregator farming out queries to multiple implementations, and weaving
+    the results together.
+
+    Documentation:
+
+    - `Aggregator Implementation <https://incatools.github.io/ontology-access-kit/implementations/aggregator.html>`_
+    """
 
     implementations: List[BasicOntologyInterface] = None
 

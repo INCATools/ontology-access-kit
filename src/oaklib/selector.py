@@ -7,6 +7,9 @@ from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.implementations import GildaImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
+from oaklib.implementations.obograph.obograph_implementation import (
+    OboGraphImplementation,
+)
 from oaklib.implementations.ols.ols_implementation import OlsImplementation
 from oaklib.implementations.ontobee.ontobee_implementation import OntobeeImplementation
 from oaklib.implementations.ontoportal.agroportal_implementation import (
@@ -40,6 +43,8 @@ RDF_SUFFIX_TO_FORMAT = {
     "rdf": "turtle",
     "jsonld": "json-ld",
     "json-ld": "json-ld",
+    "xml": "xml",
+    "n3": "n3",
 }
 
 # Deprecated?
@@ -59,6 +64,7 @@ SCHEME_DICT = {
     "funowl": FunOwlImplementation,
     "pronto": ProntoImplementation,
     "simpleobo": SimpleOboImplementation,
+    "obograph": OboGraphImplementation,
     "obolibrary": ProntoImplementation,
     "prontolib": ProntoImplementation,
     "gilda": GildaImplementation,

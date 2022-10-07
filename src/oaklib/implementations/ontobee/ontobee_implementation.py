@@ -22,9 +22,18 @@ class OntobeeImplementation(
 
         .. code:: python
 
-           >>>  oi = OntobeeImplementation.create()
+           >>>  oi = OntobeeImplementation()
 
-        The default ontobee endpoint will be assumed
+    The default ontobee endpoint will be assumed
+
+    Alternatively, use a selector:
+
+    .. code :: python
+
+        >>> oi = get_implementation_from_shorthand("ontobee:")
+        >>> for a in oi.ancestors("UBERON:0002398", predicates=[IS_A]):
+        >>>     ...
+
 
     See: `<https://www.ontobee.org/>`_
     """

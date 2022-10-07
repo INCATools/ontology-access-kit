@@ -1,14 +1,19 @@
 import logging
 import unittest
+from copy import deepcopy
 
-import pronto
 from kgcl_schema.datamodel import kgcl
 
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
-from oaklib.implementations import ProntoImplementation
+from oaklib.implementations.obograph.obograph_implementation import (
+    OboGraphImplementation,
+)
+from oaklib.implementations.simpleobo.simple_obo_implementation import (
+    SimpleOboImplementation,
+)
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.obograph_utils import (
@@ -23,7 +28,11 @@ from tests import (
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
+    FAKE_ID,
+    FAKE_PREDICATE,
+    HUMAN,
     INPUT_DIR,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
     OUTPUT_DIR,
     VACUOLE,
@@ -36,32 +45,14 @@ TEST_ONT_COPY = OUTPUT_DIR / "go-nucleus.copy.obo"
 TEST_SUBGRAPH_OUT = OUTPUT_DIR / "vacuole.obo"
 
 
-class TestProntoImplementation(unittest.TestCase):
+class TestOboGraphImplementation(unittest.TestCase):
     def setUp(self) -> None:
-        resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
-        oi = ProntoImplementation(resource)
+        resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
+        oi = OboGraphImplementation(resource)
         self.oi = oi
         self.compliance_tester = ComplianceTester(self)
 
-    def test_obo_json(self) -> None:
-        resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
-        json_oi = ProntoImplementation(resource)
-        curies = list(json_oi.entities())
-        # for e in curies:
-        #    logging.info(e)
-        self.assertIn(NUCLEUS, curies)
-        # for e in oi_src.all_entity_curies():
-        #    self.assertIn(e, curies)
-        #    assert e in list(oi_src.all_entity_curies())
-        # TODO: pronto obo parsing excludes alt_ids
-        # self.assertCountEqual(list(json_oi.all_entity_curies()), list(oi_src.all_entity_curies()))
-        # TODO: workaround for https://github.com/althonos/pronto/issues/164
-        # json_oi.store
-        # (
-        #     OntologyResource(slug='go-nucleus.from-json.obo', directory=OUTPUT_DIR, local=True, format='obo')
-        #     )
-
-    def test_relationship_map(self):
+    def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")
         for k, v in rels.items():
@@ -75,6 +66,7 @@ class TestProntoImplementation(unittest.TestCase):
     def test_equiv_relationships(self):
         self.compliance_tester.test_equiv_relationships(self.oi)
 
+    @unittest.skip("TODO")
     def test_gci_relationships(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map(CELL)
@@ -91,8 +83,12 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertCountEqual(rels[PART_OF], ["GO:0005773", "GO:0099568"])
 
     def test_all_terms(self):
-        assert any(curie for curie in self.oi.entities() if curie == "GO:0008152")
+        entities = list(self.oi.entities())
+        self.assertIn(NUCLEUS, entities)
+        self.assertIn(CELLULAR_COMPONENT, entities)
+        self.assertIn(PART_OF, entities)
 
+    @unittest.skip("TODO")
     def test_relations(self):
         oi = self.oi
         label = oi.label(PART_OF)
@@ -101,6 +97,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert t.id == PART_OF
         assert t.lbl.startswith("part")
 
+    @unittest.skip("TODO")
     def test_metadata(self):
         for curie in self.oi.entities():
             m = self.oi.entity_metadata_map(curie)
@@ -114,9 +111,11 @@ class TestProntoImplementation(unittest.TestCase):
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
         """
         oi = self.oi
-        label = oi.label("GO:0005773")
+        label = oi.label(VACUOLE)
         self.assertEqual(str, type(label))
         self.assertEqual(label, "vacuole")
+        lbls = list(oi.labels([VACUOLE, NUCLEUS]))
+        self.assertCountEqual([(VACUOLE, "vacuole"), (NUCLEUS, "nucleus")], lbls)
         label = oi.label("FOOBAR:123")
         self.assertIsNone(label)
         # TODO: test strict mode
@@ -124,11 +123,44 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertIsNotNone(label)
 
     def test_synonyms(self):
-        self.compliance_tester.test_synonyms(self.oi)
+        syns = self.oi.entity_aliases("GO:0005575")
+        print(syns)
+        # logging.info(syns)
+        self.assertCountEqual(
+            syns,
+            [
+                "cellular_component",
+                "cellular component",
+                "cell or subcellular entity",
+                "subcellular entity",
+            ],
+        )
+        syns = self.oi.entity_aliases(NUCLEUS)
+        logging.info(syns)
+        self.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
+        syn_pairs = list(self.oi.entity_alias_map(NUCLEUS).items())
+        self.assertCountEqual(
+            syn_pairs,
+            [
+                ("oio:hasExactSynonym", ["cell nucleus"]),
+                ("oio:hasNarrowSynonym", ["horsetail nucleus"]),
+                ("rdfs:label", ["nucleus"]),
+            ],
+        )
 
-    def test_sssom_mappings(self):
-        self.compliance_tester.test_sssom_mappings(self.oi)
+    @unittest.skip("TODO")
+    def test_mappings(self):
+        oi = self.oi
+        mappings = list(oi.get_sssom_mappings_by_curie(NUCLEUS))
+        assert any(m for m in mappings if m.object_id == "Wikipedia:Cell_nucleus")
+        self.assertEqual(len(mappings), 2)
+        for m in mappings:
+            logging.info(f"GETTING {m.object_id}")
+            reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
+            reverse_subject_ids = [m.subject_id for m in reverse_mappings]
+            self.assertEqual(reverse_subject_ids, [NUCLEUS])
 
+    @unittest.skip("TODO")
     def test_subsets(self):
         oi = self.oi
         subsets = list(oi.subsets())
@@ -136,8 +168,9 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
         self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
 
+    # @unittest.skip("TODO")
     def test_save(self):
-        oi = ProntoImplementation()
+        oi = SimpleOboImplementation()
         OUTPUT_DIR.mkdir(exist_ok=True)
         oi.create_entity(
             "FOO:1", label="foo", relationships={IS_A: ["FOO:2"], "part_of": ["FOO:3"]}
@@ -148,71 +181,14 @@ class TestProntoImplementation(unittest.TestCase):
             )
         )
 
-    def test_from_obo_library(self):
-        oi = ProntoImplementation(OntologyResource(local=False, slug="pato.obo"))
-        curies = oi.curies_by_label("shape")
-        self.assertEqual(["PATO:0000052"], curies)
-
-    @unittest.skip("https://github.com/althonos/pronto/issues/186")
-    def test_import_behavior(self):
-        """
-        Tests behavior of owl:imports
-
-        by default, imports should be followed
-
-        See: https://github.com/INCATools/ontology-access-kit/issues/248
-        """
-        for slug in ["test_import_root.obo", "test_import_root.obo"]:
-            resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True)
-            # print(resource.local_path)
-            # currently throws exception
-            pronto.Ontology(resource.local_path)
-            oi = ProntoImplementation.create(resource)
-            terms = list(oi.entities(owl_type="owl:Class"))
-            self.assertEqual(2, len(terms))
-
-    def test_no_import_depth(self):
-        """
-        Tests behavior of owl:imports
-
-        do not follow imports if depth is set to zero
-
-        See: https://github.com/INCATools/ontology-access-kit/issues/248
-        """
-        for slug in ["test_import_root.obo", "test_import_root.obo"]:
-            resource = OntologyResource(slug=slug, directory=INPUT_DIR, local=True, import_depth=0)
-            oi = ProntoImplementation(resource)
-            terms = list(oi.entities(owl_type="owl:Class"))
-            self.assertEqual(1, len(terms))
-
-    @unittest.skip("Hide warnings")
-    def test_from_owl(self):
-        r = OntologyResource(local=True, slug="go-nucleus.owl", directory=INPUT_DIR)
-        oi = ProntoImplementation.create(r)
-        rels = list(oi.walk_up_relationship_graph("GO:0005773"))
-        for rel in rels:
-            logging.info(rel)
-
-    def test_subontology(self):
-        subont = self.oi.create_subontology(["GO:0005575", "GO:0005773"])
-        subont.store(
-            OntologyResource(
-                slug="go-nucleus.filtered.obo", directory=OUTPUT_DIR, local=True, format="obo"
-            )
-        )
-
-    def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
-
-    def test_store_associations(self):
-        self.compliance_tester.test_store_associations(self.oi)
-
+    @unittest.skip("TODO")
     def test_qc(self):
         oi = self.oi
         for t in oi.term_curies_without_definitions():
             logging.info(t)
         self.assertIn("CARO:0000003", oi.term_curies_without_definitions())
 
+    @unittest.skip("TODO")
     def test_walk_up(self):
         oi = self.oi
         rels = list(oi.walk_up_relationship_graph("GO:0005773"))
@@ -228,6 +204,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert ("GO:0043227", HAS_PART, "GO:0016020") not in rels
         assert ("GO:0110165", IS_A, "CARO:0000000") in rels
 
+    @unittest.skip("TODO")
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors("GO:0005773"))
@@ -242,6 +219,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert "GO:0005773" in ancs  # reflexive
         assert "GO:0043231" in ancs  # reflexive
 
+    @unittest.skip("TODO")
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
         nix = index_graph_nodes(g)
@@ -271,13 +249,7 @@ class TestProntoImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
-    def test_save_extract(self):
-        g = self.oi.ancestor_graph(VACUOLE)
-        oi = ProntoImplementation()
-        oi.load_graph(g, replace=True)
-        r = OntologyResource(slug=str(TEST_SUBGRAPH_OUT), format="obo", local=True)
-        oi.store(r)
-
+    @unittest.skip("TODO")
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
         curies = list(self.oi.basic_search("enzyme activity", config=config))
@@ -286,12 +258,14 @@ class TestProntoImplementation(unittest.TestCase):
         curies = list(self.oi.basic_search("enzyme activity", config=config))
         self.assertEqual(curies, [])
 
+    @unittest.skip("TODO")
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
         # logging.info(curies)
         assert CYTOPLASM in curies
 
+    @unittest.skip("TODO")
     def test_search_partial(self):
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -299,6 +273,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
+    @unittest.skip("TODO")
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -306,6 +281,7 @@ class TestProntoImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
+    @unittest.skip("TODO")
     def test_search_regex(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("^nucl", config=config))
@@ -318,9 +294,25 @@ class TestProntoImplementation(unittest.TestCase):
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
 
+    @unittest.skip("TODO")
     def test_patcher(self):
-        resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)
-        oi = ProntoImplementation(resource)
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
+        original_oi = deepcopy(oi)
+
+        def roundtrip(oi_in: OntologyResource):
+            out_file = str(OUTPUT_DIR / "post-kgcl.obo")
+            oi_in.dump(out_file, syntax="obo")
+            resource2 = OntologyResource(slug=out_file, local=True)
+            return SimpleOboImplementation(resource2)
+
+        self.compliance_tester.test_patcher(
+            self.oi, original_oi=original_oi, roundtrip_function=roundtrip
+        )
+
+    def test_patcher2(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
         oi.apply_patch(
             kgcl.NodeRename(id=generate_change_id(), about_node=VACUOLE, new_value="VaCuOlE")
         )
@@ -336,19 +328,50 @@ class TestProntoImplementation(unittest.TestCase):
                 new_value="foo bar",
             )
         )
+        oi.apply_patch(
+            kgcl.NewSynonym(id=generate_change_id(), about_node=HUMAN, new_value="people")
+        )
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
-        oi2 = ProntoImplementation(resource)
+        oi2 = SimpleOboImplementation(resource)
         self.assertCountEqual(
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
         )
+        self.assertCountEqual(
+            ["people", "Homo sapiens"],
+            oi2.entity_aliases(HUMAN),
+        )
 
-    # SemanticSimilarityInterface
-    def test_common_ancestors(self):
-        self.compliance_tester.test_common_ancestors(self.oi)
+    @unittest.skip("TODO")
+    def test_migrate_curies(self):
+        """
+        Tests migrate_curies operations works on a simple obo backend
 
-    @unittest.skip("Not implemented")
-    def test_pairwise_similarity(self):
-        self.compliance_tester.test_pairwise_similarity(self.oi)
+        This test is a mutation test, so a copy of the test database will be made
+        """
+        oi = self.oi
+        label = oi.label(NUCLEUS)
+        preds = [IS_A, PART_OF]
+        preds_rewired = [IS_A, FAKE_PREDICATE]
+        expected_ancs = list(oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+        expected_descs = list(oi.descendants(NUCLEUS, predicates=preds, reflexive=False))
+        oi.migrate_curies({NUCLEUS: FAKE_ID, PART_OF: FAKE_PREDICATE})
+        out_file = str(OUTPUT_DIR / "post-migrate.obo")
+        oi.dump(out_file, syntax="obo")
+        self.assertEqual(label, oi.label(FAKE_ID))
+        self.assertIsNone(oi.label(NUCLEUS))
+        self.assertEqual([FAKE_ID], oi.curies_by_label("nucleus"))
+        # query with rewired preds should be the same
+        self.assertCountEqual(
+            expected_ancs, list(oi.ancestors(FAKE_ID, predicates=preds_rewired, reflexive=False))
+        )
+        # query with UNrewired preds should be incomplete
+        self.assertNotIn(CELL, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+        # query with rewired preds should be the same
+        self.assertCountEqual(
+            expected_descs, list(oi.descendants(FAKE_ID, predicates=preds_rewired, reflexive=False))
+        )
+        # query with UNrewired preds should be incomplete
+        self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))

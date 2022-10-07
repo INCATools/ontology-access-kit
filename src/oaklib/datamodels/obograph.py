@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-08-24T14:30:08
+# Generation date: 2022-10-05T14:16:41
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -247,7 +247,9 @@ class Meta(YAMLRoot):
     version: Optional[str] = None
     comments: Optional[Union[str, List[str]]] = empty_list()
     definition: Optional[Union[dict, "DefinitionPropertyValue"]] = None
-    xrefs: Optional[Union[str, List[str]]] = empty_list()
+    xrefs: Optional[
+        Union[Union[dict, "XrefPropertyValue"], List[Union[dict, "XrefPropertyValue"]]]
+    ] = empty_list()
     synonyms: Optional[
         Union[Union[dict, "SynonymPropertyValue"], List[Union[dict, "SynonymPropertyValue"]]]
     ] = empty_list()
@@ -273,7 +275,10 @@ class Meta(YAMLRoot):
 
         if not isinstance(self.xrefs, list):
             self.xrefs = [self.xrefs] if self.xrefs is not None else []
-        self.xrefs = [v if isinstance(v, str) else str(v) for v in self.xrefs]
+        self.xrefs = [
+            v if isinstance(v, XrefPropertyValue) else XrefPropertyValue(**as_dict(v))
+            for v in self.xrefs
+        ]
 
         if not isinstance(self.synonyms, list):
             self.synonyms = [self.synonyms] if self.synonyms is not None else []
@@ -399,6 +404,7 @@ class Axiom(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
+@dataclass
 class DomainRangeAxiom(Axiom):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -406,6 +412,24 @@ class DomainRangeAxiom(Axiom):
     class_class_curie: ClassVar[str] = "og:DomainRangeAxiom"
     class_name: ClassVar[str] = "DomainRangeAxiom"
     class_model_uri: ClassVar[URIRef] = OG.DomainRangeAxiom
+
+    predicateId: Optional[str] = None
+    domainClassIds: Optional[Union[str, List[str]]] = empty_list()
+    rangeClassIds: Optional[Union[str, List[str]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.predicateId is not None and not isinstance(self.predicateId, str):
+            self.predicateId = str(self.predicateId)
+
+        if not isinstance(self.domainClassIds, list):
+            self.domainClassIds = [self.domainClassIds] if self.domainClassIds is not None else []
+        self.domainClassIds = [v if isinstance(v, str) else str(v) for v in self.domainClassIds]
+
+        if not isinstance(self.rangeClassIds, list):
+            self.rangeClassIds = [self.rangeClassIds] if self.rangeClassIds is not None else []
+        self.rangeClassIds = [v if isinstance(v, str) else str(v) for v in self.rangeClassIds]
+
+        super().__post_init__(**kwargs)
 
 
 @dataclass
@@ -417,12 +441,12 @@ class EquivalentNodesSet(Axiom):
     class_name: ClassVar[str] = "EquivalentNodesSet"
     class_model_uri: ClassVar[URIRef] = OG.EquivalentNodesSet
 
-    representitiveNodeId: Optional[str] = None
+    representativeNodeId: Optional[str] = None
     nodeIds: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.representitiveNodeId is not None and not isinstance(self.representitiveNodeId, str):
-            self.representitiveNodeId = str(self.representitiveNodeId)
+        if self.representativeNodeId is not None and not isinstance(self.representativeNodeId, str):
+            self.representativeNodeId = str(self.representativeNodeId)
 
         if not isinstance(self.nodeIds, list):
             self.nodeIds = [self.nodeIds] if self.nodeIds is not None else []
@@ -491,6 +515,7 @@ class LogicalDefinitionAxiom(Axiom):
         super().__post_init__(**kwargs)
 
 
+@dataclass
 class PropertyChainAxiom(Axiom):
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -498,6 +523,23 @@ class PropertyChainAxiom(Axiom):
     class_class_curie: ClassVar[str] = "og:PropertyChainAxiom"
     class_name: ClassVar[str] = "PropertyChainAxiom"
     class_model_uri: ClassVar[URIRef] = OG.PropertyChainAxiom
+
+    predicateId: Optional[str] = None
+    chainPredicateIds: Optional[Union[str, List[str]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.predicateId is not None and not isinstance(self.predicateId, str):
+            self.predicateId = str(self.predicateId)
+
+        if not isinstance(self.chainPredicateIds, list):
+            self.chainPredicateIds = (
+                [self.chainPredicateIds] if self.chainPredicateIds is not None else []
+            )
+        self.chainPredicateIds = [
+            v if isinstance(v, str) else str(v) for v in self.chainPredicateIds
+        ]
+
+        super().__post_init__(**kwargs)
 
 
 # Enumerations
@@ -716,13 +758,22 @@ slots.propertyChainAxioms = Slot(
     range=Optional[Union[Union[dict, PropertyChainAxiom], List[Union[dict, PropertyChainAxiom]]]],
 )
 
-slots.representitiveNodeId = Slot(
-    uri=OG.representitiveNodeId,
-    name="representitiveNodeId",
-    curie=OG.curie("representitiveNodeId"),
-    model_uri=OG.representitiveNodeId,
+slots.representativeNodeId = Slot(
+    uri=OG.representativeNodeId,
+    name="representativeNodeId",
+    curie=OG.curie("representativeNodeId"),
+    model_uri=OG.representativeNodeId,
     domain=None,
     range=Optional[str],
+)
+
+slots.chainPredicateIds = Slot(
+    uri=OG.chainPredicateIds,
+    name="chainPredicateIds",
+    curie=OG.curie("chainPredicateIds"),
+    model_uri=OG.chainPredicateIds,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )
 
 slots.nodeIds = Slot(
@@ -750,6 +801,33 @@ slots.propertyId = Slot(
     model_uri=OG.propertyId,
     domain=None,
     range=Optional[str],
+)
+
+slots.predicateId = Slot(
+    uri=OG.predicateId,
+    name="predicateId",
+    curie=OG.curie("predicateId"),
+    model_uri=OG.predicateId,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.domainClassIds = Slot(
+    uri=OG.domainClassIds,
+    name="domainClassIds",
+    curie=OG.curie("domainClassIds"),
+    model_uri=OG.domainClassIds,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
+)
+
+slots.rangeClassIds = Slot(
+    uri=OG.rangeClassIds,
+    name="rangeClassIds",
+    curie=OG.curie("rangeClassIds"),
+    model_uri=OG.rangeClassIds,
+    domain=None,
+    range=Optional[Union[str, List[str]]],
 )
 
 slots.synonyms = Slot(
@@ -829,4 +907,13 @@ slots.logicalDefinitionAxiom__restrictions = Slot(
             List[Union[dict, ExistentialRestrictionExpression]],
         ]
     ],
+)
+
+slots.Meta_xrefs = Slot(
+    uri=OG.xrefs,
+    name="Meta_xrefs",
+    curie=OG.curie("xrefs"),
+    model_uri=OG.Meta_xrefs,
+    domain=Meta,
+    range=Optional[Union[Union[dict, "XrefPropertyValue"], List[Union[dict, "XrefPropertyValue"]]]],
 )

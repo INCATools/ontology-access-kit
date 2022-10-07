@@ -1,5 +1,6 @@
 import logging
 import math
+import re
 import shutil
 import typing
 from abc import ABC
@@ -189,16 +190,33 @@ class SqlImplementation(
     ABC,
 ):
     """
-    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database
+    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
 
-    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL)
+    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).
 
-    The schema is assumed to follow the `semantic-sql <https://github.com/incatools/semantic-sql>`_ schema
+    To connect, either use SqlImplementation directly:
+
+    .. code:: python
+
+        >>> oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{path}"))
+
+    Or use a selector:
+
+    .. code:: python
+
+        >>> oi = get_implementation_from_shorthand('obojson:path/to/my/ontology.db')
+
+    The schema is assumed to follow the `semantic-sql <https://github.com/incatools/semantic-sql>`_ schema.
 
     This uses SQLAlchemy ORM Models:
 
     - :class:`Statements`
     - :class:`Edge`
+
+    See also:
+
+    - `Tutorial <https://incatools.github.io/ontology-access-kit/intro/tutorial07.html>`_
+    - `SQL Implementation <https://incatools.github.io/ontology-access-kit/implementations/sqldb.html>`_
     """
 
     # TODO: use SQLA types
@@ -643,16 +661,23 @@ class SqlImplementation(
         raise NotImplementedError("Can only clone sqlite to sqlite")
 
     def dump(self, path: str = None, syntax: str = None):
-        if syntax is None or syntax == "ttl":
+        if syntax is None:
+            syntax = "ttl"
+        if syntax == "ttl":
             g = rdflib.Graph()
             bnodes = {}
 
+            uri_re = re.compile(r"^<(.*)>$")
+
             def tr(n: str, v: str = None, datatype: str = None):
                 if n:
+                    uri_match = uri_re.match(n)
                     if n.startswith("_"):
                         if n not in bnodes:
                             bnodes[n] = rdflib.BNode()
                         return bnodes[n]
+                    elif uri_match:
+                        return rdflib.URIRef(uri_match.group(1))
                     else:
                         return rdflib.URIRef(self.curie_to_uri(n))
                 else:

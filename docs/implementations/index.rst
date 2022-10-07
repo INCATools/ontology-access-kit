@@ -11,10 +11,6 @@ The most mature implementations are:
 - Pronto: uses the pronto lib (which itself uses fastobo) to load local obo, rdf/xml owl, or obojson files
 - Sql: see `semantic-sql <https://github.com/incatools/semantic-sql/>`_
 
-.. warning ::
-
-    Currently numerous methods are not implemented!
-
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
@@ -25,6 +21,8 @@ The most mature implementations are:
    funowl
    skos
    ols
+   simple_obo
+   obograph
    bioportal
    sparql
    ubergraph

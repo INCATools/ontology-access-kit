@@ -12,7 +12,7 @@ The schema is assumed to follow:
 This uses the rdftab library to build an RDF-level `statements` table, on which numerous SQL Views
 are layered, providing higher level access
 
-Iniialization
+Initialization
 -------------
 
 If you omit a scheme and specify a filesystem path ending with :code:`.db` then the SqlDatabase implementation is selected, with
@@ -31,12 +31,13 @@ Code
 SQL Alchemy ORM Model
 ---------------------
 
-We use the SQLA Models from the [semantic-sql](https://github.com/incatools/semantic-sql/) project.
+We use the SQLA Models from the `semantic-sql <https://github.com/incatools/semantic-sql>`_ project.
 
 This is under-the-hood and users of oaklib don't need to know the details. However, if you ever need to
 craft a custom complex query this can provide a useful way to do this.
 
-.. currentmodule:: oaklib.implementations.sqldb.model
+.. currentmodule:: semsql.sqla.semsql
                    
 .. autoclass:: Statements
 .. autoclass:: Edge
+.. autoclass:: EntailedEdge

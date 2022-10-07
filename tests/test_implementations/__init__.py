@@ -24,6 +24,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_THING,
     PART_OF,
 )
+from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
     associations_subjects,
@@ -87,6 +88,75 @@ class ComplianceTester:
 
     test: unittest.TestCase
     """Link back to implementation-specific unit test."""
+
+    def test_definitions(self, oi: BasicOntologyInterface):
+        test = self.test
+        tdef = oi.definition(NUCLEUS)
+        test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
+
+    def test_synonyms(self, oi: BasicOntologyInterface):
+        test = self.test
+        syns = oi.entity_aliases("GO:0005575")
+        # logging.info(syns)
+        test.assertCountEqual(
+            syns,
+            [
+                "cellular_component",
+                "cellular component",
+                "cell or subcellular entity",
+                "subcellular entity",
+            ],
+        )
+        syns = oi.entity_aliases(NUCLEUS)
+        logging.info(syns)
+        test.assertCountEqual(syns, ["nucleus", "cell nucleus", "horsetail nucleus"])
+        syn_pairs = list(oi.entity_alias_map(NUCLEUS).items())
+        test.assertCountEqual(
+            syn_pairs,
+            [
+                ("oio:hasExactSynonym", ["cell nucleus"]),
+                ("oio:hasNarrowSynonym", ["horsetail nucleus"]),
+                ("rdfs:label", ["nucleus"]),
+            ],
+        )
+
+    def test_sssom_mappings(self, oi: MappingProviderInterface):
+        """
+        Tests conformance of MappingProviderInterface.
+
+        Also as a side-effect tests simple mapping retrieval from the BasicOntologyInterface
+
+        - Tests retrieval in both directions (subject as query vs object as query)
+
+        TODO: the test ontology does not yet include an example of using skos annotations
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (NUCLEUS, ["Wikipedia:Cell_nucleus", "NIF_Subcellular:sao1702920020"]),
+            (VACUOLE, ["Wikipedia:Vacuole"]),
+            (MAMMALIA, []),
+        ]
+        for curie, expected_mappings in cases:
+            mappings = list(oi.sssom_mappings(curie))
+            mapping_objects = [m.object_id for m in mappings]
+            test.assertCountEqual(
+                expected_mappings,
+                mapping_objects,
+                f"expected mappings({curie}) = {expected_mappings} got {mapping_objects}",
+            )
+            mapping_objects = [m[2] for m in oi.simple_mappings([curie])]
+            test.assertCountEqual(
+                expected_mappings,
+                mapping_objects,
+                f"expected simple mappings({curie}) = {expected_mappings} got {mapping_objects}",
+            )
+            for m in mappings:
+                reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
+                reverse_subject_ids = [m.subject_id for m in reverse_mappings]
+                test.assertIn(curie, reverse_subject_ids)
 
     def test_relationships(self, oi: BasicOntologyInterface, ignore_annotation_edges=False):
         """

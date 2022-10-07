@@ -62,6 +62,25 @@ def _sparql_values(var_name: str, vals: List[str]):
     return f'VALUES ?{var_name} {{ {" ".join(vals)} }}'
 
 
+def _stringify(v: str, as_string_literal: bool = False) -> str:
+    """
+    Quotes a string for SPARQL queries, escaping internal quotes
+
+    Optionally will cast into an xsd:string - note that SPARQL draws a distinction
+    between "foo" and "foo"^^xsd:string, and with no consensus on how to store
+    simple strings, it is often necessary to query for both
+
+    :param v: unescaped input string
+    :param as_string_literal: if true then yield "foo"^^xsd:string
+    :return: escaped string
+    """
+    v = v.replace('"', '\\"')
+    v = f'"{v}"'
+    if as_string_literal:
+        v = f"{v}^^xsd:string"
+    return v
+
+
 def _as_rdf_obj(v) -> URIRef:
     val = v["value"]
     if v["type"] == "uri":
@@ -240,6 +259,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                     t = "uri"
                 return dict(value=val, datatype=dt, type=t)
 
+            logging.debug(f"Query={query}")
             for row in self.graph.query(query):
                 rows.append({k: tr(row[k]) for k in row.labels})
             return rows
@@ -309,9 +329,11 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         pred_quris = [self.curie_to_sparql(p) for p in predicates] if predicates else None
         uri = self.curie_to_uri(curie)
         if not predicates or IS_A in predicates:
+            # all simple is-a relationships
             for p in self.hierararchical_parents(curie):
                 yield IS_A, p
         if not predicates or predicates != [IS_A]:
+            # subclassof existential restrictions
             query = SparqlQuery(
                 select=["?p", "?o"],
                 where=[
@@ -325,6 +347,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 pred = self.uri_to_curie(row["p"]["value"])
                 obj = self.uri_to_curie(row["o"]["value"])
                 yield pred, obj
+            # direct triples where the predicate is an ObjectProperty
             query = SparqlQuery(
                 select=["?p", "?o"],
                 where=[
@@ -338,6 +361,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 pred = self.uri_to_curie(row["p"]["value"])
                 obj = self.uri_to_curie(row["o"]["value"])
                 yield pred, obj
+            # simple RDF type triples
             if not predicates or RDF_TYPE in predicates:
                 query = SparqlQuery(
                     select=["?o"],
@@ -588,6 +612,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
         pred_uris = [self.curie_to_sparql(pred) for pred in ALL_MATCH_PREDICATES]
+        # input curie is subject
         query = SparqlQuery(
             select=["?p", "?o"],
             where=[f"{self.curie_to_sparql(curie)} ?p ?o", _sparql_values("p", pred_uris)],
@@ -602,9 +627,21 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             )
             if m is not None:
                 yield m
+        # input curie is object
         query = SparqlQuery(
             select=["?s", "?p"],
-            where=[f"?s ?p {self.curie_to_sparql(curie)}", _sparql_values("p", pred_uris)],
+            where=[
+                "?s ?p ?o",
+                _sparql_values(
+                    "o",
+                    [
+                        _stringify(curie),
+                        _stringify(curie, as_string_literal=True),
+                        self.curie_to_sparql(curie),
+                    ],
+                ),
+                _sparql_values("p", pred_uris),
+            ],
         )
         bindings = self._query(query)
         for row in bindings:

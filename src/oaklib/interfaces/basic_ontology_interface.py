@@ -486,7 +486,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         The CURIE may be for a class, individual, property, or ontology
 
-        :param curie:
+        :param curies:
         :return:
         """
         raise NotImplementedError
@@ -501,8 +501,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         The CURIE may be for a class, individual, property, or ontology
 
-        :param curie:
-        :param allow_none:
+        :param curies: identifiers to be queried
+        :param allow_none: [True] use None as value if no label found
         :return:
         """
         # default implementation: may be overridden for efficiency
@@ -701,12 +701,23 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields mappings for a given subject.
 
-        Here, each mapping is represented as a simple tuple.
+        Here, each mapping is represented as a simple tuple (predicate, object)
 
         :param curie:
         :return: iterator over predicate-object tuples
         """
         raise NotImplementedError()
+
+    def simple_mappings(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, PRED_CURIE, CURIE]]:
+        """
+        Yields simple mappings for a collection of subjects
+
+        :param curies:
+        :return:
+        """
+        for s in curies:
+            for p, o in self.simple_mappings_by_curie(s):
+                yield s, p, o
 
     def entity_aliases(self, curie: CURIE) -> List[str]:
         """
