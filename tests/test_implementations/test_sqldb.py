@@ -153,6 +153,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         label = self.oi.label(VACUOLE)
         self.assertEqual(label, "vacuole")
 
+    def test_definitions(self):
+        self.compliance_tester.test_definitions(self.oi)
+
     def test_get_labels_for_curies(self):
         oi = self.oi
         curies = oi.subset_members("goslim_generic")
@@ -164,20 +167,10 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.assertEqual(11, len(tups))
 
     def test_synonyms(self):
-        syns = self.oi.entity_aliases(CELLULAR_COMPONENT)
-        logging.info(syns)
-        assert "cellular component" in syns
+        self.compliance_tester.test_synonyms(self.oi)
 
-    def test_mappings(self):
-        mappings = list(self.oi.get_sssom_mappings_by_curie(NUCLEUS))
-        # for m in mappings:
-        #    logging.info(yaml_dumper.dumps(m))
-        assert any(m for m in mappings if m.object_id == "Wikipedia:Cell_nucleus")
-        self.assertEqual(len(mappings), 2)
-        for m in mappings:
-            reverse_mappings = list(self.oi.get_sssom_mappings_by_curie(m.object_id))
-            reverse_subject_ids = [m.subject_id for m in reverse_mappings]
-            self.assertEqual(reverse_subject_ids, [NUCLEUS])
+    def test_sssom_mappings(self):
+        self.compliance_tester.test_sssom_mappings(self.oi)
 
     def test_relation_graph(self):
         oi = self.oi

@@ -100,7 +100,10 @@ slots:
   propertyChainAxioms:
     multivalued: true
     range: PropertyChainAxiom
-  representitiveNodeId:
+  representativeNodeId:
+    range: string
+  chainPredicateIds:
+    multivalued: true
     range: string
   nodeIds:
     multivalued: true
@@ -109,6 +112,14 @@ slots:
     range: string
   propertyId:
     range: string
+  predicateId:
+    range: string
+  domainClassIds:
+    range: string
+    multivalued: true
+  rangeClassIds:
+    range: string
+    multivalued: true
   synonyms:
     multivalued: true
     range: SynonymPropertyValue
@@ -166,6 +177,10 @@ classes:
       - synonyms
       - basicPropertyValues
       - deprecated
+    slot_usage:
+      xrefs:
+        multivalued: true
+        range: XrefPropertyValue
 
   DefinitionPropertyValue:
     is_a: PropertyValue
@@ -195,11 +210,15 @@ classes:
 
   DomainRangeAxiom:
     is_a: Axiom
+    slots:
+      - predicateId
+      - domainClassIds
+      - rangeClassIds
 
   EquivalentNodesSet:
     is_a: Axiom
     slots:
-      - representitiveNodeId
+      - representativeNodeId
       - nodeIds
 
   ExistentialRestrictionExpression:
@@ -219,6 +238,9 @@ classes:
 
   PropertyChainAxiom:
     is_a: Axiom
+    slots:
+      - predicateId
+      - chainPredicateIds
 
 
 

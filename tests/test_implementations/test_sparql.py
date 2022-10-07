@@ -47,6 +47,9 @@ class TestSparqlImplementation(unittest.TestCase):
     def test_relationships(self):
         self.compliance_tester.test_relationships(self.oi, ignore_annotation_edges=True)
 
+    def test_sssom_mappings(self):
+        self.compliance_tester.test_sssom_mappings(self.oi)
+
     def test_relationships_extra(self):
         oi = self.oi
         self.assertIsNotNone(oi.graph)

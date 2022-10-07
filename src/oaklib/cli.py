@@ -1557,7 +1557,7 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
 @output_type_option
 def dump(terms, output, output_type: str):
     """
-    Exports (dumps) the entire contents of an ontology
+    Exports (dumps) the entire contents of an ontology.
 
     Example:
 
@@ -1570,12 +1570,14 @@ def dump(terms, output, output_type: str):
     Currently each implementation only supports a subset of formats.
 
     The dump command is also blocked for remote endpoints such as Ubergraph,
-    to avoid killer queries
-
+    to avoid killer queries.
     """
+    if terms:
+        raise NotImplementedError("Currently dump for a subset of terms is not supported")
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
-        impl.dump(output, output_type)
+        logging.info(f"Out={output} syntax={output_type}")
+        impl.dump(output, syntax=output_type)
     else:
         raise NotImplementedError
 

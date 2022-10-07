@@ -88,25 +88,36 @@ class ProntoImplementation(
     .. code:: python
 
         >>> resource = OntologyResource(slug='go.obo', directory='input', local=True)
-        >>> oi = ProntoImplementation.create(resource)
+        >>> oi = ProntoImplementation(resource)
 
     To load from the OBO library:
 
     .. code:: python
 
         >>> resource = OntologyResource(local=False, slug='go.obo'))
-        >>> oi = ProntoImplementation.create(resource)
+        >>> oi = ProntoImplementation(resource)
 
     Currently this implementation implements most of the BaseOntologyInterface
 
     .. code:: python
 
-        rels = oi.outgoing_relationships('GO:0005773')
-        for rel, parents in rels.items():
-            print(f'  {rel} ! {oi.get_label_by_curie(rel)}')
-                for parent in parents:
-                    print(f'    {parent} ! {oi.get_label_by_curie(parent)}')
+        >>> rels = oi.outgoing_relationships('GO:0005773')
+        >>> for rel, parents in rels.items():
+        >>>    print(f'  {rel} ! {oi.label(rel)}')
+        >>>        for parent in parents:
+        >>>            print(f'    {parent} ! {oi.label(parent)}')
 
+    .. warning::
+
+       pronto uses the fastobo library for loading ontologies. This follows a strict
+       interpretation of obo format, and some ontologies may fail to load.
+       In these cases, consider an alternative implementation
+
+    Alternatives:
+
+    - use the :ref:`simple_obo_implementation`
+    - convert to an OWL representation using ROBOT
+    - convert to a JSON representation using ROBOT and use :ref:`obograph_implementation`
 
     """
 
@@ -467,6 +478,7 @@ class ProntoImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+        # mappings where curie is the subject:
         t = self._entity(curie)
         if t:
             for x in t.xrefs:
@@ -474,8 +486,9 @@ class ProntoImplementation(
                     subject_id=curie,
                     predicate_id=SKOS_CLOSE_MATCH,
                     object_id=x.id,
-                    mapping_justification=SEMAPV.UnspecifiedMatching.value,
+                    mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
                 )
+        # mappings where curie is the object:
         # TODO: use a cache to avoid re-calculating
         for e in self.entities():
             t = self._entity(e)
@@ -486,7 +499,9 @@ class ProntoImplementation(
                             subject_id=e,
                             predicate_id=SKOS_CLOSE_MATCH,
                             object_id=curie,
-                            mapping_justification=SEMAPV.UnspecifiedMatching.value,
+                            mapping_justification=sssom.EntityReference(
+                                SEMAPV.UnspecifiedMatching.value
+                            ),
                         )
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
