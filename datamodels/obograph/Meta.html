@@ -122,7 +122,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="synonyms.html"><span class="doc std std-doc">synonyms</span></a></p></td>
@@ -265,6 +265,16 @@ slots:
 - synonyms
 - basicPropertyValues
 - deprecated
+slot_usage:
+  xrefs:
+    name: xrefs
+    multivalued: true
+    domain_of:
+    - Meta
+    - PropertyValue
+    - Meta
+    - PropertyValue
+    range: XrefPropertyValue
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -274,6 +284,16 @@ slots:
 name: Meta
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_usage:
+  xrefs:
+    name: xrefs
+    multivalued: true
+    domain_of:
+    - Meta
+    - PropertyValue
+    - Meta
+    - PropertyValue
+    range: XrefPropertyValue
 attributes:
   subsets:
     name: subsets
@@ -323,7 +343,9 @@ attributes:
     domain_of:
     - Meta
     - PropertyValue
-    range: string
+    - Meta
+    - PropertyValue
+    range: XrefPropertyValue
   synonyms:
     name: synonyms
     from_schema: https://github.com/geneontology/obographs

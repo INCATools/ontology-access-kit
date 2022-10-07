@@ -48,12 +48,14 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Implementations</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pronto.html">Pronto / OBO Files Implementation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SQL Database Implementation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#iniialization">Iniialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initialization">Initialization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sql-alchemy-orm-model">SQL Alchemy ORM Model</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html">Simple OBO Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OBO Graph Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
@@ -108,8 +110,8 @@
 </ul>
 <p>This uses the rdftab library to build an RDF-level <cite>statements</cite> table, on which numerous SQL Views
 are layered, providing higher level access</p>
-<section id="iniialization">
-<h2>Iniialization<a class="headerlink" href="#iniialization" title="Permalink to this headline"></a></h2>
+<section id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline"></a></h2>
 <p>If you omit a scheme and specify a filesystem path ending with <code class="code docutils literal notranslate"><span class="pre">.db</span></code> then the SqlDatabase implementation is selected, with
 sqlite as a sub-scheme.</p>
 <p>You can explicitly specify a sqlite database via a selector <code class="code docutils literal notranslate"><span class="pre">sqlite:path/to/sqlitefile.db</span></code></p>
@@ -119,13 +121,26 @@ sqlite as a sub-scheme.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.implementations.sqldb.sql_implementation.SqlImplementation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.sqldb.sql_implementation.</span></span><span class="sig-name descname"><span class="pre">SqlImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_connection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ontology_metadata_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">linkml_runtime.utils.schemaview.SchemaView</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_prefix_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_information_content_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/sqldb/sql_implementation.html#SqlImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.sqldb.sql_implementation.SqlImplementation" title="Permalink to this definition"></a></dt>
-<dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">OntologyInterface</span></code> implementation that wraps a SQL Relational Database</p>
-<p>This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL)</p>
-<p>The schema is assumed to follow the <a class="reference external" href="https://github.com/incatools/semantic-sql">semantic-sql</a> schema</p>
+<dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">OntologyInterface</span></code> implementation that wraps a SQL Relational Database.</p>
+<p>This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).</p>
+<p>To connect, either use SqlImplementation directly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">SqlImplementation</span><span class="p">(</span><span class="n">OntologyResource</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Or use a selector:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s1">&#39;obojson:path/to/my/ontology.db&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The schema is assumed to follow the <a class="reference external" href="https://github.com/incatools/semantic-sql">semantic-sql</a> schema.</p>
 <p>This uses SQLAlchemy ORM Models:</p>
 <ul class="simple">
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Statements</span></code></p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></p></li>
+</ul>
+<p>See also:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/intro/tutorial07.html">Tutorial</a></p></li>
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/sqldb.html">SQL Implementation</a></p></li>
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.implementations.sqldb.sql_implementation.SqlImplementation.create">
@@ -146,9 +161,27 @@ sqlite as a sub-scheme.</p>
 </section>
 <section id="sql-alchemy-orm-model">
 <h2>SQL Alchemy ORM Model<a class="headerlink" href="#sql-alchemy-orm-model" title="Permalink to this headline"></a></h2>
-<p>We use the SQLA Models from the [semantic-sql](<a class="reference external" href="https://github.com/incatools/semantic-sql/">https://github.com/incatools/semantic-sql/</a>) project.</p>
+<p>We use the SQLA Models from the <a class="reference external" href="https://github.com/incatools/semantic-sql">semantic-sql</a> project.</p>
 <p>This is under-the-hood and users of oaklib don’t need to know the details. However, if you ever need to
 craft a custom complex query this can provide a useful way to do this.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="semsql.sqla.semsql.Statements">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">semsql.sqla.semsql.</span></span><span class="sig-name descname"><span class="pre">Statements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/semsql/sqla/semsql.html#Statements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#semsql.sqla.semsql.Statements" title="Permalink to this definition"></a></dt>
+<dd><p>Represents an RDF triple</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="semsql.sqla.semsql.Edge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">semsql.sqla.semsql.</span></span><span class="sig-name descname"><span class="pre">Edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/semsql/sqla/semsql.html#Edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#semsql.sqla.semsql.Edge" title="Permalink to this definition"></a></dt>
+<dd><p>A relation graph edge that connects two entities by a predicate. Note an edge is distinct from a statement, in that an axiom such as A SubClassOf R some B is represented as multiple statements, but is a single relation graph edge</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="semsql.sqla.semsql.EntailedEdge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">semsql.sqla.semsql.</span></span><span class="sig-name descname"><span class="pre">EntailedEdge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/semsql/sqla/semsql.html#EntailedEdge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#semsql.sqla.semsql.EntailedEdge" title="Permalink to this definition"></a></dt>
+<dd><p>A relation graph edge that is inferred</p>
+</dd></dl>
+
 </section>
 </section>
 

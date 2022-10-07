@@ -81,6 +81,7 @@
   <h1>Source code for oaklib.implementations.sqldb.sql_implementation</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
@@ -270,16 +271,33 @@
     <span class="n">ABC</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database</span>
+<span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.</span>
 
-<span class="sd">    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL)</span>
+<span class="sd">    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).</span>
 
-<span class="sd">    The schema is assumed to follow the `semantic-sql &lt;https://github.com/incatools/semantic-sql&gt;`_ schema</span>
+<span class="sd">    To connect, either use SqlImplementation directly:</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; oi = SqlImplementation(OntologyResource(slug=f&quot;sqlite:///{path}&quot;))</span>
+
+<span class="sd">    Or use a selector:</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; oi = get_implementation_from_shorthand(&#39;obojson:path/to/my/ontology.db&#39;)</span>
+
+<span class="sd">    The schema is assumed to follow the `semantic-sql &lt;https://github.com/incatools/semantic-sql&gt;`_ schema.</span>
 
 <span class="sd">    This uses SQLAlchemy ORM Models:</span>
 
 <span class="sd">    - :class:`Statements`</span>
 <span class="sd">    - :class:`Edge`</span>
+
+<span class="sd">    See also:</span>
+
+<span class="sd">    - `Tutorial &lt;https://incatools.github.io/ontology-access-kit/intro/tutorial07.html&gt;`_</span>
+<span class="sd">    - `SQL Implementation &lt;https://incatools.github.io/ontology-access-kit/implementations/sqldb.html&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: use SQLA types</span>
@@ -724,16 +742,23 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Can only clone sqlite to sqlite&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">syntax</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">syntax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;ttl&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">syntax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">syntax</span> <span class="o">=</span> <span class="s2">&quot;ttl&quot;</span>
+        <span class="k">if</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;ttl&quot;</span><span class="p">:</span>
             <span class="n">g</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
             <span class="n">bnodes</span> <span class="o">=</span> <span class="p">{}</span>
 
+            <span class="n">uri_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^&lt;(.*)&gt;$&quot;</span><span class="p">)</span>
+
             <span class="k">def</span> <span class="nf">tr</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
+                    <span class="n">uri_match</span> <span class="o">=</span> <span class="n">uri_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
                         <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bnodes</span><span class="p">:</span>
                             <span class="n">bnodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">BNode</span><span class="p">()</span>
                         <span class="k">return</span> <span class="n">bnodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="n">uri_match</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">(</span><span class="n">uri_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">return</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>

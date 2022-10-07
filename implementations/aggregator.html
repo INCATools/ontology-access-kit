@@ -49,6 +49,8 @@
 <li class="toctree-l2"><a class="reference internal" href="pronto.html">Pronto / OBO Files Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html">Simple OBO Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OBO Graph Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
@@ -119,7 +121,15 @@ as if it were a single unified endpoints</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.implementations.aggregator.aggregator_implementation.</span></span><span class="sig-name descname"><span class="pre">AggregatorImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.resource.OntologyResource</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface"><span class="pre">oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/implementations/aggregator/aggregator_implementation.html#AggregatorImplementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.implementations.aggregator.aggregator_implementation.AggregatorImplementation" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Wraps multiple implementations and integrates results together.</p>
+<p>This allows for multiple implementations to be wrapped, with calls to
+the aggregator farming out queries to multiple implementations, and weaving
+the results together.</p>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/implementations/aggregator.html">Aggregator Implementation</a></p></li>
+</ul>
+</dd></dl>
 
 </section>
 </section>

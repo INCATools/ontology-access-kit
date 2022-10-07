@@ -169,25 +169,36 @@
 <span class="sd">    .. code:: python</span>
 
 <span class="sd">        &gt;&gt;&gt; resource = OntologyResource(slug=&#39;go.obo&#39;, directory=&#39;input&#39;, local=True)</span>
-<span class="sd">        &gt;&gt;&gt; oi = ProntoImplementation.create(resource)</span>
+<span class="sd">        &gt;&gt;&gt; oi = ProntoImplementation(resource)</span>
 
 <span class="sd">    To load from the OBO library:</span>
 
 <span class="sd">    .. code:: python</span>
 
 <span class="sd">        &gt;&gt;&gt; resource = OntologyResource(local=False, slug=&#39;go.obo&#39;))</span>
-<span class="sd">        &gt;&gt;&gt; oi = ProntoImplementation.create(resource)</span>
+<span class="sd">        &gt;&gt;&gt; oi = ProntoImplementation(resource)</span>
 
 <span class="sd">    Currently this implementation implements most of the BaseOntologyInterface</span>
 
 <span class="sd">    .. code:: python</span>
 
-<span class="sd">        rels = oi.outgoing_relationships(&#39;GO:0005773&#39;)</span>
-<span class="sd">        for rel, parents in rels.items():</span>
-<span class="sd">            print(f&#39;  {rel} ! {oi.get_label_by_curie(rel)}&#39;)</span>
-<span class="sd">                for parent in parents:</span>
-<span class="sd">                    print(f&#39;    {parent} ! {oi.get_label_by_curie(parent)}&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; rels = oi.outgoing_relationships(&#39;GO:0005773&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for rel, parents in rels.items():</span>
+<span class="sd">        &gt;&gt;&gt;    print(f&#39;  {rel} ! {oi.label(rel)}&#39;)</span>
+<span class="sd">        &gt;&gt;&gt;        for parent in parents:</span>
+<span class="sd">        &gt;&gt;&gt;            print(f&#39;    {parent} ! {oi.label(parent)}&#39;)</span>
 
+<span class="sd">    .. warning::</span>
+
+<span class="sd">       pronto uses the fastobo library for loading ontologies. This follows a strict</span>
+<span class="sd">       interpretation of obo format, and some ontologies may fail to load.</span>
+<span class="sd">       In these cases, consider an alternative implementation</span>
+
+<span class="sd">    Alternatives:</span>
+
+<span class="sd">    - use the :ref:`simple_obo_implementation`</span>
+<span class="sd">    - convert to an OWL representation using ROBOT</span>
+<span class="sd">    - convert to a JSON representation using ROBOT and use :ref:`obograph_implementation`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -548,6 +559,7 @@
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
     <span class="k">def</span> <span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">sssom</span><span class="o">.</span><span class="n">Mapping</span><span class="p">]:</span>
+        <span class="c1"># mappings where curie is the subject:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
@@ -555,8 +567,9 @@
                     <span class="n">subject_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
                     <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                     <span class="n">object_id</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-                    <span class="n">mapping_justification</span><span class="o">=</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">mapping_justification</span><span class="o">=</span><span class="n">sssom</span><span class="o">.</span><span class="n">EntityReference</span><span class="p">(</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
                 <span class="p">)</span>
+        <span class="c1"># mappings where curie is the object:</span>
         <span class="c1"># TODO: use a cache to avoid re-calculating</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
             <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -567,7 +580,9 @@
                             <span class="n">subject_id</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
                             <span class="n">predicate_id</span><span class="o">=</span><span class="n">SKOS_CLOSE_MATCH</span><span class="p">,</span>
                             <span class="n">object_id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span>
-                            <span class="n">mapping_justification</span><span class="o">=</span><span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">mapping_justification</span><span class="o">=</span><span class="n">sssom</span><span class="o">.</span><span class="n">EntityReference</span><span class="p">(</span>
+                                <span class="n">SEMAPV</span><span class="o">.</span><span class="n">UnspecifiedMatching</span><span class="o">.</span><span class="n">value</span>
+                            <span class="p">),</span>
                         <span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>

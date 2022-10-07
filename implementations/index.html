@@ -49,6 +49,8 @@
 <li class="toctree-l2"><a class="reference internal" href="pronto.html">Pronto / OBO Files Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html">Simple OBO Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OBO Graph Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a></li>
@@ -102,10 +104,6 @@
 <li><p>Pronto: uses the pronto lib (which itself uses fastobo) to load local obo, rdf/xml owl, or obojson files</p></li>
 <li><p>Sql: see <a class="reference external" href="https://github.com/incatools/semantic-sql/">semantic-sql</a></p></li>
 </ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Currently numerous methods are not implemented!</p>
-</div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -116,13 +114,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sqldb.html#iniialization">Iniialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqldb.html#initialization">Initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html#code">Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html#sql-alchemy-orm-model">SQL Alchemy ORM Model</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ols.html#code">Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simple_obo.html">Simple OBO Implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html#initialization">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html#code">Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="obograph.html">OBO Graph Implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html#initialization">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html#code">Code</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a><ul>
@@ -141,7 +151,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ubergraph.html">Ubergraph Endpoint</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html#about">About</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ubergraph.html#interfaces-implemented">Interfaces Implemented</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubergraph.html#interfaces-implemented">Interfaces Implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ubergraph.html#connecting">Connecting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ubergraph.html#search">Search</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ubergraph.html#code">Code</a></li>
 </ul>
 </li>

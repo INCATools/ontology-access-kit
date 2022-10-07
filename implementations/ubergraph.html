@@ -49,11 +49,17 @@
 <li class="toctree-l2"><a class="reference internal" href="pronto.html">Pronto / OBO Files Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sqldb.html">SQL Database Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ols.html">Ontology Lookup Service (OLS) Endpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_obo.html">Simple OBO Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obograph.html">OBO Graph Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioportal.html">Bioportal Endpoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparql.html">Sparql Endpoint</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Ubergraph Endpoint</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#about">About</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#interfaces-implemented">Interfaces Implemented</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interfaces-implemented">Interfaces Implemented</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#connecting">Connecting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -121,6 +127,17 @@ to limit overuse</p>
 <h2>Interfaces Implemented<a class="headerlink" href="#interfaces-implemented" title="Permalink to this headline"></a></h2>
 <p>This implements most interfaces. It also attempts to implement each in the most performant way, avoiding
 iterative queries, attempting instead to batch queries into larger SPARQL query</p>
+<section id="connecting">
+<h3>Connecting<a class="headerlink" href="#connecting" title="Permalink to this headline"></a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">ubergraph:</span></code> as a selector.</p>
+<p>To restrict queries to a particular ontology, use the ontology ID as a suffix, e.g. <code class="docutils literal notranslate"><span class="pre">ubergraph:uberon</span></code></p>
+</section>
+<section id="search">
+<h3>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">ubergraph</span><span class="p">:</span> <span class="n">search</span> <span class="n">hippocampus</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>

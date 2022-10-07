@@ -31,6 +31,7 @@ Name: lexical-index
 | [predicate](predicate.md) |  |
 | [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term |
 | [source](source.md) |  |
+| [synonymized](synonymized.md) |  |
 | [term](term.md) | A normalized term that groups ontology elements |
 | [transformations](transformations.md) |  |
 | [type](type.md) | The type of transformation |

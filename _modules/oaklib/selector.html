@@ -88,6 +88,9 @@
 <span class="kn">from</span> <span class="nn">oaklib</span> <span class="kn">import</span> <span class="n">datamodels</span> <span class="k">as</span> <span class="n">datamodels_package</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="n">GildaImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.funowl.funowl_implementation</span> <span class="kn">import</span> <span class="n">FunOwlImplementation</span>
+<span class="kn">from</span> <span class="nn">oaklib.implementations.obograph.obograph_implementation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OboGraphImplementation</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ols.ols_implementation</span> <span class="kn">import</span> <span class="n">OlsImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ontobee.ontobee_implementation</span> <span class="kn">import</span> <span class="n">OntobeeImplementation</span>
 <span class="kn">from</span> <span class="nn">oaklib.implementations.ontoportal.agroportal_implementation</span> <span class="kn">import</span> <span class="p">(</span>
@@ -121,6 +124,8 @@
     <span class="s2">&quot;rdf&quot;</span><span class="p">:</span> <span class="s2">&quot;turtle&quot;</span><span class="p">,</span>
     <span class="s2">&quot;jsonld&quot;</span><span class="p">:</span> <span class="s2">&quot;json-ld&quot;</span><span class="p">,</span>
     <span class="s2">&quot;json-ld&quot;</span><span class="p">:</span> <span class="s2">&quot;json-ld&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;xml&quot;</span><span class="p">:</span> <span class="s2">&quot;xml&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;n3&quot;</span><span class="p">:</span> <span class="s2">&quot;n3&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Deprecated?</span>
@@ -140,6 +145,7 @@
     <span class="s2">&quot;funowl&quot;</span><span class="p">:</span> <span class="n">FunOwlImplementation</span><span class="p">,</span>
     <span class="s2">&quot;pronto&quot;</span><span class="p">:</span> <span class="n">ProntoImplementation</span><span class="p">,</span>
     <span class="s2">&quot;simpleobo&quot;</span><span class="p">:</span> <span class="n">SimpleOboImplementation</span><span class="p">,</span>
+    <span class="s2">&quot;obograph&quot;</span><span class="p">:</span> <span class="n">OboGraphImplementation</span><span class="p">,</span>
     <span class="s2">&quot;obolibrary&quot;</span><span class="p">:</span> <span class="n">ProntoImplementation</span><span class="p">,</span>
     <span class="s2">&quot;prontolib&quot;</span><span class="p">:</span> <span class="n">ProntoImplementation</span><span class="p">,</span>
     <span class="s2">&quot;gilda&quot;</span><span class="p">:</span> <span class="n">GildaImplementation</span><span class="p">,</span>
@@ -181,7 +187,7 @@
 <span class="k">def</span> <span class="nf">get_resource_imp_class_from_suffix_descriptor</span><span class="p">(</span>
     <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="kn">from</span> <span class="nn">oaklib.implementations</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># SimpleOboImplementation,</span>
         <span class="n">ProntoImplementation</span><span class="p">,</span>
         <span class="n">SparqlImplementation</span><span class="p">,</span>
         <span class="n">SqlImplementation</span><span class="p">,</span>
@@ -201,6 +207,8 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Using rdflib rdf/xml parser; this behavior may change in future&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;ofn&quot;</span><span class="p">:</span>
         <span class="n">impl_class</span> <span class="o">=</span> <span class="n">FunOwlImplementation</span>
+    <span class="c1"># elif suffix == &quot;obo&quot;:</span>
+    <span class="c1">#     impl_class = SimpleOboImplementation</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">resource</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">impl_class</span> <span class="o">=</span> <span class="n">ProntoImplementation</span>

@@ -43,6 +43,11 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 ## Usages
 
 
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [Meta](Meta.md) | [xrefs](xrefs.md) | range | XrefPropertyValue |
+
+
 
 ## Identifier and Mapping Information
 

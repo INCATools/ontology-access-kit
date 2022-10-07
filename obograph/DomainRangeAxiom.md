@@ -13,7 +13,10 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
     class DomainRangeAxiom
       Axiom <|-- DomainRangeAxiom
       
+      DomainRangeAxiom : domainClassIds
       DomainRangeAxiom : meta
+      DomainRangeAxiom : predicateId
+      DomainRangeAxiom : rangeClassIds
       
 ```
 
@@ -31,6 +34,9 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 | Name | Cardinality and Range  | Description  |
 | ---  | ---  | --- |
+| [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [domainClassIds](domainClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [rangeClassIds](rangeClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
@@ -82,6 +88,10 @@ name: DomainRangeAxiom
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
+slots:
+- predicateId
+- domainClassIds
+- rangeClassIds
 
 ```
 </details>
@@ -95,6 +105,36 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
 attributes:
+  predicateId:
+    name: predicateId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: predicateId
+    owner: DomainRangeAxiom
+    domain_of:
+    - DomainRangeAxiom
+    - PropertyChainAxiom
+    range: string
+  domainClassIds:
+    name: domainClassIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: domainClassIds
+    owner: DomainRangeAxiom
+    domain_of:
+    - DomainRangeAxiom
+    range: string
+  rangeClassIds:
+    name: rangeClassIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: rangeClassIds
+    owner: DomainRangeAxiom
+    domain_of:
+    - DomainRangeAxiom
+    range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

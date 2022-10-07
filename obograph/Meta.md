@@ -36,7 +36,7 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 | [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [definition](definition.md) | 0..1 <br/> [DefinitionPropertyValue](DefinitionPropertyValue.md)  |   |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [xrefs](xrefs.md) | 0..* <br/> [XrefPropertyValue](XrefPropertyValue.md)  |   |
 | [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md)  |   |
 | [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md)  |   |
 | [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
@@ -110,6 +110,16 @@ slots:
 - synonyms
 - basicPropertyValues
 - deprecated
+slot_usage:
+  xrefs:
+    name: xrefs
+    multivalued: true
+    domain_of:
+    - Meta
+    - PropertyValue
+    - Meta
+    - PropertyValue
+    range: XrefPropertyValue
 
 ```
 </details>
@@ -121,6 +131,16 @@ slots:
 name: Meta
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_usage:
+  xrefs:
+    name: xrefs
+    multivalued: true
+    domain_of:
+    - Meta
+    - PropertyValue
+    - Meta
+    - PropertyValue
+    range: XrefPropertyValue
 attributes:
   subsets:
     name: subsets
@@ -170,7 +190,9 @@ attributes:
     domain_of:
     - Meta
     - PropertyValue
-    range: string
+    - Meta
+    - PropertyValue
+    range: XrefPropertyValue
   synonyms:
     name: synonyms
     from_schema: https://github.com/geneontology/obographs

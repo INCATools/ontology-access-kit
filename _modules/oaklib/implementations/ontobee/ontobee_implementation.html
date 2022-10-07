@@ -103,9 +103,18 @@
 
 <span class="sd">        .. code:: python</span>
 
-<span class="sd">           &gt;&gt;&gt;  oi = OntobeeImplementation.create()</span>
+<span class="sd">           &gt;&gt;&gt;  oi = OntobeeImplementation()</span>
 
-<span class="sd">        The default ontobee endpoint will be assumed</span>
+<span class="sd">    The default ontobee endpoint will be assumed</span>
+
+<span class="sd">    Alternatively, use a selector:</span>
+
+<span class="sd">    .. code :: python</span>
+
+<span class="sd">        &gt;&gt;&gt; oi = get_implementation_from_shorthand(&quot;ontobee:&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for a in oi.ancestors(&quot;UBERON:0002398&quot;, predicates=[IS_A]):</span>
+<span class="sd">        &gt;&gt;&gt;     ...</span>
+
 
 <span class="sd">    See: `&lt;https://www.ontobee.org/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>

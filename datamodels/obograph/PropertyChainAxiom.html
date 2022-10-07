@@ -87,7 +87,9 @@
     class PropertyChainAxiom
       Axiom &lt;|-- PropertyChainAxiom
       
+      PropertyChainAxiom : chainPredicateIds
       PropertyChainAxiom : meta
+      PropertyChainAxiom : predicateId
       
         </div><section id="inheritance">
 <h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
@@ -109,6 +111,14 @@
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="predicateId.html"><span class="doc std std-doc">predicateId</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="chainPredicateIds.html"><span class="doc std std-doc">chainPredicateIds</span></a></p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
 <td><p></p></td>
@@ -173,6 +183,9 @@ name: PropertyChainAxiom
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
+slots:
+- predicateId
+- chainPredicateIds
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -184,6 +197,26 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
 attributes:
+  predicateId:
+    name: predicateId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: predicateId
+    owner: PropertyChainAxiom
+    domain_of:
+    - DomainRangeAxiom
+    - PropertyChainAxiom
+    range: string
+  chainPredicateIds:
+    name: chainPredicateIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: chainPredicateIds
+    owner: PropertyChainAxiom
+    domain_of:
+    - PropertyChainAxiom
+    range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

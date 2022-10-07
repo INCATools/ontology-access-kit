@@ -17,6 +17,7 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
       MappingRule : oneway
       MappingRule : postconditions
       MappingRule : preconditions
+      MappingRule : synonymizer
       
 ```
 
@@ -34,6 +35,7 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 | [oneway](oneway.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  | if true then subject and object can be switched and predicate inverted  |
 | [preconditions](preconditions.md) | 0..1 <br/> [Precondition](Precondition.md)  | all of the criteria that must be true before a rule is fired  |
 | [postconditions](postconditions.md) | 0..1 <br/> [Postcondition](Postcondition.md)  | conditions that apply if preconditions match  |
+| [synonymizer](synonymizer.md) | 0..1 <br/> [Synonymizer](Synonymizer.md)  | Normalizing rules to labels  |
 
 
 ## Usages
@@ -110,6 +112,12 @@ attributes:
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
     range: Postcondition
+  synonymizer:
+    name: synonymizer
+    description: Normalizing rules to labels.
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
+    range: Synonymizer
 
 ```
 </details>
@@ -165,6 +173,16 @@ attributes:
     domain_of:
     - MappingRule
     range: Postcondition
+  synonymizer:
+    name: synonymizer
+    description: Normalizing rules to labels.
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
+    alias: synonymizer
+    owner: MappingRule
+    domain_of:
+    - MappingRule
+    range: Synonymizer
 
 ```
 </details>

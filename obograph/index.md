@@ -32,10 +32,12 @@ Name: obographs_datamodel
 | Slot | Description |
 | --- | --- |
 | [basicPropertyValues](basicPropertyValues.md) |  |
+| [chainPredicateIds](chainPredicateIds.md) |  |
 | [comments](comments.md) |  |
 | [definedClassId](definedClassId.md) |  |
 | [definition](definition.md) |  |
 | [deprecated](deprecated.md) |  |
+| [domainClassIds](domainClassIds.md) |  |
 | [domainRangeAxioms](domainRangeAxioms.md) |  |
 | [edges](edges.md) |  |
 | [equivalentNodesSets](equivalentNodesSets.md) |  |
@@ -51,9 +53,11 @@ Name: obographs_datamodel
 | [nodes](nodes.md) |  |
 | [obj](obj.md) |  |
 | [pred](pred.md) |  |
+| [predicateId](predicateId.md) |  |
 | [propertyChainAxioms](propertyChainAxioms.md) |  |
 | [propertyId](propertyId.md) |  |
-| [representitiveNodeId](representitiveNodeId.md) |  |
+| [rangeClassIds](rangeClassIds.md) |  |
+| [representativeNodeId](representativeNodeId.md) |  |
 | [restrictions](restrictions.md) |  |
 | [scope](scope.md) |  |
 | [sub](sub.md) |  |

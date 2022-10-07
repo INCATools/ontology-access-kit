@@ -26,6 +26,20 @@ Interfaces Implemented
 This implements most interfaces. It also attempts to implement each in the most performant way, avoiding
 iterative queries, attempting instead to batch queries into larger SPARQL query
 
+Connecting
+^^^^^^
+
+Use ``ubergraph:`` as a selector.
+
+To restrict queries to a particular ontology, use the ontology ID as a suffix, e.g. ``ubergraph:uberon``
+
+Search
+^^^^^^
+
+.. code::
+
+   runoak -i ubergraph: search hippocampus
+
 Code
 ----
 

@@ -163,6 +163,13 @@
 </li>
       </ul></li>
       <li>
+    --apply-patch
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-apply-patch">runoak-synonymize command line option</a>
+</li>
+      </ul></li>
+      <li>
     --association-predicates
 
       <ul>
@@ -544,6 +551,13 @@
 </li>
       </ul></li>
       <li>
+    --no-apply-patch
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-apply-patch">runoak-synonymize command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-autolabel
 
       <ul>
@@ -857,6 +871,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-o">runoak-synonymize command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-o">runoak-taxon-constraints command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-o">runoak-term-categories command line option</a>
@@ -968,6 +984,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-apply-parse-only">runoak-apply command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --patch
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-patch">runoak-synonymize command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1097,6 +1120,8 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-R">runoak-lexmatch command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-R">runoak-synonymize command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1436,6 +1461,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-o">runoak-synonymize command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-o">runoak-taxon-constraints command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-o">runoak-term-categories command line option</a>
@@ -1516,6 +1543,8 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-R">runoak-lexmatch command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-R">runoak-synonymize command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1730,7 +1759,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-Edge"><strong>Edge</strong></a>
+
+      <ul>
+        <li><a href="implementations/sqldb.html#semsql.sqla.semsql.Edge">(class in semsql.sqla.semsql)</a>
 </li>
+      </ul></li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">edges() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">enable_transitive_query_cache() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -1743,6 +1776,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">EntailedEdge (class in semsql.sqla.semsql)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">entity_alias_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2013,9 +2048,11 @@
         <li><a href="src/oaklib.utilities.taxon.html#module-oaklib.utilities.taxon">module</a>
 </li>
       </ul></li>
+      <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
+      <li><a href="implementations/obograph.html#oaklib.implementations.obograph.obograph_implementation.OboGraphImplementation">OboGraphImplementation (class in oaklib.implementations.obograph.obograph_implementation)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
 </li>
@@ -2977,6 +3014,27 @@
 </li>
       </ul></li>
       <li>
+    runoak-synonymize command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-apply-patch">--apply-patch</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-apply-patch">--no-apply-patch</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-o">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-patch">--patch</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-R">--rules-file</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-o">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-R">-R</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-arg-TERMS">TERMS</a>
+</li>
+      </ul></li>
+      <li>
     runoak-taxon-constraints command line option
 
       <ul>
@@ -3251,7 +3309,11 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_label">set_label() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings">simple_mappings() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.simple_mappings_by_curie">simple_mappings_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="implementations/simple_obo.html#oaklib.implementations.simpleobo.simple_obo_implementation.SimpleOboImplementation">SimpleOboImplementation (class in oaklib.implementations.simpleobo.simple_obo_implementation)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons">singletons() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
@@ -3266,6 +3328,8 @@
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">sssom_mappings_by_source() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
+</li>
+      <li><a href="implementations/sqldb.html#semsql.sqla.semsql.Statements">Statements (class in semsql.sqla.semsql)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.strict">strict (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
@@ -3358,6 +3422,8 @@
         <li><a href="cli.html#cmdoption-runoak-similarity-arg-TERMS">runoak-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-pair-arg-TERMS">runoak-similarity-pair command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-synonymize-arg-TERMS">runoak-synonymize command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-taxon-constraints-arg-TERMS">runoak-taxon-constraints command line option</a>
 </li>

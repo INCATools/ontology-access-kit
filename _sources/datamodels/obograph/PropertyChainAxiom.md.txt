@@ -13,7 +13,9 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
     class PropertyChainAxiom
       Axiom <|-- PropertyChainAxiom
       
+      PropertyChainAxiom : chainPredicateIds
       PropertyChainAxiom : meta
+      PropertyChainAxiom : predicateId
       
 ```
 
@@ -31,6 +33,8 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 | Name | Cardinality and Range  | Description  |
 | ---  | ---  | --- |
+| [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [chainPredicateIds](chainPredicateIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 
 
@@ -82,6 +86,9 @@ name: PropertyChainAxiom
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
+slots:
+- predicateId
+- chainPredicateIds
 
 ```
 </details>
@@ -95,6 +102,26 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
 attributes:
+  predicateId:
+    name: predicateId
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: predicateId
+    owner: PropertyChainAxiom
+    domain_of:
+    - DomainRangeAxiom
+    - PropertyChainAxiom
+    range: string
+  chainPredicateIds:
+    name: chainPredicateIds
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: chainPredicateIds
+    owner: PropertyChainAxiom
+    domain_of:
+    - PropertyChainAxiom
+    range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
