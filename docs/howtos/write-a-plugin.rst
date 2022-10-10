@@ -96,23 +96,21 @@ Example:
 Implement a selector
 ^^^^^^^^^^^^^^^^^^^
 
-Create an ``__init__.py``, e.g like this one:
+OAK recognizes plugins by looking for `entry points <https://packaging.python.org/en/latest/specifications/entry-points/>`_ 
+in the ``oaklib.plugins`` group. The name of each entry point should be the selector scheme you implement, and the object 
+reference of the entry point should be the corresponding implementation. The scheme should match the name used for your 
+project, and should be unique, concise, and descriptive. Don't pollute the top level namespace!
 
-`oakx_robot __init__.py <https://github.com/INCATools/oakx-robot/blob/main/src/oakx_robot/__init__.py>`_
+The way you specify entry points will depend on the packaging tool your project uses. When using Poetry, your project
+would include something like the following in ``pyproject.toml``:
 
-This should have a top-level dict called ``schemes`` that is keyed by any selector schemes you implement, mapped
-to the implementation. The scheme should match the name used for your project, and should be unique, concise, and descriptive.
-Don't pollute the top level namespace!
+.. code-block:: toml
 
-For example:
+    [tool.poetry.plugins."oaklib.plugins"]
+    robot = "oakx_robot.robot_implementation:RobotImplementation"
 
-.. code-block:: python
-
-    from oakx_robot.robot_implementation import RobotImplementation
-
-    schemes = {
-        'robot': RobotImplementation
-    }
+If your project does not use Poetry, consult your build tool's documentation for information on how to implement an entry
+point (e.g. using `setuptools <https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins>`_).
 
 Write tests
 ^^^^^^^^^^^^
