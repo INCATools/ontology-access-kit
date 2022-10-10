@@ -173,19 +173,18 @@ uses underscores in the name</p>
 </section>
 <section id="implement-a-selector">
 <h3>Implement a selector<a class="headerlink" href="#implement-a-selector" title="Permalink to this headline"></a></h3>
-<p>Create an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>, e.g like this one:</p>
-<p><a class="reference external" href="https://github.com/INCATools/oakx-robot/blob/main/src/oakx_robot/__init__.py">oakx_robot __init__.py</a></p>
-<p>This should have a top-level dict called <code class="docutils literal notranslate"><span class="pre">schemes</span></code> that is keyed by any selector schemes you implement, mapped
-to the implementation. The scheme should match the name used for your project, and should be unique, concise, and descriptive.
-Don’t pollute the top level namespace!</p>
-<p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oakx_robot.robot_implementation</span> <span class="kn">import</span> <span class="n">RobotImplementation</span>
-
-<span class="n">schemes</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;robot&#39;</span><span class="p">:</span> <span class="n">RobotImplementation</span>
-<span class="p">}</span>
+<p>OAK recognizes plugins by looking for <a class="reference external" href="https://packaging.python.org/en/latest/specifications/entry-points/">entry points</a>
+in the <code class="docutils literal notranslate"><span class="pre">oaklib.plugins</span></code> group. The name of each entry point should be the selector scheme you implement, and the object
+reference of the entry point should be the corresponding implementation. The scheme should match the name used for your
+project, and should be unique, concise, and descriptive. Don’t pollute the top level namespace!</p>
+<p>The way you specify entry points will depend on the packaging tool your project uses. When using Poetry, your project
+would include something like the following in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.poetry.plugins.&quot;oaklib.plugins&quot;]</span><span class="w"></span>
+<span class="n">robot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;oakx_robot.robot_implementation:RobotImplementation&quot;</span><span class="w"></span>
 </pre></div>
 </div>
+<p>If your project does not use Poetry, consult your build tool’s documentation for information on how to implement an entry
+point (e.g. using <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html#entry-points-for-plugins">setuptools</a>).</p>
 </section>
 <section id="write-tests">
 <h3>Write tests<a class="headerlink" href="#write-tests" title="Permalink to this headline"></a></h3>

@@ -91,6 +91,7 @@
       RelationshipToTerm : pipeline
       RelationshipToTerm : predicate
       RelationshipToTerm : source
+      RelationshipToTerm : synonymized
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -121,6 +122,10 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pipeline.html"><span class="doc std std-doc">pipeline</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="LexicalTransformationPipeline.html"><span class="doc std std-doc">LexicalTransformationPipeline</span></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="synonymized.html"><span class="doc std std-doc">synonymized</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -210,6 +215,11 @@ attributes:
     rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
+  synonymized:
+    name: synonymized
+    from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
+    range: boolean
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -268,6 +278,15 @@ attributes:
     domain_of:
     - RelationshipToTerm
     range: LexicalTransformationPipeline
+  synonymized:
+    name: synonymized
+    from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
+    alias: synonymized
+    owner: RelationshipToTerm
+    domain_of:
+    - RelationshipToTerm
+    range: boolean
 
 </pre></div>
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: MappingRule &mdash; oaklib  documentation</title>
+  <title>Class: Synonymizer &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -69,9 +69,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Class: MappingRule</li>
+      <li>Class: Synonymizer</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/mapping-rules/MappingRule.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/mapping-rules/Synonymizer.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -79,18 +79,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-mappingrule">
-<h1>Class: MappingRule<a class="headerlink" href="#class-mappingrule" title="Permalink to this headline"></a></h1>
-<p><em>An individual mapping rule, if preconditions match the postconditions are applied</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/mapping_rules_datamodel/MappingRule">mrules:MappingRule</a></p>
+  <section id="class-synonymizer">
+<h1>Class: Synonymizer<a class="headerlink" href="#class-synonymizer" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/mapping_rules_datamodel/Synonymizer">mrules:Synonymizer</a></p>
 <div class="mermaid">
              classDiagram
-    class MappingRule
-      MappingRule : description
-      MappingRule : oneway
-      MappingRule : postconditions
-      MappingRule : preconditions
-      MappingRule : synonymizer
+    class Synonymizer
+      Synonymizer : match
+      Synonymizer : match_scope
+      Synonymizer : replacement
+      Synonymizer : the_rule
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -103,25 +101,21 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="the_rule.html"><span class="doc std std-doc">the_rule</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>Description of the rule</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>if true then subject and object can be switched and predicate inverted</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="match.html"><span class="doc std std-doc">match</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>Reg-ex rule to match substrings in labels</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
-<td><p>all of the criteria that must be true before a rule is fired</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="match_scope.html"><span class="doc std std-doc">match_scope</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>Scope of the reg-ex rule</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Postcondition.html"><span class="doc std std-doc">Postcondition</span></a></p></td>
-<td><p>conditions that apply if preconditions match</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synonymizer.html"><span class="doc std std-doc">synonymizer</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Synonymizer.html"><span class="doc std std-doc">Synonymizer</span></a></p></td>
-<td><p>Normalizing rules to labels</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="replacement.html"><span class="doc std std-doc">replacement</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>Reg-ex rule to replace substrings in labels</p></td>
 </tr>
 </tbody>
 </table>
@@ -137,10 +131,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="MappingRuleCollection.html"><span class="doc std std-doc">MappingRuleCollection</span></a></p></td>
-<td><p><a class="reference internal" href="rules.html"><span class="doc std std-doc">rules</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="MappingRule.html"><span class="doc std std-doc">MappingRule</span></a></p></td>
+<td><p><a class="reference internal" href="synonymizer.html"><span class="doc std std-doc">synonymizer</span></a></p></td>
 <td><p>range</p></td>
-<td><p>MappingRule</p></td>
+<td><p>Synonymizer</p></td>
 </tr>
 </tbody>
 </table>
@@ -164,10 +158,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>[‘mrules:MappingRule’]</p></td>
+<td><p>[‘mrules:Synonymizer’]</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>[‘mrules:MappingRule’]</p></td>
+<td><p>[‘mrules:Synonymizer’]</p></td>
 </tr>
 </tbody>
 </table>
@@ -179,105 +173,84 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: MappingRule
-description: An individual mapping rule, if preconditions match the postconditions
-  are applied
+name: Synonymizer
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 attributes:
-  description:
-    name: description
+  the_rule:
+    name: the_rule
+    description: Description of the rule.
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-  oneway:
-    name: oneway
-    description: if true then subject and object can be switched and predicate inverted
+    range: string
+  match:
+    name: match
+    description: Reg-ex rule to match substrings in labels.
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    ifabsent: 'False'
-    range: boolean
-  preconditions:
-    name: preconditions
-    description: all of the criteria that must be true before a rule is fired
+    range: string
+  match_scope:
+    name: match_scope
+    description: Scope of the reg-ex rule
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    slot_uri: sh:condition
-    range: Precondition
-  postconditions:
-    name: postconditions
-    description: conditions that apply if preconditions match
+    range: string
+  replacement:
+    name: replacement
+    description: Reg-ex rule to replace substrings in labels
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    range: Postcondition
-  synonymizer:
-    name: synonymizer
-    description: Normalizing rules to labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    rank: 1000
-    range: Synonymizer
+    range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: MappingRule
-description: An individual mapping rule, if preconditions match the postconditions
-  are applied
+name: Synonymizer
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 attributes:
-  description:
-    name: description
+  the_rule:
+    name: the_rule
+    description: Description of the rule.
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    alias: description
-    owner: MappingRule
+    alias: the_rule
+    owner: Synonymizer
     domain_of:
-    - MappingRule
+    - Synonymizer
     range: string
-  oneway:
-    name: oneway
-    description: if true then subject and object can be switched and predicate inverted
+  match:
+    name: match
+    description: Reg-ex rule to match substrings in labels.
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    ifabsent: &#39;False&#39;
-    alias: oneway
-    owner: MappingRule
+    alias: match
+    owner: Synonymizer
     domain_of:
-    - MappingRule
-    range: boolean
-  preconditions:
-    name: preconditions
-    description: all of the criteria that must be true before a rule is fired
+    - Synonymizer
+    range: string
+  match_scope:
+    name: match_scope
+    description: Scope of the reg-ex rule
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    slot_uri: sh:condition
-    alias: preconditions
-    owner: MappingRule
+    alias: match_scope
+    owner: Synonymizer
     domain_of:
-    - MappingRule
-    range: Precondition
-  postconditions:
-    name: postconditions
-    description: conditions that apply if preconditions match
+    - Synonymizer
+    range: string
+  replacement:
+    name: replacement
+    description: Reg-ex rule to replace substrings in labels
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
-    alias: postconditions
-    owner: MappingRule
+    alias: replacement
+    owner: Synonymizer
     domain_of:
-    - MappingRule
-    range: Postcondition
-  synonymizer:
-    name: synonymizer
-    description: Normalizing rules to labels.
-    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
-    rank: 1000
-    alias: synonymizer
-    owner: MappingRule
-    domain_of:
-    - MappingRule
-    range: Synonymizer
+    - Synonymizer
+    range: string
 
 </pre></div>
 </div>
