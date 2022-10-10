@@ -1,11 +1,14 @@
 import logging
 from dataclasses import dataclass, field
+from typing import Type
 
 import rdflib
 from linkml_runtime.dumpers import rdflib_dumper
 from linkml_runtime.utils.yamlutils import YAMLRoot
+from rdflib import SH
 from rdflib.term import Node
 
+from oaklib.datamodels.obograph import RDF, PrefixDeclaration
 from oaklib.datamodels.vocabulary import LABEL_PREDICATE
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
@@ -46,3 +49,19 @@ class StreamingRdfWriter(StreamingWriter):
             logging.warning("No triples found in graph")
         else:
             self.file.write(self.graph.serialize(format=self.dialect))
+
+    def emit_dict(self, obj: dict, object_type: Type = None):
+        if object_type == PrefixDeclaration:
+            if self.graph is None:
+                self.graph = rdflib.Graph()
+            g = self.graph
+            nsm = g.namespace_manager
+            nsm.bind("sh", SH)
+            for k, v in obj.items():
+                nsm.bind(k, v)
+                bnode = rdflib.BNode()
+                g.add((bnode, RDF.type, SH.PrefixDeclaration))
+                g.add((bnode, SH.prefix, rdflib.Literal(k)))
+                g.add((bnode, SH.namespace, rdflib.URIRef(v)))
+        else:
+            raise NotImplementedError

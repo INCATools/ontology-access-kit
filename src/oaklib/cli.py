@@ -47,6 +47,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
+from oaklib.datamodels.obograph import PrefixDeclaration
 from oaklib.datamodels.search import create_search_configuration
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
@@ -95,6 +96,7 @@ from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWrit
 from oaklib.io.streaming_rdf_writer import StreamingRdfWriter
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
+from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
 from oaklib.selector import (
     get_implementation_from_shorthand,
@@ -114,7 +116,6 @@ from oaklib.utilities.lexical.lexical_indexer import (
     load_mapping_rules,
     save_lexical_index,
 )
-from oaklib.utilities.lint_utils import lint_ontology
 from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
@@ -134,6 +135,8 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
 )
+from oaklib.utilities.validation.lint_utils import lint_ontology
+from oaklib.utilities.validation.rule_runner import RuleRunner
 
 OBO_FORMAT = "obo"
 RDF_FORMAT = "rdf"
@@ -609,6 +612,8 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
     type=click.INT,
     help="Maximum depth in the import tree to traverse. Currently this is only used by the pronto adapter",
 )
+@click.option("--associations", "-g", multiple=True, help="Location of ontology associations")
+@click.option("--associations-type", "-G", help="Syntax of associations input")
 @input_option
 @input_type_option
 @add_option
@@ -618,6 +623,8 @@ def main(
     input: str,
     input_type: str,
     add: List,
+    associations: List,
+    associations_type: str,
     save_as: str,
     autosave: bool,
     named_prefix_map,
@@ -648,18 +655,28 @@ def main(
     resource = OntologyResource()
     resource.slug = input
     settings.autosave = autosave
-
+    logging.info(f"Settings = {settings}")
     if input:
         impl_class: Type[OntologyInterface]
         resource = get_resource_from_shorthand(input, format=input_type, import_depth=import_depth)
         impl_class = resource.implementation_class
         logging.info(f"RESOURCE={resource}")
         settings.impl = impl_class(resource)
+        settings.impl.autosave = autosave
     if add:
         impls = [get_implementation_from_shorthand(d) for d in add]
         if settings.impl:
             impls = [settings.impl] + impls
         settings.impl = AggregatorImplementation(implementations=impls)
+    if associations:
+        if isinstance(settings.impl, AssociationProviderInterface):
+            association_parser = get_association_parser(associations_type)
+            for af in associations:
+                with open(af) as file:
+                    assocs = association_parser.parse(file)
+                    settings.impl.add_associations(assocs)
+        else:
+            raise NotImplementedError(f"{type(settings.impl)} does not implement associations")
     if save_as:
         if autosave:
             raise ValueError("Cannot specify both --save-as and --autosave")
@@ -673,6 +690,9 @@ def main(
     if named_prefix_map:
         pm = load_multi_context(list(named_prefix_map))
         for pfx, ns in pm.as_dict().items():
+            if settings.impl is None:
+                logging.info("Creating dummy BasicOntologyInterface to hold prefixes")
+                settings.impl = BasicOntologyInterface()
             settings.impl.prefix_map()[pfx] = ns
 
 
@@ -944,18 +964,39 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
     type=click.File(mode="r"),
     help="Text file to annotate. Each newline separated entry is a distinct text.",
 )
+@click.option(
+    "--lexical-index-file",
+    "-L",
+    help="path to lexical index. This is recreated each time unless --no-recreate is passed",
+)
 @output_option
 @output_type_option
-def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, output_type: str):
+def annotate(
+    words,
+    output: str,
+    lexical_index_file: str,
+    matches_whole_text: bool,
+    text_file: TextIO,
+    output_type: str,
+):
     """
     Annotate a piece of text using a Named Entity Recognition annotation
 
     Example:
+
         runoak -i bioportal: annotate "enlarged nucleus in T-cells from peripheral blood"
 
-    Currently BioPortal is the only implementation. Volunteers sought to implement for OLS.
+    Currently most implementations do not yet support annotation.
 
-    See the ontorunner framework for plugins for SciSpacy and OGER
+    See the ontorunner framework for plugins for SciSpacy and OGER - these will
+    later become plugins.
+
+    If gilda is installed as an extra, it can be used, but --matches-whole-text (-W)
+    must be specified, as gilda only performs grounding.
+
+    Example:
+
+        runoak -i gilda: annotate -W BRCA2
 
     For more on text annotation, see:
 
@@ -965,6 +1006,13 @@ def annotate(words, output: str, matches_whole_text: bool, text_file: TextIO, ou
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
     if isinstance(impl, TextAnnotatorInterface):
+        if lexical_index_file:
+            if not Path(lexical_index_file).exists():
+                logging.info(f"Creating new index: {lexical_index_file}")
+                impl.lexical_index = create_lexical_index(impl)
+                save_lexical_index(impl.lexical_index, lexical_index_file)
+            else:
+                impl.lexical_index = load_lexical_index(lexical_index_file)
         configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
@@ -1581,6 +1629,82 @@ def dump(terms, output, output_type: str):
         impl.dump(output, syntax=output_type)
     else:
         raise NotImplementedError
+
+
+@main.command()
+@click.argument("terms", nargs=-1)
+@click.option("-o", "--output")
+@click.option(
+    "--used-only/--no-used-only",
+    default=False,
+    show_default=True,
+    help="If True, show only prefixes used in ontology",
+)
+@output_type_option
+def prefixes(terms, used_only: bool, output, output_type: str):
+    """
+    Shows prefix declarations.
+
+    All standard prefixes:
+
+        runoak prefixes
+
+    Specific prefixes:
+
+        runoak prefixes GO CL oio skos
+
+    By default, prefix maps are exported as simple pairwise TSVs.
+
+    Prefixes can also be exported in different formats, such as YAML and JSON, where they are
+    simple dictionaries:
+
+    In yaml:
+
+        runoak prefixes --O yaml
+
+    In turtle:
+
+        runoak prefixes --O rdf
+
+    For RDF exports, the prefix declaration should appear in BOTH prefix declarations, AND also as
+    instances of SHACL PrefixDeclarations, e.g.
+
+        @prefix CL: <http://purl.obolibrary.org/obo/CL_> .
+        ...
+        [] a sh:PrefixDeclaration ;
+            sh:namespace CL: ;
+            sh:prefix "CL" .
+
+    The default prefixmap is always used, unless options are passed specifying additional
+    prefix maps.
+
+    Example:
+
+        runoak --named-prefix-map prefixcc prefixes
+
+    If an ontology is loaded, then --used-only can be used to restrict to
+    prefixes for entities in that ontology
+
+        runoak -i sqlite:obo:cl prefixes --used-only
+
+    """
+    if settings.impl is None:
+        settings.impl = BasicOntologyInterface()
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    if isinstance(impl, BasicOntologyInterface):
+        pm = impl.prefix_map()
+        if not terms and used_only:
+
+            def entity_prefix(curie: CURIE):
+                if ":" in curie:
+                    return curie.split(":")[0]
+
+            terms = list(set([entity_prefix(e) for e in impl.entities() if e]))
+        if terms:
+            pm = {k: v for k, v in pm.items() if k in terms or v in terms}
+        writer.emit_dict(pm, object_type=PrefixDeclaration)
 
 
 @main.command()
@@ -2726,6 +2850,26 @@ def associations(
     if_absent: bool,
     set_value: str,
 ):
+    """
+    Lookup associations from or to entities.
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations
+
+    The above will show all associations
+
+    To query using an ontology term, including is-a closure, specify one or more
+    terms or term queries, plus the closure predicate(s), e.g.
+
+    Example:
+
+        runoak -i sqlite:obo:hp -g test.hpoa -G hpoa associations -p i HP:0001392
+
+    This shows all annotations either to "Abnormality of the liver" (HP:0001392), or
+    to is-a descendants
+
+    """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.autolabel = autolabel
@@ -2749,20 +2893,21 @@ def associations(
         elif terms_role == SubjectOrObjectRole.OBJECT.value:
             it = qo_it
         else:
+            logging.info("Using query terms to query both subject and object")
             it = chain(qs_it, qo_it)
         has_relationships = defaultdict(bool)
-        for rel in it:
+        for assoc in it:
             if terms_role is None or terms_role == SubjectOrObjectRole.SUBJECT.value:
-                has_relationships[rel[0]] = True
+                has_relationships[assoc.subject] = True
             elif terms_role == SubjectOrObjectRole.OBJECT.value:
-                has_relationships[rel[2]] = True
+                has_relationships[assoc.object] = True
             else:
-                has_relationships[rel[0]] = True
-                has_relationships[rel[2]] = True
+                has_relationships[assoc.subject] = True
+                has_relationships[assoc.object] = True
             if if_absent and if_absent == IfAbsent.absent_only.value:
                 continue
             writer.emit(
-                dict(subject=rel[0], predicate=rel[1], object=rel[2]),
+                assoc,
                 label_fields=["subject", "predicate", "object"],
             )
         if if_absent and if_absent == IfAbsent.absent_only.value:
@@ -2794,8 +2939,27 @@ def associations(
     show_default=True,
     help="maximum results to report for any (type, predicate) pair",
 )
+@click.option(
+    "--skip-structural-validation/--no-skip-structural-validation",
+    default=False,
+    show_default=True,
+    help="If true, main structural validation checks are skipped",
+)
+@click.option(
+    "--skip-ontology-rules/--no-skip-ontology-rules",
+    default=True,
+    show_default=True,
+    help="If true, ontology rules are skipped",
+)
 @output_option
-def validate(output: str, cutoff: int):
+@output_type_option
+def validate(
+    output: str,
+    cutoff: int,
+    skip_structural_validation: bool,
+    skip_ontology_rules: bool,
+    output_type,
+):
     """
     Validate an ontology against ontology metadata
 
@@ -2805,28 +2969,47 @@ def validate(output: str, cutoff: int):
 
         runoak  -i db/ecto.db validate -o results.tsv
 
+    The default validation performed is structural (conformance to the ontology_metadata schema)
+
+    There is experimental support for additional ontology rules, which includes heuristic methods
+    such as aligning text and logical definitions. These are off by default.
+
+    To run these, pass --no-skip-ontology-rules
+
+    Example:
+
+        runoak -i db/uberon.db validate --skip-structural-validation --no-skip-ontology-rules
+
     For more information, see the OAK how-to guide:
 
     - https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html
     """
-    writer = StreamingCsvWriter(output)
     impl = settings.impl
+    writer = _get_writer(
+        output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel
+    )
+    writer.output = output
     if isinstance(impl, ValidatorInterface):
-        counts = defaultdict(int)
-        for result in impl.validate():
-            key = (result.type, result.predicate)
-            n = counts[key]
-            n += 1
-            counts[key] = n
-            if n % 1000 == 0:
-                logging.info(f"Reached {n} results with {key}")
-            if n == cutoff:
-                print(f"**TRUNCATING RESULTS FOR {key} at {cutoff}")
-            elif n < cutoff:
+        if not skip_structural_validation:
+            counts = defaultdict(int)
+            for result in impl.validate():
+                key = (result.type, result.predicate)
+                n = counts[key]
+                n += 1
+                counts[key] = n
+                if n % 1000 == 0:
+                    logging.info(f"Reached {n} results with {key}")
+                if n == cutoff:
+                    print(f"**TRUNCATING RESULTS FOR {key} at {cutoff}")
+                elif n < cutoff:
+                    writer.emit(result)
+                    # print(yaml_dumper.dumps(result))
+            for k, v in counts.items():
+                print(f"{k}:: {v}")
+        if not skip_ontology_rules:
+            rr = RuleRunner()
+            for result in rr.run(impl):
                 writer.emit(result)
-                print(yaml_dumper.dumps(result))
-        for k, v in counts.items():
-            print(f"{k}:: {v}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2961,11 +3144,6 @@ def set_apikey(endpoint, keyval):
 
 @main.command()
 @click.option(
-    "--lexical-index-file",
-    "-L",
-    help="path to lexical index. This is recreated each time unless --no-recreate is passed",
-)
-@click.option(
     "--rules-file",
     "-R",
     help="path to rules file. Conforms to rules_datamodel.\
@@ -2976,6 +3154,11 @@ def set_apikey(endpoint, keyval):
     default=False,
     show_default=True,
     help="Populate empty labels with URI fragments or CURIE local IDs, for ontologies that use semantic IDs",
+)
+@click.option(
+    "--lexical-index-file",
+    "-L",
+    help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
     "--recreate/--no-recreate",
@@ -3261,28 +3444,43 @@ def apply_obsolete(output, output_type, terms):
 @output_type_option
 def lint(output, output_type, report_format, dry_run: bool):
     """
-    Lints an ontology, applying changes in place
+    Lints an ontology, applying changes in place.
 
     The current implementation is highly incomplete, and only handles
     linting of syntactic patterns (chains of whitespace, trailing whitespace)
-    in labels and definitions
+    in labels and definitions.
 
-    Implementations
+    The output is a list of changes, in a KCGL-compliant syntax.
 
-    - owl, in functional syntax
-    - obo
+    By default, changes will be applied
+
+    Example:
+
+        runoak -i my.obo lint
+
+    This can be executed in dry-run mode, in which case changes are not applied:
+
+        runoak -i my.obo lint --dry-run
+
+    One common workflow is to emit the changes to a KCGL file which is manually checked,
+    then applied as a separate step.
+
+    Example workflow:
+
+        runoak -i my.obo lint --dry-run -o changes.kgcl
+        # examine and edit changes.kgcl
+        runoak -i my.obo apply --changes-input changes.kgcl
+
     """
     impl = settings.impl
-    writer = _get_writer(report_format, impl, StreamingYamlWriter)
+    writer = _get_writer(report_format, impl, StreamingJsonWriter)
+    writer.output = output
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
         changes = lint_ontology(impl, dry_run=dry_run)
         for _, change in changes:
             writer.emit(change)
-        if output:
-            impl.dump(output, output_type)
-        else:
-            print(impl.dump(syntax=output_type))
+        writer.finish()
     else:
         raise NotImplementedError
 

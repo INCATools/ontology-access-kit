@@ -302,6 +302,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         return walk_up(self, start_curies, predicates=predicates)
 
     def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+        """
+        Yields all logical definitions for input subjects
+
+        :param subjects:
+        :return:
+        """
         raise NotImplementedError
 
     def add_metadata(self, graph: Graph) -> None:

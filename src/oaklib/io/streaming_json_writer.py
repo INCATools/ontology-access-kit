@@ -1,6 +1,6 @@
 import json
 from dataclasses import dataclass, field
-from typing import Any, Union
+from typing import Any, Type, Union
 
 from linkml_runtime import CurieNamespace
 from linkml_runtime.dumpers import json_dumper
@@ -36,7 +36,7 @@ class StreamingJsonWriter(StreamingWriter):
             self.file.write(",\n")
         self.current_entry_number += 1
         if isinstance(obj, dict):
-            self.file.write(json.dumps(obj))
+            self.file.write(json.dumps(obj, indent=4, sort_keys=True))
         elif isinstance(obj, YAMLRoot):
             self.file.write(json_dumper.dumps(obj))
         else:
@@ -52,3 +52,6 @@ class StreamingJsonWriter(StreamingWriter):
 
     def finish(self):
         self.file.write("]\n")
+
+    def emit_dict(self, obj: dict, object_type: Type = None):
+        self.file.write(json.dumps(obj, indent=4, sort_keys=True))

@@ -33,6 +33,7 @@ from oaklib.datamodels.vocabulary import (
     SEMAPV,
     SKOS_CLOSE_MATCH,
 )
+from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -75,6 +76,7 @@ class ProntoImplementation(
     PatcherInterface,
     AssociationProviderInterface,
     SemanticSimilarityInterface,
+    TextAnnotatorInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:
@@ -554,6 +556,25 @@ class ProntoImplementation(
                         pred=pred, val=s.description, xrefs=xrefs, synonymType=t
                     )
                     yield curie, spv
+
+    def logical_definitions(
+        self, subjects: Iterable[CURIE]
+    ) -> Iterable[obograph.LogicalDefinitionAxiom]:
+        for s in subjects:
+            term = self._entity(s)
+            if term and term.intersection_of:
+                ldef = obograph.LogicalDefinitionAxiom(definedClassId=s)
+                for ix in term.intersection_of:
+                    if isinstance(ix, Term):
+                        ldef.genusIds.append(ix.id)
+                    else:
+                        (rel, filler) = ix
+                        rel = self._get_pronto_relationship_type_curie(rel)
+                        er = obograph.ExistentialRestrictionExpression(
+                            propertyId=rel, fillerId=filler.id
+                        )
+                        ldef.restrictions.append(er)
+                yield ldef
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SearchInterface

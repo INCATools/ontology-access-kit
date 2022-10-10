@@ -24,6 +24,7 @@ from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import add_labels_from_uris
 from oaklib.utilities.obograph_utils import graph_as_dict
+from oaklib.utilities.validation.rule_runner import RuleRunner
 from tests import (
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
@@ -209,6 +210,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert g.edges
 
     def test_logical_definitions(self):
+        self.compliance_tester.test_logical_definitions(self.oi)
+
+    def test_logical_definitions_extra(self):
         eia = "GO:0004857"
         ldefs = list(self.oi.logical_definitions([eia]))
         self.assertEqual(1, len(ldefs))
@@ -257,6 +261,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert CYTOPLASM not in curies
 
     # QC
+
+    def test_rule_runner(self):
+        rr = RuleRunner()
+        results = list(rr.run(self.oi))
+        self.assertGreater(len(results), 5)
 
     def test_validate(self):
         oi = self.bad_oi

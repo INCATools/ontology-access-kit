@@ -3,7 +3,6 @@ import math
 import re
 import shutil
 import typing
-from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -87,7 +86,7 @@ from oaklib.datamodels.vocabulary import (
     omd_slots,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
-from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -187,7 +186,7 @@ class SqlImplementation(
     MetadataInterface,
     DifferInterface,
     AssociationProviderInterface,
-    ABC,
+    TextAnnotatorInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
@@ -813,7 +812,8 @@ class SqlImplementation(
         q = self.session.query(Statements).filter(Statements.subject.in_(tuple(subject)))
         q = q.filter(Statements.predicate.in_(SYNONYM_PREDICATES))
         for row in q:
-            spv = obograph.SynonymPropertyValue(pred=row.predicate, val=row.value)
+            pred = row.predicate.replace("oio:", "")
+            spv = obograph.SynonymPropertyValue(pred=pred, val=row.value)
             anns = self._axiom_annotations(row.subject, row.predicate, value=row.value)
             for ann in anns:
                 if ann.predicate == HAS_SYNONYM_TYPE:

@@ -1,6 +1,6 @@
 import json
 from dataclasses import dataclass
-from typing import Any, Union
+from typing import Any, Type, Union
 
 from linkml_runtime import CurieNamespace
 from linkml_runtime.dumpers import json_dumper
@@ -30,10 +30,13 @@ class StreamingJsonLinesWriter(StreamingWriter):
 
     def emit(self, obj: Union[YAMLRoot, dict], label_fields=None):
         if isinstance(obj, dict):
-            self.file.write(json.dump(obj))
+            self.file.write(json.dumps(obj, indent=4, sort_keys=True))
         else:
             self.file.write(json_dumper.dumps(obj))
         self.file.write("\n")
 
     def emit_curie(self, curie: CURIE, label=None):
         raise NotImplementedError
+
+    def emit_dict(self, obj: dict, object_type: Type = None):
+        self.file.write(json.dumps(obj, indent=4, sort_keys=True))

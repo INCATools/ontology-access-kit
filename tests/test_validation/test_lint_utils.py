@@ -3,7 +3,7 @@ import unittest
 from oaklib import get_implementation_from_shorthand
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
-from oaklib.utilities.lint_utils import lint_ontology
+from oaklib.utilities.validation.lint_utils import lint_ontology
 from tests import INPUT_DIR, OUTPUT_DIR
 
 TEST_OUT = OUTPUT_DIR / "lint-test-output.obo"

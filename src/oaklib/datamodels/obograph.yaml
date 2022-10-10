@@ -10,6 +10,8 @@ prefixes:
  sdo: https://schema.org/
  skos: http://www.w3.org/2004/02/skos/core#
  og: https://github.com/geneontology/obographs/
+ sh: https://w3id.org/shacl/
+ oio: http://www.geneontology.org/formats/oboInOwl#
 
 default_curi_maps:
   - obo_context
@@ -28,18 +30,16 @@ imports:
 default_prefix: og
 
 enums:
-  scopes_enum:
-    permissible_values:
-      exact:
-      narrow:
-      broad:
-      related:
-  preds_enum:
+  ScopeEnum:
     permissible_values:
       hasExactSynonym:
+        meaning: oio:hasExactSynonym
       hasNarrowSynonym:
+        meaning: oio:hasNarrowSynonym
       hasBroadSynonym:
+        meaning: oio:hasBroadSynonym
       hasRelatedSynonym:
+        meaning: oio:hasRelatedSynonym
 
 slots:
   id:
@@ -125,8 +125,6 @@ slots:
     range: SynonymPropertyValue
   synonymType:
     range: string
-  scope:
-    range: scopes_enum
   isExact:
     range: boolean
   graphs:
@@ -134,6 +132,12 @@ slots:
     inlined: true
     inlined_as_list: true
     multivalued: true
+  prefixes:
+    slot_uri: sh:declare
+    range: PrefixDeclaration
+    multivalued: true
+    inlined: true
+    description: maps prefixes to namespaces
 
 
 classes:
@@ -141,7 +145,23 @@ classes:
     slots:
       - meta
       - graphs
+      - prefixes
+
+  PrefixDeclaration:
+    class_uri: sh:PrefixDeclaration
+    description: maps individual prefix to namespace
+    attributes:
+      prefix:
+        slot_uri: sh:prefix
+        description: The prefix of a prefix declaration.
+        range: string
+      namespace:
+        slot_uri: sh:namespace
+        description: The namespace associated with a prefix in a prefix declaration.
+        range: uri
+
   Graph:
+    class_uri: owl:Ontology
     slots:
       - id
       - lbl
@@ -154,6 +174,7 @@ classes:
       - propertyChainAxioms
 
   Node:
+    class_uri: rdf:Resource
     slots:
       - id
       - lbl
@@ -193,7 +214,10 @@ classes:
     slots:
       - synonymType
       - isExact
-      - scope
+      - pred
+    slot_usage:
+      pred:
+        range: ScopeEnum
 
   PropertyValue:
     abstract: true
