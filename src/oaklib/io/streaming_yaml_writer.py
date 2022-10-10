@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Union
+from typing import Any, Type, Union
 
 import yaml
 from linkml_runtime import CurieNamespace
@@ -35,3 +35,6 @@ class StreamingYamlWriter(StreamingWriter):
         self.add_labels(obj_as_dict, label_fields)
         self.file.write(yaml.dump(obj_as_dict))
         self.file.write("\n---\n")
+
+    def emit_dict(self, obj: dict, object_type: Type = None):
+        self.file.write(yaml.dump(obj))

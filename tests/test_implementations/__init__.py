@@ -14,6 +14,7 @@ from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib import BasicOntologyInterface
+from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
@@ -30,6 +31,7 @@ from oaklib.interfaces.association_provider_interface import (
     associations_subjects,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.utilities.kgcl_utilities import generate_change_id
@@ -38,6 +40,8 @@ from tests import (
     BACTERIA,
     BIOLOGICAL_PROCESS,
     CELL,
+    CELL_CORTEX,
+    CELL_PERIPHERY,
     CELLULAR_ANATOMICAL_ENTITY,
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
@@ -221,6 +225,26 @@ class ComplianceTester:
             for s1, s2 in [(c1, c2), (c2, c1)]:
                 rels = oi.outgoing_relationship_map(s1)
                 test.assertCountEqual(rels[EQUIVALENT_CLASS], [s2])
+
+    def test_logical_definitions(self, oi: OboGraphInterface):
+        test = self.test
+        cases = [
+            (CELL_CORTEX, [CYTOPLASM], [(PART_OF, CELL_PERIPHERY)]),
+        ]
+        for case in cases:
+            defined_class, genus_ids, rels = case
+            ldefs = list(oi.logical_definitions([defined_class]))
+            test.assertIsNotNone(ldefs)
+            test.assertEqual(1, len(ldefs))
+            ldef = ldefs[0]
+            test.assertCountEqual(genus_ids, ldef.genusIds)
+            restrs = [
+                obograph.ExistentialRestrictionExpression(propertyId=x[0], fillerId=x[1])
+                for x in rels
+            ]
+            test.assertCountEqual(restrs, ldef.restrictions)
+        # unionOfs should NOT be included
+        test.assertEqual([], list(oi.logical_definitions("NCBITaxon_Union:0000030")))
 
     def test_patcher(
         self,

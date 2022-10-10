@@ -1,6 +1,6 @@
 import csv
 from dataclasses import dataclass
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Mapping, Type, Union
 
 from linkml_runtime import CurieNamespace
 from linkml_runtime.utils.yamlutils import YAMLRoot
@@ -75,3 +75,7 @@ class StreamingCsvWriter(StreamingWriter):
 
     def emit_curie(self, curie: CURIE, label=None):
         self.emit({ID_KEY: curie, LABEL_KEY: label})
+
+    def emit_dict(self, obj: Mapping[str, Any], object_type: Type = None):
+        for k, v in obj.items():
+            self.emit({"key": k, "val": v})

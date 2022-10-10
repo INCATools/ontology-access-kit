@@ -18,6 +18,9 @@ from oaklib.utilities.obograph_utils import (
     index_graph_edges_by_subject,
     index_graph_nodes,
 )
+from oaklib.utilities.validation.definition_ontology_rules import (
+    TextAndLogicalDefinitionMatchOntologyRule,
+)
 from tests import (
     CELL,
     CELLULAR_COMPONENT,
@@ -352,3 +355,15 @@ class TestProntoImplementation(unittest.TestCase):
     @unittest.skip("Not implemented")
     def test_pairwise_similarity(self):
         self.compliance_tester.test_pairwise_similarity(self.oi)
+
+    # validation
+
+    def test_logical_definitions(self):
+        self.compliance_tester.test_logical_definitions(self.oi)
+
+    def test_ontology_rules(self):
+        # TODO: decide whether ontology rules should be validated
+        # as part of each implementation, or as a standalone
+        rule = TextAndLogicalDefinitionMatchOntologyRule()
+        results = list(rule.evaluate(self.oi))
+        self.assertGreater(len(results), 5)

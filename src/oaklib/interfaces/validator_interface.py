@@ -47,7 +47,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
 
     def validate(self, configuration: ValidationConfiguration = None) -> Iterable[ValidationResult]:
         """
-        Validate entire ontology or wrapped ontologies
+        Validate entire ontology or wrapped ontologies.
 
         Validation results might be implementation specific
 
@@ -62,7 +62,7 @@ class ValidatorInterface(BasicOntologyInterface, ABC):
         self, configuration: RepairConfiguration = None, dry_run=False
     ) -> Iterable[RepairOperation]:
         """
-        Finds problems and fixes them
+        Finds problems and fixes them.
 
         :param configuration:
         :param dry_run:

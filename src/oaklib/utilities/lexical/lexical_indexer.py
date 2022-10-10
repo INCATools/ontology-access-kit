@@ -8,10 +8,11 @@ Various utilities for working with lexical aspects of ontologies plus mappings
 import logging
 import re
 from collections import defaultdict
-from typing import Dict, List, Optional, Tuple
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple, Union
 
-from linkml_runtime.dumpers import yaml_dumper
-from linkml_runtime.loaders import yaml_loader
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.loaders import json_loader, yaml_loader
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from sssom.constants import LICENSE, MAPPING_SET_ID
 from sssom.context import get_default_metadata
@@ -43,6 +44,8 @@ from oaklib.datamodels.vocabulary import (
 from oaklib.interfaces import BasicOntologyInterface
 from oaklib.types import PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
+
+LEXICAL_INDEX_FORMATS = ["yaml", "json"]
 
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
@@ -101,7 +104,7 @@ def create_lexical_index(
             pipelines = [
                 LexicalTransformationPipeline(name="default", transformations=[step1, step2])
             ]
-
+    logging.info(f"Creating lexical index, pipelines={pipelines}")
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
     for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
@@ -135,28 +138,54 @@ def create_lexical_index(
                     if term2 not in ix.groupings:
                         ix.groupings[term2] = LexicalGrouping(term=term2)
                     ix.groupings[term2].relationships.append(rel)
+    logging.info("Created lexical index")
     return ix
 
 
-def save_lexical_index(lexical_index: LexicalIndex, path: str):
+def save_lexical_index(lexical_index: LexicalIndex, path: str, syntax: str = None):
     """
     Saves a YAML using standard mapping of datanodel to YAML
 
     :param lexical_index:
     :param path:
+    :param syntax:
     :return:
     """
-    yaml_dumper.dump(lexical_index, to_file=path)
+    if syntax is None:
+        syntax = _infer_syntax(path, "yaml")
+    logging.info(f"Saving lexical index from {path} syntax={syntax}")
+    if syntax == "yaml":
+        yaml_dumper.dump(lexical_index, to_file=path)
+    elif syntax == "json":
+        json_dumper.dump(lexical_index, to_file=path)
+    else:
+        raise ValueError(f"Cannot use syntax: {syntax}")
 
 
-def load_lexical_index(path: str) -> LexicalIndex:
+def load_lexical_index(path: str, syntax: str = None) -> LexicalIndex:
     """
     Loads from a YAML file
 
     :param path: Lexical index in the form of a YAML file.
+    :param syntax:
     :return: An index over an ontology keyed by lexical unit.
     """
-    return yaml_loader.load(path, target_class=LexicalIndex)
+    if syntax is None:
+        syntax = _infer_syntax(path, "yaml")
+    logging.info(f"Loading lexical index from {path} syntax={syntax}")
+    if syntax == "yaml":
+        return yaml_loader.load(path, target_class=LexicalIndex)
+    elif syntax == "json":
+        return json_loader.load(path, target_class=LexicalIndex)
+    else:
+        raise ValueError(f"Cannot use syntax: {syntax}")
+
+
+def _infer_syntax(path: Union[str, Path], default: str = None) -> Optional[str]:
+    suffix = str(path).split(".")[-1]
+    if suffix in LEXICAL_INDEX_FORMATS:
+        return suffix
+    return default
 
 
 def lexical_index_to_sssom(

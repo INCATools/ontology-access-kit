@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-10-05T14:16:41
+# Generation date: 2022-10-08T12:34:48
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -18,14 +18,14 @@ from linkml_runtime.linkml_model.meta import (
     PermissibleValue,
     PvFormulaOptions,
 )
-from linkml_runtime.linkml_model.types import Boolean, String
+from linkml_runtime.linkml_model.types import Boolean, String, Uri
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import Bool, bnode, empty_dict, empty_list
+from linkml_runtime.utils.metamodelcore import URI, Bool, bnode, empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import (
     YAMLRoot,
@@ -44,9 +44,12 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 # Namespaces
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OG = CurieNamespace("og", "https://github.com/geneontology/obographs/")
+OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
+OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 RDFS = CurieNamespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
 SDO = CurieNamespace("sdo", "https://schema.org/")
+SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
 DEFAULT_ = OG
@@ -76,6 +79,9 @@ class GraphDocument(YAMLRoot):
     graphs: Optional[
         Union[Dict[Union[str, GraphId], Union[dict, "Graph"]], List[Union[dict, "Graph"]]]
     ] = empty_dict()
+    prefixes: Optional[
+        Union[Union[dict, "PrefixDeclaration"], List[Union[dict, "PrefixDeclaration"]]]
+    ] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.meta is not None and not isinstance(self.meta, Meta):
@@ -85,6 +91,39 @@ class GraphDocument(YAMLRoot):
             slot_name="graphs", slot_type=Graph, key_name="id", keyed=True
         )
 
+        if not isinstance(self.prefixes, list):
+            self.prefixes = [self.prefixes] if self.prefixes is not None else []
+        self.prefixes = [
+            v if isinstance(v, PrefixDeclaration) else PrefixDeclaration(**as_dict(v))
+            for v in self.prefixes
+        ]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class PrefixDeclaration(YAMLRoot):
+    """
+    maps individual prefix to namespace
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SH.PrefixDeclaration
+    class_class_curie: ClassVar[str] = "sh:PrefixDeclaration"
+    class_name: ClassVar[str] = "PrefixDeclaration"
+    class_model_uri: ClassVar[URIRef] = OG.PrefixDeclaration
+
+    prefix: Optional[str] = None
+    namespace: Optional[Union[str, URI]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.prefix is not None and not isinstance(self.prefix, str):
+            self.prefix = str(self.prefix)
+
+        if self.namespace is not None and not isinstance(self.namespace, URI):
+            self.namespace = URI(self.namespace)
+
         super().__post_init__(**kwargs)
 
 
@@ -92,8 +131,8 @@ class GraphDocument(YAMLRoot):
 class Graph(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.Graph
-    class_class_curie: ClassVar[str] = "og:Graph"
+    class_class_uri: ClassVar[URIRef] = OWL.Ontology
+    class_class_curie: ClassVar[str] = "owl:Ontology"
     class_name: ClassVar[str] = "Graph"
     class_model_uri: ClassVar[URIRef] = OG.Graph
 
@@ -180,8 +219,8 @@ class Graph(YAMLRoot):
 class Node(YAMLRoot):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.Node
-    class_class_curie: ClassVar[str] = "og:Node"
+    class_class_uri: ClassVar[URIRef] = RDF.Resource
+    class_class_curie: ClassVar[str] = "rdf:Resource"
     class_name: ClassVar[str] = "Node"
     class_model_uri: ClassVar[URIRef] = OG.Node
 
@@ -371,7 +410,7 @@ class SynonymPropertyValue(PropertyValue):
 
     synonymType: Optional[str] = None
     isExact: Optional[Union[bool, Bool]] = None
-    scope: Optional[Union[str, "ScopesEnum"]] = None
+    pred: Optional[Union[str, "ScopeEnum"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.synonymType is not None and not isinstance(self.synonymType, str):
@@ -380,8 +419,8 @@ class SynonymPropertyValue(PropertyValue):
         if self.isExact is not None and not isinstance(self.isExact, Bool):
             self.isExact = Bool(self.isExact)
 
-        if self.scope is not None and not isinstance(self.scope, ScopesEnum):
-            self.scope = ScopesEnum(self.scope)
+        if self.pred is not None and not isinstance(self.pred, ScopeEnum):
+            self.pred = ScopeEnum(self.pred)
 
         super().__post_init__(**kwargs)
 
@@ -543,27 +582,15 @@ class PropertyChainAxiom(Axiom):
 
 
 # Enumerations
-class ScopesEnum(EnumDefinitionImpl):
+class ScopeEnum(EnumDefinitionImpl):
 
-    exact = PermissibleValue(text="exact")
-    narrow = PermissibleValue(text="narrow")
-    broad = PermissibleValue(text="broad")
-    related = PermissibleValue(text="related")
-
-    _defn = EnumDefinition(
-        name="ScopesEnum",
-    )
-
-
-class PredsEnum(EnumDefinitionImpl):
-
-    hasExactSynonym = PermissibleValue(text="hasExactSynonym")
-    hasNarrowSynonym = PermissibleValue(text="hasNarrowSynonym")
-    hasBroadSynonym = PermissibleValue(text="hasBroadSynonym")
-    hasRelatedSynonym = PermissibleValue(text="hasRelatedSynonym")
+    hasExactSynonym = PermissibleValue(text="hasExactSynonym", meaning=OIO.hasExactSynonym)
+    hasNarrowSynonym = PermissibleValue(text="hasNarrowSynonym", meaning=OIO.hasNarrowSynonym)
+    hasBroadSynonym = PermissibleValue(text="hasBroadSynonym", meaning=OIO.hasBroadSynonym)
+    hasRelatedSynonym = PermissibleValue(text="hasRelatedSynonym", meaning=OIO.hasRelatedSynonym)
 
     _defn = EnumDefinition(
-        name="PredsEnum",
+        name="ScopeEnum",
     )
 
 
@@ -850,15 +877,6 @@ slots.synonymType = Slot(
     range=Optional[str],
 )
 
-slots.scope = Slot(
-    uri=OG.scope,
-    name="scope",
-    curie=OG.curie("scope"),
-    model_uri=OG.scope,
-    domain=None,
-    range=Optional[Union[str, "ScopesEnum"]],
-)
-
 slots.isExact = Slot(
     uri=OG.isExact,
     name="isExact",
@@ -875,6 +893,33 @@ slots.graphs = Slot(
     model_uri=OG.graphs,
     domain=None,
     range=Optional[Union[Dict[Union[str, GraphId], Union[dict, Graph]], List[Union[dict, Graph]]]],
+)
+
+slots.prefixes = Slot(
+    uri=SH.declare,
+    name="prefixes",
+    curie=SH.curie("declare"),
+    model_uri=OG.prefixes,
+    domain=None,
+    range=Optional[Union[Union[dict, PrefixDeclaration], List[Union[dict, PrefixDeclaration]]]],
+)
+
+slots.prefixDeclaration__prefix = Slot(
+    uri=SH.prefix,
+    name="prefixDeclaration__prefix",
+    curie=SH.curie("prefix"),
+    model_uri=OG.prefixDeclaration__prefix,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.prefixDeclaration__namespace = Slot(
+    uri=SH.namespace,
+    name="prefixDeclaration__namespace",
+    curie=SH.curie("namespace"),
+    model_uri=OG.prefixDeclaration__namespace,
+    domain=None,
+    range=Optional[Union[str, URI]],
 )
 
 slots.logicalDefinitionAxiom__definedClassId = Slot(
@@ -916,4 +961,13 @@ slots.Meta_xrefs = Slot(
     model_uri=OG.Meta_xrefs,
     domain=Meta,
     range=Optional[Union[Union[dict, "XrefPropertyValue"], List[Union[dict, "XrefPropertyValue"]]]],
+)
+
+slots.SynonymPropertyValue_pred = Slot(
+    uri=OG.pred,
+    name="SynonymPropertyValue_pred",
+    curie=OG.curie("pred"),
+    model_uri=OG.SynonymPropertyValue_pred,
+    domain=SynonymPropertyValue,
+    range=Optional[Union[str, "ScopeEnum"]],
 )

@@ -2,7 +2,7 @@ import atexit
 import sys
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Mapping, Optional, Type, Union
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.yamlutils import YAMLRoot
@@ -18,7 +18,7 @@ LABEL_KEY = "label"
 @dataclass
 class StreamingWriter(ABC):
     """
-    Base class for streaming writers
+    Base class for streaming writers.
     """
 
     file: Any = field(default_factory=lambda: sys.stdout)
@@ -37,6 +37,12 @@ class StreamingWriter(ABC):
 
     @output.setter
     def output(self, value) -> None:
+        """
+        Sets the output stream
+
+        :param value:
+        :return:
+        """
         self._output = value
         if self._output is not None:
             if isinstance(self._output, str):
@@ -45,6 +51,13 @@ class StreamingWriter(ABC):
                 self.file = self._output
 
     def emit(self, obj: Union[YAMLRoot, dict, CURIE], label_fields: Optional[List[str]] = None):
+        """
+        Emit an object or CURIE
+
+        :param obj:
+        :param label_fields:
+        :return:
+        """
         if isinstance(obj, CURIE):
             self.emit_curie(obj)
         elif isinstance(obj, Node):
@@ -70,6 +83,13 @@ class StreamingWriter(ABC):
         self.file.write(f"{v}\n")
 
     def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None):
+        """
+        Adds labels to the object
+
+        :param obj_as_dict:
+        :param label_fields:
+        :return:
+        """
         if label_fields and self.autolabel:
             for f in label_fields:
                 curie = obj_as_dict.get(f, None)
@@ -79,3 +99,13 @@ class StreamingWriter(ABC):
                     else:
                         label = self.ontology_interface.label(curie)
                     obj_as_dict[f"{f}_label"] = label
+
+    def emit_dict(self, obj: Mapping[str, Any], object_type: Type = None):
+        """
+        Write a dictionary object to the stream
+
+        :param obj:
+        :param object_type:
+        :return:
+        """
+        raise NotImplementedError
