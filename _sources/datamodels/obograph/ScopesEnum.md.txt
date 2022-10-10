@@ -8,11 +8,10 @@ URI: ScopesEnum
 
 | Value | Meaning | Description | Info |
 | --- | --- | --- | --- |
-| exact | None |  | |
-| narrow | None |  | |
-| broad | None |  | |
-| related | None |  | |
-
+| exact | None | None | |
+| narrow | None | None | |
+| broad | None | None | |
+| related | None | None | |
 
 
 ## Identifier and Mapping Information
@@ -30,23 +29,3 @@ URI: ScopesEnum
 
 
 
-
-## Schema
-
-<details>
-```yaml
-name: scopes_enum
-from_schema: https://github.com/geneontology/obographs
-rank: 1000
-permissible_values:
-  exact:
-    text: exact
-  narrow:
-    text: narrow
-  broad:
-    text: broad
-  related:
-    text: related
-
-```
-</details>

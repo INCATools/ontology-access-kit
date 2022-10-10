@@ -87,6 +87,7 @@
     class GraphDocument
       GraphDocument : graphs
       GraphDocument : meta
+      GraphDocument : prefixes
       
         </div><!-- no inheritance hierarchy -->
 <section id="slots">
@@ -106,6 +107,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="graphs.html"><span class="doc std std-doc">graphs</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="prefixes.html"><span class="doc std std-doc">prefixes</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="PrefixDeclaration.html"><span class="doc std std-doc">PrefixDeclaration</span></a></p></td>
+<td><p>maps prefixes to namespaces</p></td>
 </tr>
 </tbody>
 </table>
@@ -153,6 +158,7 @@ rank: 1000
 slots:
 - meta
 - graphs
+- prefixes
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -188,6 +194,19 @@ attributes:
     range: Graph
     inlined: true
     inlined_as_list: true
+  prefixes:
+    name: prefixes
+    description: maps prefixes to namespaces
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: sh:declare
+    multivalued: true
+    alias: prefixes
+    owner: GraphDocument
+    domain_of:
+    - GraphDocument
+    range: PrefixDeclaration
+    inlined: true
 
 </pre></div>
 </div>

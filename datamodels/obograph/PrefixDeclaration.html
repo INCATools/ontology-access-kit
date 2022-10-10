@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class: SynonymPropertyValue &mdash; oaklib  documentation</title>
+  <title>Class: PrefixDeclaration &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -69,9 +69,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Class: SynonymPropertyValue</li>
+      <li>Class: PrefixDeclaration</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/datamodels/obograph/SynonymPropertyValue.md.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/datamodels/obograph/PrefixDeclaration.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -79,31 +79,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="class-synonympropertyvalue">
-<h1>Class: SynonymPropertyValue<a class="headerlink" href="#class-synonympropertyvalue" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/SynonymPropertyValue">og:SynonymPropertyValue</a></p>
+  <section id="class-prefixdeclaration">
+<h1>Class: PrefixDeclaration<a class="headerlink" href="#class-prefixdeclaration" title="Permalink to this headline"></a></h1>
+<p><em>maps individual prefix to namespace</em></p>
+<p>URI: <a class="reference external" href="https://w3id.org/shacl/PrefixDeclaration">sh:PrefixDeclaration</a></p>
 <div class="mermaid">
              classDiagram
-    class SynonymPropertyValue
-      PropertyValue &lt;|-- SynonymPropertyValue
+    class PrefixDeclaration
+      PrefixDeclaration : namespace
+      PrefixDeclaration : prefix
       
-      SynonymPropertyValue : isExact
-      SynonymPropertyValue : meta
-      SynonymPropertyValue : pred
-      SynonymPropertyValue : synonymType
-      SynonymPropertyValue : val
-      SynonymPropertyValue : xrefs
-      
-        </div><section id="inheritance">
-<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p>
-<ul>
-<li><p><strong>SynonymPropertyValue</strong></p></li>
-</ul>
-</li>
-</ul>
-</section>
+        </div><!-- no inheritance hierarchy -->
 <section id="slots">
 <h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -114,29 +100,13 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="synonymType.html"><span class="doc std std-doc">synonymType</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="prefix.html"><span class="doc std std-doc">prefix</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>The prefix of a prefix declaration</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="isExact.html"><span class="doc std std-doc">isExact</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="ScopeEnum.html"><span class="doc std std-doc">ScopeEnum</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="val.html"><span class="doc std std-doc">val</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="namespace.html"><span class="doc std std-doc">namespace</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>The namespace associated with a prefix in a prefix declaration</p></td>
 </tr>
 </tbody>
 </table>
@@ -152,10 +122,10 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p><a class="reference internal" href="synonyms.html"><span class="doc std std-doc">synonyms</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="doc std std-doc">GraphDocument</span></a></p></td>
+<td><p><a class="reference internal" href="prefixes.html"><span class="doc std std-doc">prefixes</span></a></p></td>
 <td><p>range</p></td>
-<td><p>SynonymPropertyValue</p></td>
+<td><p>PrefixDeclaration</p></td>
 </tr>
 </tbody>
 </table>
@@ -179,10 +149,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>[‘og:SynonymPropertyValue’]</p></td>
+<td><p>[‘sh:PrefixDeclaration’]</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>[‘og:SynonymPropertyValue’]</p></td>
+<td><p>[‘og:PrefixDeclaration’]</p></td>
 </tr>
 </tbody>
 </table>
@@ -194,112 +164,60 @@
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
 <details>
 ```yaml
-name: SynonymPropertyValue
+name: PrefixDeclaration
+description: maps individual prefix to namespace
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-is_a: PropertyValue
-slots:
-- synonymType
-- isExact
-- pred
-slot_usage:
-  pred:
-    name: pred
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    range: ScopeEnum
+attributes:
+  prefix:
+    name: prefix
+    description: The prefix of a prefix declaration.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: sh:prefix
+    range: string
+  namespace:
+    name: namespace
+    description: The namespace associated with a prefix in a prefix declaration.
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: sh:namespace
+    range: uri
+class_uri: sh:PrefixDeclaration
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
 
 &lt;details&gt;
 ```yaml
-name: SynonymPropertyValue
+name: PrefixDeclaration
+description: maps individual prefix to namespace
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-is_a: PropertyValue
-slot_usage:
-  pred:
-    name: pred
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    range: ScopeEnum
 attributes:
-  synonymType:
-    name: synonymType
+  prefix:
+    name: prefix
+    description: The prefix of a prefix declaration.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    alias: synonymType
-    owner: SynonymPropertyValue
+    slot_uri: sh:prefix
+    alias: prefix
+    owner: PrefixDeclaration
     domain_of:
-    - SynonymPropertyValue
+    - PrefixDeclaration
     range: string
-  isExact:
-    name: isExact
+  namespace:
+    name: namespace
+    description: The namespace associated with a prefix in a prefix declaration.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
-    alias: isExact
-    owner: SynonymPropertyValue
+    slot_uri: sh:namespace
+    alias: namespace
+    owner: PrefixDeclaration
     domain_of:
-    - SynonymPropertyValue
-    range: boolean
-  pred:
-    name: pred
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    alias: pred
-    owner: SynonymPropertyValue
-    domain_of:
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    - Edge
-    - SynonymPropertyValue
-    - PropertyValue
-    range: ScopeEnum
-  val:
-    name: val
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    alias: val
-    owner: SynonymPropertyValue
-    domain_of:
-    - PropertyValue
-    range: string
-  xrefs:
-    name: xrefs
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    multivalued: true
-    alias: xrefs
-    owner: SynonymPropertyValue
-    domain_of:
-    - Meta
-    - PropertyValue
-    range: string
-  meta:
-    name: meta
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    alias: meta
-    owner: SynonymPropertyValue
-    domain_of:
-    - GraphDocument
-    - Graph
-    - Node
-    - PropertyValue
-    - Axiom
-    range: Meta
+    - PrefixDeclaration
+    range: uri
+class_uri: sh:PrefixDeclaration
 
 </pre></div>
 </div>

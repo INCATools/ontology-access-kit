@@ -13,6 +13,7 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
     class GraphDocument
       GraphDocument : graphs
       GraphDocument : meta
+      GraphDocument : prefixes
       
 ```
 
@@ -28,6 +29,7 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 | ---  | ---  | --- |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
 | [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md)  |   |
+| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md)  | maps prefixes to namespaces  |
 
 
 ## Usages
@@ -75,6 +77,7 @@ rank: 1000
 slots:
 - meta
 - graphs
+- prefixes
 
 ```
 </details>
@@ -112,6 +115,19 @@ attributes:
     range: Graph
     inlined: true
     inlined_as_list: true
+  prefixes:
+    name: prefixes
+    description: maps prefixes to namespaces
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    slot_uri: sh:declare
+    multivalued: true
+    alias: prefixes
+    owner: GraphDocument
+    domain_of:
+    - GraphDocument
+    range: PrefixDeclaration
+    inlined: true
 
 ```
 </details>

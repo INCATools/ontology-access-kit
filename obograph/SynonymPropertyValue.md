@@ -16,7 +16,6 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
       SynonymPropertyValue : isExact
       SynonymPropertyValue : meta
       SynonymPropertyValue : pred
-      SynonymPropertyValue : scope
       SynonymPropertyValue : synonymType
       SynonymPropertyValue : val
       SynonymPropertyValue : xrefs
@@ -39,8 +38,7 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 | ---  | ---  | --- |
 | [synonymType](synonymType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
-| [scope](scope.md) | 0..1 <br/> [ScopesEnum](ScopesEnum.md)  |   |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| [pred](pred.md) | 0..1 <br/> [ScopeEnum](ScopeEnum.md)  |   |
 | [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
@@ -97,7 +95,18 @@ is_a: PropertyValue
 slots:
 - synonymType
 - isExact
-- scope
+- pred
+slot_usage:
+  pred:
+    name: pred
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    range: ScopeEnum
 
 ```
 </details>
@@ -110,6 +119,17 @@ name: SynonymPropertyValue
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: PropertyValue
+slot_usage:
+  pred:
+    name: pred
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    range: ScopeEnum
 attributes:
   synonymType:
     name: synonymType
@@ -129,15 +149,6 @@ attributes:
     domain_of:
     - SynonymPropertyValue
     range: boolean
-  scope:
-    name: scope
-    from_schema: https://github.com/geneontology/obographs
-    rank: 1000
-    alias: scope
-    owner: SynonymPropertyValue
-    domain_of:
-    - SynonymPropertyValue
-    range: scopes_enum
   pred:
     name: pred
     from_schema: https://github.com/geneontology/obographs
@@ -146,8 +157,12 @@ attributes:
     owner: SynonymPropertyValue
     domain_of:
     - Edge
+    - SynonymPropertyValue
     - PropertyValue
-    range: string
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    range: ScopeEnum
   val:
     name: val
     from_schema: https://github.com/geneontology/obographs

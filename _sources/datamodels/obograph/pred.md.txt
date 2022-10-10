@@ -46,6 +46,7 @@ rank: 1000
 alias: pred
 domain_of:
 - Edge
+- SynonymPropertyValue
 - PropertyValue
 range: string
 

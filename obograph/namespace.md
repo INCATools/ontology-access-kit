@@ -1,0 +1,56 @@
+# Slot: namespace
+_The namespace associated with a prefix in a prefix declaration._
+
+
+URI: [https://w3id.org/shacl/namespace](https://w3id.org/shacl/namespace)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Properties
+
+* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Multivalued: None
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://github.com/geneontology/obographs
+
+
+
+
+## LinkML Specification
+
+<details>
+```yaml
+name: namespace
+description: The namespace associated with a prefix in a prefix declaration.
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+slot_uri: sh:namespace
+alias: namespace
+domain_of:
+- PrefixDeclaration
+range: uri
+
+```
+</details>

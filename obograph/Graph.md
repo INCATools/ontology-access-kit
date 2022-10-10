@@ -3,7 +3,7 @@
 
 
 
-URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
+URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
@@ -76,7 +76,7 @@ URI: [og:Graph](https://github.com/geneontology/obographs/Graph)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Graph'] |
+| self | ['owl:Ontology'] |
 | native | ['og:Graph'] |
 
 
@@ -101,6 +101,7 @@ slots:
 - logicalDefinitionAxioms
 - domainRangeAxioms
 - propertyChainAxioms
+class_uri: owl:Ontology
 
 ```
 </details>
@@ -211,6 +212,7 @@ attributes:
     domain_of:
     - Graph
     range: PropertyChainAxiom
+class_uri: owl:Ontology
 
 ```
 </details>

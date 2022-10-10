@@ -112,6 +112,7 @@ attributes:
     owner: Edge
     domain_of:
     - Edge
+    - SynonymPropertyValue
     - PropertyValue
     range: string
   obj:

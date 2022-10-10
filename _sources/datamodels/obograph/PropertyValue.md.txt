@@ -117,6 +117,7 @@ attributes:
     owner: PropertyValue
     domain_of:
     - Edge
+    - SynonymPropertyValue
     - PropertyValue
     range: string
   val:

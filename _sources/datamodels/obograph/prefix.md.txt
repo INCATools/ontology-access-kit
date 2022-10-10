@@ -1,6 +1,8 @@
-# Slot: pred
+# Slot: prefix
+_The prefix of a prefix declaration._
 
-URI: [https://github.com/geneontology/obographs/pred](https://github.com/geneontology/obographs/pred)
+
+URI: [https://w3id.org/shacl/prefix](https://w3id.org/shacl/prefix)
 
 
 
@@ -40,14 +42,14 @@ URI: [https://github.com/geneontology/obographs/pred](https://github.com/geneont
 
 <details>
 ```yaml
-name: pred
+name: prefix
+description: The prefix of a prefix declaration.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
-alias: pred
+slot_uri: sh:prefix
+alias: prefix
 domain_of:
-- Edge
-- SynonymPropertyValue
-- PropertyValue
+- PrefixDeclaration
 range: string
 
 ```

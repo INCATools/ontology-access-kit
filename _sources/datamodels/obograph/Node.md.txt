@@ -3,7 +3,7 @@
 
 
 
-URI: [og:Node](https://github.com/geneontology/obographs/Node)
+URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
 
@@ -66,7 +66,7 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Node'] |
+| self | ['rdf:Resource'] |
 | native | ['og:Node'] |
 
 
@@ -86,6 +86,7 @@ slots:
 - lbl
 - type
 - meta
+class_uri: rdf:Resource
 
 ```
 </details>
@@ -141,6 +142,7 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+class_uri: rdf:Resource
 
 ```
 </details>

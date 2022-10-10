@@ -21,6 +21,7 @@ Name: obographs_datamodel
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) |  |
 | [Meta](Meta.md) |  |
 | [Node](Node.md) |  |
+| [PrefixDeclaration](PrefixDeclaration.md) | maps individual prefix to namespace |
 | [PropertyChainAxiom](PropertyChainAxiom.md) |  |
 | [PropertyValue](PropertyValue.md) |  |
 | [SynonymPropertyValue](SynonymPropertyValue.md) |  |
@@ -49,17 +50,19 @@ Name: obographs_datamodel
 | [lbl](lbl.md) |  |
 | [logicalDefinitionAxioms](logicalDefinitionAxioms.md) |  |
 | [meta](meta.md) |  |
+| [namespace](namespace.md) | The namespace associated with a prefix in a prefix declaration |
 | [nodeIds](nodeIds.md) |  |
 | [nodes](nodes.md) |  |
 | [obj](obj.md) |  |
 | [pred](pred.md) |  |
 | [predicateId](predicateId.md) |  |
+| [prefix](prefix.md) | The prefix of a prefix declaration |
+| [prefixes](prefixes.md) | maps prefixes to namespaces |
 | [propertyChainAxioms](propertyChainAxioms.md) |  |
 | [propertyId](propertyId.md) |  |
 | [rangeClassIds](rangeClassIds.md) |  |
 | [representativeNodeId](representativeNodeId.md) |  |
 | [restrictions](restrictions.md) |  |
-| [scope](scope.md) |  |
 | [sub](sub.md) |  |
 | [subsets](subsets.md) |  |
 | [synonyms](synonyms.md) |  |
@@ -74,8 +77,7 @@ Name: obographs_datamodel
 
 | Enumeration | Description |
 | --- | --- |
-| [PredsEnum](PredsEnum.md) |  |
-| [ScopesEnum](ScopesEnum.md) |  |
+| [ScopeEnum](ScopeEnum.md) |  |
 
 
 ## Types

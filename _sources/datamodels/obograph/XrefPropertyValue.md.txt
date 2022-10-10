@@ -109,6 +109,7 @@ attributes:
     owner: XrefPropertyValue
     domain_of:
     - Edge
+    - SynonymPropertyValue
     - PropertyValue
     range: string
   val:
