@@ -275,7 +275,7 @@ def create_mapping(
         mapping_justification=mapping_justification,
         mapping_tool="oaklib",
         subject_preprocessing=subject_preprocessing,
-        object_preprocessing=object_preprocessing
+        object_preprocessing=object_preprocessing,
     )
 
 
