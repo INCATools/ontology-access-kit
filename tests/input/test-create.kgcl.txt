@@ -1,0 +1,8 @@
+create node X:1 'limb'
+create node X:2 'forelimb'
+create edge X:2 is_a X:1
+create node X:3 'hindlimb'
+create edge X:3 is_a X:1
+create related synonym 'arm' for X:2
+create related synonym 'leg' for X:3
+# foo

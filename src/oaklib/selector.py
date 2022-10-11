@@ -188,7 +188,7 @@ def get_resource_from_shorthand(
                 resource.url = rest
                 resource.slug = None
             elif impl_class == ProntoImplementation:
-                if resource.slug.endswith(".obo"):
+                if resource.slug and resource.slug.endswith(".obo"):
                     resource.format = "obo"
                 if scheme == "prontolib":
                     resource.local = False

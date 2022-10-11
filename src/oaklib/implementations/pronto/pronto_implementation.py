@@ -54,6 +54,7 @@ from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.kgcl_utilities import tidy_change_object
 
 warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module="pronto")
 
@@ -136,7 +137,10 @@ class ProntoImplementation(
             if resource is None:
                 ontology = Ontology()
             elif resource.local:
-                ontology = Ontology(str(resource.local_path), **kwargs)
+                if resource.local_path:
+                    ontology = Ontology(str(resource.local_path), **kwargs)
+                else:
+                    ontology = Ontology()
             else:
                 ontology = Ontology.from_obo_library(resource.slug, **kwargs)
             self.wrapped_ontology = ontology
@@ -377,6 +381,7 @@ class ProntoImplementation(
             for pred, fillers in relationships.items():
                 for filler in fillers:
                     self.add_relationship(curie, pred, filler)
+        logging.info(f"Created: {curie}")
         return curie
 
     def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
@@ -463,11 +468,17 @@ class ProntoImplementation(
         return type(self)(resource)
 
     def dump(self, path: str = None, syntax: str = "obo"):
+        if syntax is None:
+            syntax = "obo"
+        # TODO: simplify the logic here; not clear why pronto wants a binary file
         if isinstance(path, str):
             with open(path, "wb") as file:
                 self.wrapped_ontology.dump(file, format=syntax)
         else:
-            self.wrapped_ontology.dump(path, format=syntax)
+            if path == sys.stdout:
+                print(self.wrapped_ontology.dumps(format=syntax))
+            else:
+                self.wrapped_ontology.dump(path, format=syntax)
 
     def save(
         self,
@@ -634,15 +645,10 @@ class ProntoImplementation(
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
     ) -> Optional[kgcl.Change]:
-        def _clean(v: str) -> str:
-            # TODO: remove this when this is fixed: https://github.com/INCATools/kgcl-rdflib/issues/43
-            if v.startswith("'"):
-                return v.replace("'", "")
-            else:
-                return v
 
+        tidy_change_object(patch)
         if isinstance(patch, kgcl.NodeRename):
-            self.set_label(patch.about_node, _clean(patch.new_value))
+            self.set_label(patch.about_node, patch.new_value)
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._entity(patch.about_node, strict=True)
             t.obsolete = True

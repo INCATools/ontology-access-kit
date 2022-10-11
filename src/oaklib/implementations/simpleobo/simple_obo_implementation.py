@@ -5,7 +5,18 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Mapping,
+    Optional,
+    TextIO,
+    Tuple,
+    Union,
+)
 
 import sssom_schema as sssom
 from kgcl_schema.datamodel import kgcl
@@ -24,6 +35,8 @@ from oaklib.datamodels.vocabulary import (
     HAS_DBXREF,
     IS_A,
     LABEL_PREDICATE,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
     SEMAPV,
     SKOS_CLOSE_MATCH,
 )
@@ -59,6 +72,7 @@ from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
+from oaklib.utilities.kgcl_utilities import tidy_change_object
 
 
 def _is_isa(x: str):
@@ -90,6 +104,7 @@ class SimpleOboImplementation(
         if self.obo_document is None:
             resource = self.resource
             if resource and resource.local_path:
+                logging.info(f"Creating doc for {resource}")
                 self.obo_document = parse_obo_document(resource.local_path)
             else:
                 self.obo_document = OboDocument()
@@ -195,13 +210,27 @@ class SimpleOboImplementation(
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
     ) -> CURIE:
+        if type is None or type == OWL_CLASS:
+            type = "Term"
+        elif type == OWL_OBJECT_PROPERTY:
+            type = "Typedef"
+        else:
+            raise ValueError(f"Cannot handle type: {type}")
         stanza = Stanza(id=curie, type=type)
         stanza.add_tag_value(TAG_NAME, label)
         self.obo_document.add_stanza(stanza)
 
+    def add_relationship(self, curie: CURIE, predicate: PRED_CURIE, filler: CURIE):
+        t = self._stanza(curie)
+        if predicate == IS_A:
+            t.add_tag_value(TAG_IS_A, filler)
+        else:
+            t.add_tag_value_pair(TAG_RELATIONSHIP, predicate, filler)
+
     def definition(self, curie: CURIE) -> Optional[str]:
-        s = self._stanza(curie)
-        return s.quoted_value(TAG_DEFINITION)
+        s = self._stanza(curie, strict=False)
+        if s:
+            return s.quoted_value(TAG_DEFINITION)
 
     def comments(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
         for curie in curies:
@@ -327,7 +356,7 @@ class SimpleOboImplementation(
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
 
-    def dump(self, path: str = None, syntax: str = "obo"):
+    def dump(self, path: Union[str, TextIO] = None, syntax: str = "obo"):
         if isinstance(path, str) or isinstance(path, Path):
             logging.info(f"Saving to {path}")
             with open(path, "w", encoding="UTF-8") as file:
@@ -428,16 +457,10 @@ class SimpleOboImplementation(
         metadata: Mapping[PRED_CURIE, Any] = None,
     ) -> kgcl.Change:
         od = self.obo_document
-
-        def _clean(v: str) -> str:
-            # TODO: remove this when this is fixed: https://github.com/INCATools/kgcl-rdflib/issues/43
-            if v.startswith("'"):
-                return v.replace("'", "")
-            else:
-                return v
-
+        tidy_change_object(patch)
         if isinstance(patch, kgcl.NodeRename):
-            self.set_label(patch.about_node, _clean(patch.new_value))
+            # self.set_label(patch.about_node, _clean(patch.new_value))
+            self.set_label(patch.about_node, patch.new_value)
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._stanza(patch.about_node, strict=True)
             t.set_singular_tag(TAG_OBSOLETE, "true")
@@ -445,6 +468,8 @@ class SimpleOboImplementation(
             t = self._stanza(patch.about_node, strict=True)
             od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]
         elif isinstance(patch, kgcl.NodeCreation):
+            self.create_entity(patch.about_node, patch.name)
+        elif isinstance(patch, kgcl.ClassCreation):
             self.create_entity(patch.about_node, patch.name)
         elif isinstance(patch, kgcl.SynonymReplacement):
             t = self._stanza(patch.about_node, strict=True)
@@ -477,6 +502,8 @@ class SimpleOboImplementation(
             # scope = str(patch.qualifier.value).upper() if patch.qualifier else "RELATED"
             v = patch.old_value.replace('"', '\\"')
             t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
+        elif isinstance(patch, kgcl.EdgeCreation):
+            self.add_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.NodeMove):
             logging.warning(f"Cannot handle {patch}")
         elif isinstance(patch, kgcl.PredicateChange):

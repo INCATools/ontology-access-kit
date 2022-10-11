@@ -74,6 +74,31 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
         self.compliance_tester.test_relationships(oi, ignore_annotation_edges=False)
 
+    def test_relationships_chunking(self):
+        """
+        Tests behavior for chunking relationship queries
+
+        By default, the SQL implementation will chunk queries
+        involving many input entities, to avoid massive IN clauses.
+        The default threshold may be higher than the number of entities
+        in the test database, so we force this chunking behavior
+        using an intentionally low threshold.
+
+        Changing the chunk size should not affect the output, only
+        the mechanism used to retrieve the output.
+        """
+        oi = self.oi
+        entities = list(oi.entities())
+        all_rels = list(oi.relationships(subjects=entities))
+        all_rels2 = list(oi.relationships(objects=entities))
+        curr_max = oi.max_items_for_in_clause
+        oi.max_items_for_in_clause = 50
+        rels = list(oi.relationships(subjects=entities))
+        rels2 = list(oi.relationships(objects=entities))
+        oi.max_items_for_in_clause = curr_max
+        self.assertCountEqual(all_rels, rels)
+        self.assertCountEqual(all_rels2, rels2)
+
     def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map(VACUOLE)
@@ -150,15 +175,21 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         for curie in self.oi.entities():
             logging.info(curie)
 
-    def test_labels(self):
-        label = self.oi.label(VACUOLE)
-        self.assertEqual(label, "vacuole")
-
     def test_definitions(self):
         self.compliance_tester.test_definitions(self.oi)
 
-    def test_get_labels_for_curies(self):
+    def test_labels(self):
+        self.compliance_tester.test_labels(self.oi)
+
+    def test_labels_extra(self):
         oi = self.oi
+        cases = [
+            (VACUOLE, "vacuole"),
+            (CYTOPLASM, "cytoplasm"),
+        ]
+        for curie, label in cases:
+            self.assertEqual(label, oi.label(curie))
+
         curies = oi.subset_members("goslim_generic")
         tups = list(oi.labels(curies))
         for curie, label in tups:
@@ -166,6 +197,18 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert (VACUOLE, "vacuole") in tups
         assert (CYTOPLASM, "cytoplasm") in tups
         self.assertEqual(11, len(tups))
+        # test all
+        entities = list(oi.entities())
+        curr_max = oi.max_items_for_in_clause
+        tups_all = list(oi.labels(oi.entities(), allow_none=True))
+        oi.max_items_for_in_clause = 100
+        tups = list(oi.labels(oi.entities(), allow_none=True))
+        self.assertCountEqual(tups_all, tups)
+        self.assertGreater(len(tups), 300)
+        self.assertLessEqual(len(entities), len(tups))
+        self.assertIn(("BFO:0000002", "continuant"), tups)
+        self.assertIn(("RO:0011002", "regulates activity of"), tups)
+        oi.max_items_for_in_clause = curr_max
 
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)

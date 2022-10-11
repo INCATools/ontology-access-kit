@@ -53,11 +53,12 @@ class OntologyResource:
     """If set, this determines the maximum depth in the import tree to follow"""
 
     @property
-    def local_path(self) -> Path:
-        if self.directory:
-            return Path(self.directory) / self.slug
-        else:
-            return Path(self.slug)
+    def local_path(self) -> Optional[Path]:
+        if self.slug:
+            if self.directory:
+                return Path(self.directory) / self.slug
+            else:
+                return Path(self.slug)
 
     def valid(self) -> bool:
         return self.slug is not None or self.url is not None

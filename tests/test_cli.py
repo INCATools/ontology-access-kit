@@ -673,3 +673,26 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertTrue(len(patch), 3)
             output = t.readlines()
             self.assertTrue('synonym: "bone element" EXACT []\n' in output)
+
+    def test_create_ontology_with_kcgl(self):
+        outfile = OUTPUT_DIR / "create-ontology"
+        format_schemes = [
+            ("obo", "simpleobo"),
+            ("obo", "pronto"),
+        ]
+        for fmt, scheme in format_schemes:
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    f"{scheme}:",
+                    "apply",
+                    "--changes-input",
+                    str(INPUT_DIR / "test-create.kgcl.txt"),
+                    "-o",
+                    f"{outfile}.{fmt}",
+                ],
+            )
+        print(result.stderr)
+        print(result.stdout)
+        self.assertEqual(0, result.exit_code)

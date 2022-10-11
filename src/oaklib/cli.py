@@ -105,6 +105,7 @@ from oaklib.selector import (
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
+from oaklib.utilities.associations.association_differ import AssociationDiffer
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import (
@@ -229,6 +230,7 @@ class SetOperation(Enum):
 class Settings:
     impl: Any = None
     autosave: bool = False
+    associations_type: str = None
 
 
 settings = Settings()
@@ -668,6 +670,7 @@ def main(
         if settings.impl:
             impls = [settings.impl] + impls
         settings.impl = AggregatorImplementation(implementations=impls)
+    settings.associations_type = associations_type
     if associations:
         if isinstance(settings.impl, AssociationProviderInterface):
             association_parser = get_association_parser(associations_type)
@@ -1742,8 +1745,10 @@ def extract_triples(terms, predicates, output, output_type: str = "ttl"):
 @main.command()
 @predicates_option
 @output_option
+@output_type_option
+@autolabel_option
 @click.argument("terms", nargs=-1)
-def similarity_pair(terms, predicates, output: TextIO):
+def similarity_pair(terms, predicates, autolabel: bool, output: TextIO, output_type):
     """
     Determine pairwise similarity between two terms using a variety of metrics
 
@@ -1753,21 +1758,21 @@ def similarity_pair(terms, predicates, output: TextIO):
 
     Example:
 
-        runoak -i ubergraph: similarity -p i,p CL:0000540 CL:0000000
+        runoak -i ubergraph: similarity-pair -p i,p CL:0000540 CL:0000000
 
     You can omit predicates if you like but be warned this may yield
     hard to interpret results.
 
     E.g.
 
-        runoak -i ubergraph: similarity CL:0000540 GO:0001750
+        runoak -i ubergraph: similarity-pair CL:0000540 GO:0001750
 
     yields "fully formed stage" (i.e these are both found in the adult) as
     the MRCA
 
     For phenotype ontologies, UPHENO relationship types connect phenotype terms to anatomy, etc:
 
-       runoak -i ubergraph: similarity MP:0010922 HP:0010616  -p i,p,UPHENO:0000001
+       runoak -i ubergraph: similarity-pair MP:0010922 HP:0010616  -p i,p,UPHENO:0000001
 
     Background: https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html
     """
@@ -1776,10 +1781,16 @@ def similarity_pair(terms, predicates, output: TextIO):
     subject = terms[0]
     object = terms[1]
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
+    writer.output = output
     if isinstance(impl, SemanticSimilarityInterface):
         actual_predicates = _process_predicates_arg(predicates)
         sim = impl.pairwise_similarity(subject, object, predicates=actual_predicates)
-        output.write(yaml_dumper.dumps(sim))
+        if autolabel:
+            sim.subject_label = impl.label(sim.subject_id)
+            sim.object_label = impl.label(sim.object_id)
+            sim.ancestor_label = impl.label(sim.ancestor_id)
+        writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2933,6 +2944,56 @@ def associations(
 
 
 @main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@click.option("-g", "--associations", help="associations")
+@click.option("-X", "--other-associations", help="other associations")
+def diff_associations(
+    predicates: str,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    associations: str,
+    other_associations: str,
+):
+    """
+    Diffs two association sources. EXPERIMENTAL.
+
+    This functionality may move out of core
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    logging.info(f"Fetching parser for {settings.associations_type}")
+    association_parser = get_association_parser(settings.associations_type)
+    if isinstance(impl, AssociationProviderInterface):
+        if associations:
+            logging.info(f"Loading main associations from {associations}")
+            with open(associations) as file:
+                assocs1 = list(association_parser.parse(file))
+        else:
+            assocs1 = list(impl.associations(predicates=actual_predicates))
+        if len(assocs1) == 0:
+            raise ValueError("No associations to compare")
+        logging.info(f"Loading other associations from {other_associations}")
+        with open(other_associations) as file:
+            assocs2 = list(association_parser.parse(file))
+            if isinstance(impl, OboGraphInterface):
+                differ = AssociationDiffer(impl)
+                impl.enable_transitive_query_cache()
+                for change in differ.changes(assocs1, assocs2, actual_predicates):
+                    writer.emit(
+                        {"entity": change[0], "set": change[1], "term": change[2]},
+                        label_fields=["term"],
+                    )
+
+
+@main.command()
 @click.option(
     "--cutoff",
     default=50,
@@ -3381,7 +3442,12 @@ def apply(
                 changes = kgcl_utilities.from_dict({"change_set": objs}).change_set
             else:
                 for line in file.readlines():
-                    change = kgcl_parser.parse_statement(line.strip())
+                    line = line.strip()
+                    if not line:
+                        continue
+                    if line.startswith("#"):
+                        continue
+                    change = kgcl_parser.parse_statement(line)
                     changes.append(change)
         for change in changes:
             logging.info(f"Change: {change}")
@@ -3392,6 +3458,8 @@ def apply(
         if not settings.autosave and not overwrite and not output:
             logging.warning("--autosave not passed, changes are NOT saved")
         if output:
+            if output == "-":
+                output = sys.stdout
             impl.dump(output, output_type)
         elif overwrite:
             logging.info("Over-writing")
@@ -3684,11 +3752,11 @@ def fill_table(
 
     Currently the following columns are recognized:
 
-     - id -- the unique identifier of the element
-     - label -- the rdfs:label of the element
-     - definition -- the definition of the element
-     - mappings -- mappings for the element
-     - ancestors -- ancestors for the element (this can be parameterized)
+    - id -- the unique identifier of the element
+    - label -- the rdfs:label of the element
+    - definition -- the definition of the element
+    - mappings -- mappings for the element
+    - ancestors -- ancestors for the element (this can be parameterized)
 
     The metadata inference procedure will also work for when you have denormalized TSV files
     with columns such as "foo_id" and "foo_name". This will be recognized as an implicit normalized

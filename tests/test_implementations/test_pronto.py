@@ -4,11 +4,14 @@ import unittest
 import pronto
 from kgcl_schema.datamodel import kgcl
 
+from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
 from oaklib.implementations import ProntoImplementation
+from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.obograph_utils import (
@@ -113,6 +116,9 @@ class TestProntoImplementation(unittest.TestCase):
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
 
     def test_labels(self):
+        self.compliance_tester.test_labels(self.oi)
+
+    def test_labels_extra(self):
         """
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
         """
@@ -347,6 +353,21 @@ class TestProntoImplementation(unittest.TestCase):
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
         )
+
+    def test_create_ontology_via_patches(self):
+        oi = get_implementation_from_shorthand("pronto:")
+        if isinstance(oi, PatcherInterface):
+
+            def _roundtrip(original_oi: PatcherInterface) -> PatcherInterface:
+                out = str(OUTPUT_DIR / "test-create.obo")
+                original_oi.dump(out)
+                return get_implementation_from_shorthand(f"pronto:{out}")
+
+            self.compliance_tester.test_create_ontology_via_patches(
+                oi, roundtrip_function=_roundtrip
+            )
+        else:
+            raise NotImplementedError
 
     # SemanticSimilarityInterface
     def test_common_ancestors(self):

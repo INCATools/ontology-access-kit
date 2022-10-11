@@ -106,7 +106,13 @@ class TestOboGraphImplementation(unittest.TestCase):
         assert "term_tracker_item" in m.keys()
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
 
+    def test_synonyms(self):
+        self.compliance_tester.test_synonyms(self.oi)
+
     def test_labels(self):
+        self.compliance_tester.test_labels(self.oi)
+
+    def test_labels_extra(self):
         """
         Tests labels can be retrieved, and no label is retrieved when a term does not exist
         """
