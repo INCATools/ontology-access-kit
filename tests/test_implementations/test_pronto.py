@@ -10,7 +10,6 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
 from oaklib.implementations import ProntoImplementation
-from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id

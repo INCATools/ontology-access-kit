@@ -128,7 +128,7 @@ class TestOboGraphImplementation(unittest.TestCase):
         label = oi.label(IS_A)
         self.assertIsNotNone(label)
 
-    def test_synonyms(self):
+    def test_synonyms_extra(self):
         syns = self.oi.entity_aliases("GO:0005575")
         print(syns)
         # logging.info(syns)
