@@ -257,8 +257,12 @@ def create_mapping(
     :return: Mapping object.
     """
     mapping_justification = SEMAPV.LexicalMatching.value
-    if r1.synonymized or r2.synonymized:
-        mapping_justification = SEMAPV.RegularExpressionReplacement.value
+    subject_preprocessing = None
+    object_preprocessing = None
+    if r1.synonymized:
+        subject_preprocessing = SEMAPV.RegularExpressionReplacement.value
+    if r2.synonymized:
+        object_preprocessing = SEMAPV.RegularExpressionReplacement.value
 
     return Mapping(
         subject_id=r1.element,
@@ -270,6 +274,8 @@ def create_mapping(
         object_match_field=[r2.predicate],
         mapping_justification=mapping_justification,
         mapping_tool="oaklib",
+        subject_preprocessing=subject_preprocessing,
+        object_preprocessing=object_preprocessing
     )
 
 
