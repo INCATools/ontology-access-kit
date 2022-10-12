@@ -198,14 +198,19 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         )
         if OWL_THING in cas:
             cas.remove(OWL_THING)
-        ics = {a: self.get_information_content(a, predicates) for a in cas}
+        logging.info(f"Retrieving IC for {len(cas)} common ancestors")
+        ics = {
+            a: ic
+            for a, ic in self.information_content_scores(cas, object_closure_predicates=predicates)
+        }
         if len(ics) > 0:
             max_ic = max(ics.values())
-            best_mrcas = [a for a in cas if ics[a] == max_ic]
+            best_mrcas = [a for a in ics.keys() if math.isclose(ics[a], max_ic, rel_tol=0.001)]
             anc = best_mrcas[0]
         else:
             max_ic = 0.0
             anc = None
+        logging.info(f"MRCA = {anc} with {max_ic}")
         sim = TermPairwiseSimilarity(
             subject_id=subject,
             object_id=object,

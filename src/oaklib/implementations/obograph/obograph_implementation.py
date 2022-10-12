@@ -239,7 +239,7 @@ class OboGraphImplementation(
         return True
 
     def curies_by_label(self, label: str) -> List[CURIE]:
-        return [n.id for n in self._nodes() if n.lbl == label]
+        return [self.uri_to_curie(n.id) for n in self._nodes() if n.lbl == label]
 
     def create_entity(
         self,

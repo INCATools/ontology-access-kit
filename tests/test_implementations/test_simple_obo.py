@@ -120,6 +120,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertIsNotNone(label)
 
     def test_synonyms(self):
+        self.compliance_tester.test_synonyms(self.oi)
+
+    def test_synonyms_extra(self):
         syns = self.oi.entity_aliases("GO:0005575")
         print(syns)
         # logging.info(syns)
@@ -156,6 +159,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
             reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
             reverse_subject_ids = [m.subject_id for m in reverse_mappings]
             self.assertEqual(reverse_subject_ids, [NUCLEUS])
+
+    def test_definitions(self):
+        self.compliance_tester.test_definitions(self.oi)
 
     def test_subsets(self):
         oi = self.oi

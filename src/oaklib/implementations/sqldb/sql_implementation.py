@@ -4,7 +4,7 @@ import re
 import shutil
 import typing
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import (
     Any,
@@ -51,7 +51,7 @@ from semsql.sqla.semsql import (
     Statements,
     TermAssociation,
 )
-from sqlalchemy import and_, create_engine, delete, func, insert, text, update
+from sqlalchemy import and_, create_engine, delete, distinct, func, insert, text, update
 from sqlalchemy.orm import aliased, sessionmaker
 from sssom_schema import Mapping
 
@@ -116,6 +116,8 @@ __all__ = [
     "regex_to_sql_like",
     "SqlImplementation",
 ]
+
+from oaklib.utilities.iterator_utils import chunk
 
 
 def _is_blank(curie: CURIE) -> bool:
@@ -226,6 +228,8 @@ class SqlImplementation(
     _prefix_map: PREFIX_MAP = None
     _information_content_cache: Dict[Tuple, float] = None
 
+    max_items_for_in_clause: int = field(default_factory=lambda: 1000)
+
     def __post_init__(self):
         if self.engine is None:
             locator = str(self.resource.slug)
@@ -326,23 +330,25 @@ class SqlImplementation(
             return row["value"]
 
     def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
-        curies = list(curies)
-        has_label = set()
-        for row in self.session.query(RdfsLabelStatement).filter(
-            RdfsLabelStatement.subject.in_(tuple(curies))
-        ):
-            yield row.subject, row.value
+        for curie_it in chunk(curies, self.max_items_for_in_clause):
+            curr_curies = list(curie_it)
+
+            has_label = set()
+            for row in self.session.query(RdfsLabelStatement).filter(
+                RdfsLabelStatement.subject.in_(tuple(curr_curies))
+            ):
+                yield row.subject, row.value
+                if allow_none:
+                    has_label.add(row.subject)
             if allow_none:
-                has_label.add(row.subject)
-        if allow_none:
-            for curie in curies:
-                if curie not in has_label:
-                    yield curie, None
+                for curie in curr_curies:
+                    if curie not in has_label:
+                        yield curie, None
 
     def curies_by_label(self, label: str) -> List[CURIE]:
-        q = self.session.query(RdfsLabelStatement)
+        q = self.session.query(RdfsLabelStatement.subject)
         q = q.filter(RdfsLabelStatement.value == label)
-        return [row.subject for row in q]
+        return list(set([row.subject for row in q]))
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         m = defaultdict(list)
@@ -545,6 +551,36 @@ class SqlImplementation(
         include_abox: bool = True,
         include_entailed: bool = False,
     ) -> Iterator[RELATIONSHIP]:
+        if subjects is not None and len(subjects) > self.max_items_for_in_clause:
+            logging.info(
+                f"Chunking {len(subjects)} subjects into subqueries to avoid large IN clauses"
+            )
+            for subjects_it in chunk(subjects, self.max_items_for_in_clause):
+                for r in self.relationships(
+                    list(subjects_it),
+                    predicates,
+                    objects,
+                    include_tbox=include_tbox,
+                    include_abox=include_abox,
+                    include_entailed=include_entailed,
+                ):
+                    yield r
+            return
+        if objects is not None and len(objects) > self.max_items_for_in_clause:
+            logging.info(
+                f"Chunking {len(objects)} objects into subqueries to avoid large IN clauses"
+            )
+            for objects_it in chunk(objects, self.max_items_for_in_clause):
+                for r in self.relationships(
+                    subjects,
+                    predicates,
+                    list(objects_it),
+                    include_tbox=include_tbox,
+                    include_abox=include_abox,
+                    include_entailed=include_entailed,
+                ):
+                    yield r
+            return
         if include_tbox:
             for r in self._tbox_relationships(
                 subjects, predicates, objects, include_entailed=include_entailed
@@ -841,7 +877,10 @@ class SqlImplementation(
         ]
 
     def ancestors(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive: bool = True,
     ) -> Iterable[CURIE]:
         q = self.session.query(EntailedEdge)
         if isinstance(start_curies, list):
@@ -1265,7 +1304,7 @@ class SqlImplementation(
         if use_associations:
             q = self.session.query(EntailedEdge.object, func.count(TermAssociation.subject))
             q = q.filter(EntailedEdge.subject == TermAssociation.object)
-            if curies:
+            if curies is not None:
                 q = q.filter(EntailedEdge.object.in_(curies))
             if predicates:
                 q = q.filter(TermAssociation.predicate.in_(predicates))
@@ -1276,13 +1315,19 @@ class SqlImplementation(
                 self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
             )
         else:
-            num_nodes = self.session.query(Node.id).count()
-            q = self.session.query(EntailedEdge.object, func.count(EntailedEdge.subject))
+            num_nodes = (
+                self.session.query(EntailedEdge.subject).distinct(EntailedEdge.subject).count()
+            )
+            logging.info(f"Number of nodes in background set={num_nodes}")
+            q = self.session.query(EntailedEdge.object, func.count(distinct(EntailedEdge.subject)))
             if predicates:
-                raise ValueError("predicates not valid unless use_associations=True")
+                raise ValueError(
+                    "predicates not valid unless use_associations=True"
+                    "did you mean object_closure_predicates?"
+                )
             if object_closure_predicates:
                 q = q.filter(EntailedEdge.predicate.in_(object_closure_predicates))
-            if curies:
+            if curies is not None:
                 q = q.filter(EntailedEdge.object.in_(curies))
             q = q.group_by(EntailedEdge.object)
         yielded_owl_thing = False

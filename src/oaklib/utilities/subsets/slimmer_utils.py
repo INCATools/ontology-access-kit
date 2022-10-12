@@ -4,23 +4,22 @@ Utilities for working with ontology subsets (slims)
 """
 
 import logging
-from typing import Dict, List
+from typing import Collection, Dict, List
 
-from oaklib.interfaces import RelationGraphInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
 
 
 def filter_redundant(
-    oi: RelationGraphInterface, curies: List[CURIE], predicates: List[PRED_CURIE] = None
+    oi: OboGraphInterface, curies: Collection[CURIE], predicates: List[PRED_CURIE] = None
 ) -> List[CURIE]:
     return [curie for curie in curies if not is_redundant(oi, curie, curies, predicates)]
 
 
 def is_redundant(
-    oi: RelationGraphInterface,
+    oi: OboGraphInterface,
     curie: CURIE,
-    curies: List[CURIE],
+    curies: Collection[CURIE],
     predicates: List[PRED_CURIE] = None,
 ) -> bool:
     for candidate in curies:

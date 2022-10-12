@@ -265,6 +265,17 @@ class Structure:
         """
         self.tag_values.append(TagValue(tag, val))
 
+    def add_tag_value_pair(self, tag: TAG, val1: str, val2: str) -> None:
+        """
+        Adds a tag-value pair where the value is a pair
+
+        :param tag:
+        :param val1:
+        :param val2:
+        :return:
+        """
+        self.tag_values.append(TagValue(tag, f"{val1} {val2}"))
+
     def get_boolean_value(self, tag: TAG, strict=False) -> bool:
         """
         Gets the value of a tag such as is_obsolete
@@ -327,11 +338,13 @@ class OboDocument:
         self._dump_tag_values(self.header.tag_values, file)
         for s in self.stanzas.values():
             file.write(f"[{s.type}]\n")
+            file.write(f"id: {s.id}\n")
             self._dump_tag_values(s.tag_values, file)
 
     def _dump_tag_values(self, tag_values: List[TagValue], file: TextIO):
         for tv in tag_values:
-            file.write(f"{tv.tag}: {tv.value}\n")
+            if tv.tag != "id":
+                file.write(f"{tv.tag}: {tv.value}\n")
         file.write("\n")
 
 

@@ -8,6 +8,7 @@ import unittest
 from dataclasses import dataclass
 from typing import Callable
 
+import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
@@ -51,6 +52,7 @@ from tests import (
     FUNGI,
     HUMAN,
     IMBO,
+    INPUT_DIR,
     MAMMALIA,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
@@ -60,6 +62,7 @@ from tests import (
     PLASMA_MEMBRANE,
     PROTEIN1,
     PROTEIN2,
+    REGULATES,
     SUBATOMIC_PARTICLE,
     VACUOLE,
 )
@@ -94,9 +97,46 @@ class ComplianceTester:
     """Link back to implementation-specific unit test."""
 
     def test_definitions(self, oi: BasicOntologyInterface):
+        """
+        Tests text definition lookup.
+
+        :param oi:
+        :return:
+        """
         test = self.test
         tdef = oi.definition(NUCLEUS)
         test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
+        test.assertIsNone(oi.definition(FAKE_ID))
+
+    def test_labels(self, oi: BasicOntologyInterface):
+        """
+        Tests lookup of labels by ID and reverse operation.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (VACUOLE, "vacuole"),
+            (CYTOPLASM, "cytoplasm"),
+            (NUCLEAR_MEMBRANE, "nuclear membrane"),
+            # (REGULATES, "regulates"),
+        ]
+        for curie, label in cases:
+            test.assertEqual(label, oi.label(curie))
+        for curie, label in cases:
+            test.assertEqual([curie], oi.curies_by_label(label))
+        tups = list(oi.labels(curie for curie, _ in cases))
+        test.assertCountEqual(tups, cases)
+        tups = list(oi.labels(list(oi.entities())))
+        for case in cases:
+            test.assertIn(case, tups)
+        test.assertIsNone(oi.label(FAKE_ID))
+        test.assertEqual([], list(oi.labels([FAKE_ID], allow_none=False)))
+        test.assertEqual([(FAKE_ID, None)], list(oi.labels([FAKE_ID], allow_none=True)))
+        test.assertEqual([(FAKE_ID, None)], list(oi.labels([FAKE_ID])))
+        # test.assertIn("part of", oi.label(PART_OF))
+        test.assertIn("regulates", oi.label(REGULATES))
 
     def test_synonyms(self, oi: BasicOntologyInterface):
         test = self.test
@@ -339,13 +379,43 @@ class ComplianceTester:
                 change_obj = _as_json_dict_no_id(diff)
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
+                # TODO: raise exception
                 print(f"Cannot find: {change_obj}")
                 # else:
                 #    raise ValueError(f"Cannot find: {change_obj}")
             # not all changes are easily recapitulated yet; e.g.
             for ch in expected_changes:
-                print(f"Not found: {ch}")
+                # TODO: raise exception
+                print(f"Expected change not found: {ch}")
             test.assertLessEqual(len(expected_changes), 3)
+
+    def test_create_ontology_via_patches(
+        self, oi: PatcherInterface, roundtrip_function: Callable = None
+    ):
+        """
+        Tests creation of de-novo ontology from KGCL patch commands.
+
+        Optionally performs a roundtrip test.
+
+        :param oi:
+        :param roundtrip_function:
+        :return:
+        """
+        test = self.test
+        with open(str(INPUT_DIR / "test-create.kgcl.txt")) as file:
+            for line in file.readlines():
+                if line.startswith("#"):
+                    continue
+                line = line.strip()
+                change = kgcl_parser.parse_statement(line)
+                oi.apply_patch(change)
+        entity_labels = list(oi.labels(oi.entities()))
+        test.assertIn(("X:1", "limb"), entity_labels)
+        if roundtrip_function:
+            oi2 = roundtrip_function(oi)
+        else:
+            oi2 = oi
+        test.assertCountEqual(entity_labels, list(oi2.labels(oi2.entities())))
 
     def test_store_associations(self, oi: AssociationProviderInterface):
         """
@@ -518,6 +588,7 @@ class ComplianceTester:
     def test_pairwise_similarity(self, oi: SemanticSimilarityInterface):
         test = self.test
         # test non-existent item
+        test.assertEqual([(OWL_THING, 0.0)], list(oi.information_content_scores([OWL_THING])))
         sim = oi.pairwise_similarity(NUCLEUS, FAKE_ID)
         # print(sim)
         test.assertEqual(0.0, sim.ancestor_information_content)
@@ -562,22 +633,22 @@ class ComplianceTester:
                 [NUCLEUS, VACUOLE],
                 [NUCLEAR_ENVELOPE],
                 [IS_A],
-                5.66,
-                5.66,
+                3.0,
+                3.0,
             ),
             (
                 [NUCLEUS, VACUOLE],
                 [NUCLEAR_ENVELOPE],
                 [IS_A, PART_OF],
-                8.28,
-                8.53,
+                5.6,
+                5.8,
             ),
             (
                 [CYTOPLASM, BACTERIA],
                 [CYTOPLASM, BACTERIA],
                 [IS_A, PART_OF],
-                7.7,
-                8.1,
+                5.2,
+                5.4,
             ),
             ([NUCLEUS, VACUOLE], [BACTERIA, ARCHAEA], [IS_A], 0.0, 0.0),
         ]
@@ -585,5 +656,7 @@ class ComplianceTester:
         for ts in termsets:
             ts1, ts2, ps, expected_avg, expected_max = ts
             sim = oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
-            test.assertLess(abs(sim.average_score - expected_avg), error_range)
+            test.assertLess(
+                abs(sim.average_score - expected_avg), error_range, f"TermSet: {ts} Sim: {sim}"
+            )
             test.assertLess(abs(sim.best_score - expected_max), error_range)
