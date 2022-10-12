@@ -65,6 +65,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-definitions">definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-descendants">descendants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff">diff</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-diff-associations">diff-associations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-terms">diff-terms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-via-mappings">diff-via-mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
@@ -936,6 +937,64 @@ change commands.</p>
 </dd></dl>
 
 </section>
+<section id="runoak-diff-associations">
+<h4>diff-associations<a class="headerlink" href="#runoak-diff-associations" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Diffs two association sources. EXPERIMENTAL.</p>
+<p>This functionality may move out of core</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-associations <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-o">
+<span id="cmdoption-runoak-diff-associations-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-p">
+<span id="cmdoption-runoak-diff-associations-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-autolabel">
+<span id="cmdoption-runoak-diff-associations-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-O">
+<span id="cmdoption-runoak-diff-associations-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-0">
+<span id="cmdoption-runoak-diff-associations-1"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-0" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-g">
+<span id="cmdoption-runoak-diff-associations-associations"></span><span class="sig-name descname"><span class="pre">-g</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--associations</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;associations&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-g" title="Permalink to this definition"></a></dt>
+<dd><p>associations</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-associations-X">
+<span id="cmdoption-runoak-diff-associations-x"></span><span id="cmdoption-runoak-diff-associations-other-associations"></span><span class="sig-name descname"><span class="pre">-X</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--other-associations</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;other_associations&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-associations-X" title="Permalink to this definition"></a></dt>
+<dd><p>other associations</p>
+</dd></dl>
+
+</section>
 <section id="runoak-diff-terms">
 <h4>diff-terms<a class="headerlink" href="#runoak-diff-terms" title="Permalink to this headline"></a></h4>
 <blockquote>
@@ -1284,15 +1343,13 @@ headers for a table of ontology elements (see later for configuration when you d
 <div><p>runoak -i cl.owl.ttl fill-table –missing-value-token NO_DATA my-table.tsv</p>
 </div></blockquote>
 <p>Currently the following columns are recognized:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>id – the unique identifier of the element</p></li>
 <li><p>label – the rdfs:label of the element</p></li>
 <li><p>definition – the definition of the element</p></li>
 <li><p>mappings – mappings for the element</p></li>
 <li><p>ancestors – ancestors for the element (this can be parameterized)</p></li>
 </ul>
-</div></blockquote>
 <p>The metadata inference procedure will also work for when you have denormalized TSV files
 with columns such as “foo_id” and “foo_name”. This will be recognized as an implicit normalized
 label relation between id and name of a foo element.</p>
@@ -2686,19 +2743,19 @@ runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o 
 <p>Note: We recommend always specifying explicit predicate lists</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i ubergraph: similarity -p i,p CL:0000540 CL:0000000</p>
+<div><p>runoak -i ubergraph: similarity-pair -p i,p CL:0000540 CL:0000000</p>
 </div></blockquote>
 <p>You can omit predicates if you like but be warned this may yield
 hard to interpret results.</p>
 <p>E.g.</p>
 <blockquote>
-<div><p>runoak -i ubergraph: similarity CL:0000540 GO:0001750</p>
+<div><p>runoak -i ubergraph: similarity-pair CL:0000540 GO:0001750</p>
 </div></blockquote>
 <p>yields “fully formed stage” (i.e these are both found in the adult) as
 the MRCA</p>
 <p>For phenotype ontologies, UPHENO relationship types connect phenotype terms to anatomy, etc:</p>
 <blockquote>
-<div><p>runoak -i ubergraph: similarity MP:0010922 HP:0010616  -p i,p,UPHENO:0000001</p>
+<div><p>runoak -i ubergraph: similarity-pair MP:0010922 HP:0010616  -p i,p,UPHENO:0000001</p>
 </div></blockquote>
 <p>Background: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html</a></p>
 </div></blockquote>
@@ -2716,6 +2773,23 @@ the MRCA</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-similarity-pair-o">
 <span id="cmdoption-runoak-similarity-pair-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-pair-O">
+<span id="cmdoption-runoak-similarity-pair-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-similarity-pair-autolabel">
+<span id="cmdoption-runoak-similarity-pair-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-similarity-pair-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Arguments</p>
