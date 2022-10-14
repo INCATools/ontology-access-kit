@@ -1,7 +1,7 @@
 import logging
 from abc import ABC
 from collections import defaultdict
-from dataclasses import field
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
 
@@ -19,6 +19,8 @@ from oaklib.datamodels.vocabulary import (
     OWL_THING,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
+from oaklib.mappers.base_mapper import Mapper
+from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix
 
@@ -48,6 +50,7 @@ def get_default_prefix_map() -> Mapping[str, str]:
     return obo_context.as_dict()
 
 
+@dataclass
 class BasicOntologyInterface(OntologyInterface, ABC):
     """
     Basic lookup operations on ontologies
@@ -110,6 +113,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     exclude_owl_top_and_bottom: bool = field(default_factory=lambda: True)
     """Do not include owl:Thing or owl:Nothing"""
 
+    ontology_metamodel_mapper: Optional[OntologyMetadataMapper] = None
+    """An optional mapper that overrides metamodel properties"""
+
     _converter: Optional[curies.Converter] = None
 
     def prefix_map(self) -> PREFIX_MAP:
@@ -136,6 +142,17 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if self._converter is None:
             self._converter = curies.Converter.from_prefix_map(self.prefix_map())
         return self._converter
+
+    def set_metamodel_mappings(self, mappings: List[Mapping]) -> None:
+        """
+        Sets the ontology metamodel mapper.
+
+        :param mappings: Mappings for predicates such as rdfs:subClassOf
+        :return:
+        """
+        self.ontology_metamodel_mapper = OntologyMetadataMapper(
+            mappings, curie_converter=self.converter
+        )
 
     def curie_to_uri(self, curie: CURIE, strict: bool = False) -> Optional[URI]:
         """

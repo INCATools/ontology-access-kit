@@ -40,6 +40,7 @@ from oaklib.resource import OntologyResource
 
 RDF_SUFFIX_TO_FORMAT = {
     "ttl": "turtle",
+    "nt": "ntriples",
     "rdf": "turtle",
     "jsonld": "json-ld",
     "json-ld": "json-ld",

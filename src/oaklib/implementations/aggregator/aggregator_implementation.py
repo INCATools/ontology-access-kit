@@ -74,8 +74,8 @@ class AggregatorImplementation(
     def validate(self, configuration: ValidationConfiguration = None) -> Iterable[ValidationResult]:
         return self._delegate_iterator(lambda i: i.validate())
 
-    def entities(self) -> Iterable[CURIE]:
-        return self._delegate_iterator(lambda i: i.entities())
+    def entities(self, **kwargs) -> Iterable[CURIE]:
+        return self._delegate_iterator(lambda i: i.entities(**kwargs))
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
         return self._delegate_iterator(lambda i: i.simple_mappings_by_curie(curie))
