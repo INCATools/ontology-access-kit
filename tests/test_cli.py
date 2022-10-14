@@ -16,13 +16,14 @@ from tests import (
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
+    MEMBRANE,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEATED,
     NUCLEUS,
     OUTPUT_DIR,
     SHAPE,
-    VACUOLE, MEMBRANE,
+    VACUOLE,
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
