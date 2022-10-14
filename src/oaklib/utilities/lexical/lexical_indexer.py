@@ -77,7 +77,6 @@ def create_lexical_index(
     oi: BasicOntologyInterface,
     pipelines: List[LexicalTransformationPipeline] = None,
     synonym_rules: List[Synonymizer] = None,
-    additional_ois: Optional[List[BasicOntologyInterface]] = None,
 ) -> LexicalIndex:
     """
     Generates a LexicalIndex keyed by normalized terms
@@ -88,7 +87,6 @@ def create_lexical_index(
     :param oi: An ontology interface for making label lookups.
     :param pipelines: list of transformation pipelines to apply
     :param synonym_rules: list of synonymizer rules to apply
-    :param additional_ois: optional additiona list of ontologies to be included
     :return: An index over an ontology keyed by lexical unit.
     """
     if pipelines is None:
@@ -108,11 +106,7 @@ def create_lexical_index(
             ]
     logging.info(f"Creating lexical index, pipelines={pipelines}")
     ix = LexicalIndex(pipelines={p.name: p for p in pipelines})
-    entities = set(oi.entities())
-    if additional_ois:
-        for additional_oi in additional_ois:
-            entities.update(set(additional_oi.entities()))
-    for curie in entities:
+    for curie in oi.entities():
         logging.debug(f"Indexing {curie}")
         if not URIorCURIE.is_valid(curie):
             logging.warning(f"Skipping {curie} as it is not a valid CURIE")
