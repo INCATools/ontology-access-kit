@@ -7,11 +7,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from sssom_schema import Mapping
 
 from oaklib import conf as conf_package
-from oaklib.datamodels.vocabulary import (
-    HAS_DEFINITION_CURIE,
-    IS_A,
-    LABEL_PREDICATE,
-)
+from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE, IS_A, LABEL_PREDICATE
 from oaklib.mappers.base_mapper import Mapper
 from oaklib.types import CURIE, URI
 
