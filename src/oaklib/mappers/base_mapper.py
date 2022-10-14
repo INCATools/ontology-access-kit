@@ -1,8 +1,8 @@
 """Base class for all mappers."""
-from abc import ABC, abstractmethod
+from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Collection, Dict, Iterable, Iterator, List, Tuple
+from typing import Dict, Iterable, Iterator, List, Tuple
 
 from curies import Converter
 from sssom_schema import SEMAPV, Mapping

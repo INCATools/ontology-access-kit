@@ -9,7 +9,6 @@ from sssom_schema import Mapping
 from oaklib import conf as conf_package
 from oaklib.datamodels.vocabulary import (
     HAS_DEFINITION_CURIE,
-    HAS_DEFINITION_URI,
     IS_A,
     LABEL_PREDICATE,
 )

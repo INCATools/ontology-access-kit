@@ -9,10 +9,7 @@ from oaklib.datamodels.vocabulary import IS_A, PART_OF, RDF_TYPE
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.resource import OntologyResource
-from oaklib.selector import (
-    get_implementation_from_shorthand,
-    get_resource_from_shorthand,
-)
+from oaklib.selector import get_implementation_from_shorthand
 from oaklib.utilities.obograph_utils import (
     graph_as_dict,
     index_graph_edges_by_object,
