@@ -93,7 +93,7 @@ def _as_rdf_obj(v) -> URIRef:
 
 
 def _quote_uri(uri: str) -> str:
-    return f"<{uri}"
+    return f"<{uri}>"
 
 
 @dataclass
@@ -518,6 +518,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         )
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
+        logging.info(f"{query.query_str()}")
         bindings = self._query(
             query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
         )
