@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 from typing import Any
 
@@ -52,12 +53,15 @@ class StreamingOboWriter(StreamingWriter):
                 if r != IS_A and r != RDF_TYPE and r != OWL_EQUIVALENT_CLASS:
                     for p in ps:
                         self.line(f"relationship: {r} {p} ! {oi.label(p)}")
-            for ldef in oi.logical_definitions([curie]):
-                for p in ldef.genusIds:
-                    self.line(f"intersection_of: {p} ! {oi.label(p)}")
-                for r in ldef.restrictions:
-                    self.line(
-                        f"intersection_of: {r.propertyId} {r.fillerId} ! {oi.label(r.fillerId)}"
-                    )
+            try:
+                for ldef in oi.logical_definitions([curie]):
+                    for p in ldef.genusIds:
+                        self.line(f"intersection_of: {p} ! {oi.label(p)}")
+                    for r in ldef.restrictions:
+                        self.line(
+                            f"intersection_of: {r.propertyId} {r.fillerId} ! {oi.label(r.fillerId)}"
+                        )
+            except NotImplementedError:
+                logging.info("Logical definitions not implemented")
 
         self.line("\n")
