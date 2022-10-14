@@ -22,7 +22,7 @@ from tests import (
     NUCLEUS,
     OUTPUT_DIR,
     SHAPE,
-    VACUOLE,
+    VACUOLE, MEMBRANE,
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
@@ -148,7 +148,7 @@ class TestCommandLineInterface(unittest.TestCase):
                     "descendants",
                     "-p",
                     "i,p",
-                    "GO:0016020",
+                    MEMBRANE,
                     "-O",
                     "obo",
                     "-o",
@@ -158,10 +158,10 @@ class TestCommandLineInterface(unittest.TestCase):
             self.runner.invoke(main, ["-i", TEST_OUT_OBO, "info", ".all", "-o", TEST_OUT])
             out = self._out(TEST_OUT)
             logging.info(out)
-            assert "GO:0016020" in out
-            assert "GO:0031965" in out
-            assert "subClassOf" not in out
-            assert "BFO" not in out
+            self.assertIn(MEMBRANE, out, f"reflexive by default, input={input_arg}")
+            self.assertIn("GO:0031965", out)
+            self.assertNotIn("subClassOf", out)
+            self.assertNotIn("BFO", out)
 
     def test_gap_fill(self):
         result = self.runner.invoke(

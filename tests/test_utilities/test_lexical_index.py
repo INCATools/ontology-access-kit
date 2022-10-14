@@ -124,7 +124,8 @@ class TestLexicalIndex(unittest.TestCase):
             groupings = {}
             for k, v in lexical_index.groupings.items():
                 groupings[k] = [x.element for x in v.relationships]
-            self.assertEqual(expected, groupings)
+                self.assertCountEqual(expected[k], groupings[k])
+            self.assertEqual(expected.keys(), groupings.keys())
 
     def test_save(self):
         save_lexical_index(self.lexical_index, TEST_OUT)
