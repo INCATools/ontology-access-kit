@@ -241,8 +241,9 @@ class SqlImplementation(
                 # Note: this can take some time
                 prefix = locator[len("obo:") :]
                 # Option 1 uses direct URL construction:
-                url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db"
-                db_path = OAKLIB_MODULE.ensure(url=url)
+                url = f"https://s3.amazonaws.com/bbop-sqlite/{prefix}.db.gz"
+                logging.info(f"Ensuring gunzipped for {url}")
+                db_path = OAKLIB_MODULE.ensure_gunzip(url=url, autoclean=False)
                 # Option 2 uses botocore to interface with the S3 API directly:
                 # db_path = OAKLIB_MODULE.ensure_from_s3(s3_bucket="bbop-sqlite", s3_key=f"{prefix}.db")
                 locator = f"sqlite:///{db_path}"
