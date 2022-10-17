@@ -261,6 +261,12 @@ the command line interface understands shortcuts for these:</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-metamodel-mappings">
+<span class="sig-name descname"><span class="pre">--metamodel-mappings</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;metamodel_mappings&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-metamodel-mappings" title="Permalink to this definition"></a></dt>
+<dd><p>overrides for metamodel properties such as rdfs:label</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-import-depth">
 <span class="sig-name descname"><span class="pre">--import-depth</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;import_depth&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-import-depth" title="Permalink to this definition"></a></dt>
 <dd><p>Maximum depth in the import tree to traverse. Currently this is only used by the pronto adapter</p>
@@ -1653,7 +1659,7 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 <section id="runoak-lexmatch">
 <h4>lexmatch<a class="headerlink" href="#runoak-lexmatch" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Performs lexical matching between pairs of terms in one more more ontologies</p>
+<div><p>Performs lexical matching between pairs of terms in one more more ontologies.</p>
 <p>Examples:</p>
 <blockquote>
 <div><p>runoak -i foo.obo lexmatch -o foo.sssom.tsv</p>
@@ -3034,7 +3040,11 @@ see <a class="reference external" href="https://github.com/INCATools/kgcl">https
 <section id="runoak-term-metadata">
 <h4>term-metadata<a class="headerlink" href="#runoak-term-metadata" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Shows term metadata</p>
+<div><p>Shows term metadata.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:uberon term-metadata lung heart</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-metadata <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
