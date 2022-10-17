@@ -39,6 +39,7 @@ from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    METADATA_MAP,
     PRED_CURIE,
     PREFIX_MAP,
     RELATIONSHIP,
@@ -89,6 +90,10 @@ def _as_rdf_obj(v) -> URIRef:
         return BNode(val)
     else:
         return Literal(val, lang=v.get("lang", None), datatype=v.get("datatype", None))
+
+
+def _quote_uri(uri: str) -> str:
+    return f"<{uri}>"
 
 
 @dataclass
@@ -150,6 +155,20 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # def store(self, resource: OntologyResource) -> None:
     #    SparqlBasicImpl.dump(self.engine, resource)
 
+    def _label_uri(self):
+        return (
+            self.ontology_metamodel_mapper.label_uri()
+            if self.ontology_metamodel_mapper
+            else RDFS.label
+        )
+
+    def _definition_uri(self):
+        return (
+            self.ontology_metamodel_mapper.definition_uri()
+            if self.ontology_metamodel_mapper
+            else HAS_DEFINITION_URI
+        )
+
     def curie_to_uri(self, curie: CURIE, strict: bool = False) -> URI:
         if curie.startswith("http"):
             return curie
@@ -172,6 +191,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return curie
 
     def curie_to_sparql(self, curie: CURIE, strict: bool = False) -> URI:
+        if curie.startswith("<"):
+            return curie
         return f"<{self.curie_to_uri(curie, strict=strict)}>"
 
     def uri_to_curie(self, uri: URI, strict=True) -> Optional[CURIE]:
@@ -305,8 +326,13 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def hierararchical_parents(self, curie: CURIE, isa_only: bool = False) -> List[CURIE]:
         uri = self.curie_to_uri(curie)
+        is_a_pred = (
+            self.ontology_metamodel_mapper.is_a_uri()
+            if self.ontology_metamodel_mapper
+            else RDFS.subClassOf
+        )
         query = SparqlQuery(
-            select=["?o"], where=[f"<{uri}> <{RDFS.subClassOf}> ?o", "FILTER (isIRI(?o))"]
+            select=["?o"], where=[f"<{uri}> <{is_a_pred}> ?o", "FILTER (isIRI(?o))"]
         )
         bindings = self._query(query)
         return list(set([self.uri_to_curie(row["o"]["value"]) for row in bindings]))
@@ -327,12 +353,17 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         if predicates:
             predicates = list(set(predicates))
         pred_quris = [self.curie_to_sparql(p) for p in predicates] if predicates else None
+        if self.ontology_metamodel_mapper and pred_quris is not None:
+            pred_quris = [self.ontology_metamodel_mapper.direct_map_uri(p) for p in pred_quris]
         uri = self.curie_to_uri(curie)
-        if not predicates or IS_A in predicates:
+        is_a_pred = (
+            self.ontology_metamodel_mapper.is_a_curie() if self.ontology_metamodel_mapper else IS_A
+        )
+        if not predicates or is_a_pred in predicates:
             # all simple is-a relationships
             for p in self.hierararchical_parents(curie):
                 yield IS_A, p
-        if not predicates or predicates != [IS_A]:
+        if not predicates or predicates != [is_a_pred]:
             # subclassof existential restrictions
             query = SparqlQuery(
                 select=["?p", "?o"],
@@ -437,25 +468,23 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         query = SparqlQuery(select=["?v"], where=[f"{uri} {pred} ?v"])
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?v) = "{self.preferred_language}")')
-        # bindings = self._query(f"SELECT ?{VAL_VAR} WHERE {{ <{uri}> <{pred}> ?v }}")
-        # print(query.query_str())
         bindings = self._query(query)
         return list(set([row[VAL_VAR]["value"] for row in bindings]))
 
     def label(self, curie: CURIE):
-        labels = self._get_anns(curie, RDFS.label)
+        labels = list(self.labels([curie]))
         if labels:
             if len(labels) > 1:
                 logging.warning(f"Multiple labels for {curie} = {labels}")
-            return labels[0]
+            return labels[0][1]
         else:
             return None
 
-    def labels(self, curies: Iterable[CURIE]) -> Iterable[Tuple[CURIE, str]]:
-        uri_map = {self.curie_to_uri(curie): curie for curie in curies}
-        uris = [f"<{uri}>" for uri in uri_map.keys()]
+    def labels(self, curies: Iterable[CURIE], allow_none=True) -> Iterable[Tuple[CURIE, str]]:
+        label_uri = self._label_uri()
+        uris = [self.curie_to_sparql(x) for x in curies]
         query = SparqlQuery(
-            select=["?s ?label"], where=[f"?s <{RDFS.label}> ?label", _sparql_values("s", uris)]
+            select=["?s ?label"], where=[f"?s <{label_uri}> ?label", _sparql_values("s", uris)]
         )
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?label) = "{self.preferred_language}")')
@@ -469,9 +498,10 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             else:
                 label_map[curie] = label
                 yield curie, label
-        for curie in curies:
-            if curie not in label_map:
-                yield curie, None
+        if allow_none:
+            for curie in curies:
+                if curie not in label_map:
+                    yield curie, None
 
     def _alias_predicates(self) -> List[PRED_CURIE]:
         # different implementations can override this; e.g Wikidata uses skos:altLabel
@@ -479,14 +509,16 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
         uri = self.curie_to_sparql(curie)
+        label_uri = self._label_uri()
         alias_pred_uris = [
-            self.curie_to_sparql(p) for p in self._alias_predicates() + [LABEL_PREDICATE]
+            self.curie_to_sparql(p) for p in self._alias_predicates() + [_quote_uri(label_uri)]
         ]
         query = SparqlQuery(
             select=["?p", "?o"], where=[f"{uri} ?p ?o", _sparql_values("p", alias_pred_uris)]
         )
         if self.multilingual:
             query.where.append(f'FILTER (LANG(?o) = "{self.preferred_language}")')
+        logging.info(f"{query.query_str()}")
         bindings = self._query(
             query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
         )
@@ -495,14 +527,29 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             m[self.uri_to_curie(row["p"]["value"])].append(row["o"]["value"])
         return m
 
+    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
+        uri = self.curie_to_sparql(curie)
+        query = SparqlQuery(select=["?p", "?o"], where=[f"{uri} ?p ?o"])
+        bindings = self._query(
+            query.query_str(), {"oboInOwl": "http://www.geneontology.org/formats/oboInOwl#"}
+        )
+        m = defaultdict(list)
+        for row in bindings:
+            m[self.uri_to_curie(row["p"]["value"])].append(row["o"]["value"])
+        return dict(m)
+
     def curies_by_label(self, label: str) -> List[CURIE]:
-        clauses = [f'?s rdfs:label "{label}"', f'?s rdfs:label "{label}"^^xsd:string']
+        label_uri = self._label_uri()
+        # Note there are multiple ways to store a label in RDF:
+        #  - plain literal
+        #  - xsd:string
+        #  - with language tag
+        clauses = [f'?s rdfs:label "{label}"', f'?s <{label_uri}> "{label}"^^xsd:string']
         if self.multilingual:
             clauses.append(f'?s rdfs:label "{label}"@{self.preferred_language}')
         clauses_j = " UNION ".join([f"{{ {c} }}" for c in clauses])
         query = SparqlQuery(select=["?s"], where=[f"{{ {clauses_j} }}"])
-        # where=[f'{{ {{ ?s rdfs:label "{label}" }}
-        # UNION {{ ?s rdfs:label "{label}"^^xsd:string }}  }}'])
+        logging.info(f"Query = {query.query_str()}")
         bindings = self._query(query)
         return [self.uri_to_curie(row["s"]["value"]) for row in bindings]
 
@@ -516,7 +563,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     def definition(self, curie: CURIE) -> Optional[str]:
         # TODO: allow this to be configured to use different predicates
-        labels = self._get_anns(curie, HAS_DEFINITION_URI)
+        defn_uri = self._definition_uri()
+        labels = self._get_anns(curie, defn_uri)
         if labels:
             if len(labels) > 1:
                 logging.error(f"Multiple labels for {curie} = {labels}")
@@ -545,7 +593,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 return Literal(vv)
 
         for row in bindings:
-            # print(f'ROW={row}\n')
             triple = (tr(row["s"]), tr(row["p"]), tr(row["o"]))
             g.add(triple)
         g.serialize(path, format=syntax)
@@ -573,17 +620,24 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             elif config.is_partial:
                 filter_clause = f'contains(str(?v), "{search_term}")'
             else:
-                filter_clause = f'?v = "{search_term}"'
+                filter_clause = f'str(?v) = "{search_term}"'
             filter_clause = f"FILTER({filter_clause})"
         if config.properties:
             preds = search_properties_to_predicates(config.properties)
         else:
             preds = [LABEL_PREDICATE]
+        if self.ontology_metamodel_mapper:
+            preds = [
+                self.ontology_metamodel_mapper.map_curie(pred, unmapped_reflexive=True)[0]
+                for pred in preds
+            ]
+        preds = [self.curie_to_sparql(p) for p in preds]
         if len(preds) == 1:
             where = [f"?s {preds[0]} ?v "]
         else:
             where = ["?s ?p ?v ", f'VALUES ?p {{ {" ".join(preds)} }}']
         query = SparqlQuery(select=["?s"], where=where + [filter_clause])
+        # print(f"Search query: {query.query_str()}")
         bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])

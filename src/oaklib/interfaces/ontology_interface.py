@@ -7,7 +7,7 @@ from oaklib.resource import OntologyResource
 @dataclass
 class OntologyInterface:
     """
-    An abstract parent for an ontology interface
+    An abstract parent for an ontology interface.
     """
 
     # engine: Any = None  ## implementation object

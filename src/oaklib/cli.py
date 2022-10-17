@@ -96,6 +96,7 @@ from oaklib.io.streaming_owl_functional_writer import StreamingOwlFunctionalWrit
 from oaklib.io.streaming_rdf_writer import StreamingRdfWriter
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
+from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.parsers.association_parser_factory import get_association_parser
 from oaklib.resource import OntologyResource
 from oaklib.selector import (
@@ -610,6 +611,10 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
     help="prefix=expansion pair",
 )
 @click.option(
+    "--metamodel-mappings",
+    help="overrides for metamodel properties such as rdfs:label",
+)
+@click.option(
     "--import-depth",
     type=click.INT,
     help="Maximum depth in the import tree to traverse. Currently this is only used by the pronto adapter",
@@ -630,6 +635,7 @@ def main(
     save_as: str,
     autosave: bool,
     named_prefix_map,
+    metamodel_mappings,
     prefix,
     import_depth: Optional[int],
 ):
@@ -680,6 +686,12 @@ def main(
                     settings.impl.add_associations(assocs)
         else:
             raise NotImplementedError(f"{type(settings.impl)} does not implement associations")
+    if metamodel_mappings:
+        msdf = parse_sssom_table(metamodel_mappings)
+        msd = to_mapping_set_document(msdf)
+        settings.impl.ontology_metamodel_mapper = OntologyMetadataMapper(
+            msd.mapping_set.mappings, curie_converter=settings.impl.converter
+        )
     if save_as:
         if autosave:
             raise ValueError("Cannot specify both --save-as and --autosave")
@@ -929,7 +941,11 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
 @click.argument("terms", nargs=-1)
 def term_metadata(terms, reification: bool, output_type: str, output: str):
     """
-    Shows term metadata
+    Shows term metadata.
+
+    Example:
+
+        runoak -i sqlite:obo:uberon term-metadata lung heart
     """
     impl = settings.impl
     if output_type is None or output_type == "yaml":
@@ -3230,7 +3246,7 @@ def set_apikey(endpoint, keyval):
 @output_option
 def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     """
-    Performs lexical matching between pairs of terms in one more more ontologies
+    Performs lexical matching between pairs of terms in one more more ontologies.
 
     Examples:
 
@@ -3277,7 +3293,10 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
             ix = load_lexical_index(lexical_index_file)
         else:
             logging.info("Creating index")
-            syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+            if ruleset:
+                syn_rules = [x.synonymizer for x in ruleset.rules if x.synonymizer]
+            else:
+                syn_rules = []
             ix = create_lexical_index(impl, synonym_rules=syn_rules)
         if lexical_index_file:
             if recreate:

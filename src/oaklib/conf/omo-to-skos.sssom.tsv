@@ -1,0 +1,4 @@
+subject_id	predicate_id	object_id	mapping_justification
+rdfs:label	skos:exactMatch	skos:prefLabel	semapv:LexicalMatching
+IAO:0000115	skos:exactMatch	skos:definition	semapv:LexicalMatching
+rdfs:subClassOf	skos:exactMatch	skos:broader	semapv:LexicalMatching

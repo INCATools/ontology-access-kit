@@ -18,8 +18,14 @@ HAS_EXACT_SYNONYM = omd.slots.has_exact_synonym.curie
 HAS_BROAD_SYNONYM = omd.slots.has_broad_synonym.curie
 HAS_NARROW_SYNONYM = omd.slots.has_narrow_synonym.curie
 HAS_RELATED_SYNONYM = omd.slots.has_related_synonym.curie
-SYNONYM_PREDICATES = [HAS_RELATED_SYNONYM, HAS_NARROW_SYNONYM, HAS_EXACT_SYNONYM, HAS_BROAD_SYNONYM]
 SKOS_ALT_LABEL = "skos:altLabel"
+SYNONYM_PREDICATES = [
+    HAS_RELATED_SYNONYM,
+    HAS_NARROW_SYNONYM,
+    HAS_EXACT_SYNONYM,
+    HAS_BROAD_SYNONYM,
+    SKOS_ALT_LABEL,
+]
 
 SCOPE_TO_SYNONYM_PRED_MAP = {
     "EXACT": HAS_EXACT_SYNONYM,
