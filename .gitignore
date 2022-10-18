@@ -13,12 +13,14 @@ db/
 notebooks/output/*json
 notebooks/output/*tsv
 notebooks/input/*
-
-
 notebooks/api-key.txt
 
 .template.db
-.venv
+.venv/
 .tox/
+cache/
 .coverage.*
+.DS_Store
 
+# temporary until this feature is done. for now loading whole of mondo. will change this to subset when PR is ready
+tests/input/mondo-example.owl
