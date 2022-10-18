@@ -1,11 +1,17 @@
 id: https://w3id.org/linkml/search_datamodel
 title: search datamodel
 name: search-datamodel
-description: >-
-  A datamodel for representing a search configuration and results. This is intended to provide a unified layer over
-  both (a) how searches are *parameterized* (b) the structure of search *results*. The scope is any kind of service
-  that provides search over *named entities*, including ontology concepts. It is not intended to cover generic
+description: |-
+  A datamodel for representing a search configuration and results.
+  
+  This is intended to provide a unified layer over both:
+  
+  - (a) how searches are *parameterized*
+  - (b) the structure of search *results*.
+  
+  The scope is any kind of service that provides search over *named entities*, including ontology concepts. It is not intended to cover generic
   search results, e.g. google search, although parts could be generalized for this purpose.
+
 license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:

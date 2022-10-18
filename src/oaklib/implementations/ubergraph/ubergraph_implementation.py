@@ -66,7 +66,7 @@ class UbergraphImplementation(
 
         .. code:: python
 
-           >>>  oi = UbergraphImplementation.create()
+           >>>  oi = UbergraphImplementation()
 
         The default ubergraph endpoint will be assumed
 

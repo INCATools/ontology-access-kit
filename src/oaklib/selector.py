@@ -32,6 +32,7 @@ from oaklib.implementations.sparql.lov_implementation import LovImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.ubergraph import UbergraphImplementation
+from oaklib.implementations.uniprot.uniprot_implementation import UniprotImplementation
 from oaklib.implementations.wikidata.wikidata_implementation import (
     WikidataImplementation,
 )
@@ -53,6 +54,7 @@ SCHEME_DICT = {
     "sqlite": SqlImplementation,
     "ubergraph": UbergraphImplementation,
     "ontobee": OntobeeImplementation,
+    "uniprot": UniprotImplementation,
     "lov": LovImplementation,
     "sparql": SparqlImplementation,
     "rdflib": SparqlImplementation,

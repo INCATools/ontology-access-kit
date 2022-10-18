@@ -578,6 +578,7 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
         else:
             if isinstance(impl, SearchInterface):
                 cfg = create_search_configuration(term)
+                logging.info(f"Search config: {term} => {cfg}")
                 chain_it(impl.basic_search(cfg.search_terms[0], config=cfg))
             else:
                 raise NotImplementedError
@@ -2235,12 +2236,7 @@ def relationships(
 
     """
     impl = settings.impl
-    if output_type == "obo":
-        writer = StreamingOboWriter(ontology_interface=impl)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(ontology_interface=impl)
-    else:
-        writer = StreamingCsvWriter(ontology_interface=impl)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.output = output
     actual_predicates = _process_predicates_arg(predicates)
