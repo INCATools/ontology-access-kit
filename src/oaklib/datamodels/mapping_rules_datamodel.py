@@ -1,5 +1,5 @@
 # Auto generated from mapping_rules_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-10-18T08:25:52
+# Generation date: 2022-10-18T10:32:30
 # Schema: mapping-rules
 #
 # id: https://w3id.org/linkml/mapping_rules_datamodel
