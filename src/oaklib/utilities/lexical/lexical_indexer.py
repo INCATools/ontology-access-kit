@@ -389,9 +389,9 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
     """
     Apply an individual transformation on a term
 
-    :param term:
-    :param transformation:
-    :return:
+    :param term: Original label.
+    :param transformation: Type of transformation to be performed on the label.
+    :return: Transformed label.
     """
     typ = str(transformation.type)
     logging.debug(f"Applying: {transformation}")
@@ -414,6 +414,8 @@ def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, s
     with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
     as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
 
+    :param term: Original label.
+    :param rules: Synonymizer rules from match-rules.yaml file.
     :return: A Tuple stating [if the label changed, new label, qualifier]
     """
     tmp_term = term
