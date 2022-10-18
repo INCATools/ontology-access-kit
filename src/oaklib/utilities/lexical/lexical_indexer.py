@@ -407,7 +407,15 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
         )
 
 
-def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple:
+def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, str]:
+    """Apply synonymizer rules declared in the given match-rules.yaml file.
+
+    The basic concept is looking for regex in labels and replacing the ones that match
+    with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
+    as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
+
+    :return: A Tuple stating [if the label changed, new label, qualifier]
+    """
     tmp_term = term
     for rule in rules:
         term = re.sub(eval(rule.match), rule.replacement, term)
