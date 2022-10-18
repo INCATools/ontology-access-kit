@@ -47,6 +47,7 @@ class TestLexicalIndex(unittest.TestCase):
         builder.add_class("X:3", "foo  bar")
         builder.add_class("X:4", "foo bar (foo bar)")
         builder.add_class("X:5", "foo bar [foo bar]")
+        builder.add_class("X:6", "Other foo bar")
         builder.build()
         syn_param = [
             Synonymizer(
@@ -61,6 +62,13 @@ class TestLexicalIndex(unittest.TestCase):
                 match_scope="*",
                 replacement="",
             ),
+            Synonymizer(
+                the_rule="Broad match terms with the term 'other' in them.",
+                match="r'^Other '",  # noqa W605
+                match_scope="*",
+                replacement="",
+                qualifier="broad"
+            ),
         ]
 
         case_norm = LexicalTransformation(TransformationType.CaseNormalization)
@@ -74,6 +82,7 @@ class TestLexicalIndex(unittest.TestCase):
                     "foo bar": ["X:1", "X:2", "X:3"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
+                    "other foo bar": ["X:6"]
                 },
             ),
             (
@@ -83,6 +92,7 @@ class TestLexicalIndex(unittest.TestCase):
                     "foo  bar": ["X:3"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
+                    "other foo bar": ["X:6"]
                 },
             ),
             (
@@ -92,15 +102,16 @@ class TestLexicalIndex(unittest.TestCase):
                     "FOO BAR": ["X:2"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
+                    "Other foo bar": ["X:6"]
                 },
             ),
             (
                 [synonymization],
-                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4", "X:5"]},
+                {"FOO BAR": ["X:2"], "foo  bar": ["X:3"], "foo bar": ["X:1", "X:4", "X:5", "X:6"]},
             ),
             (
                 [case_norm, whitespace_norm, synonymization],
-                {"foo bar": ["X:1", "X:2", "X:3", "X:4", "X:5"]},
+                {"foo bar": ["X:1", "X:2", "X:3", "X:4", "X:5"], "other foo bar": ["X:6"]},
             ),
         ]
 

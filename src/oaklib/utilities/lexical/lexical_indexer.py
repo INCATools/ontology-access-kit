@@ -419,16 +419,17 @@ def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, s
     :return: A Tuple stating [if the label changed, new label, qualifier]
     """
     tmp_term = term
+    qualifier = DEFAULT_QUALIFIER
+
     for rule in rules:
         term = re.sub(eval(rule.match), rule.replacement, term)
-        if rule.qualifier:
+        if tmp_term != term and rule.qualifier is not None:
             qualifier = rule.qualifier
-        else:
-            qualifier = DEFAULT_QUALIFIER
+            
     if tmp_term == term:
-        return False, term.rstrip(), qualifier
+        return False, term.strip(), qualifier
     else:
-        return True, term.rstrip(), qualifier
+        return True, term.strip(), qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
