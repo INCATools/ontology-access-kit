@@ -1,5 +1,5 @@
 # Auto generated from mapping_rules_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-09-21T23:32:26
+# Generation date: 2022-10-18T08:25:52
 # Schema: mapping-rules
 #
 # id: https://w3id.org/linkml/mapping_rules_datamodel
@@ -256,6 +256,7 @@ class Synonymizer(YAMLRoot):
     match: Optional[str] = None
     match_scope: Optional[str] = None
     replacement: Optional[str] = None
+    qualifier: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.the_rule is not None and not isinstance(self.the_rule, str):
@@ -269,6 +270,9 @@ class Synonymizer(YAMLRoot):
 
         if self.replacement is not None and not isinstance(self.replacement, str):
             self.replacement = str(self.replacement)
+
+        if self.qualifier is not None and not isinstance(self.qualifier, str):
+            self.qualifier = str(self.qualifier)
 
         super().__post_init__(**kwargs)
 
@@ -694,6 +698,15 @@ slots.synonymizer__replacement = Slot(
     name="synonymizer__replacement",
     curie=MRULES.curie("replacement"),
     model_uri=MRULES.synonymizer__replacement,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.synonymizer__qualifier = Slot(
+    uri=MRULES.qualifier,
+    name="synonymizer__qualifier",
+    curie=MRULES.curie("qualifier"),
+    model_uri=MRULES.synonymizer__qualifier,
     domain=None,
     range=Optional[str],
 )

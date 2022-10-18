@@ -46,6 +46,7 @@ from oaklib.types import PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
+DEFAULT_QUALIFIER = "exact"
 
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
@@ -124,7 +125,7 @@ def create_lexical_index(
                     term2 = term
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
-                            synonymized, term2 = apply_transformation(term2, tr)
+                            synonymized, term2, _ = apply_transformation(term2, tr)
                         else:
                             term2 = apply_transformation(term2, tr)
 
@@ -406,14 +407,18 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
         )
 
 
-def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
+def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple:
     tmp_term = term
     for rule in rules:
         term = re.sub(eval(rule.match), rule.replacement, term)
+        if rule.qualifier:
+            qualifier = rule.qualifier
+        else:
+            qualifier = DEFAULT_QUALIFIER
     if tmp_term == term:
-        return False, term.rstrip()
+        return False, term.rstrip(), qualifier
     else:
-        return True, term.rstrip()
+        return True, term.rstrip(), qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):

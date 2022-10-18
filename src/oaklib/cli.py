@@ -110,6 +110,7 @@ from oaklib.utilities.associations.association_differ import AssociationDiffer
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.lexical.lexical_indexer import (
+    DEFAULT_QUALIFIER,
     add_labels_from_uris,
     apply_synonymizer,
     create_lexical_index,
@@ -3891,18 +3892,20 @@ def synonymize(terms, rules_file, apply_patch, patch, output):
                     # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
                     for alias in aliases:
                         if alias:
-                            synonymized, new_alias = apply_synonymizer(alias, syn_rules)
+                            synonymized, new_alias, qualifier = apply_synonymizer(alias, syn_rules)
                             if synonymized:
                                 matches.append(new_alias)
 
                 if len(matches) > 0:
+                    if qualifier is None or qualifier == "":
+                        qualifier = DEFAULT_QUALIFIER
                     terms_to_synonymize[curie] = matches
                     change = kgcl.NewSynonym(
                         id="kgcl_change_id_" + str(len(terms_to_synonymize)),
                         about_node=curie,
                         old_value=alias,
                         new_value=new_alias,
-                        qualifier="exact",
+                        qualifier=qualifier,
                     )
                     change_list.append(change)
                     if patch:
