@@ -67,7 +67,7 @@ class TestLexicalIndex(unittest.TestCase):
                 match="r'^Other '",  # noqa W605
                 match_scope="*",
                 replacement="",
-                qualifier="broad"
+                qualifier="broad",
             ),
         ]
 
@@ -82,7 +82,7 @@ class TestLexicalIndex(unittest.TestCase):
                     "foo bar": ["X:1", "X:2", "X:3"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
-                    "other foo bar": ["X:6"]
+                    "other foo bar": ["X:6"],
                 },
             ),
             (
@@ -92,7 +92,7 @@ class TestLexicalIndex(unittest.TestCase):
                     "foo  bar": ["X:3"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
-                    "other foo bar": ["X:6"]
+                    "other foo bar": ["X:6"],
                 },
             ),
             (
@@ -102,7 +102,7 @@ class TestLexicalIndex(unittest.TestCase):
                     "FOO BAR": ["X:2"],
                     "foo bar (foo bar)": ["X:4"],
                     "foo bar [foo bar]": ["X:5"],
-                    "Other foo bar": ["X:6"]
+                    "Other foo bar": ["X:6"],
                 },
             ),
             (
