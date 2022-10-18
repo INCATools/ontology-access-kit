@@ -607,7 +607,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 ],
             ),
             (
-                ["X:1"],
+                ["X:2"],
                 [
                     {
                         "category": "IndirectFormOfEdgeOnRight",
@@ -621,7 +621,7 @@ class TestCommandLineInterface(unittest.TestCase):
             ),
         ]
         for terms, expected in cases:
-            outfile = f"{OUTPUT_DIR}/diff-mapping-test-cli-t{'-'.join(terms)}.yaml"
+            outfile = f"{OUTPUT_DIR}/diff-mapping-test-cli-using-{'-'.join(terms)}.yaml"
             result = self.runner.invoke(
                 main,
                 [

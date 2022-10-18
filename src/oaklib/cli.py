@@ -3679,6 +3679,7 @@ def diff_via_mappings(
         logging.info("No term list provided, will compare all mapped terms")
         entities = None
     actual_predicates = _process_predicates_arg(predicates)
+    n = 0
     for r in calculate_pairwise_relational_diff(
         oi,
         other_oi,
@@ -3692,6 +3693,9 @@ def diff_via_mappings(
         if filter_category_identical and r.category == DiffCategory(DiffCategory.Identical):
             continue
         writer.emit(r)
+        n += 1
+    if n == 0:
+        raise ValueError("No mappings extracted")
 
 
 @main.command()
