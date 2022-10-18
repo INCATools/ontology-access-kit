@@ -135,15 +135,23 @@ def calculate_pairwise_relational_diff(
             logging.warning("No mappings found in either left or right")
     if entities is not None:
         entities = list(entities)
-        # logging.info(f"Filtering {len(mappings)} mappings to entity set of size {len(entities)}")
-        # mappings = [m for m in mappings if m.subject_id in entities or m.object_id in entities]
-        # if not mappings:
-        #    logging.warning("No mappings present after filtering: consider expanding entities")
+        if False:
+            logging.info(
+                f"Filtering {len(mappings)} mappings to entity set of size {len(entities)}"
+            )
+            mappings = [m for m in mappings if m.subject_id in entities or m.object_id in entities]
+            if not mappings:
+                logging.warning("No mappings present after filtering: consider expanding entities")
     logging.info(f"Converting all {len(mappings)} mappings to networkx, sources={sources}")
     g = mappings_to_graph(mappings)
+    logging.info("Completed conversion to nx")
     if isinstance(left_oi, OboGraphInterface) and isinstance(right_oi, OboGraphInterface):
-        for subject_child in left_oi.entities():
-            logging.debug(f"Subject child: {subject_child}")
+        if entities is not None:
+            left_oi_entities = entities
+        else:
+            left_oi_entities = left_oi.entities()
+        for subject_child in left_oi_entities:
+            logging.info(f"Subject child: {subject_child}")
             if not curie_has_prefix(subject_child, sources):
                 continue
             for pred, subject_parent in relation_dict_as_tuples(

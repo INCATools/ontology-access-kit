@@ -23,11 +23,12 @@ from oaklib.datamodels.search import (
     SearchConfiguration,
     search_properties_to_predicates,
 )
-from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
+from oaklib.datamodels.search_datamodel import SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEFAULT_PREFIX_MAP,
     HAS_DEFINITION_URI,
+    IDENTIFIER_PREDICATE,
     IS_A,
     LABEL_PREDICATE,
     OBO_PURL,
@@ -162,6 +163,14 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             else RDFS.label
         )
 
+    def _mapping_predicates(self):
+        preds = ALL_MATCH_PREDICATES
+        omm = self.ontology_metamodel_mapper
+        if omm:
+            return [omm.map_curie(pred, unmapped_reflexive=True) for pred in preds]
+        else:
+            return preds
+
     def _definition_uri(self):
         return (
             self.ontology_metamodel_mapper.definition_uri()
@@ -221,9 +230,10 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             yield self.uri_to_curie(row["s"]["value"])
 
     def simple_mappings_by_curie(self, curie: CURIE) -> Iterable[Tuple[PRED_CURIE, CURIE]]:
+        mapping_preds = self._mapping_predicates()
         uri = self.curie_to_sparql(curie)
         query = SparqlQuery(select=["?p ?o"], distinct=True, where=[f"{uri} ?p ?o"])
-        query.add_values("p", [self.curie_to_sparql(p) for p in ALL_MATCH_PREDICATES])
+        query.add_values("p", [self.curie_to_sparql(p) for p in mapping_preds])
         bindings = self._query(query.query_str())
         for row in bindings:
             yield (self.uri_to_curie(row["p"]["value"]), self.uri_to_curie(row["o"]["value"]))
@@ -243,7 +253,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         sw.setReturnFormat(JSON)
         check_limit()
         ret = sw.queryAndConvert()
-        logging.info(f"RET={ret}")
+        logging.debug(f"RET={ret}")
         self._list_of_named_graphs = [row["g"]["value"] for row in ret["results"]["bindings"]]
         return self._list_of_named_graphs
 
@@ -290,7 +300,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             sw.setReturnFormat(JSON)
             check_limit()
             ret = sw.queryAndConvert()
-            logging.info(f"RET={ret}")
+            logging.debug(f"queryResults={ret}")
             return ret["results"]["bindings"]
 
     def _triples(
@@ -605,8 +615,9 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
     ) -> Iterable[CURIE]:
         if ":" in search_term and " " not in search_term:
-            logging.debug(f"Not performing search on what looks like a CURIE: {search_term}")
-            return
+            # logging.error(f"Not performing search on what looks like a CURIE: {search_term}")
+            # return
+            search_term = self.curie_to_uri(search_term)
 
         if self._is_blazegraph():
             filter_clause = f'?v bds:search "{search_term}"'
@@ -631,18 +642,29 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
                 self.ontology_metamodel_mapper.map_curie(pred, unmapped_reflexive=True)[0]
                 for pred in preds
             ]
-        preds = [self.curie_to_sparql(p) for p in preds]
-        if len(preds) == 1:
-            where = [f"?s {preds[0]} ?v "]
+        if preds == [IDENTIFIER_PREDICATE]:
+            where = ["?v a ?s_cls", "BIND(?v AS ?s)"]
+            query = SparqlQuery(select=["?s"], where=where + [filter_clause])
         else:
-            where = ["?s ?p ?v ", f'VALUES ?p {{ {" ".join(preds)} }}']
-        query = SparqlQuery(select=["?s"], where=where + [filter_clause])
-        # print(f"Search query: {query.query_str()}")
+            non_id_preds = [pred for pred in preds if pred != IDENTIFIER_PREDICATE]
+            non_id_preds = [self.curie_to_sparql(p) for p in non_id_preds]
+            if len(non_id_preds) == 1:
+                where = [f"?s {preds[0]} ?v "]
+            elif len(non_id_preds) == 1:
+                raise ValueError("Logic error; this should be handled by above clause")
+            else:
+                where = ["?s ?p ?v ", f'VALUES ?p {{ {" ".join(non_id_preds)} }}']
+            if IDENTIFIER_PREDICATE in preds:
+                raise NotImplementedError(
+                    f"Cannot mix identifier and non-identifier preds: {preds}"
+                )
+            query = SparqlQuery(select=["?s"], where=where + [filter_clause])
+        logging.info(f"Search query: {query.query_str()}")
         bindings = self._query(query, prefixes=DEFAULT_PREFIX_MAP)
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
-        if SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
-            raise NotImplementedError
+        # if SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
+        #    raise NotImplementedError
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
@@ -665,7 +687,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
-        pred_uris = [self.curie_to_sparql(pred) for pred in ALL_MATCH_PREDICATES]
+        pred_uris = [self.curie_to_sparql(pred) for pred in self._mapping_predicates()]
         # input curie is subject
         query = SparqlQuery(
             select=["?p", "?o"],

@@ -8,7 +8,11 @@ from oaklib.datamodels.search_datamodel import (
     SearchProperty,
     SearchTermSyntax,
 )
-from oaklib.datamodels.vocabulary import LABEL_PREDICATE, SYNONYM_PREDICATES
+from oaklib.datamodels.vocabulary import (
+    IDENTIFIER_PREDICATE,
+    LABEL_PREDICATE,
+    SYNONYM_PREDICATES,
+)
 from oaklib.types import PRED_CURIE
 
 DEFAULT_SEARCH_PROPERTIES = [SearchProperty.LABEL, SearchProperty.ALIAS]
@@ -68,6 +72,8 @@ def search_properties_to_predicates(props: List[SearchProperty]) -> List[PRED_CU
     for p in props:
         if p == SearchProperty(SearchProperty.LABEL):
             preds.add(LABEL_PREDICATE)
+        elif p == SearchProperty(SearchProperty.IDENTIFIER):
+            preds.add(IDENTIFIER_PREDICATE)
         elif p == SearchProperty(SearchProperty.ALIAS):
             preds.update(SYNONYM_PREDICATES + [LABEL_PREDICATE])
         elif p == SearchProperty(SearchProperty.ANYTHING):
