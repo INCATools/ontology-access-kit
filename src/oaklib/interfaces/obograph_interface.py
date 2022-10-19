@@ -12,6 +12,7 @@ from oaklib.datamodels.obograph import (
     Node,
     SynonymPropertyValue,
 )
+from oaklib.datamodels.vocabulary import IS_A
 from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     BasicOntologyInterface,
@@ -85,29 +86,46 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         self.transitive_query_cache = None
 
-    def nodes(self) -> Iterator[Node]:
+    def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
-        Iterator over all nodes in all graphs
+        Yields all nodes in all graphs
 
+        :param expand_curies: if True expand CURIEs to URIs
         :return:
         """
-        raise NotImplementedError
+        for e in self.entities():
+            yield self.node(e, include_metadata=True, expand_curies=expand_curies)
 
-    def edges(self) -> Iterator[Edge]:
+    def edges(self, expand_curies=False) -> Iterator[Edge]:
         """
-        Iterator over all edges in all graphs
+        Yields all edges in all graphs.
 
+        :param expand_curies: if True expand CURIEs to URIs
         :return:
         """
-        raise NotImplementedError
+        for e in self.relationships():
+            s, p, o = e
+            is_isa = p == IS_A
+            if expand_curies:
+                s = self.curie_to_uri(s)
+                p = self.curie_to_uri(p)
+                o = self.curie_to_uri(o)
+            if s is None or o is None:
+                # skip any blank nodes
+                logging.debug(f"Skipping: {e}")
+            else:
+                if is_isa:
+                    p = "is_a"
+                yield Edge(sub=s, pred=p, obj=o)
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False) -> Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> Node:
         """
         Look up a node object by CURIE
 
         :param curie: identifier of node
         :param strict: raise exception if node not found
         :param include_metadata: include detailed metadata
+        :param expand_curies: if True expand CURIEs to URIs
         :return:
         """
         raise NotImplementedError
@@ -318,7 +336,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         graph.nodes = [self.node(n.id, include_metadata=True) for n in graph.nodes]
 
-    def as_obograph(self) -> Graph:
+    def as_obograph(self, expand_curies=False) -> Graph:
         """
         Convert entire resource to an OBO Graph object
 
@@ -326,9 +344,25 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
            some remote resources may choose to throw a NotImplementedError if it is impractical
            to download the entire ontology as a graph
+
+        :param expand_curies:
         :return:
         """
-        raise NotImplementedError
+        ontologies = list(self.ontologies())
+        if len(ontologies) != 1:
+            logging.warning(f"Could not determine a single ontology for: {ontologies}")
+            ont_id = "TEMP"
+        else:
+            ont_id = list(ontologies[0])
+        entities = self.entities()
+        ldefs = list(self.logical_definitions(entities))
+        g = Graph(
+            id=ont_id,
+            nodes=list(self.nodes(expand_curies=expand_curies)),
+            edges=list(self.edges(expand_curies=expand_curies)),
+            logicalDefinitionAxioms=ldefs,
+        )
+        return g
 
     def load_graph(self, graph: Graph, replace: True) -> None:
         """
