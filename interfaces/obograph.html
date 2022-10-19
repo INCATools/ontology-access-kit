@@ -161,7 +161,7 @@ predicates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">
-<span class="sig-name descname"><span class="pre">as_obograph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.obograph.Graph</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.as_obograph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">as_obograph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expand_curies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.obograph.Graph</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.as_obograph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph" title="Permalink to this definition"></a></dt>
 <dd><p>Convert entire resource to an OBO Graph object</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -169,8 +169,11 @@ predicates.</p>
 to download the entire ontology as a graph</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>expand_curies</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>
@@ -223,11 +226,14 @@ ending in roots, following only the specified predicates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.edges">
-<span class="sig-name descname"><span class="pre">edges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.obograph.Edge</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.edges" title="Permalink to this definition"></a></dt>
-<dd><p>Iterator over all edges in all graphs</p>
+<span class="sig-name descname"><span class="pre">edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expand_curies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.obograph.Edge</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.edges" title="Permalink to this definition"></a></dt>
+<dd><p>Yields all edges in all graphs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>expand_curies</strong> – if True expand CURIEs to URIs</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>
@@ -271,7 +277,7 @@ ending in roots, following only the specified predicates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.node">
-<span class="sig-name descname"><span class="pre">node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.obograph.Node</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.node" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand_curies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.obograph.Node</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.node" title="Permalink to this definition"></a></dt>
 <dd><p>Look up a node object by CURIE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -279,6 +285,7 @@ ending in roots, following only the specified predicates.</p>
 <li><p><strong>curie</strong> – identifier of node</p></li>
 <li><p><strong>strict</strong> – raise exception if node not found</p></li>
 <li><p><strong>include_metadata</strong> – include detailed metadata</p></li>
+<li><p><strong>expand_curies</strong> – if True expand CURIEs to URIs</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -289,11 +296,14 @@ ending in roots, following only the specified predicates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">
-<span class="sig-name descname"><span class="pre">nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.obograph.Node</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes" title="Permalink to this definition"></a></dt>
-<dd><p>Iterator over all nodes in all graphs</p>
+<span class="sig-name descname"><span class="pre">nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expand_curies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.obograph.Node</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/obograph_interface.html#OboGraphInterface.nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes" title="Permalink to this definition"></a></dt>
+<dd><p>Yields all nodes in all graphs</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>expand_curies</strong> – if True expand CURIEs to URIs</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>

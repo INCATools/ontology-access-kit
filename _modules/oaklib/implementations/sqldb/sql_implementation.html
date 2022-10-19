@@ -105,6 +105,7 @@
 <span class="kn">import</span> <span class="nn">sqlalchemy.orm</span>
 <span class="kn">from</span> <span class="nn">kgcl_schema.datamodel</span> <span class="kn">import</span> <span class="n">kgcl</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime</span> <span class="kn">import</span> <span class="n">SchemaView</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.dumpers</span> <span class="kn">import</span> <span class="n">json_dumper</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.introspection</span> <span class="kn">import</span> <span class="n">package_schemaview</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">URIorCURIE</span>
 <span class="kn">from</span> <span class="nn">semsql.sqla.semsql</span> <span class="kn">import</span> <span class="p">(</span>
@@ -151,6 +152,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALL_MATCH_PREDICATES</span><span class="p">,</span>
     <span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span>
+    <span class="n">DISJOINT_WITH</span><span class="p">,</span>
     <span class="n">EQUIVALENT_CLASS</span><span class="p">,</span>
     <span class="n">HAS_DBXREF</span><span class="p">,</span>
     <span class="n">HAS_EXACT_SYNONYM</span><span class="p">,</span>
@@ -777,38 +779,58 @@
                 <span class="k">return</span> <span class="n">new_oi</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Can only clone sqlite to sqlite&quot;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">as_rdflib_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="n">bnodes</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">uri_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^&lt;(.*)&gt;$&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">tr</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
+                <span class="n">uri_match</span> <span class="o">=</span> <span class="n">uri_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bnodes</span><span class="p">:</span>
+                        <span class="n">bnodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">BNode</span><span class="p">()</span>
+                    <span class="k">return</span> <span class="n">bnodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">uri_match</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">(</span><span class="n">uri_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lit</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Literal</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="n">datatype</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">lit</span>
+
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">)</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">datatype</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Triple </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">g</span>
+
     <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">syntax</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Implements :ref:`dump`.</span>
+
+<span class="sd">        Supported syntaxes:</span>
+
+<span class="sd">        - ttl</span>
+<span class="sd">        - json</span>
+
+<span class="sd">        :param path:</span>
+<span class="sd">        :param syntax:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">syntax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">syntax</span> <span class="o">=</span> <span class="s2">&quot;ttl&quot;</span>
         <span class="k">if</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;ttl&quot;</span><span class="p">:</span>
-            <span class="n">g</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-            <span class="n">bnodes</span> <span class="o">=</span> <span class="p">{}</span>
-
-            <span class="n">uri_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^&lt;(.*)&gt;$&quot;</span><span class="p">)</span>
-
-            <span class="k">def</span> <span class="nf">tr</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
-                    <span class="n">uri_match</span> <span class="o">=</span> <span class="n">uri_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
-                        <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bnodes</span><span class="p">:</span>
-                            <span class="n">bnodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">BNode</span><span class="p">()</span>
-                        <span class="k">return</span> <span class="n">bnodes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-                    <span class="k">elif</span> <span class="n">uri_match</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">(</span><span class="n">uri_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">URIRef</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">lit</span> <span class="o">=</span> <span class="n">rdflib</span><span class="o">.</span><span class="n">Literal</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="n">datatype</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="n">lit</span>
-
-            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
-                <span class="n">p</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">)</span>
-                <span class="n">o</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">datatype</span><span class="p">)</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Triple </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">g</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">))</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_rdflib_graph</span><span class="p">()</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dumping to </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">g</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">syntax</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_obograph</span><span class="p">(</span><span class="n">expand_curies</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">gd</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">GraphDocument</span><span class="p">(</span><span class="n">graphs</span><span class="o">=</span><span class="p">[</span><span class="n">g</span><span class="p">])</span>
+            <span class="n">json_dumper</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;sqlite&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
         <span class="k">else</span><span class="p">:</span>
@@ -883,10 +905,16 @@
     <span class="c1"># Implements: OboGraphInterface</span>
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
-    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">:</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Meta</span><span class="p">()</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">curie</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">curie</span><span class="p">))</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span> <span class="k">if</span> <span class="n">expand_curies</span> <span class="k">else</span> <span class="n">curie</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">uri</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">curie</span><span class="p">)</span>
+        <span class="n">builtin_preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">RDF_TYPE</span><span class="p">,</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">DISJOINT_WITH</span><span class="p">]</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">not_in</span><span class="p">(</span><span class="n">builtin_preds</span><span class="p">))</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_anns_to_xrefs_and_meta</span><span class="p">(</span><span class="n">parent_pv</span><span class="p">:</span> <span class="n">obograph</span><span class="o">.</span><span class="n">PropertyValue</span><span class="p">,</span> <span class="n">anns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">om</span><span class="o">.</span><span class="n">Annotation</span><span class="p">]):</span>
             <span class="n">parent_pv</span><span class="o">.</span><span class="n">xrefs</span> <span class="o">=</span> <span class="p">[</span><span class="n">ann</span><span class="o">.</span><span class="n">object</span> <span class="k">for</span> <span class="n">ann</span> <span class="ow">in</span> <span class="n">anns</span> <span class="k">if</span> <span class="n">ann</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">HAS_DBXREF</span><span class="p">]</span>
@@ -916,11 +944,36 @@
                 <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="n">omd_slots</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">curie</span><span class="p">:</span>
                     <span class="n">meta</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">DefinitionPropertyValue</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
                     <span class="n">_anns_to_xrefs_and_meta</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">definition</span><span class="p">,</span> <span class="n">anns</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">SYNONYM_PREDICATES</span><span class="p">:</span>
+                    <span class="c1"># TODO: handle in a separate util</span>
+                    <span class="n">scope_pred</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;oio:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">pv</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">SynonymPropertyValue</span><span class="p">(</span><span class="n">pred</span><span class="o">=</span><span class="n">scope_pred</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">_anns_to_xrefs_and_meta</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">anns</span><span class="p">)</span>
+                    <span class="n">meta</span><span class="o">.</span><span class="n">synonyms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pred</span> <span class="o">==</span> <span class="n">HAS_DBXREF</span><span class="p">:</span>
+                    <span class="n">pv</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">XrefPropertyValue</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">_anns_to_xrefs_and_meta</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">anns</span><span class="p">)</span>
+                    <span class="n">meta</span><span class="o">.</span><span class="n">xrefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">pred</span> <span class="o">==</span> <span class="n">IN_SUBSET</span><span class="p">:</span>
+                    <span class="n">meta</span><span class="o">.</span><span class="n">subsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">pv</span> <span class="o">=</span> <span class="n">obograph</span><span class="o">.</span><span class="n">BasicPropertyValue</span><span class="p">(</span><span class="n">pred</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
                     <span class="n">_anns_to_xrefs_and_meta</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="n">anns</span><span class="p">)</span>
                     <span class="n">meta</span><span class="o">.</span><span class="n">basicPropertyValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n</span>
+
+    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all nodes in all graphs</span>
+
+<span class="sd">        :param expand_curies:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">):</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="n">expand_curies</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">lbl</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">n</span>
 
     <span class="k">def</span> <span class="nf">synonym_property_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>

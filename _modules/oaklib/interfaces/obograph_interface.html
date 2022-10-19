@@ -93,6 +93,7 @@
     <span class="n">Node</span><span class="p">,</span>
     <span class="n">SynonymPropertyValue</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RELATIONSHIP</span><span class="p">,</span>
     <span class="n">BasicOntologyInterface</span><span class="p">,</span>
@@ -166,29 +167,46 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transitive_query_cache</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="OboGraphInterface.nodes"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">[docs]</a>    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
+<div class="viewcode-block" id="OboGraphInterface.nodes"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">[docs]</a>    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterator over all nodes in all graphs</span>
+<span class="sd">        Yields all nodes in all graphs</span>
 
+<span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="n">expand_curies</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OboGraphInterface.edges"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">[docs]</a>    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Edge</span><span class="p">]:</span>
+<div class="viewcode-block" id="OboGraphInterface.edges"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">[docs]</a>    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Edge</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterator over all edges in all graphs</span>
+<span class="sd">        Yields all edges in all graphs.</span>
 
+<span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
+            <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">e</span>
+            <span class="n">is_isa</span> <span class="o">=</span> <span class="n">p</span> <span class="o">==</span> <span class="n">IS_A</span>
+            <span class="k">if</span> <span class="n">expand_curies</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">o</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># skip any blank nodes</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_isa</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="s2">&quot;is_a&quot;</span>
+                <span class="k">yield</span> <span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">o</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OboGraphInterface.node"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">[docs]</a>    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphInterface.node"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">[docs]</a>    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Look up a node object by CURIE</span>
 
 <span class="sd">        :param curie: identifier of node</span>
 <span class="sd">        :param strict: raise exception if node not found</span>
 <span class="sd">        :param include_metadata: include detailed metadata</span>
+<span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -399,7 +417,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="OboGraphInterface.as_obograph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">[docs]</a>    <span class="k">def</span> <span class="nf">as_obograph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphInterface.as_obograph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">[docs]</a>    <span class="k">def</span> <span class="nf">as_obograph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert entire resource to an OBO Graph object</span>
 
@@ -407,9 +425,25 @@
 
 <span class="sd">           some remote resources may choose to throw a NotImplementedError if it is impractical</span>
 <span class="sd">           to download the entire ontology as a graph</span>
+
+<span class="sd">        :param expand_curies:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="n">ontologies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ontologies</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ontologies</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not determine a single ontology for: </span><span class="si">{</span><span class="n">ontologies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">ont_id</span> <span class="o">=</span> <span class="s2">&quot;TEMP&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ont_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ontologies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">()</span>
+        <span class="n">ldefs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logical_definitions</span><span class="p">(</span><span class="n">entities</span><span class="p">))</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">ont_id</span><span class="p">,</span>
+            <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">expand_curies</span><span class="o">=</span><span class="n">expand_curies</span><span class="p">)),</span>
+            <span class="n">edges</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">expand_curies</span><span class="o">=</span><span class="n">expand_curies</span><span class="p">)),</span>
+            <span class="n">logicalDefinitionAxioms</span><span class="o">=</span><span class="n">ldefs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.load_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.load_graph">[docs]</a>    <span class="k">def</span> <span class="nf">load_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
