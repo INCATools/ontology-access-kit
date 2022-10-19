@@ -4,6 +4,7 @@ See <https://github.com/INCATools/ontology-access-kit/issues/291>_
 """
 import json
 import logging
+import tempfile
 import unittest
 from dataclasses import dataclass
 from typing import Callable
@@ -14,7 +15,7 @@ from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 
-from oaklib import BasicOntologyInterface
+from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.vocabulary import (
@@ -301,6 +302,35 @@ class ComplianceTester:
                                ("hasNarrowSynonym", "horsetail nucleus")],
                               [(s.pred, s.val) for s in meta.synonyms])
         test.assertIn("obo:go#goslim_yeast", meta.subsets)
+        nodes = list(oi.nodes())
+        test.assertGreater(len(nodes), 10)
+        test.assertIn(NUCLEUS, [n.id for n in nodes])
+
+    def test_dump_obograph(self, oi: BasicOntologyInterface):
+        """
+        Tests conformance of dump method with obograph json syntax.
+
+        Exports to json, and then parses output using json adapter.
+
+        :param oi:
+        :return:
+        """
+        file = tempfile.NamedTemporaryFile("w")
+        oi.dump(file.name, "json")
+        file.seek(0)
+        oi2 = get_implementation_from_shorthand(f"obograph:{file.name}")
+        self.test_labels(oi2)
+        self.test_definitions(oi2)
+        self.test_synonyms(oi2)
+        self.test_logical_definitions(oi2)
+        # TODO:
+        # self.test_sssom_mappings(oi2)
+        # TODO:
+        # self.test_logical_definitions(oi2)
+        # TODO: align test cases
+        # self.test_relationships(oi2)
+
+
 
 
     def test_patcher(

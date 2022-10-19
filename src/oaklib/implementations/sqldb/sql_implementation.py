@@ -746,7 +746,7 @@ class SqlImplementation(
             logging.info(f"Dumping to {path}")
             g.serialize(path, format=syntax)
         elif syntax == "json":
-            g = self.as_obograph()
+            g = self.as_obograph(expand_curies=True)
             gd = obograph.GraphDocument(graphs=[g])
             json_dumper.dump(gd, path)
         elif syntax == "sqlite":
@@ -823,9 +823,10 @@ class SqlImplementation(
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
+    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> obograph.Node:
         meta = obograph.Meta()
-        n = obograph.Node(id=curie, meta=meta)
+        uri = self.curie_to_uri(curie) if expand_curies else curie
+        n = obograph.Node(id=uri, meta=meta)
         q = self.session.query(Statements).filter(Statements.subject == curie)
         builtin_preds = [RDF_TYPE, IS_A, DISJOINT_WITH]
         q = q.filter(Statements.predicate.not_in(builtin_preds))
@@ -877,15 +878,16 @@ class SqlImplementation(
                     meta.basicPropertyValues.append(pv)
         return n
 
-    def nodes(self) -> Iterator[Node]:
+    def nodes(self, expand_curies=False) -> Iterator[Node]:
         """
         Yields all nodes in all graphs
 
+        :param expand_curies:
         :return:
         """
         for e in self.entities():
             if not e.startswith("<"):
-                n = self.node(e, include_metadata=True)
+                n = self.node(e, include_metadata=True, expand_curies=expand_curies)
                 if n.lbl:
                     yield n
 
