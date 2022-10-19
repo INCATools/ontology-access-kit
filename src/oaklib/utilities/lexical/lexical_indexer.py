@@ -48,6 +48,13 @@ from oaklib.utilities.basic_utils import pairs_as_dict
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
 DEFAULT_QUALIFIER = "exact"
 
+QUALIFIER_DICT = {
+    "exact": "oio:hasExactSynonym",
+    "broad": "oio:hasBroadSynonym",
+    "narrow": "oio:hasNarrowSynonym",
+    "related": "oio:hasRelatedSynonym",
+}
+
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
     """
@@ -125,7 +132,12 @@ def create_lexical_index(
                     term2 = term
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
-                            synonymized, term2, _ = apply_transformation(term2, tr)
+                            synonymized, term2, qualifier = apply_transformation(term2, tr)
+                            if (
+                                qualifier != DEFAULT_QUALIFIER
+                                and pred == QUALIFIER_DICT[DEFAULT_QUALIFIER]
+                            ):
+                                pred = QUALIFIER_DICT[qualifier]
                         else:
                             term2 = apply_transformation(term2, tr)
 
@@ -400,7 +412,13 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
     elif typ == TransformationType.Synonymization.text:
-        return apply_synonymizer(term, eval(transformation.params))
+        synonymized_results = []
+        synonymized_results = apply_synonymizer(term, eval(transformation.params))
+        true_results = [x for x in list(synonymized_results) if x[0] is True]
+        if len(true_results) == 1:
+            return true_results[0]
+        else:
+            return False, term, DEFAULT_QUALIFIER
     else:
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
@@ -422,14 +440,15 @@ def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, s
     qualifier = DEFAULT_QUALIFIER
 
     for rule in rules:
+        term = tmp_term
         term = re.sub(eval(rule.match), rule.replacement, term)
         if tmp_term != term and rule.qualifier is not None:
             qualifier = rule.qualifier
 
-    if tmp_term == term:
-        return False, term.strip(), qualifier
-    else:
-        return True, term.strip(), qualifier
+        if tmp_term == term:
+            yield False, term.strip(), qualifier
+        else:
+            yield True, term.strip(), qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
