@@ -12,7 +12,7 @@ import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeObsoletion
 from kgcl_schema.grammar.render_operations import render
-from linkml_runtime.dumpers import json_dumper
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels import obograph
@@ -285,6 +285,23 @@ class ComplianceTester:
             test.assertCountEqual(restrs, ldef.restrictions)
         # unionOfs should NOT be included
         test.assertEqual([], list(oi.logical_definitions("NCBITaxon_Union:0000030")))
+
+    def test_obograph_node(self, oi: OboGraphInterface):
+        test = self.test
+        node = oi.node(NUCLEUS)
+        print(yaml_dumper.dumps(node))
+        test.assertEqual(NUCLEUS, node.id)
+        test.assertEqual("nucleus", node.lbl)
+        meta = node.meta
+        test.assertTrue(meta.definition.val.startswith("A membrane-"))
+        test.assertCountEqual(["NIF_Subcellular:sao1702920020",
+                               "Wikipedia:Cell_nucleus"],
+                              [s.val for s in meta.xrefs])
+        test.assertCountEqual([("hasExactSynonym", "cell nucleus"),
+                               ("hasNarrowSynonym", "horsetail nucleus")],
+                              [(s.pred, s.val) for s in meta.synonyms])
+        test.assertIn("obo:go#goslim_yeast", meta.subsets)
+
 
     def test_patcher(
         self,

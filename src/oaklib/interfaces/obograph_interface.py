@@ -87,19 +87,21 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
 
     def nodes(self) -> Iterator[Node]:
         """
-        Iterator over all nodes in all graphs
+        Yields all nodes in all graphs
 
         :return:
         """
-        raise NotImplementedError
+        for e in self.entities():
+            yield self.node(e, include_metadata=True)
 
     def edges(self) -> Iterator[Edge]:
         """
-        Iterator over all edges in all graphs
+        Yields all edges in all graphs.
 
         :return:
         """
-        raise NotImplementedError
+        for s, p, o in self.relationships():
+            yield Edge(sub=s, pred=p, obj=o)
 
     def node(self, curie: CURIE, strict=False, include_metadata=False) -> Node:
         """
@@ -328,7 +330,16 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
            to download the entire ontology as a graph
         :return:
         """
-        raise NotImplementedError
+        ontologies = list(self.ontologies())
+        if len(ontologies) != 1:
+            logging.warning(f"Could not determine a single ontology for: {ontologies}")
+            ont_id = "TEMP"
+        else:
+            ont_id = ontologies[0]
+        g = Graph(id=ont_id,
+                  nodes=list(self.nodes()),
+                  edges=list(self.edges()))
+        return g
 
     def load_graph(self, graph: Graph, replace: True) -> None:
         """

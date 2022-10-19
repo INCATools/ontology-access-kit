@@ -48,6 +48,7 @@ OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
+DISJOINT_WITH = "owl:disjointWith"
 SUBPROPERTY_OF = "owl:subPropertyOf"
 INVERSE_OF = "owl:inverseOf"
 RDF_TYPE = "rdf:type"

@@ -24,6 +24,7 @@ import semsql.builder.builder as semsql_builder
 import sqlalchemy.orm
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime import SchemaView
+from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from semsql.sqla.semsql import (
@@ -83,7 +84,7 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
-    omd_slots,
+    omd_slots, DISJOINT_WITH,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
@@ -696,38 +697,58 @@ class SqlImplementation(
                 return new_oi
         raise NotImplementedError("Can only clone sqlite to sqlite")
 
+    def as_rdflib_graph(self) -> rdflib.Graph:
+        g = rdflib.Graph()
+        bnodes = {}
+
+        uri_re = re.compile(r"^<(.*)>$")
+
+        def tr(n: str, v: str = None, datatype: str = None):
+            if n:
+                uri_match = uri_re.match(n)
+                if n.startswith("_"):
+                    if n not in bnodes:
+                        bnodes[n] = rdflib.BNode()
+                    return bnodes[n]
+                elif uri_match:
+                    return rdflib.URIRef(uri_match.group(1))
+                else:
+                    return rdflib.URIRef(self.curie_to_uri(n))
+            else:
+                lit = rdflib.Literal(v, datatype=datatype)
+                return lit
+
+        for row in self.session.query(Statements):
+            s = tr(row.subject)
+            p = tr(row.predicate)
+            o = tr(row.object, row.value, row.datatype)
+            logging.debug(f"Triple {s} {p} {o}")
+            g.add((s, p, o))
+        return g
+
     def dump(self, path: str = None, syntax: str = None):
+        """
+        Implements :ref:`dump`.
+
+        Supported syntaxes:
+
+        - ttl
+        - json
+
+        :param path:
+        :param syntax:
+        :return:
+        """
         if syntax is None:
             syntax = "ttl"
         if syntax == "ttl":
-            g = rdflib.Graph()
-            bnodes = {}
-
-            uri_re = re.compile(r"^<(.*)>$")
-
-            def tr(n: str, v: str = None, datatype: str = None):
-                if n:
-                    uri_match = uri_re.match(n)
-                    if n.startswith("_"):
-                        if n not in bnodes:
-                            bnodes[n] = rdflib.BNode()
-                        return bnodes[n]
-                    elif uri_match:
-                        return rdflib.URIRef(uri_match.group(1))
-                    else:
-                        return rdflib.URIRef(self.curie_to_uri(n))
-                else:
-                    lit = rdflib.Literal(v, datatype=datatype)
-                    return lit
-
-            for row in self.session.query(Statements):
-                s = tr(row.subject)
-                p = tr(row.predicate)
-                o = tr(row.object, row.value, row.datatype)
-                logging.debug(f"Triple {s} {p} {o}")
-                g.add((s, p, o))
+            g = self.as_rdflib_graph()
             logging.info(f"Dumping to {path}")
             g.serialize(path, format=syntax)
+        elif syntax == "json":
+            g = self.as_obograph()
+            gd = obograph.GraphDocument(graphs=[g])
+            json_dumper.dump(gd, path)
         elif syntax == "sqlite":
             raise NotImplementedError
         else:
@@ -805,7 +826,10 @@ class SqlImplementation(
     def node(self, curie: CURIE, strict=False, include_metadata=False) -> obograph.Node:
         meta = obograph.Meta()
         n = obograph.Node(id=curie, meta=meta)
-        rows = list(self.session.query(Statements).filter(Statements.subject == curie))
+        q = self.session.query(Statements).filter(Statements.subject == curie)
+        builtin_preds = [RDF_TYPE, IS_A, DISJOINT_WITH]
+        q = q.filter(Statements.predicate.not_in(builtin_preds))
+        rows = list(q)
 
         def _anns_to_xrefs_and_meta(parent_pv: obograph.PropertyValue, anns: List[om.Annotation]):
             parent_pv.xrefs = [ann.object for ann in anns if ann.predicate == HAS_DBXREF]
@@ -835,11 +859,35 @@ class SqlImplementation(
                 if pred == omd_slots.definition.curie:
                     meta.definition = obograph.DefinitionPropertyValue(val=v)
                     _anns_to_xrefs_and_meta(meta.definition, anns)
+                elif pred in SYNONYM_PREDICATES:
+                    # TODO: handle in a separate util
+                    scope_pred = pred.replace("oio:", "")
+                    pv = obograph.SynonymPropertyValue(pred=scope_pred, val=v)
+                    _anns_to_xrefs_and_meta(pv, anns)
+                    meta.synonyms.append(pv)
+                elif pred == HAS_DBXREF:
+                    pv = obograph.XrefPropertyValue(val=v)
+                    _anns_to_xrefs_and_meta(pv, anns)
+                    meta.xrefs.append(pv)
+                elif pred == IN_SUBSET:
+                    meta.subsets.append(v)
                 else:
                     pv = obograph.BasicPropertyValue(pred=pred, val=v)
                     _anns_to_xrefs_and_meta(pv, anns)
                     meta.basicPropertyValues.append(pv)
         return n
+
+    def nodes(self) -> Iterator[Node]:
+        """
+        Yields all nodes in all graphs
+
+        :return:
+        """
+        for e in self.entities():
+            if not e.startswith("<"):
+                n = self.node(e, include_metadata=True)
+                if n.lbl:
+                    yield n
 
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]
