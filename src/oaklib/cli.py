@@ -1384,7 +1384,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
 
     This will show ancestry over the full relationship graph. Like any relational
     OAK command, this can be filtered by relationship type (predicate), using --predicate (-p).
-    For exampple, constrained to is-a and part-of:
+    For example, constrained to is-a and part-of:
 
         runoak -i cl.owl ancestors CL:4023094 -p i,BFO:0000050
 
