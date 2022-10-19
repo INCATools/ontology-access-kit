@@ -138,6 +138,7 @@ def create_lexical_index(
                                 and pred == QUALIFIER_DICT[DEFAULT_QUALIFIER]
                             ):
                                 pred = QUALIFIER_DICT[qualifier]
+
                         else:
                             term2 = apply_transformation(term2, tr)
 
@@ -397,7 +398,9 @@ def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
     return True
 
 
-def apply_transformation(term: str, transformation: LexicalTransformation) -> str:
+def apply_transformation(
+    term: str, transformation: LexicalTransformation
+) -> Union[str, List[Tuple[bool, str, str]]]:
     """
     Apply an individual transformation on a term
 
@@ -412,13 +415,12 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
     elif typ == TransformationType.Synonymization.text:
-        synonymized_results = []
         synonymized_results = apply_synonymizer(term, eval(transformation.params))
         true_results = [x for x in list(synonymized_results) if x[0] is True]
-        if len(true_results) == 1:
-            return true_results[0]
+        if len(true_results) > 0:
+            return true_results[-1]
         else:
-            return False, term, DEFAULT_QUALIFIER
+            return (False, term, DEFAULT_QUALIFIER)
     else:
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
@@ -432,23 +434,25 @@ def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, s
     with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
     as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
 
+    Note: This function "yields" all intermediate results (for each rule applied)
+    as opposed to a final result. The reason being we only want to return a "True"
+    synonymized result. If the term is not synonymized, then the result will be just
+    the term and a default qualifier. In the case of multiple synonyms, the actual result
+    will be the latest synonymized result.In other words, all the rules have been
+    implemented on the term to finally produce the result.
+
     :param term: Original label.
     :param rules: Synonymizer rules from match-rules.yaml file.
-    :return: A Tuple stating [if the label changed, new label, qualifier]
+    :yield: A Tuple stating [if the label changed, new label, qualifier]
     """
-    tmp_term = term
-    qualifier = DEFAULT_QUALIFIER
-
     for rule in rules:
-        term = tmp_term
+        tmp_term_2 = term
         term = re.sub(eval(rule.match), rule.replacement, term)
-        if tmp_term != term and rule.qualifier is not None:
-            qualifier = rule.qualifier
 
-        if tmp_term == term:
-            yield False, term.strip(), qualifier
+        if tmp_term_2 != term:
+            yield True, term.strip(), rule.qualifier
         else:
-            yield True, term.strip(), qualifier
+            yield False, term.strip(), rule.qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
