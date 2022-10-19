@@ -356,10 +356,12 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             ont_id = list(ontologies[0])
         entities = self.entities()
         ldefs = list(self.logical_definitions(entities))
-        g = Graph(id=ont_id,
-                  nodes=list(self.nodes(expand_curies=expand_curies)),
-                  edges=list(self.edges(expand_curies=expand_curies)),
-                  logicalDefinitionAxioms=ldefs)
+        g = Graph(
+            id=ont_id,
+            nodes=list(self.nodes(expand_curies=expand_curies)),
+            edges=list(self.edges(expand_curies=expand_curies)),
+            logicalDefinitionAxioms=ldefs,
+        )
         return g
 
     def load_graph(self, graph: Graph, replace: True) -> None:

@@ -295,12 +295,13 @@ class ComplianceTester:
         test.assertEqual("nucleus", node.lbl)
         meta = node.meta
         test.assertTrue(meta.definition.val.startswith("A membrane-"))
-        test.assertCountEqual(["NIF_Subcellular:sao1702920020",
-                               "Wikipedia:Cell_nucleus"],
-                              [s.val for s in meta.xrefs])
-        test.assertCountEqual([("hasExactSynonym", "cell nucleus"),
-                               ("hasNarrowSynonym", "horsetail nucleus")],
-                              [(s.pred, s.val) for s in meta.synonyms])
+        test.assertCountEqual(
+            ["NIF_Subcellular:sao1702920020", "Wikipedia:Cell_nucleus"], [s.val for s in meta.xrefs]
+        )
+        test.assertCountEqual(
+            [("hasExactSynonym", "cell nucleus"), ("hasNarrowSynonym", "horsetail nucleus")],
+            [(s.pred, s.val) for s in meta.synonyms],
+        )
         test.assertIn("obo:go#goslim_yeast", meta.subsets)
         nodes = list(oi.nodes())
         test.assertGreater(len(nodes), 10)
@@ -329,9 +330,6 @@ class ComplianceTester:
         # self.test_logical_definitions(oi2)
         # TODO: align test cases
         # self.test_relationships(oi2)
-
-
-
 
     def test_patcher(
         self,

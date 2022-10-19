@@ -242,7 +242,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_dump_obograph(self):
         self.compliance_tester.test_dump_obograph(self.oi)
 
-
     # TODO
     def test_obograph_synonyms(self):
         oi = self.oi

@@ -71,6 +71,7 @@ from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
+    DISJOINT_WITH,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
@@ -84,7 +85,7 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
-    omd_slots, DISJOINT_WITH,
+    omd_slots,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
@@ -823,7 +824,9 @@ class SqlImplementation(
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> obograph.Node:
+    def node(
+        self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
+    ) -> obograph.Node:
         meta = obograph.Meta()
         uri = self.curie_to_uri(curie) if expand_curies else curie
         n = obograph.Node(id=uri, meta=meta)

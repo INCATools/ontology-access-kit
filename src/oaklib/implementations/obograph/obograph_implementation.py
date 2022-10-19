@@ -402,7 +402,9 @@ class OboGraphImplementation(
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False) -> obograph.Node:
+    def node(
+        self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
+    ) -> obograph.Node:
         return self._node(curie)
 
     def as_obograph(self) -> Graph:
