@@ -135,6 +135,7 @@ def create_lexical_index(
                             synonymized, term2, qualifier = apply_transformation(term2, tr)
                             if (
                                 qualifier != DEFAULT_QUALIFIER
+                                and qualifier is not None
                                 and pred == QUALIFIER_DICT[DEFAULT_QUALIFIER]
                             ):
                                 pred = QUALIFIER_DICT[qualifier]
