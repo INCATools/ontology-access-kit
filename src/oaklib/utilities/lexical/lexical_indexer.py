@@ -47,7 +47,6 @@ from oaklib.utilities.basic_utils import pairs_as_dict
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
 DEFAULT_QUALIFIER = "exact"
-
 QUALIFIER_DICT = {
     "exact": "oio:hasExactSynonym",
     "broad": "oio:hasBroadSynonym",
@@ -133,11 +132,7 @@ def create_lexical_index(
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
                             synonymized, term2, qualifier = apply_transformation(term2, tr)
-                            if (
-                                qualifier != DEFAULT_QUALIFIER
-                                and qualifier is not None
-                                and pred == QUALIFIER_DICT[DEFAULT_QUALIFIER]
-                            ):
+                            if qualifier != DEFAULT_QUALIFIER and qualifier is not None:
                                 pred = QUALIFIER_DICT[qualifier]
 
                         else:
