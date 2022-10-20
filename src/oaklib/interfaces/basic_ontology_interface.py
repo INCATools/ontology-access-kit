@@ -165,7 +165,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
-                for prefix, uri_prefix in sorted(self.converter.prefix_map.items())
+                for prefix, uri_prefix in sorted(self.converter.data.items())
             )
             raise ValueError(
                 f"{self.__class__.__name__}.prefix_map() does not support expanding {curie}.\n"
@@ -193,7 +193,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
-                for prefix, uri_prefix in sorted(self.converter.prefix_map.items())
+                for prefix, uri_prefix in sorted(self.converter.data.items())
             )
             raise ValueError(
                 f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
