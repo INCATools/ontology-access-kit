@@ -95,6 +95,7 @@ classes:
       match_target_label:
       score:
         range: float
+        required: true
       match_subsumer:
         range: uriorcurie
       match_subsumer_label:
