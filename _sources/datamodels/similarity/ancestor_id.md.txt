@@ -2,11 +2,22 @@
 _the most recent common ancestor of the two compared entities. If there are multiple MRCAs then the most informative one is selected_
 
 
-URI: [https://w3id.org/linkml/similarity/ancestor_id](https://w3id.org/linkml/similarity/ancestor_id)
+URI: [sim:ancestor_id](https://w3id.org/linkml/similarity/ancestor_id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
 
 
 
@@ -42,7 +53,7 @@ URI: [https://w3id.org/linkml/similarity/ancestor_id](https://w3id.org/linkml/si
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

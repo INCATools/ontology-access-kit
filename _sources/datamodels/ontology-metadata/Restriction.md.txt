@@ -8,8 +8,6 @@
 URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Restriction
@@ -33,7 +31,6 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-
 ## Inheritance
 * [Anonymous](Anonymous.md)
     * [AnonymousClassExpression](AnonymousClassExpression.md)
@@ -43,22 +40,20 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [onProperty](onProperty.md) | 0..* <br/> [PropertyExpression](PropertyExpression.md)  |   |
-| [someValuesFrom](someValuesFrom.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [allValuesFrom](allValuesFrom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md)  |   |
-| [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md)  |   |
-| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md)  |   |
-| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md)  |   |
-| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [onProperty](onProperty.md) | 0..* <br/> [PropertyExpression](PropertyExpression.md) | None  | direct |
+| [someValuesFrom](someValuesFrom.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [allValuesFrom](allValuesFrom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
+| [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
+| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
+| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
+| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
 
-
-## Usages
 
 
 
@@ -79,17 +74,15 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Restriction'] |
-| native | ['omoschema:Restriction'] |
+| self | ['owl:Restriction']|join(', ') |
+| native | ['omoschema:Restriction']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

@@ -1,10 +1,21 @@
 # Slot: similarity
 
-URI: [https://w3id.org/linkml/similarity/similarity](https://w3id.org/linkml/similarity/similarity)
+URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[BestMatch](BestMatch.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/similarity](https://w3id.org/linkml/sim
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: similarity
 from_schema: https://w3id.org/linkml/similarity
 rank: 1000
 alias: similarity
+owner: BestMatch
 domain_of:
 - BestMatch
 range: TermPairwiseSimilarity

@@ -2,11 +2,22 @@
 _A normalized term that groups ontology elements_
 
 
-URI: [https://w3id.org/linkml/lexical_index/term](https://w3id.org/linkml/lexical_index/term)
+URI: [li:term](https://w3id.org/linkml/lexical_index/term)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/lexical_index/term](https://w3id.org/linkml/lexica
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 key: true
 alias: term
+owner: LexicalGrouping
 domain_of:
 - LexicalGrouping
 range: string

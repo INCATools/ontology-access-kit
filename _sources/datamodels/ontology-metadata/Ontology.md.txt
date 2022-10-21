@@ -8,8 +8,6 @@ _An OWL ontology_
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Ontology
@@ -33,7 +31,6 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
@@ -43,24 +40,24 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [title](title.md) | 1..1 <br/> [NarrativeText](NarrativeText.md)  |   |
-| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> [Class](Class.md)  |   |
-| [license](license.md) | 1..1 <br/> [Thing](Thing.md)  |   |
-| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [versionIRI](versionIRI.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
-| [versionInfo](versionInfo.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [creator](creator.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | when the term came into being  |
-| [imports](imports.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | this maps to the URI in RDF  |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [title](title.md) | 1..1 <br/> [NarrativeText](NarrativeText.md) | None  | direct |
+| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> [Class](Class.md) | None  | direct |
+| [license](license.md) | 1..1 <br/> [Thing](Thing.md) | None  | direct |
+| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [versionIRI](versionIRI.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+| [versionInfo](versionInfo.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [creator](creator.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | when the term came into being  | direct |
+| [imports](imports.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF  | inherited |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -93,17 +90,15 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Ontology'] |
-| native | ['omoschema:Ontology'] |
+| self | ['owl:Ontology']|join(', ') |
+| native | ['omoschema:Ontology']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

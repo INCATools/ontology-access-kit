@@ -6,8 +6,6 @@
 URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/AnonymousClassExpression)
 
 
-
-
 ```{mermaid}
  classDiagram
     class AnonymousClassExpression
@@ -23,7 +21,6 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
-
 ## Inheritance
 * [Anonymous](Anonymous.md)
     * **AnonymousClassExpression**
@@ -33,11 +30,9 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
-
-## Usages
 
 
 
@@ -58,17 +53,15 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:AnonymousClassExpression'] |
-| native | ['omoschema:AnonymousClassExpression'] |
+| self | ['omoschema:AnonymousClassExpression']|join(', ') |
+| native | ['omoschema:AnonymousClassExpression']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

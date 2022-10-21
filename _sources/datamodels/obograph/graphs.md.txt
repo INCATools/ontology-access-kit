@@ -1,10 +1,21 @@
 # Slot: graphs
 
-URI: [https://github.com/geneontology/obographs/graphs](https://github.com/geneontology/obographs/graphs)
+URI: [og:graphs](https://github.com/geneontology/obographs/graphs)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[GraphDocument](GraphDocument.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/graphs](https://github.com/geneo
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

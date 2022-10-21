@@ -6,8 +6,6 @@
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Graph
@@ -25,27 +23,26 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
-| [nodes](nodes.md) | 0..* <br/> [Node](Node.md)  |   |
-| [edges](edges.md) | 0..* <br/> [Edge](Edge.md)  |   |
-| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> [EquivalentNodesSet](EquivalentNodesSet.md)  |   |
-| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)  |   |
-| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md)  |   |
-| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
+| [nodes](nodes.md) | 0..* <br/> [Node](Node.md) | None  | direct |
+| [edges](edges.md) | 0..* <br/> [Edge](Edge.md) | None  | direct |
+| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> [EquivalentNodesSet](EquivalentNodesSet.md) | None  | direct |
+| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None  | direct |
+| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md) | None  | direct |
+| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -70,17 +67,15 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Ontology'] |
-| native | ['og:Graph'] |
+| self | ['owl:Ontology']|join(', ') |
+| native | ['og:Graph']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

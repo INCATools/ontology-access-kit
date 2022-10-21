@@ -1,6 +1,6 @@
 # Slot: intersectionOf
 
-URI: [http://www.w3.org/2002/07/owl#intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
+URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2002/07/owl#intersectionOf](http://www.w3.org/2002/07/ow
 
 * [logical_predicate](logical_predicate.md)
     * **intersectionOf**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -45,7 +58,7 @@ URI: [http://www.w3.org/2002/07/owl#intersectionOf](http://www.w3.org/2002/07/ow
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

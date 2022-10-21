@@ -2,11 +2,13 @@
 _Maps to exactly one thing_
 
 
-URI: [https://w3id.org/linkml/text_annotator/is_functional](https://w3id.org/linkml/text_annotator/is_functional)
+URI: [ann:is_functional](https://w3id.org/linkml/text_annotator/is_functional)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -48,7 +50,7 @@ URI: [https://w3id.org/linkml/text_annotator/is_functional](https://w3id.org/lin
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

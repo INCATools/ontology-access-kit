@@ -1,6 +1,6 @@
 # Slot: match
 
-URI: [http://purl.obolibrary.org/obo/schema/match](http://purl.obolibrary.org/obo/schema/match)
+URI: [omoschema:match](http://purl.obolibrary.org/obo/schema/match)
 
 
 
@@ -13,6 +13,8 @@ URI: [http://purl.obolibrary.org/obo/schema/match](http://purl.obolibrary.org/ob
     * [exactMatch](exactMatch.md)
     * [narrowMatch](narrowMatch.md)
     * [database_cross_reference](database_cross_reference.md)
+
+
 
 
 
@@ -45,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/schema/match](http://purl.obolibrary.org/ob
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

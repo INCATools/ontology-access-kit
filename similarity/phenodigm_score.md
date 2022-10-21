@@ -2,7 +2,7 @@
 _the geometric mean of the jaccard similarity and the information content_
 
 
-URI: [https://w3id.org/linkml/similarity/phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
+URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
 
 
 
@@ -11,6 +11,17 @@ URI: [https://w3id.org/linkml/similarity/phenodigm_score](https://w3id.org/linkm
 
 * [score](score.md)
     * **phenodigm_score**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
 
 
 
@@ -43,7 +54,7 @@ URI: [https://w3id.org/linkml/similarity/phenodigm_score](https://w3id.org/linkm
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

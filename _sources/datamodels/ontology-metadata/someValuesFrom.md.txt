@@ -1,6 +1,6 @@
 # Slot: someValuesFrom
 
-URI: [http://www.w3.org/2002/07/owl#someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
+URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#someValuesFrom](http://www.w3.org/2002/07/ow
 
 * [logical_predicate](logical_predicate.md)
     * **someValuesFrom**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -45,7 +56,7 @@ URI: [http://www.w3.org/2002/07/owl#someValuesFrom](http://www.w3.org/2002/07/ow
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

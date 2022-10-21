@@ -1,10 +1,12 @@
 # Slot: NCIT_term_type
 
-URI: [http://purl.obolibrary.org/obo/NCIT_P383](http://purl.obolibrary.org/obo/NCIT_P383)
+URI: [NCIT:P383](http://purl.obolibrary.org/obo/NCIT_P383)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -36,7 +38,7 @@ URI: [http://purl.obolibrary.org/obo/NCIT_P383](http://purl.obolibrary.org/obo/N
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

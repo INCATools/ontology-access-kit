@@ -2,7 +2,7 @@
 _The IC is the negative log of the probability of the concept_
 
 
-URI: [https://w3id.org/linkml/similarity/information_content](https://w3id.org/linkml/similarity/information_content)
+URI: [sim:information_content](https://w3id.org/linkml/similarity/information_content)
 
 
 
@@ -19,13 +19,16 @@ URI: [https://w3id.org/linkml/similarity/information_content](https://w3id.org/l
 
 
 
+
+
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
 * Multivalued: None
 
 * Aliases:
-* IC
+
+    * IC
 
 
 
@@ -50,7 +53,7 @@ URI: [https://w3id.org/linkml/similarity/information_content](https://w3id.org/l
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

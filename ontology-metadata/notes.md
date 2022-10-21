@@ -1,10 +1,21 @@
 # Slot: notes
 
-URI: [http://www.geneontology.org/formats/oboInOwl#notes](http://www.geneontology.org/formats/oboInOwl#notes)
+URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#notes](http://www.geneontolog
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

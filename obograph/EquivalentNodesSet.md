@@ -6,8 +6,6 @@
 URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/EquivalentNodesSet)
 
 
-
-
 ```{mermaid}
  classDiagram
     class EquivalentNodesSet
@@ -22,7 +20,6 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 
 
-
 ## Inheritance
 * [Axiom](Axiom.md)
     * **EquivalentNodesSet**
@@ -31,15 +28,15 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [representativeNodeId](representativeNodeId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [nodeIds](nodeIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [representativeNodeId](representativeNodeId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [nodeIds](nodeIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -64,17 +61,15 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:EquivalentNodesSet'] |
-| native | ['og:EquivalentNodesSet'] |
+| self | ['og:EquivalentNodesSet']|join(', ') |
+| native | ['og:EquivalentNodesSet']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

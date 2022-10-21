@@ -2,11 +2,22 @@
 _the entity matches_
 
 
-URI: [https://w3id.org/linkml/similarity/match_target](https://w3id.org/linkml/similarity/match_target)
+URI: [sim:match_target](https://w3id.org/linkml/similarity/match_target)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[BestMatch](BestMatch.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/similarity/match_target](https://w3id.org/linkml/s
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: the entity matches
 from_schema: https://w3id.org/linkml/similarity
 rank: 1000
 alias: match_target
+owner: BestMatch
 domain_of:
 - BestMatch
 range: string

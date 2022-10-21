@@ -8,8 +8,6 @@ _A collection of relational diff results_
 URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/StructureDiffResultSet)
 
 
-
-
 ```{mermaid}
  classDiagram
     class StructureDiffResultSet
@@ -21,20 +19,17 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [results](results.md) | 0..* <br/> [RelationalDiff](RelationalDiff.md)  | all differences between a pair of ontologies  |
-| [left_source](left_source.md) | 0..1 <br/> [Source](Source.md)  | Ontology source for left entities  |
-| [right_source](right_source.md) | 0..1 <br/> [Source](Source.md)  | Ontology source for right entities  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [results](results.md) | 0..* <br/> [RelationalDiff](RelationalDiff.md) | all differences between a pair of ontologies  | direct |
+| [left_source](left_source.md) | 0..1 <br/> [Source](Source.md) | Ontology source for left entities  | direct |
+| [right_source](right_source.md) | 0..1 <br/> [Source](Source.md) | Ontology source for right entities  | direct |
 
-
-## Usages
 
 
 
@@ -55,17 +50,15 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:StructureDiffResultSet'] |
-| native | ['ann:StructureDiffResultSet'] |
+| self | ['ann:StructureDiffResultSet']|join(', ') |
+| native | ['ann:StructureDiffResultSet']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

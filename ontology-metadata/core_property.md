@@ -2,7 +2,7 @@
 _abstract grouping of core properties_
 
 
-URI: [http://purl.obolibrary.org/obo/schema/core_property](http://purl.obolibrary.org/obo/schema/core_property)
+URI: [omoschema:core_property](http://purl.obolibrary.org/obo/schema/core_property)
 
 
 
@@ -13,6 +13,8 @@ URI: [http://purl.obolibrary.org/obo/schema/core_property](http://purl.obolibrar
     * [id](id.md)
     * [label](label.md)
     * [definition](definition.md)
+
+
 
 
 
@@ -45,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/schema/core_property](http://purl.obolibrar
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,10 +1,21 @@
 # Slot: best_score
 
-URI: [https://w3id.org/linkml/similarity/best_score](https://w3id.org/linkml/similarity/best_score)
+URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/best_score](https://w3id.org/linkml/sim
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

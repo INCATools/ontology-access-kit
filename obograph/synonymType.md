@@ -1,10 +1,21 @@
 # Slot: synonymType
 
-URI: [https://github.com/geneontology/obographs/synonymType](https://github.com/geneontology/obographs/synonymType)
+URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SynonymPropertyValue](SynonymPropertyValue.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/synonymType](https://github.com/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

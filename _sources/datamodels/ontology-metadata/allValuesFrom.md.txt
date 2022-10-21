@@ -1,6 +1,6 @@
 # Slot: allValuesFrom
 
-URI: [http://www.w3.org/2002/07/owl#allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
+URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#allValuesFrom](http://www.w3.org/2002/07/owl
 
 * [logical_predicate](logical_predicate.md)
     * **allValuesFrom**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -45,7 +56,7 @@ URI: [http://www.w3.org/2002/07/owl#allValuesFrom](http://www.w3.org/2002/07/owl
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

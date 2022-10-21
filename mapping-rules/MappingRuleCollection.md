@@ -8,8 +8,6 @@ _A collection of mapping rules_
 URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamodel/MappingRuleCollection)
 
 
-
-
 ```{mermaid}
  classDiagram
     class MappingRuleCollection
@@ -20,19 +18,16 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md)  | all rules  |
-| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md) | all rules  | direct |
+| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
 
-
-## Usages
 
 
 
@@ -53,17 +48,15 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:MappingRuleCollection'] |
-| native | ['mrules:MappingRuleCollection'] |
+| self | ['mrules:MappingRuleCollection']|join(', ') |
+| native | ['mrules:MappingRuleCollection']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

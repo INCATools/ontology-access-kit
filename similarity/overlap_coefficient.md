@@ -1,6 +1,6 @@
 # Slot: overlap_coefficient
 
-URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coefficient)
+URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coefficient)
 
 
 
@@ -9,6 +9,8 @@ URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/l
 
 * [score](score.md)
     * **overlap_coefficient**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/l
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

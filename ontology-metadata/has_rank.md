@@ -1,10 +1,21 @@
 # Slot: has_rank
 
-URI: [http://purl.obolibrary.org/obo/schema/has_rank](http://purl.obolibrary.org/obo/schema/has_rank)
+URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/schema/has_rank)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Class](Class.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/schema/has_rank](http://purl.obolibrary.org
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

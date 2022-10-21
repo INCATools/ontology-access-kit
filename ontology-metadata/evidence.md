@@ -1,10 +1,21 @@
 # Slot: evidence
 
-URI: [http://www.geneontology.org/formats/oboInOwl#evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
+URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#evidence](http://www.geneonto
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

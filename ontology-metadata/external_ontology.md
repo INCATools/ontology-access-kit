@@ -1,10 +1,21 @@
 # Slot: external_ontology
 
-URI: [http://www.geneontology.org/formats/oboInOwl#external_ontology](http://www.geneontology.org/formats/oboInOwl#external_ontology)
+URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#external_ontology)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#external_ontology](http://www
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

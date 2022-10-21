@@ -1,6 +1,6 @@
 # Slot: created_by
 
-URI: [http://www.geneontology.org/formats/oboInOwl#created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
+URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 
 
@@ -9,6 +9,26 @@ URI: [http://www.geneontology.org/formats/oboInOwl#created_by](http://www.geneon
 
 * [provenance_property](provenance_property.md)
     * **created_by**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasProvenance](HasProvenance.md) | None
+[Axiom](Axiom.md) | A logical or non-logical statement
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | None
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
 
 
 
@@ -41,7 +61,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#created_by](http://www.geneon
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

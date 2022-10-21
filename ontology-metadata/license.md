@@ -1,6 +1,6 @@
 # Slot: license
 
-URI: [http://purl.org/dc/terms/license](http://purl.org/dc/terms/license)
+URI: [dcterms:license](http://purl.org/dc/terms/license)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://purl.org/dc/terms/license](http://purl.org/dc/terms/license)
 
 * [informative_property](informative_property.md)
     * **license**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://purl.org/dc/terms/license](http://purl.org/dc/terms/license)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

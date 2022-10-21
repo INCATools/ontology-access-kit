@@ -1,10 +1,21 @@
 # Slot: fillerId
 
-URI: [https://github.com/geneontology/obographs/fillerId](https://github.com/geneontology/obographs/fillerId)
+URI: [og:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/fillerId](https://github.com/gen
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

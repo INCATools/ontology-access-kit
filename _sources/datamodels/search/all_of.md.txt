@@ -1,10 +1,21 @@
 # Slot: all_of
 
-URI: [https://w3id.org/linkml/search_datamodel/all_of](https://w3id.org/linkml/search_datamodel/all_of)
+URI: [search:all_of](https://w3id.org/linkml/search_datamodel/all_of)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ComplexQuery](ComplexQuery.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/search_datamodel/all_of](https://w3id.org/linkml/s
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 multivalued: true
 alias: all_of
+owner: ComplexQuery
 domain_of:
 - ComplexQuery
 range: ComplexQuery

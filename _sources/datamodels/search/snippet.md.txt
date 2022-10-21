@@ -2,11 +2,22 @@
 _shows how the field was matched_
 
 
-URI: [https://w3id.org/linkml/search_datamodel/snippet](https://w3id.org/linkml/search_datamodel/snippet)
+URI: [search:snippet](https://w3id.org/linkml/search_datamodel/snippet)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchResult](SearchResult.md) | An individual search result
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/search_datamodel/snippet](https://w3id.org/linkml/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: shows how the field was matched
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 alias: snippet
+owner: SearchResult
 domain_of:
 - SearchResult
 range: string

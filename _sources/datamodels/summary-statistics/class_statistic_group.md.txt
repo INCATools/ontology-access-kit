@@ -1,10 +1,12 @@
 # Slot: class_statistic_group
 
-URI: [https://w3id.org/linkml/reportclass_statistic_group](https://w3id.org/linkml/reportclass_statistic_group)
+URI: [reporting:class_statistic_group](https://w3id.org/linkml/reportclass_statistic_group)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -30,9 +32,7 @@ URI: [https://w3id.org/linkml/reportclass_statistic_group](https://w3id.org/link
 
 | property | value |
 | --- | --- |
-| _if_missing |  |
 | count_of | owl:Class |
-
 
 
 
@@ -44,7 +44,7 @@ URI: [https://w3id.org/linkml/reportclass_statistic_group](https://w3id.org/link
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

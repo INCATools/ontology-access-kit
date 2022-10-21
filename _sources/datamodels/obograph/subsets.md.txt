@@ -1,10 +1,21 @@
 # Slot: subsets
 
-URI: [https://github.com/geneontology/obographs/subsets](https://github.com/geneontology/obographs/subsets)
+URI: [og:subsets](https://github.com/geneontology/obographs/subsets)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/subsets](https://github.com/gene
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

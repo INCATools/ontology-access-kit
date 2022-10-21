@@ -1,4 +1,7 @@
-# ObiPermittedProfile
+# Subset: ObiPermittedProfile
+
+URI: [ObiPermittedProfile](ObiPermittedProfile)
+
 
 ## Identifier and Mapping Information
 

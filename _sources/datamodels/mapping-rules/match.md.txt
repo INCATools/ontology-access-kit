@@ -2,11 +2,22 @@
 _Reg-ex rule to match substrings in labels._
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/match](https://w3id.org/linkml/mapping_rules_datamodel/match)
+URI: [mrules:match](https://w3id.org/linkml/mapping_rules_datamodel/match)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Synonymizer](Synonymizer.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/match](https://w3id.org/li
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Reg-ex rule to match substrings in labels.
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: match
+owner: Synonymizer
 domain_of:
 - Synonymizer
 range: string

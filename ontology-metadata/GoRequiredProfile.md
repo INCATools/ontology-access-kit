@@ -1,4 +1,7 @@
-# GoRequiredProfile
+# Subset: GoRequiredProfile
+
+URI: [GoRequiredProfile](GoRequiredProfile)
+
 
 ## Identifier and Mapping Information
 

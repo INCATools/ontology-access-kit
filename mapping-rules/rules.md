@@ -2,11 +2,22 @@
 _all rules_
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/rules](https://w3id.org/linkml/mapping_rules_datamodel/rules)
+URI: [mrules:rules](https://w3id.org/linkml/mapping_rules_datamodel/rules)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[MappingRuleCollection](MappingRuleCollection.md) | A collection of mapping rules
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/rules](https://w3id.org/li
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 multivalued: true
 alias: rules
+owner: MappingRuleCollection
 domain_of:
 - MappingRuleCollection
 range: MappingRule

@@ -1,6 +1,6 @@
 # Slot: versionInfo
 
-URI: [http://www.w3.org/2002/07/owl#versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
+URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#versionInfo](http://www.w3.org/2002/07/owl#v
 
 * [version_property](version_property.md)
     * **versionInfo**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://www.w3.org/2002/07/owl#versionInfo](http://www.w3.org/2002/07/owl#v
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

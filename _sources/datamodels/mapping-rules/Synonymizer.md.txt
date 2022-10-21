@@ -6,8 +6,6 @@
 URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synonymizer)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Synonymizer
@@ -20,22 +18,21 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [the_rule](the_rule.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | Description of the rule  |
-| [match](match.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | Reg-ex rule to match substrings in labels  |
-| [match_scope](match_scope.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | Scope of the reg-ex rule  |
-| [replacement](replacement.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | Reg-ex rule to replace substrings in labels  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [the_rule](the_rule.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Description of the rule.  | direct |
+| [match](match.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Reg-ex rule to match substrings in labels.  | direct |
+| [match_scope](match_scope.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Scope of the reg-ex rule  | direct |
+| [replacement](replacement.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Reg-ex rule to replace substrings in labels  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -60,17 +57,15 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:Synonymizer'] |
-| native | ['mrules:Synonymizer'] |
+| self | ['mrules:Synonymizer']|join(', ') |
+| native | ['mrules:Synonymizer']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

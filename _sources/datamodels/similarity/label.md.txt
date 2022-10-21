@@ -1,10 +1,21 @@
 # Slot: label
 
-URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-schema#label)
+URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermInfo](TermInfo.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/similarity
 rank: 1000
 slot_uri: rdfs:label
 alias: label
+owner: TermInfo
 domain_of:
 - TermInfo
 range: string

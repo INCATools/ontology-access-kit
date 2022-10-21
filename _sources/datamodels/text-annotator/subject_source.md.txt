@@ -1,10 +1,22 @@
 # Slot: subject_source
 
-URI: [http://w3id.org/sssom/subject_source](http://w3id.org/sssom/subject_source)
+URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasSpan](HasSpan.md) | None
+[TextAnnotation](TextAnnotation.md) | An individual text annotation
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [http://w3id.org/sssom/subject_source](http://w3id.org/sssom/subject_source
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +59,7 @@ exact_mappings:
 rank: 1000
 slot_uri: sssom:subject_source
 alias: subject_source
+owner: HasSpan
 domain_of:
 - HasSpan
 range: string

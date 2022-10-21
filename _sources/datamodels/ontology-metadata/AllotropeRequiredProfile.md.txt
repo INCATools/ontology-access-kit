@@ -1,4 +1,7 @@
-# AllotropeRequiredProfile
+# Subset: AllotropeRequiredProfile
+
+URI: [AllotropeRequiredProfile](AllotropeRequiredProfile)
+
 
 ## Identifier and Mapping Information
 

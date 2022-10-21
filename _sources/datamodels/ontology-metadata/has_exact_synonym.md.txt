@@ -1,6 +1,6 @@
 # Slot: has_exact_synonym
 
-URI: [http://www.geneontology.org/formats/oboInOwl#hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExactSynonym)
+URI: [oio:hasExactSynonym](http://www.geneontology.org/formats/oboInOwl#hasExactSynonym)
 
 
 
@@ -10,6 +10,26 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasExactSynonym](http://www.g
 * [alternative_term](alternative_term.md)
     * [synonym](synonym.md)
         * **has_exact_synonym**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms
+[Axiom](Axiom.md) | A logical or non-logical statement
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | None
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
 
 
 
@@ -42,7 +62,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasExactSynonym](http://www.g
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

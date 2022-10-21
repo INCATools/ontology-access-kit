@@ -2,11 +2,22 @@
 _The CURIE of the matched term_
 
 
-URI: [http://w3id.org/sssom/object_id](http://w3id.org/sssom/object_id)
+URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchResult](SearchResult.md) | An individual search result
+
+
 
 
 
@@ -40,7 +51,7 @@ URI: [http://w3id.org/sssom/object_id](http://w3id.org/sssom/object_id)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -50,6 +61,7 @@ from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 slot_uri: sssom:object_id
 alias: object_id
+owner: SearchResult
 domain_of:
 - SearchResult
 range: string

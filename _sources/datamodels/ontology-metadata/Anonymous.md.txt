@@ -10,8 +10,6 @@ _Abstract root class for all anonymous (non-named; lacking an identifier) expres
 URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Anonymous
@@ -19,7 +17,6 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
       
       
 ```
-
 
 
 
@@ -32,11 +29,9 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
-
-## Usages
 
 
 
@@ -57,17 +52,15 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Anonymous'] |
-| native | ['omoschema:Anonymous'] |
+| self | ['omoschema:Anonymous']|join(', ') |
+| native | ['omoschema:Anonymous']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

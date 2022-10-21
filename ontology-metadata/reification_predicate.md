@@ -1,6 +1,6 @@
 # Slot: reification_predicate
 
-URI: [http://purl.obolibrary.org/obo/schema/reification_predicate](http://purl.obolibrary.org/obo/schema/reification_predicate)
+URI: [omoschema:reification_predicate](http://purl.obolibrary.org/obo/schema/reification_predicate)
 
 
 
@@ -11,6 +11,8 @@ URI: [http://purl.obolibrary.org/obo/schema/reification_predicate](http://purl.o
     * [annotatedProperty](annotatedProperty.md)
     * [annotatedSource](annotatedSource.md)
     * [annotatedTarget](annotatedTarget.md)
+
+
 
 
 
@@ -43,7 +45,7 @@ URI: [http://purl.obolibrary.org/obo/schema/reification_predicate](http://purl.o
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

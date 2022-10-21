@@ -1,10 +1,21 @@
 # Slot: sub
 
-URI: [https://github.com/geneontology/obographs/sub](https://github.com/geneontology/obographs/sub)
+URI: [og:sub](https://github.com/geneontology/obographs/sub)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Edge](Edge.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/sub](https://github.com/geneonto
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,10 +1,21 @@
 # Slot: title
 
-URI: [http://purl.org/dc/terms/title](http://purl.org/dc/terms/title)
+URI: [dcterms:title](http://purl.org/dc/terms/title)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://purl.org/dc/terms/title](http://purl.org/dc/terms/title)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

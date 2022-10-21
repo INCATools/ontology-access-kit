@@ -2,11 +2,22 @@
 _allows overriding the default OMO schema_
 
 
-URI: [https://w3id.org/linkml/validation-model/schema_path](https://w3id.org/linkml/validation-model/schema_path)
+URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationConfiguration](ValidationConfiguration.md) | Configuration parameters for execution of a validation report
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/validation-model/schema_path](https://w3id.org/lin
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: allows overriding the default OMO schema
 from_schema: https://w3id.org/linkml/validation_results
 rank: 1000
 alias: schema_path
+owner: ValidationConfiguration
 domain_of:
 - ValidationConfiguration
 range: string

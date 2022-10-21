@@ -8,8 +8,6 @@ _Configuration parameters for execution of a validation report_
 URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/ValidationConfiguration)
 
 
-
-
 ```{mermaid}
  classDiagram
     class ValidationConfiguration
@@ -21,21 +19,20 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [max_number_results_per_type](max_number_results_per_type.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  | if set then truncate results such that no more than this number of results ar...  |
-| [type_severity_map](type_severity_map.md) | 0..* <br/> [TypeSeverityKeyValue](TypeSeverityKeyValue.md)  | Allows overriding of severity of a particular type  |
-| [schema_path](schema_path.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | allows overriding the default OMO schema  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [max_number_results_per_type](max_number_results_per_type.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | if set then truncate results such that no more than this number of results are reported per type  | direct |
+| [type_severity_map](type_severity_map.md) | 0..* <br/> [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | Allows overriding of severity of a particular type  | direct |
+| [schema_path](schema_path.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | allows overriding the default OMO schema  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -60,17 +57,15 @@ URI: [vm:ValidationConfiguration](https://w3id.org/linkml/validation-model/Valid
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:ValidationConfiguration'] |
-| native | ['vm:ValidationConfiguration'] |
+| self | ['vm:ValidationConfiguration']|join(', ') |
+| native | ['vm:ValidationConfiguration']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

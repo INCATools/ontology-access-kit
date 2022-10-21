@@ -1,6 +1,6 @@
 # Slot: distinctMembers
 
-URI: [http://www.w3.org/2002/07/owl#distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
+URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#distinctMembers](http://www.w3.org/2002/07/o
 
 * [logical_predicate](logical_predicate.md)
     * **distinctMembers**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2002/07/owl#distinctMembers](http://www.w3.org/2002/07/o
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,6 +1,6 @@
 # Slot: has_ontology_root_term
 
-URI: [http://purl.obolibrary.org/obo/IAO_0000700](http://purl.obolibrary.org/obo/IAO_0000700)
+URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000700](http://purl.obolibrary.org/obo
 
 * [informative_property](informative_property.md)
     * **has_ontology_root_term**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000700](http://purl.obolibrary.org/obo
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

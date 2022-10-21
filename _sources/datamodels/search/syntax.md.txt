@@ -2,11 +2,22 @@
 _Determines how the search term is interpreted_
 
 
-URI: [https://w3id.org/linkml/search_datamodel/syntax](https://w3id.org/linkml/search_datamodel/syntax)
+URI: [search:syntax](https://w3id.org/linkml/search_datamodel/syntax)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/search_datamodel/syntax](https://w3id.org/linkml/s
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Determines how the search term is interpreted
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 alias: syntax
+owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: SearchTermSyntax

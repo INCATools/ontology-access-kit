@@ -2,11 +2,22 @@
 _Weighting of the rule, positive increases the confidence, negative decreases_
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/weight](https://w3id.org/linkml/mapping_rules_datamodel/weight)
+URI: [mrules:weight](https://w3id.org/linkml/mapping_rules_datamodel/weight)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Postcondition](Postcondition.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/weight](https://w3id.org/l
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -50,6 +61,7 @@ see_also:
 - https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png
 rank: 1000
 alias: weight
+owner: Postcondition
 domain_of:
 - Postcondition
 range: float

@@ -1,10 +1,21 @@
 # Slot: logicalDefinitionAxioms
 
-URI: [https://github.com/geneontology/obographs/logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
+URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/logicalDefinitionAxioms](https:/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

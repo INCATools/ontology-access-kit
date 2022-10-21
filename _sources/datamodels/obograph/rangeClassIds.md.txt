@@ -1,10 +1,21 @@
 # Slot: rangeClassIds
 
-URI: [https://github.com/geneontology/obographs/rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
+URI: [og:rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[DomainRangeAxiom](DomainRangeAxiom.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/rangeClassIds](https://github.co
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

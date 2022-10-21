@@ -2,11 +2,22 @@
 _The namespace associated with a prefix in a prefix declaration._
 
 
-URI: [https://w3id.org/shacl/namespace](https://w3id.org/shacl/namespace)
+URI: [sh:namespace](https://w3id.org/shacl/namespace)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PrefixDeclaration](PrefixDeclaration.md) | maps individual prefix to namespace
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/shacl/namespace](https://w3id.org/shacl/namespace)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: sh:namespace
 alias: namespace
+owner: PrefixDeclaration
 domain_of:
 - PrefixDeclaration
 range: uri

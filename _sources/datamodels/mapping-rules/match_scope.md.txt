@@ -2,11 +2,22 @@
 _Scope of the reg-ex rule_
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/match_scope](https://w3id.org/linkml/mapping_rules_datamodel/match_scope)
+URI: [mrules:match_scope](https://w3id.org/linkml/mapping_rules_datamodel/match_scope)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Synonymizer](Synonymizer.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/match_scope](https://w3id.
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Scope of the reg-ex rule
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: match_scope
+owner: Synonymizer
 domain_of:
 - Synonymizer
 range: string

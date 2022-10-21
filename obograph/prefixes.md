@@ -2,11 +2,22 @@
 _maps prefixes to namespaces_
 
 
-URI: [https://w3id.org/shacl/declare](https://w3id.org/shacl/declare)
+URI: [sh:declare](https://w3id.org/shacl/declare)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[GraphDocument](GraphDocument.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/shacl/declare](https://w3id.org/shacl/declare)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

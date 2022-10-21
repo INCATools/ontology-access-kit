@@ -2,11 +2,22 @@
 _statistics keyed by organism taxon_
 
 
-URI: [https://w3id.org/linkml/reportby_taxon](https://w3id.org/linkml/reportby_taxon)
+URI: [reporting:by_taxon](https://w3id.org/linkml/reportby_taxon)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/reportby_taxon](https://w3id.org/linkml/reportby_t
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: by_taxon
+owner: GlobalStatistics
 domain_of:
 - GlobalStatistics
 range: FacetStatistics

@@ -1,10 +1,12 @@
 # Slot: individual_statistic_group
 
-URI: [https://w3id.org/linkml/reportindividual_statistic_group](https://w3id.org/linkml/reportindividual_statistic_group)
+URI: [reporting:individual_statistic_group](https://w3id.org/linkml/reportindividual_statistic_group)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -36,7 +38,7 @@ URI: [https://w3id.org/linkml/reportindividual_statistic_group](https://w3id.org
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

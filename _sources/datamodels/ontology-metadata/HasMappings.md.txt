@@ -8,8 +8,6 @@
 URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
-
-
 ```{mermaid}
  classDiagram
     class HasMappings
@@ -35,7 +33,6 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
 
-
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasMappings**
@@ -44,16 +41,14 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [broadMatch](broadMatch.md) | 0..* <br/> [Thing](Thing.md)  |   |
-| [closeMatch](closeMatch.md) | 0..* <br/> [Thing](Thing.md)  |   |
-| [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md)  |   |
-| [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md)  |   |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [broadMatch](broadMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
+| [closeMatch](closeMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
+| [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
+| [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
+| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -74,17 +69,15 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasMappings'] |
-| native | ['omoschema:HasMappings'] |
+| self | ['omoschema:HasMappings']|join(', ') |
+| native | ['omoschema:HasMappings']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

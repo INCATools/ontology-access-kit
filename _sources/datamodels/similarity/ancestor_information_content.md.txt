@@ -2,7 +2,7 @@
 _The IC of the object_
 
 
-URI: [https://w3id.org/linkml/similarity/ancestor_information_content](https://w3id.org/linkml/similarity/ancestor_information_content)
+URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ancestor_information_content)
 
 
 
@@ -12,6 +12,17 @@ URI: [https://w3id.org/linkml/similarity/ancestor_information_content](https://w
 * [score](score.md)
     * [information_content](information_content.md)
         * **ancestor_information_content**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
 
 
 
@@ -44,7 +55,7 @@ URI: [https://w3id.org/linkml/similarity/ancestor_information_content](https://w
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

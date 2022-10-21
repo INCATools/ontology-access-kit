@@ -1,6 +1,6 @@
 # Slot: maxQualifiedCardinality
 
-URI: [http://www.w3.org/2002/07/owl#maxQualifiedCardinality](http://www.w3.org/2002/07/owl#maxQualifiedCardinality)
+URI: [owl:maxQualifiedCardinality](http://www.w3.org/2002/07/owl#maxQualifiedCardinality)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#maxQualifiedCardinality](http://www.w3.org/2
 
 * [logical_predicate](logical_predicate.md)
     * **maxQualifiedCardinality**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2002/07/owl#maxQualifiedCardinality](http://www.w3.org/2
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

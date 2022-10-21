@@ -1,10 +1,21 @@
 # Slot: is_inferred
 
-URI: [http://www.geneontology.org/formats/oboInOwl#is_inferred](http://www.geneontology.org/formats/oboInOwl#is_inferred)
+URI: [oio:is_inferred](http://www.geneontology.org/formats/oboInOwl#is_inferred)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#is_inferred](http://www.geneo
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

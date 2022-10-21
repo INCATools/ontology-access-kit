@@ -1,10 +1,21 @@
 # Slot: restrictions
 
-URI: [https://github.com/geneontology/obographs/restrictions](https://github.com/geneontology/obographs/restrictions)
+URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/restrictions](https://github.com
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true
 alias: restrictions
+owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
 range: ExistentialRestrictionExpression

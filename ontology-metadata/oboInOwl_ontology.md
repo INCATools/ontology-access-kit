@@ -1,10 +1,12 @@
 # Slot: oboInOwl_ontology
 
-URI: [http://www.geneontology.org/formats/oboInOwl#ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
+URI: [oio:ontology](http://www.geneontology.org/formats/oboInOwl#ontology)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -36,7 +38,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#ontology](http://www.geneonto
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

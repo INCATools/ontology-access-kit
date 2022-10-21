@@ -1,10 +1,21 @@
 # Slot: metric
 
-URI: [https://w3id.org/linkml/similarity/metric](https://w3id.org/linkml/similarity/metric)
+URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/metric](https://w3id.org/linkml/similar
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -2,7 +2,7 @@
 _The first ontology is arbitrarily designated the left side_
 
 
-URI: [https://w3id.org/linkml/text_annotator/left_side](https://w3id.org/linkml/text_annotator/left_side)
+URI: [ann:left_side](https://w3id.org/linkml/text_annotator/left_side)
 
 
 
@@ -11,6 +11,8 @@ URI: [https://w3id.org/linkml/text_annotator/left_side](https://w3id.org/linkml/
 
 * [side](side.md)
     * **left_side**
+
+
 
 
 
@@ -59,7 +61,7 @@ URI: [https://w3id.org/linkml/text_annotator/left_side](https://w3id.org/linkml/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

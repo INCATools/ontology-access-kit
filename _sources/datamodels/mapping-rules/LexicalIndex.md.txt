@@ -8,8 +8,6 @@ _An index over an ontology keyed by lexical unit_
 URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
-
-
 ```{mermaid}
  classDiagram
     class LexicalIndex
@@ -20,19 +18,16 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [groupings](groupings.md) | 0..* <br/> [LexicalGrouping](LexicalGrouping.md)  | all groupings  |
-| [pipelines](pipelines.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md)  | all pipelines used to build the index  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [groupings](groupings.md) | 0..* <br/> [LexicalGrouping](LexicalGrouping.md) | all groupings  | direct |
+| [pipelines](pipelines.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | all pipelines used to build the index  | direct |
 
-
-## Usages
 
 
 
@@ -53,17 +48,15 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalIndex'] |
-| native | ['li:LexicalIndex'] |
+| self | ['li:LexicalIndex']|join(', ') |
+| native | ['li:LexicalIndex']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

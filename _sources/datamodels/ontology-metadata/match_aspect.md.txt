@@ -1,10 +1,12 @@
 # Slot: match_aspect
 
-URI: [http://purl.obolibrary.org/obo/schema/match_aspect](http://purl.obolibrary.org/obo/schema/match_aspect)
+URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/schema/match_aspect)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -48,7 +50,7 @@ URI: [http://purl.obolibrary.org/obo/schema/match_aspect](http://purl.obolibrary
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

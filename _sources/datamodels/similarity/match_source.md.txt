@@ -1,10 +1,21 @@
 # Slot: match_source
 
-URI: [https://w3id.org/linkml/similarity/match_source](https://w3id.org/linkml/similarity/match_source)
+URI: [sim:match_source](https://w3id.org/linkml/similarity/match_source)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[BestMatch](BestMatch.md) | None
+
+
 
 
 
@@ -40,7 +51,7 @@ URI: [https://w3id.org/linkml/similarity/match_source](https://w3id.org/linkml/s
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -51,6 +62,7 @@ from_schema: https://w3id.org/linkml/similarity
 rank: 1000
 identifier: true
 alias: match_source
+owner: BestMatch
 domain_of:
 - BestMatch
 range: string

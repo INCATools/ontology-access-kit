@@ -2,11 +2,22 @@
 _Normalizing rules to labels._
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/synonymizer)
+URI: [mrules:synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/synonymizer)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/synonymizer](https://w3id.
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Normalizing rules to labels.
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: synonymizer
+owner: MappingRule
 domain_of:
 - MappingRule
 range: Synonymizer

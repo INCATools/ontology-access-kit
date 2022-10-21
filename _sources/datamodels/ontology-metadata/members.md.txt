@@ -1,6 +1,6 @@
 # Slot: members
 
-URI: [http://www.w3.org/2002/07/owl#members](http://www.w3.org/2002/07/owl#members)
+URI: [owl:members](http://www.w3.org/2002/07/owl#members)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#members](http://www.w3.org/2002/07/owl#membe
 
 * [logical_predicate](logical_predicate.md)
     * **members**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2002/07/owl#members](http://www.w3.org/2002/07/owl#membe
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

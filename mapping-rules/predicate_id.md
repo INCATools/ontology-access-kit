@@ -1,10 +1,21 @@
 # Slot: predicate_id
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/predicate_id](https://w3id.org/linkml/mapping_rules_datamodel/predicate_id)
+URI: [mrules:predicate_id](https://w3id.org/linkml/mapping_rules_datamodel/predicate_id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Postcondition](Postcondition.md) | None
+
+
 
 
 
@@ -40,7 +51,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/predicate_id](https://w3id
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -51,6 +62,7 @@ comments:
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: predicate_id
+owner: Postcondition
 domain_of:
 - Postcondition
 range: string

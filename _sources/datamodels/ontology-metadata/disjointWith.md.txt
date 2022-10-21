@@ -1,6 +1,6 @@
 # Slot: disjointWith
 
-URI: [http://www.w3.org/2002/07/owl#disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
+URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 
 
@@ -9,6 +9,22 @@ URI: [http://www.w3.org/2002/07/owl#disjointWith](http://www.w3.org/2002/07/owl#
 
 * [logical_predicate](logical_predicate.md)
     * **disjointWith**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[PropertyExpression](PropertyExpression.md) | None
+[Class](Class.md) | None
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -45,7 +61,7 @@ URI: [http://www.w3.org/2002/07/owl#disjointWith](http://www.w3.org/2002/07/owl#
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -2,11 +2,22 @@
 _the original term used in the element_
 
 
-URI: [https://w3id.org/linkml/lexical_index/element_term](https://w3id.org/linkml/lexical_index/element_term)
+URI: [li:element_term](https://w3id.org/linkml/lexical_index/element_term)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/lexical_index/element_term](https://w3id.org/linkm
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: the original term used in the element
 from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 alias: element_term
+owner: RelationshipToTerm
 domain_of:
 - RelationshipToTerm
 range: string

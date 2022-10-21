@@ -6,8 +6,6 @@
 URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefPropertyValue)
 
 
-
-
 ```{mermaid}
  classDiagram
     class XrefPropertyValue
@@ -23,7 +21,6 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 
 
 
-
 ## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **XrefPropertyValue**
@@ -32,16 +29,16 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -66,17 +63,15 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:XrefPropertyValue'] |
-| native | ['og:XrefPropertyValue'] |
+| self | ['og:XrefPropertyValue']|join(', ') |
+| native | ['og:XrefPropertyValue']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

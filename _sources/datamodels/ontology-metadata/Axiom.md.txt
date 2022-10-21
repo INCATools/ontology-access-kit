@@ -8,8 +8,6 @@ _A logical or non-logical statement_
 URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Axiom
@@ -39,38 +37,35 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [annotatedProperty](annotatedProperty.md) | 0..1 <br/> [AnnotationProperty](AnnotationProperty.md)  |   |
-| [annotatedSource](annotatedSource.md) | 0..1 <br/> [NamedObject](NamedObject.md)  |   |
-| [annotatedTarget](annotatedTarget.md) | 0..1 <br/> [Any](Any.md)  |   |
-| [annotations](annotations.md) | 0..* <br/> [Annotation](Annotation.md)  |   |
-| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [is_inferred](is_inferred.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
-| [notes](notes.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [url](url.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [has_axiom_label](has_axiom_label.md) | 0..1 <br/> [Thing](Thing.md)  |   |
-| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [created_by](created_by.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [date_retrieved](date_retrieved.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [evidence](evidence.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [external_ontology](external_ontology.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md)  | Uses to indicate the source of an axiom  |
-| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md)  |   |
-| [has_synonym_type](has_synonym_type.md) | 0..* <br/> [AnnotationProperty](AnnotationProperty.md)  |   |
-| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md)  |   |
-| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [annotatedProperty](annotatedProperty.md) | 0..1 <br/> [AnnotationProperty](AnnotationProperty.md) | None  | direct |
+| [annotatedSource](annotatedSource.md) | 0..1 <br/> [NamedObject](NamedObject.md) | None  | direct |
+| [annotatedTarget](annotatedTarget.md) | 0..1 <br/> [Any](Any.md) | None  | direct |
+| [annotations](annotations.md) | 0..* <br/> [Annotation](Annotation.md) | None  | direct |
+| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [is_inferred](is_inferred.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
+| [notes](notes.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [url](url.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [has_axiom_label](has_axiom_label.md) | 0..1 <br/> [Thing](Thing.md) | None  | direct |
+| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [created_by](created_by.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [date_retrieved](date_retrieved.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [evidence](evidence.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [external_ontology](external_ontology.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) | Uses to indicate the source of an axiom  | direct |
+| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md) | None  | direct |
+| [has_synonym_type](has_synonym_type.md) | 0..* <br/> [AnnotationProperty](AnnotationProperty.md) | None  | direct |
+| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) | None  | direct |
+| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -91,18 +86,16 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Axiom'] |
-| native | ['omoschema:Axiom'] |
-| exact | ['rdf:Statement'] |
+| self | ['owl:Axiom']|join(', ') |
+| native | ['omoschema:Axiom']|join(', ') |
+| exact | ['rdf:Statement']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

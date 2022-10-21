@@ -1,6 +1,6 @@
 # Slot: inverseOf
 
-URI: [http://www.w3.org/2002/07/owl#inverseOf](http://www.w3.org/2002/07/owl#inverseOf)
+URI: [owl:inverseOf](http://www.w3.org/2002/07/owl#inverseOf)
 
 
 
@@ -9,6 +9,18 @@ URI: [http://www.w3.org/2002/07/owl#inverseOf](http://www.w3.org/2002/07/owl#inv
 
 * [logical_predicate](logical_predicate.md)
     * **inverseOf**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+
 
 
 
@@ -45,7 +57,7 @@ URI: [http://www.w3.org/2002/07/owl#inverseOf](http://www.w3.org/2002/07/owl#inv
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

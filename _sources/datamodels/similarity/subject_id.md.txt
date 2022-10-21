@@ -2,11 +2,22 @@
 _The first of the two entities being compared_
 
 
-URI: [http://w3id.org/sssom/subject_id](http://w3id.org/sssom/subject_id)
+URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
 
 
 
@@ -40,7 +51,7 @@ URI: [http://w3id.org/sssom/subject_id](http://w3id.org/sssom/subject_id)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

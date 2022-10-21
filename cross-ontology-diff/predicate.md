@@ -2,11 +2,13 @@
 _The relationship type between subject and object on left or right side_
 
 
-URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
+URI: [rdf:predicate](http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -54,7 +56,7 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate](http://www.w3.org/19
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

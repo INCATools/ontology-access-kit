@@ -2,11 +2,22 @@
 _Reg-ex rule to replace substrings in labels_
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/replacement](https://w3id.org/linkml/mapping_rules_datamodel/replacement)
+URI: [mrules:replacement](https://w3id.org/linkml/mapping_rules_datamodel/replacement)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Synonymizer](Synonymizer.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/replacement](https://w3id.
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Reg-ex rule to replace substrings in labels
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: replacement
+owner: Synonymizer
 domain_of:
 - Synonymizer
 range: string

@@ -1,10 +1,22 @@
 # Slot: is_cyclic
 
-URI: [http://www.geneontology.org/formats/oboInOwl#is_cyclic](http://www.geneontology.org/formats/oboInOwl#is_cyclic)
+URI: [oio:is_cyclic](http://www.geneontology.org/formats/oboInOwl#is_cyclic)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#is_cyclic](http://www.geneont
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -10,8 +10,6 @@ _Groups all annotation property bundles_
 URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/AnnotationPropertyMixin)
 
 
-
-
 ```{mermaid}
  classDiagram
     class AnnotationPropertyMixin
@@ -25,7 +23,6 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
       
       
 ```
-
 
 
 
@@ -44,11 +41,9 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
-
-## Usages
 
 
 
@@ -69,17 +64,15 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:AnnotationPropertyMixin'] |
-| native | ['omoschema:AnnotationPropertyMixin'] |
+| self | ['omoschema:AnnotationPropertyMixin']|join(', ') |
+| native | ['omoschema:AnnotationPropertyMixin']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

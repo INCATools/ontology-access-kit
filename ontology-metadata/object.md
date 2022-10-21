@@ -1,10 +1,21 @@
 # Slot: object
 
-URI: [http://purl.obolibrary.org/obo/schema/object](http://purl.obolibrary.org/obo/schema/object)
+URI: [omoschema:object](http://purl.obolibrary.org/obo/schema/object)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Annotation](Annotation.md) | A reified property-object pair
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/schema/object](http://purl.obolibrary.org/o
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: object
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 alias: object
+owner: Annotation
 domain_of:
 - Annotation
 relational_role: OBJECT

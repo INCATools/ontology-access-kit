@@ -1,10 +1,21 @@
 # Slot: version
 
-URI: [https://github.com/geneontology/obographs/version](https://github.com/geneontology/obographs/version)
+URI: [og:version](https://github.com/geneontology/obographs/version)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/version](https://github.com/gene
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

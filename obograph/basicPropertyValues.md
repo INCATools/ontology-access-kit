@@ -1,10 +1,21 @@
 # Slot: basicPropertyValues
 
-URI: [https://github.com/geneontology/obographs/basicPropertyValues](https://github.com/geneontology/obographs/basicPropertyValues)
+URI: [og:basicPropertyValues](https://github.com/geneontology/obographs/basicPropertyValues)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/basicPropertyValues](https://git
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,6 +1,6 @@
 # Slot: has_axiom_label
 
-URI: [http://purl.obolibrary.org/obo/IAO_0010000](http://purl.obolibrary.org/obo/IAO_0010000)
+URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://purl.obolibrary.org/obo/IAO_0010000](http://purl.obolibrary.org/obo
 
 * [provenance_property](provenance_property.md)
     * **has_axiom_label**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://purl.obolibrary.org/obo/IAO_0010000](http://purl.obolibrary.org/obo
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

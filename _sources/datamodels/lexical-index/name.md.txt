@@ -1,10 +1,21 @@
 # Slot: name
 
-URI: [https://w3id.org/linkml/lexical_index/name](https://w3id.org/linkml/lexical_index/name)
+URI: [li:name](https://w3id.org/linkml/lexical_index/name)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fashion
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/lexical_index/name](https://w3id.org/linkml/lexica
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 key: true
 alias: name
+owner: LexicalTransformationPipeline
 domain_of:
 - LexicalTransformationPipeline
 range: string

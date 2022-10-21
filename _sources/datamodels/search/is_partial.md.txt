@@ -2,11 +2,22 @@
 _allows matches where the search term is a subset of the full span_
 
 
-URI: [https://w3id.org/linkml/search_datamodel/is_partial](https://w3id.org/linkml/search_datamodel/is_partial)
+URI: [search:is_partial](https://w3id.org/linkml/search_datamodel/is_partial)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/search_datamodel/is_partial](https://w3id.org/link
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: allows matches where the search term is a subset of the full span
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 alias: is_partial
+owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: boolean

@@ -1,6 +1,6 @@
 # Slot: versionIRI
 
-URI: [http://www.w3.org/2002/07/owl#versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
+URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#versionIRI](http://www.w3.org/2002/07/owl#ve
 
 * [version_property](version_property.md)
     * **versionIRI**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://www.w3.org/2002/07/owl#versionIRI](http://www.w3.org/2002/07/owl#ve
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

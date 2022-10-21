@@ -8,8 +8,6 @@ _key-value pair that maps a validation result type to a severity setting, for ov
 URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeverityKeyValue)
 
 
-
-
 ```{mermaid}
  classDiagram
     class TypeSeverityKeyValue
@@ -20,20 +18,19 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [type](type.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
-| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [type](type.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -58,17 +55,15 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:TypeSeverityKeyValue'] |
-| native | ['vm:TypeSeverityKeyValue'] |
+| self | ['vm:TypeSeverityKeyValue']|join(', ') |
+| native | ['vm:TypeSeverityKeyValue']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

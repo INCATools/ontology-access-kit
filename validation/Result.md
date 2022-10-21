@@ -10,8 +10,6 @@ _Abstract base class for any individual report result_
 URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Result
@@ -20,7 +18,6 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
       
       
 ```
-
 
 
 
@@ -34,12 +31,12 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -64,17 +61,15 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:Result'] |
-| native | ['vm:Result'] |
+| self | ['vm:Result']|join(', ') |
+| native | ['vm:Result']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

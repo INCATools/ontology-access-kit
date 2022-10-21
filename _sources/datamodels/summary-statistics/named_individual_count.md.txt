@@ -1,6 +1,6 @@
 # Slot: named_individual_count
 
-URI: [https://w3id.org/linkml/reportnamed_individual_count](https://w3id.org/linkml/reportnamed_individual_count)
+URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_individual_count)
 
 
 
@@ -14,9 +14,22 @@ URI: [https://w3id.org/linkml/reportnamed_individual_count](https://w3id.org/lin
 
 
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
+
+
+
+
+
+
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 * Multivalued: None
 
 
@@ -35,9 +48,7 @@ URI: [https://w3id.org/linkml/reportnamed_individual_count](https://w3id.org/lin
 
 | property | value |
 | --- | --- |
-| _if_missing |  |
 | count_of | owl:NamedIndividual |
-
 
 
 
@@ -49,7 +60,7 @@ URI: [https://w3id.org/linkml/reportnamed_individual_count](https://w3id.org/lin
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -62,10 +73,11 @@ from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: named_individual_count
+owner: SummaryStatisticCollection
 domain_of:
 - SummaryStatisticCollection
 slot_group: individual_statistic_group
-range: integer
+range: string
 
 ```
 </details>

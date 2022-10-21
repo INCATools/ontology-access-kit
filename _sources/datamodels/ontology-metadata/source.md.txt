@@ -1,6 +1,6 @@
 # Slot: source
 
-URI: [http://purl.org/dc/terms/source](http://purl.org/dc/terms/source)
+URI: [dcterms:source](http://purl.org/dc/terms/source)
 
 
 
@@ -9,6 +9,18 @@ URI: [http://purl.org/dc/terms/source](http://purl.org/dc/terms/source)
 
 * [provenance_property](provenance_property.md)
     * **source**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+[Axiom](Axiom.md) | A logical or non-logical statement
+
 
 
 
@@ -41,7 +53,7 @@ URI: [http://purl.org/dc/terms/source](http://purl.org/dc/terms/source)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

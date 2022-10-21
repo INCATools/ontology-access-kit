@@ -1,10 +1,21 @@
 # Slot: domainRangeAxioms
 
-URI: [https://github.com/geneontology/obographs/domainRangeAxioms](https://github.com/geneontology/obographs/domainRangeAxioms)
+URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRangeAxioms)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/domainRangeAxioms](https://githu
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

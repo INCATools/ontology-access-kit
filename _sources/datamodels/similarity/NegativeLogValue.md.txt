@@ -1,8 +1,8 @@
-# NegativeLogValue
+# Type: NegativeLogValue
 
-None
 
-URI: http://www.w3.org/2001/XMLSchema#float
+
+URI: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
 
 * [base](https://w3id.org/linkml/base): float
 

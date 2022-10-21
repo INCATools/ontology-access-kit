@@ -1,6 +1,6 @@
 # Slot: shortcut_annotation_property
 
-URI: [http://purl.obolibrary.org/obo/schema/shortcut_annotation_property](http://purl.obolibrary.org/obo/schema/shortcut_annotation_property)
+URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/schema/shortcut_annotation_property)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://purl.obolibrary.org/obo/schema/shortcut_annotation_property](http:/
 
 * **shortcut_annotation_property**
     * [disconnected_from](disconnected_from.md)
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://purl.obolibrary.org/obo/schema/shortcut_annotation_property](http:/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

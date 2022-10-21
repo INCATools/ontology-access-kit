@@ -8,8 +8,6 @@
 URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Thing
@@ -22,7 +20,6 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
-
 ## Inheritance
 * **Thing**
     * [NamedObject](NamedObject.md)
@@ -31,13 +28,13 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -131,17 +128,15 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Thing'] |
-| native | ['omoschema:Thing'] |
+| self | ['owl:Thing']|join(', ') |
+| native | ['omoschema:Thing']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

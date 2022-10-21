@@ -1,10 +1,21 @@
 # Slot: annotations
 
-URI: [http://purl.obolibrary.org/obo/schema/annotations](http://purl.obolibrary.org/obo/schema/annotations)
+URI: [omoschema:annotations](http://purl.obolibrary.org/obo/schema/annotations)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/schema/annotations](http://purl.obolibrary.
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

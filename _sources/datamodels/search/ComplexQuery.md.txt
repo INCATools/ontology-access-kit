@@ -6,8 +6,6 @@
 URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery)
 
 
-
-
 ```{mermaid}
  classDiagram
     class ComplexQuery
@@ -21,23 +19,22 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [all_of](all_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md)  |   |
-| [any_of](any_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md)  |   |
-| [none_of](none_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md)  |   |
-| [path_to](path_to.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [atom](atom.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [all_of](all_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) | None  | direct |
+| [any_of](any_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) | None  | direct |
+| [none_of](none_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) | None  | direct |
+| [path_to](path_to.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [atom](atom.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -64,17 +61,15 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['search:ComplexQuery'] |
-| native | ['search:ComplexQuery'] |
+| self | ['search:ComplexQuery']|join(', ') |
+| native | ['search:ComplexQuery']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

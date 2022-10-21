@@ -1,10 +1,21 @@
 # Slot: average_score
 
-URI: [https://w3id.org/linkml/similarity/average_score](https://w3id.org/linkml/similarity/average_score)
+URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/average_score](https://w3id.org/linkml/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

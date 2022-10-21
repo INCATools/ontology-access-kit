@@ -2,7 +2,7 @@
 _The number of concepts in the intersection divided by the number in the union_
 
 
-URI: [https://w3id.org/linkml/similarity/jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similarity)
+URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similarity)
 
 
 
@@ -11,6 +11,17 @@ URI: [https://w3id.org/linkml/similarity/jaccard_similarity](https://w3id.org/li
 
 * [score](score.md)
     * **jaccard_similarity**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
 
 
 
@@ -43,7 +54,7 @@ URI: [https://w3id.org/linkml/similarity/jaccard_similarity](https://w3id.org/li
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

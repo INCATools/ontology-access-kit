@@ -8,8 +8,6 @@
 URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 
-
-
 ```{mermaid}
  classDiagram
     class HasCategory
@@ -33,7 +31,6 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 
 
-
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasCategory**
@@ -42,15 +39,13 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [category](category.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md)  | Maps an ontology element to a subset it belongs to  |
-| [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [category](category.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md) | Maps an ontology element to a subset it belongs to  | direct |
+| [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -71,17 +66,15 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasCategory'] |
-| native | ['omoschema:HasCategory'] |
+| self | ['omoschema:HasCategory']|join(', ') |
+| native | ['omoschema:HasCategory']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

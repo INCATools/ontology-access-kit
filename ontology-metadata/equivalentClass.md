@@ -1,6 +1,6 @@
 # Slot: equivalentClass
 
-URI: [http://www.w3.org/2002/07/owl#equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
+URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2002/07/owl#equivalentClass](http://www.w3.org/2002/07/o
 
 * [logical_predicate](logical_predicate.md)
     * **equivalentClass** [ [match_aspect](match_aspect.md)]
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -45,7 +58,7 @@ URI: [http://www.w3.org/2002/07/owl#equivalentClass](http://www.w3.org/2002/07/o
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

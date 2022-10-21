@@ -1,6 +1,6 @@
 # Slot: annotatedSource
 
-URI: [http://www.w3.org/2002/07/owl#annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
+URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#annotatedSource](http://www.w3.org/2002/07/o
 
 * [reification_predicate](reification_predicate.md)
     * **annotatedSource**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
 
 
 
@@ -45,7 +56,7 @@ URI: [http://www.w3.org/2002/07/owl#annotatedSource](http://www.w3.org/2002/07/o
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

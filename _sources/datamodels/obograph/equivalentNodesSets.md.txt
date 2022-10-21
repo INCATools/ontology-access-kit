@@ -1,10 +1,21 @@
 # Slot: equivalentNodesSets
 
-URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
+URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://git
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

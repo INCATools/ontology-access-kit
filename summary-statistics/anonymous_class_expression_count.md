@@ -1,6 +1,6 @@
 # Slot: anonymous_class_expression_count
 
-URI: [https://w3id.org/linkml/reportanonymous_class_expression_count](https://w3id.org/linkml/reportanonymous_class_expression_count)
+URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/reportanonymous_class_expression_count)
 
 
 
@@ -14,9 +14,22 @@ URI: [https://w3id.org/linkml/reportanonymous_class_expression_count](https://w3
 
 
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
+
+
+
+
+
+
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 * Multivalued: None
 
 
@@ -41,7 +54,7 @@ URI: [https://w3id.org/linkml/reportanonymous_class_expression_count](https://w3
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -50,10 +63,11 @@ from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: anonymous_class_expression_count
+owner: SummaryStatisticCollection
 domain_of:
 - SummaryStatisticCollection
 slot_group: class_statistic_group
-range: integer
+range: string
 
 ```
 </details>

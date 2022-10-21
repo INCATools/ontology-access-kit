@@ -1,10 +1,21 @@
 # Slot: predicate
 
-URI: [http://purl.obolibrary.org/obo/schema/predicate](http://purl.obolibrary.org/obo/schema/predicate)
+URI: [omoschema:predicate](http://purl.obolibrary.org/obo/schema/predicate)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Annotation](Annotation.md) | A reified property-object pair
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/schema/predicate](http://purl.obolibrary.or
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: predicate
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 alias: predicate
+owner: Annotation
 domain_of:
 - Annotation
 relational_role: PREDICATE

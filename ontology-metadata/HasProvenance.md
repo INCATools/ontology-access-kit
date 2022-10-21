@@ -8,8 +8,6 @@
 URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenance)
 
 
-
-
 ```{mermaid}
  classDiagram
     class HasProvenance
@@ -51,7 +49,6 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 
 
-
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasProvenance**
@@ -60,24 +57,22 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [created_by](created_by.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [creation_date](creation_date.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [contributor](contributor.md) | 0..* <br/> [Thing](Thing.md)  |   |
-| [creator](creator.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | when the term came into being  |
-| [date](date.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | when the term was updated  |
-| [isDefinedBy](isDefinedBy.md) | 0..1 <br/> [Ontology](Ontology.md)  |   |
-| [editor_note](editor_note.md) | 0..* <br/> [NarrativeText](NarrativeText.md)  |   |
-| [term_editor](term_editor.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [definition_source](definition_source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [ontology_term_requester](ontology_term_requester.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [imported_from](imported_from.md) | 0..* <br/> [NamedIndividual](NamedIndividual.md)  |   |
-| [term_tracker_item](term_tracker_item.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [created_by](created_by.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [creation_date](creation_date.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [contributor](contributor.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
+| [creator](creator.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | when the term came into being  | direct |
+| [date](date.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | when the term was updated  | direct |
+| [isDefinedBy](isDefinedBy.md) | 0..1 <br/> [Ontology](Ontology.md) | None  | direct |
+| [editor_note](editor_note.md) | 0..* <br/> [NarrativeText](NarrativeText.md) | None  | direct |
+| [term_editor](term_editor.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [definition_source](definition_source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [ontology_term_requester](ontology_term_requester.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [imported_from](imported_from.md) | 0..* <br/> [NamedIndividual](NamedIndividual.md) | None  | direct |
+| [term_tracker_item](term_tracker_item.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
 
-
-## Usages
 
 
 
@@ -98,17 +93,15 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/schema/HasProvenan
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasProvenance'] |
-| native | ['omoschema:HasProvenance'] |
+| self | ['omoschema:HasProvenance']|join(', ') |
+| native | ['omoschema:HasProvenance']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

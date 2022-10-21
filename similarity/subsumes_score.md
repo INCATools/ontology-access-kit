@@ -1,6 +1,6 @@
 # Slot: subsumes_score
 
-URI: [https://w3id.org/linkml/similarity/subsumes_score](https://w3id.org/linkml/similarity/subsumes_score)
+URI: [sim:subsumes_score](https://w3id.org/linkml/similarity/subsumes_score)
 
 
 
@@ -9,6 +9,8 @@ URI: [https://w3id.org/linkml/similarity/subsumes_score](https://w3id.org/linkml
 
 * [score](score.md)
     * **subsumes_score**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [https://w3id.org/linkml/similarity/subsumes_score](https://w3id.org/linkml
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

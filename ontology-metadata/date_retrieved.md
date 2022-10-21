@@ -1,6 +1,6 @@
 # Slot: date_retrieved
 
-URI: [http://www.geneontology.org/formats/oboInOwl#date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retrieved)
+URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retrieved)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.geneontology.org/formats/oboInOwl#date_retrieved](http://www.ge
 
 * [provenance_property](provenance_property.md)
     * **date_retrieved**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#date_retrieved](http://www.ge
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

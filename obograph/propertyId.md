@@ -1,10 +1,21 @@
 # Slot: propertyId
 
-URI: [https://github.com/geneontology/obographs/propertyId](https://github.com/geneontology/obographs/propertyId)
+URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/propertyId](https://github.com/g
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -6,8 +6,6 @@
 URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/LogicalDefinitionAxiom)
 
 
-
-
 ```{mermaid}
  classDiagram
     class LogicalDefinitionAxiom
@@ -23,7 +21,6 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
-
 ## Inheritance
 * [Axiom](Axiom.md)
     * **LogicalDefinitionAxiom**
@@ -32,16 +29,16 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [definedClassId](definedClassId.md) | 0..1 <br/> NONE  |   |
-| [genusIds](genusIds.md) | 0..* <br/> NONE  |   |
-| [restrictions](restrictions.md) | 0..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md)  |   |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [definedClassId](definedClassId.md) | 0..1 <br/> NONE | None  | direct |
+| [genusIds](genusIds.md) | 0..* <br/> NONE | None  | direct |
+| [restrictions](restrictions.md) | 0..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -66,17 +63,15 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:LogicalDefinitionAxiom'] |
-| native | ['og:LogicalDefinitionAxiom'] |
+| self | ['og:LogicalDefinitionAxiom']|join(', ') |
+| native | ['og:LogicalDefinitionAxiom']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

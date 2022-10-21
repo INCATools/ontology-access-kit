@@ -1,6 +1,6 @@
 # Slot: union_count
 
-URI: [https://w3id.org/linkml/similarity/union_count](https://w3id.org/linkml/similarity/union_count)
+URI: [sim:union_count](https://w3id.org/linkml/similarity/union_count)
 
 
 
@@ -9,6 +9,8 @@ URI: [https://w3id.org/linkml/similarity/union_count](https://w3id.org/linkml/si
 
 * [score](score.md)
     * **union_count**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [https://w3id.org/linkml/similarity/union_count](https://w3id.org/linkml/si
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

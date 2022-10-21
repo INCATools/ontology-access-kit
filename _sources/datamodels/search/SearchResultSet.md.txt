@@ -6,8 +6,6 @@
 URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchResultSet)
 
 
-
-
 ```{mermaid}
  classDiagram
     class SearchResultSet
@@ -20,21 +18,18 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [configuration](configuration.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md)  |   |
-| [results](results.md) | 0..* <br/> [SearchResult](SearchResult.md)  |   |
-| [result_count](result_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
-| [cursor](cursor.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [configuration](configuration.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) | None  | direct |
+| [results](results.md) | 0..* <br/> [SearchResult](SearchResult.md) | None  | direct |
+| [result_count](result_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | direct |
+| [cursor](cursor.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | direct |
 
-
-## Usages
 
 
 
@@ -55,17 +50,15 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['search:SearchResultSet'] |
-| native | ['search:SearchResultSet'] |
+| self | ['search:SearchResultSet']|join(', ') |
+| native | ['search:SearchResultSet']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

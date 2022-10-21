@@ -8,8 +8,6 @@ _An atomic lexical transformation applied on a term (string) yielding a transfor
 URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTransformation)
 
 
-
-
 ```{mermaid}
  classDiagram
     class LexicalTransformation
@@ -23,7 +21,6 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 
 
-
 ## Inheritance
 * [Activity](Activity.md)
     * **LexicalTransformation**
@@ -32,14 +29,14 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md)  | The type of transformation  |
-| [params](params.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | Any parameters to be applied to the transformation algorithm  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation  | direct |
+| [params](params.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Any parameters to be applied to the transformation algorithm  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -64,17 +61,15 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalTransformation'] |
-| native | ['li:LexicalTransformation'] |
+| self | ['li:LexicalTransformation']|join(', ') |
+| native | ['li:LexicalTransformation']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

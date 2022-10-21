@@ -1,10 +1,22 @@
 # Slot: source
 
-URI: [https://w3id.org/linkml/validation-model/source](https://w3id.org/linkml/validation-model/source)
+URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [https://w3id.org/linkml/validation-model/source](https://w3id.org/linkml/v
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

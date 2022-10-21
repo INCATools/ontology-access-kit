@@ -1,6 +1,6 @@
 # Slot: onClass
 
-URI: [http://www.w3.org/2002/07/owl#onClass](http://www.w3.org/2002/07/owl#onClass)
+URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#onClass](http://www.w3.org/2002/07/owl#onCla
 
 * [logical_predicate](logical_predicate.md)
     * **onClass**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2002/07/owl#onClass](http://www.w3.org/2002/07/owl#onCla
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

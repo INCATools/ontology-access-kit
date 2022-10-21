@@ -2,11 +2,22 @@
 _All ontology elements grouped and their relationship to the normalized term_
 
 
-URI: [https://w3id.org/linkml/lexical_index/relationships](https://w3id.org/linkml/lexical_index/relationships)
+URI: [li:relationships](https://w3id.org/linkml/lexical_index/relationships)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalGrouping](LexicalGrouping.md) | A grouping of ontology elements by a shared lexical term
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/lexical_index/relationships](https://w3id.org/link
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -49,6 +60,7 @@ from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 multivalued: true
 alias: relationships
+owner: LexicalGrouping
 domain_of:
 - LexicalGrouping
 range: RelationshipToTerm

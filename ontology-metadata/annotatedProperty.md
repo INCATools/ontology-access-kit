@@ -1,6 +1,6 @@
 # Slot: annotatedProperty
 
-URI: [http://www.w3.org/2002/07/owl#annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
+URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#annotatedProperty](http://www.w3.org/2002/07
 
 * [reification_predicate](reification_predicate.md)
     * **annotatedProperty**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://www.w3.org/2002/07/owl#annotatedProperty](http://www.w3.org/2002/07
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

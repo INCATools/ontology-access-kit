@@ -8,8 +8,6 @@ _A generic association between a thing (subject) and another thing (object)._
 URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Association
@@ -22,21 +20,18 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [subject](subject.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI)  | The thing which the association is about  |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI)  | The type of relationship between the subject and object  |
-| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI)  | An ontology entity that is associated with the subject  |
-| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [subject](subject.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The thing which the association is about.  | direct |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The type of relationship between the subject and object.  | direct |
+| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is associated with the subject.  | direct |
+| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -57,17 +52,15 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['oa:Annotation'] |
-| native | ['assoc:Association'] |
+| self | ['oa:Annotation']|join(', ') |
+| native | ['assoc:Association']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

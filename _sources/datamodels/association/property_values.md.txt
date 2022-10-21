@@ -1,10 +1,21 @@
 # Slot: property_values
 
-URI: [https://w3id.org/oak/association/property_values](https://w3id.org/oak/association/property_values)
+URI: [assoc:property_values](https://w3id.org/oak/association/property_values)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object).
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/oak/association/property_values](https://w3id.org/oak/ass
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

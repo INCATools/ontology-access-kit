@@ -1,6 +1,6 @@
 # Slot: qualifiedCardinality
 
-URI: [http://www.w3.org/2002/07/owl#qualifiedCardinality](http://www.w3.org/2002/07/owl#qualifiedCardinality)
+URI: [owl:qualifiedCardinality](http://www.w3.org/2002/07/owl#qualifiedCardinality)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#qualifiedCardinality](http://www.w3.org/2002
 
 * [logical_predicate](logical_predicate.md)
     * **qualifiedCardinality**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2002/07/owl#qualifiedCardinality](http://www.w3.org/2002
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -2,11 +2,22 @@
 _Ontology source for right entities_
 
 
-URI: [https://w3id.org/linkml/text_annotator/right_source](https://w3id.org/linkml/text_annotator/right_source)
+URI: [ann:right_source](https://w3id.org/linkml/text_annotator/right_source)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[StructureDiffResultSet](StructureDiffResultSet.md) | A collection of relational diff results
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/text_annotator/right_source](https://w3id.org/link
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Ontology source for right entities
 from_schema: https://w3id.org/linkml/cross_ontology_diff
 rank: 1000
 alias: right_source
+owner: StructureDiffResultSet
 domain_of:
 - StructureDiffResultSet
 range: Source

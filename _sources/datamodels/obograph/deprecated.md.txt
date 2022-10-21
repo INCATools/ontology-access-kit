@@ -1,10 +1,21 @@
 # Slot: deprecated
 
-URI: [https://github.com/geneontology/obographs/deprecated](https://github.com/geneontology/obographs/deprecated)
+URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/deprecated](https://github.com/g
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

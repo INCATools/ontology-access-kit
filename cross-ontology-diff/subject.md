@@ -2,11 +2,13 @@
 _The child node on left or right side_
 
 
-URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
+URI: [rdf:subject](http://www.w3.org/1999/02/22-rdf-syntax-ns#subject)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -52,7 +54,7 @@ URI: [http://www.w3.org/1999/02/22-rdf-syntax-ns#subject](http://www.w3.org/1999
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

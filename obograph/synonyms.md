@@ -1,10 +1,21 @@
 # Slot: synonyms
 
-URI: [https://github.com/geneontology/obographs/synonyms](https://github.com/geneontology/obographs/synonyms)
+URI: [og:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/synonyms](https://github.com/gen
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

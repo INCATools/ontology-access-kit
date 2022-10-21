@@ -1,10 +1,21 @@
 # Slot: definition
 
-URI: [https://github.com/geneontology/obographs/definition](https://github.com/geneontology/obographs/definition)
+URI: [og:definition](https://github.com/geneontology/obographs/definition)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/definition](https://github.com/g
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

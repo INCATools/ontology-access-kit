@@ -1,10 +1,25 @@
 # Slot: val
 
-URI: [https://github.com/geneontology/obographs/val](https://github.com/geneontology/obographs/val)
+URI: [og:val](https://github.com/geneontology/obographs/val)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PropertyValue](PropertyValue.md) | None
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | None
+[BasicPropertyValue](BasicPropertyValue.md) | None
+[XrefPropertyValue](XrefPropertyValue.md) | None
+[SynonymPropertyValue](SynonymPropertyValue.md) | None
+
+
 
 
 
@@ -36,7 +51,7 @@ URI: [https://github.com/geneontology/obographs/val](https://github.com/geneonto
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

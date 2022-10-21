@@ -2,11 +2,22 @@
 _categories that should be matched_
 
 
-URI: [https://w3id.org/linkml/search_datamodel/categories](https://w3id.org/linkml/search_datamodel/categories)
+URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/search_datamodel/categories](https://w3id.org/link
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 multivalued: true
 alias: categories
+owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: uriorcurie

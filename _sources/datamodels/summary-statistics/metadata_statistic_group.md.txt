@@ -1,10 +1,12 @@
 # Slot: metadata_statistic_group
 
-URI: [https://w3id.org/linkml/reportmetadata_statistic_group](https://w3id.org/linkml/reportmetadata_statistic_group)
+URI: [reporting:metadata_statistic_group](https://w3id.org/linkml/reportmetadata_statistic_group)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -36,7 +38,7 @@ URI: [https://w3id.org/linkml/reportmetadata_statistic_group](https://w3id.org/l
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

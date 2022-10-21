@@ -2,11 +2,22 @@
 _statistics keyed by ontology subset_
 
 
-URI: [https://w3id.org/linkml/reportby_subset](https://w3id.org/linkml/reportby_subset)
+URI: [reporting:by_subset](https://w3id.org/linkml/reportby_subset)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+
+
 
 
 
@@ -42,7 +53,7 @@ URI: [https://w3id.org/linkml/reportby_subset](https://w3id.org/linkml/reportby_
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -54,6 +65,7 @@ from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: by_subset
+owner: GlobalStatistics
 domain_of:
 - GlobalStatistics
 range: FacetStatistics

@@ -1,6 +1,6 @@
 # Slot: synonym
 
-URI: [http://www.geneontology.org/formats/oboInOwl#hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
+URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
 
 
@@ -12,6 +12,8 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasSynonym](http://www.geneon
         * [has_exact_synonym](has_exact_synonym.md)
         * [has_narrow_synonym](has_narrow_synonym.md)
         * [has_broad_synonym](has_broad_synonym.md)
+
+
 
 
 
@@ -44,7 +46,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasSynonym](http://www.geneon
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

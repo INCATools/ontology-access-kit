@@ -1,10 +1,21 @@
 # Slot: edges
 
-URI: [https://github.com/geneontology/obographs/edges](https://github.com/geneontology/obographs/edges)
+URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/edges](https://github.com/geneon
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

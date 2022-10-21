@@ -1,6 +1,6 @@
 # Slot: oneOf
 
-URI: [http://www.w3.org/2002/07/owl#oneOf](http://www.w3.org/2002/07/owl#oneOf)
+URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2002/07/owl#oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 * [logical_predicate](logical_predicate.md)
     * **oneOf**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -41,7 +54,7 @@ URI: [http://www.w3.org/2002/07/owl#oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

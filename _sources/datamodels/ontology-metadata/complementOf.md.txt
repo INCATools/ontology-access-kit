@@ -1,6 +1,6 @@
 # Slot: complementOf
 
-URI: [http://www.w3.org/2002/07/owl#complementOf](http://www.w3.org/2002/07/owl#complementOf)
+URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2002/07/owl#complementOf](http://www.w3.org/2002/07/owl#
 
 * [logical_predicate](logical_predicate.md)
     * **complementOf**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -45,7 +58,7 @@ URI: [http://www.w3.org/2002/07/owl#complementOf](http://www.w3.org/2002/07/owl#
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

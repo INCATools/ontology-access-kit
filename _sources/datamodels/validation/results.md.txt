@@ -2,11 +2,24 @@
 _collection of results_
 
 
-URI: [http://www.w3.org/ns/shacl#result](http://www.w3.org/ns/shacl#result)
+URI: [sh:result](http://www.w3.org/ns/shacl#result)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Report](Report.md) | A report object that is a holder to multiple report results
+[ValidationReport](ValidationReport.md) | A report that consists of validation results
+[RepairReport](RepairReport.md) | A report that consists of repair operation results
+
+
 
 
 
@@ -38,7 +51,7 @@ URI: [http://www.w3.org/ns/shacl#result](http://www.w3.org/ns/shacl#result)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

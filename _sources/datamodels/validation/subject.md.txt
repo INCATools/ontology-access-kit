@@ -2,11 +2,23 @@
 _The instance which the result is about_
 
 
-URI: [http://www.w3.org/ns/shacl#focusNode](http://www.w3.org/ns/shacl#focusNode)
+URI: [sh:focusNode](http://www.w3.org/ns/shacl#focusNode)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+
+
 
 
 
@@ -40,7 +52,7 @@ URI: [http://www.w3.org/ns/shacl#focusNode](http://www.w3.org/ns/shacl#focusNode
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

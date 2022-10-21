@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DiffCategory &mdash; oaklib  documentation</title>
+  <title>Enum: DiffCategory &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -69,7 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>DiffCategory</li>
+      <li>Enum: DiffCategory</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/cross-ontology-diff/DiffCategory.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,10 +79,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="diffcategory">
-<h1>DiffCategory<a class="headerlink" href="#diffcategory" title="Permalink to this headline"></a></h1>
-<p>Category of the cross-ontology diff, from the perspective of the left-hand edge</p>
-<p>URI: DiffCategory</p>
+  <section id="enum-diffcategory">
+<h1>Enum: DiffCategory<a class="headerlink" href="#enum-diffcategory" title="Permalink to this headline"></a></h1>
+<p><em>Category of the cross-ontology diff, from the perspective of the left-hand edge</em></p>
+<p>URI: <a class="reference internal" href="#"><span class="doc std std-doc">DiffCategory</span></a></p>
 <section id="permissible-values">
 <h2>Permissible Values<a class="headerlink" href="#permissible-values" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -90,69 +90,56 @@
 <tr class="row-odd"><th class="head"><p>Value</p></th>
 <th class="head"><p>Meaning</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Identical</p></td>
 <td><p>None</p></td>
 <td><p>there is a direct analogous direct asserted edge on the right side with the i…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>MoreSpecificPredicateOnRight</p></td>
 <td><p>None</p></td>
 <td><p>there is an analogous edge on the right side with a more specific but non-ide…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>LessSpecificPredicateOnRight</p></td>
 <td><p>None</p></td>
 <td><p>there is an analogous edge on the right side with a less specific but non-ide…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>LeftEntailedByRight</p></td>
 <td><p>None</p></td>
 <td><p>there is an analogous edge on the right side, where that edge is different fr…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>RightEntailedByLeft</p></td>
 <td><p>None</p></td>
 <td><p>there is an analogous edge on the right side, where that edge is different fr…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>IndirectFormOfEdgeOnRight</p></td>
 <td><p>None</p></td>
 <td><p>there is no direct analogous right side edge but an analogous edge can be ent…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>RightNodesAreIdentical</p></td>
 <td><p>None</p></td>
 <td><p>a special case where both the left subject and left object map to the same no…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>NonEntailedRelationship</p></td>
 <td><p>None</p></td>
 <td><p>there is an analogous edge on the right side with a different predicate that …</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>NoRelationship</p></td>
 <td><p>None</p></td>
 <td><p>there is no relationship between the right object and right subject</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>MissingMapping</p></td>
 <td><p>None</p></td>
 <td><p>one or both mappings are missing</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>MissingSubjectMapping</p></td>
 <td><p>None</p></td>
 <td><p>there is no mapping for the subject</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>MissingObjectMapping</p></td>
 <td><p>None</p></td>
 <td><p>there is no mapping for the object</p></td>
-<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -166,8 +153,8 @@
 </ul>
 </section>
 </section>
-<section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline"></a></h2>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <details>
 ```yaml
 name: DiffCategory

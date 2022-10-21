@@ -1,6 +1,6 @@
 # Slot: IEDB_alternative_term
 
-URI: [http://purl.obolibrary.org/obo/OBI_9991118](http://purl.obolibrary.org/obo/OBI_9991118)
+URI: [OBI:9991118](http://purl.obolibrary.org/obo/OBI_9991118)
 
 
 
@@ -9,6 +9,25 @@ URI: [http://purl.obolibrary.org/obo/OBI_9991118](http://purl.obolibrary.org/obo
 
 * [alternative_term](alternative_term.md)
     * **IEDB_alternative_term**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | None
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
 
 
 
@@ -41,7 +60,7 @@ URI: [http://purl.obolibrary.org/obo/OBI_9991118](http://purl.obolibrary.org/obo
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

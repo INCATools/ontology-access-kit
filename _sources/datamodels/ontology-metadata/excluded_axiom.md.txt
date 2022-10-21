@@ -1,6 +1,6 @@
 # Slot: excluded_axiom
 
-URI: [http://purl.obolibrary.org/obo/schema/excluded_axiom](http://purl.obolibrary.org/obo/schema/excluded_axiom)
+URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/schema/excluded_axiom)
 
 
 
@@ -12,6 +12,8 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_axiom](http://purl.obolibra
     * [excluded_subClassOf](excluded_subClassOf.md)
     * [excluded_synonym](excluded_synonym.md)
     * [should_conform_to](should_conform_to.md)
+
+
 
 
 
@@ -44,7 +46,7 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_axiom](http://purl.obolibra
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

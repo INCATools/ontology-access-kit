@@ -1,17 +1,17 @@
-# ScopeEnum
+# Enum: ScopeEnum
 
-None
 
-URI: ScopeEnum
+
+URI: [ScopeEnum](ScopeEnum)
 
 ## Permissible Values
 
-| Value | Meaning | Description | Info |
-| --- | --- | --- | --- |
-| hasExactSynonym | oio:hasExactSynonym |  | |
-| hasNarrowSynonym | oio:hasNarrowSynonym |  | |
-| hasBroadSynonym | oio:hasBroadSynonym |  | |
-| hasRelatedSynonym | oio:hasRelatedSynonym |  | |
+| Value | Meaning | Description |
+| --- | --- | --- |
+| hasExactSynonym | oio:hasExactSynonym |  |
+| hasNarrowSynonym | oio:hasNarrowSynonym |  |
+| hasBroadSynonym | oio:hasBroadSynonym |  |
+| hasRelatedSynonym | oio:hasRelatedSynonym |  |
 
 
 
@@ -31,7 +31,7 @@ URI: ScopeEnum
 
 
 
-## Schema
+## LinkML Source
 
 <details>
 ```yaml

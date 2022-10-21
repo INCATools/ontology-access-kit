@@ -2,11 +2,22 @@
 _the label or name for the first entity_
 
 
-URI: [http://w3id.org/sssom/subject_label](http://w3id.org/sssom/subject_label)
+URI: [sssom:subject_label](http://w3id.org/sssom/subject_label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [http://w3id.org/sssom/subject_label](http://w3id.org/sssom/subject_label)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

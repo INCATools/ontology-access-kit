@@ -1,10 +1,22 @@
 # Slot: predicateId
 
-URI: [https://github.com/geneontology/obographs/predicateId](https://github.com/geneontology/obographs/predicateId)
+URI: [og:predicateId](https://github.com/geneontology/obographs/predicateId)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[DomainRangeAxiom](DomainRangeAxiom.md) | None
+[PropertyChainAxiom](PropertyChainAxiom.md) | None
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [https://github.com/geneontology/obographs/predicateId](https://github.com/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

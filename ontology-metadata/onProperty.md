@@ -1,6 +1,6 @@
 # Slot: onProperty
 
-URI: [http://www.w3.org/2002/07/owl#onProperty](http://www.w3.org/2002/07/owl#onProperty)
+URI: [owl:onProperty](http://www.w3.org/2002/07/owl#onProperty)
 
 
 
@@ -9,6 +9,17 @@ URI: [http://www.w3.org/2002/07/owl#onProperty](http://www.w3.org/2002/07/owl#on
 
 * [logical_predicate](logical_predicate.md)
     * **onProperty**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -41,7 +52,7 @@ URI: [http://www.w3.org/2002/07/owl#onProperty](http://www.w3.org/2002/07/owl#on
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

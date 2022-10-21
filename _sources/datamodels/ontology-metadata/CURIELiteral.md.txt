@@ -1,8 +1,10 @@
-# CURIELiteral
+# Type: CURIELiteral
 
-A string representation of a CURIE
 
-URI: http://www.w3.org/2001/XMLSchema#string
+_A string representation of a CURIE_
+
+
+URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 * [base](https://w3id.org/linkml/base): str
 

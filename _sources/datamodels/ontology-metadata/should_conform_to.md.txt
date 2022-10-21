@@ -1,6 +1,6 @@
 # Slot: should_conform_to
 
-URI: [http://purl.obolibrary.org/obo/schema/should_conform_to](http://purl.obolibrary.org/obo/schema/should_conform_to)
+URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/schema/should_conform_to)
 
 
 
@@ -9,6 +9,25 @@ URI: [http://purl.obolibrary.org/obo/schema/should_conform_to](http://purl.oboli
 
 * [excluded_axiom](excluded_axiom.md)
     * **should_conform_to**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasLifeCycle](HasLifeCycle.md) | None
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | None
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
 
 
 
@@ -41,7 +60,7 @@ URI: [http://purl.obolibrary.org/obo/schema/should_conform_to](http://purl.oboli
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,10 +1,22 @@
 # Slot: id
 
-URI: [https://github.com/geneontology/obographs/id](https://github.com/geneontology/obographs/id)
+URI: [og:id](https://github.com/geneontology/obographs/id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+[Node](Node.md) | None
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [https://github.com/geneontology/obographs/id](https://github.com/geneontol
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

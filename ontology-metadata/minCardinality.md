@@ -1,6 +1,6 @@
 # Slot: minCardinality
 
-URI: [http://www.w3.org/2002/07/owl#minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
+URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#minCardinality](http://www.w3.org/2002/07/ow
 
 * [logical_predicate](logical_predicate.md)
     * **minCardinality**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2002/07/owl#minCardinality](http://www.w3.org/2002/07/ow
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

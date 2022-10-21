@@ -2,11 +2,22 @@
 _all annotations_
 
 
-URI: [https://w3id.org/linkml/text_annotator/annotations](https://w3id.org/linkml/text_annotator/annotations)
+URI: [ann:annotations](https://w3id.org/linkml/text_annotator/annotations)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextAnnotationResultSet](TextAnnotationResultSet.md) | A collection of annotation results
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/text_annotator/annotations](https://w3id.org/linkm
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://w3id.org/linkml/text_annotator
 rank: 1000
 multivalued: true
 alias: annotations
+owner: TextAnnotationResultSet
 domain_of:
 - TextAnnotationResultSet
 range: TextAnnotation

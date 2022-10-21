@@ -1,10 +1,22 @@
 # Slot: lbl
 
-URI: [https://github.com/geneontology/obographs/lbl](https://github.com/geneontology/obographs/lbl)
+URI: [og:lbl](https://github.com/geneontology/obographs/lbl)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+[Node](Node.md) | None
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [https://github.com/geneontology/obographs/lbl](https://github.com/geneonto
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

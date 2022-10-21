@@ -1,10 +1,21 @@
 # Slot: id
 
-URI: [https://w3id.org/linkml/text_annotator/id](https://w3id.org/linkml/text_annotator/id)
+URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextualElement](TextualElement.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/text_annotator/id](https://w3id.org/linkml/text_an
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/text_annotator
 rank: 1000
 identifier: true
 alias: id
+owner: TextualElement
 domain_of:
 - TextualElement
 range: uriorcurie

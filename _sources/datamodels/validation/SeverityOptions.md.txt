@@ -1,17 +1,17 @@
-# SeverityOptions
+# Enum: SeverityOptions
 
-None
 
-URI: SeverityOptions
+
+URI: [SeverityOptions](SeverityOptions)
 
 ## Permissible Values
 
-| Value | Meaning | Description | Info |
-| --- | --- | --- | --- |
-| FATAL | None |  | |
-| ERROR | sh:Violation |  | |
-| WARNING | sh:Warning |  | |
-| INFO | sh:Info |  | |
+| Value | Meaning | Description |
+| --- | --- | --- |
+| FATAL | None |  |
+| ERROR | sh:Violation |  |
+| WARNING | sh:Warning |  |
+| INFO | sh:Info |  |
 
 
 
@@ -31,7 +31,7 @@ URI: SeverityOptions
 
 
 
-## Schema
+## LinkML Source
 
 <details>
 ```yaml

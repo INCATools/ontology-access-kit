@@ -1,6 +1,6 @@
 # Slot: changeNote
 
-URI: [http://www.w3.org/2004/02/skos/core#changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
+URI: [skos:changeNote](http://www.w3.org/2004/02/skos/core#changeNote)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2004/02/skos/core#changeNote](http://www.w3.org/2004/02/
 
 * [informative_property](informative_property.md)
     * **changeNote**
+
+
 
 
 
@@ -41,7 +43,7 @@ URI: [http://www.w3.org/2004/02/skos/core#changeNote](http://www.w3.org/2004/02/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

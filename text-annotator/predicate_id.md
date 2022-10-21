@@ -1,10 +1,21 @@
 # Slot: predicate_id
 
-URI: [http://w3id.org/sssom/predicate_id](http://w3id.org/sssom/predicate_id)
+URI: [sssom:predicate_id](http://w3id.org/sssom/predicate_id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://w3id.org/sssom/predicate_id](http://w3id.org/sssom/predicate_id)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/text_annotator
 rank: 1000
 slot_uri: sssom:predicate_id
 alias: predicate_id
+owner: TextAnnotation
 domain_of:
 - TextAnnotation
 range: string

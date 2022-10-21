@@ -1,10 +1,21 @@
 # Slot: object_label
 
-URI: [http://w3id.org/sssom/object_label](http://w3id.org/sssom/object_label)
+URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextAnnotation](TextAnnotation.md) | An individual text annotation
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://w3id.org/sssom/object_label](http://w3id.org/sssom/object_label)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ exact_mappings:
 rank: 1000
 slot_uri: sssom:object_label
 alias: object_label
+owner: TextAnnotation
 domain_of:
 - TextAnnotation
 range: string

@@ -1,6 +1,6 @@
 # Slot: domain
 
-URI: [http://www.w3.org/2000/01/rdf-schema#domain](http://www.w3.org/2000/01/rdf-schema#domain)
+URI: [rdfs:domain](http://www.w3.org/2000/01/rdf-schema#domain)
 
 
 
@@ -9,6 +9,21 @@ URI: [http://www.w3.org/2000/01/rdf-schema#domain](http://www.w3.org/2000/01/rdf
 
 * [logical_predicate](logical_predicate.md)
     * **domain**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
 
 
 
@@ -45,7 +60,7 @@ URI: [http://www.w3.org/2000/01/rdf-schema#domain](http://www.w3.org/2000/01/rdf
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

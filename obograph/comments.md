@@ -1,10 +1,21 @@
 # Slot: comments
 
-URI: [https://github.com/geneontology/obographs/comments](https://github.com/geneontology/obographs/comments)
+URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/comments](https://github.com/gen
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

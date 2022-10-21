@@ -1,10 +1,21 @@
 # Slot: limit
 
-URI: [https://w3id.org/linkml/text_annotator/limit](https://w3id.org/linkml/text_annotator/limit)
+URI: [ann:limit](https://w3id.org/linkml/text_annotator/limit)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/text_annotator/limit](https://w3id.org/linkml/text
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: limit
 from_schema: https://w3id.org/linkml/text_annotator
 rank: 1000
 alias: limit
+owner: TextAnnotationConfiguration
 domain_of:
 - TextAnnotationConfiguration
 range: integer

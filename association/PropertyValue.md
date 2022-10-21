@@ -8,8 +8,6 @@ _A generic tag-value that can be associated with an association._
 URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
-
-
 ```{mermaid}
  classDiagram
     class PropertyValue
@@ -20,20 +18,19 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI)  | The type of relationship between the subject and object  |
-| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI)  | An ontology entity that is associated with the subject  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The type of relationship between the subject and object.  | direct |
+| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is associated with the subject.  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -58,17 +55,15 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['assoc:PropertyValue'] |
-| native | ['assoc:PropertyValue'] |
+| self | ['assoc:PropertyValue']|join(', ') |
+| native | ['assoc:PropertyValue']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

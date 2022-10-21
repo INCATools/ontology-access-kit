@@ -1,6 +1,6 @@
 # Slot: untyped_entity_count
 
-URI: [https://w3id.org/linkml/reportuntyped_entity_count](https://w3id.org/linkml/reportuntyped_entity_count)
+URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_entity_count)
 
 
 
@@ -14,9 +14,22 @@ URI: [https://w3id.org/linkml/reportuntyped_entity_count](https://w3id.org/linkm
 
 
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
+
+
+
+
+
+
 ## Properties
 
-* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 * Multivalued: None
 
 
@@ -41,7 +54,7 @@ URI: [https://w3id.org/linkml/reportuntyped_entity_count](https://w3id.org/linkm
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -50,9 +63,10 @@ from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: untyped_entity_count
+owner: SummaryStatisticCollection
 domain_of:
 - SummaryStatisticCollection
-range: integer
+range: string
 
 ```
 </details>

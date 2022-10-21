@@ -10,8 +10,6 @@ _Generic grouping for any lexical operation_
 URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Activity
@@ -20,7 +18,6 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
       
       
 ```
-
 
 
 
@@ -34,11 +31,9 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
-
-## Usages
 
 
 
@@ -59,17 +54,15 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['prov:Activity'] |
-| native | ['li:Activity'] |
+| self | ['prov:Activity']|join(', ') |
+| native | ['li:Activity']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

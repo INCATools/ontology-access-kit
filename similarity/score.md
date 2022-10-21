@@ -2,7 +2,7 @@
 _Abstract base slot for different kinds of scores_
 
 
-URI: [https://w3id.org/linkml/similarity/score](https://w3id.org/linkml/similarity/score)
+URI: [sim:score](https://w3id.org/linkml/similarity/score)
 
 
 
@@ -19,6 +19,17 @@ URI: [https://w3id.org/linkml/similarity/score](https://w3id.org/linkml/similari
     * [subsumed_by_score](subsumed_by_score.md)
     * [intersection_count](intersection_count.md)
     * [union_count](union_count.md)
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[BestMatch](BestMatch.md) | None
+
 
 
 
@@ -51,7 +62,7 @@ URI: [https://w3id.org/linkml/similarity/score](https://w3id.org/linkml/similari
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

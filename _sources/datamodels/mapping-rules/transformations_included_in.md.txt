@@ -1,10 +1,21 @@
 # Slot: transformations_included_in
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_in](https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_in)
+URI: [mrules:transformations_included_in](https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_in)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Precondition](Precondition.md) | A pattern to be matched against an individual SSSOM mapping
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/transformations_included_i
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 multivalued: true
 alias: transformations_included_in
+owner: Precondition
 domain_of:
 - Precondition
 range: string

@@ -2,11 +2,22 @@
 _The prefix of a prefix declaration._
 
 
-URI: [https://w3id.org/shacl/prefix](https://w3id.org/shacl/prefix)
+URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PrefixDeclaration](PrefixDeclaration.md) | maps individual prefix to namespace
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/shacl/prefix](https://w3id.org/shacl/prefix)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -48,6 +59,7 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slot_uri: sh:prefix
 alias: prefix
+owner: PrefixDeclaration
 domain_of:
 - PrefixDeclaration
 range: string

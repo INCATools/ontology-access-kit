@@ -1,10 +1,21 @@
 # Slot: obj
 
-URI: [https://github.com/geneontology/obographs/obj](https://github.com/geneontology/obographs/obj)
+URI: [og:obj](https://github.com/geneontology/obographs/obj)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Edge](Edge.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/obj](https://github.com/geneonto
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

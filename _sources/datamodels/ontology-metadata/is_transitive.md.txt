@@ -1,10 +1,22 @@
 # Slot: is_transitive
 
-URI: [http://www.geneontology.org/formats/oboInOwl#is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transitive)
+URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transitive)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+
+
 
 
 
@@ -36,7 +48,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#is_transitive](http://www.gen
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -2,11 +2,23 @@
 _The portion of the subject text that is matched, ranging from subject_start to subject_end_
 
 
-URI: [https://w3id.org/linkml/text_annotator/subject_label](https://w3id.org/linkml/text_annotator/subject_label)
+URI: [ann:subject_label](https://w3id.org/linkml/text_annotator/subject_label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasSpan](HasSpan.md) | None
+[TextAnnotation](TextAnnotation.md) | An individual text annotation
+
+
 
 
 
@@ -38,7 +50,7 @@ URI: [https://w3id.org/linkml/text_annotator/subject_label](https://w3id.org/lin
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -50,6 +62,7 @@ exact_mappings:
 - bpa:text
 rank: 1000
 alias: subject_label
+owner: HasSpan
 domain_of:
 - HasSpan
 range: string

@@ -6,8 +6,6 @@
 URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 
-
-
 ```{mermaid}
  classDiagram
     class TermInfo
@@ -18,20 +16,19 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -57,17 +54,15 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:TermInfo'] |
-| native | ['sim:TermInfo'] |
+| self | ['sim:TermInfo']|join(', ') |
+| native | ['sim:TermInfo']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

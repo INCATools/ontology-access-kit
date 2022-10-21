@@ -1,10 +1,21 @@
 # Slot: is_a_defining_property_chain_axiom_where_second_argument_is_reflexive
 
-URI: [http://purl.obolibrary.org/obo/RO_0002582](http://purl.obolibrary.org/obo/RO_0002582)
+URI: [RO:0002582](http://purl.obolibrary.org/obo/RO_0002582)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://purl.obolibrary.org/obo/RO_0002582](http://purl.obolibrary.org/obo/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

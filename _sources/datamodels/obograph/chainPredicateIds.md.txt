@@ -1,10 +1,21 @@
 # Slot: chainPredicateIds
 
-URI: [https://github.com/geneontology/obographs/chainPredicateIds](https://github.com/geneontology/obographs/chainPredicateIds)
+URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredicateIds)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PropertyChainAxiom](PropertyChainAxiom.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/chainPredicateIds](https://githu
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

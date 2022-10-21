@@ -32,8 +32,6 @@ of the left edge._
 URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
-
-
 ```{mermaid}
  classDiagram
     class RelationalDiff
@@ -62,38 +60,39 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [category](category.md) | 0..1 <br/> [DiffCategory](DiffCategory.md)  | Each match (or lack of match) is placed into exactly one category  |
-| [left_subject_id](left_subject_id.md) | 1..1 <br/> [EntityReference](EntityReference.md)  | The subject (child) of the source/left edge  |
-| [left_object_id](left_object_id.md) | 1..1 <br/> [EntityReference](EntityReference.md)  | The object (parent) of the source/left edge  |
-| [left_predicate_id](left_predicate_id.md) | 1..1 <br/> [EntityReference](EntityReference.md)  | The predicate (relation) of the source/left edge  |
-| [left_subject_label](left_subject_label.md) | 0..1 <br/> [Label](Label.md)  | The name of the subject (child) of the source/left edge  |
-| [left_object_label](left_object_label.md) | 0..1 <br/> [Label](Label.md)  | The name of the object (parent) of the source/left edge  |
-| [left_predicate_label](left_predicate_label.md) | 0..1 <br/> [Label](Label.md)  | The name of the predicate of the source/left edge  |
-| [right_subject_id](right_subject_id.md) | 0..1 <br/> [EntityReference](EntityReference.md)  | The subject (child) of the matched/right edge, if matchable  |
-| [right_object_id](right_object_id.md) | 0..1 <br/> [EntityReference](EntityReference.md)  | The object (parent) of the matched/right edge, if matchable  |
-| [right_predicate_ids](right_predicate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md)  | * If the match type is consistent, then all consistent predicates  |
-| [right_subject_label](right_subject_label.md) | 0..1 <br/> [Label](Label.md)  | The name of the subject (child) of the matched/right edge, if matchable  |
-| [right_object_label](right_object_label.md) | 0..1 <br/> [Label](Label.md)  | The name of the object (parent) of the matched/right edge, if matchable  |
-| [right_predicate_labels](right_predicate_labels.md) | 0..* <br/> [Label](Label.md)  | The names corresponding to the right_predicate_ids  |
-| [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  | True if a subject mapping is present, and maps uniquely within the same ontol...  |
-| [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  | True if an object mapping is present, and maps uniquely within the same ontol...  |
-| [subject_mapping_predicate](subject_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md)  | The mapping predicate that holds between left_subject_id and right_subject_id  |
-| [object_mapping_predicate](object_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md)  | The mapping predicate that holds between left_object_id and right_object_id  |
-| [right_intermediate_ids](right_intermediate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md)  |   |
-| [subject_mapping_cardinality](subject_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md)  | The mapping cardinality of the subject pair  |
-| [object_mapping_cardinality](object_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md)  | The mapping cardinality of the object pair  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [category](category.md) | 0..1 <br/> [DiffCategory](DiffCategory.md) | Each match (or lack of match) is placed into exactly one category  | direct |
+| [left_subject_id](left_subject_id.md) | 1..1 <br/> [EntityReference](EntityReference.md) | The subject (child) of the source/left edge  | direct |
+| [left_object_id](left_object_id.md) | 1..1 <br/> [EntityReference](EntityReference.md) | The object (parent) of the source/left edge  | direct |
+| [left_predicate_id](left_predicate_id.md) | 1..1 <br/> [EntityReference](EntityReference.md) | The predicate (relation) of the source/left edge  | direct |
+| [left_subject_label](left_subject_label.md) | 0..1 <br/> [Label](Label.md) | The name of the subject (child) of the source/left edge  | direct |
+| [left_object_label](left_object_label.md) | 0..1 <br/> [Label](Label.md) | The name of the object (parent) of the source/left edge  | direct |
+| [left_predicate_label](left_predicate_label.md) | 0..1 <br/> [Label](Label.md) | The name of the predicate of the source/left edge  | direct |
+| [right_subject_id](right_subject_id.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The subject (child) of the matched/right edge, if matchable  | direct |
+| [right_object_id](right_object_id.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The object (parent) of the matched/right edge, if matchable  | direct |
+| [right_predicate_ids](right_predicate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md) | * If the match type is consistent, then all consistent predicates.
+* If the match type is identical, then the identical predicate.
+* If the match type is OtherRelationship, then all predicates that form a path between right subject and object  | direct |
+| [right_subject_label](right_subject_label.md) | 0..1 <br/> [Label](Label.md) | The name of the subject (child) of the matched/right edge, if matchable  | direct |
+| [right_object_label](right_object_label.md) | 0..1 <br/> [Label](Label.md) | The name of the object (parent) of the matched/right edge, if matchable  | direct |
+| [right_predicate_labels](right_predicate_labels.md) | 0..* <br/> [Label](Label.md) | The names corresponding to the right_predicate_ids  | direct |
+| [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | True if a subject mapping is present, and maps uniquely within the same ontology  | direct |
+| [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | True if an object mapping is present, and maps uniquely within the same ontology  | direct |
+| [subject_mapping_predicate](subject_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_subject_id and right_subject_id  | direct |
+| [object_mapping_predicate](object_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_object_id and right_object_id  | direct |
+| [right_intermediate_ids](right_intermediate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md) | None  | direct |
+| [subject_mapping_cardinality](subject_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md) | The mapping cardinality of the subject pair  | direct |
+| [object_mapping_cardinality](object_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md) | The mapping cardinality of the object pair  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -118,17 +117,15 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:RelationalDiff'] |
-| native | ['ann:RelationalDiff'] |
+| self | ['ann:RelationalDiff']|join(', ') |
+| native | ['ann:RelationalDiff']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

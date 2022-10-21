@@ -1,10 +1,21 @@
 # Slot: url
 
-URI: [http://www.geneontology.org/formats/oboInOwl#url](http://www.geneontology.org/formats/oboInOwl#url)
+URI: [oio:url](http://www.geneontology.org/formats/oboInOwl#url)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#url](http://www.geneontology.
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

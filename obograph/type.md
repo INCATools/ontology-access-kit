@@ -1,10 +1,21 @@
 # Slot: type
 
-URI: [https://github.com/geneontology/obographs/type](https://github.com/geneontology/obographs/type)
+URI: [og:type](https://github.com/geneontology/obographs/type)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Node](Node.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/type](https://github.com/geneont
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

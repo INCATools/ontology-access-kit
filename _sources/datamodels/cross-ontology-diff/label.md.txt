@@ -2,11 +2,13 @@
 _human readable label_
 
 
-URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-schema#label)
+URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -52,7 +54,7 @@ URI: [http://www.w3.org/2000/01/rdf-schema#label](http://www.w3.org/2000/01/rdf-
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

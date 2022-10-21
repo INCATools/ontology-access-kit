@@ -1,10 +1,24 @@
 # Slot: shorthand
 
-URI: [http://www.geneontology.org/formats/oboInOwl#shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
+URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
+
 
 
 
@@ -36,7 +50,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#shorthand](http://www.geneont
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

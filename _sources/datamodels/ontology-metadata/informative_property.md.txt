@@ -1,6 +1,6 @@
 # Slot: informative_property
 
-URI: [http://purl.obolibrary.org/obo/schema/informative_property](http://purl.obolibrary.org/obo/schema/informative_property)
+URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/schema/informative_property)
 
 
 
@@ -20,6 +20,8 @@ URI: [http://purl.obolibrary.org/obo/schema/informative_property](http://purl.ob
     * [license](license.md)
     * [depicted_by](depicted_by.md)
     * [page](page.md)
+
+
 
 
 
@@ -52,7 +54,7 @@ URI: [http://purl.obolibrary.org/obo/schema/informative_property](http://purl.ob
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

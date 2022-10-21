@@ -8,8 +8,6 @@ _Anything with an IRI_
 URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
-
-
 ```{mermaid}
  classDiagram
     class NamedObject
@@ -30,7 +28,6 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
 
-
 ## Inheritance
 * [Thing](Thing.md)
     * **NamedObject**
@@ -41,14 +38,14 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | this maps to the URI in RDF  |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF  | direct |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -73,17 +70,15 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:NamedObject'] |
-| native | ['omoschema:NamedObject'] |
+| self | ['omoschema:NamedObject']|join(', ') |
+| native | ['omoschema:NamedObject']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

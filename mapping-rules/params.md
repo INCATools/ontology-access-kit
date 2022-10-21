@@ -2,11 +2,22 @@
 _Any parameters to be applied to the transformation algorithm_
 
 
-URI: [https://w3id.org/linkml/lexical_index/params](https://w3id.org/linkml/lexical_index/params)
+URI: [li:params](https://w3id.org/linkml/lexical_index/params)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transformed string
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/lexical_index/params](https://w3id.org/linkml/lexi
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Any parameters to be applied to the transformation algorithm
 from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 alias: params
+owner: LexicalTransformation
 domain_of:
 - LexicalTransformation
 range: string

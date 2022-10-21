@@ -1,10 +1,21 @@
 # Slot: synonymized
 
-URI: [https://w3id.org/linkml/lexical_index/synonymized](https://w3id.org/linkml/lexical_index/synonymized)
+URI: [li:synonymized](https://w3id.org/linkml/lexical_index/synonymized)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[RelationshipToTerm](RelationshipToTerm.md) | A relationship of an ontology element to a lexical term
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/lexical_index/synonymized](https://w3id.org/linkml
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: synonymized
 from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 alias: synonymized
+owner: RelationshipToTerm
 domain_of:
 - RelationshipToTerm
 range: boolean

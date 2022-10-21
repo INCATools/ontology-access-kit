@@ -1,4 +1,7 @@
-# AllotropePermittedProfile
+# Subset: AllotropePermittedProfile
+
+URI: [AllotropePermittedProfile](AllotropePermittedProfile)
+
 
 ## Identifier and Mapping Information
 

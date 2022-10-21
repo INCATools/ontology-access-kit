@@ -1,10 +1,26 @@
 # Slot: pred
 
-URI: [https://github.com/geneontology/obographs/pred](https://github.com/geneontology/obographs/pred)
+URI: [og:pred](https://github.com/geneontology/obographs/pred)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Edge](Edge.md) | None
+[SynonymPropertyValue](SynonymPropertyValue.md) | None
+[PropertyValue](PropertyValue.md) | None
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | None
+[BasicPropertyValue](BasicPropertyValue.md) | None
+[XrefPropertyValue](XrefPropertyValue.md) | None
+
+
 
 
 
@@ -36,7 +52,7 @@ URI: [https://github.com/geneontology/obographs/pred](https://github.com/geneont
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

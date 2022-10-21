@@ -2,7 +2,7 @@
 _left or right side_
 
 
-URI: [https://w3id.org/linkml/text_annotator/side](https://w3id.org/linkml/text_annotator/side)
+URI: [ann:side](https://w3id.org/linkml/text_annotator/side)
 
 
 
@@ -12,6 +12,8 @@ URI: [https://w3id.org/linkml/text_annotator/side](https://w3id.org/linkml/text_
 * **side**
     * [left_side](left_side.md)
     * [right_side](right_side.md)
+
+
 
 
 
@@ -54,7 +56,7 @@ URI: [https://w3id.org/linkml/text_annotator/side](https://w3id.org/linkml/text_
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

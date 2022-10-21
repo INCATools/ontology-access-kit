@@ -1,17 +1,17 @@
-# BooleanOperator
+# Enum: BooleanOperator
 
-None
 
-URI: BooleanOperator
+
+URI: [BooleanOperator](BooleanOperator)
 
 ## Permissible Values
 
-| Value | Meaning | Description | Info |
-| --- | --- | --- | --- |
-| AND | None |  | |
-| OR | None |  | |
-| NOT | None |  | |
-| XOR | None |  | |
+| Value | Meaning | Description |
+| --- | --- | --- |
+| AND | None |  |
+| OR | None |  |
+| NOT | None |  |
+| XOR | None |  |
 
 
 
@@ -31,7 +31,7 @@ URI: BooleanOperator
 
 
 
-## Schema
+## LinkML Source
 
 <details>
 ```yaml

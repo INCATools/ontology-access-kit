@@ -6,8 +6,6 @@
 URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
 
 
-
-
 ```{mermaid}
  classDiagram
     class SynonymPropertyValue
@@ -25,7 +23,6 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
-
 ## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **SynonymPropertyValue**
@@ -34,18 +31,18 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [synonymType](synonymType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
-| [pred](pred.md) | 0..1 <br/> [ScopeEnum](ScopeEnum.md)  |   |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [synonymType](synonymType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
+| [pred](pred.md) | 0..1 <br/> [ScopeEnum](ScopeEnum.md) | None  | direct |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -70,17 +67,15 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:SynonymPropertyValue'] |
-| native | ['og:SynonymPropertyValue'] |
+| self | ['og:SynonymPropertyValue']|join(', ') |
+| native | ['og:SynonymPropertyValue']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

@@ -10,8 +10,6 @@ _Auto-classifies anything that is not obsolete_
 URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObsoleteAspect)
 
 
-
-
 ```{mermaid}
  classDiagram
     class NotObsoleteAspect
@@ -20,18 +18,17 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -64,21 +61,15 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 
 
 
-
-
-## Rules
-
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:NotObsoleteAspect'] |
-| native | ['omoschema:NotObsoleteAspect'] |
+| self | ['omoschema:NotObsoleteAspect']|join(', ') |
+| native | ['omoschema:NotObsoleteAspect']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

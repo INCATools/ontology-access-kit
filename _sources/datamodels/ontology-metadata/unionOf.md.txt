@@ -1,6 +1,6 @@
 # Slot: unionOf
 
-URI: [http://www.w3.org/2002/07/owl#unionOf](http://www.w3.org/2002/07/owl#unionOf)
+URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2002/07/owl#unionOf](http://www.w3.org/2002/07/owl#union
 
 * [logical_predicate](logical_predicate.md)
     * **unionOf**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -41,7 +54,7 @@ URI: [http://www.w3.org/2002/07/owl#unionOf](http://www.w3.org/2002/07/owl#union
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

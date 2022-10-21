@@ -1,6 +1,6 @@
 # Slot: propertyChainAxiom
 
-URI: [http://www.w3.org/2002/07/owl#propertyChainAxiom](http://www.w3.org/2002/07/owl#propertyChainAxiom)
+URI: [owl:propertyChainAxiom](http://www.w3.org/2002/07/owl#propertyChainAxiom)
 
 
 
@@ -9,6 +9,18 @@ URI: [http://www.w3.org/2002/07/owl#propertyChainAxiom](http://www.w3.org/2002/0
 
 * [logical_predicate](logical_predicate.md)
     * **propertyChainAxiom**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+
 
 
 
@@ -45,7 +57,7 @@ URI: [http://www.w3.org/2002/07/owl#propertyChainAxiom](http://www.w3.org/2002/0
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

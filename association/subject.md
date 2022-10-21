@@ -11,6 +11,17 @@ URI: [rdf:subject](rdf:subject)
 
 
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object).
+
+
+
+
+
+
 ## Properties
 
 * Range: [xsd:anyURI](xsd:anyURI)
@@ -38,7 +49,7 @@ URI: [rdf:subject](rdf:subject)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

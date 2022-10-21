@@ -1,10 +1,21 @@
 # Slot: has_synonym_type
 
-URI: [http://www.geneontology.org/formats/oboInOwl#hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynonymType)
+URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynonymType)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#hasSynonymType](http://www.ge
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

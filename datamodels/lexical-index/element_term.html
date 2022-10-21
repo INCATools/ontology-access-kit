@@ -82,8 +82,23 @@
   <section id="slot-element-term">
 <h1>Slot: element_term<a class="headerlink" href="#slot-element-term" title="Permalink to this headline"></a></h1>
 <p><em>the original term used in the element</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/lexical_index/element_term">https://w3id.org/linkml/lexical_index/element_term</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/linkml/lexical_index/element_term">li:element_term</a></p>
 <!-- no inheritance hierarchy -->
+<section id="applicable-classes">
+<h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="RelationshipToTerm.html"><span class="doc std std-doc">RelationshipToTerm</span></a></p></td>
+<td><p>A relationship of an ontology element to a lexical term</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -100,8 +115,8 @@
 </ul>
 </section>
 </section>
-<section id="linkml-specification">
-<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <details>
 ```yaml
 name: element_term
@@ -109,6 +124,7 @@ description: the original term used in the element
 from_schema: https://w3id.org/linkml/lexical_index
 rank: 1000
 alias: element_term
+owner: RelationshipToTerm
 domain_of:
 - RelationshipToTerm
 range: string

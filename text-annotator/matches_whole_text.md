@@ -1,6 +1,6 @@
 # Slot: matches_whole_text
 
-URI: [https://w3id.org/linkml/text_annotator/matches_whole_text](https://w3id.org/linkml/text_annotator/matches_whole_text)
+URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_whole_text)
 
 
 
@@ -9,9 +9,21 @@ URI: [https://w3id.org/linkml/text_annotator/matches_whole_text](https://w3id.or
 
 
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search
+[TextAnnotation](TextAnnotation.md) | An individual text annotation
+
+
+
+
+
+
 ## Properties
 
-* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 * Multivalued: None
 
 
@@ -28,26 +40,17 @@ URI: [https://w3id.org/linkml/text_annotator/matches_whole_text](https://w3id.or
 
 
 
-### Schema Source
 
-
-* from schema: https://w3id.org/linkml/text_annotator
-
-
-
-
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
 name: matches_whole_text
-from_schema: https://w3id.org/linkml/text_annotator
-rank: 1000
 alias: matches_whole_text
 domain_of:
 - TextAnnotationConfiguration
 - TextAnnotation
-range: boolean
+range: string
 
 ```
 </details>

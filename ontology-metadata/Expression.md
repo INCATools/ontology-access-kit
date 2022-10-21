@@ -8,8 +8,6 @@
 URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Expression
@@ -18,7 +16,6 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
       
       
 ```
-
 
 
 
@@ -32,11 +29,9 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
-
-## Usages
 
 
 
@@ -57,17 +52,15 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Expression'] |
-| native | ['omoschema:Expression'] |
+| self | ['omoschema:Expression']|join(', ') |
+| native | ['omoschema:Expression']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

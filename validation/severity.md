@@ -2,11 +2,24 @@
 _the severity of the issue_
 
 
-URI: [http://www.w3.org/ns/shacl#resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
+URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
+[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for overriding default severity
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+
+
 
 
 
@@ -38,7 +51,7 @@ URI: [http://www.w3.org/ns/shacl#resultSeverity](http://www.w3.org/ns/shacl#resu
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

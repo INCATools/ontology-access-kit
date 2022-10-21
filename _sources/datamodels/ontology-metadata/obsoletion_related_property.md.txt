@@ -2,7 +2,7 @@
 _Grouping class for all properties related to lifecycle_
 
 
-URI: [http://purl.obolibrary.org/obo/schema/obsoletion_related_property](http://purl.obolibrary.org/obo/schema/obsoletion_related_property)
+URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/schema/obsoletion_related_property)
 
 
 
@@ -15,6 +15,8 @@ URI: [http://purl.obolibrary.org/obo/schema/obsoletion_related_property](http://
     * [has_obsolescence_reason](has_obsolescence_reason.md)
     * [consider](consider.md)
     * [has_alternative_id](has_alternative_id.md)
+
+
 
 
 
@@ -47,7 +49,7 @@ URI: [http://purl.obolibrary.org/obo/schema/obsoletion_related_property](http://
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

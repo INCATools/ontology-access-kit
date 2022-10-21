@@ -6,8 +6,6 @@
 URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 
-
-
 ```{mermaid}
  classDiagram
     class BestMatch
@@ -24,26 +22,25 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [match_source](match_source.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [match_source_label](match_source_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [match_target](match_target.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | the entity matches  |
-| [match_target_label](match_target_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [score](score.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float)  |   |
-| [match_subsumer](match_subsumer.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  |   |
-| [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [similarity](similarity.md) | 0..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [match_source](match_source.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [match_source_label](match_source_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [match_target](match_target.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the entity matches  | direct |
+| [match_target_label](match_target_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [score](score.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
+| [match_subsumer](match_subsumer.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+| [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [similarity](similarity.md) | 0..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -69,17 +66,15 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:BestMatch'] |
-| native | ['sim:BestMatch'] |
+| self | ['sim:BestMatch']|join(', ') |
+| native | ['sim:BestMatch']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

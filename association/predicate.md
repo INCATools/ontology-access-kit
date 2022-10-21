@@ -11,6 +11,18 @@ URI: [rdf:predicate](rdf:predicate)
 
 
 
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object).
+[PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association.
+
+
+
+
+
+
 ## Properties
 
 * Range: [xsd:anyURI](xsd:anyURI)
@@ -38,7 +50,7 @@ URI: [rdf:predicate](rdf:predicate)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,10 +1,21 @@
 # Slot: representativeNodeId
 
-URI: [https://github.com/geneontology/obographs/representativeNodeId](https://github.com/geneontology/obographs/representativeNodeId)
+URI: [og:representativeNodeId](https://github.com/geneontology/obographs/representativeNodeId)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[EquivalentNodesSet](EquivalentNodesSet.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/representativeNodeId](https://gi
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,10 +1,21 @@
 # Slot: ancestor_source
 
-URI: [https://w3id.org/linkml/similarity/ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
+URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/ancestor_source](https://w3id.org/linkm
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

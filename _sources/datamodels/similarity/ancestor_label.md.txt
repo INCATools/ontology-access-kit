@@ -2,11 +2,22 @@
 _the name or label of the ancestor concept_
 
 
-URI: [https://w3id.org/linkml/similarity/ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
+URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/similarity/ancestor_label](https://w3id.org/linkml
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

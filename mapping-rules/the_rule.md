@@ -2,11 +2,22 @@
 _Description of the rule._
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/the_rule](https://w3id.org/linkml/mapping_rules_datamodel/the_rule)
+URI: [mrules:the_rule](https://w3id.org/linkml/mapping_rules_datamodel/the_rule)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Synonymizer](Synonymizer.md) | None
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/the_rule](https://w3id.org
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: Description of the rule.
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: the_rule
+owner: Synonymizer
 domain_of:
 - Synonymizer
 range: string

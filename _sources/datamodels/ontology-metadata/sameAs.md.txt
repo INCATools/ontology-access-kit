@@ -1,6 +1,6 @@
 # Slot: sameAs
 
-URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs)
+URI: [owl:sameAs](http://www.w3.org/2002/07/owl#sameAs)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs
 
 * [logical_predicate](logical_predicate.md)
     * **sameAs** [ [match_aspect](match_aspect.md)]
+
+
 
 
 
@@ -45,7 +47,7 @@ URI: [http://www.w3.org/2002/07/owl#sameAs](http://www.w3.org/2002/07/owl#sameAs
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

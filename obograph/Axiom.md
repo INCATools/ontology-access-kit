@@ -8,8 +8,6 @@
 URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Axiom
@@ -25,7 +23,6 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
 
-
 ## Inheritance
 * **Axiom**
     * [DomainRangeAxiom](DomainRangeAxiom.md)
@@ -37,12 +34,10 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -63,17 +58,15 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Axiom'] |
-| native | ['og:Axiom'] |
+| self | ['og:Axiom']|join(', ') |
+| native | ['og:Axiom']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

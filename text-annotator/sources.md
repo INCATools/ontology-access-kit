@@ -1,10 +1,21 @@
 # Slot: sources
 
-URI: [https://w3id.org/linkml/text_annotator/sources](https://w3id.org/linkml/text_annotator/sources)
+URI: [ann:sources](https://w3id.org/linkml/text_annotator/sources)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextAnnotationConfiguration](TextAnnotationConfiguration.md) | configuration for search
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/text_annotator/sources](https://w3id.org/linkml/te
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/text_annotator
 rank: 1000
 multivalued: true
 alias: sources
+owner: TextAnnotationConfiguration
 domain_of:
 - TextAnnotationConfiguration
 range: string

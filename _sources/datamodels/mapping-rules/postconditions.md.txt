@@ -2,11 +2,22 @@
 _conditions that apply if preconditions match_
 
 
-URI: [https://w3id.org/linkml/mapping_rules_datamodel/postconditions](https://w3id.org/linkml/mapping_rules_datamodel/postconditions)
+URI: [mrules:postconditions](https://w3id.org/linkml/mapping_rules_datamodel/postconditions)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied
+
+
 
 
 
@@ -38,7 +49,7 @@ URI: [https://w3id.org/linkml/mapping_rules_datamodel/postconditions](https://w3
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -47,6 +58,7 @@ description: conditions that apply if preconditions match
 from_schema: https://w3id.org/linkml/mapping_rules_datamodel
 rank: 1000
 alias: postconditions
+owner: MappingRule
 domain_of:
 - MappingRule
 range: Postcondition

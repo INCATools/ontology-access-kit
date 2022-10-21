@@ -1,10 +1,21 @@
 # Slot: propertyChainAxioms
 
-URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
+URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/propertyChainAxioms](https://git
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

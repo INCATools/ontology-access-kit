@@ -1,8 +1,10 @@
-# Uri
+# Type: Uri
 
-a complete URI
 
-URI: http://www.w3.org/2001/XMLSchema#anyURI
+_a complete URI_
+
+
+URI: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
 
 * [base](https://w3id.org/linkml/base): URI
 

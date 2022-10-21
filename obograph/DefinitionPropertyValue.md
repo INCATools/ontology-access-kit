@@ -6,8 +6,6 @@
 URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/DefinitionPropertyValue)
 
 
-
-
 ```{mermaid}
  classDiagram
     class DefinitionPropertyValue
@@ -23,7 +21,6 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 
 
 
-
 ## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **DefinitionPropertyValue**
@@ -32,16 +29,16 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -66,17 +63,15 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:DefinitionPropertyValue'] |
-| native | ['og:DefinitionPropertyValue'] |
+| self | ['og:DefinitionPropertyValue']|join(', ') |
+| native | ['og:DefinitionPropertyValue']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

@@ -1,10 +1,26 @@
 # Slot: xrefs
 
-URI: [https://github.com/geneontology/obographs/xrefs](https://github.com/geneontology/obographs/xrefs)
+URI: [og:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | None
+[PropertyValue](PropertyValue.md) | None
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | None
+[BasicPropertyValue](BasicPropertyValue.md) | None
+[XrefPropertyValue](XrefPropertyValue.md) | None
+[SynonymPropertyValue](SynonymPropertyValue.md) | None
+
+
 
 
 
@@ -36,7 +52,7 @@ URI: [https://github.com/geneontology/obographs/xrefs](https://github.com/geneon
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

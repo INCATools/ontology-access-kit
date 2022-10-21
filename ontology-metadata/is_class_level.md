@@ -1,10 +1,25 @@
 # Slot: is_class_level
 
-URI: [http://www.geneontology.org/formats/oboInOwl#is_class_level](http://www.geneontology.org/formats/oboInOwl#is_class_level)
+URI: [oio:is_class_level](http://www.geneontology.org/formats/oboInOwl#is_class_level)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
+
 
 
 
@@ -36,7 +51,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#is_class_level](http://www.ge
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

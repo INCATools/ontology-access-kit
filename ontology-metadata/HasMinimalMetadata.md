@@ -10,8 +10,6 @@ _Absolute minimum metadata model_
 URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMinimalMetadata)
 
 
-
-
 ```{mermaid}
  classDiagram
     class HasMinimalMetadata
@@ -31,7 +29,6 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 
 
-
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasMinimalMetadata**
@@ -40,13 +37,11 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md)  |   |
-| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) | None  | direct |
+| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -67,17 +62,15 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasMinimalMetadata'] |
-| native | ['omoschema:HasMinimalMetadata'] |
+| self | ['omoschema:HasMinimalMetadata']|join(', ') |
+| native | ['omoschema:HasMinimalMetadata']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

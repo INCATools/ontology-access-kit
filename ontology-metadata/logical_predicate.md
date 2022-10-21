@@ -1,6 +1,6 @@
 # Slot: logical_predicate
 
-URI: [http://purl.obolibrary.org/obo/schema/logical_predicate](http://purl.obolibrary.org/obo/schema/logical_predicate)
+URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/schema/logical_predicate)
 
 
 
@@ -39,6 +39,8 @@ URI: [http://purl.obolibrary.org/obo/schema/logical_predicate](http://purl.oboli
 
 
 
+
+
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
@@ -66,7 +68,7 @@ URI: [http://purl.obolibrary.org/obo/schema/logical_predicate](http://purl.oboli
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

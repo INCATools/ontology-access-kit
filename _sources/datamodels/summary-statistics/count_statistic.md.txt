@@ -1,6 +1,6 @@
 # Slot: count_statistic
 
-URI: [https://w3id.org/linkml/reportcount_statistic](https://w3id.org/linkml/reportcount_statistic)
+URI: [reporting:count_statistic](https://w3id.org/linkml/reportcount_statistic)
 
 
 
@@ -34,6 +34,8 @@ URI: [https://w3id.org/linkml/reportcount_statistic](https://w3id.org/linkml/rep
 
 
 
+
+
 ## Properties
 
 * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
@@ -61,7 +63,7 @@ URI: [https://w3id.org/linkml/reportcount_statistic](https://w3id.org/linkml/rep
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

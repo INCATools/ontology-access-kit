@@ -1,10 +1,21 @@
 # Slot: isExact
 
-URI: [https://github.com/geneontology/obographs/isExact](https://github.com/geneontology/obographs/isExact)
+URI: [og:isExact](https://github.com/geneontology/obographs/isExact)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SynonymPropertyValue](SynonymPropertyValue.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/isExact](https://github.com/gene
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,8 +1,10 @@
-# DateOrDatetime
+# Type: DateOrDatetime
 
-Either a date or a datetime
 
-URI: https://w3id.org/linkml/DateOrDatetime
+_Either a date or a datetime_
+
+
+URI: [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime)
 
 * [base](https://w3id.org/linkml/base): str
 

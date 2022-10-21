@@ -8,8 +8,6 @@
 URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle)
 
 
-
-
 ```{mermaid}
  classDiagram
     class HasLifeCycle
@@ -43,7 +41,6 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 
 
-
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasLifeCycle**
@@ -52,20 +49,18 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  |   |
-| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md)  |   |
-| [consider](consider.md) | 0..* <br/> [Any](Any.md)  |   |
-| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | Relates a live term to a deprecated ID that was merged in  |
-| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md)  |   |
-| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md)  |   |
-| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
+| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) | None  | direct |
+| [consider](consider.md) | 0..* <br/> [Any](Any.md) | None  | direct |
+| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | Relates a live term to a deprecated ID that was merged in  | direct |
+| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) | None  | direct |
+| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) | None  | direct |
+| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) | None  | direct |
 
-
-## Usages
 
 
 
@@ -86,21 +81,15 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 
 
-
-
-## Rules
-
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasLifeCycle'] |
-| native | ['omoschema:HasLifeCycle'] |
+| self | ['omoschema:HasLifeCycle']|join(', ') |
+| native | ['omoschema:HasLifeCycle']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

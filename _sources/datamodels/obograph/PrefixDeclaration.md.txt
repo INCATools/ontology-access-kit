@@ -8,8 +8,6 @@ _maps individual prefix to namespace_
 URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 
-
-
 ```{mermaid}
  classDiagram
     class PrefixDeclaration
@@ -20,20 +18,19 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [prefix](prefix.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | The prefix of a prefix declaration  |
-| [namespace](namespace.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)  | The namespace associated with a prefix in a prefix declaration  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [prefix](prefix.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The prefix of a prefix declaration.  | direct |
+| [namespace](namespace.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The namespace associated with a prefix in a prefix declaration.  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -58,17 +55,15 @@ URI: [sh:PrefixDeclaration](https://w3id.org/shacl/PrefixDeclaration)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sh:PrefixDeclaration'] |
-| native | ['og:PrefixDeclaration'] |
+| self | ['sh:PrefixDeclaration']|join(', ') |
+| native | ['og:PrefixDeclaration']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

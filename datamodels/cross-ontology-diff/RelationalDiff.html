@@ -135,91 +135,76 @@ of the left edge._</p>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
 <th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="DiffCategory.html"><span class="doc std std-doc">DiffCategory</span></a></p></td>
 <td><p>Each match (or lack of match) is placed into exactly one category</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_id.html"><span class="doc std std-doc">left_subject_id</span></a></p></td>
 <td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The subject (child) of the source/left edge</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_id.html"><span class="doc std std-doc">left_object_id</span></a></p></td>
 <td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The object (parent) of the source/left edge</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_predicate_id.html"><span class="doc std std-doc">left_predicate_id</span></a></p></td>
 <td><p>1..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The predicate (relation) of the source/left edge</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_subject_label.html"><span class="doc std std-doc">left_subject_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
 <td><p>The name of the subject (child) of the source/left edge</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_object_label.html"><span class="doc std std-doc">left_object_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
 <td><p>The name of the object (parent) of the source/left edge</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_predicate_label.html"><span class="doc std std-doc">left_predicate_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
 <td><p>The name of the predicate of the source/left edge</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_subject_id.html"><span class="doc std std-doc">right_subject_id</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The subject (child) of the matched/right edge, if matchable</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="right_object_id.html"><span class="doc std std-doc">right_object_id</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
 <td><p>The object (parent) of the matched/right edge, if matchable</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="doc std std-doc">right_predicate_ids</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>* If the match type is consistent, then all consistent predicates</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
-<td><p>The name of the subject (child) of the matched/right edge, if matchable</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
-<td><p>The name of the object (parent) of the matched/right edge, if matchable</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a></p></td>
-<td><p>The names corresponding to the right_predicate_ids</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>True if a subject mapping is present, and maps uniquely within the same ontol…</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
-<td><p>True if an object mapping is present, and maps uniquely within the same ontol…</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>The mapping predicate that holds between left_subject_id and right_subject_id</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
-<td><p>The mapping predicate that holds between left_object_id and right_object_id</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="right_intermediate_ids.html"><span class="doc std std-doc">right_intermediate_ids</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a></p></td>
+<td><p>* If the match type is consistent, then all consistent predicates.</p></td>
 <td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a></p></td>
-<td><p>The mapping cardinality of the subject pair</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_mapping_cardinality.html"><span class="doc std std-doc">object_mapping_cardinality</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a></p></td>
-<td><p>The mapping cardinality of the object pair</p></td>
 </tr>
 </tbody>
 </table>
+<ul class="simple">
+<li><p>If the match type is identical, then the identical predicate.</p></li>
+<li><p>If the match type is OtherRelationship, then all predicates that form a path between right subject and object  | direct |
+| <a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a> | 0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a> | The name of the subject (child) of the matched/right edge, if matchable  | direct |
+| <a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a> | 0..1 <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a> | The name of the object (parent) of the matched/right edge, if matchable  | direct |
+| <a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a> | 0..* <br/> <a class="reference internal" href="Label.html"><span class="doc std std-doc">Label</span></a> | The names corresponding to the right_predicate_ids  | direct |
+| <a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a> | 0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a> | True if a subject mapping is present, and maps uniquely within the same ontology  | direct |
+| <a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a> | 0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a> | True if an object mapping is present, and maps uniquely within the same ontology  | direct |
+| <a class="reference internal" href="subject_mapping_predicate.html"><span class="doc std std-doc">subject_mapping_predicate</span></a> | 0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a> | The mapping predicate that holds between left_subject_id and right_subject_id  | direct |
+| <a class="reference internal" href="object_mapping_predicate.html"><span class="doc std std-doc">object_mapping_predicate</span></a> | 0..1 <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a> | The mapping predicate that holds between left_object_id and right_object_id  | direct |
+| <a class="reference internal" href="right_intermediate_ids.html"><span class="doc std std-doc">right_intermediate_ids</span></a> | 0..* <br/> <a class="reference internal" href="EntityReference.html"><span class="doc std std-doc">EntityReference</span></a> | None  | direct |
+| <a class="reference internal" href="subject_mapping_cardinality.html"><span class="doc std std-doc">subject_mapping_cardinality</span></a> | 0..1 <br/> <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a> | The mapping cardinality of the subject pair  | direct |
+| <a class="reference internal" href="object_mapping_cardinality.html"><span class="doc std std-doc">object_mapping_cardinality</span></a> | 0..1 <br/> <a class="reference internal" href="MappingCardinalityEnum.html"><span class="doc std std-doc">MappingCardinalityEnum</span></a> | The mapping cardinality of the object pair  | direct |</p></li>
+</ul>
 </section>
 <section id="usages">
 <h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
@@ -267,8 +252,8 @@ of the left edge._</p>
 </tbody>
 </table>
 </section>
-<section id="linkml-specification">
-<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 <section id="direct">
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>

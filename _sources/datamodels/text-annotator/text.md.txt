@@ -1,10 +1,21 @@
 # Slot: text
 
-URI: [https://w3id.org/linkml/text_annotator/text](https://w3id.org/linkml/text_annotator/text)
+URI: [ann:text](https://w3id.org/linkml/text_annotator/text)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TextualElement](TextualElement.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/text_annotator/text](https://w3id.org/linkml/text_
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: text
 from_schema: https://w3id.org/linkml/text_annotator
 rank: 1000
 alias: text
+owner: TextualElement
 domain_of:
 - TextualElement
 range: string

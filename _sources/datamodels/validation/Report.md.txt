@@ -10,8 +10,6 @@ _A report object that is a holder to multiple report results_
 URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Report
@@ -25,7 +23,6 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
 
-
 ## Inheritance
 * **Report**
     * [ValidationReport](ValidationReport.md)
@@ -35,12 +32,10 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [results](results.md) | 0..* <br/> [Result](Result.md)  | collection of results  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results  | direct |
 
-
-## Usages
 
 
 
@@ -61,17 +56,15 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:Report'] |
-| native | ['vm:Report'] |
+| self | ['vm:Report']|join(', ') |
+| native | ['vm:Report']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

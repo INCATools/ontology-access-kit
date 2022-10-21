@@ -6,8 +6,6 @@
 URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Postcondition)
 
 
-
-
 ```{mermaid}
  classDiagram
     class Postcondition
@@ -18,20 +16,19 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [predicate_id](predicate_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [weight](weight.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float)  | Weighting of the rule, positive increases the confidence, negative decreases  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [predicate_id](predicate_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [weight](weight.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | Weighting of the rule, positive increases the confidence, negative decreases  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -56,17 +53,15 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:Postcondition'] |
-| native | ['mrules:Postcondition'] |
+| self | ['mrules:Postcondition']|join(', ') |
+| native | ['mrules:Postcondition']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

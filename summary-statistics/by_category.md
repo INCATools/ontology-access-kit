@@ -2,11 +2,22 @@
 _statistics keyed by category_
 
 
-URI: [https://w3id.org/linkml/reportby_category](https://w3id.org/linkml/reportby_category)
+URI: [reporting:by_category](https://w3id.org/linkml/reportby_category)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+
+
 
 
 
@@ -42,7 +53,7 @@ URI: [https://w3id.org/linkml/reportby_category](https://w3id.org/linkml/reportb
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -54,6 +65,7 @@ from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: by_category
+owner: GlobalStatistics
 domain_of:
 - GlobalStatistics
 range: FacetStatistics

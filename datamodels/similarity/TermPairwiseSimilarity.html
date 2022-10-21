@@ -121,68 +121,84 @@
 <tr class="row-odd"><th class="head"><p>Name</p></th>
 <th class="head"><p>Cardinality and Range</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>Inheritance</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_id.html"><span class="doc std std-doc">subject_id</span></a></p></td>
 <td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>The first of the two entities being compared</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>the label or name for the first entity</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>the source for the first entity</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>The second of the two entities being compared</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="doc std std-doc">object_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>the label or name for the second entity</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>the source for the second entity</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ancestor_id.html"><span class="doc std std-doc">ancestor_id</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
-<td><p>the most recent common ancestor of the two compared entities</p></td>
+<td><p>the most recent common ancestor of the two compared entities. If there are multiple MRCAs then the most informative one is selected</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ancestor_label.html"><span class="doc std std-doc">ancestor_label</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>the name or label of the ancestor concept</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="ancestor_source.html"><span class="doc std std-doc">ancestor_source</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>None</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_information_content.html"><span class="doc std std-doc">object_information_content</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="NegativeLogValue.html"><span class="doc std std-doc">NegativeLogValue</span></a></p></td>
 <td><p>The IC of the object</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_information_content.html"><span class="doc std std-doc">subject_information_content</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="NegativeLogValue.html"><span class="doc std std-doc">NegativeLogValue</span></a></p></td>
 <td><p>The IC of the subject</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ancestor_information_content.html"><span class="doc std std-doc">ancestor_information_content</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="NegativeLogValue.html"><span class="doc std std-doc">NegativeLogValue</span></a></p></td>
 <td><p>The IC of the object</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="jaccard_similarity.html"><span class="doc std std-doc">jaccard_similarity</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="ZeroToOne.html"><span class="doc std std-doc">ZeroToOne</span></a></p></td>
 <td><p>The number of concepts in the intersection divided by the number in the union</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="dice_similarity.html"><span class="doc std std-doc">dice_similarity</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="ZeroToOne.html"><span class="doc std std-doc">ZeroToOne</span></a></p></td>
-<td><p></p></td>
+<td><p>None</p></td>
+<td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="phenodigm_score.html"><span class="doc std std-doc">phenodigm_score</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="NonNegativeFloat.html"><span class="doc std std-doc">NonNegativeFloat</span></a></p></td>
 <td><p>the geometric mean of the jaccard similarity and the information content</p></td>
+<td><p>direct</p></td>
 </tr>
 </tbody>
 </table>
@@ -233,8 +249,8 @@
 </tbody>
 </table>
 </section>
-<section id="linkml-specification">
-<h2>LinkML Specification<a class="headerlink" href="#linkml-specification" title="Permalink to this headline"></a></h2>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 <section id="direct">
 <h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>

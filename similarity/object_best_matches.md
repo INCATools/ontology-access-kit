@@ -1,10 +1,21 @@
 # Slot: object_best_matches
 
-URI: [https://w3id.org/linkml/similarity/object_best_matches](https://w3id.org/linkml/similarity/object_best_matches)
+URI: [sim:object_best_matches](https://w3id.org/linkml/similarity/object_best_matches)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | A simple pairwise similarity between two sets of concepts/terms
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/object_best_matches](https://w3id.org/l
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

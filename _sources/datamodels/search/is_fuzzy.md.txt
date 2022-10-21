@@ -1,10 +1,21 @@
 # Slot: is_fuzzy
 
-URI: [https://w3id.org/linkml/search_datamodel/is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
+URI: [search:is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/search_datamodel/is_fuzzy](https://w3id.org/linkml
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: is_fuzzy
 from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 alias: is_fuzzy
+owner: SearchBaseConfiguration
 domain_of:
 - SearchBaseConfiguration
 range: boolean

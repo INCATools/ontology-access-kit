@@ -1,8 +1,10 @@
-# Source
+# Type: Source
 
-The name of an ontology that acts as a source
 
-URI: http://www.w3.org/2001/XMLSchema#string
+_The name of an ontology that acts as a source_
+
+
+URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 * [base](https://w3id.org/linkml/base): str
 

@@ -2,11 +2,22 @@
 _The label/name of the matched term_
 
 
-URI: [http://w3id.org/sssom/object_label](http://w3id.org/sssom/object_label)
+URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchResult](SearchResult.md) | An individual search result
+
+
 
 
 
@@ -40,7 +51,7 @@ URI: [http://w3id.org/sssom/object_label](http://w3id.org/sssom/object_label)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -50,6 +61,7 @@ from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 slot_uri: sssom:object_label
 alias: object_label
+owner: SearchResult
 domain_of:
 - SearchResult
 range: string

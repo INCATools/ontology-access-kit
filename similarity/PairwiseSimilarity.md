@@ -10,8 +10,6 @@ _Abstract grouping for representing individual pairwise similarities_
 URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilarity)
 
 
-
-
 ```{mermaid}
  classDiagram
     class PairwiseSimilarity
@@ -20,7 +18,6 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
       
       
 ```
-
 
 
 
@@ -34,11 +31,9 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
 
-
-## Usages
 
 
 
@@ -59,17 +54,15 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:PairwiseSimilarity'] |
-| native | ['sim:PairwiseSimilarity'] |
+| self | ['sim:PairwiseSimilarity']|join(', ') |
+| native | ['sim:PairwiseSimilarity']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

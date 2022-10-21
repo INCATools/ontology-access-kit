@@ -8,8 +8,6 @@ _A collection of annotation results_
 URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAnnotationResultSet)
 
 
-
-
 ```{mermaid}
  classDiagram
     class TextAnnotationResultSet
@@ -19,18 +17,15 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [annotations](annotations.md) | 0..* <br/> [TextAnnotation](TextAnnotation.md)  | all annotations  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [annotations](annotations.md) | 0..* <br/> [TextAnnotation](TextAnnotation.md) | all annotations  | direct |
 
-
-## Usages
 
 
 
@@ -51,17 +46,15 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:TextAnnotationResultSet'] |
-| native | ['ann:TextAnnotationResultSet'] |
+| self | ['ann:TextAnnotationResultSet']|join(', ') |
+| native | ['ann:TextAnnotationResultSet']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

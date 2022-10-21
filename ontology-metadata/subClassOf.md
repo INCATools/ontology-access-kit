@@ -1,6 +1,6 @@
 # Slot: subClassOf
 
-URI: [http://www.w3.org/2000/01/rdf-schema#subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
+URI: [rdfs:subClassOf](http://www.w3.org/2000/01/rdf-schema#subClassOf)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2000/01/rdf-schema#subClassOf](http://www.w3.org/2000/01
 
 * [logical_predicate](logical_predicate.md)
     * **subClassOf**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -41,7 +54,7 @@ URI: [http://www.w3.org/2000/01/rdf-schema#subClassOf](http://www.w3.org/2000/01
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -1,6 +1,6 @@
 # Slot: hasValue
 
-URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasValue)
+URI: [owl:hasValue](http://www.w3.org/2002/07/owl#hasValue)
 
 
 
@@ -9,6 +9,8 @@ URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasV
 
 * [logical_predicate](logical_predicate.md)
     * **hasValue**
+
+
 
 
 
@@ -45,7 +47,7 @@ URI: [http://www.w3.org/2002/07/owl#hasValue](http://www.w3.org/2002/07/owl#hasV
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

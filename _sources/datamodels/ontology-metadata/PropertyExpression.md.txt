@@ -8,8 +8,6 @@
 URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/PropertyExpression)
 
 
-
-
 ```{mermaid}
  classDiagram
     class PropertyExpression
@@ -27,7 +25,6 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 
 
-
 ## Inheritance
 * [Expression](Expression.md)
     * **PropertyExpression**
@@ -36,13 +33,13 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -67,17 +64,15 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:PropertyExpression'] |
-| native | ['omoschema:PropertyExpression'] |
+| self | ['omoschema:PropertyExpression']|join(', ') |
+| native | ['omoschema:PropertyExpression']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

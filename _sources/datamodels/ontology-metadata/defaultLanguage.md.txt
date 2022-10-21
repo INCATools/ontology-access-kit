@@ -14,6 +14,8 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 
+
+
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
@@ -41,7 +43,7 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

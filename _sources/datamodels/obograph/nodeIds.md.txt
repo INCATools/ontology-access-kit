@@ -1,10 +1,21 @@
 # Slot: nodeIds
 
-URI: [https://github.com/geneontology/obographs/nodeIds](https://github.com/geneontology/obographs/nodeIds)
+URI: [og:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[EquivalentNodesSet](EquivalentNodesSet.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/nodeIds](https://github.com/gene
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -8,8 +8,6 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline)
 
 
-
-
 ```{mermaid}
  classDiagram
     class LexicalTransformationPipeline
@@ -23,7 +21,6 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 
 
-
 ## Inheritance
 * [Activity](Activity.md)
     * **LexicalTransformationPipeline**
@@ -32,14 +29,14 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md)  |   |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) | None  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -65,17 +62,15 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalTransformationPipeline'] |
-| native | ['li:LexicalTransformationPipeline'] |
+| self | ['li:LexicalTransformationPipeline']|join(', ') |
+| native | ['li:LexicalTransformationPipeline']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

@@ -1,6 +1,6 @@
 # Slot: version_property
 
-URI: [http://purl.obolibrary.org/obo/schema/version_property](http://purl.obolibrary.org/obo/schema/version_property)
+URI: [omoschema:version_property](http://purl.obolibrary.org/obo/schema/version_property)
 
 
 
@@ -10,6 +10,8 @@ URI: [http://purl.obolibrary.org/obo/schema/version_property](http://purl.obolib
 * **version_property**
     * [versionIRI](versionIRI.md)
     * [versionInfo](versionInfo.md)
+
+
 
 
 
@@ -42,7 +44,7 @@ URI: [http://purl.obolibrary.org/obo/schema/version_property](http://purl.obolib
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

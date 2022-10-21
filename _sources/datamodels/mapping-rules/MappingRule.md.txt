@@ -8,8 +8,6 @@ _An individual mapping rule, if preconditions match the postconditions are appli
 URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/MappingRule)
 
 
-
-
 ```{mermaid}
  classDiagram
     class MappingRule
@@ -23,23 +21,22 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  |   |
-| [oneway](oneway.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)  | if true then subject and object can be switched and predicate inverted  |
-| [preconditions](preconditions.md) | 0..1 <br/> [Precondition](Precondition.md)  | all of the criteria that must be true before a rule is fired  |
-| [postconditions](postconditions.md) | 0..1 <br/> [Postcondition](Postcondition.md)  | conditions that apply if preconditions match  |
-| [synonymizer](synonymizer.md) | 0..1 <br/> [Synonymizer](Synonymizer.md)  | Normalizing rules to labels  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [oneway](oneway.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | if true then subject and object can be switched and predicate inverted  | direct |
+| [preconditions](preconditions.md) | 0..1 <br/> [Precondition](Precondition.md) | all of the criteria that must be true before a rule is fired  | direct |
+| [postconditions](postconditions.md) | 0..1 <br/> [Postcondition](Postcondition.md) | conditions that apply if preconditions match  | direct |
+| [synonymizer](synonymizer.md) | 0..1 <br/> [Synonymizer](Synonymizer.md) | Normalizing rules to labels.  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -64,17 +61,15 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:MappingRule'] |
-| native | ['mrules:MappingRule'] |
+| self | ['mrules:MappingRule']|join(', ') |
+| native | ['mrules:MappingRule']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

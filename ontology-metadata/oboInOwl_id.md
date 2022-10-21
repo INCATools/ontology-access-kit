@@ -1,10 +1,12 @@
 # Slot: oboInOwl_id
 
-URI: [http://www.geneontology.org/formats/oboInOwl#id](http://www.geneontology.org/formats/oboInOwl#id)
+URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -36,7 +38,7 @@ URI: [http://www.geneontology.org/formats/oboInOwl#id](http://www.geneontology.o
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

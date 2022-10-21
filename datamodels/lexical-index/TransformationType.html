@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TransformationType &mdash; oaklib  documentation</title>
+  <title>Enum: TransformationType &mdash; oaklib  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -69,7 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>TransformationType</li>
+      <li>Enum: TransformationType</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/lexical-index/TransformationType.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,10 +79,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="transformationtype">
-<h1>TransformationType<a class="headerlink" href="#transformationtype" title="Permalink to this headline"></a></h1>
-<p>A controlled datamodels of the types of transformation that can be applied to</p>
-<p>URI: TransformationType</p>
+  <section id="enum-transformationtype">
+<h1>Enum: TransformationType<a class="headerlink" href="#enum-transformationtype" title="Permalink to this headline"></a></h1>
+<p><em>A controlled datamodels of the types of transformation that can be applied to</em></p>
+<p>URI: <a class="reference internal" href="#"><span class="doc std std-doc">TransformationType</span></a></p>
 <section id="permissible-values">
 <h2>Permissible Values<a class="headerlink" href="#permissible-values" title="Permalink to this headline"></a></h2>
 <table class="colwidths-auto docutils align-default">
@@ -90,49 +90,40 @@
 <tr class="row-odd"><th class="head"><p>Value</p></th>
 <th class="head"><p>Meaning</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Info</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Stemming</p></td>
 <td><p>None</p></td>
 <td><p>Removal of the last few characters of a word to yield a stem term for each wo…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>Lemmatization</p></td>
 <td><p>None</p></td>
 <td><p>Contextual reduction of a word to its base form for each word in the term</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>WordOrderNormalization</p></td>
 <td><p>None</p></td>
 <td><p>reorder words in the term to a standard order such that comparisons are order…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>Depluralization</p></td>
 <td><p>None</p></td>
 <td><p>Transform plural form to singular form for each word in a term</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>CaseNormalization</p></td>
 <td><p>None</p></td>
 <td><p>Transform term to a standard case, typically lowercase</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>WhitespaceNormalization</p></td>
 <td><p>None</p></td>
 <td><p>Trim whitespace, condense whitespace runs, and transform all non-space whites…</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p>TermExpanson</p></td>
 <td><p>None</p></td>
 <td><p>Expand terms using a dictionary</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p>Synonymization</p></td>
 <td><p>None</p></td>
 <td><p>Applying synonymizer rules from matcher_rules</p></td>
-<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -146,8 +137,8 @@
 </ul>
 </section>
 </section>
-<section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline"></a></h2>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <details>
 ```yaml
 name: TransformationType

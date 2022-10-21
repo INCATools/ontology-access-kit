@@ -1,10 +1,21 @@
 # Slot: definedClassId
 
-URI: [https://github.com/geneontology/obographs/definedClassId](https://github.com/geneontology/obographs/definedClassId)
+URI: [og:definedClassId](https://github.com/geneontology/obographs/definedClassId)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/definedClassId](https://github.c
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: definedClassId
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 alias: definedClassId
+owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
 

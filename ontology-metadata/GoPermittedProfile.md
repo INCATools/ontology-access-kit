@@ -1,4 +1,7 @@
-# GoPermittedProfile
+# Subset: GoPermittedProfile
+
+URI: [GoPermittedProfile](GoPermittedProfile)
+
 
 ## Identifier and Mapping Information
 

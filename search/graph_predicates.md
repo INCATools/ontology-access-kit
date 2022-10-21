@@ -1,10 +1,21 @@
 # Slot: graph_predicates
 
-URI: [https://w3id.org/linkml/search_datamodel/graph_predicates](https://w3id.org/linkml/search_datamodel/graph_predicates)
+URI: [search:graph_predicates](https://w3id.org/linkml/search_datamodel/graph_predicates)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[PathExpression](PathExpression.md) | A path query
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/search_datamodel/graph_predicates](https://w3id.or
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/search_datamodel
 rank: 1000
 multivalued: true
 alias: graph_predicates
+owner: PathExpression
 domain_of:
 - PathExpression
 range: uriorcurie

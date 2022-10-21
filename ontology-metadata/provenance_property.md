@@ -1,6 +1,6 @@
 # Slot: provenance_property
 
-URI: [http://purl.obolibrary.org/obo/schema/provenance_property](http://purl.obolibrary.org/obo/schema/provenance_property)
+URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/schema/provenance_property)
 
 
 
@@ -24,6 +24,8 @@ URI: [http://purl.obolibrary.org/obo/schema/provenance_property](http://purl.obo
     * [ontology_term_requester](ontology_term_requester.md)
     * [imported_from](imported_from.md)
     * [has_axiom_label](has_axiom_label.md)
+
+
 
 
 
@@ -56,7 +58,7 @@ URI: [http://purl.obolibrary.org/obo/schema/provenance_property](http://purl.obo
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

@@ -6,8 +6,6 @@
 URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
-
-
 ```{mermaid}
  classDiagram
     class GraphDocument
@@ -19,20 +17,17 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md)  |   |
-| [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md)  |   |
-| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md)  | maps prefixes to namespaces  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
+| [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md) | None  | direct |
+| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | maps prefixes to namespaces  | direct |
 
-
-## Usages
 
 
 
@@ -53,17 +48,15 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:GraphDocument'] |
-| native | ['og:GraphDocument'] |
+| self | ['og:GraphDocument']|join(', ') |
+| native | ['og:GraphDocument']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

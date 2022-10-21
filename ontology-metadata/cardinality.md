@@ -1,6 +1,6 @@
 # Slot: cardinality
 
-URI: [http://www.w3.org/2002/07/owl#cardinality](http://www.w3.org/2002/07/owl#cardinality)
+URI: [owl:cardinality](http://www.w3.org/2002/07/owl#cardinality)
 
 
 
@@ -9,6 +9,19 @@ URI: [http://www.w3.org/2002/07/owl#cardinality](http://www.w3.org/2002/07/owl#c
 
 * [logical_predicate](logical_predicate.md)
     * **cardinality**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | None
+[Class](Class.md) | None
+[Restriction](Restriction.md) | None
+
 
 
 
@@ -41,7 +54,7 @@ URI: [http://www.w3.org/2002/07/owl#cardinality](http://www.w3.org/2002/07/owl#c
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

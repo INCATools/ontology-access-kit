@@ -1,10 +1,21 @@
 # Slot: modified
 
-URI: [https://w3id.org/linkml/validation-model/modified](https://w3id.org/linkml/validation-model/modified)
+URI: [vm:modified](https://w3id.org/linkml/validation-model/modified)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[RepairOperation](RepairOperation.md) | The result of performing an individual repair
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/validation-model/modified](https://w3id.org/linkml
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -44,6 +55,7 @@ name: modified
 from_schema: https://w3id.org/linkml/validation_results
 rank: 1000
 alias: modified
+owner: RepairOperation
 domain_of:
 - RepairOperation
 range: boolean

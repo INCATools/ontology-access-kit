@@ -1,10 +1,12 @@
 # Slot: property_statistic_group
 
-URI: [https://w3id.org/linkml/reportproperty_statistic_group](https://w3id.org/linkml/reportproperty_statistic_group)
+URI: [reporting:property_statistic_group](https://w3id.org/linkml/reportproperty_statistic_group)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
 
 
 
@@ -30,9 +32,7 @@ URI: [https://w3id.org/linkml/reportproperty_statistic_group](https://w3id.org/l
 
 | property | value |
 | --- | --- |
-| _if_missing |  |
 | count_of | rdf:Property |
-
 
 
 
@@ -44,7 +44,7 @@ URI: [https://w3id.org/linkml/reportproperty_statistic_group](https://w3id.org/l
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml

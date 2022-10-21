@@ -1,4 +1,7 @@
-# ObiRequiredProfile
+# Subset: ObiRequiredProfile
+
+URI: [ObiRequiredProfile](ObiRequiredProfile)
+
 
 ## Identifier and Mapping Information
 

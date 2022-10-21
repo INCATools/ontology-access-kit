@@ -1,10 +1,21 @@
 # Slot: genusIds
 
-URI: [https://github.com/geneontology/obographs/genusIds](https://github.com/geneontology/obographs/genusIds)
+URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://github.com/geneontology/obographs/genusIds](https://github.com/gen
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true
 alias: genusIds
+owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
 

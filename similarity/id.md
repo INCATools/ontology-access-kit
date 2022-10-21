@@ -1,10 +1,21 @@
 # Slot: id
 
-URI: [https://w3id.org/linkml/similarity/id](https://w3id.org/linkml/similarity/id)
+URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 
 
 <!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermInfo](TermInfo.md) | None
+
+
 
 
 
@@ -36,7 +47,7 @@ URI: [https://w3id.org/linkml/similarity/id](https://w3id.org/linkml/similarity/
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
@@ -45,6 +56,7 @@ from_schema: https://w3id.org/linkml/similarity
 rank: 1000
 identifier: true
 alias: id
+owner: TermInfo
 domain_of:
 - TermInfo
 range: string

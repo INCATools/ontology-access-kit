@@ -8,8 +8,6 @@ _A grouping of ontology elements by a shared lexical term_
 URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 
-
-
 ```{mermaid}
  classDiagram
     class LexicalGrouping
@@ -20,20 +18,19 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Cardinality and Range  | Description  |
-| ---  | ---  | --- |
-| [term](term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string)  | A normalized term that groups ontology elements  |
-| [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md)  | All ontology elements grouped and their relationship to the normalized term  |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [term](term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A normalized term that groups ontology elements  | direct |
+| [relationships](relationships.md) | 0..* <br/> [RelationshipToTerm](RelationshipToTerm.md) | All ontology elements grouped and their relationship to the normalized term  | direct |
+
 
 
 ## Usages
-
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
@@ -58,17 +55,15 @@ URI: [li:LexicalGrouping](https://w3id.org/linkml/lexical_index/LexicalGrouping)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalGrouping'] |
-| native | ['li:LexicalGrouping'] |
+| self | ['li:LexicalGrouping']|join(', ') |
+| native | ['li:LexicalGrouping']|join(', ') |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 

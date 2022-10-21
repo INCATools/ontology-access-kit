@@ -1,6 +1,6 @@
 # Slot: excluded_from_QC_check
 
-URI: [http://purl.obolibrary.org/obo/schema/excluded_from_QC_check](http://purl.obolibrary.org/obo/schema/excluded_from_QC_check)
+URI: [omoschema:excluded_from_QC_check](http://purl.obolibrary.org/obo/schema/excluded_from_QC_check)
 
 
 
@@ -9,6 +9,25 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_from_QC_check](http://purl.
 
 * [excluded_axiom](excluded_axiom.md)
     * **excluded_from_QC_check**
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[HasLifeCycle](HasLifeCycle.md) | None
+[Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
+[Class](Class.md) | None
+[Property](Property.md) | None
+[AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[Subset](Subset.md) | A collection of terms grouped for some purpose
+
 
 
 
@@ -41,7 +60,7 @@ URI: [http://purl.obolibrary.org/obo/schema/excluded_from_QC_check](http://purl.
 
 
 
-## LinkML Specification
+## LinkML Source
 
 <details>
 ```yaml
