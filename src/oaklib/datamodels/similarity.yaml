@@ -95,11 +95,13 @@ classes:
       match_target_label:
       score:
         range: float
+        required: true
       match_subsumer:
         range: uriorcurie
       match_subsumer_label:
       similarity:
         range: TermPairwiseSimilarity
+        required: true
 
 types:
   ZeroToOne:
@@ -215,6 +217,8 @@ slots:
     range: uriorcurie
   average_score:
     range: float
+    required: true
   best_score:
     range: float
+    required: true
 
