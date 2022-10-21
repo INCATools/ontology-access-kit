@@ -27,6 +27,8 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 
 
+* Required: True
+
 
 
 
@@ -59,6 +61,7 @@ owner: BestMatch
 domain_of:
 - BestMatch
 range: TermPairwiseSimilarity
+required: true
 
 ```
 </details>

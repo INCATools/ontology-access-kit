@@ -27,6 +27,8 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 
 
 
+* Required: True
+
 
 
 
@@ -58,6 +60,7 @@ alias: average_score
 domain_of:
 - TermSetPairwiseSimilarity
 range: float
+required: true
 
 ```
 </details>

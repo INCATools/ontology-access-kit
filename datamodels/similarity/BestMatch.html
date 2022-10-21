@@ -127,7 +127,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="score.html"><span class="doc std std-doc">score</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
+<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a></p></td>
 <td><p>None</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -142,7 +142,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="similarity.html"><span class="doc std std-doc">similarity</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="TermPairwiseSimilarity.html"><span class="doc std std-doc">TermPairwiseSimilarity</span></a></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="TermPairwiseSimilarity.html"><span class="doc std std-doc">TermPairwiseSimilarity</span></a></p></td>
 <td><p>None</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -235,6 +235,7 @@ attributes:
     name: score
     from_schema: https://w3id.org/linkml/similarity
     range: float
+    required: true
   match_subsumer:
     name: match_subsumer
     from_schema: https://w3id.org/linkml/similarity
@@ -249,6 +250,7 @@ attributes:
     from_schema: https://w3id.org/linkml/similarity
     rank: 1000
     range: TermPairwiseSimilarity
+    required: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -307,6 +309,7 @@ attributes:
     domain_of:
     - BestMatch
     range: float
+    required: true
   match_subsumer:
     name: match_subsumer
     from_schema: https://w3id.org/linkml/similarity
@@ -334,6 +337,7 @@ attributes:
     domain_of:
     - BestMatch
     range: TermPairwiseSimilarity
+    required: true
 
 </pre></div>
 </div>

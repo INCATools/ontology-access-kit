@@ -33,10 +33,10 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 | [match_source_label](match_source_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
 | [match_target](match_target.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the entity matches  | direct |
 | [match_target_label](match_target_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [score](score.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
+| [score](score.md) | 1..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
 | [match_subsumer](match_subsumer.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
 | [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [similarity](similarity.md) | 0..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | None  | direct |
+| [similarity](similarity.md) | 1..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) | None  | direct |
 
 
 
@@ -110,6 +110,7 @@ attributes:
     name: score
     from_schema: https://w3id.org/linkml/similarity
     range: float
+    required: true
   match_subsumer:
     name: match_subsumer
     from_schema: https://w3id.org/linkml/similarity
@@ -124,6 +125,7 @@ attributes:
     from_schema: https://w3id.org/linkml/similarity
     rank: 1000
     range: TermPairwiseSimilarity
+    required: true
 
 ```
 </details>
@@ -184,6 +186,7 @@ attributes:
     domain_of:
     - BestMatch
     range: float
+    required: true
   match_subsumer:
     name: match_subsumer
     from_schema: https://w3id.org/linkml/similarity
@@ -211,6 +214,7 @@ attributes:
     domain_of:
     - BestMatch
     range: TermPairwiseSimilarity
+    required: true
 
 ```
 </details>
