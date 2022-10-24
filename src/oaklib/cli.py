@@ -3893,7 +3893,7 @@ def synonymize(terms, rules_file, apply_patch, patch, output):
                     # matches.extend([x for x in aliases if re.search(eval(rule.match), x) is not None])
                     for alias in aliases:
                         if alias:
-                            synonymized, new_alias, qualifier = apply_transformation(
+                            synonymized, new_alias = apply_transformation(
                                 alias,
                                 LexicalTransformation(
                                     TransformationType.Synonymization, params=syn_rules
@@ -3903,15 +3903,13 @@ def synonymize(terms, rules_file, apply_patch, patch, output):
                                 matches.append(new_alias)
 
                 if len(matches) > 0:
-                    if qualifier is None or qualifier == "":
-                        qualifier = DEFAULT_QUALIFIER
                     terms_to_synonymize[curie] = matches
                     change = kgcl.NewSynonym(
                         id="kgcl_change_id_" + str(len(terms_to_synonymize)),
                         about_node=curie,
                         old_value=alias,
                         new_value=new_alias,
-                        qualifier=qualifier,
+                        qualifier=DEFAULT_QUALIFIER,
                     )
                     change_list.append(change)
                     if patch:
