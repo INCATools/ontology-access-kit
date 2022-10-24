@@ -109,7 +109,4 @@ classes:
     replacement:
       description: Reg-ex rule to replace substrings in labels
       range: string
-    qualifier:
-      description: Type of match for the new synonym generated.
-      range: string
     
