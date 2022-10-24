@@ -12,6 +12,8 @@ DEFAULT_PREFIX_MAP = {ns.prefix: str(ns) for ns in NAMESPACES}
 
 APP_NAME = "ontology-access-kit"
 
+IDENTIFIER_PREDICATE = "rdf:ID"
+
 # TODO: replace with oio vocab
 LABEL_PREDICATE = omd.slots.label.curie
 HAS_EXACT_SYNONYM = omd.slots.has_exact_synonym.curie
@@ -46,11 +48,13 @@ OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
+DISJOINT_WITH = "owl:disjointWith"
 SUBPROPERTY_OF = "owl:subPropertyOf"
 INVERSE_OF = "owl:inverseOf"
 RDF_TYPE = "rdf:type"
 EQUIVALENT_CLASS = "owl:equivalentClass"
 OWL_SAME_AS = "owl:sameAs"
+RDF_SEE_ALSO = "rdfs:seeAlso"
 PART_OF = "BFO:0000050"
 LOCATED_IN = "RO:0001025"
 DEVELOPS_FROM = "RO:0002202"

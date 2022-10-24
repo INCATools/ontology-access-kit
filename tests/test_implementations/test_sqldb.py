@@ -230,11 +230,17 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         )
 
     # OboGraphs tests
-    def test_obograph_node(self):
+    def test_obograph_node_extra(self):
         n = self.oi.node(CELLULAR_COMPONENT)
         assert n.id == CELLULAR_COMPONENT
         assert n.lbl == "cellular_component"
         assert n.meta.definition.val.startswith("A location, ")
+
+    def test_obograph_node(self):
+        self.compliance_tester.test_obograph_node(self.oi)
+
+    def test_dump_obograph(self):
+        self.compliance_tester.test_dump_obograph(self.oi)
 
     # TODO
     def test_obograph_synonyms(self):
