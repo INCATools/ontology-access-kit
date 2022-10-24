@@ -205,7 +205,7 @@ python-versions = "*"
 name = "beautifulsoup4"
 version = "4.11.1"
 description = "Screen-scraping library"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.0"
 
@@ -663,6 +663,20 @@ pyjsg = ">=0.11.6"
 rdflib = ">=5.0.0"
 rdflib-shim = "*"
 rfc3987 = "*"
+
+[[package]]
+name = "furo"
+version = "2022.9.29"
+description = "A clean customisable Sphinx documentation theme."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+beautifulsoup4 = "*"
+pygments = ">=2.7"
+sphinx = ">=4.0,<6.0"
+sphinx-basic-ng = "*"
 
 [[package]]
 name = "gilda"
@@ -1159,6 +1173,7 @@ python-versions = ">=3.7.6,<4.0.0"
 [package.dependencies]
 antlr4-python3-runtime = ">=4.9.0,<4.10"
 click = ">=7.0"
+furo = {version = ">=2022.9.29,<2023.0.0", extras = ["extras"]}
 graphviz = ">=0.10.1"
 hbreader = "*"
 isodate = ">=0.6.0"
@@ -2321,7 +2336,7 @@ python-versions = "*"
 name = "soupsieve"
 version = "2.3.2.post1"
 description = "A modern CSS selector implementation for Beautiful Soup."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -2386,6 +2401,20 @@ sphinxcontrib-serializinghtml = ">=1.1.5"
 docs = ["sphinxcontrib-websupport"]
 lint = ["flake8 (>=3.5.0)", "isort", "mypy (>=0.931)", "docutils-stubs", "types-typed-ast", "types-requests"]
 test = ["pytest", "pytest-cov", "html5lib", "cython", "typed-ast"]
+
+[[package]]
+name = "sphinx-basic-ng"
+version = "1.0.0b1"
+description = "A modern skeleton for Sphinx themes."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+sphinx = ">=4.0"
+
+[package.extras]
+docs = ["furo", "myst-parser", "sphinx-copybutton", "sphinx-inline-tabs", "ipython"]
 
 [[package]]
 name = "sphinx-click"
@@ -2955,6 +2984,7 @@ flask-wtf = []
 frozenlist = []
 fsspec = []
 funowl = []
+furo = []
 gilda = []
 graphviz = []
 greenlet = []
@@ -3080,6 +3110,7 @@ soupsieve = []
 sparqlslurper = []
 sparqlwrapper = []
 sphinx = []
+sphinx-basic-ng = []
 sphinx-click = []
 sphinx-rtd-theme = []
 sphinxcontrib-applehelp = []
