@@ -68,6 +68,7 @@ class TestLexicalIndex(unittest.TestCase):
                 match="r'(?i)^Other '",  # noqa W605
                 match_scope="*",
                 replacement="",
+                qualifier="broad",
             ),
         ]
 
