@@ -20,9 +20,9 @@ TEST_DB = INPUT_DIR / "go-nucleus.db"
 TEST_DUMP_OUT = OUTPUT_DIR / "go-nucleus-bitwise.pickle"
 
 
-class TestBitwise(unittest.TestCase):
+class TestPoiImplementation(unittest.TestCase):
     """
-    Tests fast bitwise index.
+    Tests in-memory python ontology index.
     """
 
     def setUp(self) -> None:

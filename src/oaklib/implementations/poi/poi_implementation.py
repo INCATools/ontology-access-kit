@@ -218,7 +218,8 @@ class PoiImplementation(
         bm = set()
         for e in start_curies:
             bm = bm.union(oix.ancestor_map[oix.curie_to_int[e]])
-        return bm
+        for i in bm:
+            yield oix.int_to_curie[i]
 
     def information_content_scores(
             self,
