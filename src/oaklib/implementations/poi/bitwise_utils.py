@@ -1,6 +1,6 @@
 from typing import List, Iterator, Iterable
 
-POS = int
+
 BITMAP = int
 
 

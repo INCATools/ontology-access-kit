@@ -5,23 +5,13 @@ from linkml_runtime.dumpers import yaml_dumper
 
 from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.aggregator.aggregator_implementation import (
-    AggregatorImplementation,
-)
-from oaklib.implementations.bitwise.bitwise_implementation import BitwiseImplementation
-from oaklib.implementations.bitwise.bitwise_ontology_index import BitwiseOntologyIndex
-from oaklib.implementations.bitwise.bitwise_utils import bitmap_from_list, map_bitmap_to_ints
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.resource import OntologyResource
-from oaklib.utilities.obograph_utils import graph_as_dict
+
+from oaklib.implementations.poi.poi_implementation import PoiImplementation
+from oaklib.implementations.obograph.obograph_implementation import OboGraphImplementation
 from tests import (
-    CELLULAR_COMPONENT,
-    CYTOPLASM,
     INPUT_DIR,
-    INTERNEURON,
     NUCLEUS,
-    TISSUE,
-    VACUOLE, OUTPUT_DIR,
+    OUTPUT_DIR,
 )
 from tests.test_implementations import ComplianceTester
 
@@ -36,11 +26,11 @@ class TestBitwise(unittest.TestCase):
     """
 
     def setUp(self) -> None:
-        #inner_oi = get_implementation_from_shorthand(f"pronto:{str(TEST_ONT)}")
         inner_oi = get_implementation_from_shorthand(f"sqlite:{str(TEST_DB)}")
-        print(inner_oi)
-        self.oi = BitwiseImplementation(wrapped_adapter=inner_oi)
-        #self.oi.build_index()
+        #if isinstance(inner_oi, OboGraphImplementation):
+        self.oi = PoiImplementation(wrapped_adapter=inner_oi)
+        #else:
+        #    raise NotImplementedError(f"{inner_oi} not a OG")
         self.compliance_tester = ComplianceTester(self)
 
     def test_dump(self):
@@ -81,15 +71,3 @@ class TestBitwise(unittest.TestCase):
                     print(e1, e2)
                     print(yaml_dumper.dumps(s))
 
-    def test_index(self):
-        oi = self.oi
-        oix = oi.ontology_index
-        cases = [
-            [0],
-            [],
-            [0,1],
-            [10000],
-            [1,5,8],
-        ]
-        for c in cases:
-            self.assertEqual(c, map_bitmap_to_ints(bitmap_from_list(c)))

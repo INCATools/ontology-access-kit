@@ -6,7 +6,7 @@ from typing import Optional, Type
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.implementations import GildaImplementation
-from oaklib.implementations.bitwise.bitwise_implementation import BitwiseImplementation
+from oaklib.implementations.poi.poi_implementation import PoiImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.obograph.obograph_implementation import (
     OboGraphImplementation,
@@ -71,7 +71,7 @@ SCHEME_DICT = {
     "obograph": OboGraphImplementation,
     "obolibrary": ProntoImplementation,
     "prontolib": ProntoImplementation,
-    "bitwise": BitwiseImplementation,
+    "poi": PoiImplementation,
     "gilda": GildaImplementation,
 }
 

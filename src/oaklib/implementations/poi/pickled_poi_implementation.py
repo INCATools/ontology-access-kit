@@ -35,9 +35,9 @@ from oaklib.datamodels.vocabulary import (
     SYNONYM_PREDICATES,
     omd_slots, PART_OF,
 )
-from oaklib.implementations.bitwise.bitwise_implementation import BitwiseImplementation
-from oaklib.implementations.bitwise.bitwise_ontology_index import BitwiseOntologyIndex
-from oaklib.implementations.bitwise.bitwise_utils import bitmap_from_list, BITMAP, POS, map_bitmap_to_ints, \
+from oaklib.implementations.poi.poi_implementation import PoiImplementation
+from oaklib.implementations.poi.intset_ontology_index import IntSetOntologyIndex
+from oaklib.implementations.poi.bitwise_utils import bitmap_from_list, BITMAP, POS, map_bitmap_to_ints, \
     bitmap_cardinality
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
@@ -69,8 +69,8 @@ from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
 
 
 @dataclass
-class PickledBitwiseImplementation(
-    BitwiseImplementation
+class PickledPoiImplementation(
+    PoiImplementation
 ):
     """
     A BitwiseImplementation that is restored from a pickled index.
@@ -87,6 +87,6 @@ class PickledBitwiseImplementation(
         methods = dict(inspect.getmembers(self.wrapped_adapter))
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
-            setattr(BitwiseImplementation, mn, methods[mn])
+            setattr(PoiImplementation, mn, methods[mn])
         self.build_index()
 

@@ -5,52 +5,20 @@ import pickle
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import ClassVar, List, Iterable, Dict, Iterator, Union, Tuple
+from typing import ClassVar, List, Iterable, Dict, Iterator, Union, Tuple, Set
 
-from oaklib.constants import OAKLIB_MODULE
-from oaklib.datamodels import obograph, ontology_metadata
-from oaklib.datamodels.association import Association
-from oaklib.datamodels.obograph import (
-    ExistentialRestrictionExpression,
-    LogicalDefinitionAxiom,
-)
-from oaklib.datamodels.search import SearchConfiguration
-from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity, TermSetPairwiseSimilarity, TermInfo, BestMatch
 from oaklib.datamodels.vocabulary import (
-    ALL_MATCH_PREDICATES,
-    DEPRECATED_PREDICATE,
-    DISJOINT_WITH,
-    EQUIVALENT_CLASS,
-    HAS_DBXREF,
-    HAS_EXACT_SYNONYM,
-    HAS_SYNONYM_TYPE,
-    IN_CATEGORY_PREDS,
-    IN_SUBSET,
     IS_A,
-    LABEL_PREDICATE,
-    OWL_NOTHING,
-    OWL_THING,
-    RDF_TYPE,
-    SEMAPV,
-    SYNONYM_PREDICATES,
-    omd_slots, PART_OF,
+    PART_OF,
 )
-from oaklib.implementations.bitwise.bitwise_ontology_index import BitwiseOntologyIndex
-from oaklib.implementations.bitwise.bitwise_utils import bitmap_from_list, BITMAP, POS, map_bitmap_to_ints, \
-    bitmap_cardinality
-from oaklib.implementations.sqldb import SEARCH_CONFIG
+from oaklib.implementations.poi.intset_ontology_index import IntSetOntologyIndex, POS
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
 from oaklib.interfaces.basic_ontology_interface import (
-    ALIAS_MAP,
-    METADATA_MAP,
     PRED_CURIE,
-    PREFIX_MAP,
-    RELATIONSHIP,
-    RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
@@ -62,14 +30,11 @@ from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
-from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
-
-
+from oaklib.types import CURIE
 
 
 @dataclass
-class BitwiseImplementation(
+class PoiImplementation(
     RelationGraphInterface,
     OboGraphInterface,
     ValidatorInterface,
@@ -84,13 +49,20 @@ class BitwiseImplementation(
     TextAnnotatorInterface,
 ):
     wrapped_adapter: OboGraphInterface = None
-    """An OAK implementation that takes care of everything that ensmallen cannot handle"""
+    """
+    Python Ontology Index.
+    
+    A pure-python implementation of an integer-indexed ontology
+    """
 
     closure_predicates: List[PRED_CURIE] = field(default_factory=lambda: [IS_A, PART_OF])
+    """Predicates to use for traversal. These must be fixed at time of indexing."""
 
     jaccard_threshold: float = field(default=0.5)
+    """Threshold below which pairwise matches are discarded."""
 
-    ontology_index: BitwiseOntologyIndex = None
+    ontology_index: IntSetOntologyIndex = None
+    """In-memory index of ontology entities plus closures."""
 
     delegated_methods: ClassVar[List[str]] = [
         BasicOntologyInterface.entities,
@@ -112,16 +84,19 @@ class BitwiseImplementation(
             slug = self.resource.slug
             logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
             inner_oi = get_implementation_from_shorthand(slug)
-            self.wrapped_adapter = inner_oi
+            if isinstance(inner_oi, OboGraphInterface):
+                self.wrapped_adapter = inner_oi
+            else:
+                raise NotImplementedError
         # delegation magic
         methods = dict(inspect.getmembers(self.wrapped_adapter))
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
-            setattr(BitwiseImplementation, mn, methods[mn])
+            setattr(PoiImplementation, mn, methods[mn])
         self.build_index()
 
     def build_index(self):
-        self.ontology_index = BitwiseOntologyIndex()
+        self.ontology_index = IntSetOntologyIndex()
         self.build_curie_index()
         self.build_ancestor_index()
         self.build_information_content_index()
@@ -144,22 +119,20 @@ class BitwiseImplementation(
         logging.info("Building ancestor index")
         oix = self.ontology_index
         oix.ancestor_map = {}
-        oix.ancestors_map_bitmap = {}
         inner_oi = self.wrapped_adapter
         for i, e in oix.int_to_curie.items():
             ancs = inner_oi.ancestors(e, predicates=self.closure_predicates, reflexive=True)
-            oix.ancestor_map[i] = self._map_curies_to_ints(ancs)
-            oix.ancestors_map_bitmap[i] = bitmap_from_list(oix.ancestor_map[i])
+            oix.ancestor_map[i] = set(self._map_curies_to_ints(ancs))
 
     def build_association_index(self):
         logging.info("Building association index")
         oix = self.ontology_index
         _curie_to_int = oix.curie_to_int
-        obj_closure_bm: Dict[POS, BITMAP] = defaultdict(BITMAP)
+        obj_closure_by_subj: Dict[POS, List[POS]] = defaultdict(set())
         for a in self.associations():
             s_ix = _curie_to_int[a.subject]
-            bm = oix.ancestors_map_bitmap[_curie_to_int[a.object]]
-            obj_closure_bm[s_ix] |= bm
+            obj_closure_ixs = oix.ancestor_map[_curie_to_int[a.object]]
+            obj_closure_by_subj[s_ix] = obj_closure_by_subj[s_ix].union(obj_closure_ixs)
 
     def build_information_content_index(self):
         logging.info("Building information content index")
@@ -185,36 +158,33 @@ class BitwiseImplementation(
         entities = self.filtered_entities()
         entity_ixs = [oix.curie_to_int[e] for e in entities]
         for e1_ix in entity_ixs:
-            #e1_ix = oix.curie_to_int[e1]
             logging.info(f"Indexing {e1_ix}")
-            anc_bm1 = oix.ancestors_map_bitmap[e1_ix]
+            e1_ix_ancs = oix.ancestor_map[e1_ix]
             for e2_ix in entity_ixs:
-                #e2_ix = oix.curie_to_int[e2]
-                anc_bm2 = oix.ancestors_map_bitmap[e2_ix]
+                e2_ix_ancs = oix.ancestor_map[e2_ix]
                 if e1_ix <= e2_ix:
-                    anc_intersection = anc_bm1 & anc_bm2
-                    anc_union = anc_bm1 | anc_bm2
+                    anc_intersection = e1_ix_ancs.intersection(e2_ix_ancs)
+                    anc_union = e1_ix_ancs.union(e2_ix_ancs)
                     if not anc_union:
                         # TODO
                         continue
-                    jaccard = bitmap_cardinality(anc_intersection) / bitmap_cardinality(anc_union)
+                    jaccard = len(anc_intersection) / len(anc_union)
                     if jaccard > self.jaccard_threshold:
                         oix.term_pair_jaccard_index[(e1_ix, e2_ix)] = jaccard
-                        anc_ints = map_bitmap_to_ints(anc_intersection)
-                        ics = [oix.information_content_map[i] for i in anc_ints]
+                        ics = [oix.information_content_map[i] for i in anc_intersection]
                         max_ics = max(ics)
                         oix.term_pair_max_information_content[(e1_ix, e2_ix)] = max_ics
-                        best_ancs = [i for i in anc_ints if math.isclose(oix.information_content_map[i], max_ics, rel_tol=1e-5)]
+                        best_ancs = [i for i in anc_intersection if math.isclose(oix.information_content_map[i], max_ics, rel_tol=1e-5)]
                         oix.term_pair_best_ancestor[(e1_ix, e2_ix)] = best_ancs
 
-    def _jaccard_using_ints(self, e1_ix: POS, e2_ix: POS, anc_bm1: BITMAP = None) -> float:
+    def _jaccard_using_ints(self, e1_ix: POS, e2_ix: POS, e1_ancs: Set[POS] = None) -> float:
         oix = self.ontology_index
-        if anc_bm1 is None:
-            anc_bm1 = oix.ancestors_map_bitmap[e1_ix]
-        anc_bm2 = oix.ancestors_map_bitmap[e2_ix]
-        anc_intersection = anc_bm1 & anc_bm2
-        anc_union = anc_bm1 | anc_bm2
-        return bitmap_cardinality(anc_intersection) / bitmap_cardinality(anc_union)
+        if e1_ancs is None:
+            e1_ancs = oix.ancestor_map[e1_ix]
+        e2_ancs = oix.ancestor_map[e2_ix]
+        anc_intersection = e1_ancs.intersection(e2_ancs)
+        anc_union = e1_ancs.union(e2_ancs)
+        return len(anc_intersection) / len(anc_union)
 
     def filtered_entities(self) -> List[CURIE]:
         return list(self.entities())
@@ -236,11 +206,6 @@ class BitwiseImplementation(
         oix = self.ontology_index
         return [oix.int_to_curie[i] for i in ints]
 
-    def _map_bitmap_to_curies(self, bm: BITMAP) -> Iterator[CURIE]:
-        oix = self.ontology_index
-        ints = map_bitmap_to_ints(bm)
-        return [oix.int_to_curie[i] for i in ints]
-
     def ancestors(
         self,
         start_curies: Union[CURIE, List[CURIE]],
@@ -250,10 +215,10 @@ class BitwiseImplementation(
         if isinstance(start_curies, str):
             start_curies = [start_curies]
         oix = self.ontology_index
-        bm = 0
+        bm = set()
         for e in start_curies:
-            bm |= oix.ancestors_map_bitmap[oix.curie_to_int[e]]
-        return self._map_bitmap_to_curies(bm)
+            bm = bm.union(oix.ancestor_map[oix.curie_to_int[e]])
+        return bm
 
     def information_content_scores(
             self,
@@ -312,9 +277,9 @@ class BitwiseImplementation(
     ) -> Iterator[Tuple]:
         objects = list(objects)
         for s in subjects:
-            anc1_bm = self.ontology_index.ancestors_map_bitmap[s]
+            s_ancs = self.ontology_index.ancestor_map[s]
             for o in objects:
-                yield s, o, self._jaccard_using_ints(s, o, anc1_bm)
+                yield s, o, self._jaccard_using_ints(s, o, s_ancs)
 
     def termset_pairwise_similarity(
             self,
