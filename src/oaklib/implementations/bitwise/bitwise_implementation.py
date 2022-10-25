@@ -125,7 +125,7 @@ class BitwiseImplementation(
         self.build_curie_index()
         self.build_ancestor_index()
         self.build_information_content_index()
-        #self.build_term_pair_index()
+        self.build_term_pair_index()
 
     def build_curie_index(self):
         logging.info("Building curie index")
