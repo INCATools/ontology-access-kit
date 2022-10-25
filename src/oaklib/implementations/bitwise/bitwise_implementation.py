@@ -88,7 +88,7 @@ class BitwiseImplementation(
 
     closure_predicates: List[PRED_CURIE] = field(default_factory=lambda: [IS_A, PART_OF])
 
-    jaccard_threshold : float = field(default=0.5)
+    jaccard_threshold: float = field(default=0.5)
 
     ontology_index: BitwiseOntologyIndex = None
 
