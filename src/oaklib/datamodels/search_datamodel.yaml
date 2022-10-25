@@ -56,7 +56,7 @@ classes:
         description: >-
           An individual search term. The syntax is determined by the syntax slot
         comments:
-          - This slot is optional when the configuration is used to paramterize multiple searches
+          - This slot is optional when the configuration is used to parameterize multiple searches
           - If multiple terms are provided this is treated as a union query
       syntax:
         range: SearchTermSyntax
@@ -91,6 +91,10 @@ classes:
         description: categories that should be matched
 
   ComplexQuery:
+    aliases:
+      - BooleanQuery
+    description: >-
+      A recursive boolean structure for searches
     attributes:
       all_of:
         range: ComplexQuery
@@ -103,6 +107,8 @@ classes:
         multivalued: true
       path_to:
       atom:
+        description: >-
+          The atomic term used in the search
         range: SearchBaseConfiguration
 
   PathExpression:
@@ -146,19 +152,31 @@ classes:
         description: shows how the field was matched
 
   SearchResultSet:
+    description: A collection of results arising from a search.
+    comments:
+      - this stores results as a list, APIs may choose to instead implement as an iterator
     attributes:
       configuration:
+        description: >-
+          The configuration used to generate the results
         range: SearchBaseConfiguration
       results:
+        description: >-
+          The results of the search
         range: SearchResult
         multivalued: true
       result_count:
+        description: >-
+            The total number of results, which may be greater than the number of results returned
         range: integer
       cursor:
+        description: >-
+          Current offset into results
         range: integer
 
 enums:
   SearchTermSyntax:
+    description: The encoding for the search term
     permissible_values:
       PLAINTEXT:
         description: The search term is plain text with no special syntax
@@ -192,6 +210,7 @@ enums:
         description: Any informative text attached to the entity including comments, definitions, descriptions, examples
       ANYTHING:
         meaning: rdf:Property
+        description: Any lexical element
 
   BooleanOperator:
     permissible_values:

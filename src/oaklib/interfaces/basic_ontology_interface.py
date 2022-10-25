@@ -332,7 +332,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             if id_prefixes is None or get_curie_prefix(curie) in id_prefixes:
                 candidates.append(curie)
         logging.info(f"Candidates: {len(candidates)}")
-        for subject, pred, object in self.all_relationships():
+        for subject, pred, object in self.relationships(predicates=predicates):
             if subject == object:
                 continue
             if ignore_owl_thing and object == OWL_THING:
@@ -342,9 +342,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             # if object not in all_curies:
             #    continue
             if subject in candidates:
-                if predicates is None or pred in predicates:
-                    candidates.remove(subject)
-                    logging.debug(f"Not a root: {subject} [{pred} {object}]")
+                candidates.remove(subject)
+                logging.debug(f"Not a root: {subject} [{pred} {object}]")
         if filter_obsoletes:
             exclusion_list = list(self.obsoletes())
         else:
@@ -432,6 +431,13 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         for term in candidates:
             if term not in exclusion_list:
                 yield term
+
+    def danglers(self) -> Iterable[CURIE]:
+        for e in self.entities():
+            if not self.label(e):
+                if True and not self.entity_metadata_map(e):
+                    if not list(self.relationships(subjects=[e])):
+                        yield e
 
     def subsets(self) -> Iterable[SUBSET_CURIE]:
         """

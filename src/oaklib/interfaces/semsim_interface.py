@@ -237,6 +237,19 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         predicates: List[PRED_CURIE] = None,
         labels=False,
     ) -> TermSetPairwiseSimilarity:
+        """
+        Pairwise similarity between two termset profiles.
+
+        .. warning::
+
+            The signature of this method is subject to change.
+
+        :param subjects:
+        :param objects:
+        :param predicates:
+        :param labels:
+        :return:
+        """
         curies = set(subjects + objects)
         pairs = list(self.all_by_all_pairwise_similarity(subjects, objects, predicates=predicates))
         bm_subject_score = defaultdict(float)

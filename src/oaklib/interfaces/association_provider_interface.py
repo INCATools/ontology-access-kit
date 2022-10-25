@@ -97,6 +97,38 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         self._association_index.populate(associations)
         return True
 
+    def association_subjects(
+        self,
+        **kwargs,
+    ) -> Iterator[CURIE]:
+        """
+        Yields distinct subjects in an association query.
+
+        :param kwargs:
+        :return:
+        """
+        subjects= set()
+        for assoc in self.associations(**kwargs):
+            if assoc.subject not in subjects:
+                yield assoc.subject
+                subjects.add(assoc.subject)
+
+    def association_objects(
+        self,
+        **kwargs,
+    ) -> Iterator[CURIE]:
+        """
+        Yields distinct objects in an association query.
+
+        :param kwargs:
+        :return:
+        """
+        objects = set()
+        for assoc in self.associations(**kwargs):
+            if assoc.object not in objects:
+                yield assoc.object
+                objects.add(assoc.object)
+
     def association_subject_counts(
         self,
         subjects: Iterable[CURIE] = None,

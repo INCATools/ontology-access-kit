@@ -628,7 +628,8 @@ class ComplianceTester:
                     print(f"{m[child]} > {m[parent]}")
                     test.assertGreaterEqual(m[child], m[parent])
             else:
-                test.assertGreater(m[child], m[parent])
+                test.assertGreater(m[child], m[parent],
+                                   f"{child} !> {parent} {m[child]} !> {m[parent]}")
 
     def test_pairwise_similarity(self, oi: SemanticSimilarityInterface):
         test = self.test

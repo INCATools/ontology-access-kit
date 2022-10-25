@@ -315,8 +315,8 @@ class SqlImplementation(
         logging.info(f"Query: {q}")
         for row in q:
             if row:
-                # if not _is_blank(row.id) and not row.id.startswith("<"):
-                if not _is_blank(row.id):
+                if not _is_blank(row.id) and not row.id.startswith("<urn"):
+                #if not _is_blank(row.id):
                     yield row.id
 
     def obsoletes(self) -> Iterable[CURIE]:

@@ -1964,9 +1964,11 @@ def termset_similarity(
     output: TextIO,
 ):
     """
-    Termset similarity
+    Calculate similarity between a pair of termset profiles
 
     This calculates a similarity matrix for two sets of terms.
+
+    The input for this command is two lists of terms, delimited by "@"
 
     Example:
 
@@ -1987,6 +1989,68 @@ def termset_similarity(
             set1, set2, predicates=actual_predicates, labels=autolabel
         )
         writer.emit(sim)
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@predicates_option
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@output_option
+@output_type_option
+@autolabel_option
+@click.argument("terms", nargs=-1)
+def assoc_similarity(
+        terms,
+        predicates,
+        association_predicates,
+        autolabel,
+        output_type,
+        output: TextIO,
+):
+    """
+    Calculate similarity between entities with associations.
+
+    Example:
+
+        runoak  -i hp.db -g test.hpoa.tsv -G hpoa assoc-similarity -p i DECIPHER:19 DECIPHER:2
+
+    The results conform to the semantic similarity data model, see
+    https://incatools.github.io/ontology-access-kit/datamodels/similarity/index.html
+
+    NOTE:
+
+        Depending on the backend chosen, this may be extremly slow as
+        the default implementation uses a naive method. In future,
+        implementations such as oakx-grape will deliver faster results.
+
+        Note also that if you do not parameterize the call with predicates, the full
+        closure will be used, which for many ontologies will be slower.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
+    entities = list(query_terms_iterator(terms, impl))
+    if isinstance(impl, AssociationProviderInterface):
+        actual_predicates = _process_predicates_arg(predicates)
+        actual_association_predicates = _process_predicates_arg(association_predicates)
+        pairs = []
+        for entity1 in entities:
+            for entity2 in entities:
+                if entity1 < entity2:
+                    pairs.append((entity1, entity2))
+        for entity1, entity2 in pairs:
+            set1 = list(impl.association_objects(subjects=[entity1], predicates=actual_association_predicates))
+            set2 = list(impl.association_objects(subjects=[entity2], predicates=actual_association_predicates))
+            logging.info(f"Set1={set1}")
+            logging.info(f"Set2={set2}")
+            actual_predicates = _process_predicates_arg(predicates)
+            sim = impl.termset_pairwise_similarity(
+                set1, set2, predicates=actual_predicates, labels=autolabel
+            )
+            writer.emit(sim)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2484,6 +2548,25 @@ def singletons(output: str, predicates: str, filter_obsoletes: bool):
         actual_predicates = _process_predicates_arg(predicates)
         for curie in impl.singletons(actual_predicates, filter_obsoletes=filter_obsoletes):
             print(f"{curie} ! {impl.label(curie)}")
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@output_type_option
+@predicates_option
+@filter_obsoletes_option
+def danglers(output: str, predicates: str, output_type: str, filter_obsoletes: bool):
+    """
+    List all dangling nodes.
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
+    if isinstance(impl, BasicOntologyInterface):
+        for curie in impl.danglers():
+            writer.emit(curie)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
