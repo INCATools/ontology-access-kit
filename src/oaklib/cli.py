@@ -4,9 +4,6 @@ Command Line Interface to OAK
 
 Executed using "runoak" command
 """
-# TODO: order commands.
-# See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
-from io import TextIOWrapper
 import itertools
 import json
 import logging
@@ -17,6 +14,10 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum, unique
+
+# TODO: order commands.
+# See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+from io import TextIOWrapper
 from itertools import chain
 from pathlib import Path
 from types import ModuleType
@@ -184,6 +185,7 @@ WRITERS = {
     HEATMAP_FORMAT: HeatmapWriter,
 }
 TMP_FILE = Path.cwd() / "tmp/input.txt"
+
 
 @unique
 class Direction(Enum):
@@ -1047,8 +1049,8 @@ def annotate(
             if words:
                 text_file: Path = TMP_FILE
                 text_file.parent.mkdir(exist_ok=True, parents=True)
-                text_file.write_text(' '.join(str(s) for s in words) + '\n')
-                
+                text_file.write_text(" ".join(str(s) for s in words) + "\n")
+
             if isinstance(text_file, TextIOWrapper):
                 text_file = Path(text_file.name)
 
