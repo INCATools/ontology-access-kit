@@ -182,6 +182,7 @@ WRITERS = {
     KGCL_FORMAT: StreamingKGCLWriter,
     HEATMAP_FORMAT: HeatmapWriter,
 }
+TMP_FILE = Path("tmp/words.txt")
 
 
 @unique
@@ -989,6 +990,12 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
+@click.option(
+    "--forward-text-file",
+    "-F",
+    help="Implementation level text analysis.",
+    default=False
+)
 @output_option
 @output_type_option
 def annotate(
@@ -996,6 +1003,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
+    forward_text_file: bool,
     text_file: TextIO,
     output_type: str,
 ):
@@ -1033,20 +1041,28 @@ def annotate(
                 save_lexical_index(impl.lexical_index, lexical_index_file)
             else:
                 impl.lexical_index = load_lexical_index(lexical_index_file)
-        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
+        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text, forward_text_file=forward_text_file)
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
-        if text_file:
-            for line in text_file.readlines():
-                line = line.strip()
-                for ann in impl.annotate_text(line, configuration):
-                    # TODO: better way to represent this
-                    ann.subject_source = line
-                    writer.emit(ann)
-        else:
-            text = " ".join(words)
-            for ann in impl.annotate_text(text, configuration):
+        if forward_text_file:
+            if words:
+                text_file:Path = TMP_FILE
+                text_file.parent.mkdir(exist_ok=True, parents=True)
+                text_file.write_text(words)
+            for ann in impl.annotate_text(text_file, configuration):
                 writer.emit(ann)
+        else:
+            if text_file:
+                for line in text_file.readlines():
+                    line = line.strip()
+                    for ann in impl.annotate_text(line, configuration):
+                        # TODO: better way to represent this
+                        ann.subject_source = line
+                        writer.emit(ann)
+            else:
+                text = " ".join(words)
+                for ann in impl.annotate_text(text, configuration):
+                    writer.emit(ann)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

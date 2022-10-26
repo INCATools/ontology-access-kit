@@ -53,6 +53,8 @@ classes:
         multivalued: true
       limit:
         range: integer
+      forward_text_file:
+        range: boolean
 
   TextAnnotationResultSet:
     description: A collection of annotation results

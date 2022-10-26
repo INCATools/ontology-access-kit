@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-06-08T15:32:53
+# Generation date: 2022-10-26T13:27:05
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -8,21 +8,23 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import sys
+import re
+from jsonasobj2 import JsonObj, as_dict
+from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
-from linkml_runtime.linkml_model.types import Integer
-from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.utils.dataclass_extensions_376 import (
-    dataclasses_init_fn_with_kwargs,
-)
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
+from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from rdflib import Namespace, URIRef
+from linkml_runtime.utils.curienamespace import CurieNamespace
+from linkml_runtime.linkml_model.types import Boolean, Float, Integer, String, Uriorcurie
+from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE
 
 metamodel_version = "1.7.0"
 version = None
@@ -31,20 +33,20 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-ANN = CurieNamespace("ann", "https://w3id.org/linkml/text_annotator/")
-BPA = CurieNamespace("bpa", "https://bioportal.bioontology.org/annotator/")
-LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
-OA = CurieNamespace("oa", "http://www.w3.org/ns/oa#")
-OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
-PAV = CurieNamespace("pav", "http://purl.org/pav/")
-PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
-RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-RDFS = CurieNamespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
-SCHEMA = CurieNamespace("schema", "http://schema.org/")
-SH = CurieNamespace("sh", "https://w3id.org/shacl/")
-SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
-SSSOM = CurieNamespace("sssom", "http://w3id.org/sssom/")
-XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
+ANN = CurieNamespace('ann', 'https://w3id.org/linkml/text_annotator/')
+BPA = CurieNamespace('bpa', 'https://bioportal.bioontology.org/annotator/')
+LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
+OA = CurieNamespace('oa', 'http://www.w3.org/ns/oa#')
+OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
+PAV = CurieNamespace('pav', 'http://purl.org/pav/')
+PROV = CurieNamespace('prov', 'http://www.w3.org/ns/prov#')
+RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
+SCHEMA = CurieNamespace('schema', 'http://schema.org/')
+SH = CurieNamespace('sh', 'https://w3id.org/shacl/')
+SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
+SSSOM = CurieNamespace('sssom', 'http://w3id.org/sssom/')
+XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
 DEFAULT_ = ANN
 
 
@@ -66,7 +68,6 @@ class TextAnnotationConfiguration(YAMLRoot):
     """
     configuration for search
     """
-
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = ANN.TextAnnotationConfiguration
@@ -77,6 +78,7 @@ class TextAnnotationConfiguration(YAMLRoot):
     matches_whole_text: Optional[Union[bool, Bool]] = None
     sources: Optional[Union[str, List[str]]] = empty_list()
     limit: Optional[int] = None
+    forward_text_file: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -89,6 +91,9 @@ class TextAnnotationConfiguration(YAMLRoot):
         if self.limit is not None and not isinstance(self.limit, int):
             self.limit = int(self.limit)
 
+        if self.forward_text_file is not None and not isinstance(self.forward_text_file, Bool):
+            self.forward_text_file = Bool(self.forward_text_file)
+
         super().__post_init__(**kwargs)
 
 
@@ -97,7 +102,6 @@ class TextAnnotationResultSet(YAMLRoot):
     """
     A collection of annotation results
     """
-
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = ANN.TextAnnotationResultSet
@@ -105,17 +109,12 @@ class TextAnnotationResultSet(YAMLRoot):
     class_name: ClassVar[str] = "TextAnnotationResultSet"
     class_model_uri: ClassVar[URIRef] = ANN.TextAnnotationResultSet
 
-    annotations: Optional[
-        Union[Union[dict, "TextAnnotation"], List[Union[dict, "TextAnnotation"]]]
-    ] = empty_list()
+    annotations: Optional[Union[Union[dict, "TextAnnotation"], List[Union[dict, "TextAnnotation"]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.annotations, list):
             self.annotations = [self.annotations] if self.annotations is not None else []
-        self.annotations = [
-            v if isinstance(v, TextAnnotation) else TextAnnotation(**as_dict(v))
-            for v in self.annotations
-        ]
+        self.annotations = [v if isinstance(v, TextAnnotation) else TextAnnotation(**as_dict(v)) for v in self.annotations]
 
         super().__post_init__(**kwargs)
 
@@ -180,9 +179,7 @@ class HasSpan(YAMLRoot):
         if self.subject_source is not None and not isinstance(self.subject_source, str):
             self.subject_source = str(self.subject_source)
 
-        if self.subject_text_id is not None and not isinstance(
-            self.subject_text_id, TextualElementId
-        ):
+        if self.subject_text_id is not None and not isinstance(self.subject_text_id, TextualElementId):
             self.subject_text_id = TextualElementId(self.subject_text_id)
 
         super().__post_init__(**kwargs)
@@ -193,7 +190,6 @@ class TextAnnotation(YAMLRoot):
     """
     An individual text annotation
     """
-
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OA.Annotation
@@ -260,9 +256,7 @@ class TextAnnotation(YAMLRoot):
         if self.subject_source is not None and not isinstance(self.subject_source, str):
             self.subject_source = str(self.subject_source)
 
-        if self.subject_text_id is not None and not isinstance(
-            self.subject_text_id, TextualElementId
-        ):
+        if self.subject_text_id is not None and not isinstance(self.subject_text_id, TextualElementId):
             self.subject_text_id = TextualElementId(self.subject_text_id)
 
         super().__post_init__(**kwargs)
@@ -273,249 +267,98 @@ class TransformationType(EnumDefinitionImpl):
     """
     A controlled datamodels of the types of transformation that can be applied to
     """
-
-    Stemming = PermissibleValue(
-        text="Stemming",
-        description="Removal of the last few characters of a word to yield a stem term for each word in the term",
-    )
-    Lemmatization = PermissibleValue(
-        text="Lemmatization",
-        description="Contextual reduction of a word to its base form for each word in the term",
-    )
-    WordOrderNormalization = PermissibleValue(
-        text="WordOrderNormalization",
-        description="reorder words in the term to a standard order such that comparisons are order-independent",
-    )
-    Depluralization = PermissibleValue(
-        text="Depluralization",
-        description="Transform plural form to singular form for each word in a term",
-    )
-    CaseNormalization = PermissibleValue(
-        text="CaseNormalization",
-        description="Transform term to a standard case, typically lowercase",
-    )
-    WhitespaceNormalization = PermissibleValue(
-        text="WhitespaceNormalization",
-        description="Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces",
-    )
-    TermExpanson = PermissibleValue(
-        text="TermExpanson", description="Expand terms using a dictionary"
-    )
+    Stemming = PermissibleValue(text="Stemming",
+                                       description="Removal of the last few characters of a word to yield a stem term for each word in the term")
+    Lemmatization = PermissibleValue(text="Lemmatization",
+                                                 description="Contextual reduction of a word to its base form for each word in the term")
+    WordOrderNormalization = PermissibleValue(text="WordOrderNormalization",
+                                                                   description="reorder words in the term to a standard order such that comparisons are order-independent")
+    Depluralization = PermissibleValue(text="Depluralization",
+                                                     description="Transform plural form to singular form for each word in a term")
+    CaseNormalization = PermissibleValue(text="CaseNormalization",
+                                                         description="Transform term to a standard case, typically lowercase")
+    WhitespaceNormalization = PermissibleValue(text="WhitespaceNormalization",
+                                                                     description="Trim whitespace, condense whitespace runs, and transform all non-space whitespace to spaces")
+    TermExpanson = PermissibleValue(text="TermExpanson",
+                                               description="Expand terms using a dictionary")
 
     _defn = EnumDefinition(
         name="TransformationType",
         description="A controlled datamodels of the types of transformation that can be applied to",
     )
 
-
 # Slots
 class slots:
     pass
 
+slots.textAnnotationConfiguration__matches_whole_text = Slot(uri=ANN.matches_whole_text, name="textAnnotationConfiguration__matches_whole_text", curie=ANN.curie('matches_whole_text'),
+                   model_uri=ANN.textAnnotationConfiguration__matches_whole_text, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.textAnnotationConfiguration__matches_whole_text = Slot(
-    uri=ANN.matches_whole_text,
-    name="textAnnotationConfiguration__matches_whole_text",
-    curie=ANN.curie("matches_whole_text"),
-    model_uri=ANN.textAnnotationConfiguration__matches_whole_text,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
+slots.textAnnotationConfiguration__sources = Slot(uri=ANN.sources, name="textAnnotationConfiguration__sources", curie=ANN.curie('sources'),
+                   model_uri=ANN.textAnnotationConfiguration__sources, domain=None, range=Optional[Union[str, List[str]]])
 
-slots.textAnnotationConfiguration__sources = Slot(
-    uri=ANN.sources,
-    name="textAnnotationConfiguration__sources",
-    curie=ANN.curie("sources"),
-    model_uri=ANN.textAnnotationConfiguration__sources,
-    domain=None,
-    range=Optional[Union[str, List[str]]],
-)
+slots.textAnnotationConfiguration__limit = Slot(uri=ANN.limit, name="textAnnotationConfiguration__limit", curie=ANN.curie('limit'),
+                   model_uri=ANN.textAnnotationConfiguration__limit, domain=None, range=Optional[int])
 
-slots.textAnnotationConfiguration__limit = Slot(
-    uri=ANN.limit,
-    name="textAnnotationConfiguration__limit",
-    curie=ANN.curie("limit"),
-    model_uri=ANN.textAnnotationConfiguration__limit,
-    domain=None,
-    range=Optional[int],
-)
+slots.textAnnotationConfiguration__forward_text_file = Slot(uri=ANN.forward_text_file, name="textAnnotationConfiguration__forward_text_file", curie=ANN.curie('forward_text_file'),
+                   model_uri=ANN.textAnnotationConfiguration__forward_text_file, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.textAnnotationResultSet__annotations = Slot(
-    uri=ANN.annotations,
-    name="textAnnotationResultSet__annotations",
-    curie=ANN.curie("annotations"),
-    model_uri=ANN.textAnnotationResultSet__annotations,
-    domain=None,
-    range=Optional[Union[Union[dict, TextAnnotation], List[Union[dict, TextAnnotation]]]],
-)
+slots.textAnnotationResultSet__annotations = Slot(uri=ANN.annotations, name="textAnnotationResultSet__annotations", curie=ANN.curie('annotations'),
+                   model_uri=ANN.textAnnotationResultSet__annotations, domain=None, range=Optional[Union[Union[dict, TextAnnotation], List[Union[dict, TextAnnotation]]]])
 
-slots.textualElement__id = Slot(
-    uri=ANN.id,
-    name="textualElement__id",
-    curie=ANN.curie("id"),
-    model_uri=ANN.textualElement__id,
-    domain=None,
-    range=URIRef,
-)
+slots.textualElement__id = Slot(uri=ANN.id, name="textualElement__id", curie=ANN.curie('id'),
+                   model_uri=ANN.textualElement__id, domain=None, range=URIRef)
 
-slots.textualElement__text = Slot(
-    uri=ANN.text,
-    name="textualElement__text",
-    curie=ANN.curie("text"),
-    model_uri=ANN.textualElement__text,
-    domain=None,
-    range=Optional[str],
-)
+slots.textualElement__text = Slot(uri=ANN.text, name="textualElement__text", curie=ANN.curie('text'),
+                   model_uri=ANN.textualElement__text, domain=None, range=Optional[str])
 
-slots.textualElement__source_text = Slot(
-    uri=ANN.source_text,
-    name="textualElement__source_text",
-    curie=ANN.curie("source_text"),
-    model_uri=ANN.textualElement__source_text,
-    domain=None,
-    range=Optional[str],
-)
+slots.textualElement__source_text = Slot(uri=ANN.source_text, name="textualElement__source_text", curie=ANN.curie('source_text'),
+                   model_uri=ANN.textualElement__source_text, domain=None, range=Optional[str])
 
-slots.textualElement__parent_document = Slot(
-    uri=ANN.parent_document,
-    name="textualElement__parent_document",
-    curie=ANN.curie("parent_document"),
-    model_uri=ANN.textualElement__parent_document,
-    domain=None,
-    range=Optional[Union[str, URIorCURIE]],
-)
+slots.textualElement__parent_document = Slot(uri=ANN.parent_document, name="textualElement__parent_document", curie=ANN.curie('parent_document'),
+                   model_uri=ANN.textualElement__parent_document, domain=None, range=Optional[Union[str, URIorCURIE]])
 
-slots.hasSpan__subject_start = Slot(
-    uri=ANN.subject_start,
-    name="hasSpan__subject_start",
-    curie=ANN.curie("subject_start"),
-    model_uri=ANN.hasSpan__subject_start,
-    domain=None,
-    range=Optional[Union[int, Position]],
-)
+slots.hasSpan__subject_start = Slot(uri=ANN.subject_start, name="hasSpan__subject_start", curie=ANN.curie('subject_start'),
+                   model_uri=ANN.hasSpan__subject_start, domain=None, range=Optional[Union[int, Position]])
 
-slots.hasSpan__subject_end = Slot(
-    uri=ANN.subject_end,
-    name="hasSpan__subject_end",
-    curie=ANN.curie("subject_end"),
-    model_uri=ANN.hasSpan__subject_end,
-    domain=None,
-    range=Optional[Union[int, Position]],
-)
+slots.hasSpan__subject_end = Slot(uri=ANN.subject_end, name="hasSpan__subject_end", curie=ANN.curie('subject_end'),
+                   model_uri=ANN.hasSpan__subject_end, domain=None, range=Optional[Union[int, Position]])
 
-slots.hasSpan__subject_label = Slot(
-    uri=ANN.subject_label,
-    name="hasSpan__subject_label",
-    curie=ANN.curie("subject_label"),
-    model_uri=ANN.hasSpan__subject_label,
-    domain=None,
-    range=Optional[str],
-)
+slots.hasSpan__subject_label = Slot(uri=ANN.subject_label, name="hasSpan__subject_label", curie=ANN.curie('subject_label'),
+                   model_uri=ANN.hasSpan__subject_label, domain=None, range=Optional[str])
 
-slots.hasSpan__subject_source = Slot(
-    uri=SSSOM.subject_source,
-    name="hasSpan__subject_source",
-    curie=SSSOM.curie("subject_source"),
-    model_uri=ANN.hasSpan__subject_source,
-    domain=None,
-    range=Optional[str],
-)
+slots.hasSpan__subject_source = Slot(uri=SSSOM.subject_source, name="hasSpan__subject_source", curie=SSSOM.curie('subject_source'),
+                   model_uri=ANN.hasSpan__subject_source, domain=None, range=Optional[str])
 
-slots.hasSpan__subject_text_id = Slot(
-    uri=ANN.subject_text_id,
-    name="hasSpan__subject_text_id",
-    curie=ANN.curie("subject_text_id"),
-    model_uri=ANN.hasSpan__subject_text_id,
-    domain=None,
-    range=Optional[Union[str, TextualElementId]],
-)
+slots.hasSpan__subject_text_id = Slot(uri=ANN.subject_text_id, name="hasSpan__subject_text_id", curie=ANN.curie('subject_text_id'),
+                   model_uri=ANN.hasSpan__subject_text_id, domain=None, range=Optional[Union[str, TextualElementId]])
 
-slots.textAnnotation__predicate_id = Slot(
-    uri=SSSOM.predicate_id,
-    name="textAnnotation__predicate_id",
-    curie=SSSOM.curie("predicate_id"),
-    model_uri=ANN.textAnnotation__predicate_id,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__predicate_id = Slot(uri=SSSOM.predicate_id, name="textAnnotation__predicate_id", curie=SSSOM.curie('predicate_id'),
+                   model_uri=ANN.textAnnotation__predicate_id, domain=None, range=Optional[str])
 
-slots.textAnnotation__object_id = Slot(
-    uri=SSSOM.object_id,
-    name="textAnnotation__object_id",
-    curie=SSSOM.curie("object_id"),
-    model_uri=ANN.textAnnotation__object_id,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__object_id = Slot(uri=SSSOM.object_id, name="textAnnotation__object_id", curie=SSSOM.curie('object_id'),
+                   model_uri=ANN.textAnnotation__object_id, domain=None, range=Optional[str])
 
-slots.textAnnotation__object_label = Slot(
-    uri=SSSOM.object_label,
-    name="textAnnotation__object_label",
-    curie=SSSOM.curie("object_label"),
-    model_uri=ANN.textAnnotation__object_label,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__object_label = Slot(uri=SSSOM.object_label, name="textAnnotation__object_label", curie=SSSOM.curie('object_label'),
+                   model_uri=ANN.textAnnotation__object_label, domain=None, range=Optional[str])
 
-slots.textAnnotation__object_source = Slot(
-    uri=SSSOM.object_source,
-    name="textAnnotation__object_source",
-    curie=SSSOM.curie("object_source"),
-    model_uri=ANN.textAnnotation__object_source,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__object_source = Slot(uri=SSSOM.object_source, name="textAnnotation__object_source", curie=SSSOM.curie('object_source'),
+                   model_uri=ANN.textAnnotation__object_source, domain=None, range=Optional[str])
 
-slots.textAnnotation__confidence = Slot(
-    uri=SSSOM.confidence,
-    name="textAnnotation__confidence",
-    curie=SSSOM.curie("confidence"),
-    model_uri=ANN.textAnnotation__confidence,
-    domain=None,
-    range=Optional[float],
-)
+slots.textAnnotation__confidence = Slot(uri=SSSOM.confidence, name="textAnnotation__confidence", curie=SSSOM.curie('confidence'),
+                   model_uri=ANN.textAnnotation__confidence, domain=None, range=Optional[float])
 
-slots.textAnnotation__match_string = Slot(
-    uri=SSSOM.match_string,
-    name="textAnnotation__match_string",
-    curie=SSSOM.curie("match_string"),
-    model_uri=ANN.textAnnotation__match_string,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__match_string = Slot(uri=SSSOM.match_string, name="textAnnotation__match_string", curie=SSSOM.curie('match_string'),
+                   model_uri=ANN.textAnnotation__match_string, domain=None, range=Optional[str])
 
-slots.textAnnotation__is_longest_match = Slot(
-    uri=ANN.is_longest_match,
-    name="textAnnotation__is_longest_match",
-    curie=ANN.curie("is_longest_match"),
-    model_uri=ANN.textAnnotation__is_longest_match,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
+slots.textAnnotation__is_longest_match = Slot(uri=ANN.is_longest_match, name="textAnnotation__is_longest_match", curie=ANN.curie('is_longest_match'),
+                   model_uri=ANN.textAnnotation__is_longest_match, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.textAnnotation__matches_whole_text = Slot(
-    uri=ANN.matches_whole_text,
-    name="textAnnotation__matches_whole_text",
-    curie=ANN.curie("matches_whole_text"),
-    model_uri=ANN.textAnnotation__matches_whole_text,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
+slots.textAnnotation__matches_whole_text = Slot(uri=ANN.matches_whole_text, name="textAnnotation__matches_whole_text", curie=ANN.curie('matches_whole_text'),
+                   model_uri=ANN.textAnnotation__matches_whole_text, domain=None, range=Optional[Union[bool, Bool]])
 
-slots.textAnnotation__match_type = Slot(
-    uri=ANN.match_type,
-    name="textAnnotation__match_type",
-    curie=ANN.curie("match_type"),
-    model_uri=ANN.textAnnotation__match_type,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__match_type = Slot(uri=ANN.match_type, name="textAnnotation__match_type", curie=ANN.curie('match_type'),
+                   model_uri=ANN.textAnnotation__match_type, domain=None, range=Optional[str])
 
-slots.textAnnotation__info = Slot(
-    uri=ANN.info,
-    name="textAnnotation__info",
-    curie=ANN.curie("info"),
-    model_uri=ANN.textAnnotation__info,
-    domain=None,
-    range=Optional[str],
-)
+slots.textAnnotation__info = Slot(uri=ANN.info, name="textAnnotation__info", curie=ANN.curie('info'),
+                   model_uri=ANN.textAnnotation__info, domain=None, range=Optional[str])
