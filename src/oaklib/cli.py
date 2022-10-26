@@ -1048,7 +1048,7 @@ def annotate(
                 text_file: Path = TMP_FILE
                 text_file.parent.mkdir(exist_ok=True, parents=True)
                 text_file.write_text(words)
-            for ann in impl.annotate_text(text_file, configuration):
+            for ann in impl.annotate_text(text_file):
                 writer.emit(ann)
         else:
             if text_file:
