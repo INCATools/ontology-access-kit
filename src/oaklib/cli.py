@@ -991,10 +991,7 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
-    "--forward-text-file",
-    "-F",
-    help="Implementation level text analysis.",
-    default=False
+    "--forward-text-file", "-F", help="Implementation level text analysis.", default=False
 )
 @output_option
 @output_type_option
@@ -1041,12 +1038,14 @@ def annotate(
                 save_lexical_index(impl.lexical_index, lexical_index_file)
             else:
                 impl.lexical_index = load_lexical_index(lexical_index_file)
-        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text, forward_text_file=forward_text_file)
+        configuration = TextAnnotationConfiguration(
+            matches_whole_text=matches_whole_text, forward_text_file=forward_text_file
+        )
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if forward_text_file:
             if words:
-                text_file:Path = TMP_FILE
+                text_file: Path = TMP_FILE
                 text_file.parent.mkdir(exist_ok=True, parents=True)
                 text_file.write_text(words)
             for ann in impl.annotate_text(text_file, configuration):
