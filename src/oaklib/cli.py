@@ -6,6 +6,7 @@ Executed using "runoak" command
 """
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
+from io import TextIOWrapper
 import itertools
 import json
 import logging
@@ -182,8 +183,7 @@ WRITERS = {
     KGCL_FORMAT: StreamingKGCLWriter,
     HEATMAP_FORMAT: HeatmapWriter,
 }
-TMP_FILE = Path("tmp/words.txt")
-
+TMP_FILE = Path.cwd() / "tmp/input.txt"
 
 @unique
 class Direction(Enum):
@@ -1047,7 +1047,11 @@ def annotate(
             if words:
                 text_file: Path = TMP_FILE
                 text_file.parent.mkdir(exist_ok=True, parents=True)
-                text_file.write_text(words)
+                text_file.write_text(' '.join(str(s) for s in words) + '\n')
+                
+            if isinstance(text_file, TextIOWrapper):
+                text_file = Path(text_file.name)
+
             for ann in impl.annotate_text(text_file):
                 writer.emit(ann)
         else:
