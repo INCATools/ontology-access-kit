@@ -1,6 +1,7 @@
 import logging
 from abc import ABC
 from dataclasses import dataclass, field
+from io import TextIOWrapper
 from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
@@ -138,6 +139,13 @@ class OntoPortalImplementationBase(
             params["ontologies"] = self.resource.slug.upper()
         results = self._get_json("/annotator", params=params)
         return self._annotator_json_to_results(results, text, configuration)
+
+    def annotate_file(
+        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
+        for line in text_file.readlines():
+            line = line.strip()
+            self.annotate_text(line, configuration)
 
     def _annotator_json_to_results(
         self, json_list: List[Any], text: str, configuration: TextAnnotationConfiguration = None

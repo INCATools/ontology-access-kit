@@ -1,6 +1,7 @@
 """A text annotator based on Gilda."""
 
 from dataclasses import dataclass
+from io import TextIOWrapper
 from typing import Iterator
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
@@ -38,3 +39,10 @@ class GildaImplementation(TextAnnotatorInterface):
                 curie=f"{match.term.db}:{match.term.id}",
                 label=match.term.entry_name,
             )
+
+    def annotate_file(
+        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
+        for line in text_file.readlines():
+            line = line.strip()
+            self.annotate_text(line, configuration)

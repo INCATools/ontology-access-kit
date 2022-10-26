@@ -1,6 +1,7 @@
 import logging
 from abc import ABC
-from typing import Iterable, Optional
+from io import TextIOWrapper
+from typing import Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
@@ -92,3 +93,10 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                             match_string=text[ix : ix + len(k)],
                         )
                         yield ann
+
+    def annotate_file(
+        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
+        for line in text_file.readlines():
+            line = line.strip()
+            self.annotate_text(line, configuration)
