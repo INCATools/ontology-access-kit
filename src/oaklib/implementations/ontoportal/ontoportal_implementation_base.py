@@ -127,6 +127,17 @@ class OntoPortalImplementationBase(
     def annotate_text(
         self, text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """
+        Annotate a piece of text.
+
+        .. note ::
+
+           the signature of this method may change
+
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :return: A generator function that returns annotated results.
+        """
         if configuration is None:
             configuration = TextAnnotationConfiguration()
         logging.info(f"Annotating text: {text}")
@@ -143,9 +154,15 @@ class OntoPortalImplementationBase(
     def annotate_file(
         self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """Annotate text in a file.
+
+        :param text_file: Text file that is iterated line-by-line.
+        :param configuration: Text annotation configuration.
+        :return: result of `annotate_test()`
+        """
         for line in text_file.readlines():
             line = line.strip()
-            self.annotate_text(line, configuration)
+            return self.annotate_text(line, configuration)
 
     def _annotator_json_to_results(
         self, json_list: List[Any], text: str, configuration: TextAnnotationConfiguration = None

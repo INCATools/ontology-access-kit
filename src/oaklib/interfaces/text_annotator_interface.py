@@ -51,15 +51,15 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
     ) -> Iterable[TextAnnotation]:
         """
-        Annotate a piece of text
+        Annotate a piece of text.
 
         .. note ::
 
            the signature of this method may change
 
-        :param text:
-        :param configuration:
-        :return:
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :return: A generator function that returns annotated results.
         """
         if not configuration:
             configuration = TextAnnotationConfiguration()
@@ -97,6 +97,12 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     def annotate_file(
         self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """Annotate text in a file.
+
+        :param text_file: Text file that is iterated line-by-line.
+        :param configuration: Text annotation configuration.
+        :return: result of `annotate_test()`
+        """
         for line in text_file.readlines():
             line = line.strip()
-            self.annotate_text(line, configuration)
+            return self.annotate_text(line, configuration)

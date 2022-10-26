@@ -26,6 +26,13 @@ class GildaImplementation(TextAnnotatorInterface):
     def annotate_text(
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """
+        Annotate a piece of text.
+
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :return: A generator function that returns annotated results.
+        """
         if not configuration:
             raise NotImplementedError("Missing text annotation configuration")
         if not configuration.matches_whole_text:
@@ -43,6 +50,12 @@ class GildaImplementation(TextAnnotatorInterface):
     def annotate_file(
         self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """Annotate text in a file.
+
+        :param text_file: Text file that is iterated line-by-line.
+        :param configuration: Text annotation configuration.
+        :return: result of `annotate_test()`
+        """
         for line in text_file.readlines():
             line = line.strip()
             self.annotate_text(line, configuration)
