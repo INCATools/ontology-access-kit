@@ -3716,6 +3716,12 @@ def diff_via_mappings(
     help="Delimiter between columns in input and output",
 )
 @click.option(
+    "--comment",
+    default="#",
+    show_default=True,
+    help="Comment indicator at the beginning of a row.",
+)
+@click.option(
     "--relation",
     multiple=True,
     help="Serialized YAML string corresponding to a normalized relation between two columns",
@@ -3731,6 +3737,7 @@ def fill_table(
     table_file,
     output,
     delimiter,
+    comment,
     missing_value_token,
     allow_missing: bool,
     relation: tuple,
@@ -3823,6 +3830,9 @@ def fill_table(
     """
     tf = TableFiller(settings.impl)
     with open(table_file) as input_file:
+        comment_lines = [x for x in input_file.readlines() if x.startswith(comment)]
+
+    with open(table_file) as input_file:
         input_table = table_filler.parse_table(input_file, delimiter=delimiter)
         if schema:
             metadata = tf.extract_metadata_from_linkml(schema)
@@ -3839,7 +3849,7 @@ def fill_table(
         metadata.set_allow_missing_values(allow_missing)
         metadata.set_missing_value_token(missing_value_token)
         tf.fill_table(input_table, table_metadata=metadata)
-        table_filler.write_table(input_table, output, delimiter=delimiter)
+        table_filler.write_table(input_table, output, delimiter=delimiter, comments=comment_lines)
 
 
 @main.command()
