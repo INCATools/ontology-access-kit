@@ -176,7 +176,7 @@ class TestTableFiller(unittest.TestCase):
 
     def test_fill_table(self):
         tf = self.table_filler
-        for desc, comments, input_table, cfg, expected_table, expected_success in EXPECTED:
+        for desc, _, input_table, cfg, expected_table, expected_success in EXPECTED:
             logging.info(f"Test: {desc}")
             logging.info(desc)
             output_table = deepcopy(input_table)
