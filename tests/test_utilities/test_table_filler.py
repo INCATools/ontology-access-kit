@@ -36,6 +36,14 @@ EXPECTED = [
         Populating labels from IDs
         """,
         [
+            '# curie_map:\n',
+            '#   X: http://purl.obolibrary.org/obo/X_\n',
+            '#   Y: http://purl.obolibrary.org/obo/Y_\n',
+            '#   Z: http://purl.obolibrary.org/obo/Z_\n',
+            '# license: UNSPECIFIED\n',
+            '# mapping_set_id: temp\n'
+        ],
+        [
             {"id": NUCLEUS, "label": None},
             {"id": NUCLEAR_ENVELOPE, "label": None},
         ],
@@ -51,6 +59,14 @@ EXPECTED = [
         Populating IDs from labels
         """,
         [
+            '# curie_map:\n',
+            '#   X: http://purl.obolibrary.org/obo/X_\n',
+            '#   Y: http://purl.obolibrary.org/obo/Y_\n',
+            '#   Z: http://purl.obolibrary.org/obo/Z_\n',
+            '# license: UNSPECIFIED\n',
+            '# mapping_set_id: temp\n'
+        ],
+        [
             {"id": None, "label": "nucleus"},
             {"id": None, "label": "nuclear envelope"},
         ],
@@ -65,6 +81,7 @@ EXPECTED = [
         """
         Missing dependent in results throws error by default
         """,
+        [],
         [
             {"id": "FAKE:0001", "label": None},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
@@ -77,6 +94,7 @@ EXPECTED = [
         """
         Missing pk in results throws error by default
         """,
+        [],
         [
             {"id": None, "label": "no such thing"},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
@@ -89,6 +107,7 @@ EXPECTED = [
         """
         Missing dependent must be explicitly allowed
         """,
+        [],
         [
             {"id": "FAKE:0001", "label": None},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
@@ -106,6 +125,7 @@ EXPECTED = [
         """
         Missing dependent populated by missing value token
         """,
+        [],
         [
             {"id": "FAKE:0001", "label": None},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
@@ -131,6 +151,7 @@ EXPECTED = [
         """
         Missing pk must be explicitly allowed
         """,
+        [],
         [
             {"id": None, "label": "no such thing"},
             {"id": NUCLEAR_ENVELOPE, "label": "nuclear envelope"},
@@ -155,7 +176,7 @@ class TestTableFiller(unittest.TestCase):
 
     def test_fill_table(self):
         tf = self.table_filler
-        for desc, input_table, cfg, expected_table, expected_success in EXPECTED:
+        for desc, comments, input_table, cfg, expected_table, expected_success in EXPECTED:
             logging.info(f"Test: {desc}")
             logging.info(desc)
             output_table = deepcopy(input_table)
@@ -183,10 +204,10 @@ class TestTableFiller(unittest.TestCase):
 
     def test_fill_table_file(self):
         tf = self.table_filler
-        for desc, input_table, cfg, expected_table, expected_success in EXPECTED:
+        for desc, comments, input_table, cfg, expected_table, expected_success in EXPECTED:
             logging.info(f"Test: {desc}")
             with open(TMP, "w", encoding="UTF-8") as input_file:
-                write_table(input_table, input_file)
+                write_table(input_table, input_file, comments=comments)
             with open(TMP) as input_file:
                 with open(TMP2, "w", encoding="UTF-8") as output_file:
                     if expected_success:
