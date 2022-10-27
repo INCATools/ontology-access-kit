@@ -72,7 +72,9 @@ from oaklib.interfaces import (
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
-from oaklib.interfaces.class_enrichment_calculation_interface import ClassEnrichmentCalculationInterface
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
+)
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface

@@ -109,9 +109,14 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
                     r.label = self.label(cls)
                 results.append(r)
         if isinstance(self, OboGraphInterface):
-            anc_counts = {x.class_id: len(list(self.ancestors([x.class_id], predicates=object_closure_predicates))) for x in results}
+            anc_counts = {
+                x.class_id: len(
+                    list(self.ancestors([x.class_id], predicates=object_closure_predicates))
+                )
+                for x in results
+            }
         else:
             anc_counts = {}
-        results.sort(key=lambda x: x.p_value - anc_counts.get(x.class_id, 0)/1e12)
+        results.sort(key=lambda x: x.p_value - anc_counts.get(x.class_id, 0) / 1e12)
         for r in results:
             yield r

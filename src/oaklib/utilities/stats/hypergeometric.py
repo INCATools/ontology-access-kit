@@ -21,7 +21,11 @@ def hypergeom_prob(n: int, k: int, N: int, K: int) -> float:
     N: size of sample
     K: size of population
     """
-    return exp(log_binomial_coefficient(k, n) + log_binomial_coefficient(K - k, N - n) - log_binomial_coefficient(K, N))
+    return exp(
+        log_binomial_coefficient(k, n)
+        + log_binomial_coefficient(K - k, N - n)
+        - log_binomial_coefficient(K, N)
+    )
 
 
 def hypergeometric_p_value(n: int, k: int, N: int, K: int) -> Tuple[float, float]:
