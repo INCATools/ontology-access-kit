@@ -1,7 +1,6 @@
 """A text annotator based on Gilda."""
 
 from dataclasses import dataclass
-from io import TextIOWrapper
 from typing import Iterator
 
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration

@@ -1,7 +1,6 @@
 import logging
 from abc import ABC
 from dataclasses import dataclass, field
-from io import TextIOWrapper
 from typing import Any, ClassVar, Dict, Iterable, Iterator, List, Tuple, Union
 from urllib.parse import quote
 
