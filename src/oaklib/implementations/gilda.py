@@ -27,7 +27,8 @@ class GildaImplementation(TextAnnotatorInterface):
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
         """
-        Annotate a piece of text.
+        Implements annotate_text from text_annotator_interface by calling the
+        `annotate` endpoint using gilda client.
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.
