@@ -1400,7 +1400,7 @@ sphinx = ["sphinx-book-theme", "Sphinx (>=1.7)", "myst-parser", "moto", "mock", 
 
 [[package]]
 name = "nbconvert"
-version = "7.2.2"
+version = "7.2.3"
 description = "Converting Jupyter Notebooks"
 category = "dev"
 optional = false
@@ -2910,8 +2910,8 @@ gilda = ["gilda"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.9,<3.12"
-content-hash = "e66ddf86b2cb09769687d2193e4c2667604add630cd484681fe2fe27ab2b23a7"
+python-versions = ">=3.9,<4.0.0"
+content-hash = "e41f74f6631147d0b739be5a0481ac979fc2addf28b62b07f740e6f0006b695c"
 
 [metadata.files]
 adeft = []
