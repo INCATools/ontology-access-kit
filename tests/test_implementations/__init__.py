@@ -615,7 +615,6 @@ class ComplianceTester:
         ]
         for case in cases:
             genes, background, expected = case
-            #print(case)
             results = list(
                 oi.enriched_classes(
                     genes,

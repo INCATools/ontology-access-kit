@@ -3,8 +3,6 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, List, Union
 
-import curies
-
 from oaklib.converters.data_model_converter import DataModelConverter
 from oaklib.datamodels.obograph import Graph, GraphDocument, LogicalDefinitionAxiom
 from oaklib.types import CURIE

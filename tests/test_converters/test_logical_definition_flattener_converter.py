@@ -2,12 +2,11 @@ import unittest
 
 from linkml_runtime.loaders import json_loader
 
-from oaklib import OntologyResource, get_implementation_from_shorthand
+from oaklib import get_implementation_from_shorthand
 from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import GraphDocument
 from oaklib.datamodels.vocabulary import HAS_PART, PART_OF
-from oaklib.implementations import SparqlImplementation
 from tests import INPUT_DIR, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
 
