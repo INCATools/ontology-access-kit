@@ -116,7 +116,7 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     :param delimiter:
     :return:
     """
-    reader = csv.DictReader(filter(lambda row: row[0]!='#', input_file), delimiter=delimiter)
+    reader = csv.DictReader(filter(lambda row: row[0] != "#", input_file), delimiter=delimiter)
     rows = [row for row in reader]
     for row in rows:
         for col in row.keys():
@@ -129,7 +129,9 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     return rows
 
 
-def write_table(rows: List[ROW], output_file: IO, comments:List[str] = None, delimiter="\t", list_delimiter="|") -> None:
+def write_table(
+    rows: List[ROW], output_file: IO, comments: List[str] = None, delimiter="\t", list_delimiter="|"
+) -> None:
     """Writes a list of rows to a file, replacing None values with empty strings.
 
     :param rows: List of rows in dict format.

@@ -36,12 +36,12 @@ EXPECTED = [
         Populating labels from IDs
         """,
         [
-            '# curie_map:\n',
-            '#   X: http://purl.obolibrary.org/obo/X_\n',
-            '#   Y: http://purl.obolibrary.org/obo/Y_\n',
-            '#   Z: http://purl.obolibrary.org/obo/Z_\n',
-            '# license: UNSPECIFIED\n',
-            '# mapping_set_id: temp\n'
+            "# curie_map:\n",
+            "#   X: http://purl.obolibrary.org/obo/X_\n",
+            "#   Y: http://purl.obolibrary.org/obo/Y_\n",
+            "#   Z: http://purl.obolibrary.org/obo/Z_\n",
+            "# license: UNSPECIFIED\n",
+            "# mapping_set_id: temp\n",
         ],
         [
             {"id": NUCLEUS, "label": None},
@@ -59,12 +59,12 @@ EXPECTED = [
         Populating IDs from labels
         """,
         [
-            '# curie_map:\n',
-            '#   X: http://purl.obolibrary.org/obo/X_\n',
-            '#   Y: http://purl.obolibrary.org/obo/Y_\n',
-            '#   Z: http://purl.obolibrary.org/obo/Z_\n',
-            '# license: UNSPECIFIED\n',
-            '# mapping_set_id: temp\n'
+            "# curie_map:\n",
+            "#   X: http://purl.obolibrary.org/obo/X_\n",
+            "#   Y: http://purl.obolibrary.org/obo/Y_\n",
+            "#   Z: http://purl.obolibrary.org/obo/Z_\n",
+            "# license: UNSPECIFIED\n",
+            "# mapping_set_id: temp\n",
         ],
         [
             {"id": None, "label": "nucleus"},
