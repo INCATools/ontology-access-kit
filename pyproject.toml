@@ -21,7 +21,7 @@ ratelimit = "^2.2.1"
 appdirs = "^1.4.4"
 semsql = "^0.1.6"
 lark = "^1.1.2"
-kgcl-schema = "^0.3.0"
+kgcl-schema = "^0.3.1"
 funowl = "^0.1.12"
 gilda = {version = "^0.10.1", optional = true}
 kgcl-rdflib = "^0.3.0"

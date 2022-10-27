@@ -1037,12 +1037,14 @@ def annotate(
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
-            for line in text_file.readlines():
-                line = line.strip()
-                for ann in impl.annotate_text(line, configuration):
-                    # TODO: better way to represent this
-                    ann.subject_source = line
-                    writer.emit(ann)
+            for ann in impl.annotate_file(text_file, configuration):
+                writer.emit(ann)
+            # for line in text_file.readlines():
+            #     line = line.strip()
+            #     for ann in impl.annotate_text(line, configuration):
+            #         # TODO: better way to represent this
+            #         ann.subject_source = line
+            #         writer.emit(ann)
         else:
             text = " ".join(words)
             for ann in impl.annotate_text(text, configuration):
