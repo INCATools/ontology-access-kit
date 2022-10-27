@@ -33,7 +33,9 @@ from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
     associations_subjects,
 )
-from oaklib.interfaces.class_enrichment_calculation_interface import ClassEnrichmentCalculationInterface
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
+)
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -624,8 +626,11 @@ class ComplianceTester:
                 )
             )
             if expected is not None:
-                test.assertCountEqual(expected, [r.class_id for r in results[0: len(expected)]],
-                                      msg=f"Failed for {case}")
+                test.assertCountEqual(
+                    expected,
+                    [r.class_id for r in results[0 : len(expected)]],
+                    msg=f"Failed for {case}",
+                )
 
     def test_common_ancestors(self, oi: SemanticSimilarityInterface):
         """
