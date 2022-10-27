@@ -33,6 +33,7 @@ from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
     associations_subjects,
 )
+from oaklib.interfaces.class_enrichment_interface import ClassEnrichmentCalculationInterface
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -52,6 +53,15 @@ from tests import (
     EUKARYOTA,
     FAKE_ID,
     FUNGI,
+    GENE1,
+    GENE2,
+    GENE3,
+    GENE4,
+    GENE5,
+    GENE6,
+    GENE7,
+    GENE8,
+    GENE9,
     HUMAN,
     IMBO,
     INPUT_DIR,
@@ -571,6 +581,52 @@ class ComplianceTester:
                 self.test_information_content_scores(oi, use_associations=True)
             except NotImplementedError:
                 logging.info(f"Not yet implemented for {type(oi)}")
+
+    def test_class_enrichment(self, oi: ClassEnrichmentCalculationInterface):
+        """
+        Tests statistical overrepresentation of classes.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        data = {
+            NUCLEUS: [GENE1],
+            NUCLEAR_MEMBRANE: [GENE2, GENE3],
+            NUCLEAR_ENVELOPE: [GENE3, GENE6, GENE7],
+            VACUOLE: [GENE4, GENE5],
+            IMBO: [GENE8, GENE9],
+        }
+        assoc_cases = []
+        for t, genes in data.items():
+            for g in genes:
+                assoc_cases.append(Association(g, LOCATED_IN, t))
+        oi.add_associations(assoc_cases)
+        assocs = list(oi.associations())
+        test.assertCountEqual(assoc_cases, assocs)
+        cases = [
+            ([GENE1, GENE6, GENE7], None, None),
+            # exact overlap
+            ([GENE3, GENE6, GENE7], None, [NUCLEAR_ENVELOPE]),
+            # nuclear membrane is before nucleus as less common overall
+            ([GENE1, GENE2, GENE3], None, [NUCLEAR_MEMBRANE]),
+            ([GENE1, GENE2, GENE4, GENE5, GENE6], None, None),
+            ([GENE8, GENE9], None, [IMBO]),
+        ]
+        for case in cases:
+            genes, background, expected = case
+            #print(case)
+            results = list(
+                oi.enriched_classes(
+                    genes,
+                    background=background,
+                    cutoff=1.0,
+                    object_closure_predicates=[IS_A, PART_OF],
+                )
+            )
+            if expected is not None:
+                test.assertCountEqual(expected, [r.class_id for r in results[0: len(expected)]],
+                                      msg=f"Failed for {case}")
 
     def test_common_ancestors(self, oi: SemanticSimilarityInterface):
         """

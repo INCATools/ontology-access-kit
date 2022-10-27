@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, Tuple, Union
 
-import curies
 import rdflib
 from rdflib import OWL, RDFS
 
@@ -45,8 +44,6 @@ SCOPE_MAP = {
 @dataclass
 class OboGraphToRdfOwlConverter(DataModelConverter):
     """Converts from OboGraph to OWL layered on RDF."""
-
-    curie_converter: curies.Converter = None
 
     def convert(self, source: GraphDocument, target: rdflib.Graph = None) -> rdflib.Graph:
         """

@@ -6,9 +6,10 @@ from linkml_runtime.utils.introspection import package_schemaview
 from oaklib.datamodels import obograph
 from oaklib.datamodels.vocabulary import IS_A
 from tests import output_path
+from tests.test_datamodels import AbstractDatamodelTestCase
 
 
-class TestOboGraphDatamodel(unittest.TestCase):
+class TestOboGraphDatamodel(AbstractDatamodelTestCase):
     def test_create(self):
         """
         Tests the creation of an example instance of the OboGraph datamodel
@@ -29,3 +30,25 @@ class TestOboGraphDatamodel(unittest.TestCase):
         assert "lbl" in sv.all_slots()  # TODO: consider changing
         assert "Node" in sv.all_classes()
         assert "Edge" in sv.all_classes()
+
+    def test_logical_definitions(self):
+        """
+        Tests the ability to create logical definitions
+        """
+        g = obograph.Graph(id="test")
+        g.logicalDefinitionAxioms.append(
+            obograph.LogicalDefinitionAxiom(
+                definedClassId="EXAMPLE:1",
+                genusIds=["EXAMPLE:2"],
+                restrictions=[
+                    obograph.ExistentialRestrictionExpression(
+                        propertyId="RO:1", fillerId="EXAMPLE:3"
+                    ),
+                    obograph.ExistentialRestrictionExpression(
+                        propertyId="RO:2", fillerId="EXAMPLE:4"
+                    ),
+                ],
+            )
+        )
+        yaml_dumper.dump(g, output_path("example-ldefs.obograph.yaml"))
+        self.attempt_streaming_writers(g.logicalDefinitionAxioms)

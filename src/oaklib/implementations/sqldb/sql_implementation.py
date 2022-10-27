@@ -89,9 +89,6 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
-from oaklib.interfaces.association_provider_interface import (
-    AssociationProviderInterface,
-)
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
     METADATA_MAP,
@@ -101,6 +98,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
+from oaklib.interfaces.class_enrichment_interface import ClassEnrichmentCalculationInterface
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -189,7 +187,8 @@ class SqlImplementation(
     SemanticSimilarityInterface,
     MetadataInterface,
     DifferInterface,
-    AssociationProviderInterface,
+    # AssociationProviderInterface,
+    ClassEnrichmentCalculationInterface,
     TextAnnotatorInterface,
 ):
     """

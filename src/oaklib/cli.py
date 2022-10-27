@@ -46,6 +46,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 import oaklib.datamodels.taxon_constraints as tcdm
 from oaklib import datamodels
+from oaklib.converters.logical_definition_flattener import LogicalDefinitionFlattener
 from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.obograph import PrefixDeclaration
 from oaklib.datamodels.search import create_search_configuration
@@ -71,6 +72,7 @@ from oaklib.interfaces import (
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
+from oaklib.interfaces.class_enrichment_interface import ClassEnrichmentCalculationInterface
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
@@ -381,7 +383,7 @@ def _get_writer(
         else:
             raise ValueError(f"Unrecognized output type: {output_type}")
     w = typ(ontology_interface=impl)
-    if isinstance(w, StreamingRdfWriter) and datamodel is not None:
+    if w.uses_schemaview and datamodel is not None:
         w.schemaview = package_schemaview(datamodel.__name__)
     return w
 
@@ -2303,8 +2305,10 @@ def relationships(
 
 @main.command()
 @click.argument("terms", nargs=-1)
+@click.option(
+    "--unmelt/--no-unmelt", default=False, show_default=True, help="Flatten to a wide table"
+)
 @predicates_option
-@direction_option
 @autolabel_option
 @output_type_option
 @output_option
@@ -2313,25 +2317,86 @@ def relationships(
 def logical_definitions(
     terms,
     predicates: str,
-    direction: str,
     autolabel: bool,
     output_type: str,
     output: str,
     if_absent: bool,
+    unmelt: bool,
     set_value: str,
 ):
     """
-    Show all logical definitions for a term or terms
+    Show all logical definitions for a term or terms.
+
+    To show all logical definitions in an ontology, pass the ".all" query term
+
+    Example:
+
+        alias pato="runoak -i obo:sqlite:pato"
+        pato logical-definitions .all
+
+    By default, ".all" will query all axioms for all terms including merged terms;
+    to restrict to only the current terms, use an ID query:
+
+        pato logical-definitions i^PATO
+
+    You can also restrict to branches:
+
+        pato logical-definitions .desc//p=i "physical object quality"
+
+    By default, the output is a subset of OboGraph datamodel rendered as YAML, e.g.
+
+      definedClassId: PATO:0045071
+        genusIds:
+        - PATO:0001439
+        restrictions:
+        - fillerId: PATO:0000461
+          propertyId: RO:0015010
+
+    You can also specify CSV to generate a flattened form of this.
+
+    Example:
+
+        pato logical-definitions .all --output-type csv
+
+    You can optionally choose to "unmelt" or flatten this, such that:
+
+    - Each property/predicate is a column
+    - For repeated properties, columns of the form prop_1, prop_2, ... are generated
+
+    Example:
+
+        pato logical-definitions .all  --unmelt --output-type csv
+
+    Limitations:
+
+    Currently this only works for definitions that follow a basic genus-differentia pattern,
+    which is what is currently represented in the OboGraph datamodel.
+
+    Consider using the "axioms" command for inspection of complex nested OWL axioms.
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     writer.autolabel = autolabel
     actual_predicates = _process_predicates_arg(predicates)
+    if set_value:
+        raise NotImplementedError
+    label_fields = [
+        "definedClassId",
+        "genusIds",
+        "restrictionFillerIds",
+        "restrictionsPropertyIds",
+        "restrictionsFillerIds",
+    ]
     if isinstance(impl, OboGraphInterface):
         # curies = list(query_terms_iterator(terms, impl))
         has_relationships = defaultdict(bool)
         curies = []
+        if unmelt:
+            ldef_flattener = LogicalDefinitionFlattener(
+                labeler=lambda x: impl.label(x), curie_converter=impl.converter
+            )
+            writer.heterogeneous_keys = True
         for curie_it in chunk(query_terms_iterator(terms, impl)):
             curie_chunk = list(curie_it)
             curies += curie_chunk
@@ -2343,11 +2408,17 @@ def logical_definitions(
                     has_relationships[ldef.definedClassId] = True
                     if if_absent and if_absent == IfAbsent.absent_only.value:
                         continue
-                    writer.emit(ldef)
+                    if unmelt:
+                        flat_obj = ldef_flattener.convert(ldef)
+                        writer.emit(flat_obj, label_fields=list(flat_obj.keys()))
+                    else:
+                        writer.emit(ldef, label_fields=label_fields)
         if if_absent and if_absent == IfAbsent.absent_only.value:
             for curie in curies:
                 if not has_relationships.get(curie, False):
                     writer.emit({"noLogicalDefinition": curie})
+        writer.finish()
+        writer.file.close()
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -2951,6 +3022,76 @@ def associations(
                 )
             _apply_changes(impl, changes)
 
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@output_option
+@predicates_option
+@autolabel_option
+@output_type_option
+@output_option
+@if_absent_option
+@set_value_option
+@click.option(
+    "--cutoff", type=click.FLOAT, default=0.05, show_default=True, help="The cutoff for the p-value"
+)
+@click.option(
+    "--sample-file",
+    "-S",
+    type=click.File(mode="r"),
+    help="file containing input list of entity IDs (e.g. gene IDs)",
+)
+@click.option(
+    "--background-file",
+    "-B",
+    type=click.File(mode="r"),
+    help="file containing background list of entity IDs (e.g. gene IDs)",
+)
+@click.option(
+    "--association-predicates",
+    help="A comma-separated list of predicates for the association relation",
+)
+@click.argument("terms", nargs=-1)
+def enrichment(
+    terms,
+    predicates: str,
+    association_predicates: str,
+    cutoff: float,
+    autolabel: bool,
+    output_type: str,
+    output: str,
+    sample_file: TextIO,
+    background_file: TextIO,
+    if_absent: bool,
+    set_value: str,
+):
+    """
+    Run class enrichment analysis.
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.autolabel = autolabel
+    writer.output = output
+    actual_predicates = _process_predicates_arg(predicates)
+    actual_association_predicates = _process_predicates_arg(association_predicates)
+    subjects = list(curies_from_file(sample_file))
+    background = list(curies_from_file(background_file)) if background_file else None
+    if isinstance(impl, ClassEnrichmentCalculationInterface):
+        curies = list(query_terms_iterator(terms, impl))
+        results = impl.enriched_classes(
+            subjects,
+            predicates=actual_association_predicates,
+            object_closure_predicates=actual_predicates,
+            hypotheses=curies if curies else None,
+            background=background,
+            cutoff=cutoff,
+            autolabel=autolabel,
+        )
+        for result in results:
+            writer.emit(result)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
