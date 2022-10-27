@@ -59,7 +59,7 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.
-        :return: A generator function that returns annotated results.
+        :yield: A generator function that yields annotated results.
         """
         if not configuration:
             configuration = TextAnnotationConfiguration()
