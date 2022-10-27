@@ -73,9 +73,6 @@ class BaseOlsImplementation(TextAnnotatorInterface, SearchInterface, MappingProv
     def annotate_text(self, text: str) -> Iterator[TextAnnotation]:
         raise NotImplementedError
 
-    def annotate_file(self, text: str) -> Iterator[TextAnnotation]:
-        raise NotImplementedError
-
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

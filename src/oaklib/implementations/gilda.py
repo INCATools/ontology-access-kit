@@ -31,7 +31,7 @@ class GildaImplementation(TextAnnotatorInterface):
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.
-        :return: A generator function that returns annotated results.
+        :yield: A generator function that returns annotated results.
         """
         if not configuration:
             raise NotImplementedError("Missing text annotation configuration")
@@ -46,16 +46,3 @@ class GildaImplementation(TextAnnotatorInterface):
                 curie=f"{match.term.db}:{match.term.id}",
                 label=match.term.entry_name,
             )
-
-    def annotate_file(
-        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
-    ) -> Iterator[TextAnnotation]:
-        """Annotate text in a file.
-
-        :param text_file: Text file that is iterated line-by-line.
-        :param configuration: Text annotation configuration.
-        :return: result of `annotate_test()`
-        """
-        for line in text_file.readlines():
-            line = line.strip()
-            self.annotate_text(line, configuration)

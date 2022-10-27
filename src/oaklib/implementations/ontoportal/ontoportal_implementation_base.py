@@ -128,11 +128,8 @@ class OntoPortalImplementationBase(
         self, text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
         """
-        Annotate a piece of text.
-
-        .. note ::
-
-           the signature of this method may change
+         Implements annotate_text from text_annotator by calling the `annotate`
+         endpoint using ontoportal client.
 
         :param text: Text to be annotated.
         :param configuration: Text annotation configuration.
@@ -150,19 +147,6 @@ class OntoPortalImplementationBase(
             params["ontologies"] = self.resource.slug.upper()
         results = self._get_json("/annotator", params=params)
         return self._annotator_json_to_results(results, text, configuration)
-
-    def annotate_file(
-        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
-    ) -> Iterator[TextAnnotation]:
-        """Annotate text in a file.
-
-        :param text_file: Text file that is iterated line-by-line.
-        :param configuration: Text annotation configuration.
-        :return: result of `annotate_test()`
-        """
-        for line in text_file.readlines():
-            line = line.strip()
-            return self.annotate_text(line, configuration)
 
     def _annotator_json_to_results(
         self, json_list: List[Any], text: str, configuration: TextAnnotationConfiguration = None
