@@ -25,6 +25,14 @@ class GildaImplementation(TextAnnotatorInterface):
     def annotate_text(
         self, text: TEXT, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """
+        Implements annotate_text from text_annotator_interface by calling the
+        `annotate` endpoint using gilda client.
+
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :yield: A generator function that returns annotated results.
+        """
         if not configuration:
             raise NotImplementedError("Missing text annotation configuration")
         if not configuration.matches_whole_text:

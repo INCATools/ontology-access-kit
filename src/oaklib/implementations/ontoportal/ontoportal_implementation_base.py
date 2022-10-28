@@ -126,6 +126,14 @@ class OntoPortalImplementationBase(
     def annotate_text(
         self, text: str, configuration: TextAnnotationConfiguration = None
     ) -> Iterator[TextAnnotation]:
+        """
+         Implements annotate_text from text_annotator_interface by calling the
+         `annotate` endpoint using ontoportal client.
+
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :return: A generator function that returns annotated results.
+        """
         if configuration is None:
             configuration = TextAnnotationConfiguration()
         logging.info(f"Annotating text: {text}")

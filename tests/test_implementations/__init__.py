@@ -26,6 +26,7 @@ from oaklib.datamodels.vocabulary import (
     ONLY_IN_TAXON,
     OWL_THING,
     PART_OF,
+    TERM_REPLACED_BY,
 )
 from oaklib.interfaces import MappingProviderInterface
 from oaklib.interfaces.association_provider_interface import (
@@ -366,6 +367,24 @@ class ComplianceTester:
                     oi.obsoletes(),
                 ),
             ),
+            (
+                kgcl.NodeObsoletionWithDirectReplacement(
+                    id=generate_change_id(),
+                    about_node=NUCLEUS,
+                    has_direct_replacement=NUCLEAR_MEMBRANE,
+                ),
+                False,
+                [
+                    lambda oi: test.assertIn(
+                        NUCLEUS,
+                        oi.obsoletes(),
+                    ),
+                    lambda oi: test.assertEqual(
+                        [NUCLEAR_MEMBRANE],
+                        oi.entity_metadata_map(NUCLEUS)[TERM_REPLACED_BY],
+                    ),
+                ],
+            ),
             (NodeObsoletion(id=generate_change_id(), about_node="no such term"), True, None),
             (
                 kgcl.SynonymReplacement(
@@ -401,7 +420,10 @@ class ComplianceTester:
                     oi.apply_patch(change)
             else:
                 oi.apply_patch(change)
-                test_func(oi)
+                if isinstance(test_func, list):
+                    [t(oi) for t in test_func]
+                else:
+                    test_func(oi)
         if roundtrip_function:
             oi2 = roundtrip_function(oi)
         else:
@@ -410,7 +432,10 @@ class ComplianceTester:
         for case in cases:
             change, expects_raises, test_func = case
             if test_func:
-                test_func(oi2)
+                if isinstance(test_func, list):
+                    [t(oi2) for t in test_func]
+                else:
+                    test_func(oi2)
             if not expects_raises:
                 change_obj = _as_json_dict_no_id(change)
                 expected_changes.append(change_obj)
@@ -432,7 +457,7 @@ class ComplianceTester:
             for ch in expected_changes:
                 # TODO: raise exception
                 print(f"Expected change not found: {ch}")
-            test.assertLessEqual(len(expected_changes), 3)
+            test.assertLessEqual(len(expected_changes), 4)
 
     def test_create_ontology_via_patches(
         self, oi: PatcherInterface, roundtrip_function: Callable = None

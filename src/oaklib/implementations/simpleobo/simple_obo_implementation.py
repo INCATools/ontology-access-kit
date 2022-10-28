@@ -39,6 +39,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_OBJECT_PROPERTY,
     SEMAPV,
     SKOS_CLOSE_MATCH,
+    TERM_REPLACED_BY,
 )
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_COMMENT,
@@ -48,6 +49,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_NAME,
     TAG_OBSOLETE,
     TAG_RELATIONSHIP,
+    TAG_REPLACED_BY,
     TAG_SUBSET,
     TAG_SUBSETDEF,
     TAG_SYNONYM,
@@ -59,6 +61,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    METADATA_MAP,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
@@ -352,6 +355,16 @@ class SimpleOboImplementation(
             for v in t.simple_values(TAG_XREF):
                 yield HAS_DBXREF, v
 
+    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
+        t = self._stanza(curie, strict=False)
+        m = defaultdict(list)
+        if t:
+            for v in t.simple_values(TAG_REPLACED_BY):
+                if TERM_REPLACED_BY not in m.keys():
+                    m[TERM_REPLACED_BY] = []
+                m[TERM_REPLACED_BY].append(v)
+        return m
+
     def clone(self, resource: OntologyResource) -> "SimpleOboImplementation":
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
@@ -464,6 +477,8 @@ class SimpleOboImplementation(
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._stanza(patch.about_node, strict=True)
             t.set_singular_tag(TAG_OBSOLETE, "true")
+            if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
+                t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
         elif isinstance(patch, kgcl.NodeDeletion):
             t = self._stanza(patch.about_node, strict=True)
             od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]
