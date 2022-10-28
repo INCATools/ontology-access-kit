@@ -172,5 +172,7 @@ class TestLexicalIndex(unittest.TestCase):
         lexical_index = create_lexical_index(oi, pipelines=pipelines, synonym_rules=syn_param)
 
         for _, v in lexical_index.groupings.items():
-            if v.relationships.synonymized:
-                self.assertEqual(v.relationships.predicate, "oio:hasBroadSynonym")
+            relation = [x for x in v.relationships if x.synonymized is True]
+            self.assertTrue(len(relation), 1)
+            self.assertEqual(relation[0].predicate, "oio:hasBroadSynonym")
+            
