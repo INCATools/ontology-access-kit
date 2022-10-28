@@ -7,6 +7,9 @@ from oaklib.datamodels.lexical_index import (
 )
 from oaklib.datamodels.mapping_rules_datamodel import Synonymizer
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
+from oaklib.implementations.simpleobo.simple_obo_implementation import (
+    SimpleOboImplementation,
+)
 from oaklib.resource import OntologyResource
 from oaklib.utilities.lexical.lexical_indexer import (
     create_lexical_index,
@@ -148,3 +151,26 @@ class TestLexicalIndex(unittest.TestCase):
 
     def test_save(self):
         save_lexical_index(self.lexical_index, TEST_OUT)
+
+    def test_synonymizer_with_other(self):
+        """Test synonymizer with 'other' in label."""
+        resource = OntologyResource(slug="foo_bar.obo", directory=INPUT_DIR, local=True)
+        oi = SimpleOboImplementation(resource)
+        syn_param = [
+            Synonymizer(
+                the_rule="Broad match terms with the term 'other' in them.",
+                match="r'(?i)^Other '",  # noqa W605
+                match_scope="*",
+                replacement="",
+                qualifier="broad",
+            ),
+        ]
+        synonymization = LexicalTransformation(TransformationType.Synonymization, params=syn_param)
+        pipelines = [
+            LexicalTransformationPipeline(name="test_other", transformations=synonymization)
+        ]
+        lexical_index = create_lexical_index(oi, pipelines=pipelines, synonym_rules=syn_param)
+
+        for _, v in lexical_index.groupings.items():
+            if v.relationships.synonymized:
+                self.assertEqual(v.relationships.predicate, "oio:hasBroadSynonym")
