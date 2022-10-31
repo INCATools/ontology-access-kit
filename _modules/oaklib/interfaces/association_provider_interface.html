@@ -178,7 +178,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_association_index</span><span class="o">.</span><span class="n">populate</span><span class="p">(</span><span class="n">associations</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-    <span class="k">def</span> <span class="nf">association_subject_counts</span><span class="p">(</span>
+<div class="viewcode-block" id="AssociationProviderInterface.association_subject_counts"><a class="viewcode-back" href="../../../interfaces/association-provider.html#oaklib.interfaces.association_provider_interface.AssociationProviderInterface.association_subject_counts">[docs]</a>    <span class="k">def</span> <span class="nf">association_subject_counts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -188,6 +188,18 @@
         <span class="n">object_closure_predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_modified</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yield objects together with the number of distinct associated subjects</span>
+
+<span class="sd">        :param subjects:</span>
+<span class="sd">        :param predicates:</span>
+<span class="sd">        :param property_filter:</span>
+<span class="sd">        :param subject_closure_predicates:</span>
+<span class="sd">        :param predicate_closure_predicates:</span>
+<span class="sd">        :param object_closure_predicates:</span>
+<span class="sd">        :param include_modified:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">association_it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">associations</span><span class="p">(</span>
             <span class="n">subjects</span><span class="o">=</span><span class="n">subjects</span><span class="p">,</span>
             <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">,</span>
@@ -205,7 +217,7 @@
                 <span class="k">for</span> <span class="n">anc</span> <span class="ow">in</span> <span class="n">ancs</span><span class="p">:</span>
                     <span class="n">object_to_subject_map</span><span class="p">[</span><span class="n">anc</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">object_to_subject_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">map_associations</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

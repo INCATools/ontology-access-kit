@@ -69,6 +69,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-terms">diff-terms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff-via-mappings">diff-via-mappings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-dump">dump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-enrichment">enrichment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-eval-taxon-constraints">eval-taxon-constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-expand-subsets">expand-subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-extract-triples">extract-triples</a></li>
@@ -1194,6 +1195,104 @@ to avoid killer queries.</p>
 </dd></dl>
 
 </section>
+<section id="runoak-enrichment">
+<h4>enrichment<a class="headerlink" href="#runoak-enrichment" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Run class enrichment analysis.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak enrichment <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-o">
+<span id="cmdoption-runoak-enrichment-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-o" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-p">
+<span id="cmdoption-runoak-enrichment-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-autolabel">
+<span id="cmdoption-runoak-enrichment-no-autolabel"></span><span class="sig-name descname"><span class="pre">--autolabel</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-autolabel</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-autolabel" title="Permalink to this definition"></a></dt>
+<dd><p>If set, results will automatically have labels assigned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-O">
+<span id="cmdoption-runoak-enrichment-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-0">
+<span id="cmdoption-runoak-enrichment-1"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-0" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-if-absent">
+<span class="sig-name descname"><span class="pre">--if-absent</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;if_absent&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-if-absent" title="Permalink to this definition"></a></dt>
+<dd><p>determines behavior when the value is not present or is empty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>absent-only | present-only</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-S">
+<span id="cmdoption-runoak-enrichment-s"></span><span id="cmdoption-runoak-enrichment-set-value"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--set-value</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;set_value&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-S" title="Permalink to this definition"></a></dt>
+<dd><p>the value to set for all terms for the given property.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-cutoff">
+<span class="sig-name descname"><span class="pre">--cutoff</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cutoff&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-cutoff" title="Permalink to this definition"></a></dt>
+<dd><p>The cutoff for the p-value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>0.05</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-2">
+<span id="cmdoption-runoak-enrichment-sample-file"></span><span class="sig-name descname"><span class="pre">-S</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--sample-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sample_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-2" title="Permalink to this definition"></a></dt>
+<dd><p>file containing input list of entity IDs (e.g. gene IDs)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-B">
+<span id="cmdoption-runoak-enrichment-b"></span><span id="cmdoption-runoak-enrichment-background-file"></span><span class="sig-name descname"><span class="pre">-B</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--background-file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;background_file&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-B" title="Permalink to this definition"></a></dt>
+<dd><p>file containing background list of entity IDs (e.g. gene IDs)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-association-predicates">
+<span class="sig-name descname"><span class="pre">--association-predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;association_predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-enrichment-association-predicates" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates for the association relation</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-enrichment-arg-TERMS">
+<span id="cmdoption-runoak-enrichment-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-enrichment-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
 <section id="runoak-eval-taxon-constraints">
 <h4>eval-taxon-constraints<a class="headerlink" href="#runoak-eval-taxon-constraints" title="Permalink to this headline"></a></h4>
 <blockquote>
@@ -1804,27 +1903,73 @@ runoak -i my.obo apply –changes-input changes.kgcl</p>
 <section id="runoak-logical-definitions">
 <h4>logical-definitions<a class="headerlink" href="#runoak-logical-definitions" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Show all logical definitions for a term or terms</p>
+<div><p>Show all logical definitions for a term or terms.</p>
+<p>To show all logical definitions in an ontology, pass the “.all” query term</p>
+<p>Example:</p>
+<blockquote>
+<div><p>alias pato=”runoak -i obo:sqlite:pato”
+pato logical-definitions .all</p>
+</div></blockquote>
+<p>By default, “.all” will query all axioms for all terms including merged terms;
+to restrict to only the current terms, use an ID query:</p>
+<blockquote>
+<div><p>pato logical-definitions i^PATO</p>
+</div></blockquote>
+<p>You can also restrict to branches:</p>
+<blockquote>
+<div><p>pato logical-definitions .desc//p=i “physical object quality”</p>
+</div></blockquote>
+<p>By default, the output is a subset of OboGraph datamodel rendered as YAML, e.g.</p>
+<blockquote>
+<div><dl>
+<dt>definedClassId: PATO:0045071</dt><dd><p>genusIds:
+- PATO:0001439
+restrictions:
+- fillerId: PATO:0000461</p>
+<blockquote>
+<div><p>propertyId: RO:0015010</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<p>You can also specify CSV to generate a flattened form of this.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>pato logical-definitions .all –output-type csv</p>
+</div></blockquote>
+<p>You can optionally choose to “unmelt” or flatten this, such that:</p>
+<ul class="simple">
+<li><p>Each property/predicate is a column</p></li>
+<li><p>For repeated properties, columns of the form prop_1, prop_2, … are generated</p></li>
+</ul>
+<p>Example:</p>
+<blockquote>
+<div><p>pato logical-definitions .all  –unmelt –output-type csv</p>
+</div></blockquote>
+<p>Limitations:</p>
+<p>Currently this only works for definitions that follow a basic genus-differentia pattern,
+which is what is currently represented in the OboGraph datamodel.</p>
+<p>Consider using the “axioms” command for inspection of complex nested OWL axioms.</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak logical-definitions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-p">
-<span id="cmdoption-runoak-logical-definitions-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-p" title="Permalink to this definition"></a></dt>
-<dd><p>A comma-separated list of predicates</p>
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-unmelt">
+<span id="cmdoption-runoak-logical-definitions-no-unmelt"></span><span class="sig-name descname"><span class="pre">--unmelt</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-unmelt</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-unmelt" title="Permalink to this definition"></a></dt>
+<dd><p>Flatten to a wide table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-direction">
-<span class="sig-name descname"><span class="pre">--direction</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;direction&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-direction" title="Permalink to this definition"></a></dt>
-<dd><p>direction of traversal over edges, which up is subject to object, down is object to subject.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>up | down | both</p>
-</dd>
-</dl>
+<dt class="sig sig-object std" id="cmdoption-runoak-logical-definitions-p">
+<span id="cmdoption-runoak-logical-definitions-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-logical-definitions-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
 </dd></dl>
 
 <dl class="std option">
