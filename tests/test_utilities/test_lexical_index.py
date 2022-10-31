@@ -175,4 +175,3 @@ class TestLexicalIndex(unittest.TestCase):
             relation = [x for x in v.relationships if x.synonymized is True]
             self.assertTrue(len(relation), 1)
             self.assertEqual(relation[0].predicate, "oio:hasBroadSynonym")
-            
