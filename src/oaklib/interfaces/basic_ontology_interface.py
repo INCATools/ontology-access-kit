@@ -286,6 +286,15 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
         return self.entities(**kwargs)
 
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[CURIE]:
+        """
+        Yields all known OWL types for given entities.
+
+        :param entities:
+        :return: iterator
+        """
+        raise NotImplementedError
+
     def roots(
         self,
         predicates: List[PRED_CURIE] = None,

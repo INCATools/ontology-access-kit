@@ -40,42 +40,80 @@ classes:
       class_count:
         is_a: count_statistic
         slot_group: class_statistic_group
+        annotations:
+          filter: Class
       anonymous_class_expression_count:
         is_a: count_statistic
         slot_group: class_statistic_group
       unsatisfiable_class_count:
         is_a: count_statistic
         slot_group: class_statistic_group
-      class_count_excluding_deprecated:
+        annotations:
+          filter: Class, Unsatisfiable
+      deprecated_class_count:
         is_a: count_statistic
         slot_group: class_statistic_group
-      class_count_with_definitions:
+        annotations:
+          filter: Class, Deprecated
+      non_deprecated_class_count:
         is_a: count_statistic
         slot_group: class_statistic_group
+        annotations:
+          filter: Class, NotDeprecated
+      class_count_with_text_definitions:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+        annotations:
+          filter: Class, HasTextDefinition
+      class_count_without_text_definitions:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+        annotations:
+          filter: Class, NotHasTextDefinition
       property_count:
         is_a: count_statistic
         slot_group: property_statistic_group
       object_property_count:
         is_a: count_statistic
         slot_group: property_statistic_group
+        annotations:
+          filter: ObjectProperty
+      deprecated_object_property_count:
+        is_a: count_statistic
+        slot_group: property_statistic_group
+        annotations:
+          filter: ObjectProperty, Deprecated
+      non_deprecated_object_property_count:
+        is_a: count_statistic
+        slot_group: property_statistic_group
+        annotations:
+          filter: ObjectProperty, NotDeprecated
       datatype_property_count:
         is_a: count_statistic
         slot_group: property_statistic_group
+        annotations:
+          filter: DatatypeProperty
       annotation_property_count:
         is_a: count_statistic
         slot_group: property_statistic_group
+        annotations:
+          filter: AnnotationProperty
       individual_count:
         is_a: count_statistic
         slot_group: individual_statistic_group
+        annotations:
+          filter: Individual
       named_individual_count:
         is_a: count_statistic
         slot_group: individual_statistic_group
         annotations:
-          count_of: owl:NamedIndividual
+          filter: NamedIndividual
       anonymous_individual_count:
         is_a: count_statistic
         slot_group: individual_statistic_group
         equals_expression: "{named_individual_count} - {individual_count}"
+        annotations:
+          filter: AnonymousIndividual
       untyped_entity_count:
         is_a: count_statistic
       description_logic_profile:
@@ -84,6 +122,8 @@ classes:
       owl_axiom_count:
         is_a: count_statistic
         slot_group: owl_statistic_group
+        annotations:
+          filter: Axiom
       rdf_triple_count:
         is_a: count_statistic
         slot_group: owl_statistic_group
@@ -93,17 +133,66 @@ classes:
       equivalent_classes_axiom_count:
         is_a: count_statistic
         slot_group: owl_statistic_group
+      edge_count_by_predicate:
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Edge
+          facet: Predicate
+      entailed_edge_count_by_predicate:
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: EntailedEdge
+          facet: Predicate
       distinct_synonym_count:
         is_a: count_statistic
         slot_group: metadata_statistic_group
+        annotations:
+          filter: Synonym
+          distinct: Value
       synonym_statement_count:
         is_a: count_statistic
         slot_group: metadata_statistic_group
+        annotations:
+          filter: Synonym
+      synonym_statement_count_by_predicate:
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Synonym
+          facet: Predicate
+      class_count_by_category:
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Class
+          facet: Category
       mapping_count:
         is_a: count_statistic
         slot_group: metadata_statistic_group
+        annotations:
+          filter: Mapping
+      mapping_statement_count_by_predicate:
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Mapping
+          facet: Predicate
       ontology_count:
         is_a: count_statistic
+        annotations:
+          filter: Ontology
 
   GlobalStatistics:
     is_a: SummaryStatisticCollection
@@ -142,6 +231,15 @@ classes:
     attributes:
       facet:
         key: true
+
+  FacetedCount:
+    description: Counts broken down by a facet
+    attributes:
+      facet:
+        key: true
+      filtered_count:
+        range: integer
+        required: true
 
 #==================================
 # Slots                           #

@@ -84,6 +84,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
 from oaklib.io.obograph_writer import write_graph
@@ -821,6 +822,27 @@ def obsoletes(output_type: str, output: str):
     if isinstance(impl, BasicOntologyInterface):
         for term in impl.obsoletes():
             writer.emit_curie(term, label=impl.label(term))
+    else:
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+
+
+@main.command()
+@ontological_output_type_option
+@output_option
+def statistics(output_type: str, output: str):
+    """
+    Shows all descriptive/summary statistics
+
+    Example:
+        runoak -i sqlite:obo:pr statistics
+
+    """
+    impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
+    if isinstance(impl, SummaryStatisticsInterface):
+        ssc = impl.global_summary_statistics()
+        writer.emit(ssc)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

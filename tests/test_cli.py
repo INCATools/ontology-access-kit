@@ -762,3 +762,13 @@ class TestCommandLineInterface(unittest.TestCase):
         print(result.stderr)
         print(result.stdout)
         self.assertEqual(0, result.exit_code)
+
+    def test_statistics(self):
+        for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
+            logging.info(f"INPUT={input_arg}")
+            result = self.runner.invoke(main, ["-i", input_arg, "statistics"])
+            out = result.stdout
+            err = result.stderr
+            logging.info(f"ERR={err}")
+            self.assertEqual(0, result.exit_code)
+
