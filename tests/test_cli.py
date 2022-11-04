@@ -710,7 +710,6 @@ class TestCommandLineInterface(unittest.TestCase):
 
             with open(outfile) as f:
                 docs = list(yaml.load_all(f, yaml.FullLoader))
-                expected += [None]
                 self.assertCountEqual(expected, docs)
 
     def test_synonymizer(self):
