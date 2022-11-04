@@ -44,6 +44,12 @@ URI: [reporting:class_count](https://w3id.org/linkml/reportclass_count)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Class |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:class_count](https://w3id.org/linkml/reportclass_count)
 <details>
 ```yaml
 name: class_count
+annotations:
+  filter:
+    tag: filter
+    value: Class
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

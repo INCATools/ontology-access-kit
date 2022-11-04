@@ -44,6 +44,12 @@ URI: [reporting:individual_count](https://w3id.org/linkml/reportindividual_count
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Individual |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:individual_count](https://w3id.org/linkml/reportindividual_count
 <details>
 ```yaml
 name: individual_count
+annotations:
+  filter:
+    tag: filter
+    value: Individual
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

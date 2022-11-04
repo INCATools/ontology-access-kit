@@ -96,6 +96,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-similarity">similarity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-similarity-pair">similarity-pair</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-singletons">singletons</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-statistics">statistics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-subsets">subsets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-synonymize">synonymize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-taxon-constraints">taxon-constraints</a></li>
@@ -3004,6 +3005,37 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="runoak-statistics">
+<h4>statistics<a class="headerlink" href="#runoak-statistics" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Shows all descriptive/summary statistics</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>runoak -i sqlite:obo:pr statistics</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak statistics <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-O">
+<span id="cmdoption-runoak-statistics-o"></span><span id="cmdoption-runoak-statistics-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>obo | obojson | ofn | rdf | json | yaml | csv | nl</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-0">
+<span id="cmdoption-runoak-statistics-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-0" title="Permalink to this definition"></a></dt>
+<dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
 </section>

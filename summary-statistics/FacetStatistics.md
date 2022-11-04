@@ -17,16 +17,24 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
       FacetStatistics : anonymous_class_expression_count
       FacetStatistics : anonymous_individual_count
       FacetStatistics : class_count
-      FacetStatistics : class_count_excluding_deprecated
-      FacetStatistics : class_count_with_definitions
+      FacetStatistics : class_count_by_category
+      FacetStatistics : class_count_with_text_definitions
+      FacetStatistics : class_count_without_text_definitions
       FacetStatistics : datatype_property_count
+      FacetStatistics : deprecated_class_count
+      FacetStatistics : deprecated_object_property_count
       FacetStatistics : description_logic_profile
       FacetStatistics : distinct_synonym_count
+      FacetStatistics : edge_count_by_predicate
+      FacetStatistics : entailed_edge_count_by_predicate
       FacetStatistics : equivalent_classes_axiom_count
       FacetStatistics : facet
       FacetStatistics : individual_count
       FacetStatistics : mapping_count
+      FacetStatistics : mapping_statement_count_by_predicate
       FacetStatistics : named_individual_count
+      FacetStatistics : non_deprecated_class_count
+      FacetStatistics : non_deprecated_object_property_count
       FacetStatistics : object_property_count
       FacetStatistics : ontology_count
       FacetStatistics : owl_axiom_count
@@ -34,6 +42,7 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
       FacetStatistics : rdf_triple_count
       FacetStatistics : subclass_of_axiom_count
       FacetStatistics : synonym_statement_count
+      FacetStatistics : synonym_statement_count_by_predicate
       FacetStatistics : unsatisfiable_class_count
       FacetStatistics : untyped_entity_count
       
@@ -56,10 +65,14 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
 | [class_count](class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
-| [class_count_excluding_deprecated](class_count_excluding_deprecated.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
-| [class_count_with_definitions](class_count_with_definitions.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [property_count](property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [object_property_count](object_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [non_deprecated_object_property_count](non_deprecated_object_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [datatype_property_count](datatype_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [annotation_property_count](annotation_property_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [individual_count](individual_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
@@ -71,9 +84,14 @@ URI: [reporting:FacetStatistics](https://w3id.org/linkml/reportFacetStatistics)
 | [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [edge_count_by_predicate](edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | None  | inherited |
+| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | None  | inherited |
 | [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 | [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | None  | inherited |
+| [class_count_by_category](class_count_by_category.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | None  | inherited |
 | [mapping_count](mapping_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
+| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | None  | inherited |
 | [ontology_count](ontology_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | inherited |
 
 
@@ -156,9 +174,14 @@ attributes:
     owner: FacetStatistics
     domain_of:
     - FacetStatistics
+    - FacetedCount
     range: string
   class_count:
     name: class_count
+    annotations:
+      filter:
+        tag: filter
+        value: Class
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -181,6 +204,10 @@ attributes:
     range: integer
   unsatisfiable_class_count:
     name: unsatisfiable_class_count
+    annotations:
+      filter:
+        tag: filter
+        value: Class, Unsatisfiable
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -190,23 +217,61 @@ attributes:
     - SummaryStatisticCollection
     slot_group: class_statistic_group
     range: integer
-  class_count_excluding_deprecated:
-    name: class_count_excluding_deprecated
+  deprecated_class_count:
+    name: deprecated_class_count
+    annotations:
+      filter:
+        tag: filter
+        value: Class, Deprecated
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
-    alias: class_count_excluding_deprecated
+    alias: deprecated_class_count
     owner: FacetStatistics
     domain_of:
     - SummaryStatisticCollection
     slot_group: class_statistic_group
     range: integer
-  class_count_with_definitions:
-    name: class_count_with_definitions
+  non_deprecated_class_count:
+    name: non_deprecated_class_count
+    annotations:
+      filter:
+        tag: filter
+        value: Class, NotDeprecated
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
-    alias: class_count_with_definitions
+    alias: non_deprecated_class_count
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: class_statistic_group
+    range: integer
+  class_count_with_text_definitions:
+    name: class_count_with_text_definitions
+    annotations:
+      filter:
+        tag: filter
+        value: Class, HasTextDefinition
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    alias: class_count_with_text_definitions
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: class_statistic_group
+    range: integer
+  class_count_without_text_definitions:
+    name: class_count_without_text_definitions
+    annotations:
+      filter:
+        tag: filter
+        value: Class, NotHasTextDefinition
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    alias: class_count_without_text_definitions
     owner: FacetStatistics
     domain_of:
     - SummaryStatisticCollection
@@ -225,6 +290,10 @@ attributes:
     range: integer
   object_property_count:
     name: object_property_count
+    annotations:
+      filter:
+        tag: filter
+        value: ObjectProperty
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -234,8 +303,42 @@ attributes:
     - SummaryStatisticCollection
     slot_group: property_statistic_group
     range: integer
+  deprecated_object_property_count:
+    name: deprecated_object_property_count
+    annotations:
+      filter:
+        tag: filter
+        value: ObjectProperty, Deprecated
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    alias: deprecated_object_property_count
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: property_statistic_group
+    range: integer
+  non_deprecated_object_property_count:
+    name: non_deprecated_object_property_count
+    annotations:
+      filter:
+        tag: filter
+        value: ObjectProperty, NotDeprecated
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    alias: non_deprecated_object_property_count
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: property_statistic_group
+    range: integer
   datatype_property_count:
     name: datatype_property_count
+    annotations:
+      filter:
+        tag: filter
+        value: DatatypeProperty
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -247,6 +350,10 @@ attributes:
     range: integer
   annotation_property_count:
     name: annotation_property_count
+    annotations:
+      filter:
+        tag: filter
+        value: AnnotationProperty
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -258,6 +365,10 @@ attributes:
     range: integer
   individual_count:
     name: individual_count
+    annotations:
+      filter:
+        tag: filter
+        value: Individual
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -270,9 +381,9 @@ attributes:
   named_individual_count:
     name: named_individual_count
     annotations:
-      count_of:
-        tag: count_of
-        value: owl:NamedIndividual
+      filter:
+        tag: filter
+        value: NamedIndividual
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -284,6 +395,10 @@ attributes:
     range: integer
   anonymous_individual_count:
     name: anonymous_individual_count
+    annotations:
+      filter:
+        tag: filter
+        value: AnonymousIndividual
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -316,6 +431,10 @@ attributes:
     range: string
   owl_axiom_count:
     name: owl_axiom_count
+    annotations:
+      filter:
+        tag: filter
+        value: Axiom
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -358,8 +477,53 @@ attributes:
     - SummaryStatisticCollection
     slot_group: owl_statistic_group
     range: integer
+  edge_count_by_predicate:
+    name: edge_count_by_predicate
+    annotations:
+      filter:
+        tag: filter
+        value: Edge
+      facet:
+        tag: facet
+        value: Predicate
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: edge_count_by_predicate
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  entailed_edge_count_by_predicate:
+    name: entailed_edge_count_by_predicate
+    annotations:
+      filter:
+        tag: filter
+        value: EntailedEdge
+      facet:
+        tag: facet
+        value: Predicate
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: entailed_edge_count_by_predicate
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
   distinct_synonym_count:
     name: distinct_synonym_count
+    annotations:
+      filter:
+        tag: filter
+        value: Synonym
+      distinct:
+        tag: distinct
+        value: Value
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -371,6 +535,10 @@ attributes:
     range: integer
   synonym_statement_count:
     name: synonym_statement_count
+    annotations:
+      filter:
+        tag: filter
+        value: Synonym
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -380,8 +548,50 @@ attributes:
     - SummaryStatisticCollection
     slot_group: metadata_statistic_group
     range: integer
+  synonym_statement_count_by_predicate:
+    name: synonym_statement_count_by_predicate
+    annotations:
+      filter:
+        tag: filter
+        value: Synonym
+      facet:
+        tag: facet
+        value: Predicate
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: synonym_statement_count_by_predicate
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  class_count_by_category:
+    name: class_count_by_category
+    annotations:
+      filter:
+        tag: filter
+        value: Class
+      facet:
+        tag: facet
+        value: Category
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: class_count_by_category
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
   mapping_count:
     name: mapping_count
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -391,8 +601,31 @@ attributes:
     - SummaryStatisticCollection
     slot_group: metadata_statistic_group
     range: integer
+  mapping_statement_count_by_predicate:
+    name: mapping_statement_count_by_predicate
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: Predicate
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: mapping_statement_count_by_predicate
+    owner: FacetStatistics
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
   ontology_count:
     name: ontology_count
+    annotations:
+      filter:
+        tag: filter
+        value: Ontology
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic

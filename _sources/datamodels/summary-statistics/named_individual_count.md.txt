@@ -48,7 +48,7 @@ URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_indi
 
 | property | value |
 | --- | --- |
-| count_of | owl:NamedIndividual |
+| filter | NamedIndividual |
 
 
 
@@ -66,9 +66,9 @@ URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_indi
 ```yaml
 name: named_individual_count
 annotations:
-  count_of:
-    tag: count_of
-    value: owl:NamedIndividual
+  filter:
+    tag: filter
+    value: NamedIndividual
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

@@ -44,6 +44,12 @@ URI: [reporting:owl_axiom_count](https://w3id.org/linkml/reportowl_axiom_count)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Axiom |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:owl_axiom_count](https://w3id.org/linkml/reportowl_axiom_count)
 <details>
 ```yaml
 name: owl_axiom_count
+annotations:
+  filter:
+    tag: filter
+    value: Axiom
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

@@ -149,6 +149,10 @@
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search</span> <span class="kn">import</span> <span class="n">SearchConfiguration</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.search_datamodel</span> <span class="kn">import</span> <span class="n">SearchProperty</span><span class="p">,</span> <span class="n">SearchTermSyntax</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.similarity</span> <span class="kn">import</span> <span class="n">TermPairwiseSimilarity</span>
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.summary_statistics_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FacetedCount</span><span class="p">,</span>
+    <span class="n">SummaryStatisticCollection</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ALL_MATCH_PREDICATES</span><span class="p">,</span>
     <span class="n">DEPRECATED_PREDICATE</span><span class="p">,</span>
@@ -190,6 +194,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.relation_graph_interface</span> <span class="kn">import</span> <span class="n">RelationGraphInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.search_interface</span> <span class="kn">import</span> <span class="n">SearchInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.semsim_interface</span> <span class="kn">import</span> <span class="n">SemanticSimilarityInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.summary_statistics_interface</span> <span class="kn">import</span> <span class="n">SummaryStatisticsInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.validator_interface</span> <span class="kn">import</span> <span class="n">ValidatorInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">get_curie_prefix</span><span class="p">,</span> <span class="n">pairs_as_dict</span>
@@ -273,6 +278,7 @@
     <span class="c1"># AssociationProviderInterface,</span>
     <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">,</span>
     <span class="n">TextAnnotatorInterface</span><span class="p">,</span>
+    <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.</span>
@@ -511,6 +517,8 @@
 
     <span class="k">def</span> <span class="nf">subset_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">SUBSET_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="n">sm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subset_curie_to_uri_map</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sm</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subset </span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2"> not found in </span><span class="si">{</span><span class="n">sm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
             <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span> <span class="o">==</span> <span class="n">IN_SUBSET</span><span class="p">,</span> <span class="n">Statements</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="n">sm</span><span class="p">[</span><span class="n">subset</span><span class="p">]</span>
         <span class="p">):</span>
@@ -1686,7 +1694,59 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;other ontology </span><span class="si">{</span><span class="n">other_ontology</span><span class="si">}</span><span class="s2"> must implement SqlInterface&quot;</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span>
+
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="c1"># Implements: SummaryStatisticsInterface</span>
+    <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+    <span class="k">def</span> <span class="nf">global_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_entailed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SummaryStatisticCollection</span><span class="p">:</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span>
+        <span class="n">ssc</span> <span class="o">=</span> <span class="n">SummaryStatisticCollection</span><span class="p">()</span>
+        <span class="n">obs_subq</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DeprecatedNode</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">text_defn_subq</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">HasTextDefinitionStatement</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ClassNode</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span><span class="n">ClassNode</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">deprecated_class_count</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ClassNode</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ClassNode</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">obs_subq</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_with_definitions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ClassNode</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ClassNode</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">text_defn_subq</span><span class="p">))</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">object_property_count</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">deprecated_property_count</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">obs_subq</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">synonym_query</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">SYNONYM_PREDICATES</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">synonym_statement_count</span> <span class="o">=</span> <span class="n">synonym_query</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">distinct_synonym_count</span> <span class="o">=</span> <span class="n">synonym_query</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">distinct</span><span class="p">()))</span>
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">SYNONYM_PREDICATES</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">ssc</span><span class="o">.</span><span class="n">synonym_statement_count_by_predicate</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">]</span> <span class="o">=</span> <span class="n">FacetedCount</span><span class="p">(</span>
+                <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">filtered_count</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Edge</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">Edge</span><span class="o">.</span><span class="n">subject</span><span class="p">))</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">Edge</span><span class="o">.</span><span class="n">predicate</span><span class="p">):</span>
+            <span class="n">ssc</span><span class="o">.</span><span class="n">edge_count_by_predicate</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">]</span> <span class="o">=</span> <span class="n">FacetedCount</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">filtered_count</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">include_entailed</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EntailedEdge</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">Edge</span><span class="o">.</span><span class="n">subject</span><span class="p">))</span><span class="o">.</span><span class="n">group_by</span><span class="p">(</span>
+                <span class="n">EntailedEdge</span><span class="o">.</span><span class="n">predicate</span>
+            <span class="p">):</span>
+                <span class="n">ssc</span><span class="o">.</span><span class="n">entailed_edge_count_by_predicate</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">]</span> <span class="o">=</span> <span class="n">FacetedCount</span><span class="p">(</span>
+                    <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">filtered_count</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">distinct</span><span class="p">()))</span>
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ALL_MATCH_PREDICATES</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">Statements</span><span class="o">.</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">ssc</span><span class="o">.</span><span class="n">mapping_statement_count_by_predicate</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">predicate</span><span class="p">]</span> <span class="o">=</span> <span class="n">FacetedCount</span><span class="p">(</span>
+                <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">filtered_count</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_derived_statistics</span><span class="p">(</span><span class="n">ssc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ssc</span></div>
 </pre></div>
 
            </div>

@@ -44,6 +44,12 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | AnnotationProperty |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 <details>
 ```yaml
 name: annotation_property_count
+annotations:
+  filter:
+    tag: filter
+    value: AnnotationProperty
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

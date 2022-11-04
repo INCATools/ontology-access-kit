@@ -44,6 +44,12 @@ URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Ontology |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 <details>
 ```yaml
 name: ontology_count
+annotations:
+  filter:
+    tag: filter
+    value: Ontology
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

@@ -965,6 +965,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-singletons-o">runoak-singletons command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-0">runoak-statistics command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-synonymize-o">runoak-synonymize command line option</a>
@@ -1053,6 +1055,8 @@
         <li><a href="cli.html#cmdoption-runoak-similarity-O">runoak-similarity command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-pair-O">runoak-similarity-pair command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-O">runoak-statistics command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-O">runoak-term-categories command line option</a>
 </li>
@@ -1548,6 +1552,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-similarity-pair-O">runoak-similarity-pair command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-O">runoak-statistics command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-term-categories-O">runoak-term-categories command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-O">runoak-term-metadata command line option</a>
@@ -1646,6 +1652,8 @@
         <li><a href="cli.html#cmdoption-runoak-similarity-pair-o">runoak-similarity-pair command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-singletons-o">runoak-singletons command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-0">runoak-statistics command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-subsets-o">runoak-subsets command line option</a>
 </li>
@@ -1940,10 +1948,14 @@
         <li><a href="cli.html#cmdoption-runoak-validate-multiple-arg-DBS">runoak-validate-multiple command line option</a>
 </li>
       </ul></li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">definition() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_by">defined_by() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_bys">defined_bys() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">definition() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">descendant_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendants">descendants() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -2004,8 +2016,6 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_definition_by_curie">get_definition_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_global_summary_statistics">get_global_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
-</li>
       <li><a href="selectors.html#oaklib.selector.get_implementation_from_shorthand">get_implementation_from_shorthand() (in module oaklib.selector)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_incoming_relationship_map_by_curie">get_incoming_relationship_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2020,13 +2030,9 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_metric_description">get_metric_description() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
-</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationship_map_by_curie">get_outgoing_relationship_map_by_curie() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships">get_outgoing_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
-</li>
-      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_partitioned_summary_statistics">get_partitioned_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_prefix_map">get_prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
@@ -2039,6 +2045,8 @@
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">get_transitive_mappings_by_curie() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
       <li><a href="implementations/gilda.html#oaklib.implementations.gilda.GildaImplementation">GildaImplementation (class in oaklib.implementations.gilda)</a>
+</li>
+      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">global_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Graph"><strong>Graph</strong></a>
 </li>
@@ -2254,10 +2262,10 @@
       </ul></li>
       <li><a href="glossary.html#term-OBO-Format"><strong>OBO Format</strong></a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="implementations/obograph.html#oaklib.implementations.obograph.obograph_implementation.OboGraphImplementation">OboGraphImplementation (class in oaklib.implementations.obograph.obograph_implementation)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">OboGraphInterface (class in oaklib.interfaces.obograph_interface)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">obsoletes() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2299,6 +2307,8 @@
 </li>
       <li><a href="glossary.html#term-OWL-Annotation"><strong>OWL Annotation</strong></a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">owl_types() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
       <li><a href="implementations/owlery.html#oaklib.implementations.owlery.owlery_implementation.OwleryImplementation">OwleryImplementation (class in oaklib.implementations.owlery.owlery_implementation)</a>
 </li>
       <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface">OwlInterface (class in oaklib.interfaces.owl_interface)</a>
@@ -2310,6 +2320,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.pairwise_similarity">pairwise_similarity() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
+</li>
+      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.partitioned_summary_statistics">partitioned_summary_statistics() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
 </li>
@@ -3324,6 +3336,19 @@
 </li>
       </ul></li>
       <li>
+    runoak-statistics command line option
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-statistics-0">--output</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-O">--output-type</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-O">-O</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-statistics-0">-o</a>
+</li>
+      </ul></li>
+      <li>
     runoak-subsets command line option
 
       <ul>
@@ -3654,10 +3679,10 @@
 </li>
       <li><a href="implementations/sqldb.html#oaklib.implementations.sqldb.sql_implementation.SqlImplementation">SqlImplementation (class in oaklib.implementations.sqldb.sql_implementation)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glossary.html#term-SSSOM"><strong>SSSOM</strong></a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">sssom_mappings() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
 </li>
       <li><a href="interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">sssom_mappings_by_source() (oaklib.interfaces.mapping_provider_interface.MappingProviderInterface method)</a>
@@ -3686,6 +3711,8 @@
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.subsets">subsets() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface">SubsetterInterface (class in oaklib.interfaces.subsetter_interface)</a>
+</li>
+      <li><a href="interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">summary_statistic_description() (oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface method)</a>
 </li>
       <li><a href="interfaces/summary-statistics.html#oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection">SummaryStatisticCollection (class in oaklib.datamodels.summary_statistics_datamodel)</a>
 </li>

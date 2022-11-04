@@ -103,9 +103,10 @@
 <dd><p>generates summary statistics</p>
 <p>Uses SummaryStatistics datamodel, see <a class="reference internal" href="search.html#datamodels"><span class="std std-ref">Datamodels</span></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_global_summary_statistics">
-<span class="sig-name descname"><span class="pre">get_global_summary_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.get_global_summary_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_global_summary_statistics" title="Permalink to this definition"></a></dt>
-<dd><p>Gets summary statistics for all ontologies wrapped as a single dictionary</p>
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">
+<span class="sig-name descname"><span class="pre">global_summary_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection" title="oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection"><span class="pre">oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection</span></a></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.global_summary_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics" title="Permalink to this definition"></a></dt>
+<dd><p>Gets summary statistics for all ontologies treated as a single ontology.</p>
+<p>Note that different implementations may implement subsets of the full stats datamodel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p></p>
@@ -114,8 +115,20 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_metric_description">
-<span class="sig-name descname"><span class="pre">get_metric_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.get_metric_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_metric_description" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.partitioned_summary_statistics">
+<span class="sig-name descname"><span class="pre">partitioned_summary_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.partitioned_summary_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.partitioned_summary_statistics" title="Permalink to this definition"></a></dt>
+<dd><p>Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed
+by ontology CURIE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">
+<span class="sig-name descname"><span class="pre">summary_statistic_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.summary_statistic_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description" title="Permalink to this definition"></a></dt>
 <dd><p>Examines the data dictionary to retrieve the definition of a metric</p>
 <p>Any dictionary can be used, but summary_statistics_datamodel is favored</p>
 <dl class="field-list simple">
@@ -124,18 +137,6 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_partitioned_summary_statistics">
-<span class="sig-name descname"><span class="pre">get_partitioned_summary_statistics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/summary_statistics_interface.html#SummaryStatisticsInterface.get_partitioned_summary_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.get_partitioned_summary_statistics" title="Permalink to this definition"></a></dt>
-<dd><p>Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed
-by ontology CURIE</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
 </dd>
 </dl>
 </dd></dl>

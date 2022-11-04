@@ -44,6 +44,12 @@ URI: [reporting:synonym_statement_count](https://w3id.org/linkml/reportsynonym_s
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Synonym |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:synonym_statement_count](https://w3id.org/linkml/reportsynonym_s
 <details>
 ```yaml
 name: synonym_statement_count
+annotations:
+  filter:
+    tag: filter
+    value: Synonym
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

@@ -9,6 +9,7 @@ Name: summary-statistics
 
 | Class | Description |
 | --- | --- |
+| [FacetedCount](FacetedCount.md) | Counts broken down by a facet |
 | [FacetStatistics](FacetStatistics.md) | summary statistics for a data facet |
 | [GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource |
 | [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object |
@@ -26,20 +27,29 @@ Name: summary-statistics
 | [by_subset](by_subset.md) | statistics keyed by ontology subset |
 | [by_taxon](by_taxon.md) | statistics keyed by organism taxon |
 | [class_count](class_count.md) |  |
-| [class_count_excluding_deprecated](class_count_excluding_deprecated.md) |  |
-| [class_count_with_definitions](class_count_with_definitions.md) |  |
+| [class_count_by_category](class_count_by_category.md) |  |
+| [class_count_with_text_definitions](class_count_with_text_definitions.md) |  |
+| [class_count_without_text_definitions](class_count_without_text_definitions.md) |  |
 | [class_statistic_group](class_statistic_group.md) |  |
 | [count_statistic](count_statistic.md) |  |
 | [datatype_property_count](datatype_property_count.md) |  |
+| [deprecated_class_count](deprecated_class_count.md) |  |
+| [deprecated_object_property_count](deprecated_object_property_count.md) |  |
 | [description_logic_profile](description_logic_profile.md) |  |
 | [distinct_synonym_count](distinct_synonym_count.md) |  |
+| [edge_count_by_predicate](edge_count_by_predicate.md) |  |
+| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) |  |
 | [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) |  |
 | [facet](facet.md) |  |
+| [filtered_count](filtered_count.md) |  |
 | [individual_count](individual_count.md) |  |
 | [individual_statistic_group](individual_statistic_group.md) |  |
 | [mapping_count](mapping_count.md) |  |
+| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) |  |
 | [metadata_statistic_group](metadata_statistic_group.md) |  |
 | [named_individual_count](named_individual_count.md) |  |
+| [non_deprecated_class_count](non_deprecated_class_count.md) |  |
+| [non_deprecated_object_property_count](non_deprecated_object_property_count.md) |  |
 | [object_property_count](object_property_count.md) |  |
 | [ontology_count](ontology_count.md) |  |
 | [owl_axiom_count](owl_axiom_count.md) |  |
@@ -49,6 +59,7 @@ Name: summary-statistics
 | [rdf_triple_count](rdf_triple_count.md) |  |
 | [subclass_of_axiom_count](subclass_of_axiom_count.md) |  |
 | [synonym_statement_count](synonym_statement_count.md) |  |
+| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) |  |
 | [unsatisfiable_class_count](unsatisfiable_class_count.md) |  |
 | [untyped_entity_count](untyped_entity_count.md) |  |
 

@@ -44,6 +44,12 @@ URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_s
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Synonym || distinct | Value |
+
 
 
 ### Schema Source
@@ -59,6 +65,13 @@ URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_s
 <details>
 ```yaml
 name: distinct_synonym_count
+annotations:
+  filter:
+    tag: filter
+    value: Synonym
+  distinct:
+    tag: distinct
+    value: Value
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

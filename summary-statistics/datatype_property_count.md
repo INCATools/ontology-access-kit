@@ -44,6 +44,12 @@ URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | DatatypeProperty |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_
 <details>
 ```yaml
 name: datatype_property_count
+annotations:
+  filter:
+    tag: filter
+    value: DatatypeProperty
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

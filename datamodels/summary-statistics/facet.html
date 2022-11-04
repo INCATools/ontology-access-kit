@@ -95,6 +95,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="FacetStatistics.html"><span class="doc std std-doc">FacetStatistics</span></a></p></td>
 <td><p>summary statistics for a data facet</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="FacetedCount.html"><span class="doc std std-doc">FacetedCount</span></a></p></td>
+<td><p>Counts broken down by a facet</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -107,25 +110,16 @@
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
-<section id="schema-source">
-<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
-<ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/summary_statistics</p></li>
-</ul>
-</section>
 </section>
 <section id="linkml-source">
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <details>
 ```yaml
 name: facet
-from_schema: https://w3id.org/linkml/summary_statistics
-rank: 1000
-key: true
 alias: facet
-owner: FacetStatistics
 domain_of:
 - FacetStatistics
+- FacetedCount
 range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>

@@ -80,7 +80,7 @@
              
   <h1>Source code for oaklib.datamodels.summary_statistics_datamodel</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Auto generated from summary_statistics_datamodel.yaml by pythongen.py version: 0.9.0</span>
-<span class="c1"># Generation date: 2022-03-29T19:03:43</span>
+<span class="c1"># Generation date: 2022-11-01T17:31:11</span>
 <span class="c1"># Schema: summary-statistics</span>
 <span class="c1">#</span>
 <span class="c1"># id: https://w3id.org/linkml/summary_statistics</span>
@@ -88,17 +88,33 @@
 <span class="c1"># license: https://creativecommons.org/publicdomain/zero/1.0/</span>
 
 <span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">jsonasobj2</span> <span class="kn">import</span> <span class="n">JsonObj</span><span class="p">,</span> <span class="n">as_dict</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.meta</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EnumDefinition</span><span class="p">,</span>
+    <span class="n">PermissibleValue</span><span class="p">,</span>
+    <span class="n">PvFormulaOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.types</span> <span class="kn">import</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.curienamespace</span> <span class="kn">import</span> <span class="n">CurieNamespace</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.dataclass_extensions_376</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">dataclasses_init_fn_with_kwargs</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">empty_dict</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.enumerations</span> <span class="kn">import</span> <span class="n">EnumDefinitionImpl</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.formatutils</span> <span class="kn">import</span> <span class="n">camelcase</span><span class="p">,</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">underscore</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">bnode</span><span class="p">,</span> <span class="n">empty_dict</span><span class="p">,</span> <span class="n">empty_list</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.slot</span> <span class="kn">import</span> <span class="n">Slot</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="n">YAMLRoot</span><span class="p">,</span> <span class="n">extended_str</span>
-<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">URIRef</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">YAMLRoot</span><span class="p">,</span>
+    <span class="n">extended_float</span><span class="p">,</span>
+    <span class="n">extended_int</span><span class="p">,</span>
+    <span class="n">extended_str</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">URIRef</span>
 
 <span class="n">metamodel_version</span> <span class="o">=</span> <span class="s2">&quot;1.7.0&quot;</span>
 <span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
@@ -127,6 +143,10 @@
     <span class="k">pass</span>
 
 
+<span class="k">class</span> <span class="nc">FacetedCountFacet</span><span class="p">(</span><span class="n">extended_str</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
 <div class="viewcode-block" id="SummaryStatisticCollection"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.datamodels.summary_statistics_datamodel.SummaryStatisticCollection">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SummaryStatisticCollection</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -143,10 +163,14 @@
     <span class="n">class_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">anonymous_class_expression_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">unsatisfiable_class_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">class_count_excluding_deprecated</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">class_count_with_definitions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">deprecated_class_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">non_deprecated_class_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">class_count_with_text_definitions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">class_count_without_text_definitions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">property_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">object_property_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">deprecated_object_property_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">non_deprecated_object_property_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">datatype_property_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">annotation_property_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">individual_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -157,10 +181,40 @@
     <span class="n">owl_axiom_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">rdf_triple_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">subclass_of_axiom_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">equivalentclasses_axiom_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">equivalent_classes_axiom_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">edge_count_by_predicate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">empty_dict</span><span class="p">()</span>
+    <span class="n">entailed_edge_count_by_predicate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">empty_dict</span><span class="p">()</span>
     <span class="n">distinct_synonym_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">synonym_statement_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">synonym_statement_count_by_predicate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">empty_dict</span><span class="p">()</span>
+    <span class="n">class_count_by_category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">empty_dict</span><span class="p">()</span>
     <span class="n">mapping_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">mapping_statement_count_by_predicate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;FacetedCount&quot;</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">empty_dict</span><span class="p">()</span>
     <span class="n">ontology_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
@@ -177,15 +231,27 @@
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">unsatisfiable_class_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unsatisfiable_class_count</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_count_excluding_deprecated</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_excluding_deprecated</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deprecated_class_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deprecated_class_count</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_excluding_deprecated</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_count_excluding_deprecated</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deprecated_class_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deprecated_class_count</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_definitions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_definitions</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_class_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_class_count</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_definitions</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_definitions</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_class_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_class_count</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">property_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">property_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">property_count</span><span class="p">)</span>
@@ -194,6 +260,18 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">object_property_count</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">object_property_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_property_count</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deprecated_object_property_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deprecated_object_property_count</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deprecated_object_property_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deprecated_object_property_count</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_object_property_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_object_property_count</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_object_property_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">non_deprecated_object_property_count</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datatype_property_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">datatype_property_count</span><span class="p">,</span> <span class="nb">int</span>
@@ -237,10 +315,24 @@
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subclass_of_axiom_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subclass_of_axiom_count</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">equivalentclasses_axiom_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">equivalentclasses_axiom_count</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">equivalent_classes_axiom_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">equivalent_classes_axiom_count</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">equivalentclasses_axiom_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">equivalentclasses_axiom_count</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">equivalent_classes_axiom_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">equivalent_classes_axiom_count</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_inlined_as_dict</span><span class="p">(</span>
+            <span class="n">slot_name</span><span class="o">=</span><span class="s2">&quot;edge_count_by_predicate&quot;</span><span class="p">,</span>
+            <span class="n">slot_type</span><span class="o">=</span><span class="n">FacetedCount</span><span class="p">,</span>
+            <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;facet&quot;</span><span class="p">,</span>
+            <span class="n">keyed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_inlined_as_dict</span><span class="p">(</span>
+            <span class="n">slot_name</span><span class="o">=</span><span class="s2">&quot;entailed_edge_count_by_predicate&quot;</span><span class="p">,</span>
+            <span class="n">slot_type</span><span class="o">=</span><span class="n">FacetedCount</span><span class="p">,</span>
+            <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;facet&quot;</span><span class="p">,</span>
+            <span class="n">keyed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distinct_synonym_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">distinct_synonym_count</span><span class="p">,</span> <span class="nb">int</span>
@@ -252,8 +344,29 @@
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">synonym_statement_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">synonym_statement_count</span><span class="p">)</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_inlined_as_dict</span><span class="p">(</span>
+            <span class="n">slot_name</span><span class="o">=</span><span class="s2">&quot;synonym_statement_count_by_predicate&quot;</span><span class="p">,</span>
+            <span class="n">slot_type</span><span class="o">=</span><span class="n">FacetedCount</span><span class="p">,</span>
+            <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;facet&quot;</span><span class="p">,</span>
+            <span class="n">keyed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_inlined_as_dict</span><span class="p">(</span>
+            <span class="n">slot_name</span><span class="o">=</span><span class="s2">&quot;class_count_by_category&quot;</span><span class="p">,</span>
+            <span class="n">slot_type</span><span class="o">=</span><span class="n">FacetedCount</span><span class="p">,</span>
+            <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;facet&quot;</span><span class="p">,</span>
+            <span class="n">keyed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mapping_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping_count</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_inlined_as_dict</span><span class="p">(</span>
+            <span class="n">slot_name</span><span class="o">=</span><span class="s2">&quot;mapping_statement_count_by_predicate&quot;</span><span class="p">,</span>
+            <span class="n">slot_type</span><span class="o">=</span><span class="n">FacetedCount</span><span class="p">,</span>
+            <span class="n">key_name</span><span class="o">=</span><span class="s2">&quot;facet&quot;</span><span class="p">,</span>
+            <span class="n">keyed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontology_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ontology_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ontology_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ontology_count</span><span class="p">)</span>
@@ -339,6 +452,36 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">MissingRequiredField</span><span class="p">(</span><span class="s2">&quot;facet&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facet</span><span class="p">,</span> <span class="n">FacetStatisticsFacet</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">facet</span> <span class="o">=</span> <span class="n">FacetStatisticsFacet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facet</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FacetedCount</span><span class="p">(</span><span class="n">YAMLRoot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Counts broken down by a facet</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_inherited_slots</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">class_class_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">REPORTING</span><span class="o">.</span><span class="n">FacetedCount</span>
+    <span class="n">class_class_curie</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;reporting:FacetedCount&quot;</span>
+    <span class="n">class_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;FacetedCount&quot;</span>
+    <span class="n">class_model_uri</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">URIRef</span><span class="p">]</span> <span class="o">=</span> <span class="n">REPORTING</span><span class="o">.</span><span class="n">FacetedCount</span>
+
+    <span class="n">facet</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">filtered_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facet</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">MissingRequiredField</span><span class="p">(</span><span class="s2">&quot;facet&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facet</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">facet</span> <span class="o">=</span> <span class="n">FacetedCountFacet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">facet</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filtered_count</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">MissingRequiredField</span><span class="p">(</span><span class="s2">&quot;filtered_count&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filtered_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filtered_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filtered_count</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -432,20 +575,38 @@
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_excluding_deprecated</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
-    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">class_count_excluding_deprecated</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__class_count_excluding_deprecated&quot;</span><span class="p">,</span>
-    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;class_count_excluding_deprecated&quot;</span><span class="p">),</span>
-    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_excluding_deprecated</span><span class="p">,</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__deprecated_class_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">deprecated_class_count</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__deprecated_class_count&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;deprecated_class_count&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__deprecated_class_count</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_with_definitions</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
-    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">class_count_with_definitions</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__class_count_with_definitions&quot;</span><span class="p">,</span>
-    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;class_count_with_definitions&quot;</span><span class="p">),</span>
-    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_with_definitions</span><span class="p">,</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__non_deprecated_class_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">non_deprecated_class_count</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__non_deprecated_class_count&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;non_deprecated_class_count&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__non_deprecated_class_count</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_with_text_definitions</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__class_count_with_text_definitions&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;class_count_with_text_definitions&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_with_text_definitions</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_without_text_definitions</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__class_count_without_text_definitions&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;class_count_without_text_definitions&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_without_text_definitions</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span>
@@ -464,6 +625,24 @@
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__object_property_count&quot;</span><span class="p">,</span>
     <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;object_property_count&quot;</span><span class="p">),</span>
     <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__object_property_count</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__deprecated_object_property_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">deprecated_object_property_count</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__deprecated_object_property_count&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;deprecated_object_property_count&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__deprecated_object_property_count</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__non_deprecated_object_property_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">non_deprecated_object_property_count</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__non_deprecated_object_property_count&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;non_deprecated_object_property_count&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__non_deprecated_object_property_count</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span>
@@ -558,13 +737,41 @@
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span>
 
-<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__equivalentclasses_axiom_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
-    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">equivalentclasses_axiom_count</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__equivalentclasses_axiom_count&quot;</span><span class="p">,</span>
-    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;equivalentclasses_axiom_count&quot;</span><span class="p">),</span>
-    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__equivalentclasses_axiom_count</span><span class="p">,</span>
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__equivalent_classes_axiom_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">equivalent_classes_axiom_count</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__equivalent_classes_axiom_count&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;equivalent_classes_axiom_count&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__equivalent_classes_axiom_count</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__edge_count_by_predicate</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">edge_count_by_predicate</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__edge_count_by_predicate&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;edge_count_by_predicate&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__edge_count_by_predicate</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__entailed_edge_count_by_predicate</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">entailed_edge_count_by_predicate</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__entailed_edge_count_by_predicate&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;entailed_edge_count_by_predicate&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__entailed_edge_count_by_predicate</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
 <span class="p">)</span>
 
 <span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__distinct_synonym_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
@@ -585,6 +792,34 @@
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
 <span class="p">)</span>
 
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__synonym_statement_count_by_predicate</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">synonym_statement_count_by_predicate</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__synonym_statement_count_by_predicate&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;synonym_statement_count_by_predicate&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__synonym_statement_count_by_predicate</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_by_category</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">class_count_by_category</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__class_count_by_category&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;class_count_by_category&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__class_count_by_category</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
 <span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__mapping_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
     <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">mapping_count</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__mapping_count&quot;</span><span class="p">,</span>
@@ -592,6 +827,20 @@
     <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__mapping_count</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__mapping_statement_count_by_predicate</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">mapping_statement_count_by_predicate</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;summaryStatisticCollection__mapping_statement_count_by_predicate&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;mapping_statement_count_by_predicate&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">summaryStatisticCollection__mapping_statement_count_by_predicate</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FacetedCountFacet</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FacetedCount</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
 <span class="p">)</span>
 
 <span class="n">slots</span><span class="o">.</span><span class="n">summaryStatisticCollection__ontology_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
@@ -666,6 +915,24 @@
     <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">facetStatistics__facet</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">URIRef</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">facetedCount__facet</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">facet</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;facetedCount__facet&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;facet&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">facetedCount__facet</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">URIRef</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">facetedCount__filtered_count</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">filtered_count</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;facetedCount__filtered_count&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;filtered_count&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">REPORTING</span><span class="o">.</span><span class="n">facetedCount__filtered_count</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 

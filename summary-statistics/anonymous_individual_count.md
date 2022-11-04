@@ -44,6 +44,12 @@ URI: [reporting:anonymous_individual_count](https://w3id.org/linkml/reportanonym
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | AnonymousIndividual |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:anonymous_individual_count](https://w3id.org/linkml/reportanonym
 <details>
 ```yaml
 name: anonymous_individual_count
+annotations:
+  filter:
+    tag: filter
+    value: AnonymousIndividual
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

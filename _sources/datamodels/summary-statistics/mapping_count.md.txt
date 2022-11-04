@@ -44,6 +44,12 @@ URI: [reporting:mapping_count](https://w3id.org/linkml/reportmapping_count)
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Mapping |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:mapping_count](https://w3id.org/linkml/reportmapping_count)
 <details>
 ```yaml
 name: mapping_count
+annotations:
+  filter:
+    tag: filter
+    value: Mapping
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

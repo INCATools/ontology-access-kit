@@ -44,6 +44,12 @@ URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_prop
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | ObjectProperty |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_prop
 <details>
 ```yaml
 name: object_property_count
+annotations:
+  filter:
+    tag: filter
+    value: ObjectProperty
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic

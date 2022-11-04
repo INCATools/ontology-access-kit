@@ -44,6 +44,12 @@ URI: [reporting:unsatisfiable_class_count](https://w3id.org/linkml/reportunsatis
 
 
 
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Class, Unsatisfiable |
+
 
 
 ### Schema Source
@@ -59,6 +65,10 @@ URI: [reporting:unsatisfiable_class_count](https://w3id.org/linkml/reportunsatis
 <details>
 ```yaml
 name: unsatisfiable_class_count
+annotations:
+  filter:
+    tag: filter
+    value: Class, Unsatisfiable
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
