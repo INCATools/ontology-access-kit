@@ -2,7 +2,10 @@ from abc import ABC
 from collections import defaultdict
 from typing import Any, Dict
 
-from oaklib.datamodels.summary_statistics_datamodel import SummaryStatisticCollection, FacetedCount
+from oaklib.datamodels.summary_statistics_datamodel import (
+    FacetedCount,
+    SummaryStatisticCollection,
+)
 from oaklib.datamodels.vocabulary import OWL_CLASS
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -25,7 +28,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         Gets summary statistics for all ontologies treated as a single ontology.
 
         Note that different implementations may implement subsets of the full stats datamodel.
-        
+
         :return:
         """
         ssc = SummaryStatisticCollection()

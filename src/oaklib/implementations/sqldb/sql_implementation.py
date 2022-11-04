@@ -68,7 +68,10 @@ from oaklib.datamodels.obograph import (
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
-from oaklib.datamodels.summary_statistics_datamodel import SummaryStatisticCollection, FacetedCount
+from oaklib.datamodels.summary_statistics_datamodel import (
+    FacetedCount,
+    SummaryStatisticCollection,
+)
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
@@ -433,6 +436,8 @@ class SqlImplementation(
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         sm = self._subset_curie_to_uri_map()
+        if subset not in sm:
+            raise ValueError(f"Subset {subset} not found in {sm}")
         for row in self.session.query(Statements.subject).filter(
             Statements.predicate == IN_SUBSET, Statements.object == sm[subset]
         ):
@@ -1622,7 +1627,9 @@ class SqlImplementation(
         ssc.deprecated_class_count = (
             session.query(ClassNode).filter(ClassNode.id.in_(obs_subq)).count()
         )
-        ssc.class_count_with_definitions = session.query(ClassNode).filter(ClassNode.id.in_(text_defn_subq)).distinct().count()
+        ssc.class_count_with_definitions = (
+            session.query(ClassNode).filter(ClassNode.id.in_(text_defn_subq)).distinct().count()
+        )
         ssc.object_property_count = session.query(ObjectPropertyNode).count()
         ssc.deprecated_property_count = (
             session.query(ObjectPropertyNode).filter(ObjectPropertyNode.id.in_(obs_subq)).count()
@@ -1637,23 +1644,25 @@ class SqlImplementation(
             .filter(Statements.predicate.in_(SYNONYM_PREDICATES))
             .group_by(Statements.predicate)
         ):
-            ssc.synonym_statement_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
-        for row in (
-            session.query(Edge.predicate, func.count(Edge.subject))
-            .group_by(Edge.predicate)
-        ):
+            ssc.synonym_statement_count_by_predicate[row.predicate] = FacetedCount(
+                row[0], filtered_count=row[1]
+            )
+        for row in session.query(Edge.predicate, func.count(Edge.subject)).group_by(Edge.predicate):
             ssc.edge_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
         if include_entailed:
-            for row in (
-                session.query(EntailedEdge.predicate, func.count(Edge.subject))
-                .group_by(EntailedEdge.predicate)
+            for row in session.query(EntailedEdge.predicate, func.count(Edge.subject)).group_by(
+                EntailedEdge.predicate
             ):
-                ssc.entailed_edge_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
+                ssc.entailed_edge_count_by_predicate[row.predicate] = FacetedCount(
+                    row[0], filtered_count=row[1]
+                )
         for row in (
             session.query(Statements.predicate, func.count(Statements.value.distinct()))
             .filter(Statements.predicate.in_(ALL_MATCH_PREDICATES))
             .group_by(Statements.predicate)
         ):
-            ssc.mapping_statement_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
+            ssc.mapping_statement_count_by_predicate[row.predicate] = FacetedCount(
+                row[0], filtered_count=row[1]
+            )
         self._add_derived_statistics(ssc)
         return ssc

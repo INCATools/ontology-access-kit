@@ -771,4 +771,3 @@ class TestCommandLineInterface(unittest.TestCase):
             err = result.stderr
             logging.info(f"ERR={err}")
             self.assertEqual(0, result.exit_code)
-
