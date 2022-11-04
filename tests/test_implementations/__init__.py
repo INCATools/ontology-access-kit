@@ -178,6 +178,23 @@ class ComplianceTester:
             ],
         )
 
+    def test_defined_bys(self, oi: BasicOntologyInterface):
+        """
+        Tests lookup of defined_by by ID.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (VACUOLE, "GO"),
+            (CYTOPLASM, "GO"),
+            (SUBATOMIC_PARTICLE, "CHEBI"),
+            (HUMAN, "NCBITaxon"),
+        ]
+        actual = list(oi.defined_bys([c[0] for c in cases]))
+        test.assertCountEqual(cases, actual)
+
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """
         Tests conformance of MappingProviderInterface.

@@ -47,6 +47,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
         """
         subjects = list(subjects)
         sample_size = len(subjects)
+        logging.info(f"Calculating sample_counts for {sample_size} subjects")
         sample_count = {
             k: v
             for k, v in self.association_subject_counts(
@@ -58,10 +59,13 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
             hypotheses = potential_hypotheses
         else:
             hypotheses = potential_hypotheses.intersection(hypotheses)
-        logging.info("Hypotheses: {}".format(hypotheses))
+        logging.debug("Hypotheses: {}".format(hypotheses))
 
         # get background counts
         if background is None:
+            logging.info(
+                f"Calculating backgrounds for all associations using {object_closure_predicates}"
+            )
             background = set()
             for a in self.associations(
                 predicates=predicates, object_closure_predicates=object_closure_predicates
@@ -74,6 +78,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
 
         bg_size = len(background)
 
+        logging.info(f"Calculating background_counts for {bg_size} background entities")
         bg_count = {
             k: v
             for k, v in self.association_subject_counts(
@@ -89,6 +94,7 @@ class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
 
         results = []
         for cls in hypotheses:
+            logging.debug(f"Calculating enrichment for {cls}")
             p_val_raw, _dn = hypergeometric_p_value(
                 sample_count[cls], sample_size, bg_count[cls], bg_size
             )

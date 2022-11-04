@@ -68,6 +68,10 @@ from oaklib.datamodels.obograph import (
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
+from oaklib.datamodels.summary_statistics_datamodel import (
+    FacetedCount,
+    SummaryStatisticCollection,
+)
 from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
@@ -109,6 +113,7 @@ from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
@@ -192,6 +197,7 @@ class SqlImplementation(
     # AssociationProviderInterface,
     ClassEnrichmentCalculationInterface,
     TextAnnotatorInterface,
+    SummaryStatisticsInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
@@ -430,6 +436,8 @@ class SqlImplementation(
 
     def subset_members(self, subset: SUBSET_CURIE) -> Iterable[CURIE]:
         sm = self._subset_curie_to_uri_map()
+        if subset not in sm:
+            raise ValueError(f"Subset {subset} not found in {sm}")
         for row in self.session.query(Statements.subject).filter(
             Statements.predicate == IN_SUBSET, Statements.object == sm[subset]
         ):
@@ -1606,3 +1614,55 @@ class SqlImplementation(
             raise NotImplementedError(
                 f"other ontology {other_ontology} must implement SqlInterface"
             )
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: SummaryStatisticsInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def global_summary_statistics(self, include_entailed=False) -> SummaryStatisticCollection:
+        session = self.session
+        ssc = SummaryStatisticCollection()
+        obs_subq = session.query(DeprecatedNode.id)
+        text_defn_subq = session.query(HasTextDefinitionStatement.subject)
+        ssc.class_count = session.query(ClassNode).distinct(ClassNode.id).count()
+        ssc.deprecated_class_count = (
+            session.query(ClassNode).filter(ClassNode.id.in_(obs_subq)).count()
+        )
+        ssc.class_count_with_definitions = (
+            session.query(ClassNode).filter(ClassNode.id.in_(text_defn_subq)).distinct().count()
+        )
+        ssc.object_property_count = session.query(ObjectPropertyNode).count()
+        ssc.deprecated_property_count = (
+            session.query(ObjectPropertyNode).filter(ObjectPropertyNode.id.in_(obs_subq)).count()
+        )
+        synonym_query = session.query(Statements.value).filter(
+            Statements.predicate.in_(SYNONYM_PREDICATES)
+        )
+        ssc.synonym_statement_count = synonym_query.count()
+        ssc.distinct_synonym_count = synonym_query.distinct().count()
+        for row in (
+            session.query(Statements.predicate, func.count(Statements.value.distinct()))
+            .filter(Statements.predicate.in_(SYNONYM_PREDICATES))
+            .group_by(Statements.predicate)
+        ):
+            ssc.synonym_statement_count_by_predicate[row.predicate] = FacetedCount(
+                row[0], filtered_count=row[1]
+            )
+        for row in session.query(Edge.predicate, func.count(Edge.subject)).group_by(Edge.predicate):
+            ssc.edge_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
+        if include_entailed:
+            for row in session.query(EntailedEdge.predicate, func.count(Edge.subject)).group_by(
+                EntailedEdge.predicate
+            ):
+                ssc.entailed_edge_count_by_predicate[row.predicate] = FacetedCount(
+                    row[0], filtered_count=row[1]
+                )
+        for row in (
+            session.query(Statements.predicate, func.count(Statements.value.distinct()))
+            .filter(Statements.predicate.in_(ALL_MATCH_PREDICATES))
+            .group_by(Statements.predicate)
+        ):
+            ssc.mapping_statement_count_by_predicate[row.predicate] = FacetedCount(
+                row[0], filtered_count=row[1]
+            )
+        self._add_derived_statistics(ssc)
+        return ssc

@@ -30,6 +30,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DEFINITION_URI,
     IDENTIFIER_PREDICATE,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBO_PURL,
     RDF_TYPE,
@@ -512,6 +513,19 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             for curie in curies:
                 if curie not in label_map:
                     yield curie, None
+
+    def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
+        entities = list(entities)
+        uris = [self.curie_to_sparql(x) for x in entities]
+        query = SparqlQuery(
+            select=["?s ?o"], where=[f"?s {IS_DEFINED_BY} ?o", _sparql_values("s", uris)]
+        )
+        bindings = self._query(query)
+        for row in bindings:
+            curie, db = self.uri_to_curie(row["s"]["value"]), row["o"]["value"]
+            yield curie, db
+            entities.remove(curie)
+        return super().defined_bys(entities)
 
     def _alias_predicates(self) -> List[PRED_CURIE]:
         # different implementations can override this; e.g Wikidata uses skos:altLabel
