@@ -32,7 +32,6 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :return:
         """
         ssc = SummaryStatisticCollection()
-        entities = list(self.entities())
         class_entities = list(self.entities(owl_type=OWL_CLASS, filter_obsoletes=False))
         obsoletes = list(self.obsoletes())
         ssc.class_count = len(class_entities)

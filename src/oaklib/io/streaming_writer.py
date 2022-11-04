@@ -31,6 +31,7 @@ class StreamingWriter(ABC):
     list_delimiter: ClassVar[str] = None
     heterogeneous_keys: bool = False
     _output: Any = None
+    object_count: int = field(default=0)
 
     def __post_init__(self):
         atexit.register(self.close)

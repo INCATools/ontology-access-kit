@@ -764,10 +764,13 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(0, result.exit_code)
 
     def test_statistics(self):
+        out_path = str(OUTPUT_DIR / "statistics.yaml")
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
             logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(main, ["-i", input_arg, "statistics"])
-            out = result.stdout
+            result = self.runner.invoke(main, ["-i", input_arg, "statistics", "-o", out_path])
             err = result.stderr
             logging.info(f"ERR={err}")
             self.assertEqual(0, result.exit_code)
+            with open(out_path) as file:
+                obj = yaml.safe_load(file)
+                self.assertGreater(obj["class_count"], 3)

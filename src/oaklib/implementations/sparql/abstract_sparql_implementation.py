@@ -30,11 +30,12 @@ from oaklib.datamodels.vocabulary import (
     HAS_DEFINITION_URI,
     IDENTIFIER_PREDICATE,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBO_PURL,
     RDF_TYPE,
     SEMAPV,
-    SYNONYM_PREDICATES, IS_DEFINED_BY,
+    SYNONYM_PREDICATES,
 )
 from oaklib.implementations.sparql import SEARCH_CONFIG
 from oaklib.implementations.sparql.sparql_query import SparqlQuery, SparqlUpdate
@@ -525,8 +526,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             yield curie, db
             entities.remove(curie)
         return super().defined_bys(entities)
-
-
 
     def _alias_predicates(self) -> List[PRED_CURIE]:
         # different implementations can override this; e.g Wikidata uses skos:altLabel
