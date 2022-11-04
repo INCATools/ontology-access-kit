@@ -11,6 +11,7 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
     class Synonymizer
       Synonymizer : match
       Synonymizer : match_scope
+      Synonymizer : qualifier
       Synonymizer : replacement
       Synonymizer : the_rule
       
@@ -29,6 +30,7 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 | [match](match.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Reg-ex rule to match substrings in labels.  | direct |
 | [match_scope](match_scope.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Scope of the reg-ex rule  | direct |
 | [replacement](replacement.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Reg-ex rule to replace substrings in labels  | direct |
+| [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Type of match for the new synonym generated.  | direct |
 
 
 
@@ -101,6 +103,12 @@ attributes:
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
     range: string
+  qualifier:
+    name: qualifier
+    description: Type of match for the new synonym generated.
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
+    range: string
 
 ```
 </details>
@@ -149,6 +157,16 @@ attributes:
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
     alias: replacement
+    owner: Synonymizer
+    domain_of:
+    - Synonymizer
+    range: string
+  qualifier:
+    name: qualifier
+    description: Type of match for the new synonym generated.
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
+    alias: qualifier
     owner: Synonymizer
     domain_of:
     - Synonymizer

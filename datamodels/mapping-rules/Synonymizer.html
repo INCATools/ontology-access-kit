@@ -87,6 +87,7 @@
     class Synonymizer
       Synonymizer : match
       Synonymizer : match_scope
+      Synonymizer : qualifier
       Synonymizer : replacement
       Synonymizer : the_rule
       
@@ -120,6 +121,11 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="replacement.html"><span class="doc std std-doc">replacement</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p>Reg-ex rule to replace substrings in labels</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="qualifier.html"><span class="doc std std-doc">qualifier</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>Type of match for the new synonym generated.</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -206,6 +212,12 @@ attributes:
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
     range: string
+  qualifier:
+    name: qualifier
+    description: Type of match for the new synonym generated.
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
+    range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -252,6 +264,16 @@ attributes:
     from_schema: https://w3id.org/linkml/mapping_rules_datamodel
     rank: 1000
     alias: replacement
+    owner: Synonymizer
+    domain_of:
+    - Synonymizer
+    range: string
+  qualifier:
+    name: qualifier
+    description: Type of match for the new synonym generated.
+    from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+    rank: 1000
+    alias: qualifier
     owner: Synonymizer
     domain_of:
     - Synonymizer

@@ -45,6 +45,7 @@ Name: mapping-rules
 | [preconditions](preconditions.md) | all of the criteria that must be true before a rule is fired |
 | [predicate](predicate.md) |  |
 | [predicate_id](predicate_id.md) |  |
+| [qualifier](qualifier.md) | Type of match for the new synonym generated |
 | [relationships](relationships.md) | All ontology elements grouped and their relationship to the normalized term |
 | [replacement](replacement.md) | Reg-ex rule to replace substrings in labels |
 | [rules](rules.md) | all rules |
