@@ -1,5 +1,5 @@
 # Auto generated from summary_statistics_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-29T19:03:43
+# Generation date: 2022-11-01T17:31:11
 # Schema: summary-statistics
 #
 # id: https://w3id.org/linkml/summary_statistics
@@ -7,17 +7,33 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Integer, String
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
-from linkml_runtime.utils.metamodelcore import empty_dict
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import bnode, empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -46,6 +62,10 @@ class FacetStatisticsFacet(extended_str):
     pass
 
 
+class FacetedCountFacet(extended_str):
+    pass
+
+
 @dataclass
 class SummaryStatisticCollection(YAMLRoot):
     """
@@ -62,10 +82,14 @@ class SummaryStatisticCollection(YAMLRoot):
     class_count: Optional[int] = None
     anonymous_class_expression_count: Optional[int] = None
     unsatisfiable_class_count: Optional[int] = None
-    class_count_excluding_deprecated: Optional[int] = None
-    class_count_with_definitions: Optional[int] = None
+    deprecated_class_count: Optional[int] = None
+    non_deprecated_class_count: Optional[int] = None
+    class_count_with_text_definitions: Optional[int] = None
+    class_count_without_text_definitions: Optional[int] = None
     property_count: Optional[int] = None
     object_property_count: Optional[int] = None
+    deprecated_object_property_count: Optional[int] = None
+    non_deprecated_object_property_count: Optional[int] = None
     datatype_property_count: Optional[int] = None
     annotation_property_count: Optional[int] = None
     individual_count: Optional[int] = None
@@ -76,10 +100,40 @@ class SummaryStatisticCollection(YAMLRoot):
     owl_axiom_count: Optional[int] = None
     rdf_triple_count: Optional[int] = None
     subclass_of_axiom_count: Optional[int] = None
-    equivalentclasses_axiom_count: Optional[int] = None
+    equivalent_classes_axiom_count: Optional[int] = None
+    edge_count_by_predicate: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
+    entailed_edge_count_by_predicate: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
     distinct_synonym_count: Optional[int] = None
     synonym_statement_count: Optional[int] = None
+    synonym_statement_count_by_predicate: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
+    class_count_by_category: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
     mapping_count: Optional[int] = None
+    mapping_statement_count_by_predicate: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
     ontology_count: Optional[int] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -96,15 +150,27 @@ class SummaryStatisticCollection(YAMLRoot):
         ):
             self.unsatisfiable_class_count = int(self.unsatisfiable_class_count)
 
-        if self.class_count_excluding_deprecated is not None and not isinstance(
-            self.class_count_excluding_deprecated, int
+        if self.deprecated_class_count is not None and not isinstance(
+            self.deprecated_class_count, int
         ):
-            self.class_count_excluding_deprecated = int(self.class_count_excluding_deprecated)
+            self.deprecated_class_count = int(self.deprecated_class_count)
 
-        if self.class_count_with_definitions is not None and not isinstance(
-            self.class_count_with_definitions, int
+        if self.non_deprecated_class_count is not None and not isinstance(
+            self.non_deprecated_class_count, int
         ):
-            self.class_count_with_definitions = int(self.class_count_with_definitions)
+            self.non_deprecated_class_count = int(self.non_deprecated_class_count)
+
+        if self.class_count_with_text_definitions is not None and not isinstance(
+            self.class_count_with_text_definitions, int
+        ):
+            self.class_count_with_text_definitions = int(self.class_count_with_text_definitions)
+
+        if self.class_count_without_text_definitions is not None and not isinstance(
+            self.class_count_without_text_definitions, int
+        ):
+            self.class_count_without_text_definitions = int(
+                self.class_count_without_text_definitions
+            )
 
         if self.property_count is not None and not isinstance(self.property_count, int):
             self.property_count = int(self.property_count)
@@ -113,6 +179,18 @@ class SummaryStatisticCollection(YAMLRoot):
             self.object_property_count, int
         ):
             self.object_property_count = int(self.object_property_count)
+
+        if self.deprecated_object_property_count is not None and not isinstance(
+            self.deprecated_object_property_count, int
+        ):
+            self.deprecated_object_property_count = int(self.deprecated_object_property_count)
+
+        if self.non_deprecated_object_property_count is not None and not isinstance(
+            self.non_deprecated_object_property_count, int
+        ):
+            self.non_deprecated_object_property_count = int(
+                self.non_deprecated_object_property_count
+            )
 
         if self.datatype_property_count is not None and not isinstance(
             self.datatype_property_count, int
@@ -156,10 +234,24 @@ class SummaryStatisticCollection(YAMLRoot):
         ):
             self.subclass_of_axiom_count = int(self.subclass_of_axiom_count)
 
-        if self.equivalentclasses_axiom_count is not None and not isinstance(
-            self.equivalentclasses_axiom_count, int
+        if self.equivalent_classes_axiom_count is not None and not isinstance(
+            self.equivalent_classes_axiom_count, int
         ):
-            self.equivalentclasses_axiom_count = int(self.equivalentclasses_axiom_count)
+            self.equivalent_classes_axiom_count = int(self.equivalent_classes_axiom_count)
+
+        self._normalize_inlined_as_dict(
+            slot_name="edge_count_by_predicate",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="entailed_edge_count_by_predicate",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
 
         if self.distinct_synonym_count is not None and not isinstance(
             self.distinct_synonym_count, int
@@ -171,8 +263,29 @@ class SummaryStatisticCollection(YAMLRoot):
         ):
             self.synonym_statement_count = int(self.synonym_statement_count)
 
+        self._normalize_inlined_as_dict(
+            slot_name="synonym_statement_count_by_predicate",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="class_count_by_category",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
+
         if self.mapping_count is not None and not isinstance(self.mapping_count, int):
             self.mapping_count = int(self.mapping_count)
+
+        self._normalize_inlined_as_dict(
+            slot_name="mapping_statement_count_by_predicate",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
 
         if self.ontology_count is not None and not isinstance(self.ontology_count, int):
             self.ontology_count = int(self.ontology_count)
@@ -258,6 +371,36 @@ class FacetStatistics(SummaryStatisticCollection):
             self.MissingRequiredField("facet")
         if not isinstance(self.facet, FacetStatisticsFacet):
             self.facet = FacetStatisticsFacet(self.facet)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class FacetedCount(YAMLRoot):
+    """
+    Counts broken down by a facet
+    """
+
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = REPORTING.FacetedCount
+    class_class_curie: ClassVar[str] = "reporting:FacetedCount"
+    class_name: ClassVar[str] = "FacetedCount"
+    class_model_uri: ClassVar[URIRef] = REPORTING.FacetedCount
+
+    facet: Union[str, FacetedCountFacet] = None
+    filtered_count: int = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.facet):
+            self.MissingRequiredField("facet")
+        if not isinstance(self.facet, FacetedCountFacet):
+            self.facet = FacetedCountFacet(self.facet)
+
+        if self._is_empty(self.filtered_count):
+            self.MissingRequiredField("filtered_count")
+        if not isinstance(self.filtered_count, int):
+            self.filtered_count = int(self.filtered_count)
 
         super().__post_init__(**kwargs)
 
@@ -351,20 +494,38 @@ slots.summaryStatisticCollection__unsatisfiable_class_count = Slot(
     range=Optional[int],
 )
 
-slots.summaryStatisticCollection__class_count_excluding_deprecated = Slot(
-    uri=REPORTING.class_count_excluding_deprecated,
-    name="summaryStatisticCollection__class_count_excluding_deprecated",
-    curie=REPORTING.curie("class_count_excluding_deprecated"),
-    model_uri=REPORTING.summaryStatisticCollection__class_count_excluding_deprecated,
+slots.summaryStatisticCollection__deprecated_class_count = Slot(
+    uri=REPORTING.deprecated_class_count,
+    name="summaryStatisticCollection__deprecated_class_count",
+    curie=REPORTING.curie("deprecated_class_count"),
+    model_uri=REPORTING.summaryStatisticCollection__deprecated_class_count,
     domain=None,
     range=Optional[int],
 )
 
-slots.summaryStatisticCollection__class_count_with_definitions = Slot(
-    uri=REPORTING.class_count_with_definitions,
-    name="summaryStatisticCollection__class_count_with_definitions",
-    curie=REPORTING.curie("class_count_with_definitions"),
-    model_uri=REPORTING.summaryStatisticCollection__class_count_with_definitions,
+slots.summaryStatisticCollection__non_deprecated_class_count = Slot(
+    uri=REPORTING.non_deprecated_class_count,
+    name="summaryStatisticCollection__non_deprecated_class_count",
+    curie=REPORTING.curie("non_deprecated_class_count"),
+    model_uri=REPORTING.summaryStatisticCollection__non_deprecated_class_count,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.summaryStatisticCollection__class_count_with_text_definitions = Slot(
+    uri=REPORTING.class_count_with_text_definitions,
+    name="summaryStatisticCollection__class_count_with_text_definitions",
+    curie=REPORTING.curie("class_count_with_text_definitions"),
+    model_uri=REPORTING.summaryStatisticCollection__class_count_with_text_definitions,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.summaryStatisticCollection__class_count_without_text_definitions = Slot(
+    uri=REPORTING.class_count_without_text_definitions,
+    name="summaryStatisticCollection__class_count_without_text_definitions",
+    curie=REPORTING.curie("class_count_without_text_definitions"),
+    model_uri=REPORTING.summaryStatisticCollection__class_count_without_text_definitions,
     domain=None,
     range=Optional[int],
 )
@@ -383,6 +544,24 @@ slots.summaryStatisticCollection__object_property_count = Slot(
     name="summaryStatisticCollection__object_property_count",
     curie=REPORTING.curie("object_property_count"),
     model_uri=REPORTING.summaryStatisticCollection__object_property_count,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.summaryStatisticCollection__deprecated_object_property_count = Slot(
+    uri=REPORTING.deprecated_object_property_count,
+    name="summaryStatisticCollection__deprecated_object_property_count",
+    curie=REPORTING.curie("deprecated_object_property_count"),
+    model_uri=REPORTING.summaryStatisticCollection__deprecated_object_property_count,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.summaryStatisticCollection__non_deprecated_object_property_count = Slot(
+    uri=REPORTING.non_deprecated_object_property_count,
+    name="summaryStatisticCollection__non_deprecated_object_property_count",
+    curie=REPORTING.curie("non_deprecated_object_property_count"),
+    model_uri=REPORTING.summaryStatisticCollection__non_deprecated_object_property_count,
     domain=None,
     range=Optional[int],
 )
@@ -477,13 +656,41 @@ slots.summaryStatisticCollection__subclass_of_axiom_count = Slot(
     range=Optional[int],
 )
 
-slots.summaryStatisticCollection__equivalentclasses_axiom_count = Slot(
-    uri=REPORTING.equivalentclasses_axiom_count,
-    name="summaryStatisticCollection__equivalentclasses_axiom_count",
-    curie=REPORTING.curie("equivalentclasses_axiom_count"),
-    model_uri=REPORTING.summaryStatisticCollection__equivalentclasses_axiom_count,
+slots.summaryStatisticCollection__equivalent_classes_axiom_count = Slot(
+    uri=REPORTING.equivalent_classes_axiom_count,
+    name="summaryStatisticCollection__equivalent_classes_axiom_count",
+    curie=REPORTING.curie("equivalent_classes_axiom_count"),
+    model_uri=REPORTING.summaryStatisticCollection__equivalent_classes_axiom_count,
     domain=None,
     range=Optional[int],
+)
+
+slots.summaryStatisticCollection__edge_count_by_predicate = Slot(
+    uri=REPORTING.edge_count_by_predicate,
+    name="summaryStatisticCollection__edge_count_by_predicate",
+    curie=REPORTING.curie("edge_count_by_predicate"),
+    model_uri=REPORTING.summaryStatisticCollection__edge_count_by_predicate,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
+)
+
+slots.summaryStatisticCollection__entailed_edge_count_by_predicate = Slot(
+    uri=REPORTING.entailed_edge_count_by_predicate,
+    name="summaryStatisticCollection__entailed_edge_count_by_predicate",
+    curie=REPORTING.curie("entailed_edge_count_by_predicate"),
+    model_uri=REPORTING.summaryStatisticCollection__entailed_edge_count_by_predicate,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
 )
 
 slots.summaryStatisticCollection__distinct_synonym_count = Slot(
@@ -504,6 +711,34 @@ slots.summaryStatisticCollection__synonym_statement_count = Slot(
     range=Optional[int],
 )
 
+slots.summaryStatisticCollection__synonym_statement_count_by_predicate = Slot(
+    uri=REPORTING.synonym_statement_count_by_predicate,
+    name="summaryStatisticCollection__synonym_statement_count_by_predicate",
+    curie=REPORTING.curie("synonym_statement_count_by_predicate"),
+    model_uri=REPORTING.summaryStatisticCollection__synonym_statement_count_by_predicate,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
+)
+
+slots.summaryStatisticCollection__class_count_by_category = Slot(
+    uri=REPORTING.class_count_by_category,
+    name="summaryStatisticCollection__class_count_by_category",
+    curie=REPORTING.curie("class_count_by_category"),
+    model_uri=REPORTING.summaryStatisticCollection__class_count_by_category,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
+)
+
 slots.summaryStatisticCollection__mapping_count = Slot(
     uri=REPORTING.mapping_count,
     name="summaryStatisticCollection__mapping_count",
@@ -511,6 +746,20 @@ slots.summaryStatisticCollection__mapping_count = Slot(
     model_uri=REPORTING.summaryStatisticCollection__mapping_count,
     domain=None,
     range=Optional[int],
+)
+
+slots.summaryStatisticCollection__mapping_statement_count_by_predicate = Slot(
+    uri=REPORTING.mapping_statement_count_by_predicate,
+    name="summaryStatisticCollection__mapping_statement_count_by_predicate",
+    curie=REPORTING.curie("mapping_statement_count_by_predicate"),
+    model_uri=REPORTING.summaryStatisticCollection__mapping_statement_count_by_predicate,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
 )
 
 slots.summaryStatisticCollection__ontology_count = Slot(
@@ -585,4 +834,22 @@ slots.facetStatistics__facet = Slot(
     model_uri=REPORTING.facetStatistics__facet,
     domain=None,
     range=URIRef,
+)
+
+slots.facetedCount__facet = Slot(
+    uri=REPORTING.facet,
+    name="facetedCount__facet",
+    curie=REPORTING.curie("facet"),
+    model_uri=REPORTING.facetedCount__facet,
+    domain=None,
+    range=URIRef,
+)
+
+slots.facetedCount__filtered_count = Slot(
+    uri=REPORTING.filtered_count,
+    name="facetedCount__filtered_count",
+    curie=REPORTING.curie("filtered_count"),
+    model_uri=REPORTING.facetedCount__filtered_count,
+    domain=None,
+    range=int,
 )

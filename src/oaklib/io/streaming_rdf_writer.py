@@ -22,6 +22,7 @@ class StreamingRdfWriter(StreamingWriter):
 
     graph: rdflib.Graph = None
     dialect: str = field(default_factory=lambda: "ttl")
+    uses_schemaview = True
 
     def emit_curie(self, curie: CURIE, label=None):
         oi = self.ontology_interface

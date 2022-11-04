@@ -97,7 +97,7 @@ class OboGraphImplementation(
             self.obograph_document = gd
 
     def uri_to_curie(
-        self, uri: URI, strict: bool = True, use_uri_fallback=False
+        self, uri: URI, strict: bool = False, use_uri_fallback=False
     ) -> Optional[CURIE]:
         # TODO: use a map
         if uri == "is_a":

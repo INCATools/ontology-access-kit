@@ -213,6 +213,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
 
+    def test_defined_bys(self):
+        self.compliance_tester.test_defined_bys(self.oi)
+
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
 
@@ -525,6 +528,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         oi.autosave = True
         self.compliance_tester.test_store_associations(oi)
+
+    def test_class_enrichment(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        oi.autosave = True
+        self.compliance_tester.test_class_enrichment(oi)
 
     def test_gap_fill(self):
         # TODO: improve performance

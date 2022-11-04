@@ -2,7 +2,7 @@ import atexit
 import sys
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Mapping, Optional, Type, Union
+from typing import Any, ClassVar, Dict, List, Mapping, Optional, Type, Union
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.yamlutils import YAMLRoot
@@ -25,11 +25,19 @@ class StreamingWriter(ABC):
     ontology_interface: BasicOntologyInterface = None
     display_options: List[str] = None
     autolabel: bool = None
-    schemaview: SchemaView = None
+    schemaview: Optional[SchemaView] = None
+    index_slot: Optional[str] = None
+    uses_schemaview = False
+    list_delimiter: ClassVar[str] = None
+    heterogeneous_keys: bool = False
     _output: Any = None
+    object_count: int = field(default=0)
 
     def __post_init__(self):
         atexit.register(self.close)
+
+    def __hash__(self):
+        return hash(str(self))
 
     @property
     def output(self) -> str:
@@ -82,7 +90,7 @@ class StreamingWriter(ABC):
     def line(self, v: str):
         self.file.write(f"{v}\n")
 
-    def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None):
+    def add_labels(self, obj_as_dict: Dict, label_fields: Optional[List[str]] = None) -> Dict:
         """
         Adds labels to the object
 
@@ -93,12 +101,25 @@ class StreamingWriter(ABC):
         if label_fields and self.autolabel:
             for f in label_fields:
                 curie = obj_as_dict.get(f, None)
-                if curie:
+                col_name = f"{f}_label"
+                if curie and obj_as_dict.get(col_name, None) is None:
+                    # allow for a list of CURIEs flattened using a delimiter
+                    delim = self.list_delimiter
+                    if delim and delim in curie:
+                        curie = curie.split("|")
                     if isinstance(curie, list):
                         label = [self.ontology_interface.label(c) for c in curie]
+                        if delim:
+                            label = delim.join(label)
                     else:
                         label = self.ontology_interface.label(curie)
-                    obj_as_dict[f"{f}_label"] = label
+                    obj_as_dict_new = {}
+                    for k, v in obj_as_dict.items():
+                        obj_as_dict_new[k] = v
+                        if k == f:
+                            obj_as_dict_new[col_name] = label
+                    obj_as_dict = obj_as_dict_new
+        return obj_as_dict
 
     def emit_dict(self, obj: Mapping[str, Any], object_type: Type = None):
         """

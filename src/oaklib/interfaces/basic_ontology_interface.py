@@ -286,6 +286,45 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
         return self.entities(**kwargs)
 
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[CURIE]:
+        """
+        Yields all known OWL types for given entities.
+
+        :param entities:
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def defined_by(self, entity: CURIE) -> Optional[str]:
+        """
+        Returns the CURIE of the ontology that defines the given entity.
+
+        :param entity:
+        :return:
+        """
+        for _, x in self.defined_bys([entity]):
+            return x
+
+    def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
+        """
+        Yields all known isDefinedBys for given entities.
+
+        This is for determining the ontology that defines a given entity, i.e.
+        which ontology the entity belongs to.
+
+        Formally, this should be captured by an rdfs:isDefinedBy triple, but
+        in practice this may not be explicitly stated. In this case, implementations
+        may choose to use heuristic measures, including using the ontology prefix.
+
+        :param entities:
+        :return: iterator
+        """
+        for e in entities:
+            if ":" in e:
+                yield e, e.split(":")[0]
+            else:
+                yield e, None
+
     def roots(
         self,
         predicates: List[PRED_CURIE] = None,

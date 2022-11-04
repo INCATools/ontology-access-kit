@@ -1,3 +1,4 @@
+import csv
 import json
 import logging
 import re
@@ -163,6 +164,70 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("GO:0031965", out)
             self.assertNotIn("subClassOf", out)
             self.assertNotIn("BFO", out)
+
+    def test_logical_definitions(self):
+        for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}"]:
+            logging.info(f"INPUT={input_arg}")
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    input_arg,
+                    "logical-definitions",
+                    "--unmelt",
+                    "-O",
+                    "csv",
+                    ".all",
+                    "-o",
+                    TEST_OUT,
+                ],
+            )
+            self.assertEqual(0, result.exit_code)
+            out = self._out(TEST_OUT)
+            logging.info(out)
+            cases = [
+                {
+                    "defined_class": "GO:0004857",
+                    "defined_class_label": "enzyme inhibitor activity",
+                    "genus_class": "GO:0003674",
+                    "genus_class_label": "molecular_function",
+                    "negatively_regulates": "GO:0003824",
+                    "negatively_regulates_label": "catalytic activity",
+                    "part_of": "",
+                    "part_of_label": "",
+                    "has_primary_input_or_output": "",
+                    "has_primary_input_or_output_label": "",
+                    "positively_regulates": "",
+                    "positively_regulates_label": "",
+                    "regulates": "",
+                    "regulates_label": "",
+                    "has_part": "",
+                    "has_part_label": "",
+                },
+                {
+                    "defined_class": "GO:0099568",
+                    "defined_class_label": "cytoplasmic region",
+                    "genus_class": "GO:0005737",
+                    "genus_class_label": "cytoplasm",
+                    "negatively_regulates": "",
+                    "negatively_regulates_label": "",
+                    "part_of": "GO:0005737",
+                    "part_of_label": "cytoplasm",
+                    "has_primary_input_or_output": "",
+                    "has_primary_input_or_output_label": "",
+                    "positively_regulates": "",
+                    "positively_regulates_label": "",
+                    "regulates": "",
+                    "regulates_label": "",
+                    "has_part": "",
+                    "has_part_label": "",
+                },
+            ]
+            with open(TEST_OUT) as file:
+                reader = csv.DictReader(file, delimiter="\t")
+                rows = [row for row in reader]
+                for case in cases:
+                    self.assertIn(case, rows)
 
     def test_gap_fill(self):
         result = self.runner.invoke(
@@ -645,7 +710,6 @@ class TestCommandLineInterface(unittest.TestCase):
 
             with open(outfile) as f:
                 docs = list(yaml.load_all(f, yaml.FullLoader))
-                expected += [None]
                 self.assertCountEqual(expected, docs)
 
     def test_synonymizer(self):
@@ -697,3 +761,15 @@ class TestCommandLineInterface(unittest.TestCase):
         print(result.stderr)
         print(result.stdout)
         self.assertEqual(0, result.exit_code)
+
+    def test_statistics(self):
+        out_path = str(OUTPUT_DIR / "statistics.yaml")
+        for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
+            logging.info(f"INPUT={input_arg}")
+            result = self.runner.invoke(main, ["-i", input_arg, "statistics", "-o", out_path])
+            err = result.stderr
+            logging.info(f"ERR={err}")
+            self.assertEqual(0, result.exit_code)
+            with open(out_path) as file:
+                obj = yaml.safe_load(file)
+                self.assertGreater(obj["class_count"], 3)
