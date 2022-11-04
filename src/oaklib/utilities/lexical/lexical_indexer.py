@@ -46,6 +46,13 @@ from oaklib.types import PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
+DEFAULT_QUALIFIER = "exact"
+QUALIFIER_DICT = {
+    "exact": "oio:hasExactSynonym",
+    "broad": "oio:hasBroadSynonym",
+    "narrow": "oio:hasNarrowSynonym",
+    "related": "oio:hasRelatedSynonym",
+}
 
 
 def add_labels_from_uris(oi: BasicOntologyInterface):
@@ -124,7 +131,10 @@ def create_lexical_index(
                     term2 = term
                     for tr in pipeline.transformations:
                         if tr.type.code == TransformationType.Synonymization:
-                            synonymized, term2 = apply_transformation(term2, tr)
+                            synonymized, term2, qualifier = apply_transformation(term2, tr)
+                            if qualifier != DEFAULT_QUALIFIER and qualifier is not None:
+                                pred = QUALIFIER_DICT[qualifier]
+
                         else:
                             term2 = apply_transformation(term2, tr)
 
@@ -384,13 +394,15 @@ def precondition_holds(precondition: Precondition, mapping: Mapping) -> bool:
     return True
 
 
-def apply_transformation(term: str, transformation: LexicalTransformation) -> str:
+def apply_transformation(
+    term: str, transformation: LexicalTransformation
+) -> Union[str, List[Tuple[bool, str, str]]]:
     """
     Apply an individual transformation on a term
 
-    :param term:
-    :param transformation:
-    :return:
+    :param term: Original label.
+    :param transformation: Type of transformation to be performed on the label.
+    :return: Transformed label.
     """
     typ = str(transformation.type)
     logging.debug(f"Applying: {transformation}")
@@ -399,21 +411,44 @@ def apply_transformation(term: str, transformation: LexicalTransformation) -> st
     elif typ == TransformationType.WhitespaceNormalization.text:
         return re.sub(" {2,}", " ", term.strip())
     elif typ == TransformationType.Synonymization.text:
-        return apply_synonymizer(term, eval(transformation.params))
+        synonymized_results = apply_synonymizer(term, eval(transformation.params))
+        true_results = [x for x in list(synonymized_results) if x[0] is True]
+        if len(true_results) > 0:
+            return true_results[-1]
+        else:
+            return (False, term, DEFAULT_QUALIFIER)
     else:
         raise NotImplementedError(
             f"Transformation Type {typ} {type(typ)} not implemented {TransformationType.CaseNormalization.text}"
         )
 
 
-def apply_synonymizer(term: str, rules: List[Synonymizer]) -> str:
-    tmp_term = term
+def apply_synonymizer(term: str, rules: List[Synonymizer]) -> Tuple[bool, str, str]:
+    """Apply synonymizer rules declared in the given match-rules.yaml file.
+
+    The basic concept is looking for regex in labels and replacing the ones that match
+    with the string passed in 'match.replacement'. Also set qualifier ('match.qualifier')
+    as to whether the replacement is an 'exact', 'broad', 'narrow', or 'related' synonym.
+
+    Note: This function "yields" all intermediate results (for each rule applied)
+    as opposed to a final result. The reason being we only want to return a "True"
+    synonymized result. If the term is not synonymized, then the result will be just
+    the term and a default qualifier. In the case of multiple synonyms, the actual result
+    will be the latest synonymized result.In other words, all the rules have been
+    implemented on the term to finally produce the result.
+
+    :param term: Original label.
+    :param rules: Synonymizer rules from match-rules.yaml file.
+    :yield: A Tuple stating [if the label changed, new label, qualifier]
+    """
     for rule in rules:
+        tmp_term_2 = term
         term = re.sub(eval(rule.match), rule.replacement, term)
-    if tmp_term == term:
-        return False, term.rstrip()
-    else:
-        return True, term.rstrip()
+
+        if tmp_term_2 != term:
+            yield True, term.strip(), rule.qualifier
+        else:
+            yield False, term.strip(), rule.qualifier
 
 
 def save_mapping_rules(mapping_rules: MappingRuleCollection, path: str):
