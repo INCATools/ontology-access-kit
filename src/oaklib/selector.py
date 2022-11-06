@@ -174,7 +174,9 @@ def get_resource_from_shorthand(
             descriptor = f"{Path(dm_path)/descriptor}.owl.ttl"
             logging.info(f"Introspecting datamodel from {descriptor}")
             resource.slug = descriptor
-        if ":" in descriptor:
+
+        # Prevent the driveletter from being interpreted as scheme on Windows.
+        if ":" in descriptor and not os.path.exists(descriptor):
             toks = descriptor.split(":")
             scheme = toks[0]
             resource.scheme = scheme

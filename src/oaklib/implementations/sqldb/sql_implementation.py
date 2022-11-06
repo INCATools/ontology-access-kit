@@ -268,7 +268,7 @@ class SqlImplementation(
                 semsql_builder.make(locator)
                 locator = f"sqlite:///{locator}"
             else:
-                path = Path(locator.replace("sqlite:", "")).absolute()
+                path = Path(locator.replace("sqlite:///", "")).absolute()
                 if not path.exists():
                     raise FileNotFoundError(f"File does not exist: {path}")
                 locator = f"sqlite:///{path}"
