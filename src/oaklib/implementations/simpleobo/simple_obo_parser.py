@@ -359,7 +359,7 @@ def parse_obo_document(path: Union[str, Path]) -> OboDocument:
     tag_values: List[TagValue] = []
     obo_document: Optional[OboDocument] = None
     stanzas = []
-    with open(path) as stream:
+    with open(path, encoding="utf-8") as stream:
         for line in stream.readlines():
             line = line.rstrip()
             if line.startswith("!"):
