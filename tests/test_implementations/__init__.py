@@ -348,7 +348,6 @@ class ComplianceTester:
         :return:
         """
         with tempfile.TemporaryDirectory() as tmpdirname:
-            print("created temporary directory", tmpdirname)
             fname = Path(tmpdirname) / "tmp_obograph.json"
             oi.dump(str(fname), "json")
             oi2 = get_implementation_from_shorthand(f"obograph:{fname.as_posix()}")
