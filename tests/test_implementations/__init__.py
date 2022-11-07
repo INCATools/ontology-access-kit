@@ -7,6 +7,7 @@ import logging
 import tempfile
 import unittest
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable
 
 import kgcl_schema.grammar.parser as kgcl_parser
@@ -400,10 +401,11 @@ class ComplianceTester:
         :param oi:
         :return:
         """
-        file = tempfile.NamedTemporaryFile("w")
-        oi.dump(file.name, "json")
-        file.seek(0)
-        oi2 = get_implementation_from_shorthand(f"obograph:{file.name}")
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            fname = Path(tmpdirname) / "tmp_obograph.json"
+            oi.dump(str(fname), "json")
+            oi2 = get_implementation_from_shorthand(f"obograph:{fname.as_posix()}")
+
         self.test_labels(oi2)
         self.test_definitions(oi2)
         self.test_synonyms(oi2)
