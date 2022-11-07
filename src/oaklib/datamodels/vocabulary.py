@@ -39,6 +39,11 @@ SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
 TERM_REPLACED_BY = omd.slots.term_replaced_by.curie
+CONSIDER_REPLACEMENT = omd.slots.consider.curie
+HAS_OBSOLESCENCE_REASON = omd.slots.has_obsolescence_reason.curie
+TERMS_MERGED = "IAO:0000227"
+OBSOLETION_RELATIONSHIP_PREDICATES = [TERM_REPLACED_BY, CONSIDER_REPLACEMENT]
+
 HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
 
 IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]

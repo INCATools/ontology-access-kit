@@ -18,7 +18,10 @@ from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.vocabulary import (
+    CONSIDER_REPLACEMENT,
     EQUIVALENT_CLASS,
     IS_A,
     LOCATED_IN,
@@ -28,7 +31,7 @@ from oaklib.datamodels.vocabulary import (
     PART_OF,
     TERM_REPLACED_BY,
 )
-from oaklib.interfaces import MappingProviderInterface
+from oaklib.interfaces import MappingProviderInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
     associations_subjects,
@@ -194,6 +197,57 @@ class ComplianceTester:
         ]
         actual = list(oi.defined_bys([c[0] for c in cases]))
         test.assertCountEqual(cases, actual)
+
+    def test_obsolete_entities(self, oi: SearchInterface):
+        """
+        Tests lookup of defined_by by ID.
+
+        :param oi: this should be for obsoletion_test.{obo,owl,...}
+        :return:
+        """
+        test = self.test
+        obsoletes_excluding_merged = list(oi.obsoletes(include_merged=False))
+        obsoletes = list(oi.obsoletes())
+        test.assertCountEqual(["CL:2", "CL:3", "CL:5", "CL:6"], obsoletes_excluding_merged)
+        test.assertCountEqual(
+            ["CL:1a1", "CL:1a2", "CL:4a1", "CL:1a3", "CL:2", "CL:3", "CL:5", "CL:6"], obsoletes
+        )
+        cases = [
+            ("CL:1", [], []),
+            ("CL:1a1", ["CL:1"], []),
+            ("CL:1a2", ["CL:1"], []),
+            ("CL:1a3", ["CL:1"], []),
+            ("CL:2", ["CL:2replacement"], []),
+            ("CL:3", [], ["CL:3cons1", "CL:3cons2"]),
+            ("CL:4a1", ["CL:4"], []),
+            ("CL:5", ["CL:6"], []),
+            ("CL:6", ["CL:7"], []),
+        ]
+        for curie, replaced_by, consider in cases:
+            actual_replaced_by = [
+                r[2]
+                for r in oi.obsoletes_migration_relationships([curie])
+                if r[1] == TERM_REPLACED_BY
+            ]
+            actual_consider = [
+                r[2]
+                for r in oi.obsoletes_migration_relationships([curie])
+                if r[1] == CONSIDER_REPLACEMENT
+            ]
+            test.assertCountEqual(
+                replaced_by, actual_replaced_by, f"replaced_by did not match for {curie}"
+            )
+            test.assertCountEqual(consider, actual_consider)
+            for r in replaced_by:
+                terms = list(
+                    oi.basic_search(
+                        curie,
+                        config=SearchConfiguration(
+                            properties=SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER)
+                        ),
+                    )
+                )
+                test.assertCountEqual([r], terms, f"replaced_by did not match for {curie}")
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """

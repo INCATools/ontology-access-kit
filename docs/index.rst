@@ -12,6 +12,7 @@ Ontology Access Kit (OAK) Documentation
 
    introduction
    intro/index
+   guide/index
    architecture
    interfaces/index
    implementations/index
