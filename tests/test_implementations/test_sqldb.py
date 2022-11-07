@@ -63,6 +63,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.inst_oi = SqlImplementation(OntologyResource(INST_DB))
         self.compliance_tester = ComplianceTester(self)
 
+    def test_obsolete_entities(self):
+        obs_test = INPUT_DIR / "obsoletion_test.db"
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{obs_test}"))
+        self.compliance_tester.test_obsolete_entities(oi)
+
     def test_empty_db(self) -> None:
         """Should raise error when connecting to an empty db."""
         res = OntologyResource(slug=f"sqlite:///{str(INPUT_DIR / 'NO_SUCH_FILE')}")

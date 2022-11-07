@@ -137,6 +137,11 @@ class TestProntoImplementation(unittest.TestCase):
     def test_defined_bys(self):
         self.compliance_tester.test_defined_bys(self.oi)
 
+    def test_obsolete_entities(self):
+        resource = OntologyResource(slug="obsoletion_test.obo", directory=INPUT_DIR, local=True)
+        oi = ProntoImplementation(resource)
+        self.compliance_tester.test_obsolete_entities(oi)
+
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
 

@@ -94,7 +94,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert t.id == PART_OF
         assert t.lbl.startswith("part")
 
-    @unittest.skip("TODO")
+    # @unittest.skip("TODO")
     def test_metadata(self):
         for curie in self.oi.entities():
             m = self.oi.entity_metadata_map(curie)
@@ -169,6 +169,11 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertIn("goslim_aspergillus", subsets)
         self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
         self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
+
+    def test_obsolete_entities(self):
+        resource = OntologyResource(slug="obsoletion_test.obo", directory=INPUT_DIR, local=True)
+        oi = SimpleOboImplementation(resource)
+        self.compliance_tester.test_obsolete_entities(oi)
 
     # @unittest.skip("TODO")
     def test_save(self):
@@ -250,7 +255,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
-    @unittest.skip("TODO")
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])
         curies = list(self.oi.basic_search("enzyme activity", config=config))
@@ -259,14 +263,12 @@ class TestSimpleOboImplementation(unittest.TestCase):
         curies = list(self.oi.basic_search("enzyme activity", config=config))
         self.assertEqual(curies, [])
 
-    @unittest.skip("TODO")
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
         # logging.info(curies)
         assert CYTOPLASM in curies
 
-    @unittest.skip("TODO")
     def test_search_partial(self):
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -274,7 +276,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("TODO")
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
@@ -282,7 +283,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert NUCLEUS in curies
         self.assertGreater(len(curies), 5)
 
-    @unittest.skip("TODO")
     def test_search_regex(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.REGULAR_EXPRESSION)
         curies = list(self.oi.basic_search("^nucl", config=config))
