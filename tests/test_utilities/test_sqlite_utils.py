@@ -20,7 +20,7 @@ class TestSqliteUtils(unittest.TestCase):
         con = sqlite3.connect(str(DB))
         rows = list(con.execute(f"SELECT * FROM {TBL_NAME}"))
         self.assertEqual(len(rows), 16)
-        # Check first row which could interpreted as column names
+        # Check first row which could be interpreted as column names.
         self.assertIn(("MGI", "MGI:1918911", "0610005C13Rik"), rows)
         # last row
         self.assertIn(("MGI", "MGI:3698435", "0610009E02Rik"), rows)
