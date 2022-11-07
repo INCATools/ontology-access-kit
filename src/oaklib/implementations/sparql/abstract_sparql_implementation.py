@@ -2,7 +2,7 @@ import logging
 import typing
 from abc import ABC
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
@@ -56,7 +56,6 @@ from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
 from oaklib.utilities.rate_limiter import check_limit
 
 VAL_VAR = "v"
-LANGUAGE_TAG = str
 
 
 def _sparql_values(var_name: str, vals: List[str]):
@@ -113,8 +112,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
-    multilingual: bool = None
-    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
     _list_of_named_graphs: List[str] = None
 
     def __post_init__(self):

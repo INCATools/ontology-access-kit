@@ -560,6 +560,8 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             subset = terms[0]
             terms = terms[1:]
             chain_it(impl.subset_members(subset))
+        elif term.startswith(".is_obsolete"):
+            chain_it(impl.obsoletes())
         elif term.startswith(".filter"):
             expr = terms[0]
             terms = terms[1:]
@@ -807,22 +809,34 @@ def subsets(output: str):
 
 
 @main.command()
+@click.option(
+    "--include-merged/--no-include-merged",
+    default=True,
+    show_default=True,
+    help="Include merged terms in output",
+)
 @ontological_output_type_option
 @output_option
-def obsoletes(output_type: str, output: str):
+def obsoletes(include_merged: bool, output_type: str, output: str):
     """
-    Shows all obsolete nodes
+    Shows all obsolete entities
 
     Example:
+
         runoak -i obolibrary:go.obo obsoletes
 
-    TODO: this command should be parameterizable
+    To exclude *merged terms*, use the ``--no-include-merged`` flag
+
+    Example:
+
+        runoak -i obolibrary:go.obo obsoletes --no-include-merged
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingInfoWriter)
     writer.output = output
     if isinstance(impl, BasicOntologyInterface):
-        for term in impl.obsoletes():
+        for term in impl.obsoletes(include_merged=include_merged):
             writer.emit_curie(term, label=impl.label(term))
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1039,16 +1053,20 @@ def annotate(
     See the ontorunner framework for plugins for SciSpacy and OGER - these will
     later become plugins.
 
-    If gilda is installed as an extra, it can be used, but --matches-whole-text (-W)
-    must be specified, as gilda only performs grounding.
+    If gilda is installed as an extra, it can be used,
+    but ``--matches-whole-text`` (``-W``) must be specified,
+    as gilda only performs grounding.
 
     Example:
 
         runoak -i gilda: annotate -W BRCA2
 
-    For more on text annotation, see:
+    Programmatic usage:
 
-     - <https://incatools.github.io/ontology-access-kit/interfaces/text-annotator.html>_
+        This command is a wrapper onto the annotate_text method,
+        this is provided as part of the *TextAnnotator* interface:
+
+        https://incatools.github.io/ontology-access-kit/interfaces/text-annotator
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
@@ -1143,10 +1161,10 @@ def viz(
     output: str,
 ):
     """
-    Visualizing an ancestor graph using obographviz
+    Visualize an ancestor graph using **obographviz**
 
     For general background on what is meant by a graph in OAK,
-    see https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
+    see https://incatools.github.io/ontology-access-kit/interfaces/obograph
 
     .. note::
 
@@ -2357,9 +2375,12 @@ def logical_definitions(
 
     To show all logical definitions in an ontology, pass the ".all" query term
 
-    Example:
+    Example; first create an alias:
 
         alias pato="runoak -i obo:sqlite:pato"
+
+    Then run the query:
+
         pato logical-definitions .all
 
     By default, ".all" will query all axioms for all terms including merged terms;

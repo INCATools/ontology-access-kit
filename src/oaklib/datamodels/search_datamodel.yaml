@@ -176,6 +176,9 @@ enums:
       IDENTIFIER:
         meaning: schema:identifier
         description: The identifier or URI of the entity
+      REPLACEMENT_IDENTIFIER:
+        meaning: schema:identifier
+        description: A replacement identifier or URI for the entity
       LABEL:
         meaning: rdfs:label
         description: The preferred label / human readable name of the entity

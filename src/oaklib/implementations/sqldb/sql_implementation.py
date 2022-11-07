@@ -79,6 +79,7 @@ from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
+    HAS_OBSOLESCENCE_REASON,
     HAS_SYNONYM_TYPE,
     IN_CATEGORY_PREDS,
     IN_SUBSET,
@@ -89,6 +90,8 @@ from oaklib.datamodels.vocabulary import (
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
+    TERM_REPLACED_BY,
+    TERMS_MERGED,
     omd_slots,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
@@ -326,8 +329,16 @@ class SqlImplementation(
                 if not _is_blank(row.id):
                     yield row.id
 
-    def obsoletes(self) -> Iterable[CURIE]:
-        for row in self.session.query(DeprecatedNode):
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
+        q = self.session.query(DeprecatedNode)
+        if not include_merged:
+            subq = (
+                self.session.query(Statements.subject)
+                .filter(Statements.predicate == HAS_OBSOLESCENCE_REASON)
+                .filter(Statements.object == TERMS_MERGED)
+            )
+            q = q.filter(DeprecatedNode.id.not_in(subq))
+        for row in q:
             yield row.id
 
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
@@ -376,7 +387,8 @@ class SqlImplementation(
             return row.value
 
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
-        m = {"id": curie}
+        m = defaultdict(list)
+        m["id"] = [curie]
         # subquery = self.session.query(AnnotationPropertyNode.id)
         subquery = self.session.query(RdfTypeStatement.subject).filter(
             RdfTypeStatement.object == "owl:AnnotationProperty"
@@ -390,13 +402,8 @@ class SqlImplementation(
                 v = row.object
             else:
                 v = None
-            if row.predicate in m:
-                if not isinstance(m[row.predicate], list):
-                    m[row.predicate] = [m[row.predicate]]
-                m[row.predicate].append(v)
-            else:
-                m[row.predicate] = v
-        return m
+            m[row.predicate].append(v)
+        return dict(m)
 
     def ontologies(self) -> Iterable[CURIE]:
         for row in self.session.query(OntologyNode):
@@ -479,8 +486,8 @@ class SqlImplementation(
             preds += SYNONYM_PREDICATES
         view = Statements
 
-        def make_query(qcol):
-            q = self.session.query(view.subject).filter(view.predicate.in_(tuple(preds)))
+        def make_query(qcol, preds, scol=view.subject):
+            q = self.session.query(scol).filter(view.predicate.in_(tuple(preds)))
             if config.syntax == SearchTermSyntax(SearchTermSyntax.STARTS_WITH):
                 q = q.filter(qcol.like(f"{search_term}%"))
             elif config.syntax == SearchTermSyntax(SearchTermSyntax.SQL):
@@ -498,13 +505,17 @@ class SqlImplementation(
                 q = q.filter(qcol == search_term)
             return q
 
-        q = make_query(view.value)
+        q = make_query(view.value, preds)
         for row in q.distinct():
             yield str(row.subject)
         if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
-            q = make_query(view.subject)
+            q = make_query(view.subject, preds)
             for row in q.distinct():
                 yield str(row.subject)
+        if search_all or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties:
+            q = make_query(view.subject, [TERM_REPLACED_BY], view)
+            for row in q.distinct():
+                yield str(row.object) if row.object else str(row.value)
 
     def outgoing_relationships(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None, entailed=False

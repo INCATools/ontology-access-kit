@@ -22,6 +22,7 @@ from oaklib.datamodels.obograph import Edge, Graph, GraphDocument
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
+    CONSIDER_REPLACEMENT,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     IS_A,
@@ -32,6 +33,7 @@ from oaklib.datamodels.vocabulary import (
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
+    TERM_REPLACED_BY,
 )
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
@@ -128,6 +130,7 @@ class ProntoImplementation(
 
     wrapped_ontology: Ontology = None
     _relationship_index_cache: Dict[CURIE, List[RELATIONSHIP]] = None
+    _alt_id_to_replacement_map: Dict[CURIE, List[CURIE]] = None
 
     def __post_init__(self):
         if self.wrapped_ontology is None:
@@ -266,7 +269,7 @@ class ProntoImplementation(
                 continue
             yield t.id
 
-    def obsoletes(self) -> Iterable[CURIE]:
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
             if t.obsolete:
                 yield t.id
@@ -274,6 +277,9 @@ class ProntoImplementation(
         for t in self.wrapped_ontology.relationships():
             if t.obsolete:
                 yield t.id
+        if include_merged:
+            for a in self._get_alt_id_to_replacement_map().keys():
+                yield a
 
     def subsets(self) -> Iterable[CURIE]:
         reported = set()
@@ -447,13 +453,32 @@ class ProntoImplementation(
     def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
         t = self._entity(curie)
         m = defaultdict(list)
+        _alt_id_map = self._get_alt_id_to_replacement_map()
         if t:
             for ann in t.annotations:
                 if isinstance(ann, LiteralPropertyValue):
                     m[ann.property].append(ann.literal)
                 elif isinstance(ann, ResourcePropertyValue):
                     m[ann.property].append(ann.resource)
-        return m
+            if t.replaced_by:
+                for x in t.replaced_by:
+                    m[TERM_REPLACED_BY].append(x.id)
+            if t.consider:
+                for x in t.consider:
+                    m[CONSIDER_REPLACEMENT].append(x.id)
+        if curie in _alt_id_map:
+            m[TERM_REPLACED_BY] += _alt_id_map[curie]
+        return dict(m)
+
+    def _get_alt_id_to_replacement_map(self) -> Dict[CURIE, List[CURIE]]:
+        if self._alt_id_to_replacement_map is None:
+            self._alt_id_to_replacement_map = defaultdict(list)
+            for e in self.entities():
+                t = self._entity(e)
+                if t and t.alternate_ids:
+                    for a in t.alternate_ids:
+                        self._alt_id_to_replacement_map[a].append(e)
+        return self._alt_id_to_replacement_map
 
     def create_subontology(self, curies: List[CURIE]) -> "ProntoImplementation":
         subontology = Ontology()
@@ -625,12 +650,31 @@ class ProntoImplementation(
                     matches.append(t.id)
                     logging.info(f"identifier match to {t.id}")
                     continue
+            if (
+                search_all
+                or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties
+            ):
+                if t.replaced_by:
+                    for r in t.replaced_by:
+                        if mfunc(t.id):
+                            matches.append(r.id)
+                            logging.info(f"replaced_by match to {t.id}")
+                            continue
+                if t.alternate_ids:
+                    for a in t.alternate_ids:
+                        if mfunc(a):
+                            matches.append(t.id)
+                            logging.info(f"alternate_id match to {t.id}")
+                            continue
             if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in t.synonyms:
                     if mfunc(syn.description):
                         logging.info(f"Syn match to {t.id}")
                         matches.append(t.id)
                         continue
+        # if search_all or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties:
+        #    if search_term in self._get_alt_id_to_replacement_map():
+        #        matches.append(self._get_alt_id_to_replacement_map()[search_term])
         for m in matches:
             yield m
 

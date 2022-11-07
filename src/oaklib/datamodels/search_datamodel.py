@@ -1,31 +1,49 @@
 # Auto generated from search_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-07T21:49:17
+# Generation date: 2022-11-04T17:46:53
 # Schema: search-datamodel
 #
 # id: https://w3id.org/linkml/search_datamodel
 # description: A datamodel for representing a search configuration and results. This is intended to provide a
-#              unified layer over both (a) how searches are *parameterized* (b) the structure of search *results*.
-#              The scope is any kind of service that provides search over *named entities*, including ontology
-#              concepts. It is not intended to cover generic search results, e.g. google search, although parts
-#              could be generalized for this purpose.
+#              unified layer over both: - (a) how searches are *parameterized* - (b) the structure of search
+#              *results*. The scope is any kind of service that provides search over *named entities*, including
+#              ontology concepts. It is not intended to cover generic search results, e.g. google search, although
+#              parts could be generalized for this purpose.
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
-from linkml_runtime.linkml_model.types import String
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_list
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = None
@@ -82,15 +100,11 @@ class SearchBaseConfiguration(YAMLRoot):
     ] = empty_list()
     limit: Optional[int] = None
     cursor: Optional[int] = None
-    is_regular_expression: Optional[Union[bool, Bool]] = None
     is_partial: Optional[Union[bool, Bool]] = None
     is_complete: Optional[Union[bool, Bool]] = None
-    include_id: Optional[Union[bool, Bool]] = None
-    include_label: Optional[Union[bool, Bool]] = None
-    include_aliases: Optional[Union[bool, Bool]] = None
-    include_definition: Optional[Union[bool, Bool]] = None
     include_obsoletes_in_results: Optional[Union[bool, Bool]] = None
-    categories: Optional[Union[str, List[str]]] = empty_list()
+    is_fuzzy: Optional[Union[bool, Bool]] = None
+    categories: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.search_terms, list):
@@ -114,90 +128,100 @@ class SearchBaseConfiguration(YAMLRoot):
         if self.cursor is not None and not isinstance(self.cursor, int):
             self.cursor = int(self.cursor)
 
-        if self.is_regular_expression is not None and not isinstance(
-            self.is_regular_expression, Bool
-        ):
-            self.is_regular_expression = Bool(self.is_regular_expression)
-
         if self.is_partial is not None and not isinstance(self.is_partial, Bool):
             self.is_partial = Bool(self.is_partial)
 
         if self.is_complete is not None and not isinstance(self.is_complete, Bool):
             self.is_complete = Bool(self.is_complete)
 
-        if self.include_id is not None and not isinstance(self.include_id, Bool):
-            self.include_id = Bool(self.include_id)
-
-        if self.include_label is not None and not isinstance(self.include_label, Bool):
-            self.include_label = Bool(self.include_label)
-
-        if self.include_aliases is not None and not isinstance(self.include_aliases, Bool):
-            self.include_aliases = Bool(self.include_aliases)
-
-        if self.include_definition is not None and not isinstance(self.include_definition, Bool):
-            self.include_definition = Bool(self.include_definition)
-
         if self.include_obsoletes_in_results is not None and not isinstance(
             self.include_obsoletes_in_results, Bool
         ):
             self.include_obsoletes_in_results = Bool(self.include_obsoletes_in_results)
 
+        if self.is_fuzzy is not None and not isinstance(self.is_fuzzy, Bool):
+            self.is_fuzzy = Bool(self.is_fuzzy)
+
         if not isinstance(self.categories, list):
             self.categories = [self.categories] if self.categories is not None else []
-        self.categories = [v if isinstance(v, str) else str(v) for v in self.categories]
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class BooleanQuery(YAMLRoot):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = SEARCH.BooleanQuery
-    class_class_curie: ClassVar[str] = "search:BooleanQuery"
-    class_name: ClassVar[str] = "BooleanQuery"
-    class_model_uri: ClassVar[URIRef] = SEARCH.BooleanQuery
-
-    operator: Optional[Union[str, "BooleanOperator"]] = None
-    operands: Optional[
-        Union[Union[dict, "BooleanQuery"], List[Union[dict, "BooleanQuery"]]]
-    ] = empty_list()
-    atom: Optional[Union[dict, "AtomicQuery"]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.operator is not None and not isinstance(self.operator, BooleanOperator):
-            self.operator = BooleanOperator(self.operator)
-
-        if not isinstance(self.operands, list):
-            self.operands = [self.operands] if self.operands is not None else []
-        self.operands = [
-            v if isinstance(v, BooleanQuery) else BooleanQuery(**as_dict(v)) for v in self.operands
+        self.categories = [
+            v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.categories
         ]
 
-        if self.atom is not None and not isinstance(self.atom, AtomicQuery):
-            self.atom = AtomicQuery(**as_dict(self.atom))
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class ComplexQuery(YAMLRoot):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = SEARCH.ComplexQuery
+    class_class_curie: ClassVar[str] = "search:ComplexQuery"
+    class_name: ClassVar[str] = "ComplexQuery"
+    class_model_uri: ClassVar[URIRef] = SEARCH.ComplexQuery
+
+    all_of: Optional[
+        Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
+    ] = empty_list()
+    any_of: Optional[
+        Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
+    ] = empty_list()
+    none_of: Optional[
+        Union[Union[dict, "ComplexQuery"], List[Union[dict, "ComplexQuery"]]]
+    ] = empty_list()
+    path_to: Optional[str] = None
+    atom: Optional[Union[dict, SearchBaseConfiguration]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if not isinstance(self.all_of, list):
+            self.all_of = [self.all_of] if self.all_of is not None else []
+        self.all_of = [
+            v if isinstance(v, ComplexQuery) else ComplexQuery(**as_dict(v)) for v in self.all_of
+        ]
+
+        if not isinstance(self.any_of, list):
+            self.any_of = [self.any_of] if self.any_of is not None else []
+        self.any_of = [
+            v if isinstance(v, ComplexQuery) else ComplexQuery(**as_dict(v)) for v in self.any_of
+        ]
+
+        if not isinstance(self.none_of, list):
+            self.none_of = [self.none_of] if self.none_of is not None else []
+        self.none_of = [
+            v if isinstance(v, ComplexQuery) else ComplexQuery(**as_dict(v)) for v in self.none_of
+        ]
+
+        if self.path_to is not None and not isinstance(self.path_to, str):
+            self.path_to = str(self.path_to)
+
+        if self.atom is not None and not isinstance(self.atom, SearchBaseConfiguration):
+            self.atom = SearchBaseConfiguration(**as_dict(self.atom))
 
         super().__post_init__(**kwargs)
 
 
 @dataclass
-class AtomicQuery(YAMLRoot):
+class PathExpression(YAMLRoot):
+    """
+    A path query
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = SEARCH.AtomicQuery
-    class_class_curie: ClassVar[str] = "search:AtomicQuery"
-    class_name: ClassVar[str] = "AtomicQuery"
-    class_model_uri: ClassVar[URIRef] = SEARCH.AtomicQuery
+    class_class_uri: ClassVar[URIRef] = SEARCH.PathExpression
+    class_class_curie: ClassVar[str] = "search:PathExpression"
+    class_name: ClassVar[str] = "PathExpression"
+    class_model_uri: ClassVar[URIRef] = SEARCH.PathExpression
 
-    graph_function: Optional[Union[str, "GraphFunction"]] = None
+    traversal: Optional[Union[str, "GraphFunction"]] = None
     graph_predicates: Optional[
         Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]
     ] = empty_list()
     search_term: Optional[Union[dict, SearchBaseConfiguration]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.graph_function is not None and not isinstance(self.graph_function, GraphFunction):
-            self.graph_function = GraphFunction(self.graph_function)
+        if self.traversal is not None and not isinstance(self.traversal, GraphFunction):
+            self.traversal = GraphFunction(self.traversal)
 
         if not isinstance(self.graph_predicates, list):
             self.graph_predicates = (
@@ -341,6 +365,11 @@ class SearchProperty(EnumDefinitionImpl):
         description="The identifier or URI of the entity",
         meaning=SCHEMA.identifier,
     )
+    REPLACEMENT_IDENTIFIER = PermissibleValue(
+        text="REPLACEMENT_IDENTIFIER",
+        description="A replacement identifier or URI for the entity",
+        meaning=SCHEMA.identifier,
+    )
     LABEL = PermissibleValue(
         text="LABEL",
         description="The preferred label / human readable name of the entity",
@@ -357,8 +386,7 @@ class SearchProperty(EnumDefinitionImpl):
     )
     INFORMATIVE_TEXT = PermissibleValue(
         text="INFORMATIVE_TEXT",
-        description="Any informative text attached to the entity \
-            including comments, definitions, descriptions, examples",
+        description="Any informative text attached to the entity including comments, definitions, descriptions, examples",
     )
     ANYTHING = PermissibleValue(text="ANYTHING", meaning=RDF.Property)
 
@@ -444,15 +472,6 @@ slots.searchBaseConfiguration__cursor = Slot(
     range=Optional[int],
 )
 
-slots.searchBaseConfiguration__is_regular_expression = Slot(
-    uri=SEARCH.is_regular_expression,
-    name="searchBaseConfiguration__is_regular_expression",
-    curie=SEARCH.curie("is_regular_expression"),
-    model_uri=SEARCH.searchBaseConfiguration__is_regular_expression,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
-
 slots.searchBaseConfiguration__is_partial = Slot(
     uri=SEARCH.is_partial,
     name="searchBaseConfiguration__is_partial",
@@ -471,47 +490,20 @@ slots.searchBaseConfiguration__is_complete = Slot(
     range=Optional[Union[bool, Bool]],
 )
 
-slots.searchBaseConfiguration__include_id = Slot(
-    uri=SEARCH.include_id,
-    name="searchBaseConfiguration__include_id",
-    curie=SEARCH.curie("include_id"),
-    model_uri=SEARCH.searchBaseConfiguration__include_id,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
-
-slots.searchBaseConfiguration__include_label = Slot(
-    uri=SEARCH.include_label,
-    name="searchBaseConfiguration__include_label",
-    curie=SEARCH.curie("include_label"),
-    model_uri=SEARCH.searchBaseConfiguration__include_label,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
-
-slots.searchBaseConfiguration__include_aliases = Slot(
-    uri=SEARCH.include_aliases,
-    name="searchBaseConfiguration__include_aliases",
-    curie=SEARCH.curie("include_aliases"),
-    model_uri=SEARCH.searchBaseConfiguration__include_aliases,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
-
-slots.searchBaseConfiguration__include_definition = Slot(
-    uri=SEARCH.include_definition,
-    name="searchBaseConfiguration__include_definition",
-    curie=SEARCH.curie("include_definition"),
-    model_uri=SEARCH.searchBaseConfiguration__include_definition,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
-
 slots.searchBaseConfiguration__include_obsoletes_in_results = Slot(
     uri=SEARCH.include_obsoletes_in_results,
     name="searchBaseConfiguration__include_obsoletes_in_results",
     curie=SEARCH.curie("include_obsoletes_in_results"),
     model_uri=SEARCH.searchBaseConfiguration__include_obsoletes_in_results,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.searchBaseConfiguration__is_fuzzy = Slot(
+    uri=SEARCH.is_fuzzy,
+    name="searchBaseConfiguration__is_fuzzy",
+    curie=SEARCH.curie("is_fuzzy"),
+    model_uri=SEARCH.searchBaseConfiguration__is_fuzzy,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
@@ -522,59 +514,77 @@ slots.searchBaseConfiguration__categories = Slot(
     curie=SEARCH.curie("categories"),
     model_uri=SEARCH.searchBaseConfiguration__categories,
     domain=None,
-    range=Optional[Union[str, List[str]]],
+    range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
-slots.booleanQuery__operator = Slot(
-    uri=SEARCH.operator,
-    name="booleanQuery__operator",
-    curie=SEARCH.curie("operator"),
-    model_uri=SEARCH.booleanQuery__operator,
+slots.complexQuery__all_of = Slot(
+    uri=SEARCH.all_of,
+    name="complexQuery__all_of",
+    curie=SEARCH.curie("all_of"),
+    model_uri=SEARCH.complexQuery__all_of,
     domain=None,
-    range=Optional[Union[str, "BooleanOperator"]],
+    range=Optional[Union[Union[dict, ComplexQuery], List[Union[dict, ComplexQuery]]]],
 )
 
-slots.booleanQuery__operands = Slot(
-    uri=SEARCH.operands,
-    name="booleanQuery__operands",
-    curie=SEARCH.curie("operands"),
-    model_uri=SEARCH.booleanQuery__operands,
+slots.complexQuery__any_of = Slot(
+    uri=SEARCH.any_of,
+    name="complexQuery__any_of",
+    curie=SEARCH.curie("any_of"),
+    model_uri=SEARCH.complexQuery__any_of,
     domain=None,
-    range=Optional[Union[Union[dict, BooleanQuery], List[Union[dict, BooleanQuery]]]],
+    range=Optional[Union[Union[dict, ComplexQuery], List[Union[dict, ComplexQuery]]]],
 )
 
-slots.booleanQuery__atom = Slot(
+slots.complexQuery__none_of = Slot(
+    uri=SEARCH.none_of,
+    name="complexQuery__none_of",
+    curie=SEARCH.curie("none_of"),
+    model_uri=SEARCH.complexQuery__none_of,
+    domain=None,
+    range=Optional[Union[Union[dict, ComplexQuery], List[Union[dict, ComplexQuery]]]],
+)
+
+slots.complexQuery__path_to = Slot(
+    uri=SEARCH.path_to,
+    name="complexQuery__path_to",
+    curie=SEARCH.curie("path_to"),
+    model_uri=SEARCH.complexQuery__path_to,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.complexQuery__atom = Slot(
     uri=SEARCH.atom,
-    name="booleanQuery__atom",
+    name="complexQuery__atom",
     curie=SEARCH.curie("atom"),
-    model_uri=SEARCH.booleanQuery__atom,
+    model_uri=SEARCH.complexQuery__atom,
     domain=None,
-    range=Optional[Union[dict, AtomicQuery]],
+    range=Optional[Union[dict, SearchBaseConfiguration]],
 )
 
-slots.atomicQuery__graph_function = Slot(
-    uri=SEARCH.graph_function,
-    name="atomicQuery__graph_function",
-    curie=SEARCH.curie("graph_function"),
-    model_uri=SEARCH.atomicQuery__graph_function,
+slots.pathExpression__traversal = Slot(
+    uri=SEARCH.traversal,
+    name="pathExpression__traversal",
+    curie=SEARCH.curie("traversal"),
+    model_uri=SEARCH.pathExpression__traversal,
     domain=None,
     range=Optional[Union[str, "GraphFunction"]],
 )
 
-slots.atomicQuery__graph_predicates = Slot(
+slots.pathExpression__graph_predicates = Slot(
     uri=SEARCH.graph_predicates,
-    name="atomicQuery__graph_predicates",
+    name="pathExpression__graph_predicates",
     curie=SEARCH.curie("graph_predicates"),
-    model_uri=SEARCH.atomicQuery__graph_predicates,
+    model_uri=SEARCH.pathExpression__graph_predicates,
     domain=None,
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
 )
 
-slots.atomicQuery__search_term = Slot(
+slots.pathExpression__search_term = Slot(
     uri=SEARCH.search_term,
-    name="atomicQuery__search_term",
+    name="pathExpression__search_term",
     curie=SEARCH.curie("search_term"),
-    model_uri=SEARCH.atomicQuery__search_term,
+    model_uri=SEARCH.pathExpression__search_term,
     domain=None,
     range=Optional[Union[dict, SearchBaseConfiguration]],
 )
