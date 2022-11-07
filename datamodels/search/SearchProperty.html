@@ -41,6 +41,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
@@ -97,27 +98,31 @@
 <td><p>schema:identifier</p></td>
 <td><p>The identifier or URI of the entity</p></td>
 </tr>
-<tr class="row-odd"><td><p>LABEL</p></td>
+<tr class="row-odd"><td><p>REPLACEMENT_IDENTIFIER</p></td>
+<td><p>schema:identifier</p></td>
+<td><p>A replacement identifier or URI for the entity</p></td>
+</tr>
+<tr class="row-even"><td><p>LABEL</p></td>
 <td><p>rdfs:label</p></td>
 <td><p>The preferred label / human readable name of the entity</p></td>
 </tr>
-<tr class="row-even"><td><p>ALIAS</p></td>
+<tr class="row-odd"><td><p>ALIAS</p></td>
 <td><p>skos:altLabel</p></td>
 <td><p>An alias or synonym of the entity</p></td>
 </tr>
-<tr class="row-odd"><td><p>COMMENT</p></td>
+<tr class="row-even"><td><p>COMMENT</p></td>
 <td><p>rdfs:comment</p></td>
 <td><p>A comment on the entity</p></td>
 </tr>
-<tr class="row-even"><td><p>DEFINITION</p></td>
+<tr class="row-odd"><td><p>DEFINITION</p></td>
 <td><p>skos:definition</p></td>
 <td><p>The definition of the entity</p></td>
 </tr>
-<tr class="row-odd"><td><p>INFORMATIVE_TEXT</p></td>
+<tr class="row-even"><td><p>INFORMATIVE_TEXT</p></td>
 <td><p>None</p></td>
 <td><p>Any informative text attached to the entity including comments, definitions, …</p></td>
 </tr>
-<tr class="row-even"><td><p>ANYTHING</p></td>
+<tr class="row-odd"><td><p>ANYTHING</p></td>
 <td><p>rdf:Property</p></td>
 <td><p></p></td>
 </tr>
@@ -145,6 +150,10 @@ permissible_values:
   IDENTIFIER:
     text: IDENTIFIER
     description: The identifier or URI of the entity
+    meaning: schema:identifier
+  REPLACEMENT_IDENTIFIER:
+    text: REPLACEMENT_IDENTIFIER
+    description: A replacement identifier or URI for the entity
     meaning: schema:identifier
   LABEL:
     text: LABEL

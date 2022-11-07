@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Primary Labels &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Aliases and Synonyms" href="aliases.html" />
+    <link rel="prev" title="Identifying entities: CURIEs and URIs" href="curies-and-uris.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The OAK Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Primary Labels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looking-up-labels">Looking up labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-label-annotation-properties">Custom label annotation properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multilingual-ontologies">Multilingual ontologies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-edge-cases">Other edge cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further reading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">The OAK Guide</a> &raquo;</li>
+      <li>Primary Labels</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/primary-labels.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="primary-labels">
+<span id="id1"></span><h1>Primary Labels<a class="headerlink" href="#primary-labels" title="Permalink to this headline"></a></h1>
+<section id="looking-up-labels">
+<h2>Looking up labels<a class="headerlink" href="#looking-up-labels" title="Permalink to this headline"></a></h2>
+<p>The <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a> provides a way to look up the primary label for an
+entity or set of entities. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_implementation_from_selector</span><span class="p">(</span><span class="s1">&#39;ubergraph:&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span> <span class="o">=</span> <span class="s2">&quot;UBERON:0000948&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ont</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+<span class="go">heart</span>
+</pre></div>
+</div>
+<p>Note the assumption here is that there is at most a single primary label for an entity,
+but this assumption turns out to not universally hold.</p>
+<p>First, not all entities will have a primary label. It’s common practice for
+many semantic web ontologies to use semantic identifiers, and omit a label.</p>
+<p>In these cases, if no label is found, OAK simply returns <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</section>
+<section id="custom-label-annotation-properties">
+<h2>Custom label annotation properties<a class="headerlink" href="#custom-label-annotation-properties" title="Permalink to this headline"></a></h2>
+<p>By default, OAK will use the <code class="docutils literal notranslate"><span class="pre">rdfs:label</span></code> property to find the primary label.
+While this should work with an OBO ontology, it is not guaranteed to work with
+other ontologies. Some ontologies may use a different property like:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">skos:prefLabel</span></code> (this is common for skos vocabularies)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foaf:name</span></code></p></li>
+</ul>
+<p>Some adapters will allow you to use custom mappings from rdfs:label to these
+other properties. Here you can either specify a specific <em>profiles</em>, or
+provide a set of mappings in SSSOM form.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># use the standard sparql adapter over local files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;soil-profile.skos.nt&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># add a custom prefix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soil_oi</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="s2">&quot;soilprofile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;http://anzsoil.org/def/au/asls/soil-profile/&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a mapper for mapping OMO to a custom vocab</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">soil_oi</span><span class="o">.</span><span class="n">ontology_metamodel_mapper</span> <span class="o">=</span> <span class="n">OntologyMetadataMapper</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="p">[],</span> <span class="n">curie_converter</span><span class="o">=</span><span class="n">soil_oi</span><span class="o">.</span><span class="n">converter</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="multilingual-ontologies">
+<h2>Multilingual ontologies<a class="headerlink" href="#multilingual-ontologies" title="Permalink to this headline"></a></h2>
+<p>Many ontologies assume English as a default, and only provide a single
+primary label (whether this is via rdfs:label, or via another property).</p>
+<p>Others may provide multiple primary labels, with a maximum of one per language.</p>
+<p>OAK still makes the maximum one primary label assumption, but you can
+set the language as a property of the adapter. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">oi</span><span class="o">.</span><span class="n">preferred_language</span> <span class="o">=</span> <span class="s2">&quot;fr&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="other-edge-cases">
+<h2>Other edge cases<a class="headerlink" href="#other-edge-cases" title="Permalink to this headline"></a></h2>
+<p>Even for OBO ontologies, there are some edge cases, such as cases
+where we may find multiple labels for a single entity. This can
+happen when two or more ontologies are merged, and these ontologies
+contain the same entity, but with different labels.</p>
+<p>Even when an ontology is not intended to be multilingual, there is no standard way
+to type a label literal; some are typed as xsd:string, and some using a <code class="docutils literal notranslate"><span class="pre">en</span></code> language tag.
+This is important because queries for one may not work for another.</p>
+</section>
+<section id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://obofoundry.org/principles/fp-012-naming-conventions.html">OBO Foundry: Naming Conventions</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="curies-and-uris.html" class="btn btn-neutral float-left" title="Identifying entities: CURIEs and URIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aliases.html" class="btn btn-neutral float-right" title="Aliases and Synonyms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

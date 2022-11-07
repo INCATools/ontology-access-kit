@@ -11,6 +11,7 @@ URI: [SearchProperty](SearchProperty)
 | Value | Meaning | Description |
 | --- | --- | --- |
 | IDENTIFIER | schema:identifier | The identifier or URI of the entity |
+| REPLACEMENT_IDENTIFIER | schema:identifier | A replacement identifier or URI for the entity |
 | LABEL | rdfs:label | The preferred label / human readable name of the entity |
 | ALIAS | skos:altLabel | An alias or synonym of the entity |
 | COMMENT | rdfs:comment | A comment on the entity |
@@ -48,6 +49,10 @@ permissible_values:
   IDENTIFIER:
     text: IDENTIFIER
     description: The identifier or URI of the entity
+    meaning: schema:identifier
+  REPLACEMENT_IDENTIFIER:
+    text: REPLACEMENT_IDENTIFIER
+    description: A replacement identifier or URI for the entity
     meaning: schema:identifier
   LABEL:
     text: LABEL

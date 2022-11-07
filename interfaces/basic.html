@@ -43,10 +43,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/index.html">The OAK Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Ontology Interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#about">About</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -101,14 +101,11 @@
              
   <section id="basic-ontology-interface">
 <span id="id1"></span><h1>Basic Ontology Interface<a class="headerlink" href="#basic-ontology-interface" title="Permalink to this headline"></a></h1>
-<section id="about">
-<h2>About<a class="headerlink" href="#about" title="Permalink to this headline"></a></h2>
-</section>
 <section id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.basic_ontology_interface.</span></span><span class="sig-name descname"><span class="pre">BasicOntologyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">typing.Optional[oaklib.resource.OntologyResource]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">typing.Optional[oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">typing.Optional[curies.api.Converter]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oaklib.interfaces.basic_ontology_interface.</span></span><span class="sig-name descname"><span class="pre">BasicOntologyInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource:</span> <span class="pre">typing.Optional[oaklib.resource.OntologyResource]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multilingual:</span> <span class="pre">typing.Optional[bool]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preferred_language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autosave:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_owl_top_and_bottom:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ontology_metamodel_mapper:</span> <span class="pre">typing.Optional[oaklib.mappers.ontology_metadata_mapper.OntologyMetadataMapper]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_converter:</span> <span class="pre">typing.Optional[curies.api.Converter]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface" title="Permalink to this definition"></a></dt>
 <dd><p>Basic lookup operations on ontologies</p>
 <p>No Object Model is used - input and payloads are simple scalars, dicts, and lists</p>
 <p>This presents an intentionally highly simplistic, lossy view of an ontology. It
@@ -667,10 +664,72 @@ optionally constraining to a given set of entity CURIE prefixes.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual">
+<span class="sig-name descname"><span class="pre">multilingual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual" title="Permalink to this definition"></a></dt>
+<dd><p>True if the ontology is multilingual, and may provide alterntive primary labels</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">
-<span class="sig-name descname"><span class="pre">obsoletes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.obsoletes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes" title="Permalink to this definition"></a></dt>
-<dd><p>Yields all known CURIEs that are obsolete.</p>
+<span class="sig-name descname"><span class="pre">obsoletes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_merged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.obsoletes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes" title="Permalink to this definition"></a></dt>
+<dd><p>Yields all known entities that are obsolete.</p>
+<p>In OWL, obsolete entities (aka deprecated entities) are those
+that have an <code class="docutils literal notranslate"><span class="pre">owl:deprecated</span></code> annotation with value “True”</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">ontology</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, <em>merged terms</em> are included. Merged terms are entities
+that are:</p>
+<ul class="simple">
+<li><ol class="loweralpha simple">
+<li><p>obsolete</p></li>
+</ol>
+</li>
+<li><ol class="loweralpha simple" start="2">
+<li><p>have a replacement term</p></li>
+</ol>
+</li>
+<li><ol class="loweralpha simple" start="3">
+<li><p>have an “obsolescence reason” that is “merged term”</p></li>
+</ol>
+</li>
+</ul>
+<p>In OBO Format, merged terms do not get their own stanza, but
+instead show up as <code class="docutils literal notranslate"><span class="pre">alt_id</span></code> tags on the replacement term.</p>
+<p>To exclude merged terms, set <code class="docutils literal notranslate"><span class="pre">include_merged=False</span></code>:</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">ontology</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">(</span><span class="n">include_merged</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>include_merged</strong> – If True, merged terms will be included</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>iterator over CURIEs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships">
+<span class="sig-name descname"><span class="pre">obsoletes_migration_relationships</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.obsoletes_migration_relationships"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships" title="Permalink to this definition"></a></dt>
+<dd><p>Yields relationships between an obsolete entity and potential replacements.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">ontology</span><span class="o">.</span><span class="n">obsoletes_migration_relationships</span><span class="p">(</span><span class="n">ontology</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">()):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Obsoletion relationship predicates may be:</p>
+<ul class="simple">
+<li><p>IAO:0100001 (term replaced by)</p></li>
+<li><p>oboInOwl:consider</p></li>
+<li><p>rdfs:seeAlso</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>iterator</p>
@@ -785,6 +844,12 @@ are the ‘parents’ or fillers</p>
 <dd class="field-even"><p>iterator</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">
+<span class="sig-name descname"><span class="pre">preferred_language</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language" title="Permalink to this definition"></a></dt>
+<dd><p>The preferred language for labels and other lexical entities</p>
 </dd></dl>
 
 <dl class="py method">

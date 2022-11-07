@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Layering on RDF/OWL &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Layering on RDF/OWL</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rdf-owl-layering.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="layering-on-rdf-owl">
+<span id="rdf-owl-layering"></span><h1>Layering on RDF/OWL<a class="headerlink" href="#layering-on-rdf-owl" title="Permalink to this headline"></a></h1>
+<p>RDF and OWL are semantic web languages for representing information and ontologies.</p>
+<p>You don’t need to know much about RDF or OWL to use OAK, but it can help to understand
+how OAK is layered on top of these languages.</p>
+<ul>
+<li><p>RDF is fundamentally about <a class="reference internal" href="glossary.html#term-Triple"><span class="xref std std-term">Triples</span></a></p></li>
+<li><p>OWL is fundamentally about <span class="xref std std-term">Axioms</span></p></li>
+<li><p>OAK provides a number of other higher level constructs for thinking about ontologies</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="xref std std-term">Entity</span></p></li>
+<li><p><span class="xref std std-term">Alias</span></p></li>
+<li><p><a class="reference internal" href="glossary.html#term-Relationship"><span class="xref std std-term">Relationship</span></a></p></li>
+<li><p><a class="reference internal" href="glossary.html#term-Mapping"><span class="xref std std-term">Mapping</span></a></p></li>
+<li><p><span class="xref std std-term">Definition</span></p></li>
+<li><p><span class="xref std std-term">Metadata</span></p></li>
+<li><p>“other” logical constructs</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<section id="curies-uris-and-prefixmaps">
+<h2>CURIEs, URIs, and prefixmaps<a class="headerlink" href="#curies-uris-and-prefixmaps" title="Permalink to this headline"></a></h2>
+</section>
+<section id="relationships-between-entities">
+<h2>Relationships between entities<a class="headerlink" href="#relationships-between-entities" title="Permalink to this headline"></a></h2>
+</section>
+<section id="metadata-about-entities">
+<h2>Metadata about entities<a class="headerlink" href="#metadata-about-entities" title="Permalink to this headline"></a></h2>
+<section id="challenges">
+<h3>Challenges<a class="headerlink" href="#challenges" title="Permalink to this headline"></a></h3>
+<p>All ontologies within OBO use rdfs:label to provide a human readable label for an entity.
+However, this doesn’t necessarily hold for non-OBO ontologies or vocabularies.</p>
+<ul class="simple">
+<li><p>Some will use skos:prefLabel (and may include multiple rdfs:labels for synonyms)</p></li>
+<li><p>Some will use foaf:name</p></li>
+</ul>
+<p>Even when rdfs:label, is used, the practice may be different.</p>
+<p>For some vocabularies, including a human readable label annotation is optional, and the URI is
+intended as both the identifier and the label.</p>
+<p>Some ontologies may use multiple rdfs:labels, combined with language tags, with the
+intention of providing a maximum of a label for a set of languages. But there is
+still no guarantee for ontologies “in the wild” that there will be a maximum of one
+label per language.</p>
+<p>Even when an ontology is not intended to be multilingual, there is no standard way
+to type a label literal; some are typed as xsd:string, and some using a <code class="docutils literal notranslate"><span class="pre">en</span></code> language tag.
+This is important because queries for one may not work for another.</p>
+<p>Once we get beyond primary human readable labels (which you might have thought
+would be a solved problem!) things get even less standardized.</p>
+<ul class="simple">
+<li><p>SKOS</p></li>
+<li><p>SSSOM aims to standardize mappings</p></li>
+<li><p>OBO Format via OboInOwl</p></li>
+<li><p>OMO</p></li>
+</ul>
+</section>
+<section id="omo">
+<h3>OMO<a class="headerlink" href="#omo" title="Permalink to this headline"></a></h3>
+</section>
+<section id="ontology-portals">
+<h3>Ontology portals<a class="headerlink" href="#ontology-portals" title="Permalink to this headline"></a></h3>
+</section>
+<section id="oak-approach">
+<h3>OAK Approach<a class="headerlink" href="#oak-approach" title="Permalink to this headline"></a></h3>
+<p>OAK aims to be as pluralistic as possible, whilst retaining a point of view.</p>
+<p>OAK will try and present ontologies through as uniform an interface as possible:</p>
+<ul class="simple">
+<li><p>a single optional but recommended label for each entity (for any given language localization)</p></li>
+<li><p>a single optional textual definition for each entity (for any given language localization)</p></li>
+<li><p>any number of aliases/synonyms, optionally parameterized by predicate, with optional additional metadata</p></li>
+<li><p>…</p></li>
+</ul>
+<p>For anything that doesn’t fit into the above, OAK provides generic mechanisms for access.
+But the goal is to make the commonly used constructs easy and intuitive to access.</p>
+</section>
+<section id="labels">
+<h3>Labels<a class="headerlink" href="#labels" title="Permalink to this headline"></a></h3>
+</section>
+<section id="obsoletion-and-obsoletion-metadata">
+<h3>Obsoletion and obsoletion metadata<a class="headerlink" href="#obsoletion-and-obsoletion-metadata" title="Permalink to this headline"></a></h3>
+<p>In OAK, the terms “obsoletion” and “deprecation” are used interchangeably.</p>
+<p>The way in which is to specify an entity is obsolete is fairly standard, using an <code class="docutils literal notranslate"><span class="pre">owl:deprecated</span></code> annotation. For example:</p>
+<p>In turtle:</p>
+<div class="highlight-turtle notranslate"><div class="highlight"><pre><span></span><span class="nn">MYO</span><span class="p">:</span><span class="nt">123456</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">deprecated</span> <span class="l">true</span> <span class="p">.</span>
+</pre></div>
+</div>
+<p>In OBO Format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYO:123456</span><span class="w"></span>
+<span class="nt">is_obsolete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+</pre></div>
+</div>
+<p>You can query for all obsolete entities in an ontology using the <a href="#id1"><span class="problematic" id="id2">`obsoletes&lt;https://incatools.github.io/ontology-access-kit/cli.html#runoak-obsoletes&gt;`_</span></a> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ runoak -i myontology.db obsoletes
+</pre></div>
+</div>
+<p>In python, this is provided in the <span class="xref std std-ref">BasicOntologyInterface</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ont</span> <span class="o">=</span> <span class="n">get_implentation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;myontology.db&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">ont</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For ontologies that are part of OBO, additional conventions apply. These conventions
+are not yet fully standardized within OMO:</p>
+<ul>
+<li><p>obsolete entities should not be in the signature of any logical axiom</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>note that some older ontologies include obsolete classes as a subclass of an ObsoleteClass node</p></li>
+<li><p>this is not treated in any special way in OAK</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>obsolete entities should be accompanied by metadata that provides additional context for humans and machines</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a <a href="#id3"><span class="problematic" id="id4">`term replaced by&lt;http://purl.obolibrary.org/obo/IAO_0100001&gt;`_</span></a> annotation indicates where an automatic replacement can be made</p></li>
+<li><p>a <a href="#id5"><span class="problematic" id="id6">`consider&lt;http://www.geneontology.org/formats/oboInOwl#&gt;`_</span></a> annotation indicates potential replacements that should be manually evaluated</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>In OAK, this can be retrieved like any other metadata using the entity_metadata methods from <span class="xref std std-ref">BasicOntologyInterface</span>.</p>
+<p>On the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:go entity_metadata GO:0000005
+</pre></div>
+</div>
+<p>Or for all obsolete entities:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:go entity_metadata .is_obsolete
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

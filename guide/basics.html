@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAK Basics &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Identifying entities: CURIEs and URIs" href="curies-and-uris.html" />
+    <link rel="prev" title="The OAK Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The OAK Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">OAK Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-an-ontology-and-why-would-i-want-to-access-one">What is an ontology and why would I want to access one?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ontology-languages-standards-and-formats">Ontology languages, standards, and formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-oak-concepts">Core OAK concepts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">The OAK Guide</a> &raquo;</li>
+      <li>OAK Basics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/basics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="oak-basics">
+<span id="basics"></span><h1>OAK Basics<a class="headerlink" href="#oak-basics" title="Permalink to this headline"></a></h1>
+<p>OAK is a library for accessing and working with ontologies, controlled vocabularies,
+and terminologies.</p>
+<p>OAK is written in Python, and can be used in Python programs, or from the command line.
+Command line use doesn’t require any programming experience or programming knowledge, but
+some knowledge of the command line is helpful.</p>
+<p>If you are looking for a quickstart guide to command line interfaces in general,
+see the <a class="reference external" href="https://oboacademy.github.io/obook/tutorial/intro-cli-1/">Command line short intro</a>.</p>
+<section id="what-is-an-ontology-and-why-would-i-want-to-access-one">
+<h2>What is an ontology and why would I want to access one?<a class="headerlink" href="#what-is-an-ontology-and-why-would-i-want-to-access-one" title="Permalink to this headline"></a></h2>
+<p>Ontologies, controlled vocabularies, terminologies, and taxonomies are all ways of
+organizing information and knowledge. Although OAK standards for Ontology Access Kit,
+we use the term “ontology” to refer to any of these types of knowledge organization.</p>
+<p>An ontology typically consists of a set of terms (also known as concepts, or classes) that
+serve as descriptors. For example, the <a class="reference external" href="http://obofoundry.org/ontology/envo">Environment Ontology</a>
+consists of classes representing different environments or environmental features, such as
+glaciers, lakes, and oceans.</p>
+<p>These terms are often hierarchically organized, and may include other kinds of hierarchical information.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="guide/schema-article.png"><img alt="Schema.dot hierarchy of article types" src="guide/schema-article.png" /></a>
+<figcaption>
+<p><span class="caption-text">Example of a part of a vocabulary: schema.org article types.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+<div class="legend">
+<p>This example shows a small example of the portion of schema.org with some
+types of article. The vocabulary is organized in a hierarchy, with hierarchical
+relationships shown where ⓘ denotes an is-a relationship. Note that although
+schema.org is more of a vocabulary than an ontology, you can use OAK to access it.
+This example was drawn using the OAK “viz” command.</p>
+</div>
+</figcaption>
+</figure>
+<p>Ontologies are used for many different tasks, but one of the most common ones is to annotate
+or “tag” pieces of data or data elements. For example, schema.org can be used to tag web pages,
+the <a class="reference external" href="http://obofoundry.org/ontology/hp">Human Phenotype Ontology</a> is
+used to annotate individual patients with a set of phenotypic features. In more formal ontology
+systems, the classes in an ontology are used to type instances or individuals. And
+in fact, an ontology can contain individuals too.</p>
+<p>Ontologies may also include rich lexical information or other metadata. These include
+textual definitions, to help guide curators or users of the ontology, or aliases to help
+guide search.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information on ontologies, see the <a class="reference external" href="https://oboacademy.github.io/obook/explanation/intro-to-ontologies/">Introduction to Ontologies</a>
+in the <a class="reference external" href="https://oboacademy.github.io/obook/">OBO Academy Book</a>.</p>
+</div>
+</section>
+<section id="ontology-languages-standards-and-formats">
+<h2>Ontology languages, standards, and formats<a class="headerlink" href="#ontology-languages-standards-and-formats" title="Permalink to this headline"></a></h2>
+<p>The Web Ontology Language (OWL) is a standard for modeling ontologies. OWL is not a format
+in itself, but it has a number of different serializations, including RDF/XML, RDF/turtle, functional syntax,
+and manchester syntax.</p>
+<p>It is not necessary to understand OWL to use OAK for many tasks. In fact, OWL is not the
+only way in which ontologies and vocabularies are represented.</p>
+<ul class="simple">
+<li><p>Many biological ontologies have historically used <a class="reference external" href="https://owlcollab.github.io/oboformat/doc/obo-syntax.html">OBO-Format</a>, a simple text format. OBO-Format is mapped to and defined in terms of OWL.</p></li>
+<li><p>A lot of terminologies and thesauri are represented in SKOS, a standard for representing controlled vocabularies.</p></li>
+<li><p>Some vocabularies such as schema.org use a lightweight RDF Schema representation.</p></li>
+</ul>
+<p>OAK is able to read (and in some cases write) ontologies in all of these formats. Different
+<a class="reference internal" href="../interfaces/mapping-provider.html#implementations"><span class="std std-ref">Implementations</span></a> handle different formats and backends. You can use <a class="reference internal" href="../selectors.html#selectors"><span class="std std-ref">Ontology Implementation Selectors</span></a> to choose
+which implementation to use (alternatively, this is done automatically based on the file extension).</p>
+<p>For example, on the command line, to list all terms a downloaded OBO Format file of the Human Phenotype Ontology:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak -i hp.obo terms
+</pre></div>
+</div>
+<p>Even when ontologies are represented in OWL, it doesn’t mean that everything is standardized.
+Two OWL ontologies could choose to indicate primary labels, synonyms, mappings, and definitions in
+different ways. OAK attempts to provide a common layer on top of all these variants.
+See further sections of this guide for more details on how this is done.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information on OWL and other ontology languages, see the
+<a class="reference external" href="https://oboacademy.github.io/obook/explanation/owl-format-variants/">section on OWL</a>
+in the <a href="#id1"><span class="problematic" id="id2">`</span></a>OBO Academy Book &lt;<a class="reference external" href="https://oboacademy.github.io/obook/">https://oboacademy.github.io/obook/</a>&gt;_.</p>
+</div>
+</section>
+<section id="core-oak-concepts">
+<h2>Core OAK concepts<a class="headerlink" href="#core-oak-concepts" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><span class="xref std std-term">Entity</span></p></li>
+<li><p><span class="xref std std-term">Alias</span></p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Relationship"><span class="xref std std-term">Relationship</span></a></p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-Mapping"><span class="xref std std-term">Mapping</span></a></p></li>
+<li><p><span class="xref std std-term">Definition</span></p></li>
+<li><p><span class="xref std std-term">Metadata</span></p></li>
+<li><p>“other” logical constructs</p></li>
+</ul>
+<p>In OAK, “entity” is a general grouping for any identifiable thing. This includes
+classes, individuals, and relationship types, as well as ontologies themselves.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="The OAK Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="curies-and-uris.html" class="btn btn-neutral float-right" title="Identifying entities: CURIEs and URIs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

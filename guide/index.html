@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The OAK Guide &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="OAK Basics" href="basics.html" />
+    <link rel="prev" title="Part 8: Applying Changes to Ontologies" href="../intro/tutorial08.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The OAK Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>The OAK Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-oak-guide">
+<span id="guide"></span><h1>The OAK Guide<a class="headerlink" href="#the-oak-guide" title="Permalink to this headline"></a></h1>
+<p>This guide provides an explanation of basic concepts in OAK, how
+to use both the Python library, and the command line.</p>
+<p>For a quick introduction, see the <a class="reference internal" href="../intro/index.html#tutorial"><span class="std std-ref">Tutorial</span></a></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">OAK Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#what-is-an-ontology-and-why-would-i-want-to-access-one">What is an ontology and why would I want to access one?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#ontology-languages-standards-and-formats">Ontology languages, standards, and formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#core-oak-concepts">Core OAK concepts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html#prefix-maps">Prefix maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html#querying-prefixmaps">Querying prefixmaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html#non-default-prefixmaps">Non-default prefixmaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html#structure-of-identifiers">Structure of identifiers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="primary-labels.html">Primary Labels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html#looking-up-labels">Looking up labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html#custom-label-annotation-properties">Custom label annotation properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html#multilingual-ontologies">Multilingual ontologies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html#other-edge-cases">Other edge cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primary-labels.html#further-reading">Further reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aliases.html">Aliases and Synonyms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html#sssom">SSSOM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html#mappings-in-oak">Mappings in OAK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mappings.html#further-reading">Further reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="obsoletion.html">Obsoletion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html#looking-up-obsoleted-entities">Looking up obsoleted entities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html#conventions-and-standards">Conventions and standards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="obsoletion.html#obsolete-entities-should-not-be-in-the-signature-of-any-logical-axiom">obsolete entities should not be in the signature of any logical axiom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obsoletion.html#obsolete-entities-should-be-accompanied-by-metadata-that-provides-additional-context-for-humans-and-machines">obsolete entities should be accompanied by metadata that provides additional context for humans and machines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="obsoletion.html#merged-entities">Merged entities</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../intro/tutorial08.html" class="btn btn-neutral float-left" title="Part 8: Applying Changes to Ontologies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="basics.html" class="btn btn-neutral float-right" title="OAK Basics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

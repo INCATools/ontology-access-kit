@@ -40,6 +40,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/index.html">The OAK Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../implementations/index.html">Implementations</a></li>
@@ -95,6 +96,7 @@
     <span class="n">HAS_ONTOLOGY_ROOT_TERM</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
+    <span class="n">OBSOLETION_RELATIONSHIP_PREDICATES</span><span class="p">,</span>
     <span class="n">OWL_CLASS</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
@@ -104,6 +106,7 @@
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CATEGORY_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">SUBSET_CURIE</span><span class="p">,</span> <span class="n">URI</span>
 <span class="kn">from</span> <span class="nn">oaklib.utilities.basic_utils</span> <span class="kn">import</span> <span class="n">get_curie_prefix</span>
 
+<span class="n">LANGUAGE_TAG</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">NC_NAME</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">PREFIX_MAP</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">NC_NAME</span><span class="p">,</span> <span class="n">URI</span><span class="p">]</span>
 <span class="n">RELATIONSHIP_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
@@ -185,6 +188,12 @@
 
     <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="sd">&quot;&quot;&quot;Raise exceptions when entities not found in ID-based lookups&quot;&quot;&quot;</span>
+
+    <span class="n">multilingual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;True if the ontology is multilingual, and may provide alterntive primary labels&quot;&quot;&quot;</span>
+
+    <span class="n">preferred_language</span><span class="p">:</span> <span class="n">LANGUAGE_TAG</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The preferred language for labels and other lexical entities&quot;&quot;&quot;</span>
 
     <span class="n">autosave</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;For adapters that wrap a transactional source (e.g sqlite), this controls</span>
@@ -323,13 +332,64 @@
     <span class="k">def</span> <span class="nf">all_ontology_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ontologies</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.obsoletes"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">[docs]</a>    <span class="k">def</span> <span class="nf">obsoletes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.obsoletes"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">[docs]</a>    <span class="k">def</span> <span class="nf">obsoletes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_merged</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yields all known CURIEs that are obsolete.</span>
+<span class="sd">        Yields all known entities that are obsolete.</span>
+
+<span class="sd">        In OWL, obsolete entities (aka deprecated entities) are those</span>
+<span class="sd">        that have an ``owl:deprecated`` annotation with value &quot;True&quot;</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">            &gt;&gt;&gt; for entity in ontology.obsoletes():</span>
+<span class="sd">            ...     print(entity)</span>
+
+<span class="sd">        By default, *merged terms* are included. Merged terms are entities</span>
+<span class="sd">        that are:</span>
+
+<span class="sd">        - (a) obsolete</span>
+<span class="sd">        - (b) have a replacement term</span>
+<span class="sd">        - (c) have an &quot;obsolescence reason&quot; that is &quot;merged term&quot;</span>
+
+<span class="sd">        In OBO Format, merged terms do not get their own stanza, but</span>
+<span class="sd">        instead show up as ``alt_id`` tags on the replacement term.</span>
+
+<span class="sd">        To exclude merged terms, set ``include_merged=False``:</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">            &gt;&gt;&gt; for entity in ontology.obsoletes(include_merged=False):</span>
+<span class="sd">            ...     print(entity)</span>
+
+<span class="sd">        :param include_merged: If True, merged terms will be included</span>
+<span class="sd">        :return: iterator over CURIEs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.obsoletes_migration_relationships"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">obsoletes_migration_relationships</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields relationships between an obsolete entity and potential replacements.</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">            &gt;&gt;&gt; for rel in ontology.obsoletes_migration_relationships(ontology.obsoletes()):</span>
+<span class="sd">            ...     print(rel)</span>
+
+<span class="sd">        Obsoletion relationship predicates may be:</span>
+
+<span class="sd">        - IAO:0100001 (term replaced by)</span>
+<span class="sd">        - oboInOwl:consider</span>
+<span class="sd">        - rdfs:seeAlso</span>
 
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">OBSOLETION_RELATIONSHIP_PREDICATES</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">:</span>
+                        <span class="k">yield</span> <span class="n">entity</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">val</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.all_obsolete_curies"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.all_obsolete_curies">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Replaced by obsoletes()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">all_obsolete_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>

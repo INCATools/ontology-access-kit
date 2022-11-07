@@ -40,6 +40,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/index.html">The OAK Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces/index.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementations/index.html">Implementations</a></li>
@@ -434,6 +435,13 @@
 </li>
       </ul></li>
       <li>
+    --include-merged
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-include-merged">runoak-obsoletes command line option</a>
+</li>
+      </ul></li>
+      <li>
     --include-redundant
 
       <ul>
@@ -709,6 +717,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-diff-via-mappings-include-identity-mappings">runoak-diff-via-mappings command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --no-include-merged
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-include-merged">runoak-obsoletes command line option</a>
 </li>
       </ul></li>
       <li>
@@ -2164,6 +2179,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.most_recent_common_ancestors">most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.multilingual">multilingual (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+</li>
       <li><a href="interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.multiset_most_recent_common_ancestors">multiset_most_recent_common_ancestors() (oaklib.interfaces.semsim_interface.SemanticSimilarityInterface method)</a>
 </li>
       <li><a href="interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">multiterm_search() (oaklib.interfaces.search_interface.SearchInterface method)</a>
@@ -2270,6 +2287,8 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes">obsoletes() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.obsoletes_migration_relationships">obsoletes_migration_relationships() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
       <li><a href="glossary.html#term-OLS"><strong>OLS</strong></a>
 </li>
       <li><a href="implementations/ols.html#oaklib.implementations.ols.ols_implementation.OlsImplementation">OlsImplementation (class in oaklib.implementations.ols.ols_implementation)</a>
@@ -2329,6 +2348,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">preferred_language (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Pronto"><strong>Pronto</strong></a>
@@ -3051,6 +3072,10 @@
     runoak-obsoletes command line option
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-include-merged">--include-merged</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-include-merged">--no-include-merged</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-0">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-O">--output-type</a>
