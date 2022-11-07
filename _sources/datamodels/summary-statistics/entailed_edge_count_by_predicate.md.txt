@@ -33,6 +33,11 @@ URI: [reporting:entailed_edge_count_by_predicate](https://w3id.org/linkml/report
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

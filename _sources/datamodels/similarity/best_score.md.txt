@@ -23,12 +23,15 @@ URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 ## Properties
 
 * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

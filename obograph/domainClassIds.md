@@ -31,6 +31,11 @@ URI: [og:domainClassIds](https://github.com/geneontology/obographs/domainClassId
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -14,10 +14,13 @@ URI: [reporting:individual_statistic_group](https://w3id.org/linkml/reportindivi
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

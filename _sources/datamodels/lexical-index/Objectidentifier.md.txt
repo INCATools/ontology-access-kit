@@ -16,6 +16,10 @@ URI: [shex:iri](shex:iri)
 
 
 
+
+
+
+
 ## Comments
 
 * Used for inheritence and type checking

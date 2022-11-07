@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 
@@ -31,6 +28,15 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+
+
+
+
+
 
 
 
@@ -56,8 +62,8 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Expression']|join(', ') |
-| native | ['omoschema:Expression']|join(', ') |
+| self | omoschema:Expression |
+| native | omoschema:Expression |
 
 
 ## LinkML Source

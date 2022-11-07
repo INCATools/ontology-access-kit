@@ -31,6 +31,11 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

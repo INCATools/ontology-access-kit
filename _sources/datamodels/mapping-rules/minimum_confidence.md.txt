@@ -23,10 +23,13 @@ URI: [mrules:minimum_confidence](https://w3id.org/linkml/mapping_rules_datamodel
 ## Properties
 
 * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

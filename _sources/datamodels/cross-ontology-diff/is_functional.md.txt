@@ -16,20 +16,23 @@ URI: [ann:is_functional](https://w3id.org/linkml/text_annotator/is_functional)
 
 | mixed into | description | range | domain |
 | --- | --- | --- | --- |
-| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontology | None |  |
-| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontology | None |  |
+| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontol... | None |  |
+| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontol... | None |  |
 
 
 
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
-
-
-
-
 * Mixin: True
+
+
+
+
+
+
+
+## Alias
 
 
 

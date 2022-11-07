@@ -28,10 +28,13 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/schema/disconn
 ## Properties
 
 * Range: [Class](Class.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyChainAxiom)
 
 
@@ -30,9 +29,9 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [chainPredicateIds](chainPredicateIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+| [predicateId](predicateId.md) | 0..1 <br/> string | None | direct |
+| [chainPredicateIds](chainPredicateIds.md) | 0..* <br/> string | None | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | [Axiom](Axiom.md) |
 
 
 
@@ -41,6 +40,10 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Graph](Graph.md) | [propertyChainAxioms](propertyChainAxioms.md) | range | PropertyChainAxiom |
+
+
+
+
 
 
 
@@ -65,8 +68,8 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:PropertyChainAxiom']|join(', ') |
-| native | ['og:PropertyChainAxiom']|join(', ') |
+| self | og:PropertyChainAxiom |
+| native | og:PropertyChainAxiom |
 
 
 ## LinkML Source

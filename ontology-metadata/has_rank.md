@@ -23,10 +23,13 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/schema/has_rank)
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -24,10 +24,13 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 ## Properties
 
 * Range: [TextualElement](TextualElement.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

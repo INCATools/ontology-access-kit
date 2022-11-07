@@ -49,10 +49,13 @@ of the left edge.
 ## Properties
 
 * Range: [DiffCategory](DiffCategory.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

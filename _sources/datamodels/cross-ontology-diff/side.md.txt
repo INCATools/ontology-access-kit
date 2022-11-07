@@ -22,20 +22,21 @@ URI: [ann:side](https://w3id.org/linkml/text_annotator/side)
 
 | mixed into | description | range | domain |
 | --- | --- | --- | --- |
-| [left_side](left_side.md) | The first ontology is arbitrarily designated the left side | None |  |
-| [right_side](right_side.md) | The second ontology is arbitrarily designated the right side | None |  |
 
 
 
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
-
-
-
-
 * Mixin: True
+
+
+
+
+
+
+
+## Alias
 
 
 

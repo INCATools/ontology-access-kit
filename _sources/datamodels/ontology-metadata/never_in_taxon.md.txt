@@ -31,6 +31,11 @@ URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

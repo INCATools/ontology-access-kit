@@ -46,9 +46,18 @@ URI: [oio:hasAlternativeId](http://www.geneontology.org/formats/oboInOwl#hasAlte
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * {'RULE': 'object must NOT be deprecated'}
+
+## See Also
+
+* [https://github.com/owlcs/owlapi/issues/317](https://github.com/owlcs/owlapi/issues/317)
 
 ## Identifier and Mapping Information
 

@@ -36,10 +36,13 @@ URI: [IAO:0100001](http://purl.obolibrary.org/obo/IAO_0100001)
 ## Properties
 
 * Range: [Any](Any.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

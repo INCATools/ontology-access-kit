@@ -44,6 +44,11 @@ URI: [omoschema:excluded_synonym](http://purl.obolibrary.org/obo/schema/excluded
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

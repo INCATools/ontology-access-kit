@@ -4,7 +4,6 @@ _A pattern to be matched against an individual SSSOM mapping_
 
 
 
-
 URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Precondition)
 
 
@@ -29,12 +28,12 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object_source_one_of](object_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [transformations_included_in](transformations_included_in.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> None | None | direct |
+| [object_source_one_of](object_source_one_of.md) | 0..* <br/> None | None | direct |
+| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> None | None | direct |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> None | None | direct |
+| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> None | None | direct |
+| [transformations_included_in](transformations_included_in.md) | 0..* <br/> None | None | direct |
 
 
 
@@ -43,6 +42,10 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [MappingRule](MappingRule.md) | [preconditions](preconditions.md) | range | Precondition |
+
+
+
+
 
 
 
@@ -67,8 +70,8 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:Precondition']|join(', ') |
-| native | ['mrules:Precondition']|join(', ') |
+| self | mrules:Precondition |
+| native | mrules:Precondition |
 
 
 ## LinkML Source

@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefPropertyValue)
 
 
@@ -30,11 +29,10 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+| ---  | --- | --- | --- || [pred](pred.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
+| [meta](meta.md) | 0..1 <br/> Meta | None | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -43,6 +41,10 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Meta](Meta.md) | [xrefs](xrefs.md) | range | XrefPropertyValue |
+
+
+
+
 
 
 
@@ -67,8 +69,8 @@ URI: [og:XrefPropertyValue](https://github.com/geneontology/obographs/XrefProper
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:XrefPropertyValue']|join(', ') |
-| native | ['og:XrefPropertyValue']|join(', ') |
+| self | og:XrefPropertyValue |
+| native | og:XrefPropertyValue |
 
 
 ## LinkML Source

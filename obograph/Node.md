@@ -2,7 +2,6 @@
 
 
 
-
 URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
@@ -25,10 +24,10 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
+| [id](id.md) | 1..1 <br/> string | None | direct |
+| [lbl](lbl.md) | 0..1 <br/> string | None | direct |
+| [type](type.md) | 0..1 <br/> string | None | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
 
 
 
@@ -37,6 +36,10 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Graph](Graph.md) | [nodes](nodes.md) | range | Node |
+
+
+
+
 
 
 
@@ -61,8 +64,8 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['rdf:Resource']|join(', ') |
-| native | ['og:Node']|join(', ') |
+| self | rdf:Resource |
+| native | og:Node |
 
 
 ## LinkML Source

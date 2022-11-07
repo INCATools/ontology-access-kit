@@ -28,10 +28,13 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 ## Properties
 
 * Range: [AnnotationProperty](AnnotationProperty.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -25,10 +25,13 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 ## Properties
 
 * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

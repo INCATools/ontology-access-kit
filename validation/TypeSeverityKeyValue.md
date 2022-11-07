@@ -4,7 +4,6 @@ _key-value pair that maps a validation result type to a severity setting, for ov
 
 
 
-
 URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeverityKeyValue)
 
 
@@ -25,8 +24,8 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | None  | direct |
+| [type](type.md) | 1..1 <br/> uriorcurie | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID | direct |
+| [severity](severity.md) | 0..1 <br/> severity_options | the severity of the issue | direct |
 
 
 
@@ -35,6 +34,10 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [ValidationConfiguration](ValidationConfiguration.md) | [type_severity_map](type_severity_map.md) | range | TypeSeverityKeyValue |
+
+
+
+
 
 
 
@@ -59,8 +62,8 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:TypeSeverityKeyValue']|join(', ') |
-| native | ['vm:TypeSeverityKeyValue']|join(', ') |
+| self | vm:TypeSeverityKeyValue |
+| native | vm:TypeSeverityKeyValue |
 
 
 ## LinkML Source

@@ -28,10 +28,13 @@ URI: [owl:annotatedSource](http://www.w3.org/2002/07/owl#annotatedSource)
 ## Properties
 
 * Range: [NamedObject](NamedObject.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

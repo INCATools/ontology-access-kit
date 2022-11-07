@@ -30,10 +30,13 @@ URI: [reporting:owl_axiom_count](https://w3id.org/linkml/reportowl_axiom_count)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

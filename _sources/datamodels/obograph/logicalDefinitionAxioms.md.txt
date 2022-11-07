@@ -31,6 +31,11 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

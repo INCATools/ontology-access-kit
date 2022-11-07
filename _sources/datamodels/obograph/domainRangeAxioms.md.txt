@@ -31,6 +31,11 @@ URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRang
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

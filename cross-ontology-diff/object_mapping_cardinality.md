@@ -49,10 +49,13 @@ of the left edge.
 ## Properties
 
 * Range: [MappingCardinalityEnum](MappingCardinalityEnum.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

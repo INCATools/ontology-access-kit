@@ -19,10 +19,13 @@ URI: [owl:onClass](http://www.w3.org/2002/07/owl#onClass)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

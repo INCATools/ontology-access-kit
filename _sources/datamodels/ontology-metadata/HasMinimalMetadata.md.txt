@@ -4,9 +4,6 @@ _Absolute minimum metadata model_
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMinimalMetadata)
 
 
@@ -39,8 +36,19 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) | None  | direct |
-| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) | None  | direct |
+| [label](label.md) | 0..1 <br/> label type | None | direct |
+| [definition](definition.md) | 0..* <br/> narrative text | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
+
+
+
+
+
 
 
 
@@ -66,8 +74,8 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasMinimalMetadata']|join(', ') |
-| native | ['omoschema:HasMinimalMetadata']|join(', ') |
+| self | omoschema:HasMinimalMetadata |
+| native | omoschema:HasMinimalMetadata |
 
 
 ## LinkML Source

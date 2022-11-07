@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
@@ -24,9 +23,13 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
-| [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md) | None  | direct |
-| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | maps prefixes to namespaces  | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
+| [graphs](graphs.md) | 0..* <br/> Graph | None | direct |
+| [prefixes](prefixes.md) | 0..* <br/> PrefixDeclaration | maps prefixes to namespaces | direct |
+
+
+
+
 
 
 
@@ -52,8 +55,8 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:GraphDocument']|join(', ') |
-| native | ['og:GraphDocument']|join(', ') |
+| self | og:GraphDocument |
+| native | og:GraphDocument |
 
 
 ## LinkML Source

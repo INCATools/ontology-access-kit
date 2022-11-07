@@ -30,10 +30,13 @@ URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_s
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

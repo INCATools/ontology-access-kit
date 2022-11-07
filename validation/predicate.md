@@ -26,10 +26,13 @@ URI: [vm:predicate](https://w3id.org/linkml/validation-model/predicate)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

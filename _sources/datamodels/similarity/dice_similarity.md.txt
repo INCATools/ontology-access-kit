@@ -28,10 +28,13 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 ## Properties
 
 * Range: [ZeroToOne](ZeroToOne.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

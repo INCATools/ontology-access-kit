@@ -25,10 +25,13 @@ URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/vali
 ## Properties
 
 * Range: [ValidationConfiguration](ValidationConfiguration.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

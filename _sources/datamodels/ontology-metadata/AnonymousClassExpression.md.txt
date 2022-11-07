@@ -2,7 +2,6 @@
 
 
 
-
 URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/AnonymousClassExpression)
 
 
@@ -36,6 +35,9 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 
 
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -57,8 +59,8 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:AnonymousClassExpression']|join(', ') |
-| native | ['omoschema:AnonymousClassExpression']|join(', ') |
+| self | omoschema:AnonymousClassExpression |
+| native | omoschema:AnonymousClassExpression |
 
 
 ## LinkML Source

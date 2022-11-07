@@ -23,10 +23,13 @@ URI: [og:definition](https://github.com/geneontology/obographs/definition)
 ## Properties
 
 * Range: [DefinitionPropertyValue](DefinitionPropertyValue.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

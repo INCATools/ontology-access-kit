@@ -24,10 +24,13 @@ URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

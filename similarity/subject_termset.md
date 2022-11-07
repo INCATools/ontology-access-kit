@@ -31,6 +31,11 @@ URI: [sim:subject_termset](https://w3id.org/linkml/similarity/subject_termset)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

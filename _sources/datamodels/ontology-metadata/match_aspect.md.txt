@@ -14,22 +14,25 @@ URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/schema/match_aspect
 
 | mixed into | description | range | domain |
 | --- | --- | --- | --- |
-| [match](match.md) | None | None |  |
-| [equivalentClass](equivalentClass.md) | None | ClassExpression | ClassExpression |
-| [sameAs](sameAs.md) | None | Thing |  |
-| [equivalentProperty](equivalentProperty.md) | None | Property | ObjectProperty |
+| [match](match.md) |  | None |  |
+| [equivalentClass](equivalentClass.md) |  | ClassExpression | ClassExpression |
+| [sameAs](sameAs.md) |  | Thing |  |
+| [equivalentProperty](equivalentProperty.md) |  | Property | ObjectProperty |
 
 
 
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
-
-
-
-
 * Mixin: True
+
+
+
+
+
+
+
+## Alias
 
 
 

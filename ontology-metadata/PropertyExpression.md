@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/PropertyExpression)
 
 
@@ -35,7 +32,14 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> None | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |
+
 
 
 
@@ -44,6 +48,10 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Restriction](Restriction.md) | [onProperty](onProperty.md) | range | PropertyExpression |
+
+
+
+
 
 
 
@@ -68,8 +76,8 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:PropertyExpression']|join(', ') |
-| native | ['omoschema:PropertyExpression']|join(', ') |
+| self | omoschema:PropertyExpression |
+| native | omoschema:PropertyExpression |
 
 
 ## LinkML Source

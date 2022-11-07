@@ -31,6 +31,11 @@ URI: [oio:external_ontology](http://www.geneontology.org/formats/oboInOwl#extern
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

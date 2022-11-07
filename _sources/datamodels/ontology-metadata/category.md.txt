@@ -36,10 +36,13 @@ URI: [biolink:category](https://w3id.org/biolink/vocab/category)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

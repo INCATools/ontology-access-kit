@@ -31,6 +31,11 @@ URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivale
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

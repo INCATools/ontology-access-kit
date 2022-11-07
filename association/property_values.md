@@ -31,6 +31,11 @@ URI: [assoc:property_values](https://w3id.org/oak/association/property_values)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

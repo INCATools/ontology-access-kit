@@ -25,10 +25,13 @@ URI: [mrules:synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/synony
 ## Properties
 
 * Range: [Synonymizer](Synonymizer.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

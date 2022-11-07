@@ -23,10 +23,13 @@ URI: [dcterms:title](http://purl.org/dc/terms/title)
 ## Properties
 
 * Range: [NarrativeText](NarrativeText.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -39,12 +39,15 @@ URI: [omoschema:id](http://purl.obolibrary.org/obo/schema/id)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

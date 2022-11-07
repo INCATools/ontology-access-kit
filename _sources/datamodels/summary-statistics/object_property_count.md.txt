@@ -30,10 +30,13 @@ URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_prop
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

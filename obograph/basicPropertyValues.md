@@ -31,6 +31,11 @@ URI: [og:basicPropertyValues](https://github.com/geneontology/obographs/basicPro
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

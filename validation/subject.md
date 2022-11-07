@@ -26,12 +26,15 @@ URI: [sh:focusNode](http://www.w3.org/ns/shacl#focusNode)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

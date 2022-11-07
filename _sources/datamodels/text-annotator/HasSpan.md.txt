@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 
@@ -30,11 +27,22 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) | None  | direct |
-| [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) | None  | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The portion of the subject text that is matched, ranging from subject_start to subject_end  | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) | None  | direct |
+| [subject_start](subject_start.md) | 0..1 <br/> Position | None | direct |
+| [subject_end](subject_end.md) | 0..1 <br/> Position | None | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> None | The portion of the subject text that is matched, ranging from subject_start to subject_end | direct |
+| [subject_source](subject_source.md) | 0..1 <br/> None | None | direct |
+| [subject_text_id](subject_text_id.md) | 0..1 <br/> TextualElement | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [TextAnnotation](TextAnnotation.md) | An individual text annotation |
+
+
+
+
+
 
 
 
@@ -60,8 +68,8 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:HasSpan']|join(', ') |
-| native | ['ann:HasSpan']|join(', ') |
+| self | ann:HasSpan |
+| native | ann:HasSpan |
 
 
 ## LinkML Source

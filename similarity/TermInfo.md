@@ -2,7 +2,6 @@
 
 
 
-
 URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 
@@ -23,8 +22,8 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [id](id.md) | 1..1 <br/> None | None | direct |
+| [label](label.md) | 0..1 <br/> None | None | direct |
 
 
 
@@ -34,6 +33,10 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 | ---  | --- | --- | --- |
 | [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [subject_termset](subject_termset.md) | range | TermInfo |
 | [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [object_termset](object_termset.md) | range | TermInfo |
+
+
+
+
 
 
 
@@ -58,8 +61,8 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:TermInfo']|join(', ') |
-| native | ['sim:TermInfo']|join(', ') |
+| self | sim:TermInfo |
+| native | sim:TermInfo |
 
 
 ## LinkML Source

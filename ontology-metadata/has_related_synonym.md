@@ -39,6 +39,11 @@ URI: [oio:hasRelatedSynonym](http://www.geneontology.org/formats/oboInOwl#hasRel
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

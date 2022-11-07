@@ -23,10 +23,13 @@ URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 ## Properties
 
 * Range: [ValidationResult](ValidationResult.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

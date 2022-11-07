@@ -2,7 +2,6 @@
 
 
 
-
 URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Postcondition)
 
 
@@ -23,8 +22,8 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate_id](predicate_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [weight](weight.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | Weighting of the rule, positive increases the confidence, negative decreases  | direct |
+| [predicate_id](predicate_id.md) | 0..1 <br/> None | None | direct |
+| [weight](weight.md) | 0..1 <br/> float | Weighting of the rule, positive increases the confidence, negative decreases | direct |
 
 
 
@@ -33,6 +32,10 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [MappingRule](MappingRule.md) | [postconditions](postconditions.md) | range | Postcondition |
+
+
+
+
 
 
 
@@ -57,8 +60,8 @@ URI: [mrules:Postcondition](https://w3id.org/linkml/mapping_rules_datamodel/Post
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['mrules:Postcondition']|join(', ') |
-| native | ['mrules:Postcondition']|join(', ') |
+| self | mrules:Postcondition |
+| native | mrules:Postcondition |
 
 
 ## LinkML Source

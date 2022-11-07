@@ -35,10 +35,13 @@ URI: [og:meta](https://github.com/geneontology/obographs/meta)
 ## Properties
 
 * Range: [Meta](Meta.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

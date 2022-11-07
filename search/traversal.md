@@ -23,10 +23,13 @@ URI: [search:traversal](https://w3id.org/linkml/search_datamodel/traversal)
 ## Properties
 
 * Range: [GraphFunction](GraphFunction.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

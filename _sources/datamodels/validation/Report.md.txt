@@ -6,7 +6,6 @@ _A report object that is a holder to multiple report results_
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
@@ -34,7 +33,11 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results  | direct |
+| [results](results.md) | 0..* <br/> Result | collection of results | direct |
+
+
+
+
 
 
 
@@ -60,8 +63,8 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:Report']|join(', ') |
-| native | ['vm:Report']|join(', ') |
+| self | vm:Report |
+| native | vm:Report |
 
 
 ## LinkML Source

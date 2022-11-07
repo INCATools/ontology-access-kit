@@ -25,10 +25,13 @@ URI: [mrules:match](https://w3id.org/linkml/mapping_rules_datamodel/match)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

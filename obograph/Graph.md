@@ -2,7 +2,6 @@
 
 
 
-
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
@@ -30,15 +29,15 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
-| [nodes](nodes.md) | 0..* <br/> [Node](Node.md) | None  | direct |
-| [edges](edges.md) | 0..* <br/> [Edge](Edge.md) | None  | direct |
-| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> [EquivalentNodesSet](EquivalentNodesSet.md) | None  | direct |
-| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None  | direct |
-| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md) | None  | direct |
-| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md) | None  | direct |
+| [id](id.md) | 1..1 <br/> string | None | direct |
+| [lbl](lbl.md) | 0..1 <br/> string | None | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
+| [nodes](nodes.md) | 0..* <br/> Node | None | direct |
+| [edges](edges.md) | 0..* <br/> Edge | None | direct |
+| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> EquivalentNodesSet | None | direct |
+| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> LogicalDefinitionAxiom | None | direct |
+| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> DomainRangeAxiom | None | direct |
+| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> PropertyChainAxiom | None | direct |
 
 
 
@@ -47,6 +46,10 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [GraphDocument](GraphDocument.md) | [graphs](graphs.md) | range | Graph |
+
+
+
+
 
 
 
@@ -71,8 +74,8 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Ontology']|join(', ') |
-| native | ['og:Graph']|join(', ') |
+| self | owl:Ontology |
+| native | og:Graph |
 
 
 ## LinkML Source

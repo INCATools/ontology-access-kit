@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obographs/ExistentialRestrictionExpression)
 
 
@@ -23,8 +22,8 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [fillerId](fillerId.md) | 0..1 <br/> string | None | direct |
+| [propertyId](propertyId.md) | 0..1 <br/> string | None | direct |
 
 
 
@@ -33,6 +32,10 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | ExistentialRestrictionExpression |
+
+
+
+
 
 
 
@@ -57,8 +60,8 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:ExistentialRestrictionExpression']|join(', ') |
-| native | ['og:ExistentialRestrictionExpression']|join(', ') |
+| self | og:ExistentialRestrictionExpression |
+| native | og:ExistentialRestrictionExpression |
 
 
 ## LinkML Source

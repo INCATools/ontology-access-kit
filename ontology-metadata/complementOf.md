@@ -30,10 +30,13 @@ URI: [owl:complementOf](http://www.w3.org/2002/07/owl#complementOf)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

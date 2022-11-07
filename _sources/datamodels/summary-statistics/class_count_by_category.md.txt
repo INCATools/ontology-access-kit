@@ -33,6 +33,11 @@ URI: [reporting:class_count_by_category](https://w3id.org/linkml/reportclass_cou
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

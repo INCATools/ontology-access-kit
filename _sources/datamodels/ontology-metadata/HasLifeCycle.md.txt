@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle)
 
 
@@ -51,15 +48,26 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
-| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> [Any](Any.md) | None  | direct |
-| [consider](consider.md) | 0..* <br/> [Any](Any.md) | None  | direct |
-| [has_alternative_id](has_alternative_id.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | Relates a live term to a deprecated ID that was merged in  | direct |
-| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> [Thing](Thing.md) | None  | direct |
-| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> [Class](Class.md) | None  | direct |
-| [excluded_synonym](excluded_synonym.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [should_conform_to](should_conform_to.md) | 0..1 <br/> [Thing](Thing.md) | None  | direct |
+| [deprecated](deprecated.md) | 0..1 <br/> boolean | None | direct |
+| [has_obsolescence_reason](has_obsolescence_reason.md) | 0..1 <br/> None | None | direct |
+| [term_replaced_by](term_replaced_by.md) | 0..1 <br/> Any | None | direct |
+| [consider](consider.md) | 0..* <br/> Any | None | direct |
+| [has_alternative_id](has_alternative_id.md) | 0..* <br/> uriorcurie | Relates a live term to a deprecated ID that was merged in | direct |
+| [excluded_from_QC_check](excluded_from_QC_check.md) | 0..1 <br/> Thing | None | direct |
+| [excluded_subClassOf](excluded_subClassOf.md) | 0..* <br/> Class | None | direct |
+| [excluded_synonym](excluded_synonym.md) | 0..* <br/> None | None | direct |
+| [should_conform_to](should_conform_to.md) | 0..1 <br/> Thing | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
+
+
+
+
+
 
 
 
@@ -85,8 +93,8 @@ URI: [omoschema:HasLifeCycle](http://purl.obolibrary.org/obo/schema/HasLifeCycle
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasLifeCycle']|join(', ') |
-| native | ['omoschema:HasLifeCycle']|join(', ') |
+| self | omoschema:HasLifeCycle |
+| native | omoschema:HasLifeCycle |
 
 
 ## LinkML Source

@@ -45,6 +45,11 @@ URI: [oio:hasNarrowSynonym](http://www.geneontology.org/formats/oboInOwl#hasNarr
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

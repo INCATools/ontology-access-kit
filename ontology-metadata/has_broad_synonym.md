@@ -45,6 +45,11 @@ URI: [oio:hasBroadSynonym](http://www.geneontology.org/formats/oboInOwl#hasBroad
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

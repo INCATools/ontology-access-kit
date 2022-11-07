@@ -30,10 +30,13 @@ URI: [reporting:class_count](https://w3id.org/linkml/reportclass_count)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

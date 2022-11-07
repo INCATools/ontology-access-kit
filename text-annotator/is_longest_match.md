@@ -23,10 +23,13 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -30,10 +30,13 @@ URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similar
 ## Properties
 
 * Range: [ZeroToOne](ZeroToOne.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

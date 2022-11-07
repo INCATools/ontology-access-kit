@@ -25,10 +25,13 @@ URI: [ann:right_source](https://w3id.org/linkml/text_annotator/right_source)
 ## Properties
 
 * Range: [Source](Source.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

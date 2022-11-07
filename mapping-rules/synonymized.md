@@ -23,10 +23,13 @@ URI: [li:synonymized](https://w3id.org/linkml/lexical_index/synonymized)
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

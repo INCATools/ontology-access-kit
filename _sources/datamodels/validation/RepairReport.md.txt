@@ -4,7 +4,6 @@ _A report that consists of repair operation results_
 
 
 
-
 URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 
@@ -29,8 +28,11 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [RepairOperation](RepairOperation.md) | collection of results  | inherited |
+| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> Result | collection of results | [Report](Report.md) |
+
+
+
+
 
 
 
@@ -56,8 +58,8 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:RepairReport']|join(', ') |
-| native | ['vm:RepairReport']|join(', ') |
+| self | vm:RepairReport |
+| native | vm:RepairReport |
 
 
 ## LinkML Source

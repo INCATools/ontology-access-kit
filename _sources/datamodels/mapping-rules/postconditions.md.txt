@@ -25,10 +25,13 @@ URI: [mrules:postconditions](https://w3id.org/linkml/mapping_rules_datamodel/pos
 ## Properties
 
 * Range: [Postcondition](Postcondition.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

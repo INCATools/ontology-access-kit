@@ -44,6 +44,11 @@ URI: [oio:consider](http://www.geneontology.org/formats/oboInOwl#consider)
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * {'RULE': 'subject must be deprecated'}

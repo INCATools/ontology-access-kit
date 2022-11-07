@@ -24,10 +24,13 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 ## Properties
 
 * Range: [NamedIndividual](NamedIndividual.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

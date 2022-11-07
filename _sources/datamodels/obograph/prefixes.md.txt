@@ -33,6 +33,11 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

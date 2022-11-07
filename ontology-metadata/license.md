@@ -28,10 +28,13 @@ URI: [dcterms:license](http://purl.org/dc/terms/license)
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

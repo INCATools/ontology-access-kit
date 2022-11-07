@@ -68,9 +68,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>oaklib.selector</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oaklib.selector</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -256,7 +256,9 @@
             <span class="n">descriptor</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">dm_path</span><span class="p">)</span><span class="o">/</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">.owl.ttl&quot;</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Introspecting datamodel from </span><span class="si">{</span><span class="n">descriptor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">resource</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">descriptor</span>
-        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span><span class="p">:</span>
+
+        <span class="c1"># Prevent the driveletter from being interpreted as scheme on Windows.</span>
+        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">descriptor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">descriptor</span><span class="p">):</span>
             <span class="n">toks</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
             <span class="n">scheme</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">resource</span><span class="o">.</span><span class="n">scheme</span> <span class="o">=</span> <span class="n">scheme</span>

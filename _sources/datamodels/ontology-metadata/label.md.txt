@@ -45,6 +45,11 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * SHOULD follow OBO label guidelines

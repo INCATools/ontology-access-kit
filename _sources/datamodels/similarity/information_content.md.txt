@@ -24,15 +24,18 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-* Multivalued: None
-
-* Aliases:
-
-    * IC
 
 
 
 
+## Aliases
+
+
+* IC
+
+
+
+## Alias
 
 
 

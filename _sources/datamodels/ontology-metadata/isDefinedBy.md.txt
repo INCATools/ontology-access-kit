@@ -31,10 +31,13 @@ URI: [rdfs:isDefinedBy](http://www.w3.org/2000/01/rdf-schema#isDefinedBy)
 ## Properties
 
 * Range: [Ontology](Ontology.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

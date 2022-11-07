@@ -69,8 +69,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Class: NamedObject</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Class: NamedObject</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/ontology-metadata/NamedObject.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -126,14 +126,14 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>1..1 <br/> uriorcurie</p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p>0..* <br/> uriorcurie</p></td>
 <td><p>None</p></td>
-<td><p>inherited</p></td>
+<td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -157,6 +157,14 @@
 </tbody>
 </table>
 </section>
+<section id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>named entity</p></li>
+<li><p>identified object</p></li>
+<li><p>IRI</p></li>
+</ul>
+</section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
 <section id="schema-source">
@@ -176,10 +184,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>[‘omoschema:NamedObject’]</p></td>
+<td><p>omoschema:NamedObject</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>[‘omoschema:NamedObject’]</p></td>
+<td><p>omoschema:NamedObject</p></td>
 </tr>
 </tbody>
 </table>

@@ -33,6 +33,11 @@ URI: [li:groupings](https://w3id.org/linkml/lexical_index/groupings)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

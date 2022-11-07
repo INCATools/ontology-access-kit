@@ -31,6 +31,11 @@ URI: [li:pipeline](https://w3id.org/linkml/lexical_index/pipeline)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -39,6 +39,11 @@ URI: [oio:hasOBONamespace](http://www.geneontology.org/formats/oboInOwl#hasOBONa
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

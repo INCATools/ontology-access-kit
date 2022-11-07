@@ -2,7 +2,6 @@
 
 
 
-
 URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
@@ -21,7 +20,6 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-
 
 
 ## Usages
@@ -50,6 +48,10 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
 
+
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -71,8 +73,8 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['linkml:Any']|join(', ') |
-| native | ['omoschema:Any']|join(', ') |
+| self | linkml:Any |
+| native | omoschema:Any |
 
 
 ## LinkML Source

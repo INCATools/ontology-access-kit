@@ -30,10 +30,13 @@ URI: [reporting:equivalent_classes_axiom_count](https://w3id.org/linkml/reporteq
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

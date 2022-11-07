@@ -27,10 +27,13 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 ## Properties
 
 * Range: [SeverityOptions](SeverityOptions.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

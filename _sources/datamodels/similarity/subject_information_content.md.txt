@@ -31,10 +31,13 @@ URI: [sim:subject_information_content](https://w3id.org/linkml/similarity/subjec
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

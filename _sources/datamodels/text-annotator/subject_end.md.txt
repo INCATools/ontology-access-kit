@@ -24,10 +24,13 @@ URI: [ann:subject_end](https://w3id.org/linkml/text_annotator/subject_end)
 ## Properties
 
 * Range: [Position](Position.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

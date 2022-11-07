@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUserInformation)
 
 
@@ -49,14 +46,25 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
-| [image](image.md) | 0..1 <br/> [Thing](Thing.md) | None  | direct |
-| [example_of_usage](example_of_usage.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [curator_note](curator_note.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [has_curation_status](has_curation_status.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [depicted_by](depicted_by.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [page](page.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [comment](comment.md) | 0..* <br/> None | None | direct |
+| [seeAlso](seeAlso.md) | 0..* <br/> Thing | None | direct |
+| [image](image.md) | 0..1 <br/> Thing | None | direct |
+| [example_of_usage](example_of_usage.md) | 0..* <br/> None | None | direct |
+| [curator_note](curator_note.md) | 0..* <br/> None | None | direct |
+| [has_curation_status](has_curation_status.md) | 0..1 <br/> None | None | direct |
+| [depicted_by](depicted_by.md) | 0..* <br/> None | None | direct |
+| [page](page.md) | 0..* <br/> None | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
+
+
+
+
+
 
 
 
@@ -82,8 +90,8 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasUserInformation']|join(', ') |
-| native | ['omoschema:HasUserInformation']|join(', ') |
+| self | omoschema:HasUserInformation |
+| native | omoschema:HasUserInformation |
 
 
 ## LinkML Source

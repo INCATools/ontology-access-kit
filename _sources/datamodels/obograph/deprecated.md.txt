@@ -23,10 +23,13 @@ URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

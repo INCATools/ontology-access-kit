@@ -6,7 +6,6 @@ _Abstract grouping for representing individual pairwise similarities_
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilarity)
 
 
@@ -37,6 +36,9 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 
 
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -58,8 +60,8 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:PairwiseSimilarity']|join(', ') |
-| native | ['sim:PairwiseSimilarity']|join(', ') |
+| self | sim:PairwiseSimilarity |
+| native | sim:PairwiseSimilarity |
 
 
 ## LinkML Source

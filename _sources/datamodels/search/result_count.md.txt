@@ -23,10 +23,13 @@ URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count
 ## Properties
 
 * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

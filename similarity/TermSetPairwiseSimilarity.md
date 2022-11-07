@@ -4,7 +4,6 @@ _A simple pairwise similarity between two sets of concepts/terms_
 
 
 
-
 URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetPairwiseSimilarity)
 
 
@@ -36,13 +35,17 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_termset](subject_termset.md) | 0..* <br/> [TermInfo](TermInfo.md) | None  | direct |
-| [object_termset](object_termset.md) | 0..* <br/> [TermInfo](TermInfo.md) | None  | direct |
-| [subject_best_matches](subject_best_matches.md) | 0..* <br/> [BestMatch](BestMatch.md) | None  | direct |
-| [object_best_matches](object_best_matches.md) | 0..* <br/> [BestMatch](BestMatch.md) | None  | direct |
-| [average_score](average_score.md) | 1..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
-| [best_score](best_score.md) | 1..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
-| [metric](metric.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+| [subject_termset](subject_termset.md) | 0..* <br/> TermInfo | None | direct |
+| [object_termset](object_termset.md) | 0..* <br/> TermInfo | None | direct |
+| [subject_best_matches](subject_best_matches.md) | 0..* <br/> BestMatch | None | direct |
+| [object_best_matches](object_best_matches.md) | 0..* <br/> BestMatch | None | direct |
+| [average_score](average_score.md) | 1..1 <br/> float | None | direct |
+| [best_score](best_score.md) | 1..1 <br/> float | None | direct |
+| [metric](metric.md) | 0..1 <br/> uriorcurie | None | direct |
+
+
+
+
 
 
 
@@ -68,8 +71,8 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:TermSetPairwiseSimilarity']|join(', ') |
-| native | ['sim:TermSetPairwiseSimilarity']|join(', ') |
+| self | sim:TermSetPairwiseSimilarity |
+| native | sim:TermSetPairwiseSimilarity |
 
 
 ## LinkML Source

@@ -31,6 +31,11 @@ URI: [mrules:transformations_included_in](https://w3id.org/linkml/mapping_rules_
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -2,7 +2,6 @@
 
 
 
-
 URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchResultSet)
 
 
@@ -25,10 +24,14 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [configuration](configuration.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) | None  | direct |
-| [results](results.md) | 0..* <br/> [SearchResult](SearchResult.md) | None  | direct |
-| [result_count](result_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | direct |
-| [cursor](cursor.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | direct |
+| [configuration](configuration.md) | 0..1 <br/> SearchBaseConfiguration | None | direct |
+| [results](results.md) | 0..* <br/> SearchResult | None | direct |
+| [result_count](result_count.md) | 0..1 <br/> integer | None | direct |
+| [cursor](cursor.md) | 0..1 <br/> None | None | direct |
+
+
+
+
 
 
 
@@ -54,8 +57,8 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['search:SearchResultSet']|join(', ') |
-| native | ['search:SearchResultSet']|join(', ') |
+| self | search:SearchResultSet |
+| native | search:SearchResultSet |
 
 
 ## LinkML Source

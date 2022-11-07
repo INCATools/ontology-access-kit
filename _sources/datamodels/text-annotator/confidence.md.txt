@@ -23,10 +23,13 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 ## Properties
 
 * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

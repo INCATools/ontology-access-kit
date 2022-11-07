@@ -33,6 +33,11 @@ URI: [reporting:by_subset](https://w3id.org/linkml/reportby_subset)
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * For example, GO metagenomics_slim

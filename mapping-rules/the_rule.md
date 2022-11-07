@@ -25,10 +25,13 @@ URI: [mrules:the_rule](https://w3id.org/linkml/mapping_rules_datamodel/the_rule)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

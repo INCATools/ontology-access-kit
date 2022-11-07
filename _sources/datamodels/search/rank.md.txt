@@ -25,10 +25,13 @@ URI: [search:rank](https://w3id.org/linkml/search_datamodel/rank)
 ## Properties
 
 * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

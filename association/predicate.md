@@ -26,10 +26,13 @@ URI: [rdf:predicate](rdf:predicate)
 ## Properties
 
 * Range: [xsd:anyURI](xsd:anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

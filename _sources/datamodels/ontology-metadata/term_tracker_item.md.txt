@@ -44,6 +44,11 @@ URI: [IAO:0000233](http://purl.obolibrary.org/obo/IAO_0000233)
 
 
 
+## Alias
+
+
+
+
 ## TODOs
 
 * restrict range

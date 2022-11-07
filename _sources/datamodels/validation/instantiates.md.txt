@@ -26,10 +26,13 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

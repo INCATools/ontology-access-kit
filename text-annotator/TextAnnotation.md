@@ -4,7 +4,6 @@ _An individual text annotation_
 
 
 
-
 URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
@@ -43,21 +42,21 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate_id](predicate_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object_id](object_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object_label](object_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [confidence](confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) | None  | direct |
-| [match_string](match_string.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [is_longest_match](is_longest_match.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
-| [match_type](match_type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) | None  | inherited |
-| [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) | None  | inherited |
-| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The portion of the subject text that is matched, ranging from subject_start to subject_end  | inherited |
-| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) | None  | inherited |
+| [predicate_id](predicate_id.md) | 0..1 <br/> None | None | direct |
+| [object_id](object_id.md) | 0..1 <br/> None | None | direct |
+| [object_label](object_label.md) | 0..1 <br/> None | None | direct |
+| [object_source](object_source.md) | 0..1 <br/> None | None | direct |
+| [confidence](confidence.md) | 0..1 <br/> float | None | direct |
+| [match_string](match_string.md) | 0..1 <br/> None | None | direct |
+| [is_longest_match](is_longest_match.md) | 0..1 <br/> boolean | None | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> None | None | direct |
+| [match_type](match_type.md) | 0..1 <br/> None | None | direct |
+| [info](info.md) | 0..1 <br/> None | None | direct |
+| [subject_text_id](subject_text_id.md) | 0..1 <br/> TextualElement | None | [HasSpan](HasSpan.md) |
+| [subject_start](subject_start.md) | 0..1 <br/> Position | None | [HasSpan](HasSpan.md) |
+| [subject_label](subject_label.md) | 0..1 <br/> None | The portion of the subject text that is matched, ranging from subject_start to subject_end | [HasSpan](HasSpan.md) |
+| [subject_source](subject_source.md) | 0..1 <br/> None | None | [HasSpan](HasSpan.md) |
+| [subject_end](subject_end.md) | 0..1 <br/> Position | None | [HasSpan](HasSpan.md) |
 
 
 
@@ -66,6 +65,10 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [TextAnnotationResultSet](TextAnnotationResultSet.md) | [annotations](annotations.md) | range | TextAnnotation |
+
+
+
+
 
 
 
@@ -90,8 +93,8 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['oa:Annotation']|join(', ') |
-| native | ['ann:TextAnnotation']|join(', ') |
+| self | oa:Annotation |
+| native | ann:TextAnnotation |
 
 
 ## LinkML Source

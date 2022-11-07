@@ -4,7 +4,6 @@ _Counts broken down by a facet_
 
 
 
-
 URI: [reporting:FacetedCount](https://w3id.org/linkml/reportFacetedCount)
 
 
@@ -25,8 +24,8 @@ URI: [reporting:FacetedCount](https://w3id.org/linkml/reportFacetedCount)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [facet](facet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [filtered_count](filtered_count.md) | 1..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | direct |
+| [facet](facet.md) | 0..1 <br/> None | None | direct |
+| [filtered_count](filtered_count.md) | 1..1 <br/> integer | None | direct |
 
 
 
@@ -52,6 +51,10 @@ URI: [reporting:FacetedCount](https://w3id.org/linkml/reportFacetedCount)
 
 
 
+
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -73,8 +76,8 @@ URI: [reporting:FacetedCount](https://w3id.org/linkml/reportFacetedCount)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['reporting:FacetedCount']|join(', ') |
-| native | ['reporting:FacetedCount']|join(', ') |
+| self | reporting:FacetedCount |
+| native | reporting:FacetedCount |
 
 
 ## LinkML Source

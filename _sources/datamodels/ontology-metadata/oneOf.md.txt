@@ -30,10 +30,13 @@ URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

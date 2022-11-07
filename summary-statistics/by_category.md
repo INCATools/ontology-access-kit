@@ -33,6 +33,11 @@ URI: [reporting:by_category](https://w3id.org/linkml/reportby_category)
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * for example, GO stats may be broken out by MF/BP/CC

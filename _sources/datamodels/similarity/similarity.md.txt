@@ -23,12 +23,15 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 ## Properties
 
 * Range: [TermPairwiseSimilarity](TermPairwiseSimilarity.md)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

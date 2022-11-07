@@ -25,10 +25,13 @@ URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/sche
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

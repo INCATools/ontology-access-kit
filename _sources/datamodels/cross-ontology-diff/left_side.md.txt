@@ -27,20 +27,23 @@ URI: [ann:left_side](https://w3id.org/linkml/text_annotator/left_side)
 | [left_subject_label](left_subject_label.md) | The name of the subject (child) of the source/left edge | Label |  |
 | [left_object_label](left_object_label.md) | The name of the object (parent) of the source/left edge | Label |  |
 | [left_predicate_label](left_predicate_label.md) | The name of the predicate of the source/left edge | Label |  |
-| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontology | None |  |
-| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontology | None |  |
+| [left_subject_is_functional](left_subject_is_functional.md) | True if a subject mapping is present, and maps uniquely within the same ontol... | None |  |
+| [left_object_is_functional](left_object_is_functional.md) | True if an object mapping is present, and maps uniquely within the same ontol... | None |  |
 
 
 
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
-
-
-
-
 * Mixin: True
+
+
+
+
+
+
+
+## Alias
 
 
 

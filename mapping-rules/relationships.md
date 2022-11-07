@@ -33,6 +33,11 @@ URI: [li:relationships](https://w3id.org/linkml/lexical_index/relationships)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

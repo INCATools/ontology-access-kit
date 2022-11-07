@@ -33,6 +33,11 @@ URI: [search:properties](https://w3id.org/linkml/search_datamodel/properties)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -24,10 +24,13 @@ URI: [ann:subject_start](https://w3id.org/linkml/text_annotator/subject_start)
 ## Properties
 
 * Range: [Position](Position.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

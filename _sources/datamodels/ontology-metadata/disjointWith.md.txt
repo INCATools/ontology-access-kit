@@ -41,6 +41,11 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 
 
+## Alias
+
+
+
+
 ## TODOs
 
 * restrict range

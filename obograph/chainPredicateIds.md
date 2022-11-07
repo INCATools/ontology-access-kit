@@ -31,6 +31,11 @@ URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredi
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

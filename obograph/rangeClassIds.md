@@ -31,6 +31,11 @@ URI: [og:rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

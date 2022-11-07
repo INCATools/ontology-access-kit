@@ -31,6 +31,11 @@ URI: [search:none_of](https://w3id.org/linkml/search_datamodel/none_of)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

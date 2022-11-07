@@ -23,10 +23,13 @@ URI: [li:predicate](https://w3id.org/linkml/lexical_index/predicate)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

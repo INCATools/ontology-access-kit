@@ -36,6 +36,11 @@ URI: [og:xrefs](https://github.com/geneontology/obographs/xrefs)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

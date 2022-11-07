@@ -31,6 +31,11 @@ URI: [og:subsets](https://github.com/geneontology/obographs/subsets)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

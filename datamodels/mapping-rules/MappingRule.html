@@ -69,8 +69,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Class: MappingRule</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Class: MappingRule</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/mapping-rules/MappingRule.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,27 +106,27 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> None</p></td>
 <td><p>None</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="oneway.html"><span class="doc std std-doc">oneway</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> boolean</p></td>
 <td><p>if true then subject and object can be switched and predicate inverted</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="preconditions.html"><span class="doc std std-doc">preconditions</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Precondition.html"><span class="doc std std-doc">Precondition</span></a></p></td>
+<td><p>0..1 <br/> Precondition</p></td>
 <td><p>all of the criteria that must be true before a rule is fired</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="postconditions.html"><span class="doc std std-doc">postconditions</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Postcondition.html"><span class="doc std std-doc">Postcondition</span></a></p></td>
+<td><p>0..1 <br/> Postcondition</p></td>
 <td><p>conditions that apply if preconditions match</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="synonymizer.html"><span class="doc std std-doc">synonymizer</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Synonymizer.html"><span class="doc std std-doc">Synonymizer</span></a></p></td>
+<td><p>0..1 <br/> Synonymizer</p></td>
 <td><p>Normalizing rules to labels.</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -171,10 +171,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>[‘mrules:MappingRule’]</p></td>
+<td><p>mrules:MappingRule</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>[‘mrules:MappingRule’]</p></td>
+<td><p>mrules:MappingRule</p></td>
 </tr>
 </tbody>
 </table>

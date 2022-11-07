@@ -6,7 +6,6 @@ _Abstract base class for any individual report result_
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
@@ -35,12 +34,15 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 | ---  | --- | --- | --- |
 
 
-
 ## Usages
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Report](Report.md) | [results](results.md) | range | Result |
+
+
+
+
 
 
 
@@ -65,8 +67,8 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['vm:Result']|join(', ') |
-| native | ['vm:Result']|join(', ') |
+| self | vm:Result |
+| native | vm:Result |
 
 
 ## LinkML Source

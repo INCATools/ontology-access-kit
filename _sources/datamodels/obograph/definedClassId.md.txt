@@ -23,10 +23,13 @@ URI: [og:definedClassId](https://github.com/geneontology/obographs/definedClassI
 ## Properties
 
 * Range: NONE
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

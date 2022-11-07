@@ -36,10 +36,13 @@ URI: [sdo:image](http://schema.org/image)
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

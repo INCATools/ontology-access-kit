@@ -30,10 +30,13 @@ URI: [owl:intersectionOf](http://www.w3.org/2002/07/owl#intersectionOf)
 ## Properties
 
 * Range: [ClassExpression](ClassExpression.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

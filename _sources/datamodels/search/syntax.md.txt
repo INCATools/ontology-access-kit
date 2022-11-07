@@ -25,10 +25,13 @@ URI: [search:syntax](https://w3id.org/linkml/search_datamodel/syntax)
 ## Properties
 
 * Range: [SearchTermSyntax](SearchTermSyntax.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -4,7 +4,6 @@ _A reified property-object pair_
 
 
 
-
 URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 
@@ -25,8 +24,8 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object](object.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [predicate](predicate.md) | 0..1 <br/> None | None | direct |
+| [object](object.md) | 0..1 <br/> None | None | direct |
 
 
 
@@ -35,6 +34,10 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Axiom](Axiom.md) | [annotations](annotations.md) | range | Annotation |
+
+
+
+
 
 
 
@@ -59,8 +62,8 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Annotation']|join(', ') |
-| native | ['omoschema:Annotation']|join(', ') |
+| self | omoschema:Annotation |
+| native | omoschema:Annotation |
 
 
 ## LinkML Source

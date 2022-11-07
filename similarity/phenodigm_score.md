@@ -30,10 +30,13 @@ URI: [sim:phenodigm_score](https://w3id.org/linkml/similarity/phenodigm_score)
 ## Properties
 
 * Range: [NonNegativeFloat](NonNegativeFloat.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -53,10 +53,13 @@ of the left edge.
 ## Properties
 
 * Range: [Label](Label.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

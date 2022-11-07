@@ -23,10 +23,13 @@ URI: [vm:dry_run](https://w3id.org/linkml/validation-model/dry_run)
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -4,7 +4,6 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
@@ -30,7 +29,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+| [type](type.md) | 0..* <br/> uriorcurie | None | direct |
 
 
 
@@ -111,6 +110,10 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
 
+
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -132,8 +135,8 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Thing']|join(', ') |
-| native | ['omoschema:Thing']|join(', ') |
+| self | owl:Thing |
+| native | omoschema:Thing |
 
 
 ## LinkML Source

@@ -30,6 +30,11 @@ URI: [OIO:hasSynonym](http://www.geneontology.org/formats/oboInOwl#hasSynonym)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

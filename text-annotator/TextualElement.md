@@ -2,7 +2,6 @@
 
 
 
-
 URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
@@ -25,10 +24,10 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [text](text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [source_text](source_text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [parent_document](parent_document.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
+| [id](id.md) | 1..1 <br/> uriorcurie | None | direct |
+| [text](text.md) | 0..1 <br/> string | None | direct |
+| [source_text](source_text.md) | 0..1 <br/> string | None | direct |
+| [parent_document](parent_document.md) | 0..1 <br/> uriorcurie | None | direct |
 
 
 
@@ -38,6 +37,10 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 | ---  | --- | --- | --- |
 | [HasSpan](HasSpan.md) | [subject_text_id](subject_text_id.md) | range | TextualElement |
 | [TextAnnotation](TextAnnotation.md) | [subject_text_id](subject_text_id.md) | range | TextualElement |
+
+
+
+
 
 
 
@@ -62,8 +65,8 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:TextualElement']|join(', ') |
-| native | ['ann:TextualElement']|join(', ') |
+| self | ann:TextualElement |
+| native | ann:TextualElement |
 
 
 ## LinkML Source

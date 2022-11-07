@@ -23,10 +23,13 @@ URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -25,12 +25,15 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
-
-
-
 * Recommended: True
 
+
+
+
+
+
+
+## Alias
 
 
 

@@ -19,10 +19,13 @@ URI: [sim:subsumes_score](https://w3id.org/linkml/similarity/subsumes_score)
 ## Properties
 
 * Range: [ZeroToOne](ZeroToOne.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

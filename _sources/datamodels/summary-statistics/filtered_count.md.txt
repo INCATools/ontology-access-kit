@@ -23,12 +23,15 @@ URI: [reporting:filtered_count](https://w3id.org/linkml/reportfiltered_count)
 ## Properties
 
 * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

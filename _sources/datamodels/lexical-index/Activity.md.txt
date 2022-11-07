@@ -6,7 +6,6 @@ _Generic grouping for any lexical operation_
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
@@ -37,6 +36,9 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -58,8 +60,8 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['prov:Activity']|join(', ') |
-| native | ['li:Activity']|join(', ') |
+| self | prov:Activity |
+| native | li:Activity |
 
 
 ## LinkML Source

@@ -44,6 +44,11 @@ URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * SHOULD be in Aristotelian (genus-differentia) form

@@ -36,6 +36,11 @@ URI: [owl:onProperty](http://www.w3.org/2002/07/owl#onProperty)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

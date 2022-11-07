@@ -31,10 +31,13 @@ URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ances
 ## Properties
 
 * Range: [NegativeLogValue](NegativeLogValue.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

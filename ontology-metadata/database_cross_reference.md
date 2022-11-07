@@ -45,6 +45,11 @@ URI: [oio:hasDbXref](http://www.geneontology.org/formats/oboInOwl#hasDbXref)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

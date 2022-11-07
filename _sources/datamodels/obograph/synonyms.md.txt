@@ -31,6 +31,11 @@ URI: [og:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

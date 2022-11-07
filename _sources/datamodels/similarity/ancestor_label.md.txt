@@ -25,10 +25,13 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

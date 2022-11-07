@@ -69,8 +69,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Class: SearchResult</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Class: SearchResult</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/search/SearchResult.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -109,42 +109,42 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="rank.html"><span class="doc std std-doc">rank</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>0..1 <br/> integer</p></td>
 <td><p>For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_id.html"><span class="doc std std-doc">object_id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>1..1 <br/> None</p></td>
 <td><p>The CURIE of the matched term</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_label.html"><span class="doc std std-doc">object_label</span></a></p></td>
-<td><p>0..1 <em>recommended</em> <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <em>recommended</em> <br/> None</p></td>
 <td><p>The label/name of the matched term</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_source.html"><span class="doc std std-doc">object_source</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> None</p></td>
 <td><p>The ontology or other source that contains the matched term</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="object_source_version.html"><span class="doc std std-doc">object_source_version</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> None</p></td>
 <td><p>Version IRI or version string of the source of the object term.</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_match_field.html"><span class="doc std std-doc">object_match_field</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> None</p></td>
 <td><p>The field/property in which the match was found</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="matches_full_search_term.html"><span class="doc std std-doc">matches_full_search_term</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>0..1 <br/> boolean</p></td>
 <td><p>Does the matched field match the full string</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="snippet.html"><span class="doc std std-doc">snippet</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p>0..1 <br/> None</p></td>
 <td><p>shows how the field was matched</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -189,10 +189,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>[‘search:SearchResult’]</p></td>
+<td><p>search:SearchResult</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>[‘search:SearchResult’]</p></td>
+<td><p>search:SearchResult</p></td>
 </tr>
 </tbody>
 </table>

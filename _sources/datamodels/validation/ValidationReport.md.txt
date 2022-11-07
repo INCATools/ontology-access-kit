@@ -4,7 +4,6 @@ _A report that consists of validation results_
 
 
 
-
 URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
@@ -29,8 +28,11 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> [ValidationResult](ValidationResult.md) | collection of results  | inherited |
+| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> Result | collection of results | [Report](Report.md) |
+
+
+
+
 
 
 
@@ -60,8 +62,8 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sh:ValidationReport']|join(', ') |
-| native | ['vm:ValidationReport']|join(', ') |
+| self | sh:ValidationReport |
+| native | vm:ValidationReport |
 
 
 ## LinkML Source

@@ -6,7 +6,6 @@ _Abstract root class for all anonymous (non-named; lacking an identifier) expres
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 
@@ -35,6 +34,9 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 
 
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -56,8 +58,8 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/schema/Anonymous)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Anonymous']|join(', ') |
-| native | ['omoschema:Anonymous']|join(', ') |
+| self | omoschema:Anonymous |
+| native | omoschema:Anonymous |
 
 
 ## LinkML Source

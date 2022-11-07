@@ -53,10 +53,13 @@ of the left edge.
 ## Properties
 
 * Range: [EntityReference](EntityReference.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

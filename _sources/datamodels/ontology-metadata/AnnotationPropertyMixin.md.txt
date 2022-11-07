@@ -4,9 +4,6 @@ _Groups all annotation property bundles_
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/AnnotationPropertyMixin)
 
 
@@ -43,6 +40,15 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+
+
+
+
+
 
 
 
@@ -68,8 +74,8 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:AnnotationPropertyMixin']|join(', ') |
-| native | ['omoschema:AnnotationPropertyMixin']|join(', ') |
+| self | omoschema:AnnotationPropertyMixin |
+| native | omoschema:AnnotationPropertyMixin |
 
 
 ## LinkML Source

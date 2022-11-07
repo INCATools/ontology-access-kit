@@ -31,6 +31,11 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/schema/annotations)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

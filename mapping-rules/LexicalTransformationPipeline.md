@@ -4,7 +4,6 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 
 
 
-
 URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline)
 
 
@@ -31,8 +30,8 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) | None  | direct |
+| [name](name.md) | 0..1 <br/> None | None | direct |
+| [transformations](transformations.md) | 0..* <br/> LexicalTransformation | None | direct |
 
 
 
@@ -42,6 +41,10 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 | ---  | --- | --- | --- |
 | [LexicalIndex](LexicalIndex.md) | [pipelines](pipelines.md) | range | LexicalTransformationPipeline |
 | [RelationshipToTerm](RelationshipToTerm.md) | [pipeline](pipeline.md) | range | LexicalTransformationPipeline |
+
+
+
+
 
 
 
@@ -66,8 +69,8 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalTransformationPipeline']|join(', ') |
-| native | ['li:LexicalTransformationPipeline']|join(', ') |
+| self | li:LexicalTransformationPipeline |
+| native | li:LexicalTransformationPipeline |
 
 
 ## LinkML Source

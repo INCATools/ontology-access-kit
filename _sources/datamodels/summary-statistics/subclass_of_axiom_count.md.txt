@@ -30,10 +30,13 @@ URI: [reporting:subclass_of_axiom_count](https://w3id.org/linkml/reportsubclass_
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

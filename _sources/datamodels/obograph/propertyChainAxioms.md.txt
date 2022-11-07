@@ -31,6 +31,11 @@ URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/property
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

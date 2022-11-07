@@ -31,6 +31,11 @@ URI: [sim:object_termset](https://w3id.org/linkml/similarity/object_termset)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

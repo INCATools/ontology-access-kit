@@ -4,7 +4,6 @@ _An individual search result_
 
 
 
-
 URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult)
 
 
@@ -31,14 +30,14 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [rank](rank.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant  | direct |
-| [object_id](object_id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The CURIE of the matched term  | direct |
-| [object_label](object_label.md) | 0..1 _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The label/name of the matched term  | direct |
-| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The ontology or other source that contains the matched term  | direct |
-| [object_source_version](object_source_version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Version IRI or version string of the source of the object term.  | direct |
-| [object_match_field](object_match_field.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The field/property in which the match was found  | direct |
-| [matches_full_search_term](matches_full_search_term.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | Does the matched field match the full string  | direct |
-| [snippet](snippet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | shows how the field was matched  | direct |
+| [rank](rank.md) | 0..1 <br/> integer | For relevancy-ranked results, this indicates the relevancy, with low numbers being the most relevant | direct |
+| [object_id](object_id.md) | 1..1 <br/> None | The CURIE of the matched term | direct |
+| [object_label](object_label.md) | 0..1 _recommended_ <br/> None | The label/name of the matched term | direct |
+| [object_source](object_source.md) | 0..1 <br/> None | The ontology or other source that contains the matched term | direct |
+| [object_source_version](object_source_version.md) | 0..1 <br/> None | Version IRI or version string of the source of the object term. | direct |
+| [object_match_field](object_match_field.md) | 0..1 <br/> None | The field/property in which the match was found | direct |
+| [matches_full_search_term](matches_full_search_term.md) | 0..1 <br/> boolean | Does the matched field match the full string | direct |
+| [snippet](snippet.md) | 0..1 <br/> None | shows how the field was matched | direct |
 
 
 
@@ -47,6 +46,10 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [SearchResultSet](SearchResultSet.md) | [results](results.md) | range | SearchResult |
+
+
+
+
 
 
 
@@ -71,8 +74,8 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['search:SearchResult']|join(', ') |
-| native | ['search:SearchResult']|join(', ') |
+| self | search:SearchResult |
+| native | search:SearchResult |
 
 
 ## LinkML Source

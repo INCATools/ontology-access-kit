@@ -23,10 +23,13 @@ URI: [search:configuration](https://w3id.org/linkml/search_datamodel/configurati
 ## Properties
 
 * Range: [SearchBaseConfiguration](SearchBaseConfiguration.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -25,12 +25,15 @@ URI: [sssom:subject_id](http://w3id.org/sssom/subject_id)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

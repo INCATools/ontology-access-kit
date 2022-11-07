@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
@@ -42,17 +39,27 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [onProperty](onProperty.md) | 0..* <br/> [PropertyExpression](PropertyExpression.md) | None  | direct |
-| [someValuesFrom](someValuesFrom.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [allValuesFrom](allValuesFrom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
-| [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
-| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
-| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
-| [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) | None  | inherited |
-| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | inherited |
+| [onProperty](onProperty.md) | 0..* <br/> PropertyExpression | None | direct |
+| [someValuesFrom](someValuesFrom.md) | 0..* <br/> None | None | direct |
+| [allValuesFrom](allValuesFrom.md) | 0..1 <br/> None | None | direct |
+| [complementOf](complementOf.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [unionOf](unionOf.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [equivalentClass](equivalentClass.md) | 0..* <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
+| [oneOf](oneOf.md) | 0..1 <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
+| [disjointWith](disjointWith.md) | 0..* <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [subClassOf](subClassOf.md) | 0..* <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
+| [cardinality](cardinality.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [intersectionOf](intersectionOf.md) | 0..1 <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+
+
+
+
+
 
 
 
@@ -78,8 +85,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Restriction']|join(', ') |
-| native | ['omoschema:Restriction']|join(', ') |
+| self | owl:Restriction |
+| native | omoschema:Restriction |
 
 
 ## LinkML Source

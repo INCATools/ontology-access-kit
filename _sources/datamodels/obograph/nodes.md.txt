@@ -31,6 +31,11 @@ URI: [og:nodes](https://github.com/geneontology/obographs/nodes)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

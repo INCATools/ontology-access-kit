@@ -30,10 +30,13 @@ URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_enti
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -4,7 +4,6 @@ _A simple pairwise similarity between two atomic concepts/terms_
 
 
 
-
 URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwiseSimilarity)
 
 
@@ -44,21 +43,21 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_id](subject_id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The first of the two entities being compared  | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the label or name for the first entity  | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the source for the first entity  | direct |
-| [object_id](object_id.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The second of the two entities being compared  | direct |
-| [object_label](object_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the label or name for the second entity  | direct |
-| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the source for the second entity  | direct |
-| [ancestor_id](ancestor_id.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | the most recent common ancestor of the two compared entities. If there are multiple MRCAs then the most informative one is selected  | direct |
-| [ancestor_label](ancestor_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the name or label of the ancestor concept  | direct |
-| [ancestor_source](ancestor_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [object_information_content](object_information_content.md) | 0..1 <br/> [NegativeLogValue](NegativeLogValue.md) | The IC of the object  | direct |
-| [subject_information_content](subject_information_content.md) | 0..1 <br/> [NegativeLogValue](NegativeLogValue.md) | The IC of the subject  | direct |
-| [ancestor_information_content](ancestor_information_content.md) | 0..1 <br/> [NegativeLogValue](NegativeLogValue.md) | The IC of the object  | direct |
-| [jaccard_similarity](jaccard_similarity.md) | 0..1 <br/> [ZeroToOne](ZeroToOne.md) | The number of concepts in the intersection divided by the number in the union  | direct |
-| [dice_similarity](dice_similarity.md) | 0..1 <br/> [ZeroToOne](ZeroToOne.md) | None  | direct |
-| [phenodigm_score](phenodigm_score.md) | 0..1 <br/> [NonNegativeFloat](NonNegativeFloat.md) | the geometric mean of the jaccard similarity and the information content  | direct |
+| [subject_id](subject_id.md) | 1..1 <br/> uriorcurie | The first of the two entities being compared | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> None | the label or name for the first entity | direct |
+| [subject_source](subject_source.md) | 0..1 <br/> None | the source for the first entity | direct |
+| [object_id](object_id.md) | 0..1 <br/> uriorcurie | The second of the two entities being compared | direct |
+| [object_label](object_label.md) | 0..1 <br/> None | the label or name for the second entity | direct |
+| [object_source](object_source.md) | 0..1 <br/> None | the source for the second entity | direct |
+| [ancestor_id](ancestor_id.md) | 0..1 <br/> uriorcurie | the most recent common ancestor of the two compared entities. If there are multiple MRCAs then the most informative one is selected | direct |
+| [ancestor_label](ancestor_label.md) | 0..1 <br/> None | the name or label of the ancestor concept | direct |
+| [ancestor_source](ancestor_source.md) | 0..1 <br/> None | None | direct |
+| [object_information_content](object_information_content.md) | 0..1 <br/> None | The IC of the object | direct |
+| [subject_information_content](subject_information_content.md) | 0..1 <br/> None | The IC of the subject | direct |
+| [ancestor_information_content](ancestor_information_content.md) | 0..1 <br/> None | The IC of the object | direct |
+| [jaccard_similarity](jaccard_similarity.md) | 0..1 <br/> ZeroToOne | The number of concepts in the intersection divided by the number in the union | direct |
+| [dice_similarity](dice_similarity.md) | 0..1 <br/> ZeroToOne | None | direct |
+| [phenodigm_score](phenodigm_score.md) | 0..1 <br/> NonNegativeFloat | the geometric mean of the jaccard similarity and the information content | direct |
 
 
 
@@ -67,6 +66,10 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [BestMatch](BestMatch.md) | [similarity](similarity.md) | range | TermPairwiseSimilarity |
+
+
+
+
 
 
 
@@ -91,8 +94,8 @@ URI: [sim:TermPairwiseSimilarity](https://w3id.org/linkml/similarity/TermPairwis
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sim:TermPairwiseSimilarity']|join(', ') |
-| native | ['sim:TermPairwiseSimilarity']|join(', ') |
+| self | sim:TermPairwiseSimilarity |
+| native | sim:TermPairwiseSimilarity |
 
 
 ## LinkML Source

@@ -31,6 +31,11 @@ URI: [og:graphs](https://github.com/geneontology/obographs/graphs)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

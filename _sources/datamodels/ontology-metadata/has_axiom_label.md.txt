@@ -28,10 +28,13 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

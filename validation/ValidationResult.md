@@ -4,7 +4,6 @@ _An individual result arising from validation of a data instance using a particu
 
 
 
-
 URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
@@ -52,15 +51,15 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID  | direct |
-| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue  | direct |
-| [subject](subject.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The instance which the result is about  | direct |
-| [instantiates](instantiates.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The type of the subject  | direct |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | The predicate or property of the subject which the result is about  | direct |
-| [object](object.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue  | direct |
+| [type](type.md) | 1..1 <br/> uriorcurie | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID | direct |
+| [severity](severity.md) | 0..1 <br/> severity_options | the severity of the issue | direct |
+| [subject](subject.md) | 1..1 <br/> uriorcurie | The instance which the result is about | direct |
+| [instantiates](instantiates.md) | 0..1 <br/> uriorcurie | The type of the subject | direct |
+| [predicate](predicate.md) | 0..1 <br/> uriorcurie | The predicate or property of the subject which the result is about | direct |
+| [object](object.md) | 0..1 <br/> uriorcurie | None | direct |
+| [object_str](object_str.md) | 0..1 <br/> string | None | direct |
+| [source](source.md) | 0..1 <br/> uriorcurie | None | direct |
+| [info](info.md) | 0..1 <br/> string | additional information about the issue | direct |
 
 
 
@@ -70,6 +69,10 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 | ---  | --- | --- | --- |
 | [ValidationReport](ValidationReport.md) | [results](results.md) | range | ValidationResult |
 | [RepairOperation](RepairOperation.md) | [repairs](repairs.md) | range | ValidationResult |
+
+
+
+
 
 
 
@@ -94,8 +97,8 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sh:ValidationResult']|join(', ') |
-| native | ['vm:ValidationResult']|join(', ') |
+| self | sh:ValidationResult |
+| native | vm:ValidationResult |
 
 
 ## LinkML Source

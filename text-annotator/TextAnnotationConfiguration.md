@@ -4,7 +4,6 @@ _configuration for search_
 
 
 
-
 URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/TextAnnotationConfiguration)
 
 
@@ -26,9 +25,13 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
-| [sources](sources.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | None  | direct |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> None | None | direct |
+| [sources](sources.md) | 0..* <br/> None | None | direct |
+| [limit](limit.md) | 0..1 <br/> integer | None | direct |
+
+
+
+
 
 
 
@@ -54,8 +57,8 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['ann:TextAnnotationConfiguration']|join(', ') |
-| native | ['ann:TextAnnotationConfiguration']|join(', ') |
+| self | ann:TextAnnotationConfiguration |
+| native | ann:TextAnnotationConfiguration |
 
 
 ## LinkML Source

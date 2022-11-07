@@ -25,10 +25,13 @@ URI: [li:type](https://w3id.org/linkml/lexical_index/type)
 ## Properties
 
 * Range: [TransformationType](TransformationType.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

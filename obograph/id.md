@@ -24,10 +24,13 @@ URI: [og:id](https://github.com/geneontology/obographs/id)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

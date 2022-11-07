@@ -40,6 +40,11 @@ URI: [rdfs:range](http://www.w3.org/2000/01/rdf-schema#range)
 
 
 
+## Alias
+
+
+
+
 ## TODOs
 
 * restrict range

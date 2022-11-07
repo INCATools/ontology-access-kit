@@ -25,13 +25,21 @@ URI: [mrules:weight](https://w3id.org/linkml/mapping_rules_datamodel/weight)
 ## Properties
 
 * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
-* Multivalued: None
 
 
 
 
 
 
+## Alias
+
+
+
+
+## See Also
+
+* [https://en.wikipedia.org/wiki/Logit](https://en.wikipedia.org/wiki/Logit)
+* [https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png](https://upload.wikimedia.org/wikipedia/commons/5/57/Logit.png)
 
 ## Identifier and Mapping Information
 

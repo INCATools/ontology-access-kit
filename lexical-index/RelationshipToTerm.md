@@ -4,7 +4,6 @@ _A relationship of an ontology element to a lexical term_
 
 
 
-
 URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipToTerm)
 
 
@@ -29,12 +28,12 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [element](element.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [element_term](element_term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the original term used in the element  | direct |
-| [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | None  | direct |
-| [synonymized](synonymized.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
+| [predicate](predicate.md) | 0..1 <br/> uriorcurie | None | direct |
+| [element](element.md) | 0..1 <br/> uriorcurie | None | direct |
+| [element_term](element_term.md) | 0..1 <br/> None | the original term used in the element | direct |
+| [source](source.md) | 0..1 <br/> uriorcurie | None | direct |
+| [pipeline](pipeline.md) | 0..* <br/> LexicalTransformationPipeline | None | direct |
+| [synonymized](synonymized.md) | 0..1 <br/> boolean | None | direct |
 
 
 
@@ -43,6 +42,10 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [LexicalGrouping](LexicalGrouping.md) | [relationships](relationships.md) | range | RelationshipToTerm |
+
+
+
+
 
 
 
@@ -67,8 +70,8 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:RelationshipToTerm']|join(', ') |
-| native | ['li:RelationshipToTerm']|join(', ') |
+| self | li:RelationshipToTerm |
+| native | li:RelationshipToTerm |
 
 
 ## LinkML Source

@@ -44,6 +44,11 @@ URI: [oio:creation_date](http://www.geneontology.org/formats/oboInOwl#creation_d
 
 
 
+## Alias
+
+
+
+
 ## TODOs
 
 * restrict range

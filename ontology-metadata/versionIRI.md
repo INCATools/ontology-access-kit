@@ -28,10 +28,13 @@ URI: [owl:versionIRI](http://www.w3.org/2002/07/owl#versionIRI)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -25,10 +25,13 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 ## Properties
 
 * Range: [Precondition](Precondition.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

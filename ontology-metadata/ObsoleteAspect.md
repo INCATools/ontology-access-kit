@@ -4,9 +4,6 @@ _Auto-classifies anything that is obsolete_
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAspect)
 
 
@@ -25,6 +22,11 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+
 
 
 
@@ -71,6 +73,10 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 
 
 
+
+
+
+
 ## Identifier and Mapping Information
 
 
@@ -92,8 +98,8 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/schema/ObsoleteAs
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:ObsoleteAspect']|join(', ') |
-| native | ['omoschema:ObsoleteAspect']|join(', ') |
+| self | omoschema:ObsoleteAspect |
+| native | omoschema:ObsoleteAspect |
 
 
 ## LinkML Source

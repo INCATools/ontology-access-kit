@@ -36,10 +36,13 @@ URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/schema/should_
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

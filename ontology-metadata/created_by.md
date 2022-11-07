@@ -37,10 +37,13 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

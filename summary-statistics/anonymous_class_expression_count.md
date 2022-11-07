@@ -30,10 +30,13 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

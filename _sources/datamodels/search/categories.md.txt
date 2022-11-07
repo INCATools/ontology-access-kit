@@ -33,6 +33,11 @@ URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

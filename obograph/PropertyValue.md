@@ -4,7 +4,6 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 
@@ -39,10 +38,14 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
+| [pred](pred.md) | 0..1 <br/> string | None | direct |
+| [val](val.md) | 0..1 <br/> string | None | direct |
+| [xrefs](xrefs.md) | 0..* <br/> string | None | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
+
+
+
+
 
 
 
@@ -68,8 +71,8 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:PropertyValue']|join(', ') |
-| native | ['og:PropertyValue']|join(', ') |
+| self | og:PropertyValue |
+| native | og:PropertyValue |
 
 
 ## LinkML Source

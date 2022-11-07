@@ -23,10 +23,13 @@ URI: [sssom:object_id](http://w3id.org/sssom/object_id)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -25,10 +25,13 @@ URI: [li:element_term](https://w3id.org/linkml/lexical_index/element_term)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

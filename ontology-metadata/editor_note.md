@@ -44,6 +44,11 @@ URI: [IAO:0000116](http://purl.obolibrary.org/obo/IAO_0000116)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

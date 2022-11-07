@@ -19,10 +19,13 @@ URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

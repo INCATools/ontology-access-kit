@@ -23,10 +23,13 @@ URI: [search:is_fuzzy](https://w3id.org/linkml/search_datamodel/is_fuzzy)
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

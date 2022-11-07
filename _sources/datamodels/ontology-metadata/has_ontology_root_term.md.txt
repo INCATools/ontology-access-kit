@@ -36,6 +36,11 @@ URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -31,6 +31,11 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -31,6 +31,11 @@ URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

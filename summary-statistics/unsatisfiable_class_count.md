@@ -30,10 +30,13 @@ URI: [reporting:unsatisfiable_class_count](https://w3id.org/linkml/reportunsatis
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

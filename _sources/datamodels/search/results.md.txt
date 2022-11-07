@@ -31,6 +31,11 @@ URI: [search:results](https://w3id.org/linkml/search_datamodel/results)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

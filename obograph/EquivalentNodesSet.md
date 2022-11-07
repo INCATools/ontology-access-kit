@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/EquivalentNodesSet)
 
 
@@ -30,9 +29,9 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [representativeNodeId](representativeNodeId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [nodeIds](nodeIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+| [representativeNodeId](representativeNodeId.md) | 0..1 <br/> string | None | direct |
+| [nodeIds](nodeIds.md) | 0..* <br/> string | None | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | [Axiom](Axiom.md) |
 
 
 
@@ -41,6 +40,10 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Graph](Graph.md) | [equivalentNodesSets](equivalentNodesSets.md) | range | EquivalentNodesSet |
+
+
+
+
 
 
 
@@ -65,8 +68,8 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:EquivalentNodesSet']|join(', ') |
-| native | ['og:EquivalentNodesSet']|join(', ') |
+| self | og:EquivalentNodesSet |
+| native | og:EquivalentNodesSet |
 
 
 ## LinkML Source

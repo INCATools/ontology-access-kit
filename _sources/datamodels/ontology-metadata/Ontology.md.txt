@@ -4,7 +4,6 @@ _An OWL ontology_
 
 
 
-
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
@@ -42,18 +41,18 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [title](title.md) | 1..1 <br/> [NarrativeText](NarrativeText.md) | None  | direct |
-| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> [Class](Class.md) | None  | direct |
-| [license](license.md) | 1..1 <br/> [Thing](Thing.md) | None  | direct |
-| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [versionIRI](versionIRI.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | direct |
-| [versionInfo](versionInfo.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [creator](creator.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | when the term came into being  | direct |
-| [imports](imports.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF  | inherited |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | inherited |
+| [title](title.md) | 0..1 <br/> narrative text | None | direct |
+| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> Class | None | direct |
+| [license](license.md) | 0..1 <br/> Thing | None | direct |
+| [source](source.md) | 0..* <br/> None | None | direct |
+| [versionIRI](versionIRI.md) | 0..1 <br/> uriorcurie | None | direct |
+| [versionInfo](versionInfo.md) | 0..1 <br/> None | None | direct |
+| [comment](comment.md) | 0..* <br/> None | None | direct |
+| [creator](creator.md) | 0..* <br/> None | None | direct |
+| [created](created.md) | 0..1 <br/> None | when the term came into being | direct |
+| [imports](imports.md) | 0..1 <br/> None | None | direct |
+| [type](type.md) | 0..* <br/> uriorcurie | None | [Thing](Thing.md) |
+| [id](id.md) | 1..1 <br/> uriorcurie | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
 
 
 
@@ -70,6 +69,10 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [TransitiveProperty](TransitiveProperty.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
 | [NamedIndividual](NamedIndividual.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
 | [Subset](Subset.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
+
+
+
+
 
 
 
@@ -94,8 +97,8 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['owl:Ontology']|join(', ') |
-| native | ['omoschema:Ontology']|join(', ') |
+| self | owl:Ontology |
+| native | omoschema:Ontology |
 
 
 ## LinkML Source

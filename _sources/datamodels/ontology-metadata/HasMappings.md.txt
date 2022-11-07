@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 
@@ -43,11 +40,22 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [broadMatch](broadMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
-| [closeMatch](closeMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
-| [exactMatch](exactMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
-| [narrowMatch](narrowMatch.md) | 0..* <br/> [Thing](Thing.md) | None  | direct |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) | None  | direct |
+| [broadMatch](broadMatch.md) | 0..* <br/> Thing | None | direct |
+| [closeMatch](closeMatch.md) | 0..* <br/> Thing | None | direct |
+| [exactMatch](exactMatch.md) | 0..* <br/> Thing | None | direct |
+| [narrowMatch](narrowMatch.md) | 0..* <br/> Thing | None | direct |
+| [database_cross_reference](database_cross_reference.md) | 0..* <br/> CURIELiteral | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
+
+
+
+
+
 
 
 
@@ -73,8 +81,8 @@ URI: [omoschema:HasMappings](http://purl.obolibrary.org/obo/schema/HasMappings)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasMappings']|join(', ') |
-| native | ['omoschema:HasMappings']|join(', ') |
+| self | omoschema:HasMappings |
+| native | omoschema:HasMappings |
 
 
 ## LinkML Source

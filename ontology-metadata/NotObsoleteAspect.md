@@ -4,9 +4,6 @@ _Auto-classifies anything that is not obsolete_
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObsoleteAspect)
 
 
@@ -25,6 +22,11 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+
 
 
 
@@ -41,6 +43,10 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 | [TransitiveProperty](TransitiveProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
 | [NamedIndividual](NamedIndividual.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
 | [Subset](Subset.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
+
+
+
+
 
 
 
@@ -65,8 +71,8 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:NotObsoleteAspect']|join(', ') |
-| native | ['omoschema:NotObsoleteAspect']|join(', ') |
+| self | omoschema:NotObsoleteAspect |
+| native | omoschema:NotObsoleteAspect |
 
 
 ## LinkML Source

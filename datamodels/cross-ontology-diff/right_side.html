@@ -69,8 +69,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Slot: right_side</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Slot: right_side</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/datamodels/cross-ontology-diff/right_side.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -116,27 +116,37 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="right_predicate_ids.html"><span class="doc std std-doc">right_predicate_ids</span></a></p></td>
-<td><p>* If the match type is consistent, then all consistent predicates.</p></td>
+<td><p>* If the match type is consistent, then all consistent predicates</p></td>
+<td><p>EntityReference</p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a></p></td>
+<td><p>The name of the subject (child) of the matched/right edge, if matchable</p></td>
+<td><p>Label</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a></p></td>
+<td><p>The name of the object (parent) of the matched/right edge, if matchable</p></td>
+<td><p>Label</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a></p></td>
+<td><p>The names corresponding to the right_predicate_ids</p></td>
+<td><p>Label</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
-<ul class="simple">
-<li><p>If the match type is identical, then the identical predicate.</p></li>
-<li><p>If the match type is OtherRelationship, then all predicates that form a path between right subject and object | EntityReference |  |
-| <a class="reference internal" href="right_subject_label.html"><span class="doc std std-doc">right_subject_label</span></a> | The name of the subject (child) of the matched/right edge, if matchable | Label |  |
-| <a class="reference internal" href="right_object_label.html"><span class="doc std std-doc">right_object_label</span></a> | The name of the object (parent) of the matched/right edge, if matchable | Label |  |
-| <a class="reference internal" href="right_predicate_labels.html"><span class="doc std std-doc">right_predicate_labels</span></a> | The names corresponding to the right_predicate_ids | Label |  |</p></li>
-</ul>
 </section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
-<li><p>Multivalued: None</p></li>
 <li><p>Mixin: True</p></li>
 </ul>
+</section>
+<section id="alias">
+<h2>Alias<a class="headerlink" href="#alias" title="Permalink to this headline"></a></h2>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>

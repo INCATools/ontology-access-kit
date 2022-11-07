@@ -31,6 +31,11 @@ URI: [li:transformations](https://w3id.org/linkml/lexical_index/transformations)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

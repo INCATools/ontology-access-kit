@@ -30,10 +30,13 @@ URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_indi
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

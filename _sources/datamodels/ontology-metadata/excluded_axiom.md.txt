@@ -22,10 +22,13 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/schema/excluded_a
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

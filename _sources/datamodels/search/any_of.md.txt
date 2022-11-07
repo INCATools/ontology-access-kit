@@ -31,6 +31,11 @@ URI: [search:any_of](https://w3id.org/linkml/search_datamodel/any_of)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

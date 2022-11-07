@@ -25,10 +25,13 @@ URI: [search:matches_full_search_term](https://w3id.org/linkml/search_datamodel/
 ## Properties
 
 * Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

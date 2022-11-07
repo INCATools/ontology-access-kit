@@ -27,12 +27,15 @@ URI: [sh:sourceConstraintComponent](http://www.w3.org/ns/shacl#sourceConstraintC
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

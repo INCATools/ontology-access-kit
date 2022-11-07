@@ -23,12 +23,15 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 ## Properties
 
 * Range: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
-* Multivalued: None
-
-
-
 * Required: True
 
+
+
+
+
+
+
+## Alias
 
 
 

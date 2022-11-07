@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/LogicalDefinitionAxiom)
 
 
@@ -31,10 +30,10 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [definedClassId](definedClassId.md) | 0..1 <br/> NONE | None  | direct |
-| [genusIds](genusIds.md) | 0..* <br/> NONE | None  | direct |
-| [restrictions](restrictions.md) | 0..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | inherited |
+| [definedClassId](definedClassId.md) | 0..1 <br/> None | None | direct |
+| [genusIds](genusIds.md) | 0..* <br/> None | None | direct |
+| [restrictions](restrictions.md) | 0..* <br/> ExistentialRestrictionExpression | None | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | [Axiom](Axiom.md) |
 
 
 
@@ -43,6 +42,10 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Graph](Graph.md) | [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | range | LogicalDefinitionAxiom |
+
+
+
+
 
 
 
@@ -67,8 +70,8 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:LogicalDefinitionAxiom']|join(', ') |
-| native | ['og:LogicalDefinitionAxiom']|join(', ') |
+| self | og:LogicalDefinitionAxiom |
+| native | og:LogicalDefinitionAxiom |
 
 
 ## LinkML Source

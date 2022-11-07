@@ -33,6 +33,11 @@ URI: [search:search_terms](https://w3id.org/linkml/search_datamodel/search_terms
 
 
 
+## Alias
+
+
+
+
 ## Comments
 
 * This slot is optional when the configuration is used to paramterize multiple searches

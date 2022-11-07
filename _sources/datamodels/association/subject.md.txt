@@ -25,10 +25,13 @@ URI: [rdf:subject](rdf:subject)
 ## Properties
 
 * Range: [xsd:anyURI](xsd:anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

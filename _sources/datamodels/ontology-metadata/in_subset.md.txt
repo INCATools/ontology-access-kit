@@ -41,6 +41,11 @@ URI: [oio:inSubset](http://www.geneontology.org/formats/oboInOwl#inSubset)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

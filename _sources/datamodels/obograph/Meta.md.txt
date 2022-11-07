@@ -2,7 +2,6 @@
 
 
 
-
 URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 
@@ -29,14 +28,14 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subsets](subsets.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [definition](definition.md) | 0..1 <br/> [DefinitionPropertyValue](DefinitionPropertyValue.md) | None  | direct |
-| [xrefs](xrefs.md) | 0..* <br/> [XrefPropertyValue](XrefPropertyValue.md) | None  | direct |
-| [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md) | None  | direct |
-| [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md) | None  | direct |
-| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | None  | direct |
+| [subsets](subsets.md) | 0..* <br/> string | None | direct |
+| [version](version.md) | 0..1 <br/> string | None | direct |
+| [comments](comments.md) | 0..* <br/> string | None | direct |
+| [definition](definition.md) | 0..1 <br/> DefinitionPropertyValue | None | direct |
+| [xrefs](xrefs.md) | 0..* <br/> string | None | direct |
+| [synonyms](synonyms.md) | 0..* <br/> SynonymPropertyValue | None | direct |
+| [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> BasicPropertyValue | None | direct |
+| [deprecated](deprecated.md) | 0..1 <br/> boolean | None | direct |
 
 
 
@@ -57,6 +56,10 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 | [EquivalentNodesSet](EquivalentNodesSet.md) | [meta](meta.md) | range | Meta |
 | [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [meta](meta.md) | range | Meta |
 | [PropertyChainAxiom](PropertyChainAxiom.md) | [meta](meta.md) | range | Meta |
+
+
+
+
 
 
 
@@ -81,8 +84,8 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Meta']|join(', ') |
-| native | ['og:Meta']|join(', ') |
+| self | og:Meta |
+| native | og:Meta |
 
 
 ## LinkML Source

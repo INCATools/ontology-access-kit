@@ -4,7 +4,6 @@ _Anything with an IRI_
 
 
 
-
 URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 
@@ -40,8 +39,8 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF  | direct |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | None  | inherited |
+| [id](id.md) | 1..1 <br/> uriorcurie | this maps to the URI in RDF | direct |
+| [type](type.md) | 0..* <br/> uriorcurie | None | [Thing](Thing.md) |
 
 
 
@@ -50,6 +49,17 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Axiom](Axiom.md) | [annotatedSource](annotatedSource.md) | range | NamedObject |
+
+
+
+
+## Aliases
+
+
+* named entity
+* identified object
+* IRI
+
 
 
 
@@ -74,8 +84,8 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/schema/NamedObject)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:NamedObject']|join(', ') |
-| native | ['omoschema:NamedObject']|join(', ') |
+| self | omoschema:NamedObject |
+| native | omoschema:NamedObject |
 
 
 ## LinkML Source

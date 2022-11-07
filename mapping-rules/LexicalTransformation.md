@@ -4,7 +4,6 @@ _An atomic lexical transformation applied on a term (string) yielding a transfor
 
 
 
-
 URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTransformation)
 
 
@@ -31,8 +30,8 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation  | direct |
-| [params](params.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Any parameters to be applied to the transformation algorithm  | direct |
+| [type](type.md) | 0..1 <br/> TransformationType | The type of transformation | direct |
+| [params](params.md) | 0..1 <br/> None | Any parameters to be applied to the transformation algorithm | direct |
 
 
 
@@ -41,6 +40,10 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | [transformations](transformations.md) | range | LexicalTransformation |
+
+
+
+
 
 
 
@@ -65,8 +68,8 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalTransformation']|join(', ') |
-| native | ['li:LexicalTransformation']|join(', ') |
+| self | li:LexicalTransformation |
+| native | li:LexicalTransformation |
 
 
 ## LinkML Source

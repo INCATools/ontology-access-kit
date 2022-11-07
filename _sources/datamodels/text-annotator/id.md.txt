@@ -23,10 +23,13 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 ## Properties
 
 * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

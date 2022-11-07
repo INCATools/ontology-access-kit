@@ -31,6 +31,11 @@ URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

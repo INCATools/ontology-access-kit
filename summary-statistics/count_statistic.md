@@ -43,10 +43,13 @@ URI: [reporting:count_statistic](https://w3id.org/linkml/reportcount_statistic)
 ## Properties
 
 * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

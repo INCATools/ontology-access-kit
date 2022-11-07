@@ -30,10 +30,13 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

@@ -2,9 +2,6 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
 URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpression)
 
 
@@ -50,14 +47,22 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) | None  | direct |
-| [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) | None  | direct |
-| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) | None  | direct |
-| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
-| [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) | None  | direct |
-| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | None  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> None | None | direct |
+| [equivalentClass](equivalentClass.md) | 0..* <br/> ClassExpression | None | direct |
+| [intersectionOf](intersectionOf.md) | 0..1 <br/> ClassExpression | None | direct |
+| [subClassOf](subClassOf.md) | 0..* <br/> ClassExpression | None | direct |
+| [cardinality](cardinality.md) | 0..1 <br/> None | None | direct |
+| [complementOf](complementOf.md) | 0..1 <br/> None | None | direct |
+| [oneOf](oneOf.md) | 0..1 <br/> ClassExpression | None | direct |
+| [unionOf](unionOf.md) | 0..1 <br/> None | None | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Class](Class.md) |  |
+| [Restriction](Restriction.md) |  |
+
 
 
 
@@ -76,6 +81,10 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 | [ClassExpression](ClassExpression.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
 | [ClassExpression](ClassExpression.md) | [subClassOf](subClassOf.md) | range | ClassExpression |
 | [ClassExpression](ClassExpression.md) | [oneOf](oneOf.md) | range | ClassExpression |
+
+
+
+
 
 
 
@@ -100,8 +109,8 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:ClassExpression']|join(', ') |
-| native | ['omoschema:ClassExpression']|join(', ') |
+| self | omoschema:ClassExpression |
+| native | omoschema:ClassExpression |
 
 
 ## LinkML Source

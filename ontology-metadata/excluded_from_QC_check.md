@@ -36,10 +36,13 @@ URI: [omoschema:excluded_from_QC_check](http://purl.obolibrary.org/obo/schema/ex
 ## Properties
 
 * Range: [Thing](Thing.md)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

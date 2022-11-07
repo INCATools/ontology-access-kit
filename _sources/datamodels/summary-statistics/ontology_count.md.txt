@@ -30,10 +30,13 @@ URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

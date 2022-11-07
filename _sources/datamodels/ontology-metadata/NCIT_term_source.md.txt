@@ -14,10 +14,13 @@ URI: [NCIT:P384](http://purl.obolibrary.org/obo/NCIT_P384)
 ## Properties
 
 * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
-* Multivalued: None
 
 
 
+
+
+
+## Alias
 
 
 

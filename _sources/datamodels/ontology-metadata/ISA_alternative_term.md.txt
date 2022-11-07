@@ -44,6 +44,11 @@ URI: [OBI:0001847](http://purl.obolibrary.org/obo/OBI_0001847)
 
 
 
+## Alias
+
+
+
+
 ## Identifier and Mapping Information
 
 

@@ -4,7 +4,6 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
@@ -36,7 +35,11 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | None  | direct |
+| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
+
+
+
+
 
 
 
@@ -62,8 +65,8 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Axiom']|join(', ') |
-| native | ['og:Axiom']|join(', ') |
+| self | og:Axiom |
+| native | og:Axiom |
 
 
 ## LinkML Source
