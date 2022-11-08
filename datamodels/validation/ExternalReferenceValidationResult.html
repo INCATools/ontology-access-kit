@@ -148,19 +148,9 @@
 <td><p>None</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>1..1 <br/> uriorcurie</p></td>
-<td><p>The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID</p></td>
-<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object_str.html"><span class="doc std std-doc">object_str</span></a></p></td>
-<td><p>0..1 <br/> string</p></td>
-<td><p>None</p></td>
-<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
-<td><p>1..1 <br/> uriorcurie</p></td>
-<td><p>The instance which the result is about</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
+<td><p>0..1 <br/> uriorcurie</p></td>
+<td><p>The predicate or property of the subject which the result is about</p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="source.html"><span class="doc std std-doc">source</span></a></p></td>
@@ -168,29 +158,39 @@
 <td><p>None</p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
+<td><p>1..1 <br/> uriorcurie</p></td>
+<td><p>The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
+<td><p>0..1 <br/> string</p></td>
+<td><p>additional information about the issue</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="severity.html"><span class="doc std std-doc">severity</span></a></p></td>
 <td><p>0..1 <br/> severity_options</p></td>
 <td><p>the severity of the issue</p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>0..1 <br/> uriorcurie</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject.html"><span class="doc std std-doc">subject</span></a></p></td>
+<td><p>1..1 <br/> uriorcurie</p></td>
+<td><p>The instance which the result is about</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_str.html"><span class="doc std std-doc">object_str</span></a></p></td>
+<td><p>0..1 <br/> string</p></td>
 <td><p>None</p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="info.html"><span class="doc std std-doc">info</span></a></p></td>
-<td><p>0..1 <br/> string</p></td>
-<td><p>additional information about the issue</p></td>
-<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>0..1 <br/> uriorcurie</p></td>
-<td><p>The predicate or property of the subject which the result is about</p></td>
-<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="instantiates.html"><span class="doc std std-doc">instantiates</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="instantiates.html"><span class="doc std std-doc">instantiates</span></a></p></td>
 <td><p>0..1 <br/> uriorcurie</p></td>
 <td><p>The type of the subject</p></td>
+<td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
+<td><p>0..1 <br/> uriorcurie</p></td>
+<td><p>None</p></td>
 <td><p><a class="reference internal" href="ValidationResult.html"><span class="doc std std-doc">ValidationResult</span></a></p></td>
 </tr>
 </tbody>

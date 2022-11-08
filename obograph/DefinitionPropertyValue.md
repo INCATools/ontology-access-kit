@@ -29,10 +29,10 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [pred](pred.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
+| ---  | --- | --- | --- || [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> Meta | None | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
+| [pred](pred.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
 
 
 
