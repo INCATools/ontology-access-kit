@@ -456,6 +456,18 @@ def convert(
         lookup_d = concepts_d if sub_native and code_or_id in concepts_d \
             else non_class_nodes if sub_native else foreign_nodes
         try:
+            # TODO: There's various bugs here:
+            #  i. multiple parents with same ID
+            #  ii. edges being called parents
+            #  iii. designation (system is wrong):
+            #     {
+            #       "use": {
+            #         "system": "MONDORULE",
+            #         "code": "1",
+            #         "display": "Synonym (core metadata concept)"
+            #       },
+            #       "value": "mitochondrial DNA depletion syndrome type 2"
+            #     },
             lookup_d[code_or_id]['property'].append({
                 "code": "parent",
                 "valueCode": obj_code if obj_code else edge.obj})
