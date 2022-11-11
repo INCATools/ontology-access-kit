@@ -262,16 +262,34 @@ def convert(
         ],
         # Dynamic properties
         # TODO compute these
-        "url": "http://purl.obolibrary.org/obo/mondo.owl",
-        "version": "http://purl.obolibrary.org/obo/mondo/releases/2022-07-01/mondo.owl",
-        "name": "http://purl.obolibrary.org/obo/mondo.owl",
-        "valueSet": "http://purl.obolibrary.org/obo/mondo.owl?vs",
+        # TODO: "id": HAPI not able to reaad it or conflating:
+        #  {
+        #   "resourceType": "OperationOutcome",
+        #   "issue": [
+        #     {
+        #       "severity": "error",
+        #       "code": "processing",
+        #       "diagnostics": "HAPI-0389: Failed to call access method: org.springframework.dao.InvalidDataAccessApiUsageException: HAPI-1110: 'loinc' CodeSystem must have an ID; nested exception is java.security.InvalidParameterException: HAPI-1110: 'loinc' CodeSystem must have an ID"
+        #     }
+        #   ]
+        # }
+        # "id": "http://purl.obolibrary.org/obo/mondo.owl",
+        # "url": "http://purl.obolibrary.org/obo/mondo.owl",
+        # "version": "http://purl.obolibrary.org/obo/mondo/releases/2022-07-01/mondo.owl",
+        # "name": "http://purl.obolibrary.org/obo/mondo.owl",
+        # "valueSet": "http://purl.obolibrary.org/obo/mondo.owl?vs",
+        "id": "https://github.com/loinc/comp-loinc/releases/download/v2022-11-05/merged_reasoned_loinc.owl",
+        "url": "https://github.com/loinc/comp-loinc/releases/download/v2022-11-05/merged_reasoned_loinc.owl",
+        "version": "https://github.com/loinc/comp-loinc/releases/download/v2022-11-05/merged_reasoned_loinc.owl",
+        "name": "https://github.com/loinc/comp-loinc/releases/download/v2022-11-05/merged_reasoned_loinc.owl",
+        "valueSet": "https://github.com/loinc/comp-loinc/releases/download/v2022-11-05/merged_reasoned_loinc.owl?vs",
 
         # TODO: (i) Add to CLI, (ii) but use defaults
         #  - Define these in a dict at top. Then iter over to add argeparse args w/ defaults, & set here
         "status": "draft",
         "experimental": False,
-        "description": "Includes Ontology(OntologyID(Anonymous-51)) [Axioms: 79310 Logical Axioms: 0]",
+        "description": "An OWL ontology",
+        # "description": "Includes Ontology(OntologyID(Anonymous-51)) [Axioms: 79310 Logical Axioms: 0]",
         "compositional": False,
         "versionNeeded": False,
         "content": "complete",
@@ -415,16 +433,7 @@ def convert(
     edge_property_map = {'is_a': 'parent'}
     global_props  = set([x['code'] for x in cs['property']])
     # todo: added sub->obj to concept properties, but is obj->sub desirable/valid?
-    # TODO: bugfix: Parents showing up multiple times:
-    #         {
-    #           "code": "parent",
-    #           "valueCode": "0002974"
-    #         },
-    #         {
-    #           "code": "parent",
-    #           "valueCode": "0002974"
-    #         }
-    #       ],
+
     for edge in g.edges:
         # - Aggregate edge cases
         sub_code, obj_code = '', ''
@@ -459,6 +468,16 @@ def convert(
             # TODO: There's various bugs here:
             #  i. multiple parents with same ID
             #  ii. edges being called parents
+            #  (i & ii example):
+            #     {
+            #       "code": "parent",
+            #       "valueCode": "0002974"
+            #     },
+            #     {
+            #       "code": "parent",
+            #       "valueCode": "0002974"
+            #     }
+            #   ],
             #  iii. designation (system is wrong):
             #     {
             #       "use": {
@@ -487,13 +506,19 @@ def convert(
     pretty = False  # todo: cli param
     with open(outpath, 'w') as f:
         json.dump(cs, f, indent=2 if pretty else None)
+    # todo: temp: just dump pretty too
+    with open(outpath.replace('minified', 'pretty'), 'w') as f:
+        json.dump(cs, f, indent=2)
     return cs
 
 
 if __name__ == '__main__':  # todo: remove this when PR ready (this is for debugging; for some reason running test adds about ~7+ seconds)
     TEST_DIR = os.path.join(PROJECT_DIR, 'tests')
     convert(
-        inpath=os.path.join(TEST_DIR, 'input', 'mondo-example.owl'),
-        outpath=os.path.join(TEST_DIR, 'output', 'mondo-example.json'),
-        code_system_uri_prefix='http://purl.obolibrary.org/obo/MONDO_',
+        # inpath=os.path.join(TEST_DIR, 'input', 'mondo-example.owl'),
+        # outpath=os.path.join(TEST_DIR, 'output', 'mondo-example.json'),
+        # code_system_uri_prefix='http://purl.obolibrary.org/obo/MONDO_',
+        inpath=os.path.join(TEST_DIR, 'input', 'merged_reasoned_loinc.owl'),
+        outpath=os.path.join(TEST_DIR, 'output', 'comploinc-minified.fhir.json'),
+        code_system_uri_prefix='https://loinc.org/',
         load_cache=True)
