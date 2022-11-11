@@ -1,5 +1,9 @@
+import math
 import os
 from pathlib import Path
+from typing import List
+
+from linkml_runtime.utils.yamlutils import YAMLRoot
 
 ROOT = os.path.abspath(os.path.dirname(__file__))
 INPUT_DIR = Path(ROOT) / "input"
@@ -76,3 +80,39 @@ GENE6 = "HGCN:6"
 GENE7 = "HGCN:7"
 GENE8 = "HGCN:8"
 GENE9 = "HGCN:9"
+
+
+def object_subsumed_by(sub: YAMLRoot, parent: YAMLRoot, float_abs_tol=0.001) -> bool:
+    """
+    Check if one object is subsumed by another, where subsumption holds
+    when all non-null/default values in the parent are set in the sub.
+
+    :param sub:
+    :param parent:
+    :return:
+    """
+    if sub == parent:
+        return True
+    for k, v in vars(parent).items():
+        if v is not None and v != []:
+            if isinstance(v, float):
+                if not math.isclose(v, getattr(sub, k), abs_tol=float_abs_tol):
+                    return False
+            else:
+                if v != getattr(sub, k):
+                    return False
+    return True
+
+
+def object_is_subsumed_by_member_of(obj: YAMLRoot, obj_list: List[YAMLRoot], **kwargs) -> bool:
+    """
+    Check if an object is subsumed by any member of a list of objects.
+
+    :param obj:
+    :param obj_list:
+    :return:
+    """
+    for o in obj_list:
+        if object_subsumed_by(o, obj, **kwargs):
+            return True
+    return False

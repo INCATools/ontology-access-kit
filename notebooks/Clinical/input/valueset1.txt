@@ -1,0 +1,11 @@
+loinc:5914-7 ! Glucose:PrThr:Pt:Bld:Ord:Test strip
+loinc:2339-0 ! Glucose:MCnc:Pt:Bld:Qn:
+loinc:50216-1 ! Glucose^6th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:6777-7 ! Glucose:MCnc:Pt:Ser/Plas:Qn:
+loinc:77145-1 ! Glucose^post CFst:SCnc:Pt:Ser/Plas/Bld:Qn:
+loinc:54085-6 ! Galactose:SCnc:Pt:Bld.dot:Qn:
+loinc:50218-7 ! Glucose^9th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:25426-8 ! Galactose:SCnc:Pt:Ser/Plas:Qn:
+loinc:32016-8 ! Glucose:MCnc:Pt:BldC:Qn:
+loinc:77135-2 ! Glucose:SCnc:Pt:Ser/Plas/Bld:Qn:
+loinc:2307-7 ! Galactose:MCnc:Pt:Bld:Qn:

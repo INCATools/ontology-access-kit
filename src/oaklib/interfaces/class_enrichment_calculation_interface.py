@@ -15,11 +15,12 @@ from oaklib.utilities.stats.hypergeometric import hypergeometric_p_value
 @dataclass
 class ClassEnrichmentCalculationInterface(AssociationProviderInterface, ABC):
     """
-    An interface that provides services to test for overrepresentation of class membership in a set of entities.
+    An interface that provides services to test for over representation of class membership in a set of entities.
 
-    This interface is intended to be used to test for overrepresentation of a class in a set of entities, for example to
-    test for overrepresentation of a disease in a set of genes.
+    This interface is intended to be used to test for over representation of a class in a set of entities,
 
+    for example: to
+    test for over representation of a disease in a set of genes.
     """
 
     def enriched_classes(

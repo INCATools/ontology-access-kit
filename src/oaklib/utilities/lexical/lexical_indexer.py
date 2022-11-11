@@ -9,7 +9,7 @@ import logging
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Collection, Dict, List, Optional, Tuple, Union
 
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from linkml_runtime.loaders import json_loader, yaml_loader
@@ -42,7 +42,7 @@ from oaklib.datamodels.vocabulary import (
     SKOS_NARROW_MATCH,
 )
 from oaklib.interfaces import BasicOntologyInterface
-from oaklib.types import PRED_CURIE
+from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 
 LEXICAL_INDEX_FORMATS = ["yaml", "json"]
@@ -203,6 +203,9 @@ def lexical_index_to_sssom(
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
     meta: Metadata = None,
+    subjects: Collection[CURIE] = None,
+    objects: Collection[CURIE] = None,
+    symmetric: bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
@@ -210,10 +213,20 @@ def lexical_index_to_sssom(
     :param oi: An ontology interface for making label lookups.
     :param lexical_index: An index over an ontology keyed by lexical unit.
     :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :param subjects: An optional collection of entities, if specified, then only subjects in this set are reported
+    :param objects: An optional collection of entities, if specified, then only objects in this set are reported
+    :param symmetric: If true, then mappings in either direction are reported
     :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
     logging.info("Converting lexical index to SSSOM")
+    if subjects:
+        subjects = set(subjects)
+    if objects:
+        objects = set(objects)
+    if subjects and objects and subjects != objects:
+        symmetric = True
+        logging.info("Forcing symmetric comparison")
     for term, grouping in lexical_index.groupings.items():
         # elements = set([r.element for r in grouping.relationships])
         elementmap = defaultdict(list)
@@ -223,9 +236,13 @@ def lexical_index_to_sssom(
             continue
         for e1 in elementmap:
             for e2 in elementmap:
-                if e1 < e2:
-                    for r1 in elementmap[e1]:
-                        for r2 in elementmap[e2]:
+                for r1 in elementmap[e1]:
+                    if subjects and r1.element not in subjects:
+                        continue
+                    for r2 in elementmap[e2]:
+                        if objects and r2.element not in objects:
+                            continue
+                        if symmetric or r1.element < r2.element:
                             mappings.append(inferred_mapping(oi, term, r1, r2, ruleset=ruleset))
 
         # for r1 in grouping.relationships:
@@ -349,8 +366,9 @@ def inferred_mapping(
                 if best[0] is None or weight > best[0]:
                     best = weight, m, m.predicate_id
     best_weight, best_mapping, _ = best
-    if best_weight is not None:
-        best_mapping.confidence = inverse_logit(best_weight)
+    if best_weight is None:
+        best_weight = 0.0
+    best_mapping.confidence = inverse_logit(best_weight)
     best_mapping.subject_label = oi.label(best_mapping.subject_id)
     best_mapping.object_label = oi.label(best_mapping.object_id)
     return best_mapping

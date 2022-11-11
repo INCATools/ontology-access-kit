@@ -509,8 +509,9 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
                 chain_it(curies_from_file(file))
         elif term.startswith(".idfile"):
             fn = terms.pop(0)
-            with open(fn) as file:
-                chain_it(curies_from_file(file))
+            logging.info(f"Reading ids from {fn}")
+            file = open(fn)
+            chain_it(curies_from_file(file))
         elif term.startswith(".termfile"):
             fn = terms.pop(0)
             with open(fn) as file:
@@ -2023,6 +2024,7 @@ def termset_similarity(
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.similarity)
+    writer.output = output
     if isinstance(impl, SemanticSimilarityInterface):
         terms = list(terms)
         ix = terms.index("@")
@@ -3430,7 +3432,8 @@ def set_apikey(endpoint, keyval):
     help="if true and lexical index is specified, always recreate, otherwise load from index",
 )
 @output_option
-def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
+@click.argument("terms", nargs=-1)
+def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
@@ -3440,12 +3443,27 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
 
     In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.
 
-    It is more common to map between all pairs of terms in two ontology files. To avoid a merge
-    preprocessing step:
+    It is more common to map between all pairs of terms in two ontology files. In this case,
+    you can merge the ontologies using a tool like ROBOT; or,  to avoid a merge
+    preprocessing step, use the --addl (-a) option to specify a second ontology file.
 
-        runoak -i foo.obo -a bar.obo lexmatch -o foo.sssom.tsv
+        runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv
 
-    lexmatch implements a simple algorithm:
+    By default, this command will compare all terms in all ontologies. You can use the OAK
+    term query syntax to pass in the set of all terms to be compared.
+
+    For example, to compare all terms in union of FOO and BAR namespaces:
+
+        runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv i^FOO: i^BAR:
+
+    All members of the set are compared (including FOO to FOO matches and BAR to BAR
+    matches), omitting trivial reciprocal matches.
+
+    Use an "@" separator between two queries to feed in two explicit sets:
+
+        runoak -i foo.obo --add bar.obo lexmatch -o foo.sssom.tsv i^FOO: @ i^BAR:
+
+    ALGORITHM: lexmatch implements a simple algorithm:
 
     - create a lexical index, keyed by normalized strings of labels, synonyms
     - report all pairs of entities that have the same key
@@ -3457,7 +3475,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     Note: if you run the above command a second time it will be faster as the index
     will be reused.
 
-    Using custom rules:
+    RULES: Using custom rules:
 
         runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv
 
@@ -3472,6 +3490,18 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
     else:
         ruleset = None
     if isinstance(impl, BasicOntologyInterface):
+        if terms:
+            if "@" in terms:
+                ix = terms.index("@")
+                logging.info(f"Splitting terms into two, position = {ix}")
+                subjects = list(query_terms_iterator(terms[0:ix], impl))
+                objects = list(query_terms_iterator(terms[ix + 1 :], impl))
+            else:
+                subjects = list(query_terms_iterator(terms, impl))
+                objects = subjects
+        else:
+            subjects = None
+            objects = None
         if add_labels:
             add_labels_from_uris(impl)
         if not recreate and Path(lexical_index_file).exists():
@@ -3489,7 +3519,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels):
                 logging.info("Saving index")
                 save_lexical_index(ix, lexical_index_file)
         logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
-        msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset)
+        msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset, subjects=subjects, objects=objects)
         sssom_writers.write_table(msdf, output)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
