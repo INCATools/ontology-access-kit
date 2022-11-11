@@ -2,7 +2,7 @@ rules:
   - description: default
     postconditions:
       predicate_id: skos:closeMatch
-      weight: 0.0
+      weight: -0.02
 
   - description: exact to exact
     preconditions:

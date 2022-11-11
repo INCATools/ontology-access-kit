@@ -573,6 +573,7 @@ class SqlImplementation(
         include_tbox: bool = True,
         include_abox: bool = True,
         include_entailed: bool = False,
+        include_dangling: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         if subjects is not None and len(subjects) > self.max_items_for_in_clause:
             logging.info(
@@ -586,6 +587,7 @@ class SqlImplementation(
                     include_tbox=include_tbox,
                     include_abox=include_abox,
                     include_entailed=include_entailed,
+                    include_dangling=include_dangling,
                 ):
                     yield r
             return
@@ -601,6 +603,7 @@ class SqlImplementation(
                     include_tbox=include_tbox,
                     include_abox=include_abox,
                     include_entailed=include_entailed,
+                    include_dangling=include_dangling,
                 ):
                     yield r
             return
@@ -630,6 +633,7 @@ class SqlImplementation(
         predicates: List[PRED_CURIE] = None,
         objects: List[CURIE] = None,
         include_entailed: bool = False,
+        include_dangling: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         if include_entailed:
             tbl = EntailedEdge
@@ -642,6 +646,9 @@ class SqlImplementation(
             q = q.filter(tbl.predicate.in_(tuple(predicates)))
         if objects:
             q = q.filter(tbl.object.in_(tuple(objects)))
+        if not include_dangling:
+            subq = self.session.query(Statements.subject)
+            q = q.filter(tbl.object.in_(subq))
         logging.info(f"Tbox query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
@@ -665,6 +672,7 @@ class SqlImplementation(
             q = q.filter(Statements.predicate.in_(op_subq))
         if objects:
             q = q.filter(Statements.object.in_(tuple(objects)))
+        logging.info(f"Abox query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -673,6 +681,7 @@ class SqlImplementation(
         subjects: List[CURIE] = None,
         predicates: List[PRED_CURIE] = None,
         objects: List[CURIE] = None,
+        include_dangling: bool = True,
     ) -> Iterator[RELATIONSHIP]:
         if predicates and RDF_TYPE not in predicates:
             return
@@ -683,6 +692,7 @@ class SqlImplementation(
             q = q.filter(Statements.object.in_(tuple(objects)))
         cls_subq = self.session.query(ClassNode.id)
         q = q.filter(Statements.object.in_(cls_subq))
+        logging.info(f"ClassAssertion query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
@@ -701,6 +711,7 @@ class SqlImplementation(
             q = q.filter(Statements.object.in_(tuple(objects)))
         cls_subq = self.session.query(ClassNode.id)
         q = q.filter(Statements.object.in_(cls_subq))
+        logging.info(f"ECA query: {q}")
         for row in q:
             yield row.subject, row.predicate, row.object
 
