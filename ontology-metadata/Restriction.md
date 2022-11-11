@@ -42,14 +42,14 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | [onProperty](onProperty.md) | 0..* <br/> PropertyExpression | None | direct |
 | [someValuesFrom](someValuesFrom.md) | 0..* <br/> None | None | direct |
 | [allValuesFrom](allValuesFrom.md) | 0..1 <br/> None | None | direct |
-| [subClassOf](subClassOf.md) | 0..* <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
-| [cardinality](cardinality.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
 | [oneOf](oneOf.md) | 0..1 <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
-| [unionOf](unionOf.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
 | [disjointWith](disjointWith.md) | 0..* <br/> None | None | [ClassExpression](ClassExpression.md) |
-| [intersectionOf](intersectionOf.md) | 0..1 <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
+| [equivalentClass](equivalentClass.md) | 0..* <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
+| [subClassOf](subClassOf.md) | 0..* <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
 | [complementOf](complementOf.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [unionOf](unionOf.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [cardinality](cardinality.md) | 0..1 <br/> None | None | [ClassExpression](ClassExpression.md) |
+| [intersectionOf](intersectionOf.md) | 0..1 <br/> ClassExpression | None | [ClassExpression](ClassExpression.md) |
 
 ## Mixin Usage
 

@@ -29,10 +29,10 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
+| ---  | --- | --- | --- || [pred](pred.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> Meta | None | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [pred](pred.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
 
 
 

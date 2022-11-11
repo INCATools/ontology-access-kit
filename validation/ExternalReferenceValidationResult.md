@@ -46,15 +46,15 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 | [time_checked](time_checked.md) | 0..1 <br/> None | None | direct |
 | [number_of_attempts](number_of_attempts.md) | 0..1 <br/> integer | None | direct |
 | [http_response_code](http_response_code.md) | 0..1 <br/> integer | None | direct |
-| [predicate](predicate.md) | 0..1 <br/> uriorcurie | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
-| [source](source.md) | 0..1 <br/> uriorcurie | None | [ValidationResult](ValidationResult.md) |
-| [type](type.md) | 1..1 <br/> uriorcurie | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID | [ValidationResult](ValidationResult.md) |
-| [info](info.md) | 0..1 <br/> string | additional information about the issue | [ValidationResult](ValidationResult.md) |
 | [severity](severity.md) | 0..1 <br/> severity_options | the severity of the issue | [ValidationResult](ValidationResult.md) |
-| [subject](subject.md) | 1..1 <br/> uriorcurie | The instance which the result is about | [ValidationResult](ValidationResult.md) |
-| [object_str](object_str.md) | 0..1 <br/> string | None | [ValidationResult](ValidationResult.md) |
+| [source](source.md) | 0..1 <br/> uriorcurie | None | [ValidationResult](ValidationResult.md) |
+| [info](info.md) | 0..1 <br/> string | additional information about the issue | [ValidationResult](ValidationResult.md) |
+| [type](type.md) | 1..1 <br/> uriorcurie | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID | [ValidationResult](ValidationResult.md) |
 | [instantiates](instantiates.md) | 0..1 <br/> uriorcurie | The type of the subject | [ValidationResult](ValidationResult.md) |
+| [object_str](object_str.md) | 0..1 <br/> string | None | [ValidationResult](ValidationResult.md) |
 | [object](object.md) | 0..1 <br/> uriorcurie | None | [ValidationResult](ValidationResult.md) |
+| [subject](subject.md) | 1..1 <br/> uriorcurie | The instance which the result is about | [ValidationResult](ValidationResult.md) |
+| [predicate](predicate.md) | 0..1 <br/> uriorcurie | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
 
 
 

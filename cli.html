@@ -1800,12 +1800,25 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 <div><p>runoak -i foo.obo lexmatch -o foo.sssom.tsv</p>
 </div></blockquote>
 <p>In this example, the input ontology file is assumed to contain all pairs of terms to be mapped.</p>
-<p>It is more common to map between all pairs of terms in two ontology files. To avoid a merge
-preprocessing step:</p>
+<p>It is more common to map between all pairs of terms in two ontology files. In this case,
+you can merge the ontologies using a tool like ROBOT; or,  to avoid a merge
+preprocessing step, use the –addl (-a) option to specify a second ontology file.</p>
 <blockquote>
-<div><p>runoak -i foo.obo -a bar.obo lexmatch -o foo.sssom.tsv</p>
+<div><p>runoak -i foo.obo –add bar.obo lexmatch -o foo.sssom.tsv</p>
 </div></blockquote>
-<p>lexmatch implements a simple algorithm:</p>
+<p>By default, this command will compare all terms in all ontologies. You can use the OAK
+term query syntax to pass in the set of all terms to be compared.</p>
+<p>For example, to compare all terms in union of FOO and BAR namespaces:</p>
+<blockquote>
+<div><p>runoak -i foo.obo –add bar.obo lexmatch -o foo.sssom.tsv i^FOO: i^BAR:</p>
+</div></blockquote>
+<p>All members of the set are compared (including FOO to FOO matches and BAR to BAR
+matches), omitting trivial reciprocal matches.</p>
+<p>Use an “&#64;” separator between two queries to feed in two explicit sets:</p>
+<blockquote>
+<div><p>runoak -i foo.obo –add bar.obo lexmatch -o foo.sssom.tsv i^FOO: &#64; i^BAR:</p>
+</div></blockquote>
+<p>ALGORITHM: lexmatch implements a simple algorithm:</p>
 <ul class="simple">
 <li><p>create a lexical index, keyed by normalized strings of labels, synonyms</p></li>
 <li><p>report all pairs of entities that have the same key</p></li>
@@ -1816,7 +1829,7 @@ preprocessing step:</p>
 </div></blockquote>
 <p>Note: if you run the above command a second time it will be faster as the index
 will be reused.</p>
-<p>Using custom rules:</p>
+<p>RULES: Using custom rules:</p>
 <blockquote>
 <div><p>runoak  -i foo.obo lexmatch -R match_rules.yaml -L foo.index.yaml -o foo.sssom.tsv</p>
 </div></blockquote>
@@ -1826,7 +1839,7 @@ will be reused.</p>
 </ul>
 <p>module-oaklib.utilities.lexical.lexical_indexer</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lexmatch <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lexmatch <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1868,6 +1881,13 @@ will be reused.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-lexmatch-o">
 <span id="cmdoption-runoak-lexmatch-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-lexmatch-o" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-lexmatch-arg-TERMS">
+<span id="cmdoption-runoak-lexmatch-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-lexmatch-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>

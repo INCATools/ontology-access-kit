@@ -37,12 +37,10 @@ The most common operations are found in the :ref:`BasicOntologyInterface`
    text-annotator
    owl
    summary-statistics
-   rdf
-   skos
-   semsim
    differ
    patcher
    semantic-similarity
+   class-enrichment
    
 .. note::
 

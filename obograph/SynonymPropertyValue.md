@@ -35,9 +35,9 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 | [synonymType](synonymType.md) | 0..1 <br/> string | None | direct |
 | [isExact](isExact.md) | 0..1 <br/> boolean | None | direct |
 | [pred](pred.md) | 0..1 <br/> string | None | direct |
+| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
 | [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> Meta | None | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
 
 
 

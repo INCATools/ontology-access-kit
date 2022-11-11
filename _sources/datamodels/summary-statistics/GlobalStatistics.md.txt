@@ -67,37 +67,37 @@ URI: [reporting:GlobalStatistics](https://w3id.org/linkml/reportGlobalStatistics
 | [by_taxon](by_taxon.md) | 0..* <br/> FacetStatistics | statistics keyed by organism taxon | direct |
 | [by_ontology](by_ontology.md) | 0..* <br/> FacetStatistics | statistics keyed by ontology | direct |
 | [by_subset](by_subset.md) | 0..* <br/> FacetStatistics | statistics keyed by ontology subset | direct |
-| [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [class_count_by_category](class_count_by_category.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [individual_count](individual_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [description_logic_profile](description_logic_profile.md) | 0..1 <br/> string | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [class_count](class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [datatype_property_count](datatype_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [named_individual_count](named_individual_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [non_deprecated_object_property_count](non_deprecated_object_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [property_count](property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [named_individual_count](named_individual_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [datatype_property_count](datatype_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [class_count_by_category](class_count_by_category.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [annotation_property_count](annotation_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [ontology_count](ontology_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [class_count](class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [mapping_count](mapping_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [edge_count_by_predicate](edge_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [object_property_count](object_property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [ontology_count](ontology_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
+| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> FacetedCount | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 | [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [mapping_count](mapping_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [property_count](property_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
-| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> None | None | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 
 
 
