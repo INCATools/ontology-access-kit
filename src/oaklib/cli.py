@@ -1032,6 +1032,12 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
+@click.option(
+    "--exclude-terms",
+    "-x",
+    multiple=True,
+    help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1039,6 +1045,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
+    exclude_terms:str,
     text_file: TextIO,
     output_type: str,
 ):
@@ -1072,6 +1079,13 @@ def annotate(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
+    terms_to_remove = []
+    if len(exclude_terms) == 1 and Path(exclude_terms[0]).exists():
+        with open(exclude_terms[0]) as f:
+            terms_to_remove = f.read().splitlines()
+    else:
+        terms_to_remove = list(exclude_terms)
+
     if isinstance(impl, TextAnnotatorInterface):
         if lexical_index_file:
             if not Path(lexical_index_file).exists():
@@ -1084,7 +1098,7 @@ def annotate(
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
-            for ann in impl.annotate_file(text_file, configuration):
+            for ann in impl.annotate_file(text_file, terms_to_remove, configuration):
                 writer.emit(ann)
             # for line in text_file.readlines():
             #     line = line.strip()
@@ -1093,6 +1107,7 @@ def annotate(
             #         ann.subject_source = line
             #         writer.emit(ann)
         else:
+            words = tuple(x for x in words if x not in terms_to_remove)
             text = " ".join(words)
             for ann in impl.annotate_text(text, configuration):
                 writer.emit(ann)
@@ -3426,6 +3441,11 @@ def set_apikey(endpoint, keyval):
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
+    "--exclude-terms",
+    "-x",
+    help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
+)
+@click.option(
     "--recreate/--no-recreate",
     default=True,
     show_default=True,
@@ -3433,7 +3453,7 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 @click.argument("terms", nargs=-1)
-def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms):
+def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_terms, add_labels, terms):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
@@ -3489,6 +3509,12 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms
         ruleset = load_mapping_rules(rules_file)
     else:
         ruleset = None
+    terms_to_remove = []
+    if len(exclude_terms) == 1 and Path(exclude_terms[0]).exists():
+        with open(exclude_terms[0]) as f:
+            terms_to_remove = f.read().splitlines()
+    else:
+        terms_to_remove = list(exclude_terms)
     if isinstance(impl, BasicOntologyInterface):
         if terms:
             if "@" in terms:
