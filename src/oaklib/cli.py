@@ -1045,7 +1045,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
-    exclude_terms:str,
+    exclude_terms: str,
     text_file: TextIO,
     output_type: str,
 ):

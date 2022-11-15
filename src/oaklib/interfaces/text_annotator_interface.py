@@ -95,7 +95,10 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                         yield ann
 
     def annotate_file(
-        self, text_file: TextIOWrapper, terms_to_remove: List[str], configuration: TextAnnotationConfiguration = None
+        self,
+        text_file: TextIOWrapper,
+        terms_to_remove: List[str],
+        configuration: TextAnnotationConfiguration = None,
     ) -> Iterator[TextAnnotation]:
         """Annotate text in a file.
 
