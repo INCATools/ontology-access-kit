@@ -129,6 +129,7 @@ from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
+from oaklib.utilities.ner_utilities import get_exclusion_token_list
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
     default_stylemap_path,
@@ -1080,12 +1081,8 @@ def annotate(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
-    terms_to_remove = []
-    if len(exclude_tokens) == 1 and Path(exclude_tokens[0]).exists():
-        with open(exclude_tokens[0]) as f:
-            terms_to_remove = f.read().splitlines()
-    else:
-        terms_to_remove = list(exclude_tokens)
+    if exclude_tokens:
+        token_exclusion_list = get_exclusion_token_list(exclude_tokens)
 
     if isinstance(impl, TextAnnotatorInterface):
         if lexical_index_file:
@@ -1099,7 +1096,7 @@ def annotate(
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
-            for ann in impl.annotate_file(text_file, terms_to_remove, configuration):
+            for ann in impl.annotate_file(text_file, token_exclusion_list, configuration):
                 writer.emit(ann)
             # for line in text_file.readlines():
             #     line = line.strip()
@@ -1108,7 +1105,7 @@ def annotate(
             #         ann.subject_source = line
             #         writer.emit(ann)
         else:
-            text = " ".join(tuple(x for x in words if x not in terms_to_remove))
+            text = " ".join(tuple(x for x in words if x not in token_exclusion_list))
             for ann in impl.annotate_text(text, configuration):
                 writer.emit(ann)
     else:
@@ -3511,12 +3508,8 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_tokens, a
         ruleset = None
 
     # if exclude_tokens:
-    #     terms_to_remove = []
-    #     if len(exclude_tokens) == 1 and Path(exclude_tokens[0]).exists():
-    #         with open(exclude_tokens[0]) as f:
-    #             terms_to_remove = f.read().splitlines()
-    #     else:
-    #         terms_to_remove = list(exclude_tokens)
+    #     token_exclusion_list = get_exclusion_token_list(exclude_tokens)
+
     if isinstance(impl, BasicOntologyInterface):
         if terms:
             if "@" in terms:
