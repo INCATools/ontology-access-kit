@@ -1107,8 +1107,7 @@ def annotate(
             #         ann.subject_source = line
             #         writer.emit(ann)
         else:
-            words = tuple(x for x in words if x not in terms_to_remove)
-            text = " ".join(words)
+            text = " ".join(tuple(x for x in words if x not in terms_to_remove))
             for ann in impl.annotate_text(text, configuration):
                 writer.emit(ann)
     else:

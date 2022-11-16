@@ -773,3 +773,60 @@ class TestCommandLineInterface(unittest.TestCase):
             with open(out_path) as file:
                 obj = yaml.safe_load(file)
                 self.assertGreater(obj["class_count"], 3)
+
+    # ANNOTATE
+    def test_annotate_file(self):
+        outfile = f"{OUTPUT_DIR}/matcher-test-annotate-file.txt"
+        input_file = f"{INPUT_DIR}/matcher-text.txt"
+        exclusion_file = f"{INPUT_DIR}/exclude.txt"
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                f"sqlite:{INPUT_DIR}/matcher-test.db",
+                "annotate",
+                "--text-file",
+                input_file,
+                "--exclude-terms",
+                exclusion_file,
+                "-o",
+                outfile,
+            ],
+        )
+        result.stdout
+        err = result.stderr
+        self.assertEqual("", err)
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as stream:
+            contents = "\n".join(stream.readlines())
+            self.assertIn("y:bone", contents)
+            self.assertIn("oio:hasBroadSynonym", contents)
+            self.assertIn("x:bone_element", contents)
+            self.assertIn("z:bone_tissue", contents)
+
+    def test_annotate_words(self):
+            outfile = f"{OUTPUT_DIR}/matcher-test-annotate-words.txt"
+            exclusion_file = f"{INPUT_DIR}/exclude.txt"
+            result = self.runner.invoke(
+                main,
+                [
+                    "-i",
+                    f"sqlite:{INPUT_DIR}/matcher-test.db",
+                    "annotate",
+                    "bone element bone tissue bone of foot",
+                    "--exclude-terms",
+                    exclusion_file,
+                    "-o",
+                    outfile,
+                ],
+            )
+            result.stdout
+            err = result.stderr
+            self.assertEqual("", err)
+            self.assertEqual(0, result.exit_code)
+            with open(outfile) as stream:
+                contents = "\n".join(stream.readlines())
+                self.assertIn("y:bone", contents)
+                self.assertIn("oio:hasBroadSynonym", contents)
+                self.assertIn("x:bone_element", contents)
+                self.assertIn("z:bone_tissue", contents)

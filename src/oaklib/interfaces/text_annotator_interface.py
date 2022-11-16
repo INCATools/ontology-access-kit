@@ -108,5 +108,6 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         :return: Annotation of each line.
         """
         for line in text_file.readlines():
+            line = " ".join([term for term in line.split() if term not in terms_to_remove])
             line = line.strip()
             return self.annotate_text(line, configuration)
