@@ -1092,11 +1092,13 @@ def annotate(
                 save_lexical_index(impl.lexical_index, lexical_index_file)
             else:
                 impl.lexical_index = load_lexical_index(lexical_index_file)
-        configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
+        configuration = TextAnnotationConfiguration(
+            matches_whole_text=matches_whole_text, token_exclusion_list=token_exclusion_list
+        )
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
-            for ann in impl.annotate_file(text_file, token_exclusion_list, configuration):
+            for ann in impl.annotate_file(text_file, configuration):
                 writer.emit(ann)
             # for line in text_file.readlines():
             #     line = line.strip()
@@ -1105,8 +1107,7 @@ def annotate(
             #         ann.subject_source = line
             #         writer.emit(ann)
         else:
-            text = " ".join(tuple(x for x in words if x not in token_exclusion_list))
-            for ann in impl.annotate_text(text, configuration):
+            for ann in impl.annotate_text(words, configuration):
                 writer.emit(ann)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")

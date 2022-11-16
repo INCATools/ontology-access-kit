@@ -48,7 +48,9 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     """If present, some implementations may choose to use this"""
 
     def annotate_text(
-        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+        self,
+        text: TEXT,
+        configuration: Optional[TextAnnotationConfiguration] = None,
     ) -> Iterable[TextAnnotation]:
         """
         Annotate a piece of text.
@@ -61,6 +63,19 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         :param configuration: Text annotation configuration.
         :yield: A generator function that yields annotated results.
         """
+        if isinstance(text, str):
+            text = " ".join(
+                [term for term in text.split() if term not in configuration.token_exclusion_list]
+            )
+        else:
+            filtered_text = tuple()
+            # text is a tuple of string(s)
+            for token in text:
+                filtered_text = filtered_text + tuple(
+                    term for term in token.split() if term not in configuration.token_exclusion_list
+                )
+            text = " ".join(filtered_text)
+
         if not configuration:
             configuration = TextAnnotationConfiguration()
         if configuration.matches_whole_text:
@@ -97,17 +112,15 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     def annotate_file(
         self,
         text_file: TextIOWrapper,
-        terms_to_remove: List[str],
         configuration: TextAnnotationConfiguration = None,
     ) -> Iterator[TextAnnotation]:
         """Annotate text in a file.
 
         :param text_file: Text file that is iterated line-by-line.
-        :param terms_to_remove: _description_
+        :param token_exclusion_list: List of tokens to exclude.
         :param configuration: Text annotation configuration, defaults to None.
         :return: Annotation of each line.
         """
         for line in text_file.readlines():
-            line = " ".join([term for term in line.split() if term not in terms_to_remove])
             line = line.strip()
             return self.annotate_text(line, configuration)
