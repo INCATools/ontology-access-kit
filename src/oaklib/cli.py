@@ -1081,8 +1081,6 @@ def annotate(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
-    if exclude_tokens:
-        token_exclusion_list = get_exclusion_token_list(exclude_tokens)
 
     if isinstance(impl, TextAnnotatorInterface):
         if lexical_index_file:
@@ -1093,8 +1091,12 @@ def annotate(
             else:
                 impl.lexical_index = load_lexical_index(lexical_index_file)
         configuration = TextAnnotationConfiguration(
-            matches_whole_text=matches_whole_text, token_exclusion_list=token_exclusion_list
+            matches_whole_text=matches_whole_text
         )
+        if exclude_tokens:
+            token_exclusion_list = get_exclusion_token_list(exclude_tokens)
+            configuration.token_exclusion_list = token_exclusion_list
+            
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
