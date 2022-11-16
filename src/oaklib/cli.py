@@ -3508,12 +3508,14 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_terms, ad
         ruleset = load_mapping_rules(rules_file)
     else:
         ruleset = None
-    terms_to_remove = []
-    if len(exclude_terms) == 1 and Path(exclude_terms[0]).exists():
-        with open(exclude_terms[0]) as f:
-            terms_to_remove = f.read().splitlines()
-    else:
-        terms_to_remove = list(exclude_terms)
+
+    if exclude_terms:
+        terms_to_remove = []
+        if len(exclude_terms) == 1 and Path(exclude_terms[0]).exists():
+            with open(exclude_terms[0]) as f:
+                terms_to_remove = f.read().splitlines()
+        else:
+            terms_to_remove = list(exclude_terms)
     if isinstance(impl, BasicOntologyInterface):
         if terms:
             if "@" in terms:
