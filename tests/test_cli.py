@@ -787,7 +787,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "annotate",
                 "--text-file",
                 input_file,
-                "--exclude-terms",
+                "--exclude-tokens",
                 exclusion_file,
                 "-o",
                 outfile,
@@ -805,28 +805,28 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertIn("z:bone_tissue", contents)
 
     def test_annotate_words(self):
-            outfile = f"{OUTPUT_DIR}/matcher-test-annotate-words.txt"
-            exclusion_file = f"{INPUT_DIR}/exclude.txt"
-            result = self.runner.invoke(
-                main,
-                [
-                    "-i",
-                    f"sqlite:{INPUT_DIR}/matcher-test.db",
-                    "annotate",
-                    "bone element bone tissue bone of foot",
-                    "--exclude-terms",
-                    exclusion_file,
-                    "-o",
-                    outfile,
-                ],
-            )
-            result.stdout
-            err = result.stderr
-            self.assertEqual("", err)
-            self.assertEqual(0, result.exit_code)
-            with open(outfile) as stream:
-                contents = "\n".join(stream.readlines())
-                self.assertIn("y:bone", contents)
-                self.assertIn("oio:hasBroadSynonym", contents)
-                self.assertIn("x:bone_element", contents)
-                self.assertIn("z:bone_tissue", contents)
+        outfile = f"{OUTPUT_DIR}/matcher-test-annotate-words.txt"
+        exclusion_file = f"{INPUT_DIR}/exclude.txt"
+        result = self.runner.invoke(
+            main,
+            [
+                "-i",
+                f"sqlite:{INPUT_DIR}/matcher-test.db",
+                "annotate",
+                "bone element bone tissue bone of foot",
+                "--exclude-tokens",
+                exclusion_file,
+                "-o",
+                outfile,
+            ],
+        )
+        result.stdout
+        err = result.stderr
+        self.assertEqual("", err)
+        self.assertEqual(0, result.exit_code)
+        with open(outfile) as stream:
+            contents = "\n".join(stream.readlines())
+            self.assertIn("y:bone", contents)
+            self.assertIn("oio:hasBroadSynonym", contents)
+            self.assertIn("x:bone_element", contents)
+            self.assertIn("z:bone_tissue", contents)

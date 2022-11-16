@@ -1033,10 +1033,11 @@ def term_metadata(terms, reification: bool, output_type: str, output: str):
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
-    "--exclude-terms",
+    "--exclude-tokens",
     "-x",
     multiple=True,
-    help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
+    help="Text file or list of tokens to filter from input prior to annotation.\
+        If passed as text file, each newline separated entry is a distinct text.",
 )
 @output_option
 @output_type_option
@@ -1045,7 +1046,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
-    exclude_terms: str,
+    exclude_tokens: str,
     text_file: TextIO,
     output_type: str,
 ):
@@ -1080,11 +1081,11 @@ def annotate(
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
     terms_to_remove = []
-    if len(exclude_terms) == 1 and Path(exclude_terms[0]).exists():
-        with open(exclude_terms[0]) as f:
+    if len(exclude_tokens) == 1 and Path(exclude_tokens[0]).exists():
+        with open(exclude_tokens[0]) as f:
             terms_to_remove = f.read().splitlines()
     else:
-        terms_to_remove = list(exclude_terms)
+        terms_to_remove = list(exclude_tokens)
 
     if isinstance(impl, TextAnnotatorInterface):
         if lexical_index_file:
@@ -3440,7 +3441,7 @@ def set_apikey(endpoint, keyval):
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
-    "--exclude-terms",
+    "--exclude-tokens",
     "-x",
     help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
 )
@@ -3452,7 +3453,7 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 @click.argument("terms", nargs=-1)
-def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_terms, add_labels, terms):
+def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_tokens, add_labels, terms):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
@@ -3509,13 +3510,13 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_terms, ad
     else:
         ruleset = None
 
-    if exclude_terms:
-        terms_to_remove = []
-        if len(exclude_terms) == 1 and Path(exclude_terms[0]).exists():
-            with open(exclude_terms[0]) as f:
-                terms_to_remove = f.read().splitlines()
-        else:
-            terms_to_remove = list(exclude_terms)
+    # if exclude_tokens:
+    #     terms_to_remove = []
+    #     if len(exclude_tokens) == 1 and Path(exclude_tokens[0]).exists():
+    #         with open(exclude_tokens[0]) as f:
+    #             terms_to_remove = f.read().splitlines()
+    #     else:
+    #         terms_to_remove = list(exclude_tokens)
     if isinstance(impl, BasicOntologyInterface):
         if terms:
             if "@" in terms:
