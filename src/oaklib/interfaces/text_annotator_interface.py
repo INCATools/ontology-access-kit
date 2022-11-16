@@ -1,7 +1,7 @@
 import logging
 from abc import ABC
 from io import TextIOWrapper
-from typing import Iterable, Iterator, List, Optional
+from typing import Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
