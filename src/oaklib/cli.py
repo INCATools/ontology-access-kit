@@ -3437,11 +3437,11 @@ def set_apikey(endpoint, keyval):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
-@click.option(
-    "--exclude-tokens",
-    "-x",
-    help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
-)
+# @click.option(
+#     "--exclude-tokens",
+#     "-x",
+#     help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
+# )
 @click.option(
     "--recreate/--no-recreate",
     default=True,
@@ -3450,7 +3450,7 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 @click.argument("terms", nargs=-1)
-def lexmatch(output, recreate, rules_file, lexical_index_file, exclude_tokens, add_labels, terms):
+def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
