@@ -7,6 +7,11 @@ from typing import List
 
 
 def get_exclusion_token_list(exclude_tokens: str) -> List[str]:
+    """Return a list of token to be excluded from NER analysis.
+
+    :param exclude_tokens: Either a file path or the strings to be excluded.
+    :return: A list of tokens to exclude.
+    """
     token_exclusion_list = []
     if len(exclude_tokens) == 1 and Path(exclude_tokens[0]).exists():
         with open(exclude_tokens[0]) as f:
