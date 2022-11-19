@@ -603,10 +603,12 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
-@click.option("--stacktrace/--no-stacktrace",
-              default=False,
-              show_default=True,
-              help="")
+@click.option(
+    "--stacktrace/--no-stacktrace",
+    default=False,
+    show_default=True,
+    help="If set then show full stacktrace on error",
+)
 @click.option(
     "--save-as",
     help="For commands that mutate the ontology, this specifies where changes are saved to",
@@ -646,6 +648,7 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 def main(
     verbose: int,
     quiet: bool,
+    stacktrace: bool,
     input: str,
     input_type: str,
     add: List,
@@ -670,6 +673,8 @@ def main(
 
         runoak viz -h
     """
+    if not stacktrace:
+        sys.tracebacklimit = 0
     logger = logging.getLogger()
     if verbose >= 2:
         logger.setLevel(logging.DEBUG)
