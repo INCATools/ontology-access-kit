@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-29T22:52:46
+# Generation date: 2022-11-18T18:00:52
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -8,19 +8,38 @@
 
 import dataclasses
 import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import as_dict
-from linkml_runtime.linkml_model.types import String, Uriorcurie
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
+from linkml_runtime.linkml_model.types import Boolean, Integer, String, Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import (
     dataclasses_init_fn_with_kwargs,
 )
-from linkml_runtime.utils.metamodelcore import Bool, URIorCURIE, empty_list
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import (
+    Bool,
+    URIorCURIE,
+    bnode,
+    empty_dict,
+    empty_list,
+)
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import YAMLRoot
-from rdflib import URIRef
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_float,
+    extended_int,
+    extended_str,
+)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 version = "0.0.1"
@@ -41,7 +60,7 @@ FOAF = CurieNamespace("foaf", "http://xmlns.com/foaf/0.1/")
 LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
 OBO = CurieNamespace("obo", "http://purl.obolibrary.org/obo/")
 OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
-OMOSCHEMA = CurieNamespace("omoschema", "http://purl.obolibrary.org/obo/schema/")
+OMOSCHEMA = CurieNamespace("omoschema", "http://purl.obolibrary.org/obo/omo/schema/")
 OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
 PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROTEGE = CurieNamespace("protege", "http://example.org/UNKNOWN/protege/")
@@ -1287,6 +1306,10 @@ class Property(Term):
 
 @dataclass
 class AnnotationProperty(Property):
+    """
+    A property used in non-logical axioms
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.AnnotationProperty
@@ -1312,6 +1335,10 @@ class AnnotationProperty(Property):
 
 @dataclass
 class ObjectProperty(Property):
+    """
+    A property that connects two objects in logical axioms
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.ObjectProperty
@@ -1380,6 +1407,10 @@ class ObjectProperty(Property):
 
 @dataclass
 class TransitiveProperty(ObjectProperty):
+    """
+    An ObjectProperty with the property of transitivity
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.TransitiveProperty
@@ -1400,6 +1431,10 @@ class TransitiveProperty(ObjectProperty):
 
 @dataclass
 class NamedIndividual(Term):
+    """
+    An instance that has a IRI
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.NamedIndividual
@@ -1420,6 +1455,10 @@ class NamedIndividual(Term):
 
 @dataclass
 class Annotation(YAMLRoot):
+    """
+    A reified property-object pair
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OMOSCHEMA.Annotation
@@ -1442,6 +1481,10 @@ class Annotation(YAMLRoot):
 
 @dataclass
 class Axiom(YAMLRoot):
+    """
+    A logical or non-logical statement
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.Axiom
@@ -1486,7 +1529,6 @@ class Axiom(YAMLRoot):
             self.annotatedProperty = AnnotationPropertyId(self.annotatedProperty)
 
         if self.annotatedSource is not None and not isinstance(self.annotatedSource, NamedObjectId):
-            self.annotatedSource = NamedObjectId(self.annotatedSource)
             self.annotatedSource = NamedObjectId(self.annotatedSource)
 
         if not isinstance(self.annotations, list):
@@ -1835,6 +1877,56 @@ class NotObsoleteAspect(YAMLRoot):
 
 
 # Enumerations
+class DefinitionConstraintComponent(EnumDefinitionImpl):
+    """
+    An extension of SHACL constraint component for constraining definitions
+    """
+
+    DefinitionConstraint = PermissibleValue(
+        text="DefinitionConstraint",
+        description="A general problem with a definition",
+        meaning=OMOSCHEMA["DCC.Any"],
+    )
+    DefinitionPresence = PermissibleValue(
+        text="DefinitionPresence",
+        description="An entity must have a definition",
+        meaning=OMOSCHEMA["DCC.S0"],
+    )
+    Conventions = PermissibleValue(
+        text="Conventions",
+        description="Definitions should conform to conventions",
+        meaning=OMOSCHEMA["DCC.S1"],
+    )
+    Harmonized = PermissibleValue(
+        text="Harmonized",
+        description="Definitions should be harmonized",
+        meaning=OMOSCHEMA["DCC.S1.1"],
+    )
+    GenusDifferentiaForm = PermissibleValue(
+        text="GenusDifferentiaForm",
+        description="A definition should follow the genus-differentia form",
+        meaning=OMOSCHEMA["DCC.S3"],
+    )
+    SingleGenus = PermissibleValue(
+        text="SingleGenus",
+        description="An entity must have a single genus",
+        meaning=OMOSCHEMA["DCC.S3.1"],
+    )
+    Circularity = PermissibleValue(
+        text="Circularity",
+        description="A definition must not be circular",
+        meaning=OMOSCHEMA["DCC.S7"],
+    )
+    MatchTextAndLogical = PermissibleValue(
+        text="MatchTextAndLogical",
+        description="Text definitions and logical forms should match",
+        meaning=OMOSCHEMA["DCC.S11"],
+    )
+
+    _defn = EnumDefinition(
+        name="DefinitionConstraintComponent",
+        description="An extension of SHACL constraint component for constraining definitions",
+    )
 
 
 # Slots

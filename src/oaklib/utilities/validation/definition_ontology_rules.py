@@ -1,10 +1,12 @@
+import logging
 from dataclasses import dataclass
 from typing import Iterable, Iterator, List, Optional
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import LogicalDefinitionAxiom
+from oaklib.datamodels.ontology_metadata import OMOSCHEMA, DefinitionConstraintComponent
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResult
-from oaklib.datamodels.vocabulary import HAS_DBXREF
+from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE
@@ -130,17 +132,22 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                         if ann.match_string in expected_in_text:
                             if is_genus and len(ann.match_string) < len(expected_in_text):
                                 yield ValidationResult(
-                                    type="S3",
+                                    type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
                                     subject=subject,
                                     info=f"Did not match whole text: {ann.match_string} < {expected_in_text}",
                                 )
                         else:
                             yield ValidationResult(
-                                type="S11.WrongPlace", subject=subject, info="Wrong position"
+                                type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
+                                subject=subject,
+                                info=f"Wrong position, '{ann.match_string}' not in '{expected_in_text}'",
                             )
                 else:
                     yield ValidationResult(
-                        type="S11.NotFound", subject=subject, info=f"Not found: {expected_id}"
+                        type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
+                        object=expected_id,
+                        subject=subject,
+                        info=f"Not found: {expected_id}",
                     )
 
             for genus in ldef.genusIds:
@@ -151,10 +158,12 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                     yield result
             if subject in anns_by_object:
                 yield ValidationResult(
-                    type="S7",
+                    type=DefinitionConstraintComponent.Circularity.meaning,
                     subject=subject,
                     info=f"Circular, {anns_by_object[subject].match_string} in definition",
                 )
+        else:
+            logging.info(f"Skipping text annotation for {subject}")
 
     def evaluate(
         self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
@@ -166,9 +175,12 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
         :param entities:
         :return:
         """
+        oi.prefix_map()["omoschema"] = OMOSCHEMA.prefix
+        oi._converter = None
         if entities is None:
             entities = oi.entities(filter_obsoletes=True)
         for subject in entities:
+            logging.info(f"Checking {subject}")
             problem_count = 0
             # TODO: leakage of quoted URIs into CURIEs should be fixed upstream.
             # these currently come from SWRL URIs from rdftab
@@ -180,10 +192,11 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                 if not pdef.genus_text or not pdef.differentia_text:
                     yield ValidationResult(
                         subject=subject,
+                        object_str=tdef,
                         severity=SeverityOptions(SeverityOptions.WARNING),
-                        predicate=HAS_DBXREF,
-                        type="S3",
-                        info=f'Cannot parse genus and differentia for "{tdef}"',
+                        predicate=HAS_DEFINITION_CURIE,
+                        type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
+                        info="Cannot parse genus and differentia",
                     )
                     problem_count += 1
             else:
@@ -191,9 +204,9 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                 yield ValidationResult(
                     subject=subject,
                     severity=SeverityOptions(SeverityOptions.ERROR),
-                    predicate=HAS_DBXREF,
-                    type="S0",
-                    info=f'Missing text definition for "{subject}"',
+                    predicate=HAS_DEFINITION_CURIE,
+                    type=DefinitionConstraintComponent.DefinitionPresence.meaning,
+                    info="Missing text definition",
                 )
                 problem_count += 1
             if isinstance(oi, OboGraphInterface):
@@ -205,7 +218,7 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                     if len(ldef.genusIds) != 1:
                         yield ValidationResult(
                             subject=subject,
-                            type="S3.1",
+                            type=DefinitionConstraintComponent.SingleGenus.meaning,
                             info=f"expected one genus; got {len(ldef.genusIds)}.",
                         )
                         problem_count += 1
@@ -215,7 +228,8 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                 yield ValidationResult(
                     subject=subject,
                     severity=SeverityOptions(SeverityOptions.INFO),
-                    predicate=HAS_DBXREF,
-                    type="S.*",
-                    info=f'No problems with: "{tdef}"',
+                    predicate=HAS_DEFINITION_CURIE,
+                    object_str=tdef,
+                    type=DefinitionConstraintComponent.DefinitionConstraint.meaning,
+                    info="No problems with definition",
                 )

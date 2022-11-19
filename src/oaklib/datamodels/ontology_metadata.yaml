@@ -11,7 +11,7 @@ default_curi_maps:
   - semweb_context
   
 prefixes:
-  omoschema: http://purl.obolibrary.org/obo/schema/
+  omoschema: http://purl.obolibrary.org/obo/omo/schema/
   obo: http://purl.obolibrary.org/obo/
   RO: http://purl.obolibrary.org/obo/RO_
   OMO: http://purl.obolibrary.org/obo/OMO_
@@ -1213,4 +1213,51 @@ types:
     description: >-
       A string that provides a human-readable description of something
 
-  
+enums:
+  DefinitionConstraintComponent:
+    description: >-
+      An extension of SHACL constraint component for constraining definitions
+    source: https://philpapers.org/archive/SEPGFW.pdf
+    see_also:
+      - https://github.com/INCATools/ontology-access-kit/issues/305
+    permissible_values:
+      DefinitionConstraint:
+        description: >-
+          A general problem with a definition
+        meaning: omoschema:DCC.Any
+      DefinitionPresence:
+        is_a: DefinitionConstraint
+        description: >-
+          An entity must have a definition
+        meaning: omoschema:DCC.S0
+      Conventions:
+        is_a: DefinitionConstraint
+        description: >-
+          Definitions should conform to conventions
+        meaning: omoschema:DCC.S1
+      Harmonized:
+        is_a: DefinitionConstraint
+        description: >-
+          Definitions should be harmonized
+        meaning: omoschema:DCC.S1.1
+      GenusDifferentiaForm:
+        is_a: DefinitionConstraint
+        description: >-
+          A definition should follow the genus-differentia form
+        meaning: omoschema:DCC.S3
+      SingleGenus:
+        is_a: GenusDifferentiaForm
+        description: >-
+          An entity must have a single genus
+        meaning: omoschema:DCC.S3.1
+      Circularity:
+        is_a: DefinitionConstraint
+        description: >-
+          A definition must not be circular
+        meaning: omoschema:DCC.S7
+      MatchTextAndLogical:
+        is_a: DefinitionConstraint
+        description: >-
+          Text definitions and logical forms should match
+        meaning: omoschema:DCC.S11
+      
