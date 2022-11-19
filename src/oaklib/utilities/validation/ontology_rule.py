@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Iterable
+from typing import Iterable, List
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResult
@@ -14,7 +14,9 @@ class OntologyRule:
     results: List[ValidationResult] = None
     severity = SeverityOptions(SeverityOptions.WARNING)
 
-    def evaluate(self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None) -> Iterable[ValidationResult]:
+    def evaluate(
+        self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
+    ) -> Iterable[ValidationResult]:
         """
         Evaluate the rule.
 

@@ -145,7 +145,9 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
 )
-from oaklib.utilities.validation.definition_ontology_rules import TextAndLogicalDefinitionMatchOntologyRule
+from oaklib.utilities.validation.definition_ontology_rules import (
+    TextAndLogicalDefinitionMatchOntologyRule,
+)
 from oaklib.utilities.validation.lint_utils import lint_ontology
 from oaklib.utilities.validation.rule_runner import RuleRunner
 
@@ -601,6 +603,10 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
+@click.option("--stacktrace/--no-stacktrace",
+              default=False,
+              show_default=True,
+              help="")
 @click.option(
     "--save-as",
     help="For commands that mutate the ontology, this specifies where changes are saved to",
@@ -1465,7 +1471,9 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         logging.info(f"Ancestor seed: {curies}")
         if statistics:
             if isinstance(writer, StreamingInfoWriter):
-                raise ValueError("StreamingInfoWriter (`-O info`) does not support --statistics output")
+                raise ValueError(
+                    "StreamingInfoWriter (`-O info`) does not support --statistics output"
+                )
             if isinstance(impl, OboGraphInterface):
                 graph = impl.ancestor_graph(curies, predicates=actual_predicates)
                 logging.info("Calculating graph stats")
@@ -3341,10 +3349,12 @@ def validate_multiple(dbs, output, schema, cutoff: int):
 
 
 @main.command()
-@click.option("--skip-text-annotation/--no-skip-text-annotation",
-              default=False,
-              show_default=True,
-              help="If true, do not parse text annotations")
+@click.option(
+    "--skip-text-annotation/--no-skip-text-annotation",
+    default=False,
+    show_default=True,
+    help="If true, do not parse text annotations",
+)
 @output_type_option
 @output_option
 @click.argument("terms", nargs=-1)
@@ -3395,14 +3405,18 @@ def validate_definitions(terms, skip_text_annotation, output: str, output_type: 
     targeted validation focused solely on definitions
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel)
+    writer = _get_writer(
+        output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel
+    )
     writer.output = output
     if isinstance(impl, ValidatorInterface):
         if terms:
             entities = query_terms_iterator(terms, impl)
         else:
             entities = None
-        definition_rule = TextAndLogicalDefinitionMatchOntologyRule(skip_text_annotation=skip_text_annotation)
+        definition_rule = TextAndLogicalDefinitionMatchOntologyRule(
+            skip_text_annotation=skip_text_annotation
+        )
         for vr in definition_rule.evaluate(impl, entities=entities):
             writer.emit(vr)
     else:

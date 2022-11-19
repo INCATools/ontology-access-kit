@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Iterator, List, Optional, Iterable
+from typing import Iterable, Iterator, List, Optional
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import LogicalDefinitionAxiom
@@ -156,7 +156,9 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                     info=f"Circular, {anns_by_object[subject].match_string} in definition",
                 )
 
-    def evaluate(self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None) -> Iterable[ValidationResult]:
+    def evaluate(
+        self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
+    ) -> Iterable[ValidationResult]:
         """
         Implements the OntologyRule.evaluate() method.
 
