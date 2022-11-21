@@ -13,7 +13,7 @@ URI: [og:isExact](https://github.com/geneontology/obographs/isExact)
 
 | Name | Description |
 | --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | None
+[SynonymPropertyValue](SynonymPropertyValue.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:isExact](https://github.com/geneontology/obographs/isExact)
 
 
 
-
-
-
-## Alias
 
 
 

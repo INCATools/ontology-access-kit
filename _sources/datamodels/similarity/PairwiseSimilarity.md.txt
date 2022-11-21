@@ -38,7 +38,6 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 
 
-
 ## Identifier and Mapping Information
 
 

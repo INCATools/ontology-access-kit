@@ -30,10 +30,6 @@ URI: [ann:matches_whole_text](https://w3id.org/linkml/text_annotator/matches_who
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

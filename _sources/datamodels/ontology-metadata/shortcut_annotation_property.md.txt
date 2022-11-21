@@ -1,6 +1,6 @@
 # Slot: shortcut_annotation_property
 
-URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/schema/shortcut_annotation_property)
+URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/omo/schema/shortcut_annotation_property)
 
 
 
@@ -22,10 +22,6 @@ URI: [omoschema:shortcut_annotation_property](http://purl.obolibrary.org/obo/sch
 
 
 
-
-
-
-## Alias
 
 
 

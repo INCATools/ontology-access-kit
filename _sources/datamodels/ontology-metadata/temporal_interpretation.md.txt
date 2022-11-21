@@ -30,10 +30,6 @@ URI: [RO:0001900](http://purl.obolibrary.org/obo/RO_0001900)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

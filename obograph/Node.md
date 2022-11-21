@@ -24,10 +24,10 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> string | None | direct |
-| [lbl](lbl.md) | 0..1 <br/> string | None | direct |
-| [type](type.md) | 0..1 <br/> string | None | direct |
-| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
 
 
 
@@ -35,8 +35,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [nodes](nodes.md) | range | Node |
-
+| [Graph](Graph.md) | [nodes](nodes.md) | range | [Node](Node.md) |
 
 
 

@@ -31,10 +31,6 @@ URI: [search:snippet](https://w3id.org/linkml/search_datamodel/snippet)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

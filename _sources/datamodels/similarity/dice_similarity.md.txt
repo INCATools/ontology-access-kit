@@ -34,10 +34,6 @@ URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

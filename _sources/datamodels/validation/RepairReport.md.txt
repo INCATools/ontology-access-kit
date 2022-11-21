@@ -28,8 +28,7 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> Result | collection of results | [Report](Report.md) |
-
+| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | [Report](Report.md) |
 
 
 

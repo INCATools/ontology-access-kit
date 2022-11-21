@@ -15,7 +15,7 @@ URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
 
 | Name | Description |
 | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
 
 
 
@@ -30,10 +30,6 @@ URI: [search:categories](https://w3id.org/linkml/search_datamodel/categories)
 
 
 
-
-
-
-## Alias
 
 
 

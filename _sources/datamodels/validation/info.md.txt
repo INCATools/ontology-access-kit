@@ -15,9 +15,9 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 | Name | Description |
 | --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
 [RepairOperation](RepairOperation.md) | The result of performing an individual repair
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -30,10 +30,6 @@ URI: [sh:resultMessage](http://www.w3.org/ns/shacl#resultMessage)
 
 
 
-
-
-
-## Alias
 
 
 

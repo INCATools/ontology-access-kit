@@ -31,10 +31,6 @@ URI: [sim:ancestor_id](https://w3id.org/linkml/similarity/ancestor_id)
 
 
 
-## Alias
-
-
-
 
 ## TODOs
 

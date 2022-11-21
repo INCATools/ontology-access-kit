@@ -2,7 +2,7 @@
 
 
 
-URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUserInformation)
+URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/HasUserInformation)
 
 
 ```{mermaid}
@@ -46,21 +46,20 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [comment](comment.md) | 0..* <br/> None | None | direct |
-| [seeAlso](seeAlso.md) | 0..* <br/> Thing | None | direct |
-| [image](image.md) | 0..1 <br/> Thing | None | direct |
-| [example_of_usage](example_of_usage.md) | 0..* <br/> None | None | direct |
-| [curator_note](curator_note.md) | 0..* <br/> None | None | direct |
-| [has_curation_status](has_curation_status.md) | 0..1 <br/> None | None | direct |
-| [depicted_by](depicted_by.md) | 0..* <br/> None | None | direct |
-| [page](page.md) | 0..* <br/> None | None | direct |
+| [comment](comment.md) | 0..* <br/> NONE |  | direct |
+| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
+| [image](image.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
+| [example_of_usage](example_of_usage.md) | 0..* <br/> NONE |  | direct |
+| [curator_note](curator_note.md) | 0..* <br/> NONE |  | direct |
+| [has_curation_status](has_curation_status.md) | 0..1 <br/> NONE |  | direct |
+| [depicted_by](depicted_by.md) | 0..* <br/> NONE |  | direct |
+| [page](page.md) | 0..* <br/> NONE |  | direct |
 
 ## Mixin Usage
 
 | mixed into | description |
 | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
-
 
 
 

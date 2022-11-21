@@ -34,10 +34,6 @@ URI: [oio:date_retrieved](http://www.geneontology.org/formats/oboInOwl#date_retr
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

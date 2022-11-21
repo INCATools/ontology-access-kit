@@ -13,7 +13,7 @@ URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 
 | Name | Description |
 | --- | --- |
-[Class](Class.md) | None
+[Class](Class.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [RO:0002161](http://purl.obolibrary.org/obo/RO_0002161)
 
 
 
-
-
-
-## Alias
 
 
 

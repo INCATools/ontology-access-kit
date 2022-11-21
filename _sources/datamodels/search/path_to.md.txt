@@ -13,7 +13,7 @@ URI: [search:path_to](https://w3id.org/linkml/search_datamodel/path_to)
 
 | Name | Description |
 | --- | --- |
-[ComplexQuery](ComplexQuery.md) | None
+[ComplexQuery](ComplexQuery.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [search:path_to](https://w3id.org/linkml/search_datamodel/path_to)
 
 
 
-
-
-
-## Alias
 
 
 

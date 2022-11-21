@@ -13,7 +13,7 @@ URI: [og:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 | Name | Description |
 | --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | None
+[EquivalentNodesSet](EquivalentNodesSet.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 
 
-
-
-
-## Alias
 
 
 

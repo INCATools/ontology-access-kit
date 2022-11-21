@@ -13,7 +13,7 @@ URI: [og:type](https://github.com/geneontology/obographs/type)
 
 | Name | Description |
 | --- | --- |
-[Node](Node.md) | None
+[Node](Node.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:type](https://github.com/geneontology/obographs/type)
 
 
 
-
-
-
-## Alias
 
 
 

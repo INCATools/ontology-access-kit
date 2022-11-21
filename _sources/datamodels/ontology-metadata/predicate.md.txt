@@ -1,6 +1,6 @@
 # Slot: predicate
 
-URI: [omoschema:predicate](http://purl.obolibrary.org/obo/schema/predicate)
+URI: [omoschema:predicate](http://purl.obolibrary.org/obo/omo/schema/predicate)
 
 
 
@@ -26,10 +26,6 @@ URI: [omoschema:predicate](http://purl.obolibrary.org/obo/schema/predicate)
 
 
 
-
-
-
-## Alias
 
 
 

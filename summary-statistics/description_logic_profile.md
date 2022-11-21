@@ -31,10 +31,6 @@ URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescrip
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

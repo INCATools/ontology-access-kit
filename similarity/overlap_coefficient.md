@@ -25,10 +25,6 @@ URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coeffi
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

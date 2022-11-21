@@ -25,10 +25,6 @@ URI: [sim:subsumed_by_score](https://w3id.org/linkml/similarity/subsumed_by_scor
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

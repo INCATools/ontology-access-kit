@@ -22,8 +22,8 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [fillerId](fillerId.md) | 0..1 <br/> string | None | direct |
-| [propertyId](propertyId.md) | 0..1 <br/> string | None | direct |
+| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 
 
 
@@ -31,8 +31,7 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | ExistentialRestrictionExpression |
-
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
 
 
 

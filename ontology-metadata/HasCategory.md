@@ -2,7 +2,7 @@
 
 
 
-URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
+URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/omo/schema/HasCategory)
 
 
 ```{mermaid}
@@ -38,17 +38,16 @@ URI: [omoschema:HasCategory](http://purl.obolibrary.org/obo/schema/HasCategory)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> None | None | direct |
-| [category](category.md) | 0..1 <br/> None | None | direct |
-| [in_subset](in_subset.md) | 0..* <br/> Subset | Maps an ontology element to a subset it belongs to | direct |
-| [conformsTo](conformsTo.md) | 0..* <br/> Thing | None | direct |
+| [has_obo_namespace](has_obo_namespace.md) | 0..* <br/> NONE |  | direct |
+| [category](category.md) | 0..1 <br/> NONE |  | direct |
+| [in_subset](in_subset.md) | 0..* <br/> [Subset](Subset.md) | Maps an ontology element to a subset it belongs to | direct |
+| [conformsTo](conformsTo.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
 
 ## Mixin Usage
 
 | mixed into | description |
 | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
-
 
 
 

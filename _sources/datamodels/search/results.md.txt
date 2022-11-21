@@ -13,7 +13,7 @@ URI: [search:results](https://w3id.org/linkml/search_datamodel/results)
 
 | Name | Description |
 | --- | --- |
-[SearchResultSet](SearchResultSet.md) | None
+[SearchResultSet](SearchResultSet.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [search:results](https://w3id.org/linkml/search_datamodel/results)
 
 
 
-
-
-
-## Alias
 
 
 

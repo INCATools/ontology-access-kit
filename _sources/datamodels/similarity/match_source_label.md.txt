@@ -13,7 +13,7 @@ URI: [sim:match_source_label](https://w3id.org/linkml/similarity/match_source_la
 
 | Name | Description |
 | --- | --- |
-[BestMatch](BestMatch.md) | None
+[BestMatch](BestMatch.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [sim:match_source_label](https://w3id.org/linkml/similarity/match_source_la
 
 
 
-
-
-
-## Alias
 
 
 

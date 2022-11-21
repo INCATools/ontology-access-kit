@@ -29,10 +29,6 @@ URI: [vm:successful](https://w3id.org/linkml/validation-model/successful)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

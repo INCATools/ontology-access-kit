@@ -29,10 +29,6 @@ URI: [li:element](https://w3id.org/linkml/lexical_index/element)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

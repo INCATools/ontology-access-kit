@@ -13,7 +13,7 @@ URI: [og:rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
 
 | Name | Description |
 | --- | --- |
-[DomainRangeAxiom](DomainRangeAxiom.md) | None
+[DomainRangeAxiom](DomainRangeAxiom.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:rangeClassIds](https://github.com/geneontology/obographs/rangeClassIds)
 
 
 
-
-
-
-## Alias
 
 
 

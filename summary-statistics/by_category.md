@@ -33,10 +33,6 @@ URI: [reporting:by_category](https://w3id.org/linkml/reportby_category)
 
 
 
-## Alias
-
-
-
 
 ## Comments
 

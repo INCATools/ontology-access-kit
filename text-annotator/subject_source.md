@@ -13,7 +13,7 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 | Name | Description |
 | --- | --- |
-[HasSpan](HasSpan.md) | None
+[HasSpan](HasSpan.md) | 
 [TextAnnotation](TextAnnotation.md) | An individual text annotation
 
 
@@ -27,10 +27,6 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 
-
-
-
-## Alias
 
 
 

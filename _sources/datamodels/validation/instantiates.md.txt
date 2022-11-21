@@ -15,8 +15,8 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 | Name | Description |
 | --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -25,14 +25,10 @@ URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Node](Node.md)
 
 
 
-
-
-
-## Alias
 
 
 
@@ -66,7 +62,7 @@ rank: 1000
 alias: instantiates
 domain_of:
 - ValidationResult
-range: uriorcurie
+range: Node
 
 ```
 </details>

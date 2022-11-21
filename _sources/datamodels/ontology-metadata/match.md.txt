@@ -1,6 +1,6 @@
 # Slot: match
 
-URI: [omoschema:match](http://purl.obolibrary.org/obo/schema/match)
+URI: [omoschema:match](http://purl.obolibrary.org/obo/omo/schema/match)
 
 
 
@@ -26,10 +26,6 @@ URI: [omoschema:match](http://purl.obolibrary.org/obo/schema/match)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -111,52 +111,52 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="search_terms.html"><span class="doc std std-doc">search_terms</span></a></p></td>
-<td><p>0..* <br/> SearchTerm</p></td>
-<td><p>An individual search term. The syntax is determined by the syntax slot</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="SearchTerm.html"><span class="doc std std-doc">SearchTerm</span></a></p></td>
+<td><p>An individual search term</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="syntax.html"><span class="doc std std-doc">syntax</span></a></p></td>
-<td><p>0..1 <br/> SearchTermSyntax</p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SearchTermSyntax.html"><span class="doc std std-doc">SearchTermSyntax</span></a></p></td>
 <td><p>Determines how the search term is interpreted</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="properties.html"><span class="doc std std-doc">properties</span></a></p></td>
-<td><p>0..* <br/> SearchProperty</p></td>
+<td><p>0..* <br/> <a class="reference internal" href="SearchProperty.html"><span class="doc std std-doc">SearchProperty</span></a></p></td>
 <td><p>determines which properties are searched over</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="limit.html"><span class="doc std std-doc">limit</span></a></p></td>
-<td><p>0..1 <br/> integer</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
 <td><p>the maximum number of search results to be returned in one batch</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="cursor.html"><span class="doc std std-doc">cursor</span></a></p></td>
-<td><p>0..1 <br/> None</p></td>
-<td><p>None</p></td>
+<td><p>0..1 <br/> NONE</p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="is_partial.html"><span class="doc std std-doc">is_partial</span></a></p></td>
-<td><p>0..1 <br/> boolean</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>allows matches where the search term is a subset of the full span</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_complete.html"><span class="doc std std-doc">is_complete</span></a></p></td>
-<td><p>0..1 <br/> boolean</p></td>
-<td><p>None</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="include_obsoletes_in_results.html"><span class="doc std std-doc">include_obsoletes_in_results</span></a></p></td>
-<td><p>0..1 <br/> boolean</p></td>
-<td><p>None</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="is_fuzzy.html"><span class="doc std std-doc">is_fuzzy</span></a></p></td>
-<td><p>0..1 <br/> boolean</p></td>
-<td><p>None</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
-<td><p>0..* <br/> uriorcurie</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>categories that should be matched</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -177,17 +177,17 @@
 <tr class="row-even"><td><p><a class="reference internal" href="ComplexQuery.html"><span class="doc std std-doc">ComplexQuery</span></a></p></td>
 <td><p><a class="reference internal" href="atom.html"><span class="doc std std-doc">atom</span></a></p></td>
 <td><p>range</p></td>
-<td><p>SearchBaseConfiguration</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="PathExpression.html"><span class="doc std std-doc">PathExpression</span></a></p></td>
 <td><p><a class="reference internal" href="search_term.html"><span class="doc std std-doc">search_term</span></a></p></td>
 <td><p>range</p></td>
-<td><p>SearchBaseConfiguration</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="SearchResultSet.html"><span class="doc std std-doc">SearchResultSet</span></a></p></td>
 <td><p><a class="reference internal" href="configuration.html"><span class="doc std std-doc">configuration</span></a></p></td>
 <td><p>range</p></td>
-<td><p>SearchBaseConfiguration</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">SearchBaseConfiguration</span></a></p></td>
 </tr>
 </tbody>
 </table>

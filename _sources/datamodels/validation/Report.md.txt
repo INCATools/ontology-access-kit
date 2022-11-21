@@ -33,8 +33,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [results](results.md) | 0..* <br/> Result | collection of results | direct |
-
+| [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | direct |
 
 
 

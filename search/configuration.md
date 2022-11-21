@@ -13,7 +13,7 @@ URI: [search:configuration](https://w3id.org/linkml/search_datamodel/configurati
 
 | Name | Description |
 | --- | --- |
-[SearchResultSet](SearchResultSet.md) | None
+[SearchResultSet](SearchResultSet.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [search:configuration](https://w3id.org/linkml/search_datamodel/configurati
 
 
 
-
-
-
-## Alias
 
 
 

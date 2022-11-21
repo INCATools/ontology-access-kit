@@ -13,7 +13,7 @@ URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivale
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | None
+[Graph](Graph.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivale
 
 
 
-
-
-
-## Alias
 
 
 

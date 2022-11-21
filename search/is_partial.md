@@ -15,7 +15,7 @@ URI: [search:is_partial](https://w3id.org/linkml/search_datamodel/is_partial)
 
 | Name | Description |
 | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
 
 
 
@@ -28,10 +28,6 @@ URI: [search:is_partial](https://w3id.org/linkml/search_datamodel/is_partial)
 
 
 
-
-
-
-## Alias
 
 
 

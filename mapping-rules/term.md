@@ -31,10 +31,6 @@ URI: [li:term](https://w3id.org/linkml/lexical_index/term)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

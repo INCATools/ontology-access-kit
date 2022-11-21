@@ -13,7 +13,7 @@ URI: [mrules:predicate_id](https://w3id.org/linkml/mapping_rules_datamodel/predi
 
 | Name | Description |
 | --- | --- |
-[Postcondition](Postcondition.md) | None
+[Postcondition](Postcondition.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [mrules:predicate_id](https://w3id.org/linkml/mapping_rules_datamodel/predi
 
 
 
-
-
-
-## Alias
 
 
 

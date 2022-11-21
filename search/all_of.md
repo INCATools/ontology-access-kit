@@ -13,7 +13,7 @@ URI: [search:all_of](https://w3id.org/linkml/search_datamodel/all_of)
 
 | Name | Description |
 | --- | --- |
-[ComplexQuery](ComplexQuery.md) | None
+[ComplexQuery](ComplexQuery.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [search:all_of](https://w3id.org/linkml/search_datamodel/all_of)
 
 
 
-
-
-
-## Alias
 
 
 

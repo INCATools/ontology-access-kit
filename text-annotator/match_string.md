@@ -29,10 +29,6 @@ URI: [sssom:match_string](http://w3id.org/sssom/match_string)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

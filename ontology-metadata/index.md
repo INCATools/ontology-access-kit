@@ -179,6 +179,7 @@ Name: Ontology-Metadata
 
 | Enumeration | Description |
 | --- | --- |
+| [DefinitionConstraintComponent](DefinitionConstraintComponent.md) | An extension of SHACL constraint component for constraining definitions |
 
 
 ## Types

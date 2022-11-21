@@ -13,7 +13,7 @@ URI: [og:version](https://github.com/geneontology/obographs/version)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:version](https://github.com/geneontology/obographs/version)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -18,6 +18,15 @@ URI: [MappingCardinalityEnum](MappingCardinalityEnum)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [subject_mapping_cardinality](subject_mapping_cardinality.md) | The mapping cardinality of the subject pair |
+| [object_mapping_cardinality](object_mapping_cardinality.md) | The mapping cardinality of the object pair |
+
+
+
 
 
 

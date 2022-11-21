@@ -13,7 +13,7 @@ URI: [assoc:property_values](https://w3id.org/oak/association/property_values)
 
 | Name | Description |
 | --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object).
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
 
 
 
@@ -28,10 +28,6 @@ URI: [assoc:property_values](https://w3id.org/oak/association/property_values)
 
 
 
-
-
-
-## Alias
 
 
 

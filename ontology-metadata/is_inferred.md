@@ -29,10 +29,6 @@ URI: [oio:is_inferred](http://www.geneontology.org/formats/oboInOwl#is_inferred)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

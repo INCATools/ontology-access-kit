@@ -2,7 +2,7 @@
 
 
 
-URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
+URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression)
 
 
 ```{mermaid}
@@ -32,7 +32,6 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 | mixed into | description |
 | --- | --- |
-
 
 
 

@@ -31,10 +31,6 @@ URI: [sim:ancestor_label](https://w3id.org/linkml/similarity/ancestor_label)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

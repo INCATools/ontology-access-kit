@@ -2,7 +2,7 @@
 _Grouping class for all properties related to lifecycle_
 
 
-URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/schema/obsoletion_related_property)
+URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/omo/schema/obsoletion_related_property)
 
 
 
@@ -28,10 +28,6 @@ URI: [omoschema:obsoletion_related_property](http://purl.obolibrary.org/obo/sche
 
 
 
-
-
-
-## Alias
 
 
 

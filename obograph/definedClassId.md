@@ -13,7 +13,7 @@ URI: [og:definedClassId](https://github.com/geneontology/obographs/definedClassI
 
 | Name | Description |
 | --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:definedClassId](https://github.com/geneontology/obographs/definedClassI
 
 
 
-
-
-
-## Alias
 
 
 

@@ -17,7 +17,6 @@ URI: [xsd:float](http://www.w3.org/2001/XMLSchema#float)
 
 
 
-
 ## Identifier and Mapping Information
 
 

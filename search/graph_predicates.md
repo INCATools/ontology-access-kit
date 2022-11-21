@@ -31,10 +31,6 @@ URI: [search:graph_predicates](https://w3id.org/linkml/search_datamodel/graph_pr
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

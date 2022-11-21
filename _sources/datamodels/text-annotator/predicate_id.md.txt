@@ -29,10 +29,6 @@ URI: [sssom:predicate_id](http://w3id.org/sssom/predicate_id)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

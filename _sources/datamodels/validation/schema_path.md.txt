@@ -31,10 +31,6 @@ URI: [vm:schema_path](https://w3id.org/linkml/validation-model/schema_path)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

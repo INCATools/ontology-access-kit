@@ -29,10 +29,6 @@ URI: [sim:ancestor_source](https://w3id.org/linkml/similarity/ancestor_source)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

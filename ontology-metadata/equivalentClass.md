@@ -18,9 +18,9 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 | Name | Description |
 | --- | --- |
-[ClassExpression](ClassExpression.md) | None
-[Class](Class.md) | None
-[Restriction](Restriction.md) | None
+[ClassExpression](ClassExpression.md) | 
+[Class](Class.md) | 
+[Restriction](Restriction.md) | 
 
 
 
@@ -35,10 +35,6 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 
-
-
-
-## Alias
 
 
 

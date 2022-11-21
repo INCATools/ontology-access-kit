@@ -26,11 +26,10 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject](subject.md) | 0..1 <br/> uriorcurie | The thing which the association is about. | direct |
-| [predicate](predicate.md) | 0..1 <br/> uriorcurie | The type of relationship between the subject and object. | direct |
-| [object](object.md) | 0..1 <br/> uriorcurie | An ontology entity that is associated with the subject. | direct |
-| [property_values](property_values.md) | 0..* <br/> PropertyValue | None | direct |
-
+| [subject](subject.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The thing which the association is about | direct |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The type of relationship between the subject and object | direct |
+| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is associated with the subject | direct |
+| [property_values](property_values.md) | 0..* <br/> [PropertyValue](PropertyValue.md) |  | direct |
 
 
 

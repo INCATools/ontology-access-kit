@@ -31,10 +31,6 @@ URI: [vm:max_number_results_per_type](https://w3id.org/linkml/validation-model/m
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

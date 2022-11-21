@@ -41,10 +41,6 @@ URI: [ann:right_side](https://w3id.org/linkml/text_annotator/right_side)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

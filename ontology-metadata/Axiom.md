@@ -43,28 +43,27 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [annotatedProperty](annotatedProperty.md) | 0..1 <br/> AnnotationProperty | None | direct |
-| [annotatedSource](annotatedSource.md) | 0..1 <br/> NamedObject | None | direct |
-| [annotatedTarget](annotatedTarget.md) | 0..1 <br/> Any | None | direct |
-| [annotations](annotations.md) | 0..* <br/> Annotation | None | direct |
-| [source](source.md) | 0..* <br/> None | None | direct |
-| [is_inferred](is_inferred.md) | 0..1 <br/> boolean | None | direct |
-| [notes](notes.md) | 0..* <br/> None | None | direct |
-| [url](url.md) | 0..1 <br/> None | None | direct |
-| [has_axiom_label](has_axiom_label.md) | 0..1 <br/> Thing | None | direct |
-| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> None | None | direct |
-| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | 0..1 <br/> None | None | direct |
-| [created_by](created_by.md) | 0..1 <br/> None | None | direct |
-| [date_retrieved](date_retrieved.md) | 0..1 <br/> None | None | direct |
-| [evidence](evidence.md) | 0..1 <br/> None | None | direct |
-| [external_ontology](external_ontology.md) | 0..* <br/> None | None | direct |
-| [database_cross_reference](database_cross_reference.md) | 0..* <br/> CURIELiteral | None | direct |
-| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> label type | None | direct |
-| [has_synonym_type](has_synonym_type.md) | 0..* <br/> AnnotationProperty | None | direct |
-| [comment](comment.md) | 0..* <br/> None | None | direct |
-| [label](label.md) | 0..1 <br/> label type | None | direct |
-| [seeAlso](seeAlso.md) | 0..* <br/> Thing | None | direct |
-
+| [annotatedProperty](annotatedProperty.md) | 0..1 <br/> [AnnotationProperty](AnnotationProperty.md) |  | direct |
+| [annotatedSource](annotatedSource.md) | 0..1 <br/> [NamedObject](NamedObject.md) |  | direct |
+| [annotatedTarget](annotatedTarget.md) | 0..1 <br/> [Any](Any.md) |  | direct |
+| [annotations](annotations.md) | 0..* <br/> [Annotation](Annotation.md) |  | direct |
+| [source](source.md) | 0..* <br/> NONE |  | direct |
+| [is_inferred](is_inferred.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [notes](notes.md) | 0..* <br/> NONE |  | direct |
+| [url](url.md) | 0..1 <br/> NONE |  | direct |
+| [has_axiom_label](has_axiom_label.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
+| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> NONE |  | direct |
+| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | 0..1 <br/> NONE |  | direct |
+| [created_by](created_by.md) | 0..1 <br/> NONE |  | direct |
+| [date_retrieved](date_retrieved.md) | 0..1 <br/> NONE |  | direct |
+| [evidence](evidence.md) | 0..1 <br/> NONE |  | direct |
+| [external_ontology](external_ontology.md) | 0..* <br/> NONE |  | direct |
+| [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | direct |
+| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
+| [has_synonym_type](has_synonym_type.md) | 0..* <br/> [AnnotationProperty](AnnotationProperty.md) |  | direct |
+| [comment](comment.md) | 0..* <br/> NONE |  | direct |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
+| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
 
 
 

@@ -29,10 +29,6 @@ URI: [owl:imports](http://www.w3.org/2002/07/owl#imports)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

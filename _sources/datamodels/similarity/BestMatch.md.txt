@@ -28,14 +28,14 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [match_source](match_source.md) | 1..1 <br/> None | None | direct |
-| [match_source_label](match_source_label.md) | 0..1 <br/> None | None | direct |
-| [match_target](match_target.md) | 0..1 <br/> None | the entity matches | direct |
-| [match_target_label](match_target_label.md) | 0..1 <br/> None | None | direct |
-| [score](score.md) | 0..1 <br/> None | Abstract base slot for different kinds of scores | direct |
-| [match_subsumer](match_subsumer.md) | 0..1 <br/> uriorcurie | None | direct |
-| [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> None | None | direct |
-| [similarity](similarity.md) | 1..1 <br/> TermPairwiseSimilarity | None | direct |
+| [match_source](match_source.md) | 1..1 <br/> NONE |  | direct |
+| [match_source_label](match_source_label.md) | 0..1 <br/> NONE |  | direct |
+| [match_target](match_target.md) | 0..1 <br/> NONE | the entity matches | direct |
+| [match_target_label](match_target_label.md) | 0..1 <br/> NONE |  | direct |
+| [score](score.md) | 0..1 <br/> NONE | Abstract base slot for different kinds of scores | direct |
+| [match_subsumer](match_subsumer.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [match_subsumer_label](match_subsumer_label.md) | 0..1 <br/> NONE |  | direct |
+| [similarity](similarity.md) | 1..1 <br/> [TermPairwiseSimilarity](TermPairwiseSimilarity.md) |  | direct |
 
 
 
@@ -43,9 +43,8 @@ URI: [sim:BestMatch](https://w3id.org/linkml/similarity/BestMatch)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [subject_best_matches](subject_best_matches.md) | range | BestMatch |
-| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [object_best_matches](object_best_matches.md) | range | BestMatch |
-
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [subject_best_matches](subject_best_matches.md) | range | [BestMatch](BestMatch.md) |
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [object_best_matches](object_best_matches.md) | range | [BestMatch](BestMatch.md) |
 
 
 

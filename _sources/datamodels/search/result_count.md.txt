@@ -13,7 +13,7 @@ URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count
 
 | Name | Description |
 | --- | --- |
-[SearchResultSet](SearchResultSet.md) | None
+[SearchResultSet](SearchResultSet.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [search:result_count](https://w3id.org/linkml/search_datamodel/result_count
 
 
 
-
-
-
-## Alias
 
 
 

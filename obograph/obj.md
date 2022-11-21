@@ -13,7 +13,7 @@ URI: [og:obj](https://github.com/geneontology/obographs/obj)
 
 | Name | Description |
 | --- | --- |
-[Edge](Edge.md) | None
+[Edge](Edge.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:obj](https://github.com/geneontology/obographs/obj)
 
 
 
-
-
-
-## Alias
 
 
 

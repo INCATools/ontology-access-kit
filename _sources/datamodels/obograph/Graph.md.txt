@@ -29,15 +29,15 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> string | None | direct |
-| [lbl](lbl.md) | 0..1 <br/> string | None | direct |
-| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
-| [nodes](nodes.md) | 0..* <br/> Node | None | direct |
-| [edges](edges.md) | 0..* <br/> Edge | None | direct |
-| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> EquivalentNodesSet | None | direct |
-| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> LogicalDefinitionAxiom | None | direct |
-| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> DomainRangeAxiom | None | direct |
-| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> PropertyChainAxiom | None | direct |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+| [nodes](nodes.md) | 0..* <br/> [Node](Node.md) |  | direct |
+| [edges](edges.md) | 0..* <br/> [Edge](Edge.md) |  | direct |
+| [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> [EquivalentNodesSet](EquivalentNodesSet.md) |  | direct |
+| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) |  | direct |
+| [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md) |  | direct |
+| [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md) |  | direct |
 
 
 
@@ -45,8 +45,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [GraphDocument](GraphDocument.md) | [graphs](graphs.md) | range | Graph |
-
+| [GraphDocument](GraphDocument.md) | [graphs](graphs.md) | range | [Graph](Graph.md) |
 
 
 

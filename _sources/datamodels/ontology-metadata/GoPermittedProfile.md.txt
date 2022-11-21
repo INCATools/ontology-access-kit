@@ -6,7 +6,6 @@ URI: [GoPermittedProfile](GoPermittedProfile)
 
 
 
-
 ## Identifier and Mapping Information
 
 

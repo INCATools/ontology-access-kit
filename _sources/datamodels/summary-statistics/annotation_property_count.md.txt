@@ -36,10 +36,6 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

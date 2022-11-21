@@ -2,7 +2,7 @@
 
 
 
-URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/AnonymousClassExpression)
+URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/omo/schema/AnonymousClassExpression)
 
 
 ```{mermaid}
@@ -31,7 +31,6 @@ URI: [omoschema:AnonymousClassExpression](http://purl.obolibrary.org/obo/schema/
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-
 
 
 

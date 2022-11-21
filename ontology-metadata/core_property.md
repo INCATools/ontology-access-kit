@@ -2,7 +2,7 @@
 _abstract grouping of core properties_
 
 
-URI: [omoschema:core_property](http://purl.obolibrary.org/obo/schema/core_property)
+URI: [omoschema:core_property](http://purl.obolibrary.org/obo/omo/schema/core_property)
 
 
 
@@ -26,10 +26,6 @@ URI: [omoschema:core_property](http://purl.obolibrary.org/obo/schema/core_proper
 
 
 
-
-
-
-## Alias
 
 
 

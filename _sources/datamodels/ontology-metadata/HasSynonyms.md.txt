@@ -4,7 +4,7 @@ _a mixin for a class whose members can have synonyms_
 
 
 
-URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/schema/HasSynonyms)
+URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynonyms)
 
 
 ```{mermaid}
@@ -50,22 +50,21 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/schema/HasSynonyms)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> label type | None | direct |
-| [has_narrow_synonym](has_narrow_synonym.md) | 0..* <br/> label type | None | direct |
-| [has_broad_synonym](has_broad_synonym.md) | 0..* <br/> label type | None | direct |
-| [has_related_synonym](has_related_synonym.md) | 0..* <br/> label type | None | direct |
-| [alternative_term](alternative_term.md) | 0..* <br/> None | None | direct |
-| [ISA_alternative_term](ISA_alternative_term.md) | 0..1 <br/> None | None | direct |
-| [IEDB_alternative_term](IEDB_alternative_term.md) | 0..1 <br/> None | None | direct |
-| [editor_preferred_term](editor_preferred_term.md) | 0..* <br/> None | None | direct |
-| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | 0..1 <br/> None | None | direct |
+| [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
+| [has_narrow_synonym](has_narrow_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
+| [has_broad_synonym](has_broad_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
+| [has_related_synonym](has_related_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
+| [alternative_term](alternative_term.md) | 0..* <br/> NONE |  | direct |
+| [ISA_alternative_term](ISA_alternative_term.md) | 0..1 <br/> NONE |  | direct |
+| [IEDB_alternative_term](IEDB_alternative_term.md) | 0..1 <br/> NONE |  | direct |
+| [editor_preferred_term](editor_preferred_term.md) | 0..* <br/> NONE |  | direct |
+| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | 0..1 <br/> NONE |  | direct |
 
 ## Mixin Usage
 
 | mixed into | description |
 | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
-
 
 
 

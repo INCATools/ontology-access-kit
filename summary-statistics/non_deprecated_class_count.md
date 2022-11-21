@@ -36,10 +36,6 @@ URI: [reporting:non_deprecated_class_count](https://w3id.org/linkml/reportnon_de
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -18,12 +18,12 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 | Name | Description |
 | --- | --- |
-[ClassExpression](ClassExpression.md) | None
-[PropertyExpression](PropertyExpression.md) | None
-[Class](Class.md) | None
+[ClassExpression](ClassExpression.md) | 
+[PropertyExpression](PropertyExpression.md) | 
+[Class](Class.md) | 
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
-[Restriction](Restriction.md) | None
+[Restriction](Restriction.md) | 
 
 
 
@@ -38,10 +38,6 @@ URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -1,6 +1,6 @@
 # Slot: has_rank
 
-URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/schema/has_rank)
+URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/omo/schema/has_rank)
 
 
 
@@ -13,7 +13,7 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/schema/has_rank)
 
 | Name | Description |
 | --- | --- |
-[Class](Class.md) | None
+[Class](Class.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [omoschema:has_rank](http://purl.obolibrary.org/obo/schema/has_rank)
 
 
 
-
-
-
-## Alias
 
 
 

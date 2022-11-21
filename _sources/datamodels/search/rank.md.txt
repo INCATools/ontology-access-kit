@@ -31,10 +31,6 @@ URI: [search:rank](https://w3id.org/linkml/search_datamodel/rank)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

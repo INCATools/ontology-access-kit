@@ -18,7 +18,7 @@ URI: [rdfs:domain](http://www.w3.org/2000/01/rdf-schema#domain)
 
 | Name | Description |
 | --- | --- |
-[Property](Property.md) | None
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -37,10 +37,6 @@ URI: [rdfs:domain](http://www.w3.org/2000/01/rdf-schema#domain)
 
 
 
-
-
-
-## Alias
 
 
 

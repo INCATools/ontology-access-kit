@@ -13,7 +13,7 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | None
+[Graph](Graph.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:edges](https://github.com/geneontology/obographs/edges)
 
 
 
-
-
-
-## Alias
 
 
 

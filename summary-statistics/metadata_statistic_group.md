@@ -20,10 +20,6 @@ URI: [reporting:metadata_statistic_group](https://w3id.org/linkml/reportmetadata
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

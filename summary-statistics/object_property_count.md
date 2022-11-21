@@ -36,10 +36,6 @@ URI: [reporting:object_property_count](https://w3id.org/linkml/reportobject_prop
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

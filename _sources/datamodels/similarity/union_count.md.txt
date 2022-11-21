@@ -25,10 +25,6 @@ URI: [sim:union_count](https://w3id.org/linkml/similarity/union_count)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

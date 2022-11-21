@@ -1,6 +1,6 @@
 # Slot: version_property
 
-URI: [omoschema:version_property](http://purl.obolibrary.org/obo/schema/version_property)
+URI: [omoschema:version_property](http://purl.obolibrary.org/obo/omo/schema/version_property)
 
 
 
@@ -23,10 +23,6 @@ URI: [omoschema:version_property](http://purl.obolibrary.org/obo/schema/version_
 
 
 
-
-
-
-## Alias
 
 
 

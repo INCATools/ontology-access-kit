@@ -20,10 +20,6 @@ URI: [reporting:property_statistic_group](https://w3id.org/linkml/reportproperty
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

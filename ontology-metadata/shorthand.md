@@ -34,10 +34,6 @@ URI: [oio:shorthand](http://www.geneontology.org/formats/oboInOwl#shorthand)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

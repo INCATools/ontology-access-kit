@@ -15,7 +15,7 @@ URI: [mrules:weight](https://w3id.org/linkml/mapping_rules_datamodel/weight)
 
 | Name | Description |
 | --- | --- |
-[Postcondition](Postcondition.md) | None
+[Postcondition](Postcondition.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [mrules:weight](https://w3id.org/linkml/mapping_rules_datamodel/weight)
 
 
 
-
-
-
-## Alias
 
 
 

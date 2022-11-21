@@ -36,10 +36,6 @@ URI: [reporting:equivalent_classes_axiom_count](https://w3id.org/linkml/reporteq
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

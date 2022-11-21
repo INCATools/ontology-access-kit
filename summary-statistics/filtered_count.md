@@ -31,10 +31,6 @@ URI: [reporting:filtered_count](https://w3id.org/linkml/reportfiltered_count)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

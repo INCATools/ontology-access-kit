@@ -27,11 +27,11 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [description](description.md) | 0..1 <br/> None | None | direct |
-| [oneway](oneway.md) | 0..1 <br/> boolean | if true then subject and object can be switched and predicate inverted | direct |
-| [preconditions](preconditions.md) | 0..1 <br/> Precondition | all of the criteria that must be true before a rule is fired | direct |
-| [postconditions](postconditions.md) | 0..1 <br/> Postcondition | conditions that apply if preconditions match | direct |
-| [synonymizer](synonymizer.md) | 0..1 <br/> Synonymizer | Normalizing rules to labels. | direct |
+| [description](description.md) | 0..1 <br/> NONE |  | direct |
+| [oneway](oneway.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | if true then subject and object can be switched and predicate inverted | direct |
+| [preconditions](preconditions.md) | 0..1 <br/> [Precondition](Precondition.md) | all of the criteria that must be true before a rule is fired | direct |
+| [postconditions](postconditions.md) | 0..1 <br/> [Postcondition](Postcondition.md) | conditions that apply if preconditions match | direct |
+| [synonymizer](synonymizer.md) | 0..1 <br/> [Synonymizer](Synonymizer.md) | Normalizing rules to labels | direct |
 
 
 
@@ -39,8 +39,7 @@ URI: [mrules:MappingRule](https://w3id.org/linkml/mapping_rules_datamodel/Mappin
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [MappingRuleCollection](MappingRuleCollection.md) | [rules](rules.md) | range | MappingRule |
-
+| [MappingRuleCollection](MappingRuleCollection.md) | [rules](rules.md) | range | [MappingRule](MappingRule.md) |
 
 
 

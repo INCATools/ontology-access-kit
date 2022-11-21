@@ -29,10 +29,6 @@ URI: [vm:repairs](https://w3id.org/linkml/validation-model/repairs)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

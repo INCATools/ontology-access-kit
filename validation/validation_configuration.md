@@ -31,10 +31,6 @@ URI: [vm:validation_configuration](https://w3id.org/linkml/validation-model/vali
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

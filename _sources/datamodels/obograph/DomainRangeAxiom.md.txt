@@ -30,10 +30,10 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicateId](predicateId.md) | 0..1 <br/> string | None | direct |
-| [domainClassIds](domainClassIds.md) | 0..* <br/> string | None | direct |
-| [rangeClassIds](rangeClassIds.md) | 0..* <br/> string | None | direct |
-| [meta](meta.md) | 0..1 <br/> Meta | None | [Axiom](Axiom.md) |
+| [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [domainClassIds](domainClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [rangeClassIds](rangeClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
 
 
 
@@ -41,8 +41,7 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [domainRangeAxioms](domainRangeAxioms.md) | range | DomainRangeAxiom |
-
+| [Graph](Graph.md) | [domainRangeAxioms](domainRangeAxioms.md) | range | [DomainRangeAxiom](DomainRangeAxiom.md) |
 
 
 

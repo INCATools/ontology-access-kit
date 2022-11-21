@@ -15,7 +15,7 @@ URI: [mrules:replacement](https://w3id.org/linkml/mapping_rules_datamodel/replac
 
 | Name | Description |
 | --- | --- |
-[Synonymizer](Synonymizer.md) | None
+[Synonymizer](Synonymizer.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [mrules:replacement](https://w3id.org/linkml/mapping_rules_datamodel/replac
 
 
 
-
-
-
-## Alias
 
 
 

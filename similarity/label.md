@@ -13,7 +13,7 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 | Name | Description |
 | --- | --- |
-[TermInfo](TermInfo.md) | None
+[TermInfo](TermInfo.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
-
-
-
-## Alias
 
 
 

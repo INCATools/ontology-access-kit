@@ -28,12 +28,12 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> None | None | direct |
-| [object_source_one_of](object_source_one_of.md) | 0..* <br/> None | None | direct |
-| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> None | None | direct |
-| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> None | None | direct |
-| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> None | None | direct |
-| [transformations_included_in](transformations_included_in.md) | 0..* <br/> None | None | direct |
+| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> NONE |  | direct |
+| [object_source_one_of](object_source_one_of.md) | 0..* <br/> NONE |  | direct |
+| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> NONE |  | direct |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> NONE |  | direct |
+| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> NONE |  | direct |
+| [transformations_included_in](transformations_included_in.md) | 0..* <br/> NONE |  | direct |
 
 
 
@@ -41,8 +41,7 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [MappingRule](MappingRule.md) | [preconditions](preconditions.md) | range | Precondition |
-
+| [MappingRule](MappingRule.md) | [preconditions](preconditions.md) | range | [Precondition](Precondition.md) |
 
 
 

@@ -13,7 +13,7 @@ URI: [sim:match_subsumer](https://w3id.org/linkml/similarity/match_subsumer)
 
 | Name | Description |
 | --- | --- |
-[BestMatch](BestMatch.md) | None
+[BestMatch](BestMatch.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [sim:match_subsumer](https://w3id.org/linkml/similarity/match_subsumer)
 
 
 
-
-
-
-## Alias
 
 
 

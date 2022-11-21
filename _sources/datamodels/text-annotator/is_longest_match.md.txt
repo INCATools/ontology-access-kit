@@ -29,10 +29,6 @@ URI: [ann:is_longest_match](https://w3id.org/linkml/text_annotator/is_longest_ma
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

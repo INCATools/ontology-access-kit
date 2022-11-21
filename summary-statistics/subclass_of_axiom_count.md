@@ -36,10 +36,6 @@ URI: [reporting:subclass_of_axiom_count](https://w3id.org/linkml/reportsubclass_
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

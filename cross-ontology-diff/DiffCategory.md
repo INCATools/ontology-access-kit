@@ -26,6 +26,14 @@ URI: [DiffCategory](DiffCategory)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [category](category.md) | Each match (or lack of match) is placed into exactly one category |
+
+
+
 
 
 

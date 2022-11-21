@@ -36,10 +36,6 @@ URI: [reporting:owl_axiom_count](https://w3id.org/linkml/reportowl_axiom_count)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

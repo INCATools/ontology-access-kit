@@ -18,10 +18,10 @@ URI: [skos:closeMatch](http://www.w3.org/2004/02/skos/core#closeMatch)
 
 | Name | Description |
 | --- | --- |
-[HasMappings](HasMappings.md) | None
+[HasMappings](HasMappings.md) | 
 [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | None
-[Property](Property.md) | None
+[Class](Class.md) | 
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -41,10 +41,6 @@ URI: [skos:closeMatch](http://www.w3.org/2004/02/skos/core#closeMatch)
 
 
 
-
-
-
-## Alias
 
 
 

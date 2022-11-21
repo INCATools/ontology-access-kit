@@ -13,7 +13,7 @@ URI: [mrules:description](https://w3id.org/linkml/mapping_rules_datamodel/descri
 
 | Name | Description |
 | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
 
 
 
@@ -26,10 +26,6 @@ URI: [mrules:description](https://w3id.org/linkml/mapping_rules_datamodel/descri
 
 
 
-
-
-
-## Alias
 
 
 

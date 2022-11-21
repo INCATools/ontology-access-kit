@@ -33,10 +33,6 @@ URI: [mrules:rules](https://w3id.org/linkml/mapping_rules_datamodel/rules)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

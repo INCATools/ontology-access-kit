@@ -30,8 +30,8 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [type](type.md) | 0..1 <br/> TransformationType | The type of transformation | direct |
-| [params](params.md) | 0..1 <br/> None | Any parameters to be applied to the transformation algorithm | direct |
+| [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation | direct |
+| [params](params.md) | 0..1 <br/> NONE | Any parameters to be applied to the transformation algorithm | direct |
 
 
 
@@ -39,8 +39,7 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | [transformations](transformations.md) | range | LexicalTransformation |
-
+| [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | [transformations](transformations.md) | range | [LexicalTransformation](LexicalTransformation.md) |
 
 
 

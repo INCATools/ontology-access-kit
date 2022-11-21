@@ -32,16 +32,16 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [search_terms](search_terms.md) | 0..* <br/> SearchTerm | An individual search term. The syntax is determined by the syntax slot | direct |
-| [syntax](syntax.md) | 0..1 <br/> SearchTermSyntax | Determines how the search term is interpreted | direct |
-| [properties](properties.md) | 0..* <br/> SearchProperty | determines which properties are searched over | direct |
-| [limit](limit.md) | 0..1 <br/> integer | the maximum number of search results to be returned in one batch | direct |
-| [cursor](cursor.md) | 0..1 <br/> None | None | direct |
-| [is_partial](is_partial.md) | 0..1 <br/> boolean | allows matches where the search term is a subset of the full span | direct |
-| [is_complete](is_complete.md) | 0..1 <br/> boolean | None | direct |
-| [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> boolean | None | direct |
-| [is_fuzzy](is_fuzzy.md) | 0..1 <br/> boolean | None | direct |
-| [categories](categories.md) | 0..* <br/> uriorcurie | categories that should be matched | direct |
+| [search_terms](search_terms.md) | 0..* <br/> [SearchTerm](SearchTerm.md) | An individual search term | direct |
+| [syntax](syntax.md) | 0..1 <br/> [SearchTermSyntax](SearchTermSyntax.md) | Determines how the search term is interpreted | direct |
+| [properties](properties.md) | 0..* <br/> [SearchProperty](SearchProperty.md) | determines which properties are searched over | direct |
+| [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | the maximum number of search results to be returned in one batch | direct |
+| [cursor](cursor.md) | 0..1 <br/> NONE |  | direct |
+| [is_partial](is_partial.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | allows matches where the search term is a subset of the full span | direct |
+| [is_complete](is_complete.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [is_fuzzy](is_fuzzy.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [categories](categories.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | categories that should be matched | direct |
 
 
 
@@ -49,10 +49,9 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [ComplexQuery](ComplexQuery.md) | [atom](atom.md) | range | SearchBaseConfiguration |
-| [PathExpression](PathExpression.md) | [search_term](search_term.md) | range | SearchBaseConfiguration |
-| [SearchResultSet](SearchResultSet.md) | [configuration](configuration.md) | range | SearchBaseConfiguration |
-
+| [ComplexQuery](ComplexQuery.md) | [atom](atom.md) | range | [SearchBaseConfiguration](SearchBaseConfiguration.md) |
+| [PathExpression](PathExpression.md) | [search_term](search_term.md) | range | [SearchBaseConfiguration](SearchBaseConfiguration.md) |
+| [SearchResultSet](SearchResultSet.md) | [configuration](configuration.md) | range | [SearchBaseConfiguration](SearchBaseConfiguration.md) |
 
 
 

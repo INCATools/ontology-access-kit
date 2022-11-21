@@ -1,6 +1,6 @@
 # Slot: logical_predicate
 
-URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/schema/logical_predicate)
+URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/omo/schema/logical_predicate)
 
 
 
@@ -47,10 +47,6 @@ URI: [omoschema:logical_predicate](http://purl.obolibrary.org/obo/schema/logical
 
 
 
-
-
-
-## Alias
 
 
 

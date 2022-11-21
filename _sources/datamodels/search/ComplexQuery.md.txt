@@ -25,11 +25,11 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [all_of](all_of.md) | 0..* <br/> ComplexQuery | None | direct |
-| [any_of](any_of.md) | 0..* <br/> ComplexQuery | None | direct |
-| [none_of](none_of.md) | 0..* <br/> ComplexQuery | None | direct |
-| [path_to](path_to.md) | 0..1 <br/> None | None | direct |
-| [atom](atom.md) | 0..1 <br/> SearchBaseConfiguration | None | direct |
+| [all_of](all_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
+| [any_of](any_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
+| [none_of](none_of.md) | 0..* <br/> [ComplexQuery](ComplexQuery.md) |  | direct |
+| [path_to](path_to.md) | 0..1 <br/> NONE |  | direct |
+| [atom](atom.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
 
 
 
@@ -37,10 +37,9 @@ URI: [search:ComplexQuery](https://w3id.org/linkml/search_datamodel/ComplexQuery
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [ComplexQuery](ComplexQuery.md) | [all_of](all_of.md) | range | ComplexQuery |
-| [ComplexQuery](ComplexQuery.md) | [any_of](any_of.md) | range | ComplexQuery |
-| [ComplexQuery](ComplexQuery.md) | [none_of](none_of.md) | range | ComplexQuery |
-
+| [ComplexQuery](ComplexQuery.md) | [all_of](all_of.md) | range | [ComplexQuery](ComplexQuery.md) |
+| [ComplexQuery](ComplexQuery.md) | [any_of](any_of.md) | range | [ComplexQuery](ComplexQuery.md) |
+| [ComplexQuery](ComplexQuery.md) | [none_of](none_of.md) | range | [ComplexQuery](ComplexQuery.md) |
 
 
 

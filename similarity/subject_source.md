@@ -31,10 +31,6 @@ URI: [sssom:subject_source](http://w3id.org/sssom/subject_source)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

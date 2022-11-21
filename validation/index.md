@@ -9,7 +9,10 @@ Name: validaton-results
 
 | Class | Description |
 | --- | --- |
+| [ConstraintComponent](ConstraintComponent.md) |  |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ... |
+| [NamedResource](NamedResource.md) |  |
+| [Node](Node.md) |  |
 | [RepairConfiguration](RepairConfiguration.md) | Configuration parameters for execution of validation repairs |
 | [RepairOperation](RepairOperation.md) | The result of performing an individual repair |
 | [RepairReport](RepairReport.md) | A report that consists of repair operation results |
@@ -27,6 +30,7 @@ Name: validaton-results
 | --- | --- |
 | [dry_run](dry_run.md) |  |
 | [http_response_code](http_response_code.md) |  |
+| [id](id.md) |  |
 | [info](info.md) | additional information about the issue |
 | [instantiates](instantiates.md) | The type of the subject |
 | [max_number_results_per_type](max_number_results_per_type.md) | if set then truncate results such that no more than this number of results ar... |

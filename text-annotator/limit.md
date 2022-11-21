@@ -29,10 +29,6 @@ URI: [ann:limit](https://w3id.org/linkml/text_annotator/limit)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

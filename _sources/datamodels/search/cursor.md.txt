@@ -13,8 +13,8 @@ URI: [search:cursor](https://w3id.org/linkml/search_datamodel/cursor)
 
 | Name | Description |
 | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
-[SearchResultSet](SearchResultSet.md) | None
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+[SearchResultSet](SearchResultSet.md) | 
 
 
 
@@ -27,10 +27,6 @@ URI: [search:cursor](https://w3id.org/linkml/search_datamodel/cursor)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -20,10 +20,6 @@ URI: [reporting:owl_statistic_group](https://w3id.org/linkml/reportowl_statistic
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

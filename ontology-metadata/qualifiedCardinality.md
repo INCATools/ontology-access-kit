@@ -25,10 +25,6 @@ URI: [owl:qualifiedCardinality](http://www.w3.org/2002/07/owl#qualifiedCardinali
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

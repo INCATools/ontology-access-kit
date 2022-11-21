@@ -32,10 +32,6 @@ URI: [ann:is_functional](https://w3id.org/linkml/text_annotator/is_functional)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

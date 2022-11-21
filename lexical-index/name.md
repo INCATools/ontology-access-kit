@@ -13,7 +13,7 @@ URI: [li:name](https://w3id.org/linkml/lexical_index/name)
 
 | Name | Description |
 | --- | --- |
-[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fashion
+[LexicalTransformationPipeline](LexicalTransformationPipeline.md) | A collection of atomic lexical transformations that are applied in serial fas...
 
 
 
@@ -26,10 +26,6 @@ URI: [li:name](https://w3id.org/linkml/lexical_index/name)
 
 
 
-
-
-
-## Alias
 
 
 

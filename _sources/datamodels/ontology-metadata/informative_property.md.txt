@@ -1,6 +1,6 @@
 # Slot: informative_property
 
-URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/schema/informative_property)
+URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/omo/schema/informative_property)
 
 
 
@@ -33,10 +33,6 @@ URI: [omoschema:informative_property](http://purl.obolibrary.org/obo/schema/info
 
 
 
-
-
-
-## Alias
 
 
 

@@ -13,7 +13,7 @@ URI: [og:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:synonyms](https://github.com/geneontology/obographs/synonyms)
 
 
 
-
-
-
-## Alias
 
 
 

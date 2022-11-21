@@ -13,7 +13,7 @@ URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_respo
 
 | Name | Description |
 | --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -26,10 +26,6 @@ URI: [vm:http_response_code](https://w3id.org/linkml/validation-model/http_respo
 
 
 
-
-
-
-## Alias
 
 
 

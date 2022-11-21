@@ -13,7 +13,7 @@ URI: [search:atom](https://w3id.org/linkml/search_datamodel/atom)
 
 | Name | Description |
 | --- | --- |
-[ComplexQuery](ComplexQuery.md) | None
+[ComplexQuery](ComplexQuery.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [search:atom](https://w3id.org/linkml/search_datamodel/atom)
 
 
 
-
-
-
-## Alias
 
 
 

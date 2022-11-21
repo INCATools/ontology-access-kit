@@ -29,10 +29,6 @@ URI: [vm:modified](https://w3id.org/linkml/validation-model/modified)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

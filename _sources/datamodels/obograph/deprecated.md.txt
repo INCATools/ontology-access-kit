@@ -13,7 +13,7 @@ URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
 
 
 
-
-
-
-## Alias
 
 
 

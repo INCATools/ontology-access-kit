@@ -15,7 +15,7 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 
 | Name | Description |
 | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
 
 
 
@@ -28,10 +28,6 @@ URI: [sh:condition](https://w3id.org/shacl/condition)
 
 
 
-
-
-
-## Alias
 
 
 

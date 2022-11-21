@@ -61,38 +61,37 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [class_count](class_count.md) | 0..1 <br/> None | None | direct |
-| [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> None | None | direct |
-| [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> None | None | direct |
-| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> None | None | direct |
-| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> None | None | direct |
-| [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> None | None | direct |
-| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> None | None | direct |
-| [property_count](property_count.md) | 0..1 <br/> None | None | direct |
-| [object_property_count](object_property_count.md) | 0..1 <br/> None | None | direct |
-| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> None | None | direct |
-| [non_deprecated_object_property_count](non_deprecated_object_property_count.md) | 0..1 <br/> None | None | direct |
-| [datatype_property_count](datatype_property_count.md) | 0..1 <br/> None | None | direct |
-| [annotation_property_count](annotation_property_count.md) | 0..1 <br/> None | None | direct |
-| [individual_count](individual_count.md) | 0..1 <br/> None | None | direct |
-| [named_individual_count](named_individual_count.md) | 0..1 <br/> None | None | direct |
-| [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> None | None | direct |
-| [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> None | None | direct |
-| [description_logic_profile](description_logic_profile.md) | 0..1 <br/> string | None | direct |
-| [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> None | None | direct |
-| [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> None | None | direct |
-| [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> None | None | direct |
-| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> None | None | direct |
-| [edge_count_by_predicate](edge_count_by_predicate.md) | 0..* <br/> FacetedCount | None | direct |
-| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> FacetedCount | None | direct |
-| [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> None | None | direct |
-| [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> None | None | direct |
-| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> FacetedCount | None | direct |
-| [class_count_by_category](class_count_by_category.md) | 0..* <br/> FacetedCount | None | direct |
-| [mapping_count](mapping_count.md) | 0..1 <br/> None | None | direct |
-| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> FacetedCount | None | direct |
-| [ontology_count](ontology_count.md) | 0..1 <br/> None | None | direct |
-
+| [class_count](class_count.md) | 0..1 <br/> NONE |  | direct |
+| [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> NONE |  | direct |
+| [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> NONE |  | direct |
+| [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> NONE |  | direct |
+| [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> NONE |  | direct |
+| [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> NONE |  | direct |
+| [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> NONE |  | direct |
+| [property_count](property_count.md) | 0..1 <br/> NONE |  | direct |
+| [object_property_count](object_property_count.md) | 0..1 <br/> NONE |  | direct |
+| [deprecated_object_property_count](deprecated_object_property_count.md) | 0..1 <br/> NONE |  | direct |
+| [non_deprecated_object_property_count](non_deprecated_object_property_count.md) | 0..1 <br/> NONE |  | direct |
+| [datatype_property_count](datatype_property_count.md) | 0..1 <br/> NONE |  | direct |
+| [annotation_property_count](annotation_property_count.md) | 0..1 <br/> NONE |  | direct |
+| [individual_count](individual_count.md) | 0..1 <br/> NONE |  | direct |
+| [named_individual_count](named_individual_count.md) | 0..1 <br/> NONE |  | direct |
+| [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> NONE |  | direct |
+| [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> NONE |  | direct |
+| [description_logic_profile](description_logic_profile.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> NONE |  | direct |
+| [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> NONE |  | direct |
+| [subclass_of_axiom_count](subclass_of_axiom_count.md) | 0..1 <br/> NONE |  | direct |
+| [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) | 0..1 <br/> NONE |  | direct |
+| [edge_count_by_predicate](edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> NONE |  | direct |
+| [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> NONE |  | direct |
+| [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [class_count_by_category](class_count_by_category.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [mapping_count](mapping_count.md) | 0..1 <br/> NONE |  | direct |
+| [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [ontology_count](ontology_count.md) | 0..1 <br/> NONE |  | direct |
 
 
 

@@ -22,6 +22,14 @@ URI: [SearchProperty](SearchProperty)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [properties](properties.md) | determines which properties are searched over |
+
+
+
 
 
 

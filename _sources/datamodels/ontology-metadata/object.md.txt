@@ -1,6 +1,6 @@
 # Slot: object
 
-URI: [omoschema:object](http://purl.obolibrary.org/obo/schema/object)
+URI: [omoschema:object](http://purl.obolibrary.org/obo/omo/schema/object)
 
 
 
@@ -26,10 +26,6 @@ URI: [omoschema:object](http://purl.obolibrary.org/obo/schema/object)
 
 
 
-
-
-
-## Alias
 
 
 

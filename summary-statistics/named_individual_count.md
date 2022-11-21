@@ -36,10 +36,6 @@ URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_indi
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

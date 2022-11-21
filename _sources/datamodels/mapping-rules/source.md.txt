@@ -29,10 +29,6 @@ URI: [li:source](https://w3id.org/linkml/lexical_index/source)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

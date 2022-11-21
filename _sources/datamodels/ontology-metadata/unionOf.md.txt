@@ -18,9 +18,9 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 | Name | Description |
 | --- | --- |
-[ClassExpression](ClassExpression.md) | None
-[Class](Class.md) | None
-[Restriction](Restriction.md) | None
+[ClassExpression](ClassExpression.md) | 
+[Class](Class.md) | 
+[Restriction](Restriction.md) | 
 
 
 
@@ -33,10 +33,6 @@ URI: [owl:unionOf](http://www.w3.org/2002/07/owl#unionOf)
 
 
 
-
-
-
-## Alias
 
 
 

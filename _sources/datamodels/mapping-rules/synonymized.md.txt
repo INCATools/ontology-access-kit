@@ -29,10 +29,6 @@ URI: [li:synonymized](https://w3id.org/linkml/lexical_index/synonymized)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

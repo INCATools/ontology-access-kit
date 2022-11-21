@@ -24,9 +24,8 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [rules](rules.md) | 0..* <br/> MappingRule | all rules | direct |
-| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> float | None | direct |
-
+| [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md) | all rules | direct |
+| [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
 
 
 

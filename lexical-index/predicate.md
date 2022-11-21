@@ -29,10 +29,6 @@ URI: [li:predicate](https://w3id.org/linkml/lexical_index/predicate)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

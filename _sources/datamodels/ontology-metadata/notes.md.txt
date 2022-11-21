@@ -31,10 +31,6 @@ URI: [oio:notes](http://www.geneontology.org/formats/oboInOwl#notes)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

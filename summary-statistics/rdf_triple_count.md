@@ -36,10 +36,6 @@ URI: [reporting:rdf_triple_count](https://w3id.org/linkml/reportrdf_triple_count
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

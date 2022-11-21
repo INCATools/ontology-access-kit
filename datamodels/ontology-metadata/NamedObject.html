@@ -83,7 +83,7 @@
   <section id="class-namedobject">
 <h1>Class: NamedObject<a class="headerlink" href="#class-namedobject" title="Permalink to this headline"></a></h1>
 <p><em>Anything with an IRI</em></p>
-<p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/schema/NamedObject">omoschema:NamedObject</a></p>
+<p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/omo/schema/NamedObject">omoschema:NamedObject</a></p>
 <div class="mermaid">
              classDiagram
     class NamedObject
@@ -126,13 +126,13 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> uriorcurie</p></td>
+<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>this maps to the URI in RDF</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
-<td><p>0..* <br/> uriorcurie</p></td>
-<td><p>None</p></td>
+<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
+<td><p></p></td>
 <td><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p></td>
 </tr>
 </tbody>
@@ -152,7 +152,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
 <td><p><a class="reference internal" href="annotatedSource.html"><span class="doc std std-doc">annotatedSource</span></a></p></td>
 <td><p>range</p></td>
-<td><p>NamedObject</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">NamedObject</span></a></p></td>
 </tr>
 </tbody>
 </table>

@@ -13,7 +13,7 @@ URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 | Name | Description |
 | --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 
 
-
-
-
-## Alias
 
 
 

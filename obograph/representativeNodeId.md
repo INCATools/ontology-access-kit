@@ -13,7 +13,7 @@ URI: [og:representativeNodeId](https://github.com/geneontology/obographs/represe
 
 | Name | Description |
 | --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | None
+[EquivalentNodesSet](EquivalentNodesSet.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:representativeNodeId](https://github.com/geneontology/obographs/represe
 
 
 
-
-
-
-## Alias
 
 
 

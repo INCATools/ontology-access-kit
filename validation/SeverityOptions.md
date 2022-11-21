@@ -16,6 +16,14 @@ URI: [SeverityOptions](SeverityOptions)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [severity](severity.md) | the severity of the issue |
+
+
+
 
 
 

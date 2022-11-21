@@ -37,10 +37,6 @@ URI: [sim:object_information_content](https://w3id.org/linkml/similarity/object_
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

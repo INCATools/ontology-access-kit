@@ -13,7 +13,7 @@ URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRang
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | None
+[Graph](Graph.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRang
 
 
 
-
-
-
-## Alias
 
 
 

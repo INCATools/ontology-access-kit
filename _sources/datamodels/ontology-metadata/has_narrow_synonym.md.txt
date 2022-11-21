@@ -21,8 +21,8 @@ URI: [oio:hasNarrowSynonym](http://www.geneontology.org/formats/oboInOwl#hasNarr
 | --- | --- |
 [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms
 [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | None
-[Property](Property.md) | None
+[Class](Class.md) | 
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -42,10 +42,6 @@ URI: [oio:hasNarrowSynonym](http://www.geneontology.org/formats/oboInOwl#hasNarr
 
 
 
-
-
-
-## Alias
 
 
 

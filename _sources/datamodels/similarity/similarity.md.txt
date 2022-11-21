@@ -13,7 +13,7 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 | Name | Description |
 | --- | --- |
-[BestMatch](BestMatch.md) | None
+[BestMatch](BestMatch.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -36,10 +36,6 @@ URI: [sim:jaccard_similarity](https://w3id.org/linkml/similarity/jaccard_similar
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

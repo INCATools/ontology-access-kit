@@ -20,10 +20,6 @@ URI: [oio:id](http://www.geneontology.org/formats/oboInOwl#id)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -25,10 +25,6 @@ URI: [owl:maxQualifiedCardinality](http://www.w3.org/2002/07/owl#maxQualifiedCar
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

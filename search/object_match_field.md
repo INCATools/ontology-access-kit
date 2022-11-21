@@ -31,10 +31,6 @@ URI: [sssom:object_match_field](http://w3id.org/sssom/object_match_field)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -29,10 +29,6 @@ URI: [sssom:object_label](http://w3id.org/sssom/object_label)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

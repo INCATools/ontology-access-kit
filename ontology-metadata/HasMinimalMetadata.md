@@ -4,7 +4,7 @@ _Absolute minimum metadata model_
 
 
 
-URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMinimalMetadata)
+URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/HasMinimalMetadata)
 
 
 ```{mermaid}
@@ -36,15 +36,14 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [label](label.md) | 0..1 <br/> label type | None | direct |
-| [definition](definition.md) | 0..* <br/> narrative text | None | direct |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
+| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | direct |
 
 ## Mixin Usage
 
 | mixed into | description |
 | --- | --- |
 | [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
-
 
 
 

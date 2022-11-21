@@ -35,10 +35,6 @@ URI: [sh:result](http://www.w3.org/ns/shacl#result)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

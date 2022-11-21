@@ -31,10 +31,6 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

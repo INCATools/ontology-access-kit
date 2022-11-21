@@ -16,6 +16,14 @@ URI: [ScopeEnum](ScopeEnum)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [pred](pred.md) |  |
+
+
+
 
 
 

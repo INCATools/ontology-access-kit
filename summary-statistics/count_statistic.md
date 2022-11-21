@@ -49,10 +49,6 @@ URI: [reporting:count_statistic](https://w3id.org/linkml/reportcount_statistic)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -19,7 +19,6 @@ URI: [xsd:date](http://www.w3.org/2001/XMLSchema#date)
 
 
 
-
 ## Identifier and Mapping Information
 
 

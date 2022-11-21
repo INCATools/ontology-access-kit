@@ -28,7 +28,7 @@ URI: [sim:score](https://w3id.org/linkml/similarity/score)
 
 | Name | Description |
 | --- | --- |
-[BestMatch](BestMatch.md) | None
+[BestMatch](BestMatch.md) | 
 
 
 
@@ -41,10 +41,6 @@ URI: [sim:score](https://w3id.org/linkml/similarity/score)
 
 
 
-
-
-
-## Alias
 
 
 

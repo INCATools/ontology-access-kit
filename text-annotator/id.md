@@ -13,7 +13,7 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 | Name | Description |
 | --- | --- |
-[TextualElement](TextualElement.md) | None
+[TextualElement](TextualElement.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [ann:id](https://w3id.org/linkml/text_annotator/id)
 
 
 
-
-
-
-## Alias
 
 
 

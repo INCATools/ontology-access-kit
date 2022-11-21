@@ -13,7 +13,7 @@ URI: [og:sub](https://github.com/geneontology/obographs/sub)
 
 | Name | Description |
 | --- | --- |
-[Edge](Edge.md) | None
+[Edge](Edge.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:sub](https://github.com/geneontology/obographs/sub)
 
 
 
-
-
-
-## Alias
 
 
 

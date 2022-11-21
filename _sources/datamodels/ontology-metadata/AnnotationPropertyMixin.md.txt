@@ -4,7 +4,7 @@ _Groups all annotation property bundles_
 
 
 
-URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/AnnotationPropertyMixin)
+URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/schema/AnnotationPropertyMixin)
 
 
 ```{mermaid}
@@ -44,7 +44,6 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 | mixed into | description |
 | --- | --- |
-
 
 
 

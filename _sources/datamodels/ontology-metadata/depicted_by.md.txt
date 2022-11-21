@@ -18,10 +18,10 @@ URI: [foaf:depicted_by](http://xmlns.com/foaf/0.1/depicted_by)
 
 | Name | Description |
 | --- | --- |
-[HasUserInformation](HasUserInformation.md) | None
+[HasUserInformation](HasUserInformation.md) | 
 [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | None
-[Property](Property.md) | None
+[Class](Class.md) | 
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -41,10 +41,6 @@ URI: [foaf:depicted_by](http://xmlns.com/foaf/0.1/depicted_by)
 
 
 
-
-
-
-## Alias
 
 
 

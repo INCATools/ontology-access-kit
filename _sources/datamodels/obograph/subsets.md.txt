@@ -13,7 +13,7 @@ URI: [og:subsets](https://github.com/geneontology/obographs/subsets)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:subsets](https://github.com/geneontology/obographs/subsets)
 
 
 
-
-
-
-## Alias
 
 
 

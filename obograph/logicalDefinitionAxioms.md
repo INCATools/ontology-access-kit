@@ -13,7 +13,7 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | None
+[Graph](Graph.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 
 
-
-
-
-## Alias
 
 
 

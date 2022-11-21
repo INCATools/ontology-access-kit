@@ -18,6 +18,14 @@ URI: [GraphFunction](GraphFunction)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [traversal](traversal.md) |  |
+
+
+
 
 
 

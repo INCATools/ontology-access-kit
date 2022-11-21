@@ -30,10 +30,6 @@ URI: [oio:is_transitive](http://www.geneontology.org/formats/oboInOwl#is_transit
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

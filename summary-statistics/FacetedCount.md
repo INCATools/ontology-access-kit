@@ -24,8 +24,8 @@ URI: [reporting:FacetedCount](https://w3id.org/linkml/reportFacetedCount)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [facet](facet.md) | 0..1 <br/> None | None | direct |
-| [filtered_count](filtered_count.md) | 1..1 <br/> integer | None | direct |
+| [facet](facet.md) | 0..1 <br/> NONE |  | direct |
+| [filtered_count](filtered_count.md) | 1..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
 
 
 
@@ -33,22 +33,21 @@ URI: [reporting:FacetedCount](https://w3id.org/linkml/reportFacetedCount)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [edge_count_by_predicate](edge_count_by_predicate.md) | range | FacetedCount |
-| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | range | FacetedCount |
-| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | range | FacetedCount |
-| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [class_count_by_category](class_count_by_category.md) | range | FacetedCount |
-| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | FacetedCount |
-| [GlobalStatistics](GlobalStatistics.md) | [edge_count_by_predicate](edge_count_by_predicate.md) | range | FacetedCount |
-| [GlobalStatistics](GlobalStatistics.md) | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | range | FacetedCount |
-| [GlobalStatistics](GlobalStatistics.md) | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | range | FacetedCount |
-| [GlobalStatistics](GlobalStatistics.md) | [class_count_by_category](class_count_by_category.md) | range | FacetedCount |
-| [GlobalStatistics](GlobalStatistics.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | FacetedCount |
-| [FacetStatistics](FacetStatistics.md) | [edge_count_by_predicate](edge_count_by_predicate.md) | range | FacetedCount |
-| [FacetStatistics](FacetStatistics.md) | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | range | FacetedCount |
-| [FacetStatistics](FacetStatistics.md) | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | range | FacetedCount |
-| [FacetStatistics](FacetStatistics.md) | [class_count_by_category](class_count_by_category.md) | range | FacetedCount |
-| [FacetStatistics](FacetStatistics.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | FacetedCount |
-
+| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [edge_count_by_predicate](edge_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [class_count_by_category](class_count_by_category.md) | range | [FacetedCount](FacetedCount.md) |
+| [SummaryStatisticCollection](SummaryStatisticCollection.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [GlobalStatistics](GlobalStatistics.md) | [edge_count_by_predicate](edge_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [GlobalStatistics](GlobalStatistics.md) | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [GlobalStatistics](GlobalStatistics.md) | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [GlobalStatistics](GlobalStatistics.md) | [class_count_by_category](class_count_by_category.md) | range | [FacetedCount](FacetedCount.md) |
+| [GlobalStatistics](GlobalStatistics.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [FacetStatistics](FacetStatistics.md) | [edge_count_by_predicate](edge_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [FacetStatistics](FacetStatistics.md) | [entailed_edge_count_by_predicate](entailed_edge_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [FacetStatistics](FacetStatistics.md) | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [FacetStatistics](FacetStatistics.md) | [class_count_by_category](class_count_by_category.md) | range | [FacetedCount](FacetedCount.md) |
+| [FacetStatistics](FacetStatistics.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
 
 
 

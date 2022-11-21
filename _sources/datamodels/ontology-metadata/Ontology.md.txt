@@ -41,18 +41,18 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [title](title.md) | 0..1 <br/> narrative text | None | direct |
-| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> Class | None | direct |
-| [license](license.md) | 0..1 <br/> Thing | None | direct |
-| [source](source.md) | 0..* <br/> None | None | direct |
-| [versionIRI](versionIRI.md) | 0..1 <br/> uriorcurie | None | direct |
-| [versionInfo](versionInfo.md) | 0..1 <br/> None | None | direct |
-| [comment](comment.md) | 0..* <br/> None | None | direct |
-| [creator](creator.md) | 0..* <br/> None | None | direct |
-| [created](created.md) | 0..1 <br/> None | when the term came into being | direct |
-| [imports](imports.md) | 0..1 <br/> None | None | direct |
-| [type](type.md) | 0..* <br/> uriorcurie | None | [Thing](Thing.md) |
-| [id](id.md) | 1..1 <br/> uriorcurie | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
+| [title](title.md) | 0..1 <br/> [NarrativeText](NarrativeText.md) |  | direct |
+| [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> [Class](Class.md) |  | direct |
+| [license](license.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
+| [source](source.md) | 0..* <br/> NONE |  | direct |
+| [versionIRI](versionIRI.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [versionInfo](versionInfo.md) | 0..1 <br/> NONE |  | direct |
+| [comment](comment.md) | 0..* <br/> NONE |  | direct |
+| [creator](creator.md) | 0..* <br/> NONE |  | direct |
+| [created](created.md) | 0..1 <br/> NONE | when the term came into being | direct |
+| [imports](imports.md) | 0..1 <br/> NONE |  | direct |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
 
 
 
@@ -60,16 +60,15 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [HasProvenance](HasProvenance.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [Term](Term.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [Class](Class.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [Property](Property.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [AnnotationProperty](AnnotationProperty.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [ObjectProperty](ObjectProperty.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [TransitiveProperty](TransitiveProperty.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [NamedIndividual](NamedIndividual.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-| [Subset](Subset.md) | [isDefinedBy](isDefinedBy.md) | range | Ontology |
-
+| [HasProvenance](HasProvenance.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [Term](Term.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [Class](Class.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [Property](Property.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [AnnotationProperty](AnnotationProperty.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [ObjectProperty](ObjectProperty.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [TransitiveProperty](TransitiveProperty.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [NamedIndividual](NamedIndividual.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [Subset](Subset.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
 
 
 

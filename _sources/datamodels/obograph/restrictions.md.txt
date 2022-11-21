@@ -13,7 +13,7 @@ URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 
 | Name | Description |
 | --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 
 
 
-
-
-
-## Alias
 
 
 

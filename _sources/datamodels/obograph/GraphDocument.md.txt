@@ -23,10 +23,9 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
-| [graphs](graphs.md) | 0..* <br/> Graph | None | direct |
-| [prefixes](prefixes.md) | 0..* <br/> PrefixDeclaration | maps prefixes to namespaces | direct |
-
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+| [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md) |  | direct |
+| [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | maps prefixes to namespaces | direct |
 
 
 

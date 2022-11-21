@@ -28,8 +28,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> Result | collection of results | [Report](Report.md) |
-
+| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | [Report](Report.md) |
 
 
 

@@ -31,10 +31,6 @@ URI: [oio:hasSynonymType](http://www.geneontology.org/formats/oboInOwl#hasSynony
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -33,10 +33,6 @@ URI: [ann:results](https://w3id.org/linkml/text_annotator/results)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

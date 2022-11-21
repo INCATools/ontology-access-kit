@@ -36,10 +36,6 @@ URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_s
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

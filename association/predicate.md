@@ -15,8 +15,8 @@ URI: [rdf:predicate](rdf:predicate)
 
 | Name | Description |
 | --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object).
-[PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association.
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
+[PropertyValue](PropertyValue.md) | A generic tag-value that can be associated with an association
 
 
 
@@ -29,10 +29,6 @@ URI: [rdf:predicate](rdf:predicate)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -42,20 +42,19 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [url](url.md) | 0..1 <br/> None | None | direct |
-| [time_checked](time_checked.md) | 0..1 <br/> None | None | direct |
-| [number_of_attempts](number_of_attempts.md) | 0..1 <br/> integer | None | direct |
-| [http_response_code](http_response_code.md) | 0..1 <br/> integer | None | direct |
-| [severity](severity.md) | 0..1 <br/> severity_options | the severity of the issue | [ValidationResult](ValidationResult.md) |
-| [source](source.md) | 0..1 <br/> uriorcurie | None | [ValidationResult](ValidationResult.md) |
-| [info](info.md) | 0..1 <br/> string | additional information about the issue | [ValidationResult](ValidationResult.md) |
-| [type](type.md) | 1..1 <br/> uriorcurie | The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID | [ValidationResult](ValidationResult.md) |
-| [instantiates](instantiates.md) | 0..1 <br/> uriorcurie | The type of the subject | [ValidationResult](ValidationResult.md) |
-| [object_str](object_str.md) | 0..1 <br/> string | None | [ValidationResult](ValidationResult.md) |
-| [object](object.md) | 0..1 <br/> uriorcurie | None | [ValidationResult](ValidationResult.md) |
-| [subject](subject.md) | 1..1 <br/> uriorcurie | The instance which the result is about | [ValidationResult](ValidationResult.md) |
-| [predicate](predicate.md) | 0..1 <br/> uriorcurie | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
-
+| [url](url.md) | 0..1 <br/> NONE |  | direct |
+| [time_checked](time_checked.md) | 0..1 <br/> NONE |  | direct |
+| [number_of_attempts](number_of_attempts.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
+| [http_response_code](http_response_code.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
+| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
+| [source](source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
+| [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
+| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | [ValidationResult](ValidationResult.md) |
+| [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | [ValidationResult](ValidationResult.md) |
+| [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | [ValidationResult](ValidationResult.md) |
+| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
+| [object](object.md) | 0..1 <br/> [Node](Node.md) |  | [ValidationResult](ValidationResult.md) |
 
 
 
@@ -185,7 +184,7 @@ attributes:
     domain_of:
     - TypeSeverityKeyValue
     - ValidationResult
-    range: uriorcurie
+    range: ConstraintComponent
     required: true
   severity:
     name: severity
@@ -209,7 +208,7 @@ attributes:
     owner: ExternalReferenceValidationResult
     domain_of:
     - ValidationResult
-    range: uriorcurie
+    range: Node
     required: true
   instantiates:
     name: instantiates
@@ -222,7 +221,7 @@ attributes:
     owner: ExternalReferenceValidationResult
     domain_of:
     - ValidationResult
-    range: uriorcurie
+    range: Node
   predicate:
     name: predicate
     description: The predicate or property of the subject which the result is about
@@ -234,7 +233,7 @@ attributes:
     owner: ExternalReferenceValidationResult
     domain_of:
     - ValidationResult
-    range: uriorcurie
+    range: Node
   object:
     name: object
     from_schema: https://w3id.org/linkml/validation_results
@@ -244,7 +243,7 @@ attributes:
     owner: ExternalReferenceValidationResult
     domain_of:
     - ValidationResult
-    range: uriorcurie
+    range: Node
   object_str:
     name: object_str
     from_schema: https://w3id.org/linkml/validation_results
@@ -262,7 +261,7 @@ attributes:
     owner: ExternalReferenceValidationResult
     domain_of:
     - ValidationResult
-    range: uriorcurie
+    range: string
   info:
     name: info
     description: additional information about the issue

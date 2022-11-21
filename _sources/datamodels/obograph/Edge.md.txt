@@ -23,9 +23,9 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [sub](sub.md) | 0..1 <br/> string | None | direct |
-| [pred](pred.md) | 0..1 <br/> string | None | direct |
-| [obj](obj.md) | 0..1 <br/> string | None | direct |
+| [sub](sub.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [obj](obj.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 
 
 
@@ -33,8 +33,7 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [edges](edges.md) | range | Edge |
-
+| [Graph](Graph.md) | [edges](edges.md) | range | [Edge](Edge.md) |
 
 
 

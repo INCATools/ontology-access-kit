@@ -13,8 +13,8 @@ URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 | Name | Description |
 | --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -23,14 +23,10 @@ URI: [vm:source](https://w3id.org/linkml/validation-model/source)
 
 ## Properties
 
-* Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
 
-
-
-
-## Alias
 
 
 
@@ -61,7 +57,7 @@ rank: 1000
 alias: source
 domain_of:
 - ValidationResult
-range: uriorcurie
+range: string
 
 ```
 </details>

@@ -31,10 +31,6 @@ URI: [ann:left_source](https://w3id.org/linkml/text_annotator/left_source)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

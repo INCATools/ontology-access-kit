@@ -1,6 +1,6 @@
 # Slot: reification_predicate
 
-URI: [omoschema:reification_predicate](http://purl.obolibrary.org/obo/schema/reification_predicate)
+URI: [omoschema:reification_predicate](http://purl.obolibrary.org/obo/omo/schema/reification_predicate)
 
 
 
@@ -24,10 +24,6 @@ URI: [omoschema:reification_predicate](http://purl.obolibrary.org/obo/schema/rei
 
 
 
-
-
-
-## Alias
 
 
 

@@ -17,6 +17,14 @@ URI: [SearchTermSyntax](SearchTermSyntax)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [syntax](syntax.md) | Determines how the search term is interpreted |
+
+
+
 
 
 

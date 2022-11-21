@@ -25,10 +25,6 @@ URI: [protege:defaultLanguage](protege:defaultLanguage)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

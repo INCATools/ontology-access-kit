@@ -15,7 +15,7 @@ URI: [rdf:subject](rdf:subject)
 
 | Name | Description |
 | --- | --- |
-[Association](Association.md) | A generic association between a thing (subject) and another thing (object).
+[Association](Association.md) | A generic association between a thing (subject) and another thing (object)
 
 
 
@@ -28,10 +28,6 @@ URI: [rdf:subject](rdf:subject)
 
 
 
-
-
-
-## Alias
 
 
 

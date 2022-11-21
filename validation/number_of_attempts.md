@@ -13,7 +13,7 @@ URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_
 
 | Name | Description |
 | --- | --- |
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -26,10 +26,6 @@ URI: [vm:number_of_attempts](https://w3id.org/linkml/validation-model/number_of_
 
 
 
-
-
-
-## Alias
 
 
 

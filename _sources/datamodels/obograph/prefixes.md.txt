@@ -15,7 +15,7 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 | Name | Description |
 | --- | --- |
-[GraphDocument](GraphDocument.md) | None
+[GraphDocument](GraphDocument.md) | 
 
 
 
@@ -30,10 +30,6 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 
 
-
-
-
-## Alias
 
 
 

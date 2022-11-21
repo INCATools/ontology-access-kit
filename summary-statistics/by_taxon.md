@@ -33,10 +33,6 @@ URI: [reporting:by_taxon](https://w3id.org/linkml/reportby_taxon)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

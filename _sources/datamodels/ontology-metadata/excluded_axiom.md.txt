@@ -1,6 +1,6 @@
 # Slot: excluded_axiom
 
-URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/schema/excluded_axiom)
+URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/omo/schema/excluded_axiom)
 
 
 
@@ -25,10 +25,6 @@ URI: [omoschema:excluded_axiom](http://purl.obolibrary.org/obo/schema/excluded_a
 
 
 
-
-
-
-## Alias
 
 
 

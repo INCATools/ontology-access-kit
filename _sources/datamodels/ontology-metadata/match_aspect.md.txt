@@ -1,6 +1,6 @@
 # Slot: match_aspect
 
-URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/schema/match_aspect)
+URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/omo/schema/match_aspect)
 
 
 
@@ -29,10 +29,6 @@ URI: [omoschema:match_aspect](http://purl.obolibrary.org/obo/schema/match_aspect
 
 
 
-
-
-
-## Alias
 
 
 

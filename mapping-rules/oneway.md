@@ -15,7 +15,7 @@ URI: [mrules:oneway](https://w3id.org/linkml/mapping_rules_datamodel/oneway)
 
 | Name | Description |
 | --- | --- |
-[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are applied
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
 
 
 
@@ -28,10 +28,6 @@ URI: [mrules:oneway](https://w3id.org/linkml/mapping_rules_datamodel/oneway)
 
 
 
-
-
-
-## Alias
 
 
 

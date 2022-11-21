@@ -36,10 +36,6 @@ URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

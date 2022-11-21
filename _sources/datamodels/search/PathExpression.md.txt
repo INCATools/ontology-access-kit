@@ -25,10 +25,9 @@ URI: [search:PathExpression](https://w3id.org/linkml/search_datamodel/PathExpres
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [traversal](traversal.md) | 0..1 <br/> GraphFunction | None | direct |
-| [graph_predicates](graph_predicates.md) | 0..* <br/> uriorcurie | None | direct |
-| [search_term](search_term.md) | 0..1 <br/> SearchBaseConfiguration | None | direct |
-
+| [traversal](traversal.md) | 0..1 <br/> [GraphFunction](GraphFunction.md) |  | direct |
+| [graph_predicates](graph_predicates.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [search_term](search_term.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
 
 
 

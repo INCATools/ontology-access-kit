@@ -13,7 +13,7 @@ URI: [search:include_obsoletes_in_results](https://w3id.org/linkml/search_datamo
 
 | Name | Description |
 | --- | --- |
-[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operation works
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
 
 
 
@@ -26,10 +26,6 @@ URI: [search:include_obsoletes_in_results](https://w3id.org/linkml/search_datamo
 
 
 
-
-
-
-## Alias
 
 
 

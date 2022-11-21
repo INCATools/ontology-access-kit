@@ -34,10 +34,6 @@ URI: [owl:annotatedProperty](http://www.w3.org/2002/07/owl#annotatedProperty)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -29,10 +29,10 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [pred](pred.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [meta](meta.md) | 0..1 <br/> Meta | None | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
+| ---  | --- | --- | --- || [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -40,8 +40,7 @@ URI: [og:BasicPropertyValue](https://github.com/geneontology/obographs/BasicProp
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Meta](Meta.md) | [basicPropertyValues](basicPropertyValues.md) | range | BasicPropertyValue |
-
+| [Meta](Meta.md) | [basicPropertyValues](basicPropertyValues.md) | range | [BasicPropertyValue](BasicPropertyValue.md) |
 
 
 

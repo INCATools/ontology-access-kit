@@ -18,11 +18,11 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 | Name | Description |
 | --- | --- |
-[HasProvenance](HasProvenance.md) | None
+[HasProvenance](HasProvenance.md) | 
 [Axiom](Axiom.md) | A logical or non-logical statement
 [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | None
-[Property](Property.md) | None
+[Class](Class.md) | 
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -40,10 +40,6 @@ URI: [oio:created_by](http://www.geneontology.org/formats/oboInOwl#created_by)
 
 
 
-
-
-
-## Alias
 
 
 

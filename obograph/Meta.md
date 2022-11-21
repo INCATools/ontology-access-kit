@@ -28,14 +28,14 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subsets](subsets.md) | 0..* <br/> string | None | direct |
-| [version](version.md) | 0..1 <br/> string | None | direct |
-| [comments](comments.md) | 0..* <br/> string | None | direct |
-| [definition](definition.md) | 0..1 <br/> DefinitionPropertyValue | None | direct |
-| [xrefs](xrefs.md) | 0..* <br/> string | None | direct |
-| [synonyms](synonyms.md) | 0..* <br/> SynonymPropertyValue | None | direct |
-| [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> BasicPropertyValue | None | direct |
-| [deprecated](deprecated.md) | 0..1 <br/> boolean | None | direct |
+| [subsets](subsets.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [definition](definition.md) | 0..1 <br/> [DefinitionPropertyValue](DefinitionPropertyValue.md) |  | direct |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md) |  | direct |
+| [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md) |  | direct |
+| [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 
 
 
@@ -43,20 +43,19 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [GraphDocument](GraphDocument.md) | [meta](meta.md) | range | Meta |
-| [Graph](Graph.md) | [meta](meta.md) | range | Meta |
-| [Node](Node.md) | [meta](meta.md) | range | Meta |
-| [DefinitionPropertyValue](DefinitionPropertyValue.md) | [meta](meta.md) | range | Meta |
-| [BasicPropertyValue](BasicPropertyValue.md) | [meta](meta.md) | range | Meta |
-| [XrefPropertyValue](XrefPropertyValue.md) | [meta](meta.md) | range | Meta |
-| [SynonymPropertyValue](SynonymPropertyValue.md) | [meta](meta.md) | range | Meta |
-| [PropertyValue](PropertyValue.md) | [meta](meta.md) | range | Meta |
-| [Axiom](Axiom.md) | [meta](meta.md) | range | Meta |
-| [DomainRangeAxiom](DomainRangeAxiom.md) | [meta](meta.md) | range | Meta |
-| [EquivalentNodesSet](EquivalentNodesSet.md) | [meta](meta.md) | range | Meta |
-| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [meta](meta.md) | range | Meta |
-| [PropertyChainAxiom](PropertyChainAxiom.md) | [meta](meta.md) | range | Meta |
-
+| [GraphDocument](GraphDocument.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [Graph](Graph.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [Node](Node.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [DefinitionPropertyValue](DefinitionPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [BasicPropertyValue](BasicPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [XrefPropertyValue](XrefPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [SynonymPropertyValue](SynonymPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [PropertyValue](PropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [Axiom](Axiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [EquivalentNodesSet](EquivalentNodesSet.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [PropertyChainAxiom](PropertyChainAxiom.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 
 
 

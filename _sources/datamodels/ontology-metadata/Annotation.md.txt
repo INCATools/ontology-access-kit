@@ -4,7 +4,7 @@ _A reified property-object pair_
 
 
 
-URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
+URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation)
 
 
 ```{mermaid}
@@ -24,8 +24,8 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> None | None | direct |
-| [object](object.md) | 0..1 <br/> None | None | direct |
+| [predicate](predicate.md) | 0..1 <br/> NONE |  | direct |
+| [object](object.md) | 0..1 <br/> NONE |  | direct |
 
 
 
@@ -33,8 +33,7 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/schema/Annotation)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Axiom](Axiom.md) | [annotations](annotations.md) | range | Annotation |
-
+| [Axiom](Axiom.md) | [annotations](annotations.md) | range | [Annotation](Annotation.md) |
 
 
 

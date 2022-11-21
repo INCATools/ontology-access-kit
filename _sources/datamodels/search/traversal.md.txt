@@ -29,10 +29,6 @@ URI: [search:traversal](https://w3id.org/linkml/search_datamodel/traversal)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

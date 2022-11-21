@@ -24,9 +24,8 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [groupings](groupings.md) | 0..* <br/> LexicalGrouping | all groupings | direct |
-| [pipelines](pipelines.md) | 0..* <br/> LexicalTransformationPipeline | all pipelines used to build the index | direct |
-
+| [groupings](groupings.md) | 0..* <br/> [LexicalGrouping](LexicalGrouping.md) | all groupings | direct |
+| [pipelines](pipelines.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | all pipelines used to build the index | direct |
 
 
 

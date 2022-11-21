@@ -37,10 +37,6 @@ URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ances
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

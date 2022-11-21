@@ -33,10 +33,6 @@ URI: [reporting:by_ontology](https://w3id.org/linkml/reportby_ontology)
 
 
 
-## Alias
-
-
-
 
 ## Comments
 

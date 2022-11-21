@@ -13,11 +13,11 @@ URI: [og:val](https://github.com/geneontology/obographs/val)
 
 | Name | Description |
 | --- | --- |
-[PropertyValue](PropertyValue.md) | None
-[DefinitionPropertyValue](DefinitionPropertyValue.md) | None
-[BasicPropertyValue](BasicPropertyValue.md) | None
-[XrefPropertyValue](XrefPropertyValue.md) | None
-[SynonymPropertyValue](SynonymPropertyValue.md) | None
+[PropertyValue](PropertyValue.md) | 
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | 
+[BasicPropertyValue](BasicPropertyValue.md) | 
+[XrefPropertyValue](XrefPropertyValue.md) | 
+[SynonymPropertyValue](SynonymPropertyValue.md) | 
 
 
 
@@ -30,10 +30,6 @@ URI: [og:val](https://github.com/geneontology/obographs/val)
 
 
 
-
-
-
-## Alias
 
 
 

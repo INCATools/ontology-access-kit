@@ -15,9 +15,9 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 
 | Name | Description |
 | --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
-[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for overriding default severity
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -30,10 +30,6 @@ URI: [sh:resultSeverity](http://www.w3.org/ns/shacl#resultSeverity)
 
 
 
-
-
-
-## Alias
 
 
 

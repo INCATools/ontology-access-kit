@@ -20,10 +20,6 @@ URI: [reporting:individual_statistic_group](https://w3id.org/linkml/reportindivi
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

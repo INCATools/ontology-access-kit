@@ -36,10 +36,6 @@ URI: [reporting:individual_count](https://w3id.org/linkml/reportindividual_count
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -2,7 +2,7 @@
 
 
 
-URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpression)
+URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/ClassExpression)
 
 
 ```{mermaid}
@@ -47,14 +47,14 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> None | None | direct |
-| [equivalentClass](equivalentClass.md) | 0..* <br/> ClassExpression | None | direct |
-| [intersectionOf](intersectionOf.md) | 0..1 <br/> ClassExpression | None | direct |
-| [subClassOf](subClassOf.md) | 0..* <br/> ClassExpression | None | direct |
-| [cardinality](cardinality.md) | 0..1 <br/> None | None | direct |
-| [complementOf](complementOf.md) | 0..1 <br/> None | None | direct |
-| [oneOf](oneOf.md) | 0..1 <br/> ClassExpression | None | direct |
-| [unionOf](unionOf.md) | 0..1 <br/> None | None | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> NONE |  | direct |
+| [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [cardinality](cardinality.md) | 0..1 <br/> NONE |  | direct |
+| [complementOf](complementOf.md) | 0..1 <br/> NONE |  | direct |
+| [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
+| [unionOf](unionOf.md) | 0..1 <br/> NONE |  | direct |
 
 ## Mixin Usage
 
@@ -70,18 +70,17 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/schema/ClassExpr
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Class](Class.md) | [equivalentClass](equivalentClass.md) | range | ClassExpression |
-| [Class](Class.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
-| [Class](Class.md) | [oneOf](oneOf.md) | range | ClassExpression |
-| [Restriction](Restriction.md) | [equivalentClass](equivalentClass.md) | range | ClassExpression |
-| [Restriction](Restriction.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
-| [Restriction](Restriction.md) | [subClassOf](subClassOf.md) | range | ClassExpression |
-| [Restriction](Restriction.md) | [oneOf](oneOf.md) | range | ClassExpression |
-| [ClassExpression](ClassExpression.md) | [equivalentClass](equivalentClass.md) | range | ClassExpression |
-| [ClassExpression](ClassExpression.md) | [intersectionOf](intersectionOf.md) | range | ClassExpression |
-| [ClassExpression](ClassExpression.md) | [subClassOf](subClassOf.md) | range | ClassExpression |
-| [ClassExpression](ClassExpression.md) | [oneOf](oneOf.md) | range | ClassExpression |
-
+| [Class](Class.md) | [equivalentClass](equivalentClass.md) | range | [ClassExpression](ClassExpression.md) |
+| [Class](Class.md) | [intersectionOf](intersectionOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [Class](Class.md) | [oneOf](oneOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [Restriction](Restriction.md) | [equivalentClass](equivalentClass.md) | range | [ClassExpression](ClassExpression.md) |
+| [Restriction](Restriction.md) | [intersectionOf](intersectionOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [Restriction](Restriction.md) | [subClassOf](subClassOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [Restriction](Restriction.md) | [oneOf](oneOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [ClassExpression](ClassExpression.md) | [equivalentClass](equivalentClass.md) | range | [ClassExpression](ClassExpression.md) |
+| [ClassExpression](ClassExpression.md) | [intersectionOf](intersectionOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [ClassExpression](ClassExpression.md) | [subClassOf](subClassOf.md) | range | [ClassExpression](ClassExpression.md) |
+| [ClassExpression](ClassExpression.md) | [oneOf](oneOf.md) | range | [ClassExpression](ClassExpression.md) |
 
 
 

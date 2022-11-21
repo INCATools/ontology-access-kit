@@ -13,8 +13,8 @@ URI: [og:predicateId](https://github.com/geneontology/obographs/predicateId)
 
 | Name | Description |
 | --- | --- |
-[DomainRangeAxiom](DomainRangeAxiom.md) | None
-[PropertyChainAxiom](PropertyChainAxiom.md) | None
+[DomainRangeAxiom](DomainRangeAxiom.md) | 
+[PropertyChainAxiom](PropertyChainAxiom.md) | 
 
 
 
@@ -27,10 +27,6 @@ URI: [og:predicateId](https://github.com/geneontology/obographs/predicateId)
 
 
 
-
-
-
-## Alias
 
 
 

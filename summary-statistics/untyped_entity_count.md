@@ -36,10 +36,6 @@ URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_enti
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

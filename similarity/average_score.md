@@ -31,10 +31,6 @@ URI: [sim:average_score](https://w3id.org/linkml/similarity/average_score)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

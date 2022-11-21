@@ -24,8 +24,8 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> uriorcurie | The type of relationship between the subject and object. | direct |
-| [object](object.md) | 0..1 <br/> uriorcurie | An ontology entity that is associated with the subject. | direct |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The type of relationship between the subject and object | direct |
+| [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is associated with the subject | direct |
 
 
 
@@ -33,8 +33,7 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Association](Association.md) | [property_values](property_values.md) | range | PropertyValue |
-
+| [Association](Association.md) | [property_values](property_values.md) | range | [PropertyValue](PropertyValue.md) |
 
 
 

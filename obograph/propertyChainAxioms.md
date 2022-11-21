@@ -13,7 +13,7 @@ URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/property
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | None
+[Graph](Graph.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/property
 
 
 
-
-
-
-## Alias
 
 
 

@@ -36,10 +36,6 @@ URI: [reporting:class_count](https://w3id.org/linkml/reportclass_count)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

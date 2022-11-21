@@ -262,6 +262,17 @@ You should get the same results by running:</p>
 <dd></dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-stacktrace">
+<span id="cmdoption-runoak-no-stacktrace"></span><span class="sig-name descname"><span class="pre">--stacktrace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-stacktrace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-stacktrace" title="Permalink to this definition"></a></dt>
+<dd><p>If set then show full stacktrace on error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-save-as">
 <span class="sig-name descname"><span class="pre">--save-as</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;save_as&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-save-as" title="Permalink to this definition"></a></dt>
 <dd><p>For commands that mutate the ontology, this specifies where changes are saved to</p>
@@ -3691,17 +3702,75 @@ such as aligning text and logical definitions. These are off by default.</p>
 <section id="runoak-validate-definitions">
 <h4>validate-definitions<a class="headerlink" href="#runoak-validate-definitions" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Check definitions</p>
-<p>REDUNDANT WITH VALIDATE - may be obsoleted</p>
+<div><p>Checks presence and structure of text definitions.</p>
+<p>To run:</p>
+<blockquote>
+<div><p>runoak validate-definitions -i db/uberon.db -o results.tsv</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-definitions <span class="o">[</span>OPTIONS<span class="o">]</span>
+<p>By default this will apply basic text mining of text definitions to check
+against machine actionable OBO text definition guideline rules.
+This can result in an initial lag - to skip this, and ONLY perform
+checks for presence of definitions, use –skip-text-annotation:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak validate-definitions -i db/uberon.db –skip-text-annotation</p>
+</div></blockquote>
+<p>Like most OAK commands, this accepts lists of terms or term queries
+as arguments. You can pass in a CURIE list to selectively validate
+individual classes</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak validate-definitions -i db/cl.db CL:0002053</p>
+</div></blockquote>
+<p>Only on CL identifiers:</p>
+<blockquote>
+<div><p>runoak validate-definitions -i db/cl.db i^CL:</p>
+</div></blockquote>
+<p>Only on neuron hierarchy:</p>
+<blockquote>
+<div><p>runoak validate-definitions -i db/cl.db .desc//p=i neuron</p>
+</div></blockquote>
+<p>Output format:</p>
+<p>This command emits objects conforming to the OAK validation datamodel.
+See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels">https://incatools.github.io/ontology-access-kit/datamodels</a> for more
+on OAK datamodels.</p>
+<p>The default serialization of the datamodel is CSV.</p>
+<p>Notes:</p>
+<p>This command is largely redundant with the validate command, but is useful for
+targeted validation focused solely on definitions</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-definitions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-validate-definitions-o">
-<span id="cmdoption-runoak-validate-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-o" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-definitions-skip-text-annotation">
+<span id="cmdoption-runoak-validate-definitions-no-skip-text-annotation"></span><span class="sig-name descname"><span class="pre">--skip-text-annotation</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-skip-text-annotation</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-skip-text-annotation" title="Permalink to this definition"></a></dt>
+<dd><p>If true, do not parse text annotations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-definitions-O">
+<span id="cmdoption-runoak-validate-definitions-o"></span><span id="cmdoption-runoak-validate-definitions-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-definitions-0">
+<span id="cmdoption-runoak-validate-definitions-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-0" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-definitions-arg-TERMS">
+<span id="cmdoption-runoak-validate-definitions-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-validate-definitions-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>

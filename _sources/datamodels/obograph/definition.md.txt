@@ -13,7 +13,7 @@ URI: [og:definition](https://github.com/geneontology/obographs/definition)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:definition](https://github.com/geneontology/obographs/definition)
 
 
 
-
-
-
-## Alias
 
 
 

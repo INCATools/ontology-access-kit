@@ -13,7 +13,7 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 | Name | Description |
 | --- | --- |
-[TermInfo](TermInfo.md) | None
+[TermInfo](TermInfo.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [sim:id](https://w3id.org/linkml/similarity/id)
 
 
 
-
-
-
-## Alias
 
 
 

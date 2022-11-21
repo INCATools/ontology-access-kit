@@ -31,10 +31,6 @@ URI: [mrules:subject_match_field_one_of](https://w3id.org/linkml/mapping_rules_d
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

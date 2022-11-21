@@ -1,6 +1,6 @@
 # Slot: disconnected_from
 
-URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/schema/disconnected_from)
+URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/disconnected_from)
 
 
 
@@ -18,7 +18,7 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/schema/disconn
 
 | Name | Description |
 | --- | --- |
-[Class](Class.md) | None
+[Class](Class.md) | 
 
 
 
@@ -31,10 +31,6 @@ URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/schema/disconn
 
 
 
-
-
-
-## Alias
 
 
 

@@ -13,19 +13,19 @@ URI: [og:meta](https://github.com/geneontology/obographs/meta)
 
 | Name | Description |
 | --- | --- |
-[GraphDocument](GraphDocument.md) | None
-[Graph](Graph.md) | None
-[Node](Node.md) | None
-[PropertyValue](PropertyValue.md) | None
-[Axiom](Axiom.md) | None
-[DefinitionPropertyValue](DefinitionPropertyValue.md) | None
-[BasicPropertyValue](BasicPropertyValue.md) | None
-[XrefPropertyValue](XrefPropertyValue.md) | None
-[SynonymPropertyValue](SynonymPropertyValue.md) | None
-[DomainRangeAxiom](DomainRangeAxiom.md) | None
-[EquivalentNodesSet](EquivalentNodesSet.md) | None
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None
-[PropertyChainAxiom](PropertyChainAxiom.md) | None
+[GraphDocument](GraphDocument.md) | 
+[Graph](Graph.md) | 
+[Node](Node.md) | 
+[PropertyValue](PropertyValue.md) | 
+[Axiom](Axiom.md) | 
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | 
+[BasicPropertyValue](BasicPropertyValue.md) | 
+[XrefPropertyValue](XrefPropertyValue.md) | 
+[SynonymPropertyValue](SynonymPropertyValue.md) | 
+[DomainRangeAxiom](DomainRangeAxiom.md) | 
+[EquivalentNodesSet](EquivalentNodesSet.md) | 
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | 
+[PropertyChainAxiom](PropertyChainAxiom.md) | 
 
 
 
@@ -38,10 +38,6 @@ URI: [og:meta](https://github.com/geneontology/obographs/meta)
 
 
 
-
-
-
-## Alias
 
 
 

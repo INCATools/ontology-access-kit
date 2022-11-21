@@ -29,10 +29,6 @@ URI: [oio:evidence](http://www.geneontology.org/formats/oboInOwl#evidence)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

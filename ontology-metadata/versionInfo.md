@@ -34,10 +34,6 @@ URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

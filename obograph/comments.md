@@ -13,7 +13,7 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:comments](https://github.com/geneontology/obographs/comments)
 
 
 
-
-
-
-## Alias
 
 
 

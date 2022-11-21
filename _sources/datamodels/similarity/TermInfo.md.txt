@@ -22,8 +22,8 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> None | None | direct |
-| [label](label.md) | 0..1 <br/> None | None | direct |
+| [id](id.md) | 1..1 <br/> NONE |  | direct |
+| [label](label.md) | 0..1 <br/> NONE |  | direct |
 
 
 
@@ -31,9 +31,8 @@ URI: [sim:TermInfo](https://w3id.org/linkml/similarity/TermInfo)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [subject_termset](subject_termset.md) | range | TermInfo |
-| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [object_termset](object_termset.md) | range | TermInfo |
-
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [subject_termset](subject_termset.md) | range | [TermInfo](TermInfo.md) |
+| [TermSetPairwiseSimilarity](TermSetPairwiseSimilarity.md) | [object_termset](object_termset.md) | range | [TermInfo](TermInfo.md) |
 
 
 

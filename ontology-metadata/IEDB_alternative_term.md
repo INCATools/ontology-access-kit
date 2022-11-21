@@ -20,8 +20,8 @@ URI: [OBI:9991118](http://purl.obolibrary.org/obo/OBI_9991118)
 | --- | --- |
 [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms
 [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies
-[Class](Class.md) | None
-[Property](Property.md) | None
+[Class](Class.md) | 
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -41,10 +41,6 @@ URI: [OBI:9991118](http://purl.obolibrary.org/obo/OBI_9991118)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -13,7 +13,7 @@ URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 | Name | Description |
 | --- | --- |
-[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None
+[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 
 
-
-
-
-## Alias
 
 
 

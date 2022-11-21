@@ -29,10 +29,6 @@ URI: [ann:match_type](https://w3id.org/linkml/text_annotator/match_type)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

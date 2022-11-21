@@ -27,18 +27,17 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_start](subject_start.md) | 0..1 <br/> Position | None | direct |
-| [subject_end](subject_end.md) | 0..1 <br/> Position | None | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> None | The portion of the subject text that is matched, ranging from subject_start to subject_end | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> None | None | direct |
-| [subject_text_id](subject_text_id.md) | 0..1 <br/> TextualElement | None | direct |
+| [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | direct |
+| [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | direct |
+| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | direct |
+| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | direct |
 
 ## Mixin Usage
 
 | mixed into | description |
 | --- | --- |
 | [TextAnnotation](TextAnnotation.md) | An individual text annotation |
-
 
 
 

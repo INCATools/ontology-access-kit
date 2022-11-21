@@ -36,10 +36,6 @@ URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

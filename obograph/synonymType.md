@@ -13,7 +13,7 @@ URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 | Name | Description |
 | --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | None
+[SynonymPropertyValue](SynonymPropertyValue.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [og:synonymType](https://github.com/geneontology/obographs/synonymType)
 
 
 
-
-
-
-## Alias
 
 
 

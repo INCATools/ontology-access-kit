@@ -24,10 +24,10 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 1..1 <br/> uriorcurie | None | direct |
-| [text](text.md) | 0..1 <br/> string | None | direct |
-| [source_text](source_text.md) | 0..1 <br/> string | None | direct |
-| [parent_document](parent_document.md) | 0..1 <br/> uriorcurie | None | direct |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [text](text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [source_text](source_text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [parent_document](parent_document.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 
 
 
@@ -35,9 +35,8 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [HasSpan](HasSpan.md) | [subject_text_id](subject_text_id.md) | range | TextualElement |
-| [TextAnnotation](TextAnnotation.md) | [subject_text_id](subject_text_id.md) | range | TextualElement |
-
+| [HasSpan](HasSpan.md) | [subject_text_id](subject_text_id.md) | range | [TextualElement](TextualElement.md) |
+| [TextAnnotation](TextAnnotation.md) | [subject_text_id](subject_text_id.md) | range | [TextualElement](TextualElement.md) |
 
 
 

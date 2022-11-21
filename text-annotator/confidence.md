@@ -29,10 +29,6 @@ URI: [sssom:confidence](http://w3id.org/sssom/confidence)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

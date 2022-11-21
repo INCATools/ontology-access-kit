@@ -23,8 +23,7 @@ URI: [ann:TextAnnotationResultSet](https://w3id.org/linkml/text_annotator/TextAn
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [annotations](annotations.md) | 0..* <br/> TextAnnotation | all annotations | direct |
-
+| [annotations](annotations.md) | 0..* <br/> [TextAnnotation](TextAnnotation.md) | all annotations | direct |
 
 
 

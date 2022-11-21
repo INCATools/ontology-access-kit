@@ -28,12 +28,12 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> uriorcurie | None | direct |
-| [element](element.md) | 0..1 <br/> uriorcurie | None | direct |
-| [element_term](element_term.md) | 0..1 <br/> None | the original term used in the element | direct |
-| [source](source.md) | 0..1 <br/> uriorcurie | None | direct |
-| [pipeline](pipeline.md) | 0..* <br/> LexicalTransformationPipeline | None | direct |
-| [synonymized](synonymized.md) | 0..1 <br/> boolean | None | direct |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [element](element.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [element_term](element_term.md) | 0..1 <br/> NONE | the original term used in the element | direct |
+| [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+| [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
+| [synonymized](synonymized.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 
 
 
@@ -41,8 +41,7 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [LexicalGrouping](LexicalGrouping.md) | [relationships](relationships.md) | range | RelationshipToTerm |
-
+| [LexicalGrouping](LexicalGrouping.md) | [relationships](relationships.md) | range | [RelationshipToTerm](RelationshipToTerm.md) |
 
 
 

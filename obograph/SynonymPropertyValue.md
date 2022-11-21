@@ -32,12 +32,12 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [synonymType](synonymType.md) | 0..1 <br/> string | None | direct |
-| [isExact](isExact.md) | 0..1 <br/> boolean | None | direct |
-| [pred](pred.md) | 0..1 <br/> string | None | direct |
-| [xrefs](xrefs.md) | 0..* <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> string | None | [PropertyValue](PropertyValue.md) |
-| [meta](meta.md) | 0..1 <br/> Meta | None | [PropertyValue](PropertyValue.md) |
+| [synonymType](synonymType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -45,8 +45,7 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Meta](Meta.md) | [synonyms](synonyms.md) | range | SynonymPropertyValue |
-
+| [Meta](Meta.md) | [synonyms](synonyms.md) | range | [SynonymPropertyValue](SynonymPropertyValue.md) |
 
 
 

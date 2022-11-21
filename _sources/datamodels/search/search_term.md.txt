@@ -29,10 +29,6 @@ URI: [search:search_term](https://w3id.org/linkml/search_datamodel/search_term)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -22,6 +22,14 @@ URI: [TransformationType](TransformationType)
 
 
 
+## Slots
+
+| Name | Description |
+| ---  | --- |
+| [type](type.md) | The type of transformation |
+
+
+
 
 
 

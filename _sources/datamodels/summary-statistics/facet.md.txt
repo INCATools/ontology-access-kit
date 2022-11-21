@@ -30,10 +30,6 @@ URI: [reporting:facet](https://w3id.org/linkml/reportfacet)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

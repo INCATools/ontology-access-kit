@@ -31,10 +31,6 @@ URI: [sh:namespace](https://w3id.org/shacl/namespace)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

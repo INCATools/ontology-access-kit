@@ -1,6 +1,6 @@
 # Slot: provenance_property
 
-URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/schema/provenance_property)
+URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/omo/schema/provenance_property)
 
 
 
@@ -37,10 +37,6 @@ URI: [omoschema:provenance_property](http://purl.obolibrary.org/obo/schema/prove
 
 
 
-
-
-
-## Alias
 
 
 

@@ -28,15 +28,11 @@ URI: [sim:information_content](https://w3id.org/linkml/similarity/information_co
 
 
 
+
 ## Aliases
 
 
 * IC
-
-
-
-## Alias
-
 
 
 

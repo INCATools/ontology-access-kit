@@ -20,10 +20,6 @@ URI: [NCIT:P378](http://purl.obolibrary.org/obo/NCIT_P378)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

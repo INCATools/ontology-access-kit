@@ -36,10 +36,6 @@ URI: [reporting:unsatisfiable_class_count](https://w3id.org/linkml/reportunsatis
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

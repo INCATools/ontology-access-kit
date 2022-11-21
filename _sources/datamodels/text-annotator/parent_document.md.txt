@@ -13,7 +13,7 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 
 | Name | Description |
 | --- | --- |
-[TextualElement](TextualElement.md) | None
+[TextualElement](TextualElement.md) | 
 
 
 
@@ -26,10 +26,6 @@ URI: [ann:parent_document](https://w3id.org/linkml/text_annotator/parent_documen
 
 
 
-
-
-
-## Alias
 
 
 

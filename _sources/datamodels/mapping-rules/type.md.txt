@@ -15,7 +15,7 @@ URI: [li:type](https://w3id.org/linkml/lexical_index/type)
 
 | Name | Description |
 | --- | --- |
-[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transformed string
+[LexicalTransformation](LexicalTransformation.md) | An atomic lexical transformation applied on a term (string) yielding a transf...
 
 
 
@@ -28,10 +28,6 @@ URI: [li:type](https://w3id.org/linkml/lexical_index/type)
 
 
 
-
-
-
-## Alias
 
 
 

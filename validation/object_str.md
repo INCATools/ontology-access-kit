@@ -13,8 +13,8 @@ URI: [vm:object_str](https://w3id.org/linkml/validation-model/object_str)
 
 | Name | Description |
 | --- | --- |
-[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a particular rule
-[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external resource is still valid
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
 
 
 
@@ -27,10 +27,6 @@ URI: [vm:object_str](https://w3id.org/linkml/validation-model/object_str)
 
 
 
-
-
-
-## Alias
 
 
 

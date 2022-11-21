@@ -13,7 +13,7 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 
 | Name | Description |
 | --- | --- |
-[HasSpan](HasSpan.md) | None
+[HasSpan](HasSpan.md) | 
 [TextAnnotation](TextAnnotation.md) | An individual text annotation
 
 
@@ -27,10 +27,6 @@ URI: [ann:subject_text_id](https://w3id.org/linkml/text_annotator/subject_text_i
 
 
 
-
-
-
-## Alias
 
 
 

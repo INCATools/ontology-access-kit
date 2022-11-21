@@ -1,6 +1,6 @@
 # Slot: annotations
 
-URI: [omoschema:annotations](http://purl.obolibrary.org/obo/schema/annotations)
+URI: [omoschema:annotations](http://purl.obolibrary.org/obo/omo/schema/annotations)
 
 
 
@@ -28,10 +28,6 @@ URI: [omoschema:annotations](http://purl.obolibrary.org/obo/schema/annotations)
 
 
 
-
-
-
-## Alias
 
 
 

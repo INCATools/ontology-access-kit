@@ -18,7 +18,7 @@ URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 | Name | Description |
 | --- | --- |
-[Restriction](Restriction.md) | None
+[Restriction](Restriction.md) | 
 
 
 
@@ -31,10 +31,6 @@ URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 
 
-
-
-
-## Alias
 
 
 

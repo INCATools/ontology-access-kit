@@ -35,8 +35,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [meta](meta.md) | 0..1 <br/> Meta | None | direct |
-
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
 
 
 

@@ -13,7 +13,7 @@ URI: [search:none_of](https://w3id.org/linkml/search_datamodel/none_of)
 
 | Name | Description |
 | --- | --- |
-[ComplexQuery](ComplexQuery.md) | None
+[ComplexQuery](ComplexQuery.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [search:none_of](https://w3id.org/linkml/search_datamodel/none_of)
 
 
 
-
-
-
-## Alias
 
 
 

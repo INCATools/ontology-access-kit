@@ -13,7 +13,7 @@ URI: [oio:is_class_level](http://www.geneontology.org/formats/oboInOwl#is_class_
 
 | Name | Description |
 | --- | --- |
-[Property](Property.md) | None
+[Property](Property.md) | 
 [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
@@ -30,10 +30,6 @@ URI: [oio:is_class_level](http://www.geneontology.org/formats/oboInOwl#is_class_
 
 
 
-
-
-
-## Alias
 
 
 

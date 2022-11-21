@@ -13,7 +13,7 @@ URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredi
 
 | Name | Description |
 | --- | --- |
-[PropertyChainAxiom](PropertyChainAxiom.md) | None
+[PropertyChainAxiom](PropertyChainAxiom.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredi
 
 
 
-
-
-
-## Alias
 
 
 

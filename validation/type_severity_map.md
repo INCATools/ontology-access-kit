@@ -33,10 +33,6 @@ URI: [vm:type_severity_map](https://w3id.org/linkml/validation-model/type_severi
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

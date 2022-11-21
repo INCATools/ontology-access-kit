@@ -29,10 +29,6 @@ URI: [mrules:minimum_confidence](https://w3id.org/linkml/mapping_rules_datamodel
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

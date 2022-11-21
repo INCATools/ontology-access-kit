@@ -38,8 +38,7 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Report](Report.md) | [results](results.md) | range | Result |
-
+| [Report](Report.md) | [results](results.md) | range | [Result](Result.md) |
 
 
 

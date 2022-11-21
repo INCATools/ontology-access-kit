@@ -34,10 +34,6 @@ URI: [IAO:0010000](http://purl.obolibrary.org/obo/IAO_0010000)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -4,7 +4,7 @@ _Auto-classifies anything that is not obsolete_
 
 
 
-URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObsoleteAspect)
+URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/NotObsoleteAspect)
 
 
 ```{mermaid}
@@ -34,16 +34,15 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/schema/NotObso
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [HasLifeCycle](HasLifeCycle.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [Term](Term.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [Class](Class.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [Property](Property.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [AnnotationProperty](AnnotationProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [ObjectProperty](ObjectProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [TransitiveProperty](TransitiveProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [NamedIndividual](NamedIndividual.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-| [Subset](Subset.md) | [has_alternative_id](has_alternative_id.md) | domain | NotObsoleteAspect |
-
+| [HasLifeCycle](HasLifeCycle.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [Term](Term.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [Class](Class.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [Property](Property.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [AnnotationProperty](AnnotationProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [ObjectProperty](ObjectProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [TransitiveProperty](TransitiveProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [NamedIndividual](NamedIndividual.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [Subset](Subset.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
 
 
 

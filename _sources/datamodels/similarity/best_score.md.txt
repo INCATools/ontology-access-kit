@@ -31,10 +31,6 @@ URI: [sim:best_score](https://w3id.org/linkml/similarity/best_score)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -13,7 +13,7 @@ URI: [og:basicPropertyValues](https://github.com/geneontology/obographs/basicPro
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | None
+[Meta](Meta.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:basicPropertyValues](https://github.com/geneontology/obographs/basicPro
 
 
 
-
-
-
-## Alias
 
 
 

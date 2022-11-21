@@ -15,7 +15,7 @@ URI: [mrules:qualifier](https://w3id.org/linkml/mapping_rules_datamodel/qualifie
 
 | Name | Description |
 | --- | --- |
-[Synonymizer](Synonymizer.md) | None
+[Synonymizer](Synonymizer.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [mrules:qualifier](https://w3id.org/linkml/mapping_rules_datamodel/qualifie
 
 
 
-
-
-
-## Alias
 
 
 

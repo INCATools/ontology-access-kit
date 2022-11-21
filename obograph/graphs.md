@@ -13,7 +13,7 @@ URI: [og:graphs](https://github.com/geneontology/obographs/graphs)
 
 | Name | Description |
 | --- | --- |
-[GraphDocument](GraphDocument.md) | None
+[GraphDocument](GraphDocument.md) | 
 
 
 
@@ -28,10 +28,6 @@ URI: [og:graphs](https://github.com/geneontology/obographs/graphs)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -13,12 +13,12 @@ URI: [og:pred](https://github.com/geneontology/obographs/pred)
 
 | Name | Description |
 | --- | --- |
-[Edge](Edge.md) | None
-[SynonymPropertyValue](SynonymPropertyValue.md) | None
-[PropertyValue](PropertyValue.md) | None
-[DefinitionPropertyValue](DefinitionPropertyValue.md) | None
-[BasicPropertyValue](BasicPropertyValue.md) | None
-[XrefPropertyValue](XrefPropertyValue.md) | None
+[Edge](Edge.md) | 
+[SynonymPropertyValue](SynonymPropertyValue.md) | 
+[PropertyValue](PropertyValue.md) | 
+[DefinitionPropertyValue](DefinitionPropertyValue.md) | 
+[BasicPropertyValue](BasicPropertyValue.md) | 
+[XrefPropertyValue](XrefPropertyValue.md) | 
 
 
 
@@ -31,10 +31,6 @@ URI: [og:pred](https://github.com/geneontology/obographs/pred)
 
 
 
-
-
-
-## Alias
 
 
 

@@ -36,10 +36,6 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

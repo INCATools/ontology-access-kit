@@ -29,10 +29,6 @@ URI: [sim:metric](https://w3id.org/linkml/similarity/metric)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

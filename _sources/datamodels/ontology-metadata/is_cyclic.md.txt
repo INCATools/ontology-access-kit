@@ -30,10 +30,6 @@ URI: [oio:is_cyclic](http://www.geneontology.org/formats/oboInOwl#is_cyclic)
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

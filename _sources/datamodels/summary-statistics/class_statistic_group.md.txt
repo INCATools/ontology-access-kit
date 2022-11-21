@@ -20,10 +20,6 @@ URI: [reporting:class_statistic_group](https://w3id.org/linkml/reportclass_stati
 
 
 
-## Alias
-
-
-
 
 ## Identifier and Mapping Information
 

@@ -30,8 +30,8 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> None | None | direct |
-| [transformations](transformations.md) | 0..* <br/> LexicalTransformation | None | direct |
+| [name](name.md) | 0..1 <br/> NONE |  | direct |
+| [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
 
 
 
@@ -39,9 +39,8 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [LexicalIndex](LexicalIndex.md) | [pipelines](pipelines.md) | range | LexicalTransformationPipeline |
-| [RelationshipToTerm](RelationshipToTerm.md) | [pipeline](pipeline.md) | range | LexicalTransformationPipeline |
-
+| [LexicalIndex](LexicalIndex.md) | [pipelines](pipelines.md) | range | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |
+| [RelationshipToTerm](RelationshipToTerm.md) | [pipeline](pipeline.md) | range | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |
 
 
 
