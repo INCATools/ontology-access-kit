@@ -1,9 +1,12 @@
+import logging
 from dataclasses import dataclass
-from typing import Iterator, List, Optional
+from typing import Iterable, Iterator, List, Optional
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import LogicalDefinitionAxiom
+from oaklib.datamodels.ontology_metadata import OMOSCHEMA, DefinitionConstraintComponent
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResult
+from oaklib.datamodels.vocabulary import HAS_DEFINITION_CURIE
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE
@@ -66,9 +69,15 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
 
     name: str = "text and logical definition match rule"
     severity = SeverityOptions(SeverityOptions.INFO)
+    skip_text_annotation: bool = False
 
     def process_text_definition(self, tdef: str) -> ProcessedTextDefinition:
-        """Translate a raw text definition into a processed one"""
+        """
+        Parse a textual definition.
+
+        :param tdef:
+        :return:
+        """
         parts = tdef.split(".")
         main_def = parts[0]
         ptd = ProcessedTextDefinition(original_definition=tdef, main_definition=main_def)
@@ -99,8 +108,16 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
         pdef: ProcessedTextDefinition,
         ldef: LogicalDefinitionAxiom,
     ) -> Iterator[ValidationResult]:
+        """
+        Check a text definition against a logical definition.
+
+        :param oi:
+        :param pdef:
+        :param ldef:
+        :return:
+        """
         subject = ldef.definedClassId
-        if isinstance(oi, TextAnnotatorInterface):
+        if isinstance(oi, TextAnnotatorInterface) and not self.skip_text_annotation:
             anns = list(oi.annotate_text(pdef.main_definition))
             anns_by_object = {ann.object_id: ann for ann in anns}
 
@@ -115,17 +132,22 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                         if ann.match_string in expected_in_text:
                             if is_genus and len(ann.match_string) < len(expected_in_text):
                                 yield ValidationResult(
-                                    type="S3",
+                                    type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
                                     subject=subject,
                                     info=f"Did not match whole text: {ann.match_string} < {expected_in_text}",
                                 )
                         else:
                             yield ValidationResult(
-                                type="S11.WrongPlace", subject=subject, info="Wrong position"
+                                type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
+                                subject=subject,
+                                info=f"Wrong position, '{ann.match_string}' not in '{expected_in_text}'",
                             )
                 else:
                     yield ValidationResult(
-                        type="S11.NotFound", subject=subject, info=f"Not found: {expected_id}"
+                        type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
+                        object=expected_id,
+                        subject=subject,
+                        info=f"Not found: {expected_id}",
                     )
 
             for genus in ldef.genusIds:
@@ -136,34 +158,78 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                     yield result
             if subject in anns_by_object:
                 yield ValidationResult(
-                    type="S7",
+                    type=DefinitionConstraintComponent.Circularity.meaning,
                     subject=subject,
                     info=f"Circular, {anns_by_object[subject].match_string} in definition",
                 )
+        else:
+            logging.info(f"Skipping text annotation for {subject}")
 
-    def evaluate(self, oi: BasicOntologyInterface):
-        for subject in oi.entities(filter_obsoletes=True):
+    def evaluate(
+        self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
+    ) -> Iterable[ValidationResult]:
+        """
+        Implements the OntologyRule.evaluate() method.
+
+        :param oi:
+        :param entities:
+        :return:
+        """
+        oi.prefix_map()["omoschema"] = OMOSCHEMA.prefix
+        oi._converter = None
+        if entities is None:
+            entities = oi.entities(filter_obsoletes=True)
+        for subject in entities:
+            logging.info(f"Checking {subject}")
+            problem_count = 0
+            # TODO: leakage of quoted URIs into CURIEs should be fixed upstream.
+            # these currently come from SWRL URIs from rdftab
+            if subject.startswith("<"):
+                continue
             tdef = oi.definition(subject)
             if tdef:
                 pdef = self.process_text_definition(tdef)
                 if not pdef.genus_text or not pdef.differentia_text:
                     yield ValidationResult(
                         subject=subject,
-                        type="S3",
-                        info=f"Cannot parse genus and differentia for {tdef}.",
+                        object_str=tdef,
+                        severity=SeverityOptions(SeverityOptions.WARNING),
+                        predicate=HAS_DEFINITION_CURIE,
+                        type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
+                        info="Cannot parse genus and differentia",
                     )
+                    problem_count += 1
             else:
                 pdef = None
+                yield ValidationResult(
+                    subject=subject,
+                    severity=SeverityOptions(SeverityOptions.ERROR),
+                    predicate=HAS_DEFINITION_CURIE,
+                    type=DefinitionConstraintComponent.DefinitionPresence.meaning,
+                    info="Missing text definition",
+                )
+                problem_count += 1
             if isinstance(oi, OboGraphInterface):
                 for ldef in oi.logical_definitions([subject]):
                     if pdef:
                         for result in self.check_against_logical_definition(oi, pdef, ldef):
                             yield result
+                            problem_count += 1
                     if len(ldef.genusIds) != 1:
                         yield ValidationResult(
                             subject=subject,
-                            type="S3.1",
+                            type=DefinitionConstraintComponent.SingleGenus.meaning,
                             info=f"expected one genus; got {len(ldef.genusIds)}.",
                         )
+                        problem_count += 1
             else:
                 raise NotImplementedError(f"Not implemented for {type(oi)}")
+            if problem_count == 0:
+                yield ValidationResult(
+                    subject=subject,
+                    severity=SeverityOptions(SeverityOptions.INFO),
+                    predicate=HAS_DEFINITION_CURIE,
+                    object_str=tdef,
+                    type=DefinitionConstraintComponent.DefinitionConstraint.meaning,
+                    info="No problems with definition",
+                )

@@ -37,6 +37,7 @@ import click
 import kgcl_schema.grammar.parser as kgcl_parser
 import rdflib
 import sssom.writers as sssom_writers
+import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper, yaml_dumper
@@ -143,6 +144,9 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     eval_candidate_taxon_constraint,
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
+)
+from oaklib.utilities.validation.definition_ontology_rules import (
+    TextAndLogicalDefinitionMatchOntologyRule,
 )
 from oaklib.utilities.validation.lint_utils import lint_ontology
 from oaklib.utilities.validation.rule_runner import RuleRunner
@@ -600,6 +604,12 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
 @click.option(
+    "--stacktrace/--no-stacktrace",
+    default=False,
+    show_default=True,
+    help="If set then show full stacktrace on error",
+)
+@click.option(
     "--save-as",
     help="For commands that mutate the ontology, this specifies where changes are saved to",
 )
@@ -638,6 +648,7 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
 def main(
     verbose: int,
     quiet: bool,
+    stacktrace: bool,
     input: str,
     input_type: str,
     add: List,
@@ -662,6 +673,8 @@ def main(
 
         runoak viz -h
     """
+    if not stacktrace:
+        sys.tracebacklimit = 0
     logger = logging.getLogger()
     if verbose >= 2:
         logger.setLevel(logging.DEBUG)
@@ -1454,7 +1467,7 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         https://incatools.github.io/ontology-access-kit/interfaces/obograph.html
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingInfoWriter)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
     # writer.display_options = display.split(',')
     writer.file = output
     if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
@@ -1462,6 +1475,10 @@ def ancestors(terms, predicates, statistics: bool, output_type: str, output: str
         curies = list(query_terms_iterator(terms, impl))
         logging.info(f"Ancestor seed: {curies}")
         if statistics:
+            if isinstance(writer, StreamingInfoWriter):
+                raise ValueError(
+                    "StreamingInfoWriter (`-O info`) does not support --statistics output"
+                )
             if isinstance(impl, OboGraphInterface):
                 graph = impl.ancestor_graph(curies, predicates=actual_predicates)
                 logging.info("Calculating graph stats")
@@ -2640,7 +2657,7 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
         runoak -i sqlite:obo:foodon mappings -O sssom --maps-to-source SUBSET_SIREN
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodel=sssom_schema)
     writer.output = output
     writer.autolabel = autolabel
     if isinstance(impl, MappingProviderInterface):
@@ -3337,17 +3354,76 @@ def validate_multiple(dbs, output, schema, cutoff: int):
 
 
 @main.command()
+@click.option(
+    "--skip-text-annotation/--no-skip-text-annotation",
+    default=False,
+    show_default=True,
+    help="If true, do not parse text annotations",
+)
+@output_type_option
 @output_option
-def validate_definitions(output: str):
+@click.argument("terms", nargs=-1)
+def validate_definitions(terms, skip_text_annotation, output: str, output_type: str):
     """
-    Check definitions
+    Checks presence and structure of text definitions.
 
-    REDUNDANT WITH VALIDATE - may be obsoleted
+    To run:
+
+        runoak validate-definitions -i db/uberon.db -o results.tsv
+
+    By default this will apply basic text mining of text definitions to check
+    against machine actionable OBO text definition guideline rules.
+    This can result in an initial lag - to skip this, and ONLY perform
+    checks for presence of definitions, use --skip-text-annotation:
+
+    Example:
+
+        runoak validate-definitions -i db/uberon.db --skip-text-annotation
+
+    Like most OAK commands, this accepts lists of terms or term queries
+    as arguments. You can pass in a CURIE list to selectively validate
+    individual classes
+
+    Example:
+
+         runoak validate-definitions -i db/cl.db CL:0002053
+
+    Only on CL identifiers:
+
+        runoak validate-definitions -i db/cl.db i^CL:
+
+    Only on neuron hierarchy:
+
+        runoak validate-definitions -i db/cl.db .desc//p=i neuron
+
+    Output format:
+
+    This command emits objects conforming to the OAK validation datamodel.
+    See https://incatools.github.io/ontology-access-kit/datamodels for more
+    on OAK datamodels.
+
+    The default serialization of the datamodel is CSV.
+
+    Notes:
+
+    This command is largely redundant with the validate command, but is useful for
+    targeted validation focused solely on definitions
     """
     impl = settings.impl
+    writer = _get_writer(
+        output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel
+    )
+    writer.output = output
     if isinstance(impl, ValidatorInterface):
-        for curie in impl.term_curies_without_definitions():
-            print(f"NO DEFINITION: {curie} ! {impl.label(curie)}")
+        if terms:
+            entities = query_terms_iterator(terms, impl)
+        else:
+            entities = None
+        definition_rule = TextAndLogicalDefinitionMatchOntologyRule(
+            skip_text_annotation=skip_text_annotation
+        )
+        for vr in definition_rule.evaluate(impl, entities=entities):
+            writer.emit(vr)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
