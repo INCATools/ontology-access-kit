@@ -63,7 +63,6 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         :param configuration: Text annotation configuration.
         :yield: A generator function that yields annotated results.
         """
-        import pdb; pdb.set_trace()
         if isinstance(text, str) and hasattr(configuration, "token_exclusion_list"):
             text = " ".join(
                 [term for term in text.split() if term not in configuration.token_exclusion_list]
