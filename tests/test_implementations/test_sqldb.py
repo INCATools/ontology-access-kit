@@ -414,6 +414,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             and str(r.type) == ValidationResultType.DatatypeConstraintComponent.meaning
             and str(r.severity) == SeverityOptions.ERROR.text
         )
+        assert any(
+            r
+            for r in results
+            if r.subject == "EXAMPLE:9"
+            and r.predicate == "dcterms:contributor"
+            and str(r.type) == ValidationResultType.PatternConstraintComponent.meaning
+            and str(r.severity) == SeverityOptions.ERROR.text
+        )
         self.assertEqual(6, len(invalid_ids))
         self.assertCountEqual(
             {

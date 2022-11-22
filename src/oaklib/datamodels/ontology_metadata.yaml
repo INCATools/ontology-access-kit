@@ -18,6 +18,7 @@ prefixes:
   IAO: http://purl.obolibrary.org/obo/IAO_
   OBI: http://purl.obolibrary.org/obo/OBI_
   NCIT: http://purl.obolibrary.org/obo/NCIT_
+  NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   oio: http://www.geneontology.org/formats/oboInOwl#
   dcterms: http://purl.org/dc/terms/
   linkml: https://w3id.org/linkml/
@@ -28,9 +29,13 @@ prefixes:
   rdfs: http://www.w3.org/2000/01/rdf-schema#
   pav: http://purl.org/pav/
   prov: http://www.w3.org/ns/prov-o#
+  orcid: https://orcid.org/
 
 default_prefix: omoschema
 default_range: string
+
+settings:
+  orcid_regex: "orcid:\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]"
 
 imports:
   - linkml:types
@@ -348,6 +353,16 @@ classes:
     class_uri: owl:NamedIndividual
     #slots:
     #- type
+
+  HomoSapiens:
+    is_a: NamedIndividual
+    description: An individual human being
+    class_uri: NCBITaxon:9606
+    id_prefixes:
+      - orcid
+    slot_usage:
+      id:
+        pattern: "^orcid:.*"
 
   Annotation:
     description: A reified property-object pair
@@ -720,15 +735,24 @@ slots:
     is_a: provenance_property
     slot_uri: dcterms:contributor
     multivalued: true
-    range: Thing
+    range: HomoSapiens
     close_mappings:
       - prov:wasAttributedTo
+    structured_pattern:
+      syntax: "{orcid_regex}"
+      interpolated: true
+      partial_match: false
   creator:
     is_a: provenance_property
     slot_uri: dcterms:creator
     multivalued: true
+    range: HomoSapiens
     close_mappings:
       - prov:wasAttributedTo
+    structured_pattern:
+      syntax: "{orcid_regex}"
+      interpolated: true
+      partial_match: false
   created:
     is_a: provenance_property
     slot_uri: dcterms:created

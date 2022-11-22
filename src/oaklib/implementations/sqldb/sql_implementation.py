@@ -5,6 +5,7 @@ import shutil
 import typing
 from collections import defaultdict
 from dataclasses import dataclass, field
+from operator import or_
 from pathlib import Path
 from typing import (
     Any,
@@ -112,6 +113,7 @@ from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.relation_graph_interface import RelationGraphInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -201,6 +203,7 @@ class SqlImplementation(
     ClassEnrichmentCalculationInterface,
     TextAnnotatorInterface,
     SummaryStatisticsInterface,
+    OwlInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
@@ -1009,6 +1012,23 @@ class SqlImplementation(
         for row in q:
             yield row.subject
 
+    def descendant_count(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+    ) -> int:
+        q = self.session.query(EntailedEdge.subject)
+        if isinstance(start_curies, list):
+            q = q.filter(EntailedEdge.object.in_(tuple(start_curies)))
+        else:
+            q = q.filter(EntailedEdge.object == start_curies)
+        if predicates is not None:
+            q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        if not reflexive:
+            q = q.filter(EntailedEdge.subject != EntailedEdge.object)
+        return q.count()
+
     def _rdf_list(self, bnode: str) -> Iterable[str]:
         for row in self.session.query(RdfFirstStatement).filter(RdfFirstStatement.subject == bnode):
             yield row.object
@@ -1150,6 +1170,7 @@ class SqlImplementation(
             self._ontology_metadata_model = sv
         else:
             sv = self.ontology_metadata_model
+        sv.materialize_patterns()
         for slot_name in sv.all_slots():
             for r in self._check_slot(slot_name):
                 yield r
@@ -1200,7 +1221,7 @@ class SqlImplementation(
         self, slot_name: str, class_name: str = "Class"
     ) -> Iterable[vdm.ValidationResult]:
         """
-        Validates all data with respect to a specific slot
+        Validates all data with respect to a specific slot.
 
         :param slot_name:
         :param class_name:
@@ -1255,6 +1276,25 @@ class SqlImplementation(
                 yield result
         if not is_used:
             return
+        if slot.pattern:
+            # check values against regexes
+            # NOTE: this may be slow as we have to do this in
+            # code rather than SQL. Some SQL engines have regex support,
+            # and we should leverage that when it exists
+            re_pattern = re.compile(slot.pattern)
+            main_q = self.session.query(Statements).filter(Statements.predicate == predicate)
+            for row in main_q:
+                val = row.value if row.value is not None else row.object
+                if val is not None:
+                    if not re_pattern.match(val):
+                        result = vdm.ValidationResult(
+                            subject=row.subject,
+                            predicate=row.predicate,
+                            severity=vdm.SeverityOptions.ERROR,
+                            type=vdm.ValidationResultType.PatternConstraintComponent.meaning,
+                            info=f"Pattern violation: {slot_name} = {val} does not conform to {slot.pattern}",
+                        )
+                        yield result
         if slot.deprecated:
             main_q = self.session.query(Statements.subject).filter(
                 Statements.predicate == predicate
@@ -1375,6 +1415,33 @@ class SqlImplementation(
                     yield row.subject, row.predicate, row.object
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # Implements: OwlInterface
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    def disjoint_pairs(self, subjects: Iterable[CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
+        q = self.session.query(Statements).filter(Statements.predicate == DISJOINT_WITH)
+        if subjects:
+            q = q.filter(
+                or_(Statements.subject.in_(tuple(subjects)), Statements.object.in_(tuple(subjects)))
+            )
+        for row in q:
+            if not row.subject.startswith("_") and not row.object.startswith("_"):
+                yield row.subject, row.object
+
+    def is_disjoint(self, subject: CURIE, object: CURIE, bidirectional=True) -> bool:
+        q = self.session.query(Statements).filter(Statements.predicate == DISJOINT_WITH)
+        ee1 = aliased(EntailedEdge)
+        ee2 = aliased(EntailedEdge)
+        q = q.filter(
+            ee1.subject == subject, ee1.object == Statements.subject, ee1.predicate == IS_A
+        )
+        q = q.filter(ee2.subject == object, ee2.object == Statements.object, ee2.predicate == IS_A)
+        if q.first():
+            return True
+        if bidirectional:
+            return self.is_disjoint(object, subject, bidirectional=False)
+        return False
+
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SemSim
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1459,6 +1526,26 @@ class SqlImplementation(
                     subject_ancestors=list(s_ancs),
                     object_ancestors=list(o_ancs),
                 )
+
+    def common_descendants(
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        include_owl_nothing: bool = False,
+    ) -> Iterable[CURIE]:
+        ee1 = aliased(EntailedEdge)
+        ee2 = aliased(EntailedEdge)
+        q = self.session.query(ee1.subject)
+        q = q.filter(ee1.object == subject)
+        q = q.filter(ee2.object == object)
+        q = q.filter(ee1.subject == ee2.subject)
+        if predicates:
+            q = q.filter(ee1.predicate.in_(predicates))
+            q = q.filter(ee2.predicate.in_(predicates))
+        for row in q:
+            if include_owl_nothing or row.subject != OWL_NOTHING:
+                yield row.subject
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface
