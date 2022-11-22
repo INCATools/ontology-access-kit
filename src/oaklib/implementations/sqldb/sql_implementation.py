@@ -1282,9 +1282,7 @@ class SqlImplementation(
             # code rather than SQL. Some SQL engines have regex support,
             # and we should leverage that when it exists
             re_pattern = re.compile(slot.pattern)
-            main_q = self.session.query(Statements).filter(
-                Statements.predicate == predicate
-            )
+            main_q = self.session.query(Statements).filter(Statements.predicate == predicate)
             for row in main_q:
                 val = row.value if row.value is not None else row.object
                 if val is not None:
@@ -1422,8 +1420,9 @@ class SqlImplementation(
     def disjoint_pairs(self, subjects: Iterable[CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
         q = self.session.query(Statements).filter(Statements.predicate == DISJOINT_WITH)
         if subjects:
-            q = q.filter(or_(Statements.subject.in_(tuple(subjects)),
-                             Statements.object.in_(tuple(subjects))))
+            q = q.filter(
+                or_(Statements.subject.in_(tuple(subjects)), Statements.object.in_(tuple(subjects)))
+            )
         for row in q:
             if not row.subject.startswith("_") and not row.object.startswith("_"):
                 yield row.subject, row.object
@@ -1432,7 +1431,9 @@ class SqlImplementation(
         q = self.session.query(Statements).filter(Statements.predicate == DISJOINT_WITH)
         ee1 = aliased(EntailedEdge)
         ee2 = aliased(EntailedEdge)
-        q = q.filter(ee1.subject == subject, ee1.object == Statements.subject, ee1.predicate == IS_A)
+        q = q.filter(
+            ee1.subject == subject, ee1.object == Statements.subject, ee1.predicate == IS_A
+        )
         q = q.filter(ee2.subject == object, ee2.object == Statements.object, ee2.predicate == IS_A)
         if q.first():
             return True
@@ -1527,11 +1528,11 @@ class SqlImplementation(
                 )
 
     def common_descendants(
-            self,
-            subject: CURIE,
-            object: CURIE,
-            predicates: List[PRED_CURIE] = None,
-            include_owl_nothing: bool = False,
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        include_owl_nothing: bool = False,
     ) -> Iterable[CURIE]:
         ee1 = aliased(EntailedEdge)
         ee2 = aliased(EntailedEdge)
@@ -1545,8 +1546,6 @@ class SqlImplementation(
         for row in q:
             if include_owl_nothing or row.subject != OWL_NOTHING:
                 yield row.subject
-
-
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: PatcherInterface
