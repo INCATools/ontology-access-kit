@@ -63,11 +63,14 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         :param configuration: Text annotation configuration.
         :yield: A generator function that yields annotated results.
         """
-        if isinstance(text, str) and hasattr(configuration, "token_exclusion_list"):
+        if not configuration:
+            configuration = TextAnnotationConfiguration()
+
+        if isinstance(text, str) and configuration.token_exclusion_list:
             text = " ".join(
                 [term for term in text.split() if term not in configuration.token_exclusion_list]
             )
-        elif isinstance(text, tuple) and hasattr(configuration, "token_exclusion_list"):
+        elif isinstance(text, tuple) and configuration.token_exclusion_list:
             filtered_text = tuple()
             # text is a tuple of string(s)
             for token in text:
@@ -78,8 +81,8 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         else:
             logging.info("No token exclusion list provided. Proceeding ...")
 
-        if not configuration:
-            configuration = TextAnnotationConfiguration()
+        # if not configuration:
+        #     configuration = TextAnnotationConfiguration()
         if configuration.matches_whole_text:
             if isinstance(self, SearchInterface):
                 for object_id in self.basic_search(text):
