@@ -3,10 +3,10 @@ Utilites used for annotation and lexmatch processes.
 """
 
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 
-def get_exclusion_token_list(exclude_tokens: str) -> List[str]:
+def get_exclusion_token_list(exclude_tokens: Union[str, Path]) -> List[str]:
     """Return a list of token to be excluded from NER analysis.
 
     :param exclude_tokens: Either a file path or the strings to be excluded.
