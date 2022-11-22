@@ -34,6 +34,9 @@ prefixes:
 default_prefix: omoschema
 default_range: string
 
+settings:
+  orcid_regex: "orcid:\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]"
+
 imports:
   - linkml:types
 
@@ -735,6 +738,10 @@ slots:
     range: HomoSapiens
     close_mappings:
       - prov:wasAttributedTo
+    structured_pattern:
+      syntax: "{orcid_regex}"
+      interpolated: true
+      partial_match: false
   creator:
     is_a: provenance_property
     slot_uri: dcterms:creator
@@ -742,6 +749,10 @@ slots:
     range: HomoSapiens
     close_mappings:
       - prov:wasAttributedTo
+    structured_pattern:
+      syntax: "{orcid_regex}"
+      interpolated: true
+      partial_match: false
   created:
     is_a: provenance_property
     slot_uri: dcterms:created
