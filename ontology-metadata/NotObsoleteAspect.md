@@ -42,6 +42,7 @@ URI: [omoschema:NotObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Not
 | [ObjectProperty](ObjectProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
 | [TransitiveProperty](TransitiveProperty.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
 | [NamedIndividual](NamedIndividual.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
+| [HomoSapiens](HomoSapiens.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
 | [Subset](Subset.md) | [has_alternative_id](has_alternative_id.md) | domain | [NotObsoleteAspect](NotObsoleteAspect.md) |
 
 

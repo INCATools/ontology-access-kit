@@ -129,7 +129,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p></td>
 <td><p>An instance that has a IRI</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Subset.html"><span class="doc std std-doc">Subset</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="HomoSapiens.html"><span class="doc std std-doc">HomoSapiens</span></a></p></td>
+<td><p>An individual human being</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Subset.html"><span class="doc std std-doc">Subset</span></a></p></td>
 <td><p>A collection of terms grouped for some purpose</p></td>
 </tr>
 </tbody>
@@ -138,7 +141,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Range: <a class="reference internal" href="HomoSapiens.html"><span class="doc std std-doc">HomoSapiens</span></a></p></li>
 <li><p>Multivalued: True</p></li>
 </ul>
 </section>
@@ -167,7 +170,11 @@ alias: creator
 domain_of:
 - HasProvenance
 - Ontology
-range: string
+range: HomoSapiens
+structured_pattern:
+  syntax: '{orcid_regex}'
+  interpolated: true
+  partial_match: false
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

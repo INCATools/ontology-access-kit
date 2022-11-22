@@ -66,6 +66,10 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 | [NamedIndividual](NamedIndividual.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [NamedIndividual](NamedIndividual.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [NamedIndividual](NamedIndividual.md) | [consider](consider.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [HomoSapiens](HomoSapiens.md) | [deprecated](deprecated.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [HomoSapiens](HomoSapiens.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [HomoSapiens](HomoSapiens.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
+| [HomoSapiens](HomoSapiens.md) | [consider](consider.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [Subset](Subset.md) | [deprecated](deprecated.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [Subset](Subset.md) | [has_obsolescence_reason](has_obsolescence_reason.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |
 | [Subset](Subset.md) | [term_replaced_by](term_replaced_by.md) | domain | [ObsoleteAspect](ObsoleteAspect.md) |

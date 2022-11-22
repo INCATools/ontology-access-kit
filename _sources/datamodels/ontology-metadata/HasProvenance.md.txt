@@ -58,8 +58,8 @@ URI: [omoschema:HasProvenance](http://purl.obolibrary.org/obo/omo/schema/HasProv
 | ---  | --- | --- | --- |
 | [created_by](created_by.md) | 0..1 <br/> NONE |  | direct |
 | [creation_date](creation_date.md) | 0..* <br/> NONE |  | direct |
-| [contributor](contributor.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
-| [creator](creator.md) | 0..* <br/> NONE |  | direct |
+| [contributor](contributor.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | direct |
+| [creator](creator.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | direct |
 | [created](created.md) | 0..1 <br/> NONE | when the term came into being | direct |
 | [date](date.md) | 0..* <br/> NONE | when the term was updated | direct |
 | [isDefinedBy](isDefinedBy.md) | 0..1 <br/> [Ontology](Ontology.md) |  | direct |
@@ -192,7 +192,11 @@ attributes:
     owner: HasProvenance
     domain_of:
     - HasProvenance
-    range: Thing
+    range: HomoSapiens
+    structured_pattern:
+      syntax: '{orcid_regex}'
+      interpolated: true
+      partial_match: false
   creator:
     name: creator
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -207,7 +211,11 @@ attributes:
     domain_of:
     - HasProvenance
     - Ontology
-    range: string
+    range: HomoSapiens
+    structured_pattern:
+      syntax: '{orcid_regex}'
+      interpolated: true
+      partial_match: false
   created:
     name: created
     description: when the term came into being

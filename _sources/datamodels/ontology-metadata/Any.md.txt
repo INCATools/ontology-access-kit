@@ -42,6 +42,8 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 | [TransitiveProperty](TransitiveProperty.md) | [consider](consider.md) | range | [Any](Any.md) |
 | [NamedIndividual](NamedIndividual.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
 | [NamedIndividual](NamedIndividual.md) | [consider](consider.md) | range | [Any](Any.md) |
+| [HomoSapiens](HomoSapiens.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
+| [HomoSapiens](HomoSapiens.md) | [consider](consider.md) | range | [Any](Any.md) |
 | [Axiom](Axiom.md) | [annotatedTarget](annotatedTarget.md) | range | [Any](Any.md) |
 | [Subset](Subset.md) | [term_replaced_by](term_replaced_by.md) | range | [Any](Any.md) |
 | [Subset](Subset.md) | [consider](consider.md) | range | [Any](Any.md) |

@@ -48,11 +48,11 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [versionIRI](versionIRI.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [versionInfo](versionInfo.md) | 0..1 <br/> NONE |  | direct |
 | [comment](comment.md) | 0..* <br/> NONE |  | direct |
-| [creator](creator.md) | 0..* <br/> NONE |  | direct |
+| [creator](creator.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | direct |
 | [created](created.md) | 0..1 <br/> NONE | when the term came into being | direct |
 | [imports](imports.md) | 0..1 <br/> NONE |  | direct |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
 
 
 
@@ -68,6 +68,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [ObjectProperty](ObjectProperty.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
 | [TransitiveProperty](TransitiveProperty.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
 | [NamedIndividual](NamedIndividual.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
+| [HomoSapiens](HomoSapiens.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
 | [Subset](Subset.md) | [isDefinedBy](isDefinedBy.md) | range | [Ontology](Ontology.md) |
 
 
@@ -298,7 +299,11 @@ attributes:
     domain_of:
     - HasProvenance
     - Ontology
-    range: string
+    range: HomoSapiens
+    structured_pattern:
+      syntax: '{orcid_regex}'
+      interpolated: true
+      partial_match: false
   created:
     name: created
     description: when the term came into being

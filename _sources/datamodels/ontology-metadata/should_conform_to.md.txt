@@ -26,6 +26,7 @@ URI: [omoschema:should_conform_to](http://purl.obolibrary.org/obo/omo/schema/sho
 [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
+[HomoSapiens](HomoSapiens.md) | An individual human being
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 

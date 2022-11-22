@@ -1,125 +1,69 @@
-# Class: NamedIndividual
-_An instance that has a IRI_
+# Class: HomoSapiens
+_An individual human being_
 
 
 
 
-URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
+URI: [NCBITaxon:9606](http://purl.obolibrary.org/obo/NCBITaxon_9606)
 
 
 ```{mermaid}
  classDiagram
-    class NamedIndividual
-      Term <|-- NamedIndividual
-      
-      NamedIndividual : alternative_term
-      NamedIndividual : broadMatch
-      NamedIndividual : category
-      NamedIndividual : closeMatch
-      NamedIndividual : comment
-      NamedIndividual : conformsTo
-      NamedIndividual : consider
-      NamedIndividual : contributor
-      NamedIndividual : created
-      NamedIndividual : created_by
-      NamedIndividual : creation_date
-      NamedIndividual : creator
-      NamedIndividual : curator_note
-      NamedIndividual : database_cross_reference
-      NamedIndividual : date
-      NamedIndividual : definition
-      NamedIndividual : definition_source
-      NamedIndividual : depicted_by
-      NamedIndividual : deprecated
-      NamedIndividual : editor_note
-      NamedIndividual : editor_preferred_term
-      NamedIndividual : exactMatch
-      NamedIndividual : example_of_usage
-      NamedIndividual : excluded_from_QC_check
-      NamedIndividual : excluded_subClassOf
-      NamedIndividual : excluded_synonym
-      NamedIndividual : has_alternative_id
-      NamedIndividual : has_broad_synonym
-      NamedIndividual : has_curation_status
-      NamedIndividual : has_exact_synonym
-      NamedIndividual : has_narrow_synonym
-      NamedIndividual : has_obo_namespace
-      NamedIndividual : has_obsolescence_reason
-      NamedIndividual : has_related_synonym
-      NamedIndividual : id
-      NamedIndividual : IEDB_alternative_term
-      NamedIndividual : image
-      NamedIndividual : imported_from
-      NamedIndividual : in_subset
-      NamedIndividual : ISA_alternative_term
-      NamedIndividual : isDefinedBy
-      NamedIndividual : label
-      NamedIndividual : narrowMatch
-      NamedIndividual : OBO_foundry_unique_label
-      NamedIndividual : ontology_term_requester
-      NamedIndividual : page
-      NamedIndividual : seeAlso
-      NamedIndividual : should_conform_to
-      NamedIndividual : term_editor
-      NamedIndividual : term_replaced_by
-      NamedIndividual : term_tracker_item
-      NamedIndividual : type
-      
-
+    class HomoSapiens
       NamedIndividual <|-- HomoSapiens
       
-      NamedIndividual : alternative_term
-      NamedIndividual : broadMatch
-      NamedIndividual : category
-      NamedIndividual : closeMatch
-      NamedIndividual : comment
-      NamedIndividual : conformsTo
-      NamedIndividual : consider
-      NamedIndividual : contributor
-      NamedIndividual : created
-      NamedIndividual : created_by
-      NamedIndividual : creation_date
-      NamedIndividual : creator
-      NamedIndividual : curator_note
-      NamedIndividual : database_cross_reference
-      NamedIndividual : date
-      NamedIndividual : definition
-      NamedIndividual : definition_source
-      NamedIndividual : depicted_by
-      NamedIndividual : deprecated
-      NamedIndividual : editor_note
-      NamedIndividual : editor_preferred_term
-      NamedIndividual : exactMatch
-      NamedIndividual : example_of_usage
-      NamedIndividual : excluded_from_QC_check
-      NamedIndividual : excluded_subClassOf
-      NamedIndividual : excluded_synonym
-      NamedIndividual : has_alternative_id
-      NamedIndividual : has_broad_synonym
-      NamedIndividual : has_curation_status
-      NamedIndividual : has_exact_synonym
-      NamedIndividual : has_narrow_synonym
-      NamedIndividual : has_obo_namespace
-      NamedIndividual : has_obsolescence_reason
-      NamedIndividual : has_related_synonym
-      NamedIndividual : id
-      NamedIndividual : IEDB_alternative_term
-      NamedIndividual : image
-      NamedIndividual : imported_from
-      NamedIndividual : in_subset
-      NamedIndividual : ISA_alternative_term
-      NamedIndividual : isDefinedBy
-      NamedIndividual : label
-      NamedIndividual : narrowMatch
-      NamedIndividual : OBO_foundry_unique_label
-      NamedIndividual : ontology_term_requester
-      NamedIndividual : page
-      NamedIndividual : seeAlso
-      NamedIndividual : should_conform_to
-      NamedIndividual : term_editor
-      NamedIndividual : term_replaced_by
-      NamedIndividual : term_tracker_item
-      NamedIndividual : type
+      HomoSapiens : alternative_term
+      HomoSapiens : broadMatch
+      HomoSapiens : category
+      HomoSapiens : closeMatch
+      HomoSapiens : comment
+      HomoSapiens : conformsTo
+      HomoSapiens : consider
+      HomoSapiens : contributor
+      HomoSapiens : created
+      HomoSapiens : created_by
+      HomoSapiens : creation_date
+      HomoSapiens : creator
+      HomoSapiens : curator_note
+      HomoSapiens : database_cross_reference
+      HomoSapiens : date
+      HomoSapiens : definition
+      HomoSapiens : definition_source
+      HomoSapiens : depicted_by
+      HomoSapiens : deprecated
+      HomoSapiens : editor_note
+      HomoSapiens : editor_preferred_term
+      HomoSapiens : exactMatch
+      HomoSapiens : example_of_usage
+      HomoSapiens : excluded_from_QC_check
+      HomoSapiens : excluded_subClassOf
+      HomoSapiens : excluded_synonym
+      HomoSapiens : has_alternative_id
+      HomoSapiens : has_broad_synonym
+      HomoSapiens : has_curation_status
+      HomoSapiens : has_exact_synonym
+      HomoSapiens : has_narrow_synonym
+      HomoSapiens : has_obo_namespace
+      HomoSapiens : has_obsolescence_reason
+      HomoSapiens : has_related_synonym
+      HomoSapiens : id
+      HomoSapiens : IEDB_alternative_term
+      HomoSapiens : image
+      HomoSapiens : imported_from
+      HomoSapiens : in_subset
+      HomoSapiens : ISA_alternative_term
+      HomoSapiens : isDefinedBy
+      HomoSapiens : label
+      HomoSapiens : narrowMatch
+      HomoSapiens : OBO_foundry_unique_label
+      HomoSapiens : ontology_term_requester
+      HomoSapiens : page
+      HomoSapiens : seeAlso
+      HomoSapiens : should_conform_to
+      HomoSapiens : term_editor
+      HomoSapiens : term_replaced_by
+      HomoSapiens : term_tracker_item
+      HomoSapiens : type
       
 ```
 
@@ -130,8 +74,8 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
         * [Term](Term.md) [ [HasSynonyms](HasSynonyms.md) [HasLifeCycle](HasLifeCycle.md) [HasProvenance](HasProvenance.md) [HasMappings](HasMappings.md) [HasCategory](HasCategory.md) [HasUserInformation](HasUserInformation.md) [HasMinimalMetadata](HasMinimalMetadata.md)]
-            * **NamedIndividual**
-                * [HomoSapiens](HomoSapiens.md)
+            * [NamedIndividual](NamedIndividual.md)
+                * **HomoSapiens**
 
 
 
@@ -197,18 +141,27 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [HasProvenance](HasProvenance.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [Term](Term.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [Class](Class.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [Property](Property.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [AnnotationProperty](AnnotationProperty.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [ObjectProperty](ObjectProperty.md) | [temporal_interpretation](temporal_interpretation.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [ObjectProperty](ObjectProperty.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [TransitiveProperty](TransitiveProperty.md) | [temporal_interpretation](temporal_interpretation.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [TransitiveProperty](TransitiveProperty.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [NamedIndividual](NamedIndividual.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [HomoSapiens](HomoSapiens.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
-| [Subset](Subset.md) | [imported_from](imported_from.md) | range | [NamedIndividual](NamedIndividual.md) |
+| [HasProvenance](HasProvenance.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [HasProvenance](HasProvenance.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Ontology](Ontology.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Term](Term.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Term](Term.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Class](Class.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Class](Class.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Property](Property.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Property](Property.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [AnnotationProperty](AnnotationProperty.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [AnnotationProperty](AnnotationProperty.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [ObjectProperty](ObjectProperty.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [ObjectProperty](ObjectProperty.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [TransitiveProperty](TransitiveProperty.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [TransitiveProperty](TransitiveProperty.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [NamedIndividual](NamedIndividual.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [NamedIndividual](NamedIndividual.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [HomoSapiens](HomoSapiens.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [HomoSapiens](HomoSapiens.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Subset](Subset.md) | [contributor](contributor.md) | range | [HomoSapiens](HomoSapiens.md) |
+| [Subset](Subset.md) | [creator](creator.md) | range | [HomoSapiens](HomoSapiens.md) |
 
 
 
@@ -216,6 +169,14 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 
 ## Identifier and Mapping Information
+
+
+### Valid ID Prefixes
+
+Instances of this class *should* have identifiers with one of the following prefixes:
+
+* orcid
+
 
 
 
@@ -236,8 +197,8 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | owl:NamedIndividual |
-| native | omoschema:NamedIndividual |
+| self | NCBITaxon:9606 |
+| native | omoschema:HomoSapiens |
 
 
 ## LinkML Source
@@ -248,12 +209,22 @@ URI: [owl:NamedIndividual](http://www.w3.org/2002/07/owl#NamedIndividual)
 
 <details>
 ```yaml
-name: NamedIndividual
-description: An instance that has a IRI
+name: HomoSapiens
+id_prefixes:
+- orcid
+description: An individual human being
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
-is_a: Term
-class_uri: owl:NamedIndividual
+is_a: NamedIndividual
+slot_usage:
+  id:
+    name: id
+    domain_of:
+    - NamedObject
+    - NamedObject
+    - NamedObject
+    pattern: ^orcid:.*
+class_uri: NCBITaxon:9606
 
 ```
 </details>
@@ -262,11 +233,21 @@ class_uri: owl:NamedIndividual
 
 <details>
 ```yaml
-name: NamedIndividual
-description: An instance that has a IRI
+name: HomoSapiens
+id_prefixes:
+- orcid
+description: An individual human being
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
-is_a: Term
+is_a: NamedIndividual
+slot_usage:
+  id:
+    name: id
+    domain_of:
+    - NamedObject
+    - NamedObject
+    - NamedObject
+    pattern: ^orcid:.*
 attributes:
   has_exact_synonym:
     name: has_exact_synonym
@@ -276,7 +257,7 @@ attributes:
     slot_uri: oio:hasExactSynonym
     multivalued: true
     alias: has_exact_synonym
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     - Axiom
@@ -291,7 +272,7 @@ attributes:
     slot_uri: oio:hasNarrowSynonym
     multivalued: true
     alias: has_narrow_synonym
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: label type
@@ -303,7 +284,7 @@ attributes:
     slot_uri: oio:hasBroadSynonym
     multivalued: true
     alias: has_broad_synonym
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: label type
@@ -314,7 +295,7 @@ attributes:
     slot_uri: oio:hasRelatedSynonym
     multivalued: true
     alias: has_related_synonym
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: label type
@@ -329,7 +310,7 @@ attributes:
     slot_uri: IAO:0000118
     multivalued: true
     alias: alternative_term
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: string
@@ -341,7 +322,7 @@ attributes:
     slot_uri: OBI:0001847
     multivalued: true
     alias: ISA_alternative_term
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: string
@@ -353,7 +334,7 @@ attributes:
     slot_uri: OBI:9991118
     multivalued: true
     alias: IEDB_alternative_term
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: string
@@ -367,7 +348,7 @@ attributes:
     slot_uri: IAO:0000111
     multivalued: true
     alias: editor_preferred_term
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: string
@@ -381,7 +362,7 @@ attributes:
     slot_uri: IAO:0000589
     multivalued: true
     alias: OBO_foundry_unique_label
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasSynonyms
     range: string
@@ -399,7 +380,7 @@ attributes:
     domain: ObsoleteAspect
     slot_uri: owl:deprecated
     alias: deprecated
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: boolean
@@ -415,7 +396,7 @@ attributes:
     domain: ObsoleteAspect
     slot_uri: IAO:0000231
     alias: has_obsolescence_reason
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: string
@@ -435,7 +416,7 @@ attributes:
     domain: ObsoleteAspect
     slot_uri: IAO:0100001
     alias: term_replaced_by
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: Any
@@ -452,7 +433,7 @@ attributes:
     slot_uri: oio:consider
     multivalued: true
     alias: consider
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: Any
@@ -474,7 +455,7 @@ attributes:
     slot_uri: oio:hasAlternativeId
     multivalued: true
     alias: has_alternative_id
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: uriorcurie
@@ -484,7 +465,7 @@ attributes:
     rank: 1000
     is_a: excluded_axiom
     alias: excluded_from_QC_check
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: Thing
@@ -495,7 +476,7 @@ attributes:
     is_a: excluded_axiom
     multivalued: true
     alias: excluded_subClassOf
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: Class
@@ -508,7 +489,7 @@ attributes:
     is_a: excluded_axiom
     multivalued: true
     alias: excluded_synonym
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: string
@@ -518,7 +499,7 @@ attributes:
     rank: 1000
     is_a: excluded_axiom
     alias: should_conform_to
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasLifeCycle
     range: Thing
@@ -531,7 +512,7 @@ attributes:
     is_a: provenance_property
     slot_uri: oio:created_by
     alias: created_by
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     - Axiom
@@ -548,7 +529,7 @@ attributes:
     slot_uri: oio:creation_date
     multivalued: true
     alias: creation_date
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: string
@@ -562,7 +543,7 @@ attributes:
     slot_uri: dcterms:contributor
     multivalued: true
     alias: contributor
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: HomoSapiens
@@ -580,7 +561,7 @@ attributes:
     slot_uri: dcterms:creator
     multivalued: true
     alias: creator
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     - Ontology
@@ -600,7 +581,7 @@ attributes:
     slot_uri: dcterms:created
     multivalued: false
     alias: created
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     - Ontology
@@ -616,7 +597,7 @@ attributes:
     slot_uri: dcterms:date
     multivalued: true
     alias: date
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: string
@@ -629,7 +610,7 @@ attributes:
     rank: 1000
     slot_uri: rdfs:isDefinedBy
     alias: isDefinedBy
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: Ontology
@@ -641,7 +622,7 @@ attributes:
     slot_uri: IAO:0000116
     multivalued: true
     alias: editor_note
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: narrative text
@@ -653,7 +634,7 @@ attributes:
     slot_uri: IAO:0000117
     multivalued: true
     alias: term_editor
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: string
@@ -669,7 +650,7 @@ attributes:
     slot_uri: IAO:0000119
     multivalued: true
     alias: definition_source
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: string
@@ -680,7 +661,7 @@ attributes:
     is_a: provenance_property
     slot_uri: IAO:0000234
     alias: ontology_term_requester
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: string
@@ -692,7 +673,7 @@ attributes:
     slot_uri: IAO:0000412
     multivalued: true
     alias: imported_from
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: NamedIndividual
@@ -706,7 +687,7 @@ attributes:
     slot_uri: IAO:0000233
     multivalued: true
     alias: term_tracker_item
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasProvenance
     range: string
@@ -718,7 +699,7 @@ attributes:
     slot_uri: skos:broadMatch
     multivalued: true
     alias: broadMatch
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMappings
     range: Thing
@@ -730,7 +711,7 @@ attributes:
     slot_uri: skos:closeMatch
     multivalued: true
     alias: closeMatch
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMappings
     range: Thing
@@ -742,7 +723,7 @@ attributes:
     slot_uri: skos:exactMatch
     multivalued: true
     alias: exactMatch
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMappings
     range: Thing
@@ -754,7 +735,7 @@ attributes:
     slot_uri: skos:narrowMatch
     multivalued: true
     alias: narrowMatch
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMappings
     range: Thing
@@ -766,7 +747,7 @@ attributes:
     slot_uri: oio:hasDbXref
     multivalued: true
     alias: database_cross_reference
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMappings
     - Axiom
@@ -778,7 +759,7 @@ attributes:
     slot_uri: oio:hasOBONamespace
     multivalued: true
     alias: has_obo_namespace
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasCategory
     range: string
@@ -789,7 +770,7 @@ attributes:
     is_a: informative_property
     slot_uri: biolink:category
     alias: category
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasCategory
     range: string
@@ -801,7 +782,7 @@ attributes:
     slot_uri: oio:inSubset
     multivalued: true
     alias: in_subset
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasCategory
     range: Subset
@@ -813,7 +794,7 @@ attributes:
     slot_uri: dcterms:conformsTo
     multivalued: true
     alias: conformsTo
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasCategory
     range: Thing
@@ -827,7 +808,7 @@ attributes:
     slot_uri: rdfs:comment
     multivalued: true
     alias: comment
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     - Ontology
@@ -842,7 +823,7 @@ attributes:
     slot_uri: rdfs:seeAlso
     multivalued: true
     alias: seeAlso
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     - Axiom
@@ -854,7 +835,7 @@ attributes:
     is_a: informative_property
     slot_uri: sdo:image
     alias: image
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     range: Thing
@@ -870,7 +851,7 @@ attributes:
     slot_uri: IAO:0000112
     multivalued: true
     alias: example_of_usage
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     range: string
@@ -882,7 +863,7 @@ attributes:
     slot_uri: IAO:0000232
     multivalued: true
     alias: curator_note
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     range: string
@@ -893,7 +874,7 @@ attributes:
     is_a: informative_property
     slot_uri: IAO:0000114
     alias: has_curation_status
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     range: string
@@ -905,7 +886,7 @@ attributes:
     slot_uri: foaf:depicted_by
     multivalued: true
     alias: depicted_by
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     range: string
@@ -917,7 +898,7 @@ attributes:
     slot_uri: foaf:page
     multivalued: true
     alias: page
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasUserInformation
     range: string
@@ -939,7 +920,7 @@ attributes:
     slot_uri: rdfs:label
     multivalued: false
     alias: label
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMinimalMetadata
     - Axiom
@@ -960,7 +941,7 @@ attributes:
     slot_uri: IAO:0000115
     multivalued: true
     alias: definition
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - HasMinimalMetadata
     range: narrative text
@@ -972,11 +953,13 @@ attributes:
     is_a: core_property
     identifier: true
     alias: id
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
+    - NamedObject
     - NamedObject
     range: uriorcurie
     required: true
+    pattern: ^orcid:.*
   type:
     name: type
     from_schema: http://purl.obolibrary.org/obo/omo/schema
@@ -986,11 +969,11 @@ attributes:
     multivalued: true
     designates_type: true
     alias: type
-    owner: NamedIndividual
+    owner: HomoSapiens
     domain_of:
     - Thing
     range: uriorcurie
-class_uri: owl:NamedIndividual
+class_uri: NCBITaxon:9606
 
 ```
 </details>
