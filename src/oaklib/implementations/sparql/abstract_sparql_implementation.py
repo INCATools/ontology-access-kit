@@ -2,7 +2,7 @@ import logging
 import typing
 from abc import ABC
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
@@ -30,6 +30,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_DEFINITION_URI,
     IDENTIFIER_PREDICATE,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBO_PURL,
     RDF_TYPE,
@@ -55,7 +56,6 @@ from oaklib.utilities.mapping.sssom_utils import create_sssom_mapping
 from oaklib.utilities.rate_limiter import check_limit
 
 VAL_VAR = "v"
-LANGUAGE_TAG = str
 
 
 def _sparql_values(var_name: str, vals: List[str]):
@@ -112,8 +112,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
 
     sparql_wrapper: SPARQLWrapper = None
     graph: rdflib.Graph = None
-    multilingual: bool = None
-    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
     _list_of_named_graphs: List[str] = None
 
     def __post_init__(self):
@@ -512,6 +510,19 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             for curie in curies:
                 if curie not in label_map:
                     yield curie, None
+
+    def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
+        entities = list(entities)
+        uris = [self.curie_to_sparql(x) for x in entities]
+        query = SparqlQuery(
+            select=["?s ?o"], where=[f"?s {IS_DEFINED_BY} ?o", _sparql_values("s", uris)]
+        )
+        bindings = self._query(query)
+        for row in bindings:
+            curie, db = self.uri_to_curie(row["s"]["value"]), row["o"]["value"]
+            yield curie, db
+            entities.remove(curie)
+        return super().defined_bys(entities)
 
     def _alias_predicates(self) -> List[PRED_CURIE]:
         # different implementations can override this; e.g Wikidata uses skos:altLabel

@@ -7,6 +7,7 @@ import logging
 import tempfile
 import unittest
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable
 
 import kgcl_schema.grammar.parser as kgcl_parser
@@ -18,7 +19,10 @@ from linkml_runtime.dumpers import json_dumper, yaml_dumper
 from oaklib import BasicOntologyInterface, get_implementation_from_shorthand
 from oaklib.datamodels import obograph
 from oaklib.datamodels.association import Association
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.vocabulary import (
+    CONSIDER_REPLACEMENT,
     EQUIVALENT_CLASS,
     IS_A,
     LOCATED_IN,
@@ -26,11 +30,15 @@ from oaklib.datamodels.vocabulary import (
     ONLY_IN_TAXON,
     OWL_THING,
     PART_OF,
+    TERM_REPLACED_BY,
 )
-from oaklib.interfaces import MappingProviderInterface
+from oaklib.interfaces import MappingProviderInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
     associations_subjects,
+)
+from oaklib.interfaces.class_enrichment_calculation_interface import (
+    ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -51,6 +59,15 @@ from tests import (
     EUKARYOTA,
     FAKE_ID,
     FUNGI,
+    GENE1,
+    GENE2,
+    GENE3,
+    GENE4,
+    GENE5,
+    GENE6,
+    GENE7,
+    GENE8,
+    GENE9,
     HUMAN,
     IMBO,
     INPUT_DIR,
@@ -164,6 +181,74 @@ class ComplianceTester:
                 ("rdfs:label", ["nucleus"]),
             ],
         )
+
+    def test_defined_bys(self, oi: BasicOntologyInterface):
+        """
+        Tests lookup of defined_by by ID.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        cases = [
+            (VACUOLE, "GO"),
+            (CYTOPLASM, "GO"),
+            (SUBATOMIC_PARTICLE, "CHEBI"),
+            (HUMAN, "NCBITaxon"),
+        ]
+        actual = list(oi.defined_bys([c[0] for c in cases]))
+        test.assertCountEqual(cases, actual)
+
+    def test_obsolete_entities(self, oi: SearchInterface):
+        """
+        Tests lookup of defined_by by ID.
+
+        :param oi: this should be for obsoletion_test.{obo,owl,...}
+        :return:
+        """
+        test = self.test
+        obsoletes_excluding_merged = list(oi.obsoletes(include_merged=False))
+        obsoletes = list(oi.obsoletes())
+        test.assertCountEqual(["CL:2", "CL:3", "CL:5", "CL:6"], obsoletes_excluding_merged)
+        test.assertCountEqual(
+            ["CL:1a1", "CL:1a2", "CL:4a1", "CL:1a3", "CL:2", "CL:3", "CL:5", "CL:6"], obsoletes
+        )
+        cases = [
+            ("CL:1", [], []),
+            ("CL:1a1", ["CL:1"], []),
+            ("CL:1a2", ["CL:1"], []),
+            ("CL:1a3", ["CL:1"], []),
+            ("CL:2", ["CL:2replacement"], []),
+            ("CL:3", [], ["CL:3cons1", "CL:3cons2"]),
+            ("CL:4a1", ["CL:4"], []),
+            ("CL:5", ["CL:6"], []),
+            ("CL:6", ["CL:7"], []),
+        ]
+        for curie, replaced_by, consider in cases:
+            actual_replaced_by = [
+                r[2]
+                for r in oi.obsoletes_migration_relationships([curie])
+                if r[1] == TERM_REPLACED_BY
+            ]
+            actual_consider = [
+                r[2]
+                for r in oi.obsoletes_migration_relationships([curie])
+                if r[1] == CONSIDER_REPLACEMENT
+            ]
+            test.assertCountEqual(
+                replaced_by, actual_replaced_by, f"replaced_by did not match for {curie}"
+            )
+            test.assertCountEqual(consider, actual_consider)
+            for r in replaced_by:
+                terms = list(
+                    oi.basic_search(
+                        curie,
+                        config=SearchConfiguration(
+                            properties=SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER)
+                        ),
+                    )
+                )
+                test.assertCountEqual([r], terms, f"replaced_by did not match for {curie}")
 
     def test_sssom_mappings(self, oi: MappingProviderInterface):
         """
@@ -316,10 +401,11 @@ class ComplianceTester:
         :param oi:
         :return:
         """
-        file = tempfile.NamedTemporaryFile("w")
-        oi.dump(file.name, "json")
-        file.seek(0)
-        oi2 = get_implementation_from_shorthand(f"obograph:{file.name}")
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            fname = Path(tmpdirname) / "tmp_obograph.json"
+            oi.dump(str(fname), "json")
+            oi2 = get_implementation_from_shorthand(f"obograph:{fname.as_posix()}")
+
         self.test_labels(oi2)
         self.test_definitions(oi2)
         self.test_synonyms(oi2)
@@ -366,6 +452,24 @@ class ComplianceTester:
                     oi.obsoletes(),
                 ),
             ),
+            (
+                kgcl.NodeObsoletionWithDirectReplacement(
+                    id=generate_change_id(),
+                    about_node=NUCLEUS,
+                    has_direct_replacement=NUCLEAR_MEMBRANE,
+                ),
+                False,
+                [
+                    lambda oi: test.assertIn(
+                        NUCLEUS,
+                        oi.obsoletes(),
+                    ),
+                    lambda oi: test.assertEqual(
+                        [NUCLEAR_MEMBRANE],
+                        oi.entity_metadata_map(NUCLEUS)[TERM_REPLACED_BY],
+                    ),
+                ],
+            ),
             (NodeObsoletion(id=generate_change_id(), about_node="no such term"), True, None),
             (
                 kgcl.SynonymReplacement(
@@ -401,7 +505,10 @@ class ComplianceTester:
                     oi.apply_patch(change)
             else:
                 oi.apply_patch(change)
-                test_func(oi)
+                if isinstance(test_func, list):
+                    [t(oi) for t in test_func]
+                else:
+                    test_func(oi)
         if roundtrip_function:
             oi2 = roundtrip_function(oi)
         else:
@@ -410,7 +517,10 @@ class ComplianceTester:
         for case in cases:
             change, expects_raises, test_func = case
             if test_func:
-                test_func(oi2)
+                if isinstance(test_func, list):
+                    [t(oi2) for t in test_func]
+                else:
+                    test_func(oi2)
             if not expects_raises:
                 change_obj = _as_json_dict_no_id(change)
                 expected_changes.append(change_obj)
@@ -432,7 +542,7 @@ class ComplianceTester:
             for ch in expected_changes:
                 # TODO: raise exception
                 print(f"Expected change not found: {ch}")
-            test.assertLessEqual(len(expected_changes), 3)
+            test.assertLessEqual(len(expected_changes), 4)
 
     def test_create_ontology_via_patches(
         self, oi: PatcherInterface, roundtrip_function: Callable = None
@@ -546,6 +656,54 @@ class ComplianceTester:
                 self.test_information_content_scores(oi, use_associations=True)
             except NotImplementedError:
                 logging.info(f"Not yet implemented for {type(oi)}")
+
+    def test_class_enrichment(self, oi: ClassEnrichmentCalculationInterface):
+        """
+        Tests statistical overrepresentation of classes.
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        data = {
+            NUCLEUS: [GENE1],
+            NUCLEAR_MEMBRANE: [GENE2, GENE3],
+            NUCLEAR_ENVELOPE: [GENE3, GENE6, GENE7],
+            VACUOLE: [GENE4, GENE5],
+            IMBO: [GENE8, GENE9],
+        }
+        assoc_cases = []
+        for t, genes in data.items():
+            for g in genes:
+                assoc_cases.append(Association(g, LOCATED_IN, t))
+        oi.add_associations(assoc_cases)
+        assocs = list(oi.associations())
+        test.assertCountEqual(assoc_cases, assocs)
+        cases = [
+            ([GENE1, GENE6, GENE7], None, None),
+            # exact overlap
+            ([GENE3, GENE6, GENE7], None, [NUCLEAR_ENVELOPE]),
+            # nuclear membrane is before nucleus as less common overall
+            ([GENE1, GENE2, GENE3], None, [NUCLEAR_MEMBRANE]),
+            ([GENE1, GENE2, GENE4, GENE5, GENE6], None, None),
+            ([GENE8, GENE9], None, [IMBO]),
+        ]
+        for case in cases:
+            genes, background, expected = case
+            results = list(
+                oi.enriched_classes(
+                    genes,
+                    background=background,
+                    cutoff=1.0,
+                    object_closure_predicates=[IS_A, PART_OF],
+                )
+            )
+            if expected is not None:
+                test.assertCountEqual(
+                    expected,
+                    [r.class_id for r in results[0 : len(expected)]],
+                    msg=f"Failed for {case}",
+                )
 
     def test_common_ancestors(self, oi: SemanticSimilarityInterface):
         """

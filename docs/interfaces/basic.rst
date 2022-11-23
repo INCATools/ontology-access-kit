@@ -3,11 +3,6 @@
 Basic Ontology Interface
 ========================
 
-About
------
-
-
-
 Code
 ----
 

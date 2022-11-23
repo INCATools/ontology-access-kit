@@ -52,7 +52,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
 
     def entity_iri_to_curie(self, entity: IRI) -> CURIE:
         uri = entity.to_rdf(self.functional_writer.g)
-        return self.uri_to_curie(str(uri))
+        return self.uri_to_curie(str(uri), use_uri_fallback=True)
 
     def curie_to_entity_iri(self, curie: CURIE) -> IRI:
         return IRI(self.curie_to_uri(curie))

@@ -1,8 +1,9 @@
 from dataclasses import dataclass
-from typing import List
+from typing import Iterable, List
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResult
+from oaklib.types import CURIE
 
 
 @dataclass
@@ -13,17 +14,21 @@ class OntologyRule:
     results: List[ValidationResult] = None
     severity = SeverityOptions(SeverityOptions.WARNING)
 
-    def evaluate(self, oi: BasicOntologyInterface):
+    def evaluate(
+        self, oi: BasicOntologyInterface, entities: Iterable[CURIE] = None
+    ) -> Iterable[ValidationResult]:
         """
-        Evaluate the rule
+        Evaluate the rule.
+
         :param oi:
+        :param entities:
         :return:
         """
         raise NotImplementedError
 
     def add_result(self, subject=None, info=None, typ=None, severity=None) -> ValidationResult:
         """
-        Register an additional validation result
+        Register an additional validation result.
 
         :param subject:
         :param info:

@@ -38,6 +38,12 @@ SCOPE_TO_SYNONYM_PRED_MAP = {
 SYNONYM_PRED_TO_SCOPE_MAP = {v: k for k, v in SCOPE_TO_SYNONYM_PRED_MAP.items()}
 
 DEPRECATED_PREDICATE = omd.slots.deprecated.curie
+TERM_REPLACED_BY = omd.slots.term_replaced_by.curie
+CONSIDER_REPLACEMENT = omd.slots.consider.curie
+HAS_OBSOLESCENCE_REASON = omd.slots.has_obsolescence_reason.curie
+TERMS_MERGED = "IAO:0000227"
+OBSOLETION_RELATIONSHIP_PREDICATES = [TERM_REPLACED_BY, CONSIDER_REPLACEMENT]
+
 HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
 
 IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]
@@ -46,6 +52,7 @@ OWL_CLASS = "owl:Class"
 OWL_OBJECT_PROPERTY = "owl:ObjectProperty"
 OWL_THING = "owl:Thing"
 OWL_NOTHING = "owl:Nothing"
+IS_DEFINED_BY = "rdfs:isDefinedBy"
 SUBCLASS_OF = omd.slots.subClassOf.curie
 IS_A = omd.slots.subClassOf.curie
 DISJOINT_WITH = "owl:disjointWith"

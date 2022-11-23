@@ -162,6 +162,7 @@ class OwlInterface(BasicOntologyInterface, ABC):
         :return:
         """
         for axiom in self.axioms():
+            # TODO: use indexing to speed this up
             if isinstance(axiom, AnnotationAssertion):
                 if subject is not None:
                     if not self._entity_matches(axiom.subject, subject):

@@ -1,0 +1,11 @@
+format-version: 1.2
+ontology: http://www.semanticweb.org/hhegde/ontologies/2022/9/foo_bar
+
+[Term]
+id: ABCD:1
+name: other foo bar
+
+[Term]
+id: ABCD:2
+name: foo bar
+

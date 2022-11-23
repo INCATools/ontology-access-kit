@@ -1,0 +1,17 @@
+loinc:54495-7 ! Glucose^post dialysis:SCnc:Pt:Ser/Plas:Qn:
+loinc:2308-5 ! Galactose:MCnc:Pt:Ser/Plas:Qn:
+loinc:76629-5 ! Glucose^post CFst:SCnc:Pt:Bld:Qn:
+loinc:27353-2 ! Estimated average glucose:MCnc:Pt:Bld:Qn:Estimated from glycated hemoglobin
+loinc:2552-8 ! Lactose:MCnc:Pt:Ser/Plas:Qn:
+loinc:12611-0 ! Glucose^4H specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:51596-5 ! Glucose:SCnc:Pt:BldC:Qn:
+loinc:93791-2 ! Glucose:MCnc:Stdy^mean:Ser/Plas:Qn:
+loinc:50215-3 ! Glucose^5th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:50208-8 ! Glucose^10th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:3134-4 ! Xylose:MCnc:Pt:Bld:Qn:
+loinc:29999-0 ! Xylose:MCnc:Pt:Ser/Plas:Qn:
+loinc:5914-7 ! Glucose:PrThr:Pt:Bld:Ord:Test strip
+loinc:2339-0 ! Glucose:MCnc:Pt:Bld:Qn:
+loinc:50216-1 ! Glucose^6th specimen:MCnc:Pt:Ser/Plas:Qn:
+loinc:6777-7 ! Glucose:MCnc:Pt:Ser/Plas:Qn:
+loinc:77145-1 ! Glucose^post CFst:SCnc:Pt:Ser/Plas/Bld:Qn:

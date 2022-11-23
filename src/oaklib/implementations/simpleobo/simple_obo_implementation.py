@@ -31,6 +31,7 @@ from oaklib.datamodels.obograph import (
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
+    CONSIDER_REPLACEMENT,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     IS_A,
@@ -39,15 +40,19 @@ from oaklib.datamodels.vocabulary import (
     OWL_OBJECT_PROPERTY,
     SEMAPV,
     SKOS_CLOSE_MATCH,
+    TERM_REPLACED_BY,
 )
 from oaklib.implementations.simpleobo.simple_obo_parser import (
+    TAG_ALT_ID,
     TAG_COMMENT,
+    TAG_CONSIDER,
     TAG_DEFINITION,
     TAG_EQUIVALENT_TO,
     TAG_IS_A,
     TAG_NAME,
     TAG_OBSOLETE,
     TAG_RELATIONSHIP,
+    TAG_REPLACED_BY,
     TAG_SUBSET,
     TAG_SUBSETDEF,
     TAG_SYNONYM,
@@ -59,6 +64,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
 )
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    METADATA_MAP,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
@@ -99,6 +105,7 @@ class SimpleOboImplementation(
 
     obo_document: OboDocument = None
     _relationship_index_cache: Dict[CURIE, List[RELATIONSHIP]] = None
+    _alt_id_to_replacement_map: Dict[CURIE, List[CURIE]] = None
 
     def __post_init__(self):
         if self.obo_document is None:
@@ -150,11 +157,14 @@ class SimpleOboImplementation(
         for s_id in od.stanzas.keys():
             yield s_id
 
-    def obsoletes(self) -> Iterable[CURIE]:
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         od = self.obo_document
         for s in od.stanzas.values():
             if s.get_boolean_value(TAG_OBSOLETE):
                 yield s.id
+        if include_merged:
+            for s in self._get_alt_id_to_replacement_map().keys():
+                yield s
 
     def subsets(self) -> Iterable[CURIE]:
         od = self.obo_document
@@ -337,6 +347,21 @@ class SimpleOboImplementation(
                     matches.append(t)
                     logging.info(f"identifier match to {t}")
                     continue
+            if (
+                search_all
+                or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties
+            ):
+                s = self._stanza(t)
+                for r in s.simple_values(TAG_REPLACED_BY):
+                    if mfunc(t):
+                        matches.append(r)
+                        logging.info(f"replaced_by match to {t}")
+                        continue
+                for a in s.simple_values(TAG_ALT_ID):
+                    if mfunc(a):
+                        matches.append(t)
+                        logging.info(f"alternate_id match to {t}")
+                        continue
             if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in self.entity_aliases(t):
                     if mfunc(syn):
@@ -351,6 +376,32 @@ class SimpleOboImplementation(
         if t:
             for v in t.simple_values(TAG_XREF):
                 yield HAS_DBXREF, v
+
+    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
+        t = self._stanza(curie, strict=False)
+        _alt_id_map = self._get_alt_id_to_replacement_map()
+        m = defaultdict(list)
+        if t:
+            for tag, mkey in [
+                (TAG_REPLACED_BY, TERM_REPLACED_BY),
+                (TAG_CONSIDER, CONSIDER_REPLACEMENT),
+            ]:
+                for v in t.simple_values(tag):
+                    m[mkey].append(v)
+            for pv in t.property_values():
+                m[pv[0]].append(pv[1])
+        if curie in _alt_id_map:
+            m[TERM_REPLACED_BY] += _alt_id_map[curie]
+        return dict(m)
+
+    def _get_alt_id_to_replacement_map(self) -> Dict[CURIE, List[CURIE]]:
+        if self._alt_id_to_replacement_map is None:
+            self._alt_id_to_replacement_map = defaultdict(list)
+            for e in self.entities():
+                t = self._stanza(e)
+                for a in t.simple_values(TAG_ALT_ID):
+                    self._alt_id_to_replacement_map[a].append(e)
+        return self._alt_id_to_replacement_map
 
     def clone(self, resource: OntologyResource) -> "SimpleOboImplementation":
         shutil.copyfile(self.resource.slug, resource.slug)
@@ -464,6 +515,8 @@ class SimpleOboImplementation(
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._stanza(patch.about_node, strict=True)
             t.set_singular_tag(TAG_OBSOLETE, "true")
+            if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
+                t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
         elif isinstance(patch, kgcl.NodeDeletion):
             t = self._stanza(patch.about_node, strict=True)
             od.stanzas = [s for s in od.stanzas if s.id != patch.about_node]

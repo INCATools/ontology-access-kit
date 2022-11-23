@@ -116,7 +116,7 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     :param delimiter:
     :return:
     """
-    reader = csv.DictReader(input_file, delimiter=delimiter)
+    reader = csv.DictReader(filter(lambda row: row[0] != "#", input_file), delimiter=delimiter)
     rows = [row for row in reader]
     for row in rows:
         for col in row.keys():
@@ -129,14 +129,21 @@ def parse_table(input_file: IO, delimiter="\t") -> List[ROW]:
     return rows
 
 
-def write_table(rows: List[ROW], output_file: IO, delimiter="\t", list_delimiter="|") -> None:
-    """
-    Writes a list of rows to a file, replacing None values with empty strings
+def write_table(
+    rows: List[ROW], output_file: IO, comments: List[str] = None, delimiter="\t", list_delimiter="|"
+) -> None:
+    """Writes a list of rows to a file, replacing None values with empty strings.
 
-    :param rows:
-    :param delimiter:
-    :return:
+    :param rows: List of rows in dict format.
+    :param output_file: Target location to write output.
+    :param comments: A list of comments in the table.
+    :param delimiter: File delimiter., defaults to "\t"
+    :param list_delimiter: List delimiter., defaults to "|"
     """
+    if comments and len(comments) > 0:
+        for comment in comments:
+            output_file.write(comment)
+
     cols = list(rows[0].keys())
     writer = csv.DictWriter(output_file, fieldnames=cols, delimiter=delimiter)
     writer.writeheader()

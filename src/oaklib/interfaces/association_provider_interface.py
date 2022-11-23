@@ -139,6 +139,18 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         object_closure_predicates: Optional[List[PRED_CURIE]] = None,
         include_modified: bool = False,
     ) -> Iterator[Tuple[CURIE, int]]:
+        """
+        Yield objects together with the number of distinct associated subjects
+
+        :param subjects:
+        :param predicates:
+        :param property_filter:
+        :param subject_closure_predicates:
+        :param predicate_closure_predicates:
+        :param object_closure_predicates:
+        :param include_modified:
+        :return:
+        """
         association_it = self.associations(
             subjects=subjects,
             predicates=predicates,

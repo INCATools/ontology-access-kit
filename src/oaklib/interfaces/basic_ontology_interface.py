@@ -14,6 +14,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_ONTOLOGY_ROOT_TERM,
     IS_A,
     LABEL_PREDICATE,
+    OBSOLETION_RELATIONSHIP_PREDICATES,
     OWL_CLASS,
     OWL_NOTHING,
     OWL_THING,
@@ -23,6 +24,7 @@ from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
 from oaklib.types import CATEGORY_CURIE, CURIE, PRED_CURIE, SUBSET_CURIE, URI
 from oaklib.utilities.basic_utils import get_curie_prefix
 
+LANGUAGE_TAG = str
 NC_NAME = str
 PREFIX_MAP = Mapping[NC_NAME, URI]
 RELATIONSHIP_MAP = Dict[PRED_CURIE, List[CURIE]]
@@ -105,6 +107,12 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     strict: bool = False
     """Raise exceptions when entities not found in ID-based lookups"""
 
+    multilingual: bool = None
+    """True if the ontology is multilingual, and may provide alterntive primary labels"""
+
+    preferred_language: LANGUAGE_TAG = field(default_factory=lambda: "en")
+    """The preferred language for labels and other lexical entities"""
+
     autosave: bool = field(default_factory=lambda: True)
     """For adapters that wrap a transactional source (e.g sqlite), this controls
     whether results should be auto-committed after each operation"""
@@ -165,7 +173,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
-                for prefix, uri_prefix in sorted(self.converter.data.items())
+                for prefix, uri_prefix in sorted(self.converter.prefix_map.items())
             )
             raise ValueError(
                 f"{self.__class__.__name__}.prefix_map() does not support expanding {curie}.\n"
@@ -193,7 +201,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         if rv is None and strict:
             prefix_map_text = "\n".join(
                 f"  {prefix} -> {uri_prefix}"
-                for prefix, uri_prefix in sorted(self.converter.data.items())
+                for prefix, uri_prefix in sorted(self.converter.prefix_map.items())
             )
             raise ValueError(
                 f"{self.__class__.__name__}.prefix_map() does not support compressing {uri}.\n"
@@ -242,13 +250,64 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_ontology_curies(self) -> Iterable[CURIE]:
         return self.ontologies()
 
-    def obsoletes(self) -> Iterable[CURIE]:
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         """
-        Yields all known CURIEs that are obsolete.
+        Yields all known entities that are obsolete.
+
+        In OWL, obsolete entities (aka deprecated entities) are those
+        that have an ``owl:deprecated`` annotation with value "True"
+
+        Example:
+
+            >>> for entity in ontology.obsoletes():
+            ...     print(entity)
+
+        By default, *merged terms* are included. Merged terms are entities
+        that are:
+
+        - (a) obsolete
+        - (b) have a replacement term
+        - (c) have an "obsolescence reason" that is "merged term"
+
+        In OBO Format, merged terms do not get their own stanza, but
+        instead show up as ``alt_id`` tags on the replacement term.
+
+        To exclude merged terms, set ``include_merged=False``:
+
+        Example:
+
+            >>> for entity in ontology.obsoletes(include_merged=False):
+            ...     print(entity)
+
+        :param include_merged: If True, merged terms will be included
+        :return: iterator over CURIEs
+        """
+        raise NotImplementedError
+
+    def obsoletes_migration_relationships(
+        self, entities: Iterable[CURIE]
+    ) -> Iterable[RELATIONSHIP]:
+        """
+        Yields relationships between an obsolete entity and potential replacements.
+
+        Example:
+
+            >>> for rel in ontology.obsoletes_migration_relationships(ontology.obsoletes()):
+            ...     print(rel)
+
+        Obsoletion relationship predicates may be:
+
+        - IAO:0100001 (term replaced by)
+        - oboInOwl:consider
+        - rdfs:seeAlso
 
         :return: iterator
         """
-        raise NotImplementedError
+        for entity in entities:
+            for prop, vals in self.entity_metadata_map(entity).items():
+                if prop in OBSOLETION_RELATIONSHIP_PREDICATES:
+                    for val in vals:
+                        yield entity, prop, val
 
     @deprecated("Replaced by obsoletes()")
     def all_obsolete_curies(self) -> Iterable[CURIE]:
@@ -285,6 +344,45 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     @deprecated("Replaced by entities")
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
         return self.entities(**kwargs)
+
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[CURIE]:
+        """
+        Yields all known OWL types for given entities.
+
+        :param entities:
+        :return: iterator
+        """
+        raise NotImplementedError
+
+    def defined_by(self, entity: CURIE) -> Optional[str]:
+        """
+        Returns the CURIE of the ontology that defines the given entity.
+
+        :param entity:
+        :return:
+        """
+        for _, x in self.defined_bys([entity]):
+            return x
+
+    def defined_bys(self, entities: Iterable[CURIE]) -> Iterable[str]:
+        """
+        Yields all known isDefinedBys for given entities.
+
+        This is for determining the ontology that defines a given entity, i.e.
+        which ontology the entity belongs to.
+
+        Formally, this should be captured by an rdfs:isDefinedBy triple, but
+        in practice this may not be explicitly stated. In this case, implementations
+        may choose to use heuristic measures, including using the ontology prefix.
+
+        :param entities:
+        :return: iterator
+        """
+        for e in entities:
+            if ":" in e:
+                yield e, e.split(":")[0]
+            else:
+                yield e, None
 
     def roots(
         self,

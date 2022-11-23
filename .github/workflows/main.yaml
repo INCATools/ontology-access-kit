@@ -17,9 +17,9 @@ jobs:
       matrix:
         python-version: [ '3.9', '3.10' ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -29,10 +29,16 @@ jobs:
         run: tox -e flake8
 
   test:
-    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [ '3.9', '3.10' ]
+        os: [ ubuntu-latest, windows-latest ]
+        python-version: [ "3.9", "3.10" ]
+        exclude:
+          - os: windows-latest
+            python-version: "3.9"
+
+    runs-on: ${{ matrix.os }}
 
     steps:
 
@@ -51,13 +57,13 @@ jobs:
       #          install & configure poetry
       #----------------------------------------------
       - name: Install Poetry
-        uses: snok/install-poetry@v1.3
+        uses: snok/install-poetry@v1.3.1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
       #----------------------------------------------
-      #       load cached venv if cache exists      
+      #       load cached venv if cache exists
       #----------------------------------------------
       # - name: Load cached venv
       #   id: cached-poetry-dependencies
@@ -67,15 +73,15 @@ jobs:
       #     key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       #----------------------------------------------
-      # install dependencies if cache does not exist 
+      # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
       #----------------------------------------------
-      #    install your root project, if required 
-      #----------------------------------------------      
+      #    install your root project, if required
+      #----------------------------------------------
       - name: Install library
         run: poetry install --no-interaction --extras gilda
 
@@ -96,9 +102,9 @@ jobs:
       #           upload coverage results
       #----------------------------------------------
       - name: Upload coverage report
-        uses: codecov/codecov-action@v1.0.5
+        uses: codecov/codecov-action@v3.1.1
         with:
-          name: codecov-results-${{ matrix.python-version }}
+          name: codecov-results-${{ matrix.os }}-${{ matrix.python-version }}
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
-          fail_ci_if_error: true
+          fail_ci_if_error: false

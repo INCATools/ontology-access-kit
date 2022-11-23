@@ -20,6 +20,8 @@ re_empty = re.compile(r"^\S*$")
 re_synonym1 = re.compile(r'^"(.*)"\s+(\w+)\s+\[(.*)\](?:\s+\{(.*)\})?$')
 re_synonym2 = re.compile(r'^"(.*)"\s+(\w+)\s+(\w+)\s+\[(.*)\](?:\s+\{(.*)\})?$')
 re_quoted_simple = re.compile(r'^"(.*)"\s+\[')
+re_property_value1 = re.compile(r"^(\S+)\s+(.*)\s+(\S+)(?:\s+\{(.*)\})?$")
+re_property_value2 = re.compile(r"^(\S+)\s+(\S+)(?:\s+\{(.*)\})?$")
 
 
 def _synonym_scope_pred(s: str) -> str:
@@ -37,6 +39,10 @@ TAG = str
 TAG_SUBSETDEF = "subsetdef"
 TAG_SUBSET = "subset"
 TAG_OBSOLETE = "is_obsolete"
+TAG_REPLACED_BY = "replaced_by"
+TAG_CONSIDER = "consider"
+TAG_ALT_ID = "alt_id"
+TAG_PROPERTY_VALUE = "property_value"
 TAG_NAME = "name"
 TAG_DEF = "def"
 TAG_XREF = "xref"
@@ -48,6 +54,7 @@ TAG_EQUIVALENT_TO = "equivalent_to"
 TAG_RELATIONSHIP = "relationship"
 TAG_INTERSECTION_OF = "intersection_of"
 SYNONYM_TUPLE = Tuple[PRED_CURIE, str, Optional[str], List[CURIE]]
+PROPERTY_VALUE_TUPLE = Tuple[PRED_CURIE, str, Optional[CURIE], List[CURIE]]
 
 
 def _parse_list(as_str: str) -> List[str]:
@@ -87,6 +94,27 @@ class TagValue:
             else:
                 raise ValueError(f"Bad synonym: {self.value}")
         return syn[0], syn[1], syn[2], _parse_list(syn[3])
+
+    def as_property_value(self) -> Optional[PROPERTY_VALUE_TUPLE]:
+        """
+        Cast a tag-value pair as a property value
+
+        Returns None if this is not a property value TV
+
+        :return: property value tuple structure
+        """
+        if self.tag != TAG_PROPERTY_VALUE:
+            return
+        m = re_property_value1.match(self.value)
+        if m:
+            pv = m.groups()
+        else:
+            m = re_property_value2.match(self.value)
+            if m:
+                pv = m.group(1), None, m.group(2), None
+            else:
+                raise ValueError(f"Bad property value: {self.value}")
+        return pv[0], pv[1], pv[2], None
 
     def replace_quoted_part(self, v: str):
         """
@@ -152,6 +180,16 @@ class Structure:
                 pairs.append((toks[0], toks[1]))
         return pairs
 
+    def property_value_tuples(self) -> List[Tuple[CURIE, Optional[CURIE]]]:
+        pairs = []
+        for v in self._values(TAG_PROPERTY_VALUE):
+            toks = [x for x in v.split(" ") if x]
+            if toks[1].startswith("!"):
+                pairs.append((toks[0], None))
+            else:
+                pairs.append((toks[0], toks[1]))
+        return pairs
+
     def singular_value(self, tag: TAG, strict=False) -> Optional[str]:
         """
         Get value for a tag where the tag follows the structure of an OBO
@@ -197,6 +235,14 @@ class Structure:
         :return: list of synonyms
         """
         return [tv.as_synonym() for tv in self.tag_values if tv.tag == TAG_SYNONYM]
+
+    def property_values(self) -> List[PROPERTY_VALUE_TUPLE]:
+        """
+        All property values for a stanza
+
+        :return: list of property values
+        """
+        return [tv.as_property_value() for tv in self.tag_values if tv.tag == TAG_PROPERTY_VALUE]
 
     def set_singular_tag(self, tag: TAG, val: str) -> None:
         """
@@ -358,7 +404,7 @@ def parse_obo_document(path: Union[str, Path]) -> OboDocument:
     tag_values: List[TagValue] = []
     obo_document: Optional[OboDocument] = None
     stanzas = []
-    with open(path) as stream:
+    with open(path, encoding="utf-8") as stream:
         for line in stream.readlines():
             line = line.rstrip()
             if line.startswith("!"):

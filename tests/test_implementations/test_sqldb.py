@@ -63,6 +63,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         self.inst_oi = SqlImplementation(OntologyResource(INST_DB))
         self.compliance_tester = ComplianceTester(self)
 
+    def test_obsolete_entities(self):
+        obs_test = INPUT_DIR / "obsoletion_test.db"
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{obs_test}"))
+        self.compliance_tester.test_obsolete_entities(oi)
+
     def test_empty_db(self) -> None:
         """Should raise error when connecting to an empty db."""
         res = OntologyResource(slug=f"sqlite:///{str(INPUT_DIR / 'NO_SUCH_FILE')}")
@@ -212,6 +217,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
+
+    def test_defined_bys(self):
+        self.compliance_tester.test_defined_bys(self.oi)
 
     def test_sssom_mappings(self):
         self.compliance_tester.test_sssom_mappings(self.oi)
@@ -406,6 +414,14 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             and str(r.type) == ValidationResultType.DatatypeConstraintComponent.meaning
             and str(r.severity) == SeverityOptions.ERROR.text
         )
+        assert any(
+            r
+            for r in results
+            if r.subject == "EXAMPLE:9"
+            and r.predicate == "dcterms:contributor"
+            and str(r.type) == ValidationResultType.PatternConstraintComponent.meaning
+            and str(r.severity) == SeverityOptions.ERROR.text
+        )
         self.assertEqual(6, len(invalid_ids))
         self.assertCountEqual(
             {
@@ -525,6 +541,12 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
         oi.autosave = True
         self.compliance_tester.test_store_associations(oi)
+
+    def test_class_enrichment(self):
+        shutil.copyfile(DB, MUTABLE_DB)
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{MUTABLE_DB}"))
+        oi.autosave = True
+        self.compliance_tester.test_class_enrichment(oi)
 
     def test_gap_fill(self):
         # TODO: improve performance

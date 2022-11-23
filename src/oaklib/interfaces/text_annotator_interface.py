@@ -1,6 +1,7 @@
 import logging
 from abc import ABC
-from typing import Iterable, Optional
+from io import TextIOWrapper
+from typing import Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
@@ -50,15 +51,15 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
     ) -> Iterable[TextAnnotation]:
         """
-        Annotate a piece of text
+        Annotate a piece of text.
 
         .. note ::
 
            the signature of this method may change
 
-        :param text:
-        :param configuration:
-        :return:
+        :param text: Text to be annotated.
+        :param configuration: Text annotation configuration.
+        :yield: A generator function that yields annotated results.
         """
         if not configuration:
             configuration = TextAnnotationConfiguration()
@@ -92,3 +93,16 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                             match_string=text[ix : ix + len(k)],
                         )
                         yield ann
+
+    def annotate_file(
+        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
+    ) -> Iterator[TextAnnotation]:
+        """Annotate text in a file.
+
+        :param text_file: Text file that is iterated line-by-line.
+        :param configuration: Text annotation configuration.
+        :return: result of `annotate_test()`
+        """
+        for line in text_file.readlines():
+            line = line.strip()
+            return self.annotate_text(line, configuration)
