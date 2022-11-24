@@ -21,4 +21,5 @@ notebooks/api-key.txt
 .venv
 .tox/
 .coverage.*
-
+.coverage
+coverage.*

@@ -48,7 +48,9 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
     """If present, some implementations may choose to use this"""
 
     def annotate_text(
-        self, text: TEXT, configuration: Optional[TextAnnotationConfiguration] = None
+        self,
+        text: TEXT,
+        configuration: Optional[TextAnnotationConfiguration] = None,
     ) -> Iterable[TextAnnotation]:
         """
         Annotate a piece of text.
@@ -63,6 +65,24 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         """
         if not configuration:
             configuration = TextAnnotationConfiguration()
+
+        if isinstance(text, str) and configuration.token_exclusion_list:
+            text = " ".join(
+                [term for term in text.split() if term not in configuration.token_exclusion_list]
+            )
+        elif isinstance(text, tuple) and configuration.token_exclusion_list:
+            filtered_text = tuple()
+            # text is a tuple of string(s)
+            for token in text:
+                filtered_text = filtered_text + tuple(
+                    term for term in token.split() if term not in configuration.token_exclusion_list
+                )
+            text = " ".join(filtered_text)
+        else:
+            logging.info("No token exclusion list provided. Proceeding ...")
+
+        # if not configuration:
+        #     configuration = TextAnnotationConfiguration()
         if configuration.matches_whole_text:
             if isinstance(self, SearchInterface):
                 for object_id in self.basic_search(text):
@@ -95,13 +115,16 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
                         yield ann
 
     def annotate_file(
-        self, text_file: TextIOWrapper, configuration: TextAnnotationConfiguration = None
+        self,
+        text_file: TextIOWrapper,
+        configuration: TextAnnotationConfiguration = None,
     ) -> Iterator[TextAnnotation]:
         """Annotate text in a file.
 
         :param text_file: Text file that is iterated line-by-line.
-        :param configuration: Text annotation configuration.
-        :return: result of `annotate_test()`
+        :param token_exclusion_list: List of tokens to exclude.
+        :param configuration: Text annotation configuration, defaults to None.
+        :return: Annotation of each line.
         """
         for line in text_file.readlines():
             line = line.strip()

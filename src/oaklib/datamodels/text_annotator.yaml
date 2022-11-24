@@ -53,6 +53,8 @@ classes:
         multivalued: true
       limit:
         range: integer
+      token_exclusion_list:
+        multivalued: true
 
   TextAnnotationResultSet:
     description: A collection of annotation results
