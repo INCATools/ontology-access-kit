@@ -81,7 +81,7 @@
              
   <h1>Source code for oaklib.datamodels.text_annotator</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0</span>
-<span class="c1"># Generation date: 2022-06-08T15:32:53</span>
+<span class="c1"># Generation date: 2022-11-16T17:09:19</span>
 <span class="c1"># Schema: text-annotator</span>
 <span class="c1">#</span>
 <span class="c1"># id: https://w3id.org/linkml/text_annotator</span>
@@ -90,21 +90,45 @@
 <span class="c1"># license: https://creativecommons.org/publicdomain/zero/1.0/</span>
 
 <span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">jsonasobj2</span> <span class="kn">import</span> <span class="n">as_dict</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.meta</span> <span class="kn">import</span> <span class="n">EnumDefinition</span><span class="p">,</span> <span class="n">PermissibleValue</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.types</span> <span class="kn">import</span> <span class="n">Integer</span>
+<span class="kn">from</span> <span class="nn">jsonasobj2</span> <span class="kn">import</span> <span class="n">JsonObj</span><span class="p">,</span> <span class="n">as_dict</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.meta</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EnumDefinition</span><span class="p">,</span>
+    <span class="n">PermissibleValue</span><span class="p">,</span>
+    <span class="n">PvFormulaOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.linkml_model.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Boolean</span><span class="p">,</span>
+    <span class="n">Float</span><span class="p">,</span>
+    <span class="n">Integer</span><span class="p">,</span>
+    <span class="n">String</span><span class="p">,</span>
+    <span class="n">Uriorcurie</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.curienamespace</span> <span class="kn">import</span> <span class="n">CurieNamespace</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.dataclass_extensions_376</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">dataclasses_init_fn_with_kwargs</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.enumerations</span> <span class="kn">import</span> <span class="n">EnumDefinitionImpl</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">URIorCURIE</span><span class="p">,</span> <span class="n">empty_list</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.formatutils</span> <span class="kn">import</span> <span class="n">camelcase</span><span class="p">,</span> <span class="n">sfx</span><span class="p">,</span> <span class="n">underscore</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.metamodelcore</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Bool</span><span class="p">,</span>
+    <span class="n">URIorCURIE</span><span class="p">,</span>
+    <span class="n">bnode</span><span class="p">,</span>
+    <span class="n">empty_dict</span><span class="p">,</span>
+    <span class="n">empty_list</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">linkml_runtime.utils.slot</span> <span class="kn">import</span> <span class="n">Slot</span>
-<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="n">YAMLRoot</span>
-<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">URIRef</span>
+<span class="kn">from</span> <span class="nn">linkml_runtime.utils.yamlutils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">YAMLRoot</span><span class="p">,</span>
+    <span class="n">extended_float</span><span class="p">,</span>
+    <span class="n">extended_int</span><span class="p">,</span>
+    <span class="n">extended_str</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rdflib</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">URIRef</span>
 
 <span class="n">metamodel_version</span> <span class="o">=</span> <span class="s2">&quot;1.7.0&quot;</span>
 <span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
@@ -159,6 +183,7 @@
     <span class="n">matches_whole_text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">sources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
     <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">token_exclusion_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">Bool</span><span class="p">):</span>
@@ -170,6 +195,14 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span>
+        <span class="p">]</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -420,6 +453,15 @@
     <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__limit</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__token_exclusion_list</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">token_exclusion_list</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__token_exclusion_list&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;token_exclusion_list&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__token_exclusion_list</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
 <span class="p">)</span>
 
 <span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>

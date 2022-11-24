@@ -42,6 +42,7 @@ Name: text-annotator
 | [subject_start](subject_start.md) |  |
 | [subject_text_id](subject_text_id.md) |  |
 | [text](text.md) |  |
+| [token_exclusion_list](token_exclusion_list.md) |  |
 
 
 ## Enumerations
