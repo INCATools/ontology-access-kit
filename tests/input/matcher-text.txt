@@ -1,0 +1,4 @@
+bone element is a organ.
+bone tissue is part of an organ.
+Thus, bone tissue is part of bone element.
+head bone, bone of foot, and bone of hand are all bone elements.
