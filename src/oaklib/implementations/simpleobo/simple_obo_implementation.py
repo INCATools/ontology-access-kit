@@ -32,15 +32,17 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     CONSIDER_REPLACEMENT,
+    DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
+    HAS_OBO_NAMESPACE,
     IS_A,
     LABEL_PREDICATE,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SEMAPV,
     SKOS_CLOSE_MATCH,
-    TERM_REPLACED_BY,
+    TERM_REPLACED_BY, HAS_OBSOLESCENCE_REASON, TERMS_MERGED,
 )
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_ALT_ID,
@@ -49,8 +51,9 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_DEFINITION,
     TAG_EQUIVALENT_TO,
     TAG_IS_A,
+    TAG_IS_OBSOLETE,
     TAG_NAME,
-    TAG_OBSOLETE,
+    TAG_NAMESPACE,
     TAG_RELATIONSHIP,
     TAG_REPLACED_BY,
     TAG_SUBSET,
@@ -137,7 +140,10 @@ class SimpleOboImplementation(
         logging.info("Commencing indexing")
         n = 0
         for s in self.entities(filter_obsoletes=False):
-            t = self._stanza(s)
+            t = self._stanza(s, strict=False)
+            if t is None:
+                # alt_ids
+                continue
             for v in t.simple_values(TAG_IS_A):
                 n += 1
                 yield s, IS_A, v
@@ -154,13 +160,19 @@ class SimpleOboImplementation(
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         od = self.obo_document
-        for s_id in od.stanzas.keys():
+        for s_id, s in od.stanzas.items():
+            if filter_obsoletes:
+                if s.get_boolean_value(TAG_IS_OBSOLETE):
+                    continue
             yield s_id
+        if not filter_obsoletes:
+            for s in self._get_alt_id_to_replacement_map().keys():
+                yield s
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         od = self.obo_document
         for s in od.stanzas.values():
-            if s.get_boolean_value(TAG_OBSOLETE):
+            if s.get_boolean_value(TAG_IS_OBSOLETE):
                 yield s.id
         if include_merged:
             for s in self._get_alt_id_to_replacement_map().keys():
@@ -249,7 +261,7 @@ class SimpleOboImplementation(
                 yield curie, s.singular_value(TAG_COMMENT)
 
     def entity_alias_map(self, curie: CURIE) -> ALIAS_MAP:
-        s = self._stanza(curie)
+        s = self._stanza(curie, strict=False)
         if s is None:
             return {}
         m = defaultdict(list)
@@ -330,7 +342,7 @@ class SimpleOboImplementation(
             mfunc = lambda label: label == search_term
         search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
         logging.info(f"SEARCH={search_term}")
-        for t in self.entities():
+        for t in self.entities(filter_obsoletes=False):
             lbl = self.label(t)
             logging.debug(f"T={t} // {config}")
             if (
@@ -351,17 +363,18 @@ class SimpleOboImplementation(
                 search_all
                 or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties
             ):
-                s = self._stanza(t)
-                for r in s.simple_values(TAG_REPLACED_BY):
-                    if mfunc(t):
-                        matches.append(r)
-                        logging.info(f"replaced_by match to {t}")
-                        continue
-                for a in s.simple_values(TAG_ALT_ID):
-                    if mfunc(a):
-                        matches.append(t)
-                        logging.info(f"alternate_id match to {t}")
-                        continue
+                s = self._stanza(t, strict=False)
+                if s:
+                    for r in s.simple_values(TAG_REPLACED_BY):
+                        if mfunc(t):
+                            matches.append(r)
+                            logging.info(f"replaced_by match to {t}")
+                            continue
+                    for a in s.simple_values(TAG_ALT_ID):
+                        if mfunc(a):
+                            matches.append(t)
+                            logging.info(f"alternate_id match to {t}")
+                            continue
             if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
                 for syn in self.entity_aliases(t):
                     if mfunc(syn):
@@ -385,13 +398,20 @@ class SimpleOboImplementation(
             for tag, mkey in [
                 (TAG_REPLACED_BY, TERM_REPLACED_BY),
                 (TAG_CONSIDER, CONSIDER_REPLACEMENT),
+                (TAG_NAMESPACE, HAS_OBO_NAMESPACE),
+                (TAG_IS_OBSOLETE, DEPRECATED_PREDICATE),
             ]:
                 for v in t.simple_values(tag):
+                    if tag == TAG_IS_OBSOLETE:
+                        v = True if v == "true" else False
                     m[mkey].append(v)
             for pv in t.property_values():
                 m[pv[0]].append(pv[1])
         if curie in _alt_id_map:
             m[TERM_REPLACED_BY] += _alt_id_map[curie]
+            m[DEPRECATED_PREDICATE].append(True)
+            m[HAS_OBSOLESCENCE_REASON].append(TERMS_MERGED)
+        self.add_missing_property_values(curie, m)
         return dict(m)
 
     def _get_alt_id_to_replacement_map(self) -> Dict[CURIE, List[CURIE]]:
@@ -514,7 +534,7 @@ class SimpleOboImplementation(
             self.set_label(patch.about_node, patch.new_value)
         elif isinstance(patch, kgcl.NodeObsoletion):
             t = self._stanza(patch.about_node, strict=True)
-            t.set_singular_tag(TAG_OBSOLETE, "true")
+            t.set_singular_tag(TAG_IS_OBSOLETE, "true")
             if isinstance(patch, kgcl.NodeObsoletionWithDirectReplacement):
                 t.set_singular_tag(TAG_REPLACED_BY, patch.has_direct_replacement)
         elif isinstance(patch, kgcl.NodeDeletion):

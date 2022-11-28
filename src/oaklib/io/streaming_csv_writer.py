@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Mapping, Type, Union
 from linkml_runtime import CurieNamespace
 from linkml_runtime.utils.yamlutils import YAMLRoot
 
+import oaklib.datamodels.summary_statistics_datamodel as summary_stats
 from oaklib.datamodels import obograph
 from oaklib.datamodels.vocabulary import HAS_DBXREF, HAS_DEFINITION_CURIE, IS_A, PART_OF
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -102,6 +103,13 @@ class StreamingCsvWriter(StreamingWriter):
             self.emit({"key": k, "val": v})
 
     def _rewrite_dict(self, obj_as_dict: dict, original: Any):
+        """
+        Applies denormalization rules to the object
+
+        :param obj_as_dict:
+        :param original:
+        :return:
+        """
         if isinstance(original, obograph.LogicalDefinitionAxiom):
             restrictions = original.restrictions
             obj_as_dict["genusIds"] = "|".join(original.genusIds)
@@ -111,3 +119,18 @@ class StreamingCsvWriter(StreamingWriter):
                 [f"{r.propertyId}={r.fillerId}" for r in original.restrictions]
             )
             del obj_as_dict["meta"]
+        if isinstance(original, summary_stats.SummaryStatisticCollection):
+            for slot in [
+                "edge_count_by_predicate",
+                "synonym_statement_count_by_predicate",
+                "mapping_statement_count_by_predicate",
+                "class_count_by_subset",
+            ]:
+                fc = obj_as_dict[slot]
+                for k, v in fc.items():
+                    if "#" in k:
+                        k = k.split("#")[-1]
+                    elif k.startswith("oio:"):
+                        k = k.replace("oio:", "")
+                    obj_as_dict[f"{slot}_{k}"] = v.filtered_count
+                del obj_as_dict[slot]

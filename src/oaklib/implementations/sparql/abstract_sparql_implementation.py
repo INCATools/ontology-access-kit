@@ -48,6 +48,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP_MAP,
     BasicOntologyInterface,
 )
+from oaklib.interfaces.differ_interface import DiffConfiguration
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
@@ -557,6 +558,7 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         m = defaultdict(list)
         for row in bindings:
             m[self.uri_to_curie(row["p"]["value"])].append(row["o"]["value"])
+        self.add_missing_property_values(curie, m)
         return dict(m)
 
     def curies_by_label(self, label: str) -> List[CURIE]:
@@ -845,29 +847,6 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return patch
         else:
             raise NotImplementedError("Apply patch is only implemented for local graphs")
-
-    def diff(self, other_ontology: BasicOntologyInterface) -> Iterator[Change]:
-        if self.graph:
-            if isinstance(other_ontology, AbstractSparqlImplementation):
-                if other_ontology.graph:
-                    for change in kgcl_diff.diff(self.graph, other_ontology.graph):
-                        if isinstance(change, str):
-                            # TODO: fix KGCL so changes are returned as objects
-                            try:
-                                change = parse_statement(change)
-                            except UnexpectedCharacters as e:
-                                # TODO: fix KGCL so this never occurs
-                                logging.error(f"Cannot serialize: {change}, problem with KGCL")
-                                logging.error(f"Original error: {e}")
-                                change = None
-                        if change:
-                            yield change
-                else:
-                    raise NotImplementedError("Diff is only implemented for local graphs")
-            else:
-                raise NotImplementedError("Second ontology must implement sparql interface")
-        else:
-            raise NotImplementedError("Diff is only implemented for local graphs")
 
     def save(self):
         if self.graph:

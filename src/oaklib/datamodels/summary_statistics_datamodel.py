@@ -1,5 +1,5 @@
 # Auto generated from summary_statistics_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-11-01T17:31:11
+# Generation date: 2022-11-23T14:14:36
 # Schema: summary-statistics
 #
 # id: https://w3id.org/linkml/summary_statistics
@@ -58,10 +58,6 @@ DEFAULT_ = REPORTING
 # Types
 
 # Class references
-class FacetStatisticsFacet(extended_str):
-    pass
-
-
 class FacetedCountFacet(extended_str):
     pass
 
@@ -79,11 +75,13 @@ class SummaryStatisticCollection(YAMLRoot):
     class_name: ClassVar[str] = "SummaryStatisticCollection"
     class_model_uri: ClassVar[URIRef] = REPORTING.SummaryStatisticCollection
 
+    id: str = None
     class_count: Optional[int] = None
     anonymous_class_expression_count: Optional[int] = None
     unsatisfiable_class_count: Optional[int] = None
     deprecated_class_count: Optional[int] = None
     non_deprecated_class_count: Optional[int] = None
+    merged_class_count: Optional[int] = None
     class_count_with_text_definitions: Optional[int] = None
     class_count_without_text_definitions: Optional[int] = None
     property_count: Optional[int] = None
@@ -96,6 +94,7 @@ class SummaryStatisticCollection(YAMLRoot):
     named_individual_count: Optional[int] = None
     anonymous_individual_count: Optional[int] = None
     untyped_entity_count: Optional[int] = None
+    subset_count: Optional[int] = None
     description_logic_profile: Optional[str] = None
     owl_axiom_count: Optional[int] = None
     rdf_triple_count: Optional[int] = None
@@ -121,6 +120,12 @@ class SummaryStatisticCollection(YAMLRoot):
             List[Union[dict, "FacetedCount"]],
         ]
     ] = empty_dict()
+    class_count_by_subset: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
     class_count_by_category: Optional[
         Union[
             Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
@@ -137,6 +142,11 @@ class SummaryStatisticCollection(YAMLRoot):
     ontology_count: Optional[int] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, str):
+            self.id = str(self.id)
+
         if self.class_count is not None and not isinstance(self.class_count, int):
             self.class_count = int(self.class_count)
 
@@ -159,6 +169,9 @@ class SummaryStatisticCollection(YAMLRoot):
             self.non_deprecated_class_count, int
         ):
             self.non_deprecated_class_count = int(self.non_deprecated_class_count)
+
+        if self.merged_class_count is not None and not isinstance(self.merged_class_count, int):
+            self.merged_class_count = int(self.merged_class_count)
 
         if self.class_count_with_text_definitions is not None and not isinstance(
             self.class_count_with_text_definitions, int
@@ -218,6 +231,9 @@ class SummaryStatisticCollection(YAMLRoot):
         if self.untyped_entity_count is not None and not isinstance(self.untyped_entity_count, int):
             self.untyped_entity_count = int(self.untyped_entity_count)
 
+        if self.subset_count is not None and not isinstance(self.subset_count, int):
+            self.subset_count = int(self.subset_count)
+
         if self.description_logic_profile is not None and not isinstance(
             self.description_logic_profile, str
         ):
@@ -271,6 +287,10 @@ class SummaryStatisticCollection(YAMLRoot):
         )
 
         self._normalize_inlined_as_dict(
+            slot_name="class_count_by_subset", slot_type=FacetedCount, key_name="facet", keyed=True
+        )
+
+        self._normalize_inlined_as_dict(
             slot_name="class_count_by_category",
             slot_type=FacetedCount,
             key_name="facet",
@@ -294,7 +314,7 @@ class SummaryStatisticCollection(YAMLRoot):
 
 
 @dataclass
-class GlobalStatistics(SummaryStatisticCollection):
+class GlobalStatistics(YAMLRoot):
     """
     summary statistics for the entire resource
     """
@@ -306,71 +326,20 @@ class GlobalStatistics(SummaryStatisticCollection):
     class_name: ClassVar[str] = "GlobalStatistics"
     class_model_uri: ClassVar[URIRef] = REPORTING.GlobalStatistics
 
-    by_category: Optional[
+    description: Optional[str] = None
+    partitions: Optional[
         Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, "FacetStatistics"]],
-            List[Union[dict, "FacetStatistics"]],
+            Union[dict, SummaryStatisticCollection], List[Union[dict, SummaryStatisticCollection]]
         ]
-    ] = empty_dict()
-    by_taxon: Optional[
-        Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, "FacetStatistics"]],
-            List[Union[dict, "FacetStatistics"]],
-        ]
-    ] = empty_dict()
-    by_ontology: Optional[
-        Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, "FacetStatistics"]],
-            List[Union[dict, "FacetStatistics"]],
-        ]
-    ] = empty_dict()
-    by_subset: Optional[
-        Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, "FacetStatistics"]],
-            List[Union[dict, "FacetStatistics"]],
-        ]
-    ] = empty_dict()
+    ] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        self._normalize_inlined_as_dict(
-            slot_name="by_category", slot_type=FacetStatistics, key_name="facet", keyed=True
-        )
+        if self.description is not None and not isinstance(self.description, str):
+            self.description = str(self.description)
 
         self._normalize_inlined_as_dict(
-            slot_name="by_taxon", slot_type=FacetStatistics, key_name="facet", keyed=True
+            slot_name="partitions", slot_type=SummaryStatisticCollection, key_name="id", keyed=False
         )
-
-        self._normalize_inlined_as_dict(
-            slot_name="by_ontology", slot_type=FacetStatistics, key_name="facet", keyed=True
-        )
-
-        self._normalize_inlined_as_dict(
-            slot_name="by_subset", slot_type=FacetStatistics, key_name="facet", keyed=True
-        )
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class FacetStatistics(SummaryStatisticCollection):
-    """
-    summary statistics for a data facet
-    """
-
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = REPORTING.FacetStatistics
-    class_class_curie: ClassVar[str] = "reporting:FacetStatistics"
-    class_name: ClassVar[str] = "FacetStatistics"
-    class_model_uri: ClassVar[URIRef] = REPORTING.FacetStatistics
-
-    facet: Union[str, FacetStatisticsFacet] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.facet):
-            self.MissingRequiredField("facet")
-        if not isinstance(self.facet, FacetStatisticsFacet):
-            self.facet = FacetStatisticsFacet(self.facet)
 
         super().__post_init__(**kwargs)
 
@@ -467,6 +436,15 @@ slots.owl_statistic_group = Slot(
     range=Optional[str],
 )
 
+slots.summaryStatisticCollection__id = Slot(
+    uri=REPORTING.id,
+    name="summaryStatisticCollection__id",
+    curie=REPORTING.curie("id"),
+    model_uri=REPORTING.summaryStatisticCollection__id,
+    domain=None,
+    range=str,
+)
+
 slots.summaryStatisticCollection__class_count = Slot(
     uri=REPORTING.class_count,
     name="summaryStatisticCollection__class_count",
@@ -508,6 +486,15 @@ slots.summaryStatisticCollection__non_deprecated_class_count = Slot(
     name="summaryStatisticCollection__non_deprecated_class_count",
     curie=REPORTING.curie("non_deprecated_class_count"),
     model_uri=REPORTING.summaryStatisticCollection__non_deprecated_class_count,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.summaryStatisticCollection__merged_class_count = Slot(
+    uri=REPORTING.merged_class_count,
+    name="summaryStatisticCollection__merged_class_count",
+    curie=REPORTING.curie("merged_class_count"),
+    model_uri=REPORTING.summaryStatisticCollection__merged_class_count,
     domain=None,
     range=Optional[int],
 )
@@ -620,6 +607,15 @@ slots.summaryStatisticCollection__untyped_entity_count = Slot(
     range=Optional[int],
 )
 
+slots.summaryStatisticCollection__subset_count = Slot(
+    uri=REPORTING.subset_count,
+    name="summaryStatisticCollection__subset_count",
+    curie=REPORTING.curie("subset_count"),
+    model_uri=REPORTING.summaryStatisticCollection__subset_count,
+    domain=None,
+    range=Optional[int],
+)
+
 slots.summaryStatisticCollection__description_logic_profile = Slot(
     uri=REPORTING.description_logic_profile,
     name="summaryStatisticCollection__description_logic_profile",
@@ -725,6 +721,20 @@ slots.summaryStatisticCollection__synonym_statement_count_by_predicate = Slot(
     ],
 )
 
+slots.summaryStatisticCollection__class_count_by_subset = Slot(
+    uri=REPORTING.class_count_by_subset,
+    name="summaryStatisticCollection__class_count_by_subset",
+    curie=REPORTING.curie("class_count_by_subset"),
+    model_uri=REPORTING.summaryStatisticCollection__class_count_by_subset,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
+)
+
 slots.summaryStatisticCollection__class_count_by_category = Slot(
     uri=REPORTING.class_count_by_category,
     name="summaryStatisticCollection__class_count_by_category",
@@ -771,69 +781,26 @@ slots.summaryStatisticCollection__ontology_count = Slot(
     range=Optional[int],
 )
 
-slots.globalStatistics__by_category = Slot(
-    uri=REPORTING.by_category,
-    name="globalStatistics__by_category",
-    curie=REPORTING.curie("by_category"),
-    model_uri=REPORTING.globalStatistics__by_category,
+slots.globalStatistics__description = Slot(
+    uri=REPORTING.description,
+    name="globalStatistics__description",
+    curie=REPORTING.curie("description"),
+    model_uri=REPORTING.globalStatistics__description,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.globalStatistics__partitions = Slot(
+    uri=REPORTING.partitions,
+    name="globalStatistics__partitions",
+    curie=REPORTING.curie("partitions"),
+    model_uri=REPORTING.globalStatistics__partitions,
     domain=None,
     range=Optional[
         Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, FacetStatistics]],
-            List[Union[dict, FacetStatistics]],
+            Union[dict, SummaryStatisticCollection], List[Union[dict, SummaryStatisticCollection]]
         ]
     ],
-)
-
-slots.globalStatistics__by_taxon = Slot(
-    uri=REPORTING.by_taxon,
-    name="globalStatistics__by_taxon",
-    curie=REPORTING.curie("by_taxon"),
-    model_uri=REPORTING.globalStatistics__by_taxon,
-    domain=None,
-    range=Optional[
-        Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, FacetStatistics]],
-            List[Union[dict, FacetStatistics]],
-        ]
-    ],
-)
-
-slots.globalStatistics__by_ontology = Slot(
-    uri=REPORTING.by_ontology,
-    name="globalStatistics__by_ontology",
-    curie=REPORTING.curie("by_ontology"),
-    model_uri=REPORTING.globalStatistics__by_ontology,
-    domain=None,
-    range=Optional[
-        Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, FacetStatistics]],
-            List[Union[dict, FacetStatistics]],
-        ]
-    ],
-)
-
-slots.globalStatistics__by_subset = Slot(
-    uri=REPORTING.by_subset,
-    name="globalStatistics__by_subset",
-    curie=REPORTING.curie("by_subset"),
-    model_uri=REPORTING.globalStatistics__by_subset,
-    domain=None,
-    range=Optional[
-        Union[
-            Dict[Union[str, FacetStatisticsFacet], Union[dict, FacetStatistics]],
-            List[Union[dict, FacetStatistics]],
-        ]
-    ],
-)
-
-slots.facetStatistics__facet = Slot(
-    uri=REPORTING.facet,
-    name="facetStatistics__facet",
-    curie=REPORTING.curie("facet"),
-    model_uri=REPORTING.facetStatistics__facet,
-    domain=None,
-    range=URIRef,
 )
 
 slots.facetedCount__facet = Slot(

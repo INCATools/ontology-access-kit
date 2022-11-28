@@ -26,7 +26,9 @@ class OntologyRule:
         """
         raise NotImplementedError
 
-    def add_result(self, subject=None, info=None, typ=None, severity=None) -> ValidationResult:
+    def add_result(
+        self, subject=None, info=None, typ=None, severity=None, object=None
+    ) -> ValidationResult:
         """
         Register an additional validation result.
 
@@ -41,7 +43,9 @@ class OntologyRule:
             typ = f"oaklib:{cls.__name__}"
         if severity is None:
             severity = self.severity
-        vr = ValidationResult(subject=subject, info=info, type=typ, severity=severity)
+        vr = ValidationResult(
+            subject=subject, object=object, info=info, type=typ, severity=severity
+        )
         if self.results is None:
             self.results = []
         self.results.append(vr)

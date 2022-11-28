@@ -752,6 +752,11 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(row)
         self.assertEqual([], rows)
 
+    # Stats
+
+    def test_summary_statistics(self):
+        self.compliance_tester.test_summary_statistics(self.oi)
+
     # SemSim
 
     def test_information_content_scores(self):
@@ -762,3 +767,6 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_pairwise_similarity(self):
         self.compliance_tester.test_pairwise_similarity(self.oi)
+
+    def test_disjoint_with(self):
+        self.compliance_tester.test_disjoint_with(self.oi)

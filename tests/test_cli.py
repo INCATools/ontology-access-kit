@@ -7,11 +7,14 @@ from typing import Optional
 
 import yaml
 from click.testing import CliRunner
+from kgcl_schema.datamodel.kgcl import NodeChange
 
 from oaklib.cli import main
 from oaklib.datamodels.vocabulary import IN_TAXON
+from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
+    CATALYTIC_ACTIVITY,
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
     IMBO,
@@ -576,29 +579,32 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertGreater(obj["ancestor_information_content"], 3.0)
 
     def test_diffs(self):
-        outfile = f"{OUTPUT_DIR}/diff.txt"
+        outfile = f"{OUTPUT_DIR}/diff.json"
         combos = [
             #            (True, TEST_ONT),
             # (True, f"sqlite:{TEST_DB}"),
-            (False, TEST_OWL_RDF),
-            (True, TEST_OWL_RDF),
+            (False, TEST_ONT),
+            (True, TEST_ONT),
         ]
         for simple, input_arg in combos:
             alt_input = str(input_arg).replace("nucleus.", "nucleus-modified.")
             args = ["-i", str(input_arg), "diff"]
             if simple:
                 args += ["--simple"]
-            args += ["-X", alt_input, "-o", outfile]
-            # print(args)
+            args += ["-X", alt_input, "-O", "json", "-o", outfile]
             result = self.runner.invoke(main, args)
             self.assertEqual(0, result.exit_code)
-            out = self._out(path=outfile)
-            # print(out)
+            changes = list(parse_kgcl_files([outfile]))
+            self.assertTrue(
+                any(c.about_node == "GO:0033673" for c in changes if isinstance(c, NodeChange))
+            )
+            catalytic_activity_changed = any(
+                c.about_node == CATALYTIC_ACTIVITY for c in changes if isinstance(c, NodeChange)
+            )
             if simple:
-                objs = json.loads(out)
-                obj = objs[0]
-                # print(obj)
-                self.assertEqual("GO:0033673", obj["about_node"])
+                self.assertFalse(catalytic_activity_changed)
+            else:
+                self.assertTrue(catalytic_activity_changed)
 
     def test_diff_via_mappings(self):
         cases = [
@@ -763,13 +769,31 @@ class TestCommandLineInterface(unittest.TestCase):
         self.assertEqual(0, result.exit_code)
 
     def test_statistics(self):
-        out_path = str(OUTPUT_DIR / "statistics.yaml")
+        # TODO: sqlite version of go-nucleus has a different number of classes from the obo version
+        # unify these then implement stricter checks
+        combos = [
+            ("default", [], lambda obj: self.assertGreater(obj["class_count"], 200)),
+            (
+                "by-namespace",
+                ["--group-by-obo-namespace"],
+                lambda obj: self.assertGreater(
+                    obj["partitions"]["biological_process"]["class_count"], 40
+                ),
+            ),
+            # ("by-prefix",
+            # ["--group-by-prefix"],
+            # lambda obj: self.assertGreater(obj["partitions"]["GO"]["class_count"], 100)),
+        ]
         for input_arg in [TEST_ONT, f"sqlite:{TEST_DB}"]:
-            logging.info(f"INPUT={input_arg}")
-            result = self.runner.invoke(main, ["-i", input_arg, "statistics", "-o", out_path])
-            err = result.stderr
-            logging.info(f"ERR={err}")
-            self.assertEqual(0, result.exit_code)
-            with open(out_path) as file:
-                obj = yaml.safe_load(file)
-                self.assertGreater(obj["class_count"], 3)
+            for name, opts, test in combos:
+                out_path = str(OUTPUT_DIR / f"statistics-{name}.yaml")
+                logging.info(f"INPUT={input_arg}")
+                args = ["-i", str(input_arg), "statistics", "-o", str(out_path)] + opts
+                result = self.runner.invoke(main, args)
+                err = result.stderr
+                # print(" ".join(args))
+                logging.info(f"ERR={err}")
+                self.assertEqual(0, result.exit_code)
+                with open(out_path) as file:
+                    obj = yaml.safe_load(file)
+                    test(obj)

@@ -13,11 +13,14 @@ from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     HAS_ONTOLOGY_ROOT_TERM,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBSOLETION_RELATIONSHIP_PREDICATES,
     OWL_CLASS,
     OWL_NOTHING,
     OWL_THING,
+    PREFIX_PREDICATE,
+    URL_PREDICATE,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
@@ -893,6 +896,34 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def add_missing_property_values(self, curie: CURIE, metadata_map: METADATA_MAP) -> None:
+        """
+        Add missing property values to a metadata map.
+
+        This is a convenience method for implementations that do not have a complete metadata map.
+
+        :param curie:
+        :param metadata_map:
+        :return:
+        """
+        if "id" not in metadata_map:
+            metadata_map["id"] = [curie]
+        if ":" in curie:
+            prefix, _ = curie.split(":", 1)
+            if PREFIX_PREDICATE not in metadata_map:
+                metadata_map[PREFIX_PREDICATE] = [prefix]
+            uri = self.curie_to_uri(curie, False)
+            if uri:
+                if URL_PREDICATE not in metadata_map:
+                    metadata_map[URL_PREDICATE] = [uri]
+                if IS_DEFINED_BY not in metadata_map:
+                    if uri.startswith("http://purl.obolibrary.org/obo/"):
+                        metadata_map[IS_DEFINED_BY] = [
+                            f"http://purl.obolibrary.org/obo/{prefix.lower()}.owl"
+                        ]
+                    else:
+                        metadata_map[IS_DEFINED_BY] = [self.curie_to_uri(f"{prefix}:", False)]
 
     def create_entity(
         self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None

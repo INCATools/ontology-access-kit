@@ -38,13 +38,14 @@ STANZA_TYPEDEF = "Typedef"
 TAG = str
 TAG_SUBSETDEF = "subsetdef"
 TAG_SUBSET = "subset"
-TAG_OBSOLETE = "is_obsolete"
+TAG_IS_OBSOLETE = "is_obsolete"
 TAG_REPLACED_BY = "replaced_by"
 TAG_CONSIDER = "consider"
 TAG_ALT_ID = "alt_id"
 TAG_PROPERTY_VALUE = "property_value"
 TAG_NAME = "name"
 TAG_DEF = "def"
+TAG_NAMESPACE = "namespace"
 TAG_XREF = "xref"
 TAG_COMMENT = "comment"
 TAG_SYNONYM = "synonym"
@@ -432,6 +433,14 @@ def parse_obo_document(path: Union[str, Path]) -> OboDocument:
                 continue
             else:
                 raise ValueError(f"Cannot parse: {line}")
-        stanzas[-1].tag_values = tag_values
+        if stanzas:
+            stanzas[-1].tag_values = tag_values
+        else:
+            if tag_values:
+                if obo_document is not None:
+                    raise AssertionError(
+                        f"Should not have tag values: {tag_values} without stanzas"
+                    )
+                obo_document = OboDocument(header=Header(tag_values=tag_values))
     obo_document.stanzas = {stanza.id: stanza for stanza in stanzas}
     return obo_document
