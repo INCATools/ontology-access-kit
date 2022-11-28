@@ -7,7 +7,12 @@ from typing import Any, Dict, Iterator, Optional, Tuple
 import kgcl_schema.datamodel.kgcl as kgcl
 from kgcl_schema.datamodel.kgcl import Change, NodeCreation, NodeDeletion
 
-from oaklib.datamodels.vocabulary import DEPRECATED_PREDICATE, TERM_REPLACED_BY, HAS_OBSOLESCENCE_REASON, TERMS_MERGED
+from oaklib.datamodels.vocabulary import (
+    DEPRECATED_PREDICATE,
+    HAS_OBSOLESCENCE_REASON,
+    TERM_REPLACED_BY,
+    TERMS_MERGED,
+)
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
 

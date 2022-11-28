@@ -275,7 +275,10 @@ class WikidataImplementation(
             yield self.uri_to_curie(row["o"]["value"])
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None, reflexive=True,
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
     ) -> Iterable[CURIE]:
         if predicates is None:
             raise NotImplementedError("Unbound predicates not supported for Wikidata")

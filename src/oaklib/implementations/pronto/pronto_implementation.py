@@ -27,6 +27,7 @@ from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     HAS_OBO_NAMESPACE,
+    HAS_OBSOLESCENCE_REASON,
     IS_A,
     LABEL_PREDICATE,
     OIO_SUBSET_PROPERTY,
@@ -35,7 +36,8 @@ from oaklib.datamodels.vocabulary import (
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
-    TERM_REPLACED_BY, HAS_OBSOLESCENCE_REASON, TERMS_MERGED,
+    TERM_REPLACED_BY,
+    TERMS_MERGED,
 )
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (

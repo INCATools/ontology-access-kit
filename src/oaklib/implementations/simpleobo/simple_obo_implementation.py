@@ -36,13 +36,15 @@ from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     HAS_OBO_NAMESPACE,
+    HAS_OBSOLESCENCE_REASON,
     IS_A,
     LABEL_PREDICATE,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SEMAPV,
     SKOS_CLOSE_MATCH,
-    TERM_REPLACED_BY, HAS_OBSOLESCENCE_REASON, TERMS_MERGED,
+    TERM_REPLACED_BY,
+    TERMS_MERGED,
 )
 from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_ALT_ID,
