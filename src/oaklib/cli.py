@@ -133,6 +133,7 @@ from oaklib.utilities.mapping.cross_ontology_diffs import (
     calculate_pairwise_relational_diff,
 )
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
+from oaklib.utilities.ner_utilities import get_exclusion_token_list
 from oaklib.utilities.obograph_utils import (
     ancestors_with_stats,
     default_stylemap_path,
@@ -1126,6 +1127,13 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
+@click.option(
+    "--exclude-tokens",
+    "-x",
+    multiple=True,
+    help="Text file or list of tokens to filter from input prior to annotation.\
+        If passed as text file, each newline separated entry is a distinct text.",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1133,6 +1141,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
+    exclude_tokens: str,
     text_file: TextIO,
     output_type: str,
 ):
@@ -1166,6 +1175,7 @@ def annotate(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
     writer.output = output
+
     if isinstance(impl, TextAnnotatorInterface):
         if lexical_index_file:
             if not Path(lexical_index_file).exists():
@@ -1175,6 +1185,9 @@ def annotate(
             else:
                 impl.lexical_index = load_lexical_index(lexical_index_file)
         configuration = TextAnnotationConfiguration(matches_whole_text=matches_whole_text)
+        if exclude_tokens:
+            token_exclusion_list = get_exclusion_token_list(exclude_tokens)
+            configuration.token_exclusion_list = token_exclusion_list
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
@@ -1187,8 +1200,7 @@ def annotate(
             #         ann.subject_source = line
             #         writer.emit(ann)
         else:
-            text = " ".join(words)
-            for ann in impl.annotate_text(text, configuration):
+            for ann in impl.annotate_text(words, configuration):
                 writer.emit(ann)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -3593,6 +3605,11 @@ def set_apikey(endpoint, keyval):
     "-L",
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
+# @click.option(
+#     "--exclude-tokens",
+#     "-x",
+#     help="Text file or list of terms to exclude from annotation. Each newline separated entry is a distinct text.",
+# )
 @click.option(
     "--recreate/--no-recreate",
     default=True,
@@ -3657,6 +3674,10 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms
         ruleset = load_mapping_rules(rules_file)
     else:
         ruleset = None
+
+    # if exclude_tokens:
+    #     token_exclusion_list = get_exclusion_token_list(exclude_tokens)
+
     if isinstance(impl, BasicOntologyInterface):
         if terms:
             if "@" in terms:
