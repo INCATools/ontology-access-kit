@@ -6,13 +6,9 @@ from dataclasses import dataclass
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import kgcl_rdflib.apply.graph_transformer as kgcl_patcher
-import kgcl_rdflib.kgcl_diff as kgcl_diff
 import rdflib
 import SPARQLWrapper
 from kgcl_schema.datamodel import kgcl
-from kgcl_schema.datamodel.kgcl import Change
-from kgcl_schema.grammar.parser import parse_statement
-from lark import UnexpectedCharacters
 from rdflib import RDFS, BNode, Literal, URIRef
 from rdflib.term import Identifier
 from SPARQLWrapper import JSON
@@ -46,9 +42,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     PREFIX_MAP,
     RELATIONSHIP,
     RELATIONSHIP_MAP,
-    BasicOntologyInterface,
 )
-from oaklib.interfaces.differ_interface import DiffConfiguration
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI

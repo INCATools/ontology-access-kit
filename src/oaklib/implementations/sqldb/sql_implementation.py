@@ -1232,7 +1232,6 @@ class SqlImplementation(
                 yield result
         except ValueError as e:
             logging.error(f"EXCEPTION: {e}")
-            pass
 
     def _check_slot(
         self, slot_name: str, class_name: str = "Class"

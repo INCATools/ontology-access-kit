@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import ClassVar, Iterable, List, Type
+from typing import Iterable, List, Type
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.validation_datamodel import ValidationResult

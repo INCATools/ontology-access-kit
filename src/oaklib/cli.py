@@ -7,7 +7,6 @@ Executed using "runoak" command
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
-import json
 import logging
 import re
 import secrets

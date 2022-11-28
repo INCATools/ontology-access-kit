@@ -8,7 +8,6 @@
 
 import dataclasses
 import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 

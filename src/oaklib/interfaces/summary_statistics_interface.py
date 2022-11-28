@@ -1,7 +1,6 @@
 import logging
 from abc import ABC
 from collections import defaultdict
-from dataclasses import field
 from typing import Any, Dict, List
 
 from oaklib.datamodels.summary_statistics_datamodel import (
@@ -91,7 +90,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
         :param branch_name:
         :param branch_roots: if provided, only statistics for the given branch roots will be returned
-        :param property_values: if provided, only statistics for entities that match these property values will be considered
+        :param property_values: if provided, only statistics for entities that match these will be considered
         :param include_entailed: if True, include statistics for entailed edges
         :return:
         """

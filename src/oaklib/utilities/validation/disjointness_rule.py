@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import Iterable, Iterator, List, Optional, Tuple
+from typing import Iterable, Iterator, Tuple
 
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.validation_datamodel import SeverityOptions, ValidationResult
@@ -74,7 +74,10 @@ class DisjointnessRule(OntologyRule):
                     yield self.add_result(
                         subject=c1,
                         object=c2,
-                        info=f"{c1} {c2_label} (|D|={c1_desc_count}) and {c2} {c2_label} (|D|={c2_desc_count} are not declared disjoint, but they have no common descendants",
+                        info=(
+                            f"{c1} {c2_label} (|D|={c1_desc_count}) and {c2} {c2_label} (|D|={c2_desc_count}"
+                            "are not declared disjoint, but they have no common descendants"
+                        ),
                     )
 
     def _get_candidate_pairs(
@@ -174,5 +177,8 @@ class DisjointnessRule(OntologyRule):
                     yield self.add_result(
                         subject=c1,
                         object=c2,
-                        info=f"{c1} (|D|={c1_desc_count}) and {c2} (|D|={c2_desc_count} are not declared disjoint, but they have no common descendants",
+                        info=(
+                            f"{c1} (|D|={c1_desc_count}) and {c2} (|D|={c2_desc_count}"
+                            "are not declared disjoint, but they have no common descendants"
+                        ),
                     )

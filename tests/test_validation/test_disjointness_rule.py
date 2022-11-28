@@ -3,26 +3,9 @@ import unittest
 from linkml_runtime.dumpers import yaml_dumper
 
 from oaklib import get_implementation_from_shorthand
-from oaklib.datamodels.obograph import (
-    ExistentialRestrictionExpression,
-    LogicalDefinitionAxiom,
-)
-from oaklib.datamodels.vocabulary import PART_OF
-from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-from oaklib.resource import OntologyResource
-from oaklib.utilities.validation.definition_ontology_rule import (
-    TextAndLogicalDefinitionMatchOntologyRule,
-)
 from oaklib.utilities.validation.disjointness_rule import DisjointnessRule
 from oaklib.utilities.validation.rule_runner import RuleRunner
-from tests import (
-    INPUT_DIR,
-    MEMBRANE,
-    NUCLEAR_MEMBRANE,
-    NUCLEUS,
-    OUTPUT_DIR,
-    SUBATOMIC_PARTICLE,
-)
+from tests import INPUT_DIR, OUTPUT_DIR, SUBATOMIC_PARTICLE
 
 TEST_OUT = OUTPUT_DIR / "lint-test-output.obo"
 TERM_X1 = "X:1"
