@@ -94,6 +94,7 @@ SKOS_MATCH_PREDICATES = [
 HAS_DBXREF = omd.slots.database_cross_reference.curie
 HAS_SYNONYM_TYPE = "oio:hasSynonymType"
 OIO_SUBSET_PROPERTY = "oio:SubsetProperty"
+OIO_SYNONYM_TYPE_PROPERTY = "oio:SynonymTypeProperty"
 ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie

@@ -37,6 +37,7 @@ STANZA_TYPEDEF = "Typedef"
 
 TAG = str
 TAG_SUBSETDEF = "subsetdef"
+TAG_SYNONYMTYPEDEF = "synonymtypedef"
 TAG_SUBSET = "subset"
 TAG_IS_OBSOLETE = "is_obsolete"
 TAG_REPLACED_BY = "replaced_by"

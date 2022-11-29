@@ -31,6 +31,7 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LABEL_PREDICATE,
     OIO_SUBSET_PROPERTY,
+    OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
@@ -271,12 +272,35 @@ class ProntoImplementation(
                 continue
             yield t.id
         for t in self.wrapped_ontology.synonym_types():
-            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+            if owl_type and owl_type != OIO_SYNONYM_TYPE_PROPERTY:
                 continue
             yield t.id
-        if not filter_obsoletes:
-            for s in self._get_alt_id_to_replacement_map().keys():
-                yield s
+        for t in self.wrapped_ontology.metadata.subsetdefs:
+            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+                continue
+            yield t.name
+        if not owl_type or owl_type == OWL_CLASS:
+            # note that in the case of alt_ids, metadata such as
+            # original owl_type is lost. We assume that the original
+            # owl_type was OWL_CLASS
+            if not filter_obsoletes:
+                for s in self._get_alt_id_to_replacement_map().keys():
+                    yield s
+
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
+        subset_names = [s.name for s in self.wrapped_ontology.metadata.subsetdefs]
+        syntype_ids = [s.id for s in self.wrapped_ontology.synonym_types()]
+        for curie in entities:
+            if curie in self.wrapped_ontology.terms():
+                yield curie, OWL_CLASS
+            elif curie in self.wrapped_ontology.relationships():
+                yield curie, OWL_OBJECT_PROPERTY
+            elif curie in syntype_ids:
+                yield curie, OIO_SYNONYM_TYPE_PROPERTY
+            elif curie in subset_names:
+                yield curie, OIO_SUBSET_PROPERTY
+            else:
+                yield curie, None
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():

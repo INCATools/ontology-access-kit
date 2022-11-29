@@ -344,6 +344,11 @@ class SqlImplementation(
                 if not _is_blank(row.id):
                     yield row.id
 
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
+        q = self.session.query(RdfTypeStatement).filter(RdfTypeStatement.subject.in_(entities))
+        for row in q:
+            yield row.subject, row.object
+
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         q = self.session.query(DeprecatedNode)
         if not include_merged:

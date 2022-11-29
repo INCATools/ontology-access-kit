@@ -4,11 +4,12 @@ from dataclasses import dataclass
 from typing import Any, Dict, Iterator, Optional, Tuple
 
 import kgcl_schema.datamodel.kgcl as kgcl
-from kgcl_schema.datamodel.kgcl import Change, NodeCreation, NodeDeletion
+from kgcl_schema.datamodel.kgcl import Change, ClassCreation, NodeCreation, NodeDeletion
 
 from oaklib.datamodels.vocabulary import (
     DEPRECATED_PREDICATE,
     HAS_OBSOLESCENCE_REASON,
+    OWL_CLASS,
     TERM_REPLACED_BY,
     TERMS_MERGED,
 )
@@ -62,6 +63,8 @@ class DifferInterface(BasicOntologyInterface, ABC):
             configuration = DiffConfiguration()
         other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
         for e1 in self.entities(filter_obsoletes=False):
+            # e1_types = self.owl_type(e1)
+            # is_class = OWL_CLASS in e1_types
             logging.debug(f"Comparing e1 {e1}")
             if e1 not in other_ontology_entities:
                 yield NodeDeletion(id=_gen_id(), about_node=e1)
@@ -75,6 +78,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 e1_dep = e1_metadata.get(DEPRECATED_PREDICATE, [False])[0]
                 e2_dep = e2_metadata.get(DEPRECATED_PREDICATE, [False])[0]
                 if e1_dep != e2_dep:
+                    # TODO: bundle associated changes
                     if e1_dep and not e2_dep:
                         yield kgcl.NodeUnobsoletion(id=_gen_id(), about_node=e1)
                     elif not e1_dep and e2_dep:
@@ -136,7 +140,12 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 yield kgcl.NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
         for e2 in other_ontology.entities():
             if e2 not in self.entities():
-                yield NodeCreation(id=_gen_id(), about_node=e2)
+                e2_types = other_ontology.owl_type(e2)
+                is_class = OWL_CLASS in e2_types
+                if is_class:
+                    yield ClassCreation(id=_gen_id(), about_node=e2)
+                else:
+                    yield NodeCreation(id=_gen_id(), about_node=e2)
                 continue
 
     def diff_summary(

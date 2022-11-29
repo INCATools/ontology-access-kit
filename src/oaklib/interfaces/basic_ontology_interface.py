@@ -348,14 +348,43 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
         return self.entities(**kwargs)
 
-    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[CURIE]:
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
         """
         Yields all known OWL types for given entities.
+
+        The OWL type must either be the instantiated type as the RDFS level, e.g.
+
+        - owl:Class
+        - owl:ObjectProperty
+        - owl:DatatypeProperty
+        - owl:AnnotationProperty
+        - owl:NamedIndividual
+
+        Or a vocabulary type for a particular kind of construct, e.g
+
+        - oio:SubsetProperty
+        - obo:SynonymTypeProperty
+
+        See `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of the OWL 2 Primer
 
         :param entities:
         :return: iterator
         """
         raise NotImplementedError
+
+    def owl_type(self, entity: CURIE) -> List[CURIE]:
+        """
+        Get the OWL type for a given entity.
+
+        Typically each entity will have a single OWL type, but in some cases
+        an entity may have multiple OWL types. This is called "punning",
+        see `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of
+        the OWL primer
+
+        :param entity:
+        :return: CURIE
+        """
+        return [x[1] for x in self.owl_types([entity]) if x[1] is not None]
 
     def defined_by(self, entity: CURIE) -> Optional[str]:
         """

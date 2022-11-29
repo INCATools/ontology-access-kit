@@ -39,6 +39,8 @@ from oaklib.datamodels.vocabulary import (
     HAS_OBSOLESCENCE_REASON,
     IS_A,
     LABEL_PREDICATE,
+    OIO_SUBSET_PROPERTY,
+    OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SEMAPV,
@@ -61,6 +63,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_SUBSET,
     TAG_SUBSETDEF,
     TAG_SYNONYM,
+    TAG_SYNONYMTYPEDEF,
     TAG_XREF,
     OboDocument,
     Stanza,
@@ -166,10 +169,44 @@ class SimpleOboImplementation(
             if filter_obsoletes:
                 if s.get_boolean_value(TAG_IS_OBSOLETE):
                     continue
-            yield s_id
-        if not filter_obsoletes:
-            for s in self._get_alt_id_to_replacement_map().keys():
-                yield s
+            if (
+                owl_type is None
+                or (owl_type == OWL_CLASS and s.type == "Term")
+                or (owl_type == OWL_OBJECT_PROPERTY and s.type == "Typedef")
+            ):
+                yield s_id
+        if not owl_type or owl_type == OWL_CLASS:
+            # note that in the case of alt_ids, metadata such as
+            # original owl_type is lost. We assume that the original
+            # owl_type was OWL_CLASS
+            if not filter_obsoletes:
+                for s in self._get_alt_id_to_replacement_map().keys():
+                    yield s
+        if not owl_type or owl_type == OIO_SUBSET_PROPERTY:
+            for v in od.header.simple_values(TAG_SUBSETDEF):
+                yield v
+        if not owl_type or owl_type == OIO_SYNONYM_TYPE_PROPERTY:
+            for v in od.header.simple_values(TAG_SYNONYMTYPEDEF):
+                yield v
+
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
+        od = self.obo_document
+        for curie in entities:
+            s = self._stanza(curie, False)
+            if s is None:
+                if curie in self.subsets():
+                    yield curie, OIO_SUBSET_PROPERTY
+                elif curie in od.header.simple_values(TAG_SYNONYMTYPEDEF):
+                    yield curie, OIO_SYNONYM_TYPE_PROPERTY
+                else:
+                    yield curie, None
+            else:
+                if s.type == "Term":
+                    yield curie, OWL_CLASS
+                elif s.type == "Typedef":
+                    yield curie, OWL_OBJECT_PROPERTY
+                else:
+                    raise ValueError(f"Unknown stanza type: {s.type}")
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         od = self.obo_document
@@ -420,9 +457,10 @@ class SimpleOboImplementation(
         if self._alt_id_to_replacement_map is None:
             self._alt_id_to_replacement_map = defaultdict(list)
             for e in self.entities():
-                t = self._stanza(e)
-                for a in t.simple_values(TAG_ALT_ID):
-                    self._alt_id_to_replacement_map[a].append(e)
+                t = self._stanza(e, False)
+                if t:
+                    for a in t.simple_values(TAG_ALT_ID):
+                        self._alt_id_to_replacement_map[a].append(e)
         return self._alt_id_to_replacement_map
 
     def clone(self, resource: OntologyResource) -> "SimpleOboImplementation":

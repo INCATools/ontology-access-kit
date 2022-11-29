@@ -118,6 +118,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
         label = oi.label(IS_A)
         self.assertIsNotNone(label)
 
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi)
+
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
 

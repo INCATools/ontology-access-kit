@@ -183,6 +183,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_definitions(self):
         self.compliance_tester.test_definitions(self.oi)
 
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi, skip_oio=True)
+
     def test_labels(self):
         self.compliance_tester.test_labels(self.oi)
 

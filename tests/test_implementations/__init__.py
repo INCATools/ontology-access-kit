@@ -30,8 +30,11 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LOCATED_IN,
     NEVER_IN_TAXON,
+    OIO_SUBSET_PROPERTY,
+    OIO_SYNONYM_TYPE_PROPERTY,
     ONLY_IN_TAXON,
     OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
     OWL_THING,
     PART_OF,
     TERM_REPLACED_BY,
@@ -132,6 +135,34 @@ class ComplianceTester:
         tdef = oi.definition(NUCLEUS)
         test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
         test.assertIsNone(oi.definition(FAKE_ID))
+
+    def test_owl_types(self, oi: BasicOntologyInterface, skip_oio=False):
+        test = self.test
+        cases = [
+            (NUCLEUS, OWL_CLASS),
+            (FAKE_ID, None),
+            # (PART_OF, OWL_OBJECT_PROPERTY),
+        ]
+        if not skip_oio:
+            cases.extend(
+                [
+                    ("goslim_generic", OIO_SUBSET_PROPERTY),
+                    ("systematic_synonym", OIO_SYNONYM_TYPE_PROPERTY),
+                ]
+            )
+        for entity, expected in cases:
+            if expected is None:
+                test.assertEqual([], oi.owl_type(entity))
+            else:
+                test.assertEqual([expected], oi.owl_type(entity), f"Failed for {entity}")
+            if expected:
+                entities = list(oi.entities(owl_type=expected))
+                test.assertIn(entity, entities, f"{entity} not found in query for {expected}")
+                for e2, expected2 in cases:
+                    if expected2 != expected:
+                        test.assertNotIn(
+                            e2, entities, f"{e2} unexpectedly found in query for {expected}"
+                        )
 
     def test_labels(self, oi: BasicOntologyInterface):
         """
@@ -541,6 +572,7 @@ class ComplianceTester:
         :param oi_modified:
         :return:
         """
+        n_unexpected = 0
         test = self.test
         diff = list(oi.diff(oi_modified))
         FIXED_ID = "test"
@@ -565,14 +597,38 @@ class ComplianceTester:
                 expected.remove(ch)
             else:
                 logging.error(f"Unexpected change: {ch}")
+                n_unexpected += 1
             ch.type = type(ch).__name__
-            print(yaml_dumper.dumps(ch))
+            #print(yaml_dumper.dumps(ch))
         test.assertEqual(0, len(expected), f"Expected changes not found: {expected}")
-        print("Computing reverse diff")
+        expected_rev = [
+            kgcl.NewSynonym(
+                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="enzyme activity"
+            ),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="catalytic activity"
+            ),
+            kgcl.NodeRename(
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                old_value="enzyme activity",
+                new_value="catalytic activity",
+            ),
+            kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
+        ]
+        #print("Computing reverse diff")
         rdiff = list(oi_modified.diff(oi))
         for ch in rdiff:
+            ch.id = FIXED_ID
+            if ch in expected_rev:
+                expected_rev.remove(ch)
+            else:
+                logging.error(f"Unexpected change: {ch}")
+                n_unexpected += 1
             ch.type = type(ch).__name__
-            print(yaml_dumper.dumps(ch))
+            #print(yaml_dumper.dumps(ch))
+        test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
+        test.assertEqual(0, n_unexpected)
 
     def test_patcher(
         self,
