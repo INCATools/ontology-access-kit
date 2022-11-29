@@ -10,6 +10,8 @@ INPUT_DIR = Path(ROOT) / "input"
 OUTPUT_DIR = Path(ROOT) / "output"
 SCHEMA_DIR = Path(ROOT) / "../src/linkml"
 EXTERNAL_DB_DIR = Path(ROOT) / "../db"  # for integration tests: optional
+EXAMPLE_ONTOLOGY_OBO = Path(INPUT_DIR) / "go-nucleus.obo"
+EXAMPLE_ONTOLOGY_DB = Path(INPUT_DIR) / "go-nucleus.db"
 
 
 def output_path(fn: str) -> str:

@@ -20,7 +20,7 @@ from oaklib.utilities.obograph_utils import (
     index_graph_edges_by_subject,
     index_graph_nodes,
 )
-from oaklib.utilities.validation.definition_ontology_rules import (
+from oaklib.utilities.validation.definition_ontology_rule import (
     TextAndLogicalDefinitionMatchOntologyRule,
 )
 from tests import (
@@ -113,6 +113,9 @@ class TestProntoImplementation(unittest.TestCase):
         m = self.oi.entity_metadata_map("GO:0005622")
         assert "term_tracker_item" in m.keys()
         assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
+
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi)
 
     def test_labels(self):
         self.compliance_tester.test_labels(self.oi)
@@ -333,6 +336,14 @@ class TestProntoImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    def test_reflexive_diff(self):
+        self.compliance_tester.test_reflexive_diff(self.oi)
+
+    def test_diff(self):
+        resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
+        oi_modified = ProntoImplementation(resource)
+        self.compliance_tester.test_diff(self.oi, oi_modified)
 
     def test_patcher(self):
         resource = OntologyResource(slug=TEST_SIMPLE_ONT, local=True)

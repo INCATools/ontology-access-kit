@@ -23,17 +23,22 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     CONSIDER_REPLACEMENT,
+    DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
+    HAS_OBO_NAMESPACE,
+    HAS_OBSOLESCENCE_REASON,
     IS_A,
     LABEL_PREDICATE,
     OIO_SUBSET_PROPERTY,
+    OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
     TERM_REPLACED_BY,
+    TERMS_MERGED,
 )
 from oaklib.interfaces import TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
@@ -46,6 +51,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
+from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -78,6 +84,7 @@ class ProntoImplementation(
     SearchInterface,
     MappingProviderInterface,
     PatcherInterface,
+    DifferInterface,
     AssociationProviderInterface,
     SemanticSimilarityInterface,
     TextAnnotatorInterface,
@@ -265,9 +272,35 @@ class ProntoImplementation(
                 continue
             yield t.id
         for t in self.wrapped_ontology.synonym_types():
-            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+            if owl_type and owl_type != OIO_SYNONYM_TYPE_PROPERTY:
                 continue
             yield t.id
+        for t in self.wrapped_ontology.metadata.subsetdefs:
+            if owl_type and owl_type != OIO_SUBSET_PROPERTY:
+                continue
+            yield t.name
+        if not owl_type or owl_type == OWL_CLASS:
+            # note that in the case of alt_ids, metadata such as
+            # original owl_type is lost. We assume that the original
+            # owl_type was OWL_CLASS
+            if not filter_obsoletes:
+                for s in self._get_alt_id_to_replacement_map().keys():
+                    yield s
+
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
+        subset_names = [s.name for s in self.wrapped_ontology.metadata.subsetdefs]
+        syntype_ids = [s.id for s in self.wrapped_ontology.synonym_types()]
+        for curie in entities:
+            if curie in self.wrapped_ontology.terms():
+                yield curie, OWL_CLASS
+            elif curie in self.wrapped_ontology.relationships():
+                yield curie, OWL_OBJECT_PROPERTY
+            elif curie in syntype_ids:
+                yield curie, OIO_SYNONYM_TYPE_PROPERTY
+            elif curie in subset_names:
+                yield curie, OIO_SUBSET_PROPERTY
+            else:
+                yield curie, None
 
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         for t in self.wrapped_ontology.terms():
@@ -466,8 +499,15 @@ class ProntoImplementation(
             if t.consider:
                 for x in t.consider:
                     m[CONSIDER_REPLACEMENT].append(x.id)
+            if t.obsolete:
+                m[DEPRECATED_PREDICATE].append(True)
+            if t.namespace:
+                m[HAS_OBO_NAMESPACE].append(t.namespace)
         if curie in _alt_id_map:
             m[TERM_REPLACED_BY] += _alt_id_map[curie]
+            m[DEPRECATED_PREDICATE].append(True)
+            m[HAS_OBSOLESCENCE_REASON].append(TERMS_MERGED)
+        self.add_missing_property_values(curie, m)
         return dict(m)
 
     def _get_alt_id_to_replacement_map(self) -> Dict[CURIE, List[CURIE]]:

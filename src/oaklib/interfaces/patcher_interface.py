@@ -47,4 +47,3 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
         :return:
         """
-        pass

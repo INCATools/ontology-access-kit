@@ -49,6 +49,7 @@ from semsql.sqla.semsql import (
     RdfFirstStatement,
     RdfRestStatement,
     RdfsLabelStatement,
+    RdfsSubclassOfStatement,
     RdfTypeStatement,
     Statements,
     TermAssociation,
@@ -134,6 +135,17 @@ from oaklib.utilities.iterator_utils import chunk
 
 def _is_blank(curie: CURIE) -> bool:
     return curie.startswith("_:")
+
+
+def _python_value(val: Any, datatype: CURIE = None) -> Any:
+    if datatype == "xsd:integer":
+        return int(val)
+    elif datatype == "xsd:float":
+        return float(val)
+    elif datatype == "xsd:boolean":
+        return bool(val)
+    else:
+        return val
 
 
 def _mapping(m: Mapping):
@@ -332,6 +344,11 @@ class SqlImplementation(
                 if not _is_blank(row.id):
                     yield row.id
 
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
+        q = self.session.query(RdfTypeStatement).filter(RdfTypeStatement.subject.in_(entities))
+        for row in q:
+            yield row.subject, row.object
+
     def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         q = self.session.query(DeprecatedNode)
         if not include_merged:
@@ -400,12 +417,13 @@ class SqlImplementation(
         q = q.filter(Statements.predicate.in_(subquery))
         for row in q.filter(Statements.subject == curie):
             if row.value is not None:
-                v = row.value
+                v = _python_value(row.value, row.datatype)
             elif row.object is not None:
                 v = row.object
             else:
                 v = None
             m[row.predicate].append(v)
+        self.add_missing_property_values(curie, m)
         return dict(m)
 
     def ontologies(self) -> Iterable[CURIE]:
@@ -977,6 +995,8 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.subject == start_curies)
         if predicates is not None:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        if not reflexive:
+            q = q.filter(EntailedEdge.subject != EntailedEdge.object)
         logging.debug(f"Ancestors query: {q}")
         for row in q:
             yield row.object
@@ -1009,6 +1029,8 @@ class SqlImplementation(
             q = q.filter(EntailedEdge.object == start_curies)
         if predicates is not None:
             q = q.filter(EntailedEdge.predicate.in_(tuple(predicates)))
+        if not reflexive:
+            q = q.filter(EntailedEdge.subject != EntailedEdge.object)
         for row in q:
             yield row.subject
 
@@ -1215,7 +1237,6 @@ class SqlImplementation(
                 yield result
         except ValueError as e:
             logging.error(f"EXCEPTION: {e}")
-            pass
 
     def _check_slot(
         self, slot_name: str, class_name: str = "Class"
@@ -1727,51 +1748,133 @@ class SqlImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SummaryStatisticsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    def global_summary_statistics(self, include_entailed=False) -> SummaryStatisticCollection:
+    def branch_summary_statistics(
+        self,
+        branch_name: str = None,
+        branch_roots: List[CURIE] = None,
+        property_values: Dict[CURIE, Any] = None,
+        include_entailed=False,
+    ) -> SummaryStatisticCollection:
         session = self.session
-        ssc = SummaryStatisticCollection()
-        obs_subq = session.query(DeprecatedNode.id)
-        text_defn_subq = session.query(HasTextDefinitionStatement.subject)
-        ssc.class_count = session.query(ClassNode).distinct(ClassNode.id).count()
-        ssc.deprecated_class_count = (
-            session.query(ClassNode).filter(ClassNode.id.in_(obs_subq)).count()
+        not_in = False
+        if branch_name is None:
+            branch_name = "AllOntologies"
+        if branch_roots is not None:
+            branch_subq = session.query(EntailedEdge.subject)
+            branch_subq = branch_subq.filter(EntailedEdge.predicate == IS_A)
+            branch_subq = branch_subq.filter(EntailedEdge.object.in_(branch_roots))
+        elif property_values is not None:
+            if len(property_values) > 1:
+                raise NotImplementedError("Only one property value is supported at this time")
+            k, v = list(property_values.items())[0]
+            branch_subq = session.query(Statements.subject)
+            branch_subq = branch_subq.filter(Statements.predicate == k)
+            if v is None:
+                not_in = True
+            elif isinstance(v, list):
+                branch_subq = branch_subq.filter(Statements.value.in_(v))
+            else:
+                branch_subq = branch_subq.filter(Statements.value == v)
+        else:
+            branch_subq = None
+
+        def q(x):
+            return session.query(x)
+
+        def _filter(x):
+            q = session.query(x)
+            if branch_subq is not None:
+                if not_in:
+                    q = q.filter(x.not_in(branch_subq))
+                else:
+                    q = q.filter(x.in_(branch_subq))
+            return q
+
+        ssc = SummaryStatisticCollection(branch_name)
+        obs_subq = q(DeprecatedNode.id)
+        text_defn_subq = q(HasTextDefinitionStatement.subject)
+        ssc.class_count = _filter(ClassNode.id).distinct(ClassNode.id).count()
+        ssc.named_individual_count = _filter(NamedIndividualNode.id).distinct(ClassNode.id).count()
+        depr_class_query = _filter(ClassNode.id).filter(ClassNode.id.in_(obs_subq))
+        ssc.deprecated_class_count = depr_class_query.count()
+        merged_subq = (
+            q(Statements.subject)
+            .filter(Statements.predicate == HAS_OBSOLESCENCE_REASON)
+            .filter(Statements.object == TERMS_MERGED)
         )
-        ssc.class_count_with_definitions = (
-            session.query(ClassNode).filter(ClassNode.id.in_(text_defn_subq)).distinct().count()
+        ssc.merged_class_count = merged_subq.count()
+        ssc.class_count_with_text_definitions = (
+            _filter(ClassNode.id).filter(ClassNode.id.in_(text_defn_subq)).count()
         )
-        ssc.object_property_count = session.query(ObjectPropertyNode).count()
+        ssc.object_property_count = _filter(ObjectPropertyNode.id).count()
+        ssc.annotation_property_count = _filter(AnnotationPropertyNode.id).count()
         ssc.deprecated_property_count = (
-            session.query(ObjectPropertyNode).filter(ObjectPropertyNode.id.in_(obs_subq)).count()
+            _filter(ObjectPropertyNode.id).filter(ObjectPropertyNode.id.in_(obs_subq)).count()
         )
-        synonym_query = session.query(Statements.value).filter(
-            Statements.predicate.in_(SYNONYM_PREDICATES)
+        ssc.rdf_triple_count = _filter(Statements.subject).count()
+        ssc.equivalent_classes_axiom_count = _filter(OwlEquivalentClassStatement.subject).count()
+        ssc.subclass_of_axiom_count = _filter(RdfsSubclassOfStatement.subject).count()
+        subset_query = q(Statements.object).filter(Statements.predicate == IN_SUBSET)
+        if branch_subq:
+            subset_query = subset_query.filter(Statements.subject.in_(branch_subq))
+        ssc.subset_count = subset_query.distinct(Statements.object).count()
+        subset_agg_query = session.query(
+            Statements.object, func.count(Statements.subject.distinct())
         )
+        subset_agg_query = subset_agg_query.filter(Statements.predicate == IN_SUBSET)
+        if branch_subq:
+            subset_agg_query = subset_agg_query.filter(Statements.subject.in_(branch_subq))
+        for row in subset_agg_query.group_by(Statements.object):
+            subset = row.object
+            ssc.class_count_by_subset[subset] = FacetedCount(row[0], filtered_count=row[1])
+        synonym_query = q(Statements.value).filter(Statements.predicate.in_(SYNONYM_PREDICATES))
+        if branch_subq:
+            synonym_query = synonym_query.filter(Statements.subject.in_(branch_subq))
         ssc.synonym_statement_count = synonym_query.count()
         ssc.distinct_synonym_count = synonym_query.distinct().count()
-        for row in (
-            session.query(Statements.predicate, func.count(Statements.value.distinct()))
-            .filter(Statements.predicate.in_(SYNONYM_PREDICATES))
-            .group_by(Statements.predicate)
-        ):
-            ssc.synonym_statement_count_by_predicate[row.predicate] = FacetedCount(
+        synonym_agg_query = session.query(
+            Statements.predicate, func.count(Statements.value.distinct())
+        )
+        synonym_agg_query = synonym_agg_query.filter(Statements.predicate.in_(SYNONYM_PREDICATES))
+        if branch_subq:
+            synonym_agg_query = synonym_agg_query.filter(Statements.subject.in_(branch_subq))
+        for row in synonym_agg_query.group_by(Statements.predicate):
+            pred = row.predicate
+            ssc.synonym_statement_count_by_predicate[pred] = FacetedCount(
                 row[0], filtered_count=row[1]
             )
-        for row in session.query(Edge.predicate, func.count(Edge.subject)).group_by(Edge.predicate):
+        edge_agg_query = session.query(Edge.predicate, func.count(Edge.subject))
+        if branch_subq:
+            edge_agg_query = edge_agg_query.filter(Edge.subject.in_(branch_subq))
+        for row in edge_agg_query.group_by(Edge.predicate):
             ssc.edge_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
         if include_entailed:
-            for row in session.query(EntailedEdge.predicate, func.count(Edge.subject)).group_by(
-                EntailedEdge.predicate
-            ):
+            entailed_edge_agg_query = session.query(
+                EntailedEdge.predicate, func.count(Edge.subject)
+            )
+            if branch_subq:
+                entailed_edge_agg_query = entailed_edge_agg_query.filter(
+                    Edge.subject.in_(branch_subq)
+                )
+            for row in entailed_edge_agg_query.group_by(EntailedEdge.predicate):
                 ssc.entailed_edge_count_by_predicate[row.predicate] = FacetedCount(
                     row[0], filtered_count=row[1]
                 )
-        for row in (
-            session.query(Statements.predicate, func.count(Statements.value.distinct()))
-            .filter(Statements.predicate.in_(ALL_MATCH_PREDICATES))
-            .group_by(Statements.predicate)
-        ):
+        match_agg_query = session.query(
+            Statements.predicate, func.count(Statements.value.distinct())
+        ).filter(Statements.predicate.in_(ALL_MATCH_PREDICATES))
+        if branch_subq:
+            match_agg_query = match_agg_query.filter(Statements.subject.in_(branch_subq))
+        for row in match_agg_query.group_by(Statements.predicate):
             ssc.mapping_statement_count_by_predicate[row.predicate] = FacetedCount(
                 row[0], filtered_count=row[1]
             )
         self._add_derived_statistics(ssc)
         return ssc
+
+    def metadata_property_summary_statistics(self, metadata_property: PRED_CURIE) -> Dict[Any, int]:
+        session = self.session
+        q = session.query(Statements.value, func.count(Statements.value))
+        q = q.filter(Statements.predicate == metadata_property)
+        q = q.group_by(Statements.value)
+        return dict(q)

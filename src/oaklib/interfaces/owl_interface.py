@@ -1,8 +1,9 @@
 import inspect
+import itertools
 from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Iterable, List, Optional, Type, Union
+from typing import Any, Callable, Iterable, List, Optional, Tuple, Type, Union
 
 # TODO: add funowl to dependencies
 import funowl
@@ -174,6 +175,30 @@ class OwlInterface(BasicOntologyInterface, ABC):
                     if not self._entity_matches(axiom.value, value):
                         continue
                 yield axiom
+
+    def disjoint_pairs(self, subjects: Iterable[CURIE] = None) -> Iterable[Tuple[CURIE, CURIE]]:
+        """
+        Gets all disjoint pairs of entities
+
+        :param subjects:
+        :return:
+        """
+        for axiom in self.axioms():
+            if isinstance(axiom, DisjointClasses):
+                if isinstance(axiom.classExpressions, list):
+                    for c1, c2 in itertools.combinations(axiom.classExpressions, 2):
+                        if not subjects or (c1 in subjects or c2 in subjects):
+                            yield c1, c2
+
+    def is_disjoint(self, subject: CURIE, object: CURIE) -> bool:
+        """
+        Checks if two entities are declared or entailed disjoint.
+
+        :param subject:
+        :param object:
+        :return:
+        """
+        raise NotImplementedError
 
     def owl_classes(self) -> Iterable[Class]:
         raise NotImplementedError

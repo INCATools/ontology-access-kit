@@ -1,0 +1,51 @@
+format-version: 1.2
+ontology: x
+
+[Term]
+id: CL:1
+name: x1
+
+[Term]
+id: CL:1a1
+name: 1a1
+
+[Term]
+id: CL:1a2
+name: 1a2
+
+[Term]
+id: CL:1a3
+name: 1a3
+
+[Term]
+id: CL:2
+name: x2
+
+[Term]
+id: CL:3
+name: x3
+
+[Term]
+id: CL:4
+name: x4
+
+[Term]
+id: CL:4a1
+name: X4a1
+
+[Term]
+id: CL:5
+name: x5
+
+[Term]
+id: CL:6
+name: x6
+
+[Term]
+id: CL:7
+name: x7
+
+
+
+
+

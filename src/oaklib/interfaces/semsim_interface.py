@@ -125,6 +125,15 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
         for a in subject_ancestors.intersection(object_ancestors):
             yield a
 
+    def common_descendants(
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        include_owl_nothing: bool = False,
+    ) -> Iterable[CURIE]:
+        raise NotImplementedError
+
     def get_information_content(
         self, curie: CURIE, predicates: List[PRED_CURIE] = None
     ) -> Optional[float]:

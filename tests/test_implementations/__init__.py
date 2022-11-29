@@ -23,11 +23,17 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.vocabulary import (
     CONSIDER_REPLACEMENT,
+    DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
+    HAS_DBXREF,
+    HAS_EXACT_SYNONYM,
     IS_A,
     LOCATED_IN,
     NEVER_IN_TAXON,
+    OIO_SUBSET_PROPERTY,
+    OIO_SYNONYM_TYPE_PROPERTY,
     ONLY_IN_TAXON,
+    OWL_CLASS,
     OWL_THING,
     PART_OF,
     TERM_REPLACED_BY,
@@ -42,13 +48,16 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from tests import (
     ARCHAEA,
     BACTERIA,
     BIOLOGICAL_PROCESS,
+    CATALYTIC_ACTIVITY,
     CELL,
     CELL_CORTEX,
     CELL_PERIPHERY,
@@ -125,6 +134,34 @@ class ComplianceTester:
         tdef = oi.definition(NUCLEUS)
         test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
         test.assertIsNone(oi.definition(FAKE_ID))
+
+    def test_owl_types(self, oi: BasicOntologyInterface, skip_oio=False):
+        test = self.test
+        cases = [
+            (NUCLEUS, OWL_CLASS),
+            (FAKE_ID, None),
+            # (PART_OF, OWL_OBJECT_PROPERTY),
+        ]
+        if not skip_oio:
+            cases.extend(
+                [
+                    ("goslim_generic", OIO_SUBSET_PROPERTY),
+                    ("systematic_synonym", OIO_SYNONYM_TYPE_PROPERTY),
+                ]
+            )
+        for entity, expected in cases:
+            if expected is None:
+                test.assertEqual([], oi.owl_type(entity))
+            else:
+                test.assertEqual([expected], oi.owl_type(entity), f"Failed for {entity}")
+            if expected:
+                entities = list(oi.entities(owl_type=expected))
+                test.assertIn(entity, entities, f"{entity} not found in query for {expected}")
+                for e2, expected2 in cases:
+                    if expected2 != expected:
+                        test.assertNotIn(
+                            e2, entities, f"{e2} unexpectedly found in query for {expected}"
+                        )
 
     def test_labels(self, oi: BasicOntologyInterface):
         """
@@ -213,6 +250,17 @@ class ComplianceTester:
         test.assertCountEqual(
             ["CL:1a1", "CL:1a2", "CL:4a1", "CL:1a3", "CL:2", "CL:3", "CL:5", "CL:6"], obsoletes
         )
+        all_entities = set(list(oi.entities(filter_obsoletes=False)))
+        all_non_obsolete_entities = set(list(oi.entities(filter_obsoletes=True)))
+        ixn = all_non_obsolete_entities.intersection(obsoletes)
+        # Note: the test file has intentional illegalities, 4a1 is an alt_id as well as a primary id
+        # TODO: unify what the expected behavior is for this
+        test.assertTrue(len(ixn) == 0 or ixn == {"CL:4a1"})
+        test.assertCountEqual(all_entities, all_non_obsolete_entities.union(obsoletes))
+        # test.assertCountEqual(obsoletes, all_entities.difference(all_non_obsolete_entities))
+        for x in obsoletes:
+            mm = oi.entity_metadata_map(x)
+            test.assertEquals([True], mm[DEPRECATED_PREDICATE])
         cases = [
             ("CL:1", [], []),
             ("CL:1a1", ["CL:1"], []),
@@ -417,6 +465,167 @@ class ComplianceTester:
         # TODO: align test cases
         # self.test_relationships(oi2)
 
+    def test_disjoint_with(self, oi: OwlInterface):
+        """
+        Tests querying for disjoint pairs
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        pairs = list(oi.disjoint_pairs())
+        expected = [
+            ("BFO:0000002", "BFO:0000003"),
+            ("BFO:0000004", "BFO:0000020"),
+            ("CL:0000000", "GO:0043226"),
+            ("GO:0003674", "GO:0008150"),
+            ("GO:0003674", "GO:0005575"),
+            ("GO:0005575", "GO:0008150"),
+            ("GO:0005634", "GO:0005737"),
+            ("NCBITaxon:10239", "NCBITaxon:131567"),
+            ("NCBITaxon:2", "NCBITaxon:2759"),
+            ("NCBITaxon:2", "NCBITaxon:2157"),
+            ("NCBITaxon:2157", "NCBITaxon:2759"),
+            ("NCBITaxon:2611352", "NCBITaxon:554915"),
+            ("NCBITaxon:2611352", "NCBITaxon:33154"),
+            ("NCBITaxon:2611352", "NCBITaxon:33090"),
+            ("NCBITaxon:33090", "NCBITaxon:554915"),
+            ("NCBITaxon:33090", "NCBITaxon:33154"),
+            ("NCBITaxon:33154", "NCBITaxon:554915"),
+        ]
+        for pair in pairs:
+            test.assertTrue(
+                pair in expected or pair[::-1] in expected, f"Unexpected disjoint pair: {pair}"
+            )
+        for case in expected:
+            test.assertTrue(
+                case in pairs or case[::-1] in pairs, f"Expected disjoint pair not found: {case}"
+            )
+        for case in expected:
+            for c in case:
+                c_pairs = list(oi.disjoint_pairs([c]))
+                test.assertTrue(
+                    case in c_pairs or case[::-1] in c_pairs,
+                    f"Expected disjoint pair not found for {c}: {case}",
+                )
+                test.assertFalse(
+                    any(c for c_pair in c_pairs if c not in c_pair),
+                    f"Unexpected disjoint pair for {c}: {case}",
+                )
+            test.assertTrue(
+                oi.is_disjoint(case[0], case[1]),
+                f"Expected disjoint pair not found for {c}: {case}",
+            )
+            test.assertTrue(
+                oi.is_disjoint(case[1], case[0]),
+                f"Expected disjoint pair not found for {c}: {case}",
+            )
+            if isinstance(oi, SemanticSimilarityInterface):
+                c1, c2 = case
+                cds = list(oi.common_descendants(c1, c2, predicates=[IS_A]))
+                test.assertFalse(cds, f"Did not common descendants: {c1}, {c2} = {cds}")
+        entailed_cases = [
+            (NUCLEUS, BIOLOGICAL_PROCESS),
+            (NUCLEUS, CELL_CORTEX),
+            (CELL, VACUOLE),
+        ]
+        for c1, c2 in entailed_cases:
+            test.assertTrue(oi.is_disjoint(c1, c2), f"Expected disjoint pair: {c1}, {c2}")
+            test.assertTrue(oi.is_disjoint(c2, c1), f"Expected disjoint pair: {c1}, {c2}")
+        negative_cases = [
+            (NUCLEUS, NUCLEAR_MEMBRANE),
+            (NUCLEAR_MEMBRANE, CELL_CORTEX),
+            (NUCLEUS, CELLULAR_COMPONENT),
+            (NUCLEUS, NUCLEUS),
+            ("CHEBI:33250", "CHEBI:33250"),
+            ("CHEBI:24431", "CHEBI:24431"),
+        ]
+        for c1, c2 in negative_cases:
+            test.assertFalse(oi.is_disjoint(c1, c2), f"Unexpected disjoint pair: {c1}, {c2}")
+            test.assertFalse(oi.is_disjoint(c2, c1), f"Unexpected disjoint pair: {c1}, {c2}")
+        for c in oi.entities(owl_type=OWL_CLASS):
+            test.assertFalse(oi.is_disjoint(c, c), f"Unexpected disjoint pair: {c}, {c}")
+            if isinstance(oi, SemanticSimilarityInterface):
+                cds = list(oi.common_descendants(c, c, predicates=[IS_A]))
+                test.assertTrue(cds, f"Expected common descendants: {c}, {c}")
+                test.assertIn(c, cds, f"ExpectedIn: {c}, {cds}")
+
+    def test_reflexive_diff(self, oi: DifferInterface):
+        """
+        Tests that the reflexive diff is empty
+
+        :param oi:
+        :return:
+        """
+        test = self.test
+        diff = list(oi.diff(oi))
+        for ch in diff:
+            print(ch)
+        test.assertEqual(0, len(diff), f"Reflexive diff is not empty: {diff}")
+
+    def test_diff(self, oi: DifferInterface, oi_modified: DifferInterface):
+        """
+        Tests diff implementation by comparing two ontologies.
+
+        :param oi:
+        :param oi_modified:
+        :return:
+        """
+        n_unexpected = 0
+        test = self.test
+        diff = list(oi.diff(oi_modified))
+        FIXED_ID = "test"
+        expected = [
+            kgcl.RemoveSynonym(
+                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="enzyme activity"
+            ),
+            kgcl.NewSynonym(
+                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="catalytic activity"
+            ),
+            kgcl.NodeRename(
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                new_value="enzyme activity",
+                old_value="catalytic activity",
+            ),
+            kgcl.NodeDeletion(id=FIXED_ID, about_node="GO:0033673"),
+        ]
+        for ch in diff:
+            ch.id = FIXED_ID
+            if ch in expected:
+                expected.remove(ch)
+            else:
+                logging.error(f"Unexpected change: {ch}")
+                n_unexpected += 1
+            ch.type = type(ch).__name__
+        test.assertEqual(0, len(expected), f"Expected changes not found: {expected}")
+        expected_rev = [
+            kgcl.NewSynonym(
+                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, new_value="enzyme activity"
+            ),
+            kgcl.RemoveSynonym(
+                id=FIXED_ID, about_node=CATALYTIC_ACTIVITY, old_value="catalytic activity"
+            ),
+            kgcl.NodeRename(
+                id=FIXED_ID,
+                about_node=CATALYTIC_ACTIVITY,
+                old_value="enzyme activity",
+                new_value="catalytic activity",
+            ),
+            kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
+        ]
+        rdiff = list(oi_modified.diff(oi))
+        for ch in rdiff:
+            ch.id = FIXED_ID
+            if ch in expected_rev:
+                expected_rev.remove(ch)
+            else:
+                logging.error(f"Unexpected change: {ch}")
+                n_unexpected += 1
+            ch.type = type(ch).__name__
+        test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
+        test.assertEqual(0, n_unexpected)
+
     def test_patcher(
         self,
         oi: PatcherInterface,
@@ -543,6 +752,75 @@ class ComplianceTester:
                 # TODO: raise exception
                 print(f"Expected change not found: {ch}")
             test.assertLessEqual(len(expected_changes), 4)
+
+    def test_summary_statistics(self, oi: SummaryStatisticsInterface):
+        """
+        Tests ability to produce summary statistics
+        :param oi:
+        :return:
+        """
+        test = self.test
+        oi.include_residuals = True
+        stats = oi.branch_summary_statistics(include_entailed=True)
+        print(yaml_dumper.dumps(stats))
+        test.assertEqual(247, stats.class_count)
+        test.assertEqual(94, stats.class_count_with_text_definitions)
+        test.assertEqual(23, stats.edge_count_by_predicate[PART_OF].filtered_count)
+        test.assertEqual(223, stats.edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(223, stats.edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(425754, stats.entailed_edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(255, stats.distinct_synonym_count)
+        test.assertEqual(264, stats.synonym_statement_count)
+        test.assertEqual(
+            136, stats.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count
+        )
+        test.assertEqual(152, stats.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count)
+        stats_cc = oi.branch_summary_statistics("cc", branch_roots=[CELLULAR_COMPONENT])
+        print(yaml_dumper.dumps(stats_cc))
+        test.assertEqual(23, stats_cc.class_count)
+        test.assertEqual(23, stats_cc.class_count_with_text_definitions)
+        test.assertEqual(19, stats_cc.edge_count_by_predicate[PART_OF].filtered_count)
+        test.assertEqual(26, stats_cc.edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(29, stats_cc.distinct_synonym_count)
+        test.assertEqual(29, stats_cc.synonym_statement_count)
+        test.assertEqual(
+            14, stats_cc.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count
+        )
+        test.assertEqual(
+            17, stats_cc.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count
+        )
+        stats_ns = oi.branch_summary_statistics(
+            "cc_namespace", property_values={"oio:hasOBONamespace": "cellular_component"}
+        )
+        print(yaml_dumper.dumps(stats_ns))
+        test.assertEqual(23, stats_ns.class_count)
+        test.assertEqual(23, stats_ns.class_count_with_text_definitions)
+        test.assertEqual(19, stats_ns.edge_count_by_predicate[PART_OF].filtered_count)
+        test.assertEqual(26, stats_ns.edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(29, stats_ns.distinct_synonym_count)
+        test.assertEqual(29, stats_ns.synonym_statement_count)
+        test.assertEqual(
+            14, stats_ns.synonym_statement_count_by_predicate[HAS_EXACT_SYNONYM].filtered_count
+        )
+        test.assertEqual(
+            17, stats_ns.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count
+        )
+        global_stats = oi.global_summary_statistics(group_by="oio:hasOBONamespace")
+        print(yaml_dumper.dumps(global_stats))
+        gs_cc = global_stats.partitions["cellular_component"]
+        test.assertCountEqual(
+            [
+                "cellular_component",
+                "biological_process",
+                "molecular_function",
+                "external",
+                "__OTHER__",
+            ],
+            list(global_stats.partitions.keys()),
+        )
+        for k, v in vars(stats_ns).items():
+            if isinstance(v, int):
+                test.assertEqual(v, getattr(gs_cc, k))
 
     def test_create_ontology_via_patches(
         self, oi: PatcherInterface, roundtrip_function: Callable = None

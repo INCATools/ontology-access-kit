@@ -132,20 +132,26 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                         if ann.match_string in expected_in_text:
                             if is_genus and len(ann.match_string) < len(expected_in_text):
                                 yield ValidationResult(
-                                    type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
                                     subject=subject,
+                                    predicate=HAS_DEFINITION_CURIE,
+                                    type=DefinitionConstraintComponent.GenusDifferentiaForm.meaning,
+                                    object_str=expected_in_text,
                                     info=f"Did not match whole text: {ann.match_string} < {expected_in_text}",
                                 )
                         else:
                             yield ValidationResult(
                                 type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
                                 subject=subject,
+                                predicate=HAS_DEFINITION_CURIE,
+                                object_str=expected_in_text,
                                 info=f"Wrong position, '{ann.match_string}' not in '{expected_in_text}'",
                             )
                 else:
                     yield ValidationResult(
                         type=DefinitionConstraintComponent.MatchTextAndLogical.meaning,
-                        object=expected_id,
+                        # object=expected_id,
+                        predicate=HAS_DEFINITION_CURIE,
+                        object_str=expected_in_text,
                         subject=subject,
                         info=f"Not found: {expected_id}",
                     )
@@ -160,6 +166,8 @@ class TextAndLogicalDefinitionMatchOntologyRule(OntologyRule):
                 yield ValidationResult(
                     type=DefinitionConstraintComponent.Circularity.meaning,
                     subject=subject,
+                    predicate=HAS_DEFINITION_CURIE,
+                    object_str=pdef.main_definition,
                     info=f"Circular, {anns_by_object[subject].match_string} in definition",
                 )
         else:

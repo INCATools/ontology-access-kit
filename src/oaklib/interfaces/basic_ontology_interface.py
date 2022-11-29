@@ -13,11 +13,14 @@ from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
     HAS_ONTOLOGY_ROOT_TERM,
     IS_A,
+    IS_DEFINED_BY,
     LABEL_PREDICATE,
     OBSOLETION_RELATIONSHIP_PREDICATES,
     OWL_CLASS,
     OWL_NOTHING,
     OWL_THING,
+    PREFIX_PREDICATE,
+    URL_PREDICATE,
 )
 from oaklib.interfaces.ontology_interface import OntologyInterface
 from oaklib.mappers.ontology_metadata_mapper import OntologyMetadataMapper
@@ -345,14 +348,43 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     def all_entity_curies(self, **kwargs) -> Iterable[CURIE]:
         return self.entities(**kwargs)
 
-    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[CURIE]:
+    def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
         """
         Yields all known OWL types for given entities.
+
+        The OWL type must either be the instantiated type as the RDFS level, e.g.
+
+        - owl:Class
+        - owl:ObjectProperty
+        - owl:DatatypeProperty
+        - owl:AnnotationProperty
+        - owl:NamedIndividual
+
+        Or a vocabulary type for a particular kind of construct, e.g
+
+        - oio:SubsetProperty
+        - obo:SynonymTypeProperty
+
+        See `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of the OWL 2 Primer
 
         :param entities:
         :return: iterator
         """
         raise NotImplementedError
+
+    def owl_type(self, entity: CURIE) -> List[CURIE]:
+        """
+        Get the OWL type for a given entity.
+
+        Typically each entity will have a single OWL type, but in some cases
+        an entity may have multiple OWL types. This is called "punning",
+        see `Section 8.3<https://www.w3.org/TR/owl2-primer/#Entity_Declarations>` of
+        the OWL primer
+
+        :param entity:
+        :return: CURIE
+        """
+        return [x[1] for x in self.owl_types([entity]) if x[1] is not None]
 
     def defined_by(self, entity: CURIE) -> Optional[str]:
         """
@@ -893,6 +925,34 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def add_missing_property_values(self, curie: CURIE, metadata_map: METADATA_MAP) -> None:
+        """
+        Add missing property values to a metadata map.
+
+        This is a convenience method for implementations that do not have a complete metadata map.
+
+        :param curie:
+        :param metadata_map:
+        :return:
+        """
+        if "id" not in metadata_map:
+            metadata_map["id"] = [curie]
+        if ":" in curie:
+            prefix, _ = curie.split(":", 1)
+            if PREFIX_PREDICATE not in metadata_map:
+                metadata_map[PREFIX_PREDICATE] = [prefix]
+            uri = self.curie_to_uri(curie, False)
+            if uri:
+                if URL_PREDICATE not in metadata_map:
+                    metadata_map[URL_PREDICATE] = [uri]
+                if IS_DEFINED_BY not in metadata_map:
+                    if uri.startswith("http://purl.obolibrary.org/obo/"):
+                        metadata_map[IS_DEFINED_BY] = [
+                            f"http://purl.obolibrary.org/obo/{prefix.lower()}.owl"
+                        ]
+                    else:
+                        metadata_map[IS_DEFINED_BY] = [self.curie_to_uri(f"{prefix}:", False)]
 
     def create_entity(
         self, curie: CURIE, label: str = None, relationships: RELATIONSHIP_MAP = None

@@ -13,6 +13,8 @@ DEFAULT_PREFIX_MAP = {ns.prefix: str(ns) for ns in NAMESPACES}
 APP_NAME = "ontology-access-kit"
 
 IDENTIFIER_PREDICATE = "rdf:ID"
+URL_PREDICATE = "schema:url"
+PREFIX_PREDICATE = "sh:prefix"
 
 # TODO: replace with oio vocab
 LABEL_PREDICATE = omd.slots.label.curie
@@ -45,6 +47,7 @@ TERMS_MERGED = "IAO:0000227"
 OBSOLETION_RELATIONSHIP_PREDICATES = [TERM_REPLACED_BY, CONSIDER_REPLACEMENT]
 
 HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
+HAS_OBO_NAMESPACE = omd.slots.has_obo_namespace.curie
 
 IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]
 
@@ -91,6 +94,7 @@ SKOS_MATCH_PREDICATES = [
 HAS_DBXREF = omd.slots.database_cross_reference.curie
 HAS_SYNONYM_TYPE = "oio:hasSynonymType"
 OIO_SUBSET_PROPERTY = "oio:SubsetProperty"
+OIO_SYNONYM_TYPE_PROPERTY = "oio:SynonymTypeProperty"
 ALL_MATCH_PREDICATES = SKOS_MATCH_PREDICATES + [HAS_DBXREF, OWL_SAME_AS]
 HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie

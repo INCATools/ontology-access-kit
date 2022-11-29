@@ -28,13 +28,15 @@ class MireotExtraction(SubsetStrategy):
 
 class SubsetterInterface(BasicOntologyInterface, ABC):
     """
-    an interface that provides subsetting operations
+    an interface that provides subsetting operations.
 
-    a challenge here is what a subset operation should produce:
+    Subsets are named sets of entities/terms in an ontology. Subsetting operations include
+    extracting, and "rolling up" to a subset.
 
-     - an ontology object (committing to a specific object model)
-     - an ontology interface
-     - a reference to an ontology
+    See:
+
+     - http://geneontology.org/docs/go-subset-guide/
+
     """
 
     def extract_subset_ontology(

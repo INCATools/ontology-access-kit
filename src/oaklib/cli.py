@@ -7,7 +7,6 @@ Executed using "runoak" command
 # TODO: order commands.
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
-import json
 import logging
 import re
 import secrets
@@ -52,13 +51,17 @@ from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
 from oaklib.datamodels.obograph import PrefixDeclaration
 from oaklib.datamodels.search import create_search_configuration
+from oaklib.datamodels.summary_statistics_datamodel import GlobalStatistics
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.datamodels.vocabulary import (
     DEVELOPS_FROM,
     EQUIVALENT_CLASS,
+    HAS_OBO_NAMESPACE,
     IS_A,
+    IS_DEFINED_BY,
     PART_OF,
+    PREFIX_PREDICATE,
     RDF_TYPE,
 )
 from oaklib.implementations.aggregator.aggregator_implementation import (
@@ -77,7 +80,7 @@ from oaklib.interfaces.association_provider_interface import (
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
-from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.differ_interface import DiffConfiguration, DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -115,7 +118,7 @@ from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.associations.association_differ import AssociationDiffer
 from oaklib.utilities.iterator_utils import chunk
-from oaklib.utilities.kgcl_utilities import generate_change_id
+from oaklib.utilities.kgcl_utilities import generate_change_id, parse_kgcl_files
 from oaklib.utilities.lexical.lexical_indexer import (
     DEFAULT_QUALIFIER,
     add_labels_from_uris,
@@ -146,7 +149,7 @@ from oaklib.utilities.taxon.taxon_constraint_utils import (
     get_term_with_taxon_constraints,
     parse_gain_loss_file,
 )
-from oaklib.utilities.validation.definition_ontology_rules import (
+from oaklib.utilities.validation.definition_ontology_rule import (
     TextAndLogicalDefinitionMatchOntologyRule,
 )
 from oaklib.utilities.validation.lint_utils import lint_ontology
@@ -336,6 +339,28 @@ display_option = click.option(
     "--display",
     default="",
     help="A comma-separated list of display options. Use 'all' for all",
+)
+group_by_property_option = click.option(
+    "--group-by-property",
+    help="group summaries by a metadata property, e.g. rdfs:isDefinedBy",
+)
+group_by_obo_namespace_option = click.option(
+    "--group-by-obo-namespace/--no-group-by-obo-namespace",
+    default=False,
+    show_default=True,
+    help="shortcut for --group-by-property oio:hasOBONamespace (note this is distinct from the ID namespace)",
+)
+group_by_defined_by_option = click.option(
+    "--group-by-defined-by/--no-group-by-defined-by",
+    default=False,
+    show_default=True,
+    help="shortcut for --group-by-property rdfs:isDefinedBy. This may be inferred from prefix if not set explicitly",
+)
+group_by_prefix_option = click.option(
+    "--group-by-prefix/--no-group-by-prefix",
+    default=False,
+    show_default=True,
+    help="shortcut for --group-by-property sh:prefix. Groups by the prefix of the CURIE",
 )
 
 
@@ -859,21 +884,76 @@ def obsoletes(include_merged: bool, output_type: str, output: str):
 
 @main.command()
 @ontological_output_type_option
+@group_by_property_option
+@group_by_obo_namespace_option
+@group_by_prefix_option
+@group_by_defined_by_option
+@click.option(
+    "--include-residuals/--no-include-residuals",
+    help="If true include an OTHER category for terms that do not have the property",
+)
 @output_option
-def statistics(output_type: str, output: str):
+@click.argument("branches", nargs=-1)
+def statistics(
+    branches,
+    group_by_property,
+    group_by_obo_namespace: bool,
+    group_by_defined_by: bool,
+    group_by_prefix: bool,
+    include_residuals: bool,
+    output_type: str,
+    output: str,
+):
     """
     Shows all descriptive/summary statistics
 
     Example:
+
         runoak -i sqlite:obo:pr statistics
+
+    By default, this will show combined summary statistics for all terms
+
+    You can also break down the statistics in two ways:
+
+    - by a collection of branch roots
+    - by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)
+
+    Example:
+
+        runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace
 
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
     if isinstance(impl, SummaryStatisticsInterface):
-        ssc = impl.global_summary_statistics()
-        writer.emit(ssc)
+        impl.include_residuals = include_residuals
+        if group_by_obo_namespace:
+            group_by_property = HAS_OBO_NAMESPACE
+        if group_by_defined_by:
+            group_by_property = IS_DEFINED_BY
+        if group_by_prefix:
+            group_by_property = PREFIX_PREDICATE
+        if not branches and not group_by_property:
+            ssc = impl.branch_summary_statistics()
+        else:
+            if branches and group_by_property:
+                raise ValueError("Cannot specify both branches and predicates")
+            if branches:
+                branches = list(query_terms_iterator(branches, impl))
+                ssc = impl.global_summary_statistics(
+                    branches={impl.label(b): [b] for b in branches}
+                )
+            else:
+                ssc = impl.global_summary_statistics(group_by=group_by_property)
+        if isinstance(writer, StreamingCsvWriter):
+            if isinstance(ssc, GlobalStatistics):
+                for p in ssc.partitions.values():
+                    writer.emit(p)
+            else:
+                writer.emit(ssc)
+        else:
+            writer.emit(ssc)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -990,6 +1070,7 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
 @main.command()
 @output_option
 @output_type_option
+@predicates_option
 @click.option(
     "--reification/--no-reification",
     default=False,
@@ -997,7 +1078,7 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
     help="if true then fetch axiom triples with annotations",
 )
 @click.argument("terms", nargs=-1)
-def term_metadata(terms, reification: bool, output_type: str, output: str):
+def term_metadata(terms, predicates, reification: bool, output_type: str, output: str):
     """
     Shows term metadata.
 
@@ -3245,6 +3326,12 @@ def diff_associations(
     show_default=True,
     help="If true, ontology rules are skipped",
 )
+@click.option(
+    "--rule",
+    "-R",
+    multiple=True,
+    help="A rule to run. Can be specified multiple times. If not specified, all rules are run.",
+)
 @output_option
 @output_type_option
 def validate(
@@ -3252,6 +3339,7 @@ def validate(
     cutoff: int,
     skip_structural_validation: bool,
     skip_ontology_rules: bool,
+    rule,
     output_type,
 ):
     """
@@ -3283,6 +3371,8 @@ def validate(
         output_type, impl, StreamingCsvWriter, datamodel=datamodels.validation_datamodel
     )
     writer.output = output
+    if rule:
+        skip_ontology_rules = False
     if isinstance(impl, ValidatorInterface):
         if not skip_structural_validation:
             counts = defaultdict(int)
@@ -3302,6 +3392,8 @@ def validate(
                 print(f"{k}:: {v}")
         if not skip_ontology_rules:
             rr = RuleRunner()
+            if rule:
+                rr.set_rules(rule)
             for result in rr.run(impl):
                 writer.emit(result)
     else:
@@ -3666,36 +3758,116 @@ def diff_terms(output, other_ontology, terms):
     show_default=True,
     help="perform a quick difference showing only terms that differ",
 )
+@click.option(
+    "--statistics/--no-statistics",
+    default=False,
+    show_default=True,
+    help="show summary statistics only",
+)
+@group_by_property_option
+@group_by_obo_namespace_option
+@group_by_defined_by_option
+@group_by_prefix_option
 @output_option
 @output_type_option
-def diff(simple: bool, output, output_type, other_ontology):
+def diff(
+    simple: bool,
+    statistics: bool,
+    output,
+    group_by_property,
+    group_by_obo_namespace: bool,
+    group_by_prefix: bool,
+    group_by_defined_by: bool,
+    output_type,
+    other_ontology,
+):
     """
-    Diff between two ontologies
+    Compute difference between two ontologies.
 
-    Produces a list of Changes that are required to go from the main input ontology to the other ontology
+    Example:
 
-    The --simple option will compare the lists of terms in each ontology. This is currently
-    implemented for most endpoints.
+        runoak -i foo.obo diff -X bar.obo -o diff.yaml
 
-    If --simple is not set, then this will do a complete diff, and return the diff as KGCL
-    change commands.
+    This will produce a list of Changes that are required to go from the main input ontology (--input)
+    to the other ontology (--other-ontology, or -X).
 
-    Current limitations
+    The output follows the KGCL data model.
+    See https://incatools.github.io/ontology-access-kit/datamodels/kgcl/index.html
 
-    - complete diffs can only be done using local RDF files
-    - Parsing using rdflib can be slow
-    - Currently the return format is ONLY the KGCL change DSL. In future YAML, JSON, RDF will be an option
+    You can use --output-type to control the output format.
+
+    KGCL controlled natural language:
+
+        runoak -i foo.obo diff -X bar.obo -o diff.txt --output-type kgcl
+
+    KGCL JSON:
+
+        runoak -i foo.obo diff -X bar.obo -o diff.json --output-type json
+
+    YAML (default):
+
+        runoak -i foo.obo diff -X bar.obo -o diff.yaml --output-type yaml
+
+    The --statistics option can be used to generate summary statistics for the changes.
+    These are grouped according to the --group-by-property option. For example,
+    the GO uses the oio:hasOBONamespace property to partition classes into 3 categories.
+
+    Example:
+
+        runoak -i go.obo diff -X go-new.obo -o diff.yaml --statistics --group-by-property oio:hasOBONamespace
+
+    This will produce a YAML dictionary, with outer keys being the values of the oio:hasOBONamespace property,
+    and inner keys being the change types.
+
+    If --group-by-property is not specified, or there is no value for this property, then the outer key
+    will be "__RESIDUAL__"
+
+    For summary statistics, you can also specify --output-type csv, to get a tabular out
+
+    Limitations:
+
+    This does not do a diff over every axiom in each ontology. For a complete OWL diff, you should
+    use ROBOT.
+
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingJsonWriter)
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
+    writer.heterogeneous_keys = True
     other_impl = get_implementation_from_shorthand(other_ontology)
+    config = DiffConfiguration(simple=simple)
+    if group_by_obo_namespace:
+        config.summary_partition_property = HAS_OBO_NAMESPACE
+    if group_by_defined_by:
+        config.summary_partition_property = IS_DEFINED_BY
+    if group_by_prefix:
+        config.summary_partition_property = PREFIX_PREDICATE
+    if group_by_property:
+        if config.summary_partition_property:
+            logging.warning(
+                f"Duplicative setting of property {group_by_property} and {config.summary_partition_property}"
+            )
+            if config.summary_partition_property != group_by_property:
+                raise ValueError(
+                    f"Cannot set both {config.summary_partition_property} and {group_by_property}"
+                )
+        config.summary_partition_property = group_by_property
     if isinstance(impl, DifferInterface):
-        if simple:
-            for change in impl.compare_ontology_term_lists(other_impl):
-                writer.emit(change)
+        if statistics:
+            summary = impl.diff_summary(other_impl, configuration=config)
+            if isinstance(writer, StreamingCsvWriter):
+                # inject the key into object, ensuring it is the first column
+                for k, v in summary.items():
+                    v = {**{"group": k}, **v}
+                    writer.emit(v)
+            else:
+                writer.emit(summary)
         else:
-            for change in impl.diff(other_impl):
+            for change in impl.diff(other_impl, configuration=config):
+                if isinstance(writer, StreamingYamlWriter):
+                    # TODO: when a complete type designator is added to KGCL
+                    # we can remove this
+                    change.type = change.__class__.__name__
                 writer.emit(change)
         writer.finish()
     else:
@@ -3761,26 +3933,9 @@ def apply(
                 files.append(sys.stdin)
             else:
                 change = kgcl_parser.parse_statement(command)
+                logging.info(f"parsed {command} == {change}")
                 changes.append(change)
-        for file in files:
-            if changes_format == "json":
-                import kgcl_schema.utils as kgcl_utilities
-
-                objs = json.load(file)
-                for obj in objs:
-                    obj["type"] = obj["@type"]
-                    del obj["@type"]
-                print(objs)
-                changes = kgcl_utilities.from_dict({"change_set": objs}).change_set
-            else:
-                for line in file.readlines():
-                    line = line.strip()
-                    if not line:
-                        continue
-                    if line.startswith("#"):
-                        continue
-                    change = kgcl_parser.parse_statement(line)
-                    changes.append(change)
+        changes += list(parse_kgcl_files(files, changes_format))
         for change in changes:
             logging.info(f"Change: {change}")
             if parse_only:

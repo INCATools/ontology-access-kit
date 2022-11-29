@@ -94,7 +94,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert t.id == PART_OF
         assert t.lbl.startswith("part")
 
-    # @unittest.skip("TODO")
     def test_metadata(self):
         for curie in self.oi.entities():
             m = self.oi.entity_metadata_map(curie)
@@ -118,6 +117,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
         # TODO: test strict mode
         label = oi.label(IS_A)
         self.assertIsNotNone(label)
+
+    def test_owl_types(self):
+        self.compliance_tester.test_owl_types(self.oi)
 
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
@@ -175,7 +177,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi = SimpleOboImplementation(resource)
         self.compliance_tester.test_obsolete_entities(oi)
 
-    # @unittest.skip("TODO")
     def test_save(self):
         oi = SimpleOboImplementation()
         OUTPUT_DIR.mkdir(exist_ok=True)
@@ -294,6 +295,14 @@ class TestSimpleOboImplementation(unittest.TestCase):
         copy = "go-nucleus.copy.obo"
         OUTPUT_DIR.mkdir(exist_ok=True)
         self.oi.dump(str(OUTPUT_DIR / copy), syntax="obo")
+
+    def test_reflexive_diff(self):
+        self.compliance_tester.test_reflexive_diff(self.oi)
+
+    def test_diff(self):
+        resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
+        oi_modified = SimpleOboImplementation(resource)
+        self.compliance_tester.test_diff(self.oi, oi_modified)
 
     def test_patcher(self):
         resource = OntologyResource(slug=TEST_ONT, local=True)

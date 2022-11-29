@@ -275,7 +275,10 @@ class WikidataImplementation(
             yield self.uri_to_curie(row["o"]["value"])
 
     def descendants(
-        self, start_curies: Union[CURIE, List[CURIE]], predicates: List[PRED_CURIE] = None
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
     ) -> Iterable[CURIE]:
         if predicates is None:
             raise NotImplementedError("Unbound predicates not supported for Wikidata")
@@ -286,6 +289,8 @@ class WikidataImplementation(
         pred_uris = [self.curie_to_sparql(pred) for pred in predicates]
         pred_uris_j = "|".join(pred_uris)
         where.append(f"?s ({pred_uris_j})* ?o")
+        if not reflexive:
+            where.append("?s != ?o")
         query = SparqlQuery(select=["?s"], distinct=True, where=where)
         print(query.query_str())
         bindings = self._query(query.query_str())

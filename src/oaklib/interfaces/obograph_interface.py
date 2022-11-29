@@ -262,6 +262,24 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             start_curies, self.descendant_graph(start_curies, predicates).edges, reflexive
         )
 
+    def descendant_count(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        reflexive=True,
+    ) -> int:
+        """
+        Count of descendants.
+
+        See :ref:`descendants` for more details.
+
+        :param start_curies: curie or curies to start the walk from
+        :param predicates: only traverse over these (traverses over all if this is not set)
+        :param reflexive: include self
+        :return: count of distinct CURIEs
+        """
+        return len(set(self.descendants(start_curies, predicates, reflexive)))
+
     def subgraph(
         self,
         start_curies: Union[CURIE, List[CURIE]],

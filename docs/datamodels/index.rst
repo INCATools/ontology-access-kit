@@ -24,7 +24,7 @@ not need this.
    obograph/index
    sssom/index
    funowl/index
-   rdflib/index
+   kgcl/index
    similarity/index
    summary-statistics/index
    validation/index

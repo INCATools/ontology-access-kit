@@ -7,7 +7,7 @@ from oaklib.datamodels.obograph import (
 from oaklib.datamodels.vocabulary import PART_OF
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.resource import OntologyResource
-from oaklib.utilities.validation.definition_ontology_rules import (
+from oaklib.utilities.validation.definition_ontology_rule import (
     TextAndLogicalDefinitionMatchOntologyRule,
 )
 from oaklib.utilities.validation.rule_runner import RuleRunner

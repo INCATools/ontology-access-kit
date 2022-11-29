@@ -34,9 +34,13 @@ imports:
 # Classes                         #
 #==================================
 classes:
+
   SummaryStatisticCollection:
     description: A summary statistics report object
     attributes:
+      id:
+        description: Unique handle for this report
+        required: true
       class_count:
         is_a: count_statistic
         slot_group: class_statistic_group
@@ -60,6 +64,11 @@ classes:
         slot_group: class_statistic_group
         annotations:
           filter: Class, NotDeprecated
+      merged_class_count:
+        is_a: count_statistic
+        slot_group: class_statistic_group
+        annotations:
+          filter: Class, Deprecated, Merged
       class_count_with_text_definitions:
         is_a: count_statistic
         slot_group: class_statistic_group
@@ -116,6 +125,8 @@ classes:
           filter: AnonymousIndividual
       untyped_entity_count:
         is_a: count_statistic
+      subset_count:
+        is_a: count_statistic
       description_logic_profile:
         range: string
         slot_group: owl_statistic_group
@@ -168,6 +179,14 @@ classes:
         annotations:
           filter: Synonym
           facet: Predicate
+      class_count_by_subset:
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Subset
+          facet: Predicate
       class_count_by_category:
         slot_group: metadata_statistic_group
         range: FacetedCount
@@ -195,42 +214,17 @@ classes:
           filter: Ontology
 
   GlobalStatistics:
-    is_a: SummaryStatisticCollection
     description: summary statistics for the entire resource
     attributes:
-      by_category:
+      description:
+        range: string
+      partitions:
         description: statistics keyed by category
         comments:
           - for example, GO stats may be broken out by MF/BP/CC
-        range: FacetStatistics
+        range:  SummaryStatisticCollection
         multivalued: true
         inlined: true
-      by_taxon:
-        description: statistics keyed by organism taxon
-        range: FacetStatistics
-        multivalued: true
-        inlined: true
-      by_ontology:
-        description: statistics keyed by ontology
-        comments:
-          - if a large ontology collection like OntoBee is indexed then it makes sense to break stats into each sub-ontology
-        range: FacetStatistics
-        multivalued: true
-        inlined: true
-      by_subset:
-        description: statistics keyed by ontology subset
-        comments:
-          - For example, GO metagenomics_slim
-        range: FacetStatistics
-        multivalued: true
-        inlined: true
-
-  FacetStatistics:
-    is_a: SummaryStatisticCollection
-    description: summary statistics for a data facet
-    attributes:
-      facet:
-        key: true
 
   FacetedCount:
     description: Counts broken down by a facet
