@@ -14,8 +14,6 @@ URI: [reporting:class_count_by_category](https://w3id.org/linkml/reportclass_cou
 | Name | Description |
 | --- | --- |
 [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
-[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
 
 
 

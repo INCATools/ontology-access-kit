@@ -939,18 +939,43 @@ predicates are not specified</p>
 <section id="runoak-diff">
 <h4>diff<a class="headerlink" href="#runoak-diff" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Diff between two ontologies</p>
-<p>Produces a list of Changes that are required to go from the main input ontology to the other ontology</p>
-<p>The –simple option will compare the lists of terms in each ontology. This is currently
-implemented for most endpoints.</p>
-<p>If –simple is not set, then this will do a complete diff, and return the diff as KGCL
-change commands.</p>
-<p>Current limitations</p>
-<ul class="simple">
-<li><p>complete diffs can only be done using local RDF files</p></li>
-<li><p>Parsing using rdflib can be slow</p></li>
-<li><p>Currently the return format is ONLY the KGCL change DSL. In future YAML, JSON, RDF will be an option</p></li>
-</ul>
+<div><p>Compute difference between two ontologies.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i foo.obo diff -X bar.obo -o diff.yaml</p>
+</div></blockquote>
+<p>This will produce a list of Changes that are required to go from the main input ontology (–input)
+to the other ontology (–other-ontology, or -X).</p>
+<p>The output follows the KGCL data model.
+See <a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/kgcl/index.html">https://incatools.github.io/ontology-access-kit/datamodels/kgcl/index.html</a></p>
+<p>You can use –output-type to control the output format.</p>
+<p>KGCL controlled natural language:</p>
+<blockquote>
+<div><p>runoak -i foo.obo diff -X bar.obo -o diff.txt –output-type kgcl</p>
+</div></blockquote>
+<p>KGCL JSON:</p>
+<blockquote>
+<div><p>runoak -i foo.obo diff -X bar.obo -o diff.json –output-type json</p>
+</div></blockquote>
+<p>YAML (default):</p>
+<blockquote>
+<div><p>runoak -i foo.obo diff -X bar.obo -o diff.yaml –output-type yaml</p>
+</div></blockquote>
+<p>The –statistics option can be used to generate summary statistics for the changes.
+These are grouped according to the –group-by-property option. For example,
+the GO uses the oio:hasOBONamespace property to partition classes into 3 categories.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i go.obo diff -X go-new.obo -o diff.yaml –statistics –group-by-property oio:hasOBONamespace</p>
+</div></blockquote>
+<p>This will produce a YAML dictionary, with outer keys being the values of the oio:hasOBONamespace property,
+and inner keys being the change types.</p>
+<p>If –group-by-property is not specified, or there is no value for this property, then the outer key
+will be “__RESIDUAL__”</p>
+<p>For summary statistics, you can also specify –output-type csv, to get a tabular out</p>
+<p>Limitations:</p>
+<p>This does not do a diff over every axiom in each ontology. For a complete OWL diff, you should
+use ROBOT.</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -966,6 +991,56 @@ change commands.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-diff-simple">
 <span id="cmdoption-runoak-diff-no-simple"></span><span class="sig-name descname"><span class="pre">--simple</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-simple</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-simple" title="Permalink to this definition"></a></dt>
 <dd><p>perform a quick difference showing only terms that differ</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-statistics">
+<span id="cmdoption-runoak-diff-no-statistics"></span><span class="sig-name descname"><span class="pre">--statistics</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-statistics</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-statistics" title="Permalink to this definition"></a></dt>
+<dd><p>show summary statistics only</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-group-by-property">
+<span class="sig-name descname"><span class="pre">--group-by-property</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;group_by_property&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-property" title="Permalink to this definition"></a></dt>
+<dd><p>group summaries by a metadata property, e.g. rdfs:isDefinedBy</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-group-by-obo-namespace">
+<span id="cmdoption-runoak-diff-no-group-by-obo-namespace"></span><span class="sig-name descname"><span class="pre">--group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-obo-namespace" title="Permalink to this definition"></a></dt>
+<dd><p>shortcut for –group-by-property oio:hasOBONamespace (note this is distinct from the ID namespace)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-group-by-defined-by">
+<span id="cmdoption-runoak-diff-no-group-by-defined-by"></span><span class="sig-name descname"><span class="pre">--group-by-defined-by</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-defined-by</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-defined-by" title="Permalink to this definition"></a></dt>
+<dd><p>shortcut for –group-by-property rdfs:isDefinedBy. This may be inferred from prefix if not set explicitly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-diff-group-by-prefix">
+<span id="cmdoption-runoak-diff-no-group-by-prefix"></span><span class="sig-name descname"><span class="pre">--group-by-prefix</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-prefix</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-diff-group-by-prefix" title="Permalink to this definition"></a></dt>
+<dd><p>shortcut for –group-by-property sh:prefix. Groups by the prefix of the CURIE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
 <dd class="field-odd"><p>False</p>
@@ -3091,12 +3166,22 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <h4>statistics<a class="headerlink" href="#runoak-statistics" title="Permalink to this headline"></a></h4>
 <blockquote>
 <div><p>Shows all descriptive/summary statistics</p>
-<dl class="simple">
-<dt>Example:</dt><dd><p>runoak -i sqlite:obo:pr statistics</p>
-</dd>
-</dl>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:pr statistics</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak statistics <span class="o">[</span>OPTIONS<span class="o">]</span>
+<p>By default, this will show combined summary statistics for all terms</p>
+<p>You can also break down the statistics in two ways:</p>
+<ul class="simple">
+<li><p>by a collection of branch roots</p></li>
+<li><p>by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)</p></li>
+</ul>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak statistics <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>BRANCHES<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3112,9 +3197,61 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-group-by-property">
+<span class="sig-name descname"><span class="pre">--group-by-property</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;group_by_property&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-property" title="Permalink to this definition"></a></dt>
+<dd><p>group summaries by a metadata property, e.g. rdfs:isDefinedBy</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-group-by-obo-namespace">
+<span id="cmdoption-runoak-statistics-no-group-by-obo-namespace"></span><span class="sig-name descname"><span class="pre">--group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-obo-namespace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-obo-namespace" title="Permalink to this definition"></a></dt>
+<dd><p>shortcut for –group-by-property oio:hasOBONamespace (note this is distinct from the ID namespace)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-group-by-prefix">
+<span id="cmdoption-runoak-statistics-no-group-by-prefix"></span><span class="sig-name descname"><span class="pre">--group-by-prefix</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-prefix</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-prefix" title="Permalink to this definition"></a></dt>
+<dd><p>shortcut for –group-by-property sh:prefix. Groups by the prefix of the CURIE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-group-by-defined-by">
+<span id="cmdoption-runoak-statistics-no-group-by-defined-by"></span><span class="sig-name descname"><span class="pre">--group-by-defined-by</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-group-by-defined-by</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-group-by-defined-by" title="Permalink to this definition"></a></dt>
+<dd><p>shortcut for –group-by-property rdfs:isDefinedBy. This may be inferred from prefix if not set explicitly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-include-residuals">
+<span id="cmdoption-runoak-statistics-no-include-residuals"></span><span class="sig-name descname"><span class="pre">--include-residuals</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-residuals</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-include-residuals" title="Permalink to this definition"></a></dt>
+<dd><p>If true include an OTHER category for terms that do not have the property</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-statistics-0">
 <span id="cmdoption-runoak-statistics-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-0" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-arg-BRANCHES">
+<span id="cmdoption-runoak-statistics-arg-branches"></span><span class="sig-name descname"><span class="pre">BRANCHES</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-arg-BRANCHES" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>
@@ -3327,6 +3464,12 @@ see <a class="reference external" href="https://github.com/INCATools/kgcl">https
 <dt class="sig sig-object std" id="cmdoption-runoak-term-metadata-O">
 <span id="cmdoption-runoak-term-metadata-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-term-metadata-O" title="Permalink to this definition"></a></dt>
 <dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-term-metadata-p">
+<span id="cmdoption-runoak-term-metadata-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-term-metadata-p" title="Permalink to this definition"></a></dt>
+<dd><p>A comma-separated list of predicates</p>
 </dd></dl>
 
 <dl class="std option">
@@ -3690,6 +3833,12 @@ such as aligning text and logical definitions. These are off by default.</p>
 <dd class="field-odd"><p>True</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-validate-R">
+<span id="cmdoption-runoak-validate-r"></span><span id="cmdoption-runoak-validate-rule"></span><span class="sig-name descname"><span class="pre">-R</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--rule</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;rule&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-validate-R" title="Permalink to this definition"></a></dt>
+<dd><p>A rule to run. Can be specified multiple times. If not specified, all rules are run.</p>
 </dd></dl>
 
 <dl class="std option">

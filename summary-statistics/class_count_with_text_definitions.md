@@ -19,8 +19,6 @@ URI: [reporting:class_count_with_text_definitions](https://w3id.org/linkml/repor
 | Name | Description |
 | --- | --- |
 [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
-[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
 
 
 

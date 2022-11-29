@@ -80,20 +80,20 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.summary_statistics_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.summary_statistics_datamodel</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">FacetedCount</span><span class="p">,</span>
+    <span class="n">GlobalStatistics</span><span class="p">,</span>
     <span class="n">SummaryStatisticCollection</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">OWL_CLASS</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
-
-<span class="c1"># import oaklib.datamodels.summary_statistics_datamodel.slots as statdict_slots</span>
-<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
 
 <span class="n">SUMMARY_STATISTICS_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
@@ -105,28 +105,131 @@
 <span class="sd">    Uses SummaryStatistics datamodel, see :ref:`datamodels`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SummaryStatisticsInterface.global_summary_statistics"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">global_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SummaryStatisticCollection</span><span class="p">:</span>
+    <span class="n">include_residuals</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_metadata_property_summary_statistics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="SummaryStatisticsInterface.global_summary_statistics"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.global_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">global_summary_statistics</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">branches</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_by</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_entailed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GlobalStatistics</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets summary statistics for all ontologies treated as a single ontology.</span>
+
+<span class="sd">        :param branches:</span>
+<span class="sd">        :param group_by:</span>
+<span class="sd">        :param values:</span>
+<span class="sd">        :param include_entailed:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">GlobalStatistics</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">group_by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">branches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot specify both metadata_property and branches&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">branches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">branch_name</span><span class="p">,</span> <span class="n">branch_roots</span> <span class="ow">in</span> <span class="n">branches</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting summary statistics for branch </span><span class="si">{</span><span class="n">branch_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">branch_statistics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch_summary_statistics</span><span class="p">(</span>
+                    <span class="n">branch_name</span><span class="o">=</span><span class="n">branch_name</span><span class="p">,</span>
+                    <span class="n">branch_roots</span><span class="o">=</span><span class="n">branch_roots</span><span class="p">,</span>
+                    <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">stats</span><span class="o">.</span><span class="n">partitions</span><span class="p">[</span><span class="n">branch_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_statistics</span>
+        <span class="k">if</span> <span class="n">group_by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting summary statistics for metadata property </span><span class="si">{</span><span class="n">group_by</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_property_summary_statistics</span><span class="p">(</span><span class="n">group_by</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2"> values for metadata property </span><span class="si">{</span><span class="n">group_by</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_residuals</span><span class="p">:</span>
+                    <span class="n">values</span> <span class="o">+=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Getting summary statistics for metadata property </span><span class="si">{</span><span class="n">group_by</span><span class="si">}</span><span class="s2"> value </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="n">branch_statistics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch_summary_statistics</span><span class="p">(</span>
+                    <span class="n">v</span><span class="p">,</span> <span class="n">property_values</span><span class="o">=</span><span class="p">{</span><span class="n">group_by</span><span class="p">:</span> <span class="n">v</span><span class="p">},</span> <span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;__OTHER__&quot;</span>
+                <span class="n">stats</span><span class="o">.</span><span class="n">partitions</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_statistics</span>
+        <span class="k">if</span> <span class="n">group_by</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">branches</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">branch_statistics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch_summary_statistics</span><span class="p">(</span><span class="n">include_entailed</span><span class="o">=</span><span class="n">include_entailed</span><span class="p">)</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">partitions</span><span class="p">[</span><span class="n">branch_statistics</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_statistics</span>
+        <span class="k">return</span> <span class="n">stats</span></div>
+
+<div class="viewcode-block" id="SummaryStatisticsInterface.branch_summary_statistics"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.branch_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">branch_summary_statistics</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">branch_roots</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">property_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_entailed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SummaryStatisticCollection</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets summary statistics for all ontologies treated as a single ontology.</span>
 
 <span class="sd">        Note that different implementations may implement subsets of the full stats datamodel.</span>
 
+<span class="sd">        :param branch_name:</span>
+<span class="sd">        :param branch_roots: if provided, only statistics for the given branch roots will be returned</span>
+<span class="sd">        :param property_values: if provided, only statistics for entities that match these will be considered</span>
+<span class="sd">        :param include_entailed: if True, include statistics for entailed edges</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ssc</span> <span class="o">=</span> <span class="n">SummaryStatisticCollection</span><span class="p">()</span>
-        <span class="n">class_entities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-        <span class="n">obsoletes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">branch_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">branch_name</span> <span class="o">=</span> <span class="s2">&quot;AllBranches&quot;</span>
+        <span class="k">if</span> <span class="n">branch_roots</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;branch_roots not implemented for </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">property_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">_match</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">property_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">[]):</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+            <span class="n">filtered_entities</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="n">_match</span><span class="p">(</span><span class="n">e</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filtered_entities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="n">filtered_entities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">filtered_entities</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Getting summary statistics for branch </span><span class="si">{</span><span class="n">branch_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ssc</span> <span class="o">=</span> <span class="n">SummaryStatisticCollection</span><span class="p">(</span><span class="n">branch_name</span><span class="p">)</span>
+        <span class="n">class_entities</span> <span class="o">=</span> <span class="n">filtered_entities</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">owl_type</span><span class="o">=</span><span class="n">OWL_CLASS</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">obsoletes</span> <span class="o">=</span> <span class="n">filtered_entities</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">()))</span>
         <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_entities</span><span class="p">)</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_entities</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+        <span class="p">)</span>
         <span class="n">ssc</span><span class="o">.</span><span class="n">deprecated_class_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">class_entities</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">obsoletes</span><span class="p">))</span>
         <span class="n">rel_counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">OboGraphInterface</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">():</span>
-                <span class="n">rel_counts</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">filtered_entities</span><span class="p">:</span>
+                    <span class="n">rel_counts</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rel_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">ssc</span><span class="o">.</span><span class="n">edge_count_by_predicate</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">FacetedCount</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">filtered_count</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="n">ssc</span><span class="o">.</span><span class="n">edge_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">rel_counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_derived_statistics</span><span class="p">(</span><span class="n">ssc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ssc</span></div>
+
+<div class="viewcode-block" id="SummaryStatisticsInterface.metadata_property_summary_statistics"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">metadata_property_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed</span>
+<span class="sd">        by ontology CURIE</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">vs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vs</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">metadata_property</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="nf">_add_derived_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssc</span><span class="p">:</span> <span class="n">SummaryStatisticCollection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -136,6 +239,9 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ssc</span><span class="o">.</span><span class="n">non_deprecated_class_count</span> <span class="o">=</span> <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">-</span> <span class="n">ssc</span><span class="o">.</span><span class="n">deprecated_class_count</span>
+        <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">-</span> <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.partitioned_summary_statistics"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.partitioned_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">partitioned_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">SUMMARY_STATISTICS_MAP</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>

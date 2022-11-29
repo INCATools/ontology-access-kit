@@ -14,8 +14,6 @@ URI: [reporting:edge_count_by_predicate](https://w3id.org/linkml/reportedge_coun
 | Name | Description |
 | --- | --- |
 [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
-[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
 
 
 

@@ -10,14 +10,12 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 ```{mermaid}
  classDiagram
     class SummaryStatisticCollection
-      SummaryStatisticCollection <|-- GlobalStatistics
-      SummaryStatisticCollection <|-- FacetStatistics
-      
       SummaryStatisticCollection : annotation_property_count
       SummaryStatisticCollection : anonymous_class_expression_count
       SummaryStatisticCollection : anonymous_individual_count
       SummaryStatisticCollection : class_count
       SummaryStatisticCollection : class_count_by_category
+      SummaryStatisticCollection : class_count_by_subset
       SummaryStatisticCollection : class_count_with_text_definitions
       SummaryStatisticCollection : class_count_without_text_definitions
       SummaryStatisticCollection : datatype_property_count
@@ -28,9 +26,11 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
       SummaryStatisticCollection : edge_count_by_predicate
       SummaryStatisticCollection : entailed_edge_count_by_predicate
       SummaryStatisticCollection : equivalent_classes_axiom_count
+      SummaryStatisticCollection : id
       SummaryStatisticCollection : individual_count
       SummaryStatisticCollection : mapping_count
       SummaryStatisticCollection : mapping_statement_count_by_predicate
+      SummaryStatisticCollection : merged_class_count
       SummaryStatisticCollection : named_individual_count
       SummaryStatisticCollection : non_deprecated_class_count
       SummaryStatisticCollection : non_deprecated_object_property_count
@@ -40,6 +40,7 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
       SummaryStatisticCollection : property_count
       SummaryStatisticCollection : rdf_triple_count
       SummaryStatisticCollection : subclass_of_axiom_count
+      SummaryStatisticCollection : subset_count
       SummaryStatisticCollection : synonym_statement_count
       SummaryStatisticCollection : synonym_statement_count_by_predicate
       SummaryStatisticCollection : unsatisfiable_class_count
@@ -49,23 +50,20 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 
 
 
-
-## Inheritance
-* **SummaryStatisticCollection**
-    * [GlobalStatistics](GlobalStatistics.md)
-    * [FacetStatistics](FacetStatistics.md)
-
+<!-- no inheritance hierarchy -->
 
 
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> NONE | Unique handle for this report | direct |
 | [class_count](class_count.md) | 0..1 <br/> NONE |  | direct |
 | [anonymous_class_expression_count](anonymous_class_expression_count.md) | 0..1 <br/> NONE |  | direct |
 | [unsatisfiable_class_count](unsatisfiable_class_count.md) | 0..1 <br/> NONE |  | direct |
 | [deprecated_class_count](deprecated_class_count.md) | 0..1 <br/> NONE |  | direct |
 | [non_deprecated_class_count](non_deprecated_class_count.md) | 0..1 <br/> NONE |  | direct |
+| [merged_class_count](merged_class_count.md) | 0..1 <br/> NONE |  | direct |
 | [class_count_with_text_definitions](class_count_with_text_definitions.md) | 0..1 <br/> NONE |  | direct |
 | [class_count_without_text_definitions](class_count_without_text_definitions.md) | 0..1 <br/> NONE |  | direct |
 | [property_count](property_count.md) | 0..1 <br/> NONE |  | direct |
@@ -78,6 +76,7 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 | [named_individual_count](named_individual_count.md) | 0..1 <br/> NONE |  | direct |
 | [anonymous_individual_count](anonymous_individual_count.md) | 0..1 <br/> NONE |  | direct |
 | [untyped_entity_count](untyped_entity_count.md) | 0..1 <br/> NONE |  | direct |
+| [subset_count](subset_count.md) | 0..1 <br/> NONE |  | direct |
 | [description_logic_profile](description_logic_profile.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [owl_axiom_count](owl_axiom_count.md) | 0..1 <br/> NONE |  | direct |
 | [rdf_triple_count](rdf_triple_count.md) | 0..1 <br/> NONE |  | direct |
@@ -88,11 +87,19 @@ URI: [reporting:SummaryStatisticCollection](https://w3id.org/linkml/reportSummar
 | [distinct_synonym_count](distinct_synonym_count.md) | 0..1 <br/> NONE |  | direct |
 | [synonym_statement_count](synonym_statement_count.md) | 0..1 <br/> NONE |  | direct |
 | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+| [class_count_by_subset](class_count_by_subset.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
 | [class_count_by_category](class_count_by_category.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
 | [mapping_count](mapping_count.md) | 0..1 <br/> NONE |  | direct |
 | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
 | [ontology_count](ontology_count.md) | 0..1 <br/> NONE |  | direct |
 
+
+
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [GlobalStatistics](GlobalStatistics.md) | [partitions](partitions.md) | range | [SummaryStatisticCollection](SummaryStatisticCollection.md) |
 
 
 
@@ -137,6 +144,12 @@ description: A summary statistics report object
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 attributes:
+  id:
+    name: id
+    description: Unique handle for this report
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    required: true
   class_count:
     name: class_count
     annotations:
@@ -179,6 +192,16 @@ attributes:
       filter:
         tag: filter
         value: Class, NotDeprecated
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    slot_group: class_statistic_group
+  merged_class_count:
+    name: merged_class_count
+    annotations:
+      filter:
+        tag: filter
+        value: Class, Deprecated, Merged
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
@@ -295,6 +318,11 @@ attributes:
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     is_a: count_statistic
+  subset_count:
+    name: subset_count
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
   description_logic_profile:
     name: description_logic_profile
     from_schema: https://w3id.org/linkml/summary_statistics
@@ -397,6 +425,21 @@ attributes:
     slot_group: metadata_statistic_group
     range: FacetedCount
     inlined: true
+  class_count_by_subset:
+    name: class_count_by_subset
+    annotations:
+      filter:
+        tag: filter
+        value: Subset
+      facet:
+        tag: facet
+        value: Predicate
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
   class_count_by_category:
     name: class_count_by_category
     annotations:
@@ -459,6 +502,17 @@ description: A summary statistics report object
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 attributes:
+  id:
+    name: id
+    description: Unique handle for this report
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    alias: id
+    owner: SummaryStatisticCollection
+    domain_of:
+    - SummaryStatisticCollection
+    range: string
+    required: true
   class_count:
     name: class_count
     annotations:
@@ -525,6 +579,21 @@ attributes:
     rank: 1000
     is_a: count_statistic
     alias: non_deprecated_class_count
+    owner: SummaryStatisticCollection
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: class_statistic_group
+    range: integer
+  merged_class_count:
+    name: merged_class_count
+    annotations:
+      filter:
+        tag: filter
+        value: Class, Deprecated, Merged
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    alias: merged_class_count
     owner: SummaryStatisticCollection
     domain_of:
     - SummaryStatisticCollection
@@ -702,6 +771,16 @@ attributes:
     domain_of:
     - SummaryStatisticCollection
     range: integer
+  subset_count:
+    name: subset_count
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    is_a: count_statistic
+    alias: subset_count
+    owner: SummaryStatisticCollection
+    domain_of:
+    - SummaryStatisticCollection
+    range: integer
   description_logic_profile:
     name: description_logic_profile
     from_schema: https://w3id.org/linkml/summary_statistics
@@ -844,6 +923,25 @@ attributes:
     rank: 1000
     multivalued: true
     alias: synonym_statement_count_by_predicate
+    owner: SummaryStatisticCollection
+    domain_of:
+    - SummaryStatisticCollection
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  class_count_by_subset:
+    name: class_count_by_subset
+    annotations:
+      filter:
+        tag: filter
+        value: Subset
+      facet:
+        tag: facet
+        value: Predicate
+    from_schema: https://w3id.org/linkml/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: class_count_by_subset
     owner: SummaryStatisticCollection
     domain_of:
     - SummaryStatisticCollection

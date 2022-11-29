@@ -13,7 +13,6 @@ URI: [reporting:facet](https://w3id.org/linkml/reportfacet)
 
 | Name | Description |
 | --- | --- |
-[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
 [FacetedCount](FacetedCount.md) | Counts broken down by a facet
 
 
@@ -39,15 +38,25 @@ URI: [reporting:facet](https://w3id.org/linkml/reportfacet)
 
 
 
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
+
+
+
 
 ## LinkML Source
 
 <details>
 ```yaml
 name: facet
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+key: true
 alias: facet
+owner: FacetedCount
 domain_of:
-- FacetStatistics
 - FacetedCount
 range: string
 

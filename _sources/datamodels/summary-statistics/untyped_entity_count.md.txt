@@ -19,8 +19,6 @@ URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_enti
 | Name | Description |
 | --- | --- |
 [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
-[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
 
 
 

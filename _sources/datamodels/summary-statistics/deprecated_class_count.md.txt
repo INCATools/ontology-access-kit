@@ -19,8 +19,6 @@ URI: [reporting:deprecated_class_count](https://w3id.org/linkml/reportdeprecated
 | Name | Description |
 | --- | --- |
 [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
-[FacetStatistics](FacetStatistics.md) | summary statistics for a data facet
 
 
 

@@ -167,6 +167,24 @@ more specialized subclasses</p>
 <p>In some cases there may not be a defined CURIE form for an entity, such as an ontology,
 in which case URIs may be used</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values">
+<span class="sig-name descname"><span class="pre">add_missing_property_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.add_missing_property_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values" title="Permalink to this definition"></a></dt>
+<dd><p>Add missing property values to a metadata map.</p>
+<p>This is a convenience method for implementations that do not have a complete metadata map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curie</strong> – </p></li>
+<li><p><strong>metadata_map</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie">
 <span class="sig-name descname"><span class="pre">alias_map_by_curie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curie</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.alias_map_by_curie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.alias_map_by_curie" title="Permalink to this definition"></a></dt>
 <dd><div class="deprecated">
@@ -834,9 +852,41 @@ are the ‘parents’ or fillers</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_type">
+<span class="sig-name descname"><span class="pre">owl_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.owl_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_type" title="Permalink to this definition"></a></dt>
+<dd><p>Get the OWL type for a given entity.</p>
+<p>Typically each entity will have a single OWL type, but in some cases
+an entity may have multiple OWL types. This is called “punning”,
+see <cite>Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&gt;</cite> of
+the OWL primer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entity</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CURIE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">
-<span class="sig-name descname"><span class="pre">owl_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.owl_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">owl_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.owl_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types" title="Permalink to this definition"></a></dt>
 <dd><p>Yields all known OWL types for given entities.</p>
+<p>The OWL type must either be the instantiated type as the RDFS level, e.g.</p>
+<ul class="simple">
+<li><p>owl:Class</p></li>
+<li><p>owl:ObjectProperty</p></li>
+<li><p>owl:DatatypeProperty</p></li>
+<li><p>owl:AnnotationProperty</p></li>
+<li><p>owl:NamedIndividual</p></li>
+</ul>
+<p>Or a vocabulary type for a particular kind of construct, e.g</p>
+<ul class="simple">
+<li><p>oio:SubsetProperty</p></li>
+<li><p>obo:SynonymTypeProperty</p></li>
+</ul>
+<p>See <cite>Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&gt;</cite> of the OWL 2 Primer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>entities</strong> – </p>

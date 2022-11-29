@@ -81,10 +81,11 @@
              
   <h1>Source code for oaklib.interfaces.owl_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="c1"># TODO: add funowl to dependencies</span>
 <span class="kn">import</span> <span class="nn">funowl</span>
@@ -256,6 +257,30 @@
                     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_matches</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
                         <span class="k">continue</span>
                 <span class="k">yield</span> <span class="n">axiom</span></div>
+
+<div class="viewcode-block" id="OwlInterface.disjoint_pairs"><a class="viewcode-back" href="../../../interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.disjoint_pairs">[docs]</a>    <span class="k">def</span> <span class="nf">disjoint_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets all disjoint pairs of entities</span>
+
+<span class="sd">        :param subjects:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">axiom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axioms</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="p">,</span> <span class="n">DisjointClasses</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">axiom</span><span class="o">.</span><span class="n">classExpressions</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="p">(</span><span class="n">c1</span> <span class="ow">in</span> <span class="n">subjects</span> <span class="ow">or</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">):</span>
+                            <span class="k">yield</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span></div>
+
+<div class="viewcode-block" id="OwlInterface.is_disjoint"><a class="viewcode-back" href="../../../interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.is_disjoint">[docs]</a>    <span class="k">def</span> <span class="nf">is_disjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if two entities are declared or entailed disjoint.</span>
+
+<span class="sd">        :param subject:</span>
+<span class="sd">        :param object:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="k">def</span> <span class="nf">owl_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Class</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>

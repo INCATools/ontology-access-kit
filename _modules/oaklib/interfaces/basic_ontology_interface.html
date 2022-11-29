@@ -95,11 +95,14 @@
     <span class="n">DEFAULT_PREFIX_MAP</span><span class="p">,</span>
     <span class="n">HAS_ONTOLOGY_ROOT_TERM</span><span class="p">,</span>
     <span class="n">IS_A</span><span class="p">,</span>
+    <span class="n">IS_DEFINED_BY</span><span class="p">,</span>
     <span class="n">LABEL_PREDICATE</span><span class="p">,</span>
     <span class="n">OBSOLETION_RELATIONSHIP_PREDICATES</span><span class="p">,</span>
     <span class="n">OWL_CLASS</span><span class="p">,</span>
     <span class="n">OWL_NOTHING</span><span class="p">,</span>
     <span class="n">OWL_THING</span><span class="p">,</span>
+    <span class="n">PREFIX_PREDICATE</span><span class="p">,</span>
+    <span class="n">URL_PREDICATE</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.ontology_interface</span> <span class="kn">import</span> <span class="n">OntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.mappers.ontology_metadata_mapper</span> <span class="kn">import</span> <span class="n">OntologyMetadataMapper</span>
@@ -427,14 +430,43 @@
     <span class="k">def</span> <span class="nf">all_entity_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BasicOntologyInterface.owl_types"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">[docs]</a>    <span class="k">def</span> <span class="nf">owl_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.owl_types"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_types">[docs]</a>    <span class="k">def</span> <span class="nf">owl_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all known OWL types for given entities.</span>
+
+<span class="sd">        The OWL type must either be the instantiated type as the RDFS level, e.g.</span>
+
+<span class="sd">        - owl:Class</span>
+<span class="sd">        - owl:ObjectProperty</span>
+<span class="sd">        - owl:DatatypeProperty</span>
+<span class="sd">        - owl:AnnotationProperty</span>
+<span class="sd">        - owl:NamedIndividual</span>
+
+<span class="sd">        Or a vocabulary type for a particular kind of construct, e.g</span>
+
+<span class="sd">        - oio:SubsetProperty</span>
+<span class="sd">        - obo:SynonymTypeProperty</span>
+
+<span class="sd">        See `Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&gt;` of the OWL 2 Primer</span>
 
 <span class="sd">        :param entities:</span>
 <span class="sd">        :return: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.owl_type"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.owl_type">[docs]</a>    <span class="k">def</span> <span class="nf">owl_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the OWL type for a given entity.</span>
+
+<span class="sd">        Typically each entity will have a single OWL type, but in some cases</span>
+<span class="sd">        an entity may have multiple OWL types. This is called &quot;punning&quot;,</span>
+<span class="sd">        see `Section 8.3&lt;https://www.w3.org/TR/owl2-primer/#Entity_Declarations&gt;` of</span>
+<span class="sd">        the OWL primer</span>
+
+<span class="sd">        :param entity:</span>
+<span class="sd">        :return: CURIE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">owl_types</span><span class="p">([</span><span class="n">entity</span><span class="p">])</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.defined_by"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.defined_by">[docs]</a>    <span class="k">def</span> <span class="nf">defined_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -975,6 +1007,34 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.add_missing_property_values"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values">[docs]</a>    <span class="k">def</span> <span class="nf">add_missing_property_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">metadata_map</span><span class="p">:</span> <span class="n">METADATA_MAP</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add missing property values to a metadata map.</span>
+
+<span class="sd">        This is a convenience method for implementations that do not have a complete metadata map.</span>
+
+<span class="sd">        :param curie:</span>
+<span class="sd">        :param metadata_map:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_map</span><span class="p">:</span>
+            <span class="n">metadata_map</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">curie</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">curie</span><span class="p">:</span>
+            <span class="n">prefix</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">curie</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">PREFIX_PREDICATE</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_map</span><span class="p">:</span>
+                <span class="n">metadata_map</span><span class="p">[</span><span class="n">PREFIX_PREDICATE</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefix</span><span class="p">]</span>
+            <span class="n">uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">uri</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">URL_PREDICATE</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_map</span><span class="p">:</span>
+                    <span class="n">metadata_map</span><span class="p">[</span><span class="n">URL_PREDICATE</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">uri</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">IS_DEFINED_BY</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_map</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://purl.obolibrary.org/obo/&quot;</span><span class="p">):</span>
+                        <span class="n">metadata_map</span><span class="p">[</span><span class="n">IS_DEFINED_BY</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="sa">f</span><span class="s2">&quot;http://purl.obolibrary.org/obo/</span><span class="si">{</span><span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.owl&quot;</span>
+                        <span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">metadata_map</span><span class="p">[</span><span class="n">IS_DEFINED_BY</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">curie_to_uri</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.create_entity"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.create_entity">[docs]</a>    <span class="k">def</span> <span class="nf">create_entity</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">RELATIONSHIP_MAP</span> <span class="o">=</span> <span class="kc">None</span>

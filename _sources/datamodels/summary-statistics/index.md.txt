@@ -10,7 +10,6 @@ Name: summary-statistics
 | Class | Description |
 | --- | --- |
 | [FacetedCount](FacetedCount.md) | Counts broken down by a facet |
-| [FacetStatistics](FacetStatistics.md) | summary statistics for a data facet |
 | [GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource |
 | [SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object |
 
@@ -22,12 +21,9 @@ Name: summary-statistics
 | [annotation_property_count](annotation_property_count.md) |  |
 | [anonymous_class_expression_count](anonymous_class_expression_count.md) |  |
 | [anonymous_individual_count](anonymous_individual_count.md) |  |
-| [by_category](by_category.md) | statistics keyed by category |
-| [by_ontology](by_ontology.md) | statistics keyed by ontology |
-| [by_subset](by_subset.md) | statistics keyed by ontology subset |
-| [by_taxon](by_taxon.md) | statistics keyed by organism taxon |
 | [class_count](class_count.md) |  |
 | [class_count_by_category](class_count_by_category.md) |  |
+| [class_count_by_subset](class_count_by_subset.md) |  |
 | [class_count_with_text_definitions](class_count_with_text_definitions.md) |  |
 | [class_count_without_text_definitions](class_count_without_text_definitions.md) |  |
 | [class_statistic_group](class_statistic_group.md) |  |
@@ -35,6 +31,7 @@ Name: summary-statistics
 | [datatype_property_count](datatype_property_count.md) |  |
 | [deprecated_class_count](deprecated_class_count.md) |  |
 | [deprecated_object_property_count](deprecated_object_property_count.md) |  |
+| [description](description.md) |  |
 | [description_logic_profile](description_logic_profile.md) |  |
 | [distinct_synonym_count](distinct_synonym_count.md) |  |
 | [edge_count_by_predicate](edge_count_by_predicate.md) |  |
@@ -42,10 +39,12 @@ Name: summary-statistics
 | [equivalent_classes_axiom_count](equivalent_classes_axiom_count.md) |  |
 | [facet](facet.md) |  |
 | [filtered_count](filtered_count.md) |  |
+| [id](id.md) | Unique handle for this report |
 | [individual_count](individual_count.md) |  |
 | [individual_statistic_group](individual_statistic_group.md) |  |
 | [mapping_count](mapping_count.md) |  |
 | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) |  |
+| [merged_class_count](merged_class_count.md) |  |
 | [metadata_statistic_group](metadata_statistic_group.md) |  |
 | [named_individual_count](named_individual_count.md) |  |
 | [non_deprecated_class_count](non_deprecated_class_count.md) |  |
@@ -54,10 +53,12 @@ Name: summary-statistics
 | [ontology_count](ontology_count.md) |  |
 | [owl_axiom_count](owl_axiom_count.md) |  |
 | [owl_statistic_group](owl_statistic_group.md) |  |
+| [partitions](partitions.md) | statistics keyed by category |
 | [property_count](property_count.md) |  |
 | [property_statistic_group](property_statistic_group.md) |  |
 | [rdf_triple_count](rdf_triple_count.md) |  |
 | [subclass_of_axiom_count](subclass_of_axiom_count.md) |  |
+| [subset_count](subset_count.md) |  |
 | [synonym_statement_count](synonym_statement_count.md) |  |
 | [synonym_statement_count_by_predicate](synonym_statement_count_by_predicate.md) |  |
 | [unsatisfiable_class_count](unsatisfiable_class_count.md) |  |

@@ -110,13 +110,15 @@
 
 <div class="viewcode-block" id="SubsetterInterface"><a class="viewcode-back" href="../../../interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface">[docs]</a><span class="k">class</span> <span class="nc">SubsetterInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    an interface that provides subsetting operations</span>
+<span class="sd">    an interface that provides subsetting operations.</span>
 
-<span class="sd">    a challenge here is what a subset operation should produce:</span>
+<span class="sd">    Subsets are named sets of entities/terms in an ontology. Subsetting operations include</span>
+<span class="sd">    extracting, and &quot;rolling up&quot; to a subset.</span>
 
-<span class="sd">     - an ontology object (committing to a specific object model)</span>
-<span class="sd">     - an ontology interface</span>
-<span class="sd">     - a reference to an ontology</span>
+<span class="sd">    See:</span>
+
+<span class="sd">     - http://geneontology.org/docs/go-subset-guide/</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SubsetterInterface.extract_subset_ontology"><a class="viewcode-back" href="../../../interfaces/subsetting.html#oaklib.interfaces.subsetter_interface.SubsetterInterface.extract_subset_ontology">[docs]</a>    <span class="k">def</span> <span class="nf">extract_subset_ontology</span><span class="p">(</span>
