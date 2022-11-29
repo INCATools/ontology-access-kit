@@ -34,7 +34,6 @@ from oaklib.datamodels.vocabulary import (
     OIO_SYNONYM_TYPE_PROPERTY,
     ONLY_IN_TAXON,
     OWL_CLASS,
-    OWL_OBJECT_PROPERTY,
     OWL_THING,
     PART_OF,
     TERM_REPLACED_BY,
@@ -599,7 +598,6 @@ class ComplianceTester:
                 logging.error(f"Unexpected change: {ch}")
                 n_unexpected += 1
             ch.type = type(ch).__name__
-            #print(yaml_dumper.dumps(ch))
         test.assertEqual(0, len(expected), f"Expected changes not found: {expected}")
         expected_rev = [
             kgcl.NewSynonym(
