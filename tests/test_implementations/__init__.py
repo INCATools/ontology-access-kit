@@ -614,7 +614,6 @@ class ComplianceTester:
             ),
             kgcl.ClassCreation(id=FIXED_ID, about_node="GO:0033673"),
         ]
-        #print("Computing reverse diff")
         rdiff = list(oi_modified.diff(oi))
         for ch in rdiff:
             ch.id = FIXED_ID
@@ -624,7 +623,6 @@ class ComplianceTester:
                 logging.error(f"Unexpected change: {ch}")
                 n_unexpected += 1
             ch.type = type(ch).__name__
-            #print(yaml_dumper.dumps(ch))
         test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
         test.assertEqual(0, n_unexpected)
 
