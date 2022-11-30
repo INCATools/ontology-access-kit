@@ -600,17 +600,25 @@ class ProntoImplementation(
                 t_id = t.id
             if include_metadata:
                 if t.definition:
-                    meta.definition = obograph.DefinitionPropertyValue(val=t.definition)
+                    defn_xrefs = [x.id for x in t.definition.xrefs]
+                    meta.definition = obograph.DefinitionPropertyValue(
+                        val=t.definition, xrefs=defn_xrefs
+                    )
                 if t.xrefs:
                     meta.xrefs = [obograph.XrefPropertyValue(val=x.id) for x in t.xrefs]
+                if t.subsets:
+                    meta.subsets = [x for x in t.subsets]
                 if isinstance(t, pronto.Relationship):
                     for x in t.xrefs:
                         if x.id.startswith("RO:") or x.id.startswith("BFO:"):
                             t_id = x.id
-                # for s in t.synonyms:
-                #    meta.synonyms.append(obograph.SynonymPropertyValue(val=s.description,
-                #                                                       scope=s.scope.lower(),
-                #                                                      xrefs=[x.id for x in s.xrefs]))
+                for s in t.synonyms:
+                    pred = SCOPE_TO_SYNONYM_PRED_MAP[s.scope].replace("oio:", "")
+                    meta.synonyms.append(
+                        obograph.SynonymPropertyValue(
+                            val=s.description, pred=pred, xrefs=[x.id for x in s.xrefs]
+                        )
+                    )
             return obograph.Node(id=t_id, lbl=t.name, meta=meta)
 
     def as_obograph(self) -> Graph:

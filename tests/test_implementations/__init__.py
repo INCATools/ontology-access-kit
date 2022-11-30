@@ -626,6 +626,39 @@ class ComplianceTester:
         test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
         test.assertEqual(0, n_unexpected)
 
+    def test_extract_graph(self, oi: OboGraphInterface, test_metadata=False):
+        test = self.test
+        # TODO: add tests when test dataset is unified
+        cases = [
+            ([NUCLEUS], False, 1, 0, []),
+            ([NUCLEUS, NUCLEAR_ENVELOPE], False, 2, 1, []),
+            # ([NUCLEUS, NUCLEAR_ENVELOPE], True, 2, 6, []),
+            ([NUCLEUS, IMBO, NUCLEAR_ENVELOPE], False, 3, 2, []),
+        ]
+        for nodes, dangling, num_nodes, num_edges, expected in cases:
+            g = oi.extract_graph(nodes, dangling=dangling)
+            test.assertEqual(num_nodes, len(g.nodes))
+            test.assertEqual(num_edges, len(g.edges))
+            node_ids = [n.id for n in g.nodes]
+            for node_id in nodes:
+                node_uri = oi.curie_to_uri(node_id)
+                test.assertTrue(node_uri in node_ids or node_id in node_ids)
+            for e in expected:
+                test.assertIn(e, g.edges)
+            if NUCLEUS in nodes:
+                node_uri = oi.curie_to_uri(NUCLEUS)
+                node = [n for n in g.nodes if n.id == node_uri or n.id == NUCLEUS][0]
+                test.assertTrue(node.id == NUCLEUS or node.id == node_uri)
+                test.assertEqual("nucleus", node.lbl)
+                if test_metadata:
+                    test.assertGreater(len(node.meta.subsets), 0)
+                    defn = node.meta.definition
+                    test.assertTrue(defn.val.startswith("A membrane-bounded"))
+                    test.assertCountEqual(["GOC:go_curators"], defn.xrefs)
+                    syns = node.meta.synonyms
+                    test.assertTrue(any(s for s in syns if s.val == "cell nucleus"))
+                    test.assertTrue(any(s for s in syns if s.val == "horsetail nucleus"))
+
     def test_patcher(
         self,
         oi: PatcherInterface,

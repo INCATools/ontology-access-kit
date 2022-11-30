@@ -1326,7 +1326,7 @@ def viz(
             else:
                 raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
         if down:
-            graph = impl.subgraph(curies, predicates=actual_predicates)
+            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
         elif gap_fill:
             logging.info("Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
@@ -1483,7 +1483,7 @@ def tree(
             else:
                 raise NotImplementedError(f"{impl} does not implement SemanticSimilarityInterface")
         if down:
-            graph = impl.subgraph(curies, predicates=actual_predicates)
+            graph = impl.subgraph_from_traversal(curies, predicates=actual_predicates)
         elif gap_fill:
             logging.info("Using gap-fill strategy")
             if isinstance(impl, SubsetterInterface):
@@ -1771,10 +1771,11 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
         actual_predicates = _process_predicates_arg(predicates)
         curies = list(query_terms_iterator(terms, impl))
         result_it = impl.descendants(curies, predicates=actual_predicates)
-        for curie_it in chunk(result_it):
-            logging.info("** Next chunk:")
-            for curie, label in impl.labels(curie_it):
-                writer.emit(curie, label)
+        writer.emit_multiple(result_it)
+        # for curie_it in chunk(result_it):
+        #    logging.info("** Next chunk:")
+        #    for curie, label in impl.labels(curie_it):
+        #        writer.emit(curie, label)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

@@ -320,6 +320,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         assert VACUOLE in curies
         assert CYTOPLASM not in curies
 
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)
+
     # QC
 
     def test_rule_runner(self):

@@ -677,8 +677,12 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
     # Implements: OboGraphInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def node(self, curie: CURIE) -> obograph.Node:
+    def node(
+        self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
+    ) -> obograph.Node:
         params = dict(id=curie, lbl=self.label(curie))
+        if include_metadata:
+            raise NotImplementedError
         return obograph.Node(**params)
 
     def hierarchical_descendants(self, start_curies: Union[CURIE, List[CURIE]]) -> Iterable[CURIE]:

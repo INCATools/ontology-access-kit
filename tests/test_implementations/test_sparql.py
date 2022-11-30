@@ -258,6 +258,10 @@ class TestSparqlImplementation(unittest.TestCase):
         self.assertIn(CELL_CORTEX, descs)
         self.assertEqual([NUCLEUS], list(self.oi.descendants(NUCLEUS, predicates=[IS_A])))
 
+    @unittest.skip("node metadata not yet implemented")
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi)
+
     def test_search_starts_with(self):
         config = SearchConfiguration(syntax=SearchTermSyntax.STARTS_WITH)
         curies = list(self.oi.basic_search("nucl", config=config))
