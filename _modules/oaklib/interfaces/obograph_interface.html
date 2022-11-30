@@ -362,7 +362,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">start_curies</span><span class="p">,</span> <span class="n">predicates</span><span class="p">,</span> <span class="n">reflexive</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="OboGraphInterface.subgraph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph">[docs]</a>    <span class="k">def</span> <span class="nf">subgraph</span><span class="p">(</span>
+<div class="viewcode-block" id="OboGraphInterface.subgraph_from_traversal"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.subgraph_from_traversal">[docs]</a>    <span class="k">def</span> <span class="nf">subgraph_from_traversal</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -388,6 +388,29 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">down_graph</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_graphs</span><span class="p">([</span><span class="n">up_graph</span><span class="p">,</span> <span class="n">down_graph</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">g</span></div>
+
+<div class="viewcode-block" id="OboGraphInterface.extract_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.extract_graph">[docs]</a>    <span class="k">def</span> <span class="nf">extract_graph</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dangling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract a subgraph from the graph that contains the specified entities and predicates</span>
+
+<span class="sd">        :param entities: entities to extract</span>
+<span class="sd">        :param predicates: predicates to extract</span>
+<span class="sd">        :param dangling: if true, include dangling nodes</span>
+<span class="sd">        :return: subgraph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="n">include_metadata</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">subjects</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span> <span class="n">predicates</span><span class="o">=</span><span class="n">predicates</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dangling</span> <span class="ow">or</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">o</span><span class="p">))</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;TEMP&quot;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.relationships_to_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">[docs]</a>    <span class="k">def</span> <span class="nf">relationships_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
