@@ -639,11 +639,16 @@ class ComplianceTester:
             g = oi.extract_graph(nodes, dangling=dangling)
             test.assertEqual(num_nodes, len(g.nodes))
             test.assertEqual(num_edges, len(g.edges))
+            node_ids = [n.id for n in g.nodes]
+            for node_id in nodes:
+                node_uri = oi.curie_to_uri(node_id)
+                test.assertTrue(node_uri in node_ids or node_id in node_ids)
             for e in expected:
                 test.assertIn(e, g.edges)
             if NUCLEUS in nodes:
-                node = [n for n in g.nodes if n.id == NUCLEUS][0]
-                test.assertEqual(NUCLEUS, node.id)
+                node_uri = oi.curie_to_uri(NUCLEUS)
+                node = [n for n in g.nodes if n.id == node_uri or n.id == NUCLEUS][0]
+                test.assertTrue(node.id == NUCLEUS or node.id == node_uri)
                 test.assertEqual("nucleus", node.lbl)
                 if test_metadata:
                     test.assertGreater(len(node.meta.subsets), 0)
