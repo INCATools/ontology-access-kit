@@ -82,6 +82,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
     def _convert_graph(self, source: Graph, target: CodeSystem) -> CodeSystem:
         target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
+        logging.info(f"Converting graph to obo: {source.id}, nodes={len(source.nodes)}")
         for n in source.nodes:
             logging.debug(f"Converting node {n.id}")
             self._convert_node(n, index=edges_by_subject, target=target)

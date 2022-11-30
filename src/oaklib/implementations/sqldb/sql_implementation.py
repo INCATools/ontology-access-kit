@@ -1089,10 +1089,17 @@ class SqlImplementation(
         if n and ldef:
             return ldef
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+    def logical_definitions(self, subjects: Optional[Iterable[CURIE]] = None) -> Iterable[LogicalDefinitionAxiom]:
+        logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
-        q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(subjects)))
-        for eq_row in q:
+        if subjects is None:
+            return self._logical_definitions_from_eq_query(q)
+        for curie_it in chunk(subjects, self.max_items_for_in_clause):
+            q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
+            return self._logical_definitions_from_eq_query(q)
+
+    def _logical_definitions_from_eq_query(self, query) -> Iterable[LogicalDefinitionAxiom]:
+        for eq_row in query:
             ixn_q = self.session.query(Statements).filter(
                 and_(
                     Statements.subject == eq_row.object,
@@ -1103,6 +1110,7 @@ class SqlImplementation(
                 ldef = self._ixn_definition(ixn.object, eq_row.subject)
                 if ldef:
                     yield ldef
+
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface
