@@ -1089,7 +1089,9 @@ class SqlImplementation(
         if n and ldef:
             return ldef
 
-    def logical_definitions(self, subjects: Optional[Iterable[CURIE]] = None) -> Iterable[LogicalDefinitionAxiom]:
+    def logical_definitions(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[LogicalDefinitionAxiom]:
         logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
         if subjects is None:
@@ -1110,7 +1112,6 @@ class SqlImplementation(
                 ldef = self._ixn_definition(ixn.object, eq_row.subject)
                 if ldef:
                     yield ldef
-
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: RelationGraphInterface

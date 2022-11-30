@@ -6,7 +6,13 @@ import rdflib
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib.converters.data_model_converter import DataModelConverter
-from oaklib.datamodels.fhir import CodeSystem, Concept, ConceptProperty, ConceptDesignation, Coding
+from oaklib.datamodels.fhir import (
+    CodeSystem,
+    Coding,
+    Concept,
+    ConceptDesignation,
+    ConceptProperty,
+)
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument, Node
 from oaklib.datamodels.vocabulary import (
     HAS_BROAD_SYNONYM,
@@ -118,10 +124,12 @@ class OboGraphToFHIRConverter(DataModelConverter):
             synonym_pred_code = self.code(synonym.pred)
             concept.designation.append(
                 ConceptDesignation(
-                    #language=synonym.lang,
-                    use=Coding(system="oio",
-                               code=synonym_pred_code,
-                               display=SCOPE_DISPLAY.get(synonym.pred)),
+                    # language=synonym.lang,
+                    use=Coding(
+                        system="oio",
+                        code=synonym_pred_code,
+                        display=SCOPE_DISPLAY.get(synonym.pred),
+                    ),
                     value=synonym.val,
                 )
             )

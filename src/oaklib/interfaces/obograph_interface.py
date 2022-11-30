@@ -360,7 +360,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         return walk_up(self, start_curies, predicates=predicates)
 
-    def logical_definitions(self, subjects: Optional[Iterable[CURIE]] = None) -> Iterable[LogicalDefinitionAxiom]:
+    def logical_definitions(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[LogicalDefinitionAxiom]:
         """
         Yields all logical definitions for input subjects
 
