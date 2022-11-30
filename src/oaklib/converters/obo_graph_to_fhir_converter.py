@@ -6,7 +6,7 @@ import rdflib
 from linkml_runtime.dumpers import json_dumper
 
 from oaklib.converters.data_model_converter import DataModelConverter
-from oaklib.datamodels.fhir import CodeSystem, Concept, ConceptProperty
+from oaklib.datamodels.fhir import CodeSystem, Concept, ConceptProperty, ConceptDesignation, Coding
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument, Node
 from oaklib.datamodels.vocabulary import (
     HAS_BROAD_SYNONYM,
@@ -30,9 +30,12 @@ SCOPE_MAP = {
     "hasRelatedSynonym": HAS_RELATED_SYNONYM,
 }
 
-
-def _escape(s: str) -> str:
-    return s.replace('"', '\\"').replace("\n", "\\n")
+SCOPE_DISPLAY = {
+    "hasBroadSynonym": "has broad synonym",
+    "hasExactSynonym": "has exact synonym",
+    "hasNarrowSynonym": "has narrow synonym",
+    "hasRelatedSynonym": "has related synonym",
+}
 
 
 @dataclass
@@ -103,10 +106,22 @@ class OboGraphToFHIRConverter(DataModelConverter):
                 concept.property.append(
                     ConceptProperty(code=DIRECT_PREDICATE_MAP[e.pred], valueCode=obj)
                 )
+            else:
+                logging.debug(f"Skipping edge {e}")
         return concept
 
     def _convert_meta(self, source: Node, concept: Concept):
         meta = source.meta
         if meta.definition:
-            # xrefs = ", ".join(meta.definition.xrefs)
             concept.definition = meta.definition.val
+        for synonym in meta.synonyms:
+            synonym_pred_code = self.code(synonym.pred)
+            concept.designation.append(
+                ConceptDesignation(
+                    #language=synonym.lang,
+                    use=Coding(system="oio",
+                               code=synonym_pred_code,
+                               display=SCOPE_DISPLAY.get(synonym.pred)),
+                    value=synonym.val,
+                )
+            )
