@@ -63,11 +63,13 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         return target
 
     def _id(self, uri: CURIE) -> CURIE:
-        if self.curie_converter:
-            curie = self.curie_converter.compress(uri)
-            if curie is None:
-                return uri
-        return uri
+        if not self.curie_converter:
+            return uri
+        curie = self.curie_converter.compress(uri)
+        if curie is None:
+            return uri
+        else:
+            return curie
 
     def _convert_graph(self, source: Graph, target: OboDocument) -> OboDocument:
         edges_by_subject = index_graph_edges_by_subject(source)
