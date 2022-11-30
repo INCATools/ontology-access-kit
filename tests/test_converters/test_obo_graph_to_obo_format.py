@@ -7,9 +7,8 @@ from oaklib import OntologyResource
 from oaklib.converters.obo_graph_to_obo_format_converter import (
     OboGraphToOboFormatConverter,
 )
-from oaklib.converters.obo_graph_to_rdf_owl_converter import OboGraphToRdfOwlConverter
 from oaklib.datamodels.obograph import GraphDocument
-from oaklib.implementations import SimpleOboImplementation, SparqlImplementation
+from oaklib.implementations import SimpleOboImplementation
 from oaklib.interfaces.basic_ontology_interface import get_default_prefix_map
 from tests import INPUT_DIR, OUTPUT_DIR
 from tests.test_implementations import ComplianceTester
