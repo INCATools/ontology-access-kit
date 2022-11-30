@@ -193,6 +193,7 @@
     <span class="n">ClassEnrichmentCalculationInterface</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.differ_interface</span> <span class="kn">import</span> <span class="n">DifferInterface</span>
+<span class="kn">from</span> <span class="nn">oaklib.interfaces.dumper_interface</span> <span class="kn">import</span> <span class="n">DumperInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.mapping_provider_interface</span> <span class="kn">import</span> <span class="n">MappingProviderInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.metadata_interface</span> <span class="kn">import</span> <span class="n">MetadataInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.obograph_interface</span> <span class="kn">import</span> <span class="n">OboGraphInterface</span>
@@ -298,6 +299,7 @@
     <span class="n">TextAnnotatorInterface</span><span class="p">,</span>
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
     <span class="n">OwlInterface</span><span class="p">,</span>
+    <span class="n">DumperInterface</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.</span>
@@ -887,7 +889,7 @@
         <span class="k">elif</span> <span class="n">syntax</span> <span class="o">==</span> <span class="s2">&quot;sqlite&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">syntax</span><span class="p">)</span>
 
     <span class="c1"># ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
     <span class="c1"># Implements: AssocationProviderInterface</span>
@@ -1169,10 +1171,19 @@
         <span class="k">if</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">ldef</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ldef</span>
 
-    <span class="k">def</span> <span class="nf">logical_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">logical_definitions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting logical definitions&quot;</span><span class="p">)</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">OwlEquivalentClassStatement</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">OwlEquivalentClassStatement</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subjects</span><span class="p">)))</span>
-        <span class="k">for</span> <span class="n">eq_row</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">subjects</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">curie_it</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">(</span><span class="n">subjects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_items_for_in_clause</span><span class="p">):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">OwlEquivalentClassStatement</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">curie_it</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_logical_definitions_from_eq_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">eq_row</span> <span class="ow">in</span> <span class="n">query</span><span class="p">:</span>
             <span class="n">ixn_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Statements</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
                 <span class="n">and_</span><span class="p">(</span>
                     <span class="n">Statements</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">eq_row</span><span class="o">.</span><span class="n">object</span><span class="p">,</span>
