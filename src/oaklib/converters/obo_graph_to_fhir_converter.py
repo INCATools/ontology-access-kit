@@ -3,8 +3,10 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
 
 import rdflib
+from linkml_runtime.dumpers import json_dumper
 
 from oaklib.converters.data_model_converter import DataModelConverter
+from oaklib.datamodels.fhir import CodeSystem, Concept, ConceptProperty
 from oaklib.datamodels.obograph import Edge, Graph, GraphDocument, Node
 from oaklib.datamodels.vocabulary import (
     HAS_BROAD_SYNONYM,
@@ -12,24 +14,13 @@ from oaklib.datamodels.vocabulary import (
     HAS_NARROW_SYNONYM,
     HAS_RELATED_SYNONYM,
 )
-from oaklib.implementations.simpleobo.simple_obo_parser import (
-    TAG_DEFINITION,
-    TAG_INVERSE_OF,
-    TAG_IS_A,
-    TAG_NAME,
-    TAG_RELATIONSHIP,
-    OboDocument,
-    Stanza,
-)
 from oaklib.types import CURIE
 from oaklib.utilities.obograph_utils import index_graph_edges_by_subject
 
 TRIPLE = Tuple[rdflib.URIRef, rdflib.URIRef, Any]
 
 DIRECT_PREDICATE_MAP = {
-    "is_a": TAG_IS_A,
-    "subPropertyOf": TAG_IS_A,
-    "inverseOf": TAG_INVERSE_OF,
+    "is_a": "parent",
 }
 
 SCOPE_MAP = {
@@ -45,8 +36,8 @@ def _escape(s: str) -> str:
 
 
 @dataclass
-class OboGraphToOboFormatConverter(DataModelConverter):
-    """Converts from OboGraph to OBO Format."""
+class OboGraphToFHIRConverter(DataModelConverter):
+    """Converts from OboGraph to FHIR."""
 
     def dump(self, source: GraphDocument, target: str = None) -> None:
         """
@@ -56,28 +47,30 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         :param target:
         :return:
         """
-        obodoc = self.convert(source)
+        cs = self.convert(source)
+        json_str = json_dumper.dumps(cs)
         if target is None:
-            print(obodoc.dump())
+            print(json_str)
         else:
             with open(target, "w", encoding="UTF-8") as f:
-                obodoc.dump(f)
+                f.write(json_str)
 
-    def convert(self, source: GraphDocument, target: OboDocument = None) -> OboDocument:
+    def convert(self, source: GraphDocument, target: CodeSystem = None) -> CodeSystem:
         """
-        Convert an OBO Format Document.
+        Convert an OBO Graph Document to a FHIR CodingSystem
 
         :param source:
         :param target: if None, one will be created
         :return:
         """
         if target is None:
-            target = OboDocument()
+            target = CodeSystem()
+        target.resourceType = CodeSystem.__name__
         for g in source.graphs:
             self._convert_graph(g, target=target)
         return target
 
-    def _id(self, uri: CURIE) -> CURIE:
+    def code(self, uri: CURIE) -> str:
         if not self.curie_converter:
             return uri
         curie = self.curie_converter.compress(uri)
@@ -86,7 +79,8 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         else:
             return curie
 
-    def _convert_graph(self, source: Graph, target: OboDocument) -> OboDocument:
+    def _convert_graph(self, source: Graph, target: CodeSystem) -> CodeSystem:
+        target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
         for n in source.nodes:
             logging.debug(f"Converting node {n.id}")
@@ -94,27 +88,24 @@ class OboGraphToOboFormatConverter(DataModelConverter):
         return target
 
     def _convert_node(
-        self, source: Node, index: Dict[CURIE, List[Edge]], target: OboDocument
-    ) -> OboDocument:
-        id = self._id(source.id)
+        self, source: Node, index: Dict[CURIE, List[Edge]], target: CodeSystem
+    ) -> Concept:
+        id = self.code(source.id)
         logging.debug(f"Converting node {id} from {source}")
-        stanza = Stanza(id=id, type="Term")
-        target.add_stanza(stanza)
-        if source.lbl:
-            stanza.add_tag_value(TAG_NAME, source.lbl)
+        concept = Concept(code=id, display=source.lbl)
+        target.concept.append(concept)
         if source.meta:
-            self._convert_meta(source, target=stanza)
+            self._convert_meta(source, concept)
         for e in index.get(source.id, []):
-            obj = self._id(e.obj)
-            pred = self._id(e.pred)
+            obj = self.code(e.obj)
             if e.pred in DIRECT_PREDICATE_MAP:
-                stanza.add_tag_value(DIRECT_PREDICATE_MAP[e.pred], obj)
-            else:
-                stanza.add_tag_value(TAG_RELATIONSHIP, f"{pred} {obj}")
-        return target
+                concept.property.append(
+                    ConceptProperty(code=DIRECT_PREDICATE_MAP[e.pred], valueCode=obj)
+                )
+        return concept
 
-    def _convert_meta(self, source: Node, target: Stanza):
+    def _convert_meta(self, source: Node, concept: Concept):
         meta = source.meta
         if meta.definition:
-            xrefs = ", ".join(meta.definition.xrefs)
-            target.add_tag_value(TAG_DEFINITION, f'"{_escape(meta.definition.val)}" [{xrefs}]')
+            # xrefs = ", ".join(meta.definition.xrefs)
+            concept.definition = meta.definition.val

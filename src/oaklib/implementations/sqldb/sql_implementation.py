@@ -111,6 +111,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -216,6 +217,7 @@ class SqlImplementation(
     TextAnnotatorInterface,
     SummaryStatisticsInterface,
     OwlInterface,
+    DumperInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
@@ -805,7 +807,7 @@ class SqlImplementation(
         elif syntax == "sqlite":
             raise NotImplementedError
         else:
-            raise NotImplementedError
+            super().dump(path, syntax)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: AssocationProviderInterface

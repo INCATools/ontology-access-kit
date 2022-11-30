@@ -15,6 +15,9 @@ GENUS_CLASS_FIELD = "genus_class"
 class LogicalDefinitionFlattener(DataModelConverter):
     """Flattens logical definitions to tuples for use in template libraries."""
 
+    def dump(self, source: Any, target: str = None) -> None:
+        raise NotImplementedError
+
     def convert(
         self, source: Union[LogicalDefinitionAxiom, Graph, GraphDocument], target: Any = None
     ) -> Union[dict, List[dict]]:

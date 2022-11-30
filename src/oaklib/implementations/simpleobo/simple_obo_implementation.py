@@ -481,12 +481,15 @@ class SimpleOboImplementation(
         return type(self)(resource)
 
     def dump(self, path: Union[str, TextIO] = None, syntax: str = "obo"):
-        if isinstance(path, str) or isinstance(path, Path):
-            logging.info(f"Saving to {path}")
-            with open(path, "w", encoding="UTF-8") as file:
-                self.obo_document.dump(file)
+        if syntax == "obo":
+            if isinstance(path, str) or isinstance(path, Path):
+                logging.info(f"Saving to {path}")
+                with open(path, "w", encoding="UTF-8") as file:
+                    self.obo_document.dump(file)
+            else:
+                self.obo_document.dump(path)
         else:
-            self.obo_document.dump(path)
+            super().dump(path, syntax)
 
     def save(
         self,

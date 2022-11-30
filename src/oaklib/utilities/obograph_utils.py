@@ -35,6 +35,8 @@ DEFAULT_PREDICATE_CODE_MAP = {IS_A: "i", PART_OF: "p", RDF_TYPE: "t"}
 
 PREDICATE_WEIGHT_MAP = Dict[PRED_CURIE, float]
 
+PREDICATE_MAP = {"is_a": IS_A}
+
 
 class TreeFormatEnum(Enum):
     markdown = "md"
@@ -148,7 +150,7 @@ def filter_by_predicates(graph: Graph, predicates: List[PRED_CURIE], graph_id: s
     """
     if graph_id is None:
         graph_id = graph.id
-    edges = [edge for edge in graph.edges if edge.pred in predicates]
+    edges = [edge for edge in graph.edges if PREDICATE_MAP.get(edge.pred, edge.pred) in predicates]
     return Graph(graph_id, nodes=deepcopy(graph.nodes), edges=edges)
 
 
@@ -492,8 +494,9 @@ def graph_to_tree(
         if counts[n] > max_paths:
             logging.info(f"Reached {counts[n]} for node {n};; truncating rest")
             break
-        if rel in predicate_code_map:
-            code = predicate_code_map[rel]
+        rel_pred = PREDICATE_MAP.get(rel, rel)
+        if rel_pred in predicate_code_map:
+            code = predicate_code_map[rel_pred]
         elif rel in nix:
             code = nix[rel].lbl
             if code is None:

@@ -5,11 +5,15 @@ import re
 import unittest
 from typing import Optional
 
+import rdflib
 import yaml
 from click.testing import CliRunner
 from kgcl_schema.datamodel.kgcl import NodeChange
+from linkml_runtime.loaders import json_loader
 
+from oaklib import get_implementation_from_shorthand
 from oaklib.cli import main
+from oaklib.datamodels import fhir, obograph
 from oaklib.datamodels.vocabulary import IN_TAXON
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
@@ -291,6 +295,50 @@ class TestCommandLineInterface(unittest.TestCase):
         out = self._out()
         self.assertIn("EC:2.-.-.-", out)
         self.assertIn("Reactome:R-HSA-1483089", out)
+
+    # DUMPER
+
+    def test_dump(self):
+        cases = [
+            (TEST_ONT, "obo"),
+            (TEST_DB, "obo"),
+            (TEST_ONT, "obojson"),
+            (TEST_DB, "obojson"),
+            (TEST_ONT, "fhirjson"),
+            (TEST_DB, "fhirjson"),
+            (TEST_DB, "owl"),
+        ]
+        for input, output_format in cases:
+            logging.info(f"input={input}, output_format={output_format}")
+            result = self.runner.invoke(
+                main, ["-i", str(input), "dump", "-o", TEST_OUT, "-O", output_format]
+            )
+            self.assertEqual(0, result.exit_code)
+            if output_format == "obojson":
+                obj: obograph.GraphDocument
+                obj = json_loader.load(TEST_OUT, target_class=obograph.GraphDocument)
+                g = obj.graphs[0]
+                nucleus_node = [n for n in g.nodes if n.lbl == "nucleus"][0]
+                self.assertTrue(nucleus_node is not None)
+                # TODO
+                # print(nucleus_node)
+                # self.assertTrue(nucleus_node.meta.definition.val.startswith("A membrane-bounded organelle"))
+            elif output_format == "fhirjson":
+                obj: fhir.CodeSystem
+                obj = json_loader.load(TEST_OUT, target_class=fhir.CodeSystem)
+                nucleus_concept = [n for n in obj.concept if n.code == NUCLEUS][0]
+                self.assertEqual("nucleus", nucleus_concept.display)
+                # TODO
+                # self.assertTrue(nucleus_concept.definition.startswith("A membrane-bounded organelle"))
+            elif output_format == "owl":
+                g = rdflib.Graph()
+                g.parse(TEST_OUT, format="turtle")
+                self.assertGreater(len(list(g.triples((None, None, None)))), 0)
+            elif output_format == "obo":
+                oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
+                self.assertEqual("nucleus", oi.label(NUCLEUS))
+            else:
+                raise AssertionError(f"Unexpected output format: {output_format}")
 
     # TAXON
 

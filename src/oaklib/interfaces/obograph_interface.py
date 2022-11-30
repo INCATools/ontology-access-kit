@@ -394,7 +394,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             logging.warning(f"Could not determine a single ontology for: {ontologies}")
             ont_id = "TEMP"
         else:
-            ont_id = list(ontologies[0])
+            ont_id = list(ontologies)[0]
         entities = self.entities()
         ldefs = list(self.logical_definitions(entities))
         g = Graph(
