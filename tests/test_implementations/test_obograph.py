@@ -255,6 +255,9 @@ class TestOboGraphImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi)
+
     @unittest.skip("TODO")
     def test_search_aliases(self):
         config = SearchConfiguration(properties=[SearchProperty.ALIAS])

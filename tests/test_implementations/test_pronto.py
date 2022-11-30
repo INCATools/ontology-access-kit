@@ -290,6 +290,9 @@ class TestProntoImplementation(unittest.TestCase):
         # check is reflexive
         self.assertEqual(1, len([n for n in g.nodes if n.id == CYTOPLASM]))
 
+    def test_extract_graph(self):
+        self.compliance_tester.test_extract_graph(self.oi, test_metadata=True)  # TODO
+
     def test_save_extract(self):
         g = self.oi.ancestor_graph(VACUOLE)
         oi = ProntoImplementation()

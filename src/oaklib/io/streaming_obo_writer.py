@@ -1,9 +1,13 @@
 import logging
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Iterable
 
 from sssom.constants import OWL_EQUIVALENT_CLASS
 
+from oaklib.converters.obo_graph_to_obo_format_converter import (
+    OboGraphToOboFormatConverter,
+)
+from oaklib.datamodels.obograph import GraphDocument
 from oaklib.datamodels.vocabulary import IS_A, RDF_TYPE, SYNONYM_PRED_TO_SCOPE_MAP
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -65,3 +69,18 @@ class StreamingOboWriter(StreamingWriter):
                 logging.info("Logical definitions not implemented")
 
         self.line("\n")
+
+    def emit_multiple(self, entities: Iterable[CURIE], **kwargs):
+        oi = self.ontology_interface
+        if isinstance(oi, OboGraphInterface):
+            logging.info("Extracting graph")
+            g = oi.extract_graph(list(entities), include_metadata=True)
+            gd = GraphDocument(graphs=[g])
+            logging.info(f"Converting {len(g.nodes)} nodes to OBO")
+            converter = OboGraphToOboFormatConverter()
+            converter.curie_converter = oi.converter
+            obodoc = converter.convert(gd)
+            logging.info(f"Writing {len(obodoc.stanzas)} OBO stanzas")
+            obodoc.dump(self.file)
+        else:
+            super().emit_multiple(entities, **kwargs)

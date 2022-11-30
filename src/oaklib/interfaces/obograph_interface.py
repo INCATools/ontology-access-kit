@@ -280,7 +280,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         return len(set(self.descendants(start_curies, predicates, reflexive)))
 
-    def subgraph(
+    def subgraph_from_traversal(
         self,
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
@@ -306,6 +306,29 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         else:
             down_graph = None
         g = self._merge_graphs([up_graph, down_graph])
+        return g
+
+    def extract_graph(
+        self,
+        entities: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        dangling=True,
+        include_metadata=True,
+    ) -> Graph:
+        """
+        Extract a subgraph from the graph that contains the specified entities and predicates
+
+        :param entities: entities to extract
+        :param predicates: predicates to extract
+        :param dangling: if true, include dangling nodes
+        :return: subgraph
+        """
+        nodes = [self.node(e, include_metadata=include_metadata) for e in entities]
+        edges = []
+        for s, p, o in self.relationships(subjects=entities, predicates=predicates):
+            if dangling or o in entities:
+                edges.append(Edge(sub=s, pred=p, obj=o))
+        g = Graph(id="TEMP", nodes=nodes, edges=edges)
         return g
 
     def relationships_to_graph(self, relationships: Iterable[RELATIONSHIP]) -> Graph:

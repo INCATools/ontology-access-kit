@@ -1,8 +1,9 @@
 import atexit
+import logging
 import sys
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Dict, List, Mapping, Optional, Type, Union
+from typing import Any, ClassVar, Dict, Iterable, List, Mapping, Optional, Type, Union
 
 from linkml_runtime import SchemaView
 from linkml_runtime.utils.yamlutils import YAMLRoot
@@ -10,6 +11,7 @@ from linkml_runtime.utils.yamlutils import YAMLRoot
 from oaklib import BasicOntologyInterface
 from oaklib.datamodels.obograph import Node
 from oaklib.types import CURIE
+from oaklib.utilities.iterator_utils import chunk
 
 ID_KEY = "id"
 LABEL_KEY = "label"
@@ -74,6 +76,19 @@ class StreamingWriter(ABC):
             self.emit_curie(obj[ID_KEY], obj.get(LABEL_KEY, None))
         else:
             self.emit_obj(obj)
+
+    def emit_multiple(self, entities: Iterable[CURIE], **kwargs):
+        """
+        Emit multiple objects.
+
+        :param entities:
+        :param kwargs:
+        :return:
+        """
+        for curie_it in chunk(entities):
+            logging.info("** Next chunk:")
+            for curie, label in self.ontology_interface.labels(curie_it):
+                self.emit(curie, label)
 
     def emit_curie(self, curie: CURIE, label=None):
         raise NotImplementedError

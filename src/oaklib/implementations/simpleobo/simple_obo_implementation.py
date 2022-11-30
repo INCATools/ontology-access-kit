@@ -27,6 +27,7 @@ from oaklib.datamodels.obograph import (
     ExistentialRestrictionExpression,
     Graph,
     LogicalDefinitionAxiom,
+    SynonymPropertyValue,
 )
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -313,6 +314,18 @@ class SimpleOboImplementation(
             m[pred].append(syn)
         return m
 
+    def synonym_property_values(
+        self, subject: Union[CURIE, Iterable[CURIE]]
+    ) -> Iterator[Tuple[CURIE, SynonymPropertyValue]]:
+        if isinstance(subject, str):
+            subject = [subject]
+        for curie in subject:
+            for p, vs in self.entity_alias_map(curie).items():
+                if p == LABEL_PREDICATE:
+                    continue
+                for v in vs:
+                    yield curie, SynonymPropertyValue(pred=p.replace("oio:", ""), val=v)
+
     def _get_relationship_type_curie(self, rel_type: str) -> PRED_CURIE:
         for _, x in self.simple_mappings_by_curie(rel_type):
             if x.startswith("BFO:") or x.startswith("RO:"):
@@ -517,7 +530,14 @@ class SimpleOboImplementation(
             return obograph.Node(id=curie)
         else:
             meta = obograph.Meta()
-            # TODO
+            if include_metadata:
+                for s in t.simple_values(TAG_SUBSET):
+                    meta.subsets.append(s)
+                defn = self.definition(curie)
+                if defn:
+                    meta.definition = obograph.DefinitionPropertyValue(val=defn)
+                for _, syn in self.synonym_property_values([curie]):
+                    meta.synonyms.append(syn)
             return obograph.Node(id=curie, lbl=self.label(curie), meta=meta)
 
     def as_obograph(self) -> Graph:
