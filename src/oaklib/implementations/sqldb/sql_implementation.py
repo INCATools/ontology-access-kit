@@ -111,6 +111,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -216,6 +217,7 @@ class SqlImplementation(
     TextAnnotatorInterface,
     SummaryStatisticsInterface,
     OwlInterface,
+    DumperInterface,
 ):
     """
     A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.
@@ -805,7 +807,7 @@ class SqlImplementation(
         elif syntax == "sqlite":
             raise NotImplementedError
         else:
-            raise NotImplementedError
+            super().dump(path, syntax)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: AssocationProviderInterface
@@ -1087,10 +1089,19 @@ class SqlImplementation(
         if n and ldef:
             return ldef
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+    def logical_definitions(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[LogicalDefinitionAxiom]:
+        logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
-        q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(subjects)))
-        for eq_row in q:
+        if subjects is None:
+            return self._logical_definitions_from_eq_query(q)
+        for curie_it in chunk(subjects, self.max_items_for_in_clause):
+            q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
+            return self._logical_definitions_from_eq_query(q)
+
+    def _logical_definitions_from_eq_query(self, query) -> Iterable[LogicalDefinitionAxiom]:
+        for eq_row in query:
             ixn_q = self.session.query(Statements).filter(
                 and_(
                     Statements.subject == eq_row.object,

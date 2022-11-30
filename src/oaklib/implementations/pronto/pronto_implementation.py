@@ -52,6 +52,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -89,6 +90,7 @@ class ProntoImplementation(
     SemanticSimilarityInterface,
     TextAnnotatorInterface,
     SummaryStatisticsInterface,
+    DumperInterface,
 ):
     """
     Pronto wraps local-file based ontologies in the following formats:
@@ -537,15 +539,18 @@ class ProntoImplementation(
     def dump(self, path: str = None, syntax: str = "obo"):
         if syntax is None:
             syntax = "obo"
-        # TODO: simplify the logic here; not clear why pronto wants a binary file
-        if isinstance(path, str):
-            with open(path, "wb") as file:
-                self.wrapped_ontology.dump(file, format=syntax)
-        else:
-            if path == sys.stdout:
-                print(self.wrapped_ontology.dumps(format=syntax))
+        if syntax in ["obo", "json"]:
+            # TODO: simplify the logic here; not clear why pronto wants a binary file
+            if isinstance(path, str):
+                with open(path, "wb") as file:
+                    self.wrapped_ontology.dump(file, format=syntax)
             else:
-                self.wrapped_ontology.dump(path, format=syntax)
+                if path == sys.stdout:
+                    print(self.wrapped_ontology.dumps(format=syntax))
+                else:
+                    self.wrapped_ontology.dump(path, format=syntax)
+        else:
+            super().dump(path, syntax)
 
     def save(
         self,
@@ -621,10 +626,17 @@ class ProntoImplementation(
                     )
             return obograph.Node(id=t_id, lbl=t.name, meta=meta)
 
-    def as_obograph(self) -> Graph:
-        nodes = [self.node(curie) for curie in self.entities()]
-        edges = [Edge(sub=r[0], pred=r[1], obj=r[2]) for r in self.all_relationships()]
-        return Graph(id="TODO", nodes=nodes, edges=edges)
+    def as_obograph(self, expand_curies=False) -> Graph:
+        om = self.wrapped_ontology.metadata
+        entities = list(self.entities(filter_obsoletes=False, owl_type=OWL_CLASS))
+        # entities.extend(self.entities(filter_obsoletes=False, owl_type=OWL_OBJECT_PROPERTY))
+        nodes = [self.node(curie) for curie in entities]
+        nodes = [n for n in nodes if n.lbl or n.meta]
+        edges = [
+            Edge(sub=r[0], pred="is_a" if r[1] == IS_A else r[1], obj=r[2])
+            for r in self.relationships()
+        ]
+        return Graph(id=om.ontology, nodes=nodes, edges=edges)
 
     def synonym_property_values(
         self, subject: Union[CURIE, Iterable[CURIE]]

@@ -48,6 +48,21 @@ def _escape(s: str) -> str:
 class OboGraphToOboFormatConverter(DataModelConverter):
     """Converts from OboGraph to OBO Format."""
 
+    def dump(self, source: GraphDocument, target: str = None) -> None:
+        """
+        Dump an OBO Graph Document to a FHIR CodeSystem
+
+        :param source:
+        :param target:
+        :return:
+        """
+        obodoc = self.convert(source)
+        if target is None:
+            print(obodoc.dump())
+        else:
+            with open(target, "w", encoding="UTF-8") as f:
+                obodoc.dump(f)
+
     def convert(self, source: GraphDocument, target: OboDocument = None) -> OboDocument:
         """
         Convert an OBO Format Document.

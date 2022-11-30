@@ -1,0 +1,140 @@
+id: https://w3id.org/linkml/fhir
+title: FHIR in LinkML
+name: fhir
+description: Schema for working with FHIR objects
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+comments:
+  - currently this only models Concepts and CodeSystems
+
+prefixes:
+ linkml: https://w3id.org/linkml/
+ fhir: https://w3id.org/linkml/fhir/
+ sdo: https://schema.org/
+ skos: http://www.w3.org/2004/02/skos/core#
+ og: https://github.com/geneontology/obographs/
+ sh: https://w3id.org/shacl/
+ oio: http://www.geneontology.org/formats/oboInOwl#
+
+imports:
+ - linkml:types
+default_prefix: fhir
+default_range: string
+
+
+classes:
+  CodeSystem:
+    description: Declares the existence of and describes a code system or code system supplement
+    attributes:
+      id:
+        range: string
+        comments:
+          - not formally defined in FHIR schema, but present in pyrophen
+      resourceType:
+        designates_type: true
+        comments:
+          - not formally part of FHIR schema but used in JSON serialization as type designation
+      url:
+        range: uri
+      identifier:
+        identifier: false
+        multivalued: true
+        #range: Identifier
+      version:
+      name:
+        description: Name for this code system (computer friendly)
+      title:
+      status:
+        #range: PublicationStatus
+      experimental:
+        range: boolean
+      date:
+        range: datetime
+      publisher:
+      contact:
+        multivalued: true
+        #range: ContactDetail
+      description:
+      #useContext:
+      #  multivalued: true
+      #  range: UsageContext
+      filter:
+        multivalued: true
+        range: CodeSystemFilter
+        inlined: true
+        inlined_as_list: true
+      property:
+        multivalued: true
+        range: CodeSystemProperty
+        inlined: true
+        inlined_as_list: true
+      concept:
+        multivalued: true
+        range: Concept
+        inlined: true
+        inlined_as_list: true
+
+  Concept:
+    attributes:
+      code:
+        #identifier: true
+      display:
+      definition:
+      designation:
+        multivalued: true
+        range: ConceptDesignation
+      property:
+        multivalued: true
+        range: ConceptProperty
+      concept:
+        multivalued: true
+        range: Concept
+
+  ConceptProperty:
+    attributes:
+      code:
+      valueCode:
+      valueCoding:
+        #range: Coding
+      valueString:
+      valueInteger:
+      valueBoolean:
+      valueDateTime:
+      valueDecimal:
+
+  ConceptDesignation:
+    attributes:
+      language:
+      use:
+        range: Coding
+      value:
+
+  CodeSystemFilter:
+    attributes:
+      code:
+        required: true
+      description:
+      operator:
+        multivalued: true
+        range: string
+      value:
+        range: string
+        required: true
+
+  CodeSystemProperty:
+    attributes:
+      code:
+        required: true
+      uri:
+      description:
+      type:
+        range: string
+
+  Coding:
+    attributes:
+      system:
+        range: uri
+      version:
+      code:
+      display:
+      userSelected:

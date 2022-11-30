@@ -360,7 +360,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         """
         return walk_up(self, start_curies, predicates=predicates)
 
-    def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
+    def logical_definitions(
+        self, subjects: Optional[Iterable[CURIE]] = None
+    ) -> Iterable[LogicalDefinitionAxiom]:
         """
         Yields all logical definitions for input subjects
 
@@ -394,9 +396,9 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
             logging.warning(f"Could not determine a single ontology for: {ontologies}")
             ont_id = "TEMP"
         else:
-            ont_id = list(ontologies[0])
-        entities = self.entities()
-        ldefs = list(self.logical_definitions(entities))
+            ont_id = list(ontologies)[0]
+        ldefs = list(self.logical_definitions())
+        logging.info(f"Found {len(ldefs)} logical definitions")
         g = Graph(
             id=ont_id,
             nodes=list(self.nodes(expand_curies=expand_curies)),

@@ -28,3 +28,7 @@ class DataModelConverter(ABC):
         :return:
         """
         raise NotImplementedError
+
+    @abstractmethod
+    def dump(self, source: Any, target: str = None) -> None:
+        raise NotImplementedError
