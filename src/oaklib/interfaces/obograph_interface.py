@@ -369,7 +369,7 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :param subjects:
         :return:
         """
-        raise NotImplementedError
+        return iter(())
 
     def add_metadata(self, graph: Graph) -> None:
         """

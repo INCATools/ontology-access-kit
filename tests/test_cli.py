@@ -35,6 +35,7 @@ from tests import (
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
+TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_DB = INPUT_DIR / "go-nucleus.db"
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
@@ -299,7 +300,12 @@ class TestCommandLineInterface(unittest.TestCase):
     # DUMPER
 
     def test_dump(self):
+        obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [
+            (obojson_input, "obojson"),
+            (obojson_input, "obo"),
+            (obojson_input, "fhirjson"),
+            (obojson_input, "owl"),
             (TEST_ONT, "obo"),
             (TEST_DB, "obo"),
             (TEST_ONT, "obojson"),

@@ -9,10 +9,7 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.loaders import json_loader
 
-from oaklib.converters.obo_graph_to_rdf_owl_converter import (
-    SCOPE_MAP,
-    OboGraphToRdfOwlConverter,
-)
+from oaklib.converters.obo_graph_to_rdf_owl_converter import SCOPE_MAP
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import (
     Edge,
@@ -40,6 +37,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP_MAP,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -68,6 +66,7 @@ class OboGraphImplementation(
     SearchInterface,
     MappingProviderInterface,
     PatcherInterface,
+    DumperInterface,
 ):
     """
     OBO Graphs JSON backed implementation.
@@ -377,13 +376,13 @@ class OboGraphImplementation(
 
     def dump(self, path: str = None, syntax: str = "json"):
         logging.info(f"Dumping graph to {path} syntax: {syntax}")
-        if syntax in RDFLIB_FORMAT_MAP:
-            converter = OboGraphToRdfOwlConverter(curie_converter=self.converter)
-            g = converter.convert(self.obograph_document)
-            g.serialize(path, format=RDFLIB_FORMAT_MAP[syntax])
+        if syntax == "json" or syntax == "obojson":
+            if path is None:
+                print(json_dumper.dumps(self.obograph_document))
+            else:
+                json_dumper.dump(self.obograph_document, to_file=str(path))
         else:
-            logging.info("Using JSON dumper")
-            json_dumper.dump(self.obograph_document, to_file=str(path))
+            super().dump(path, syntax)
 
     def save(
         self,

@@ -52,4 +52,5 @@ class DumperInterface(BasicOntologyInterface, ABC):
                 print(json_str)
         else:
             converter = OBOGRAPH_CONVERTERS[syntax]()
+            converter.curie_converter = self.converter
             converter.dump(ogdoc, target=path)

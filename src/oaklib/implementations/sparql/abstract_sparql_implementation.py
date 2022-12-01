@@ -43,6 +43,7 @@ from oaklib.interfaces.basic_ontology_interface import (
     RELATIONSHIP,
     RELATIONSHIP_MAP,
 )
+from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.rdf_interface import TRIPLE, RdfInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, URI
@@ -93,7 +94,7 @@ def _quote_uri(uri: str) -> str:
 
 
 @dataclass
-class AbstractSparqlImplementation(RdfInterface, ABC):
+class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
     """
     An OntologyInterface implementation that wraps a (typically remote) SPARQL endpoint.
 
@@ -590,6 +591,8 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
             return None
 
     def dump(self, path: str = None, syntax: str = "turtle"):
+        if syntax in ["fhirjson", "obo", "obojson"]:
+            return super().dump(path, syntax)
         if self.named_graph is None and not self.graph:
             raise ValueError("Must specify a named graph to dump for a remote triplestore")
         query = SparqlQuery(select=["?s", "?p", "?o"], where=["?s ?p ?o"])
@@ -681,9 +684,18 @@ class AbstractSparqlImplementation(RdfInterface, ABC):
         self, curie: CURIE, strict=False, include_metadata=False, expand_curies=False
     ) -> obograph.Node:
         params = dict(id=curie, lbl=self.label(curie))
+        node = obograph.Node(**params)
         if include_metadata:
-            raise NotImplementedError
-        return obograph.Node(**params)
+            meta = obograph.Meta()
+            node.meta = meta
+            defn = self.definition(curie)
+            if defn:
+                meta.definition = obograph.DefinitionPropertyValue(val=defn)
+            for pred, syn in self.alias_relationships(curie, exclude_labels=True):
+                meta.synonyms.append(
+                    obograph.SynonymPropertyValue(pred=pred.replace("oio:", ""), val=syn)
+                )
+        return node
 
     def hierarchical_descendants(self, start_curies: Union[CURIE, List[CURIE]]) -> Iterable[CURIE]:
         query_uris = [self.curie_to_sparql(curie) for curie in start_curies]
