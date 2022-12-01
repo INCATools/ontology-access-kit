@@ -692,7 +692,9 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
             if defn:
                 meta.definition = obograph.DefinitionPropertyValue(val=defn)
             for pred, syn in self.alias_relationships(curie, exclude_labels=True):
-                meta.synonyms.append(obograph.SynonymPropertyValue(pred=pred.replace("oio:", ""), val=syn))
+                meta.synonyms.append(
+                    obograph.SynonymPropertyValue(pred=pred.replace("oio:", ""), val=syn)
+                )
         return node
 
     def hierarchical_descendants(self, start_curies: Union[CURIE, List[CURIE]]) -> Iterable[CURIE]:

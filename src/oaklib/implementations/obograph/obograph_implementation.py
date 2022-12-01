@@ -9,10 +9,7 @@ from kgcl_schema.datamodel import kgcl
 from linkml_runtime.dumpers import json_dumper
 from linkml_runtime.loaders import json_loader
 
-from oaklib.converters.obo_graph_to_rdf_owl_converter import (
-    SCOPE_MAP,
-    OboGraphToRdfOwlConverter,
-)
+from oaklib.converters.obo_graph_to_rdf_owl_converter import SCOPE_MAP
 from oaklib.datamodels import obograph
 from oaklib.datamodels.obograph import (
     Edge,
