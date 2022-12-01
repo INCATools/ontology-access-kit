@@ -1112,7 +1112,9 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
             else:
                 metadata = impl.entity_metadata_map(curie)
                 if predicates:
-                    metadata = {p: metadata.get(p, None) for p in _process_predicates_arg(predicates)}
+                    metadata = {
+                        p: metadata.get(p, None) for p in _process_predicates_arg(predicates)
+                    }
                 writer.emit(metadata)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
