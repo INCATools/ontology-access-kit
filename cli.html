@@ -3449,6 +3449,13 @@ see <a class="reference external" href="https://github.com/INCATools/kgcl">https
 <blockquote>
 <div><p>runoak -i sqlite:obo:uberon term-metadata lung heart</p>
 </div></blockquote>
+<p>You can filter the results for only selected predicates:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:uberon term-metadata lung heart -p id,oio:hasDbXref</p>
+</div></blockquote>
+<p>The default output is YAML documents, where each YAML document is a term, with
+keys representing selected predicates. Values are always lists of atoms, even
+when there is typically one value (e.g. rdfs:label)</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-metadata <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
