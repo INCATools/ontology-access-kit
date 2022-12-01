@@ -1,3 +1,9 @@
+"""OboGraph to FHIR Converter
+
+Resources
+- Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369
+- Conversion examples: https://drive.google.com/drive/folders/1lwGQ63_fedfWlGlRemq8OeZhZsvIXN01
+"""
 import logging
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
@@ -49,16 +55,20 @@ class OboGraphToFHIRConverter(DataModelConverter):
     """Converts from OboGraph to FHIR.
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
-    - Each node in the OboGraph is converted to a FHIR Concept.
+    - Each node in the OboGraph is converted to a _FHIR Concept_.
     - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. "HP:0000001")
 
          - TODO: make this configurable
 
-    - Each edge in the OboGraph is converted to a FHIR ConceptProperty, if it is in the DIRECT_PREDICATE_MAP.
-    - Each synonym in the OboGraph is converted to a FHIR ConceptDesignation.
+    - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is True.
+      Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.
+    - Each synonym in the OboGraph is converted to a _FHIR ConceptDesignation_.
 
-        - The synonym predicate is mapped to a FHIR Coding, using the SCOPE_MAP.
+        - The synonym predicate is mapped to a _FHIR Coding_, using the `SCOPE_MAP`.
 
+    # TODO: These currently unresolvable
+        from oaklib.utilities.obograph_utils import load_obograph
+        from oaklib.utilities.curie_converter import CurieConverter
     To use:
 
         >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
@@ -82,15 +92,21 @@ class OboGraphToFHIRConverter(DataModelConverter):
 
     """
 
-    def dump(self, source: GraphDocument, target: str = None) -> None:
+    # TODO: `include_all_predicates` may be temporary. Need in the CLI and possibly elsewhere. I'm also doing this a
+    #  pure way, passing it to dump and then further down, rather than an instance property. - Joe 2022/12/01
+    def dump(
+        self, source: GraphDocument, target: str = None, include_all_predicates: bool = True
+    ) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem.
 
         :param source:
         :param target:
-        :return:
+        :param include_all_predicates: Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the
+          `include_all_predicates` param is True. Otherwise, will only convert edges if the predicate is in the
+          `DIRECT_PREDICATE_MAP`.
         """
-        cs = self.convert(source)
+        cs = self.convert(source, include_all_predicates=include_all_predicates)
         json_str = json_dumper.dumps(cs)
         if target is None:
             print(json_str)
@@ -98,7 +114,12 @@ class OboGraphToFHIRConverter(DataModelConverter):
             with open(target, "w", encoding="UTF-8") as f:
                 f.write(json_str)
 
-    def convert(self, source: GraphDocument, target: CodeSystem = None) -> CodeSystem:
+    def convert(
+        self,
+        source: GraphDocument,
+        target: CodeSystem = None,
+        include_all_predicates: bool = True,
+    ) -> CodeSystem:
         """
         Convert an OBO Graph Document to a FHIR CodingSystem
 
@@ -110,10 +131,11 @@ class OboGraphToFHIRConverter(DataModelConverter):
             target = CodeSystem()
         target.resourceType = CodeSystem.__name__
         for g in source.graphs:
-            self._convert_graph(g, target=target)
+            self._convert_graph(g, target=target, include_all_predicates=include_all_predicates)
         return target
 
     def code(self, uri: CURIE) -> str:
+        """Convert a code"""
         if not self.curie_converter:
             return uri
         curie = self.curie_converter.compress(uri)
@@ -122,29 +144,40 @@ class OboGraphToFHIRConverter(DataModelConverter):
         else:
             return curie
 
-    def _convert_graph(self, source: Graph, target: CodeSystem) -> CodeSystem:
+    def _convert_graph(
+        self, source: Graph, target: CodeSystem, include_all_predicates: bool = True
+    ) -> CodeSystem:
         target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
         logging.info(f"Converting graph to obo: {source.id}, nodes={len(source.nodes)}")
         for n in source.nodes:
             logging.debug(f"Converting node {n.id}")
-            self._convert_node(n, index=edges_by_subject, target=target)
+            self._convert_node(
+                n,
+                index=edges_by_subject,
+                target=target,
+                include_all_predicates=include_all_predicates,
+            )
         return target
 
     def _convert_node(
-        self, source: Node, index: Dict[CURIE, List[Edge]], target: CodeSystem
+        self,
+        source: Node,
+        index: Dict[CURIE, List[Edge]],
+        target: CodeSystem,
+        include_all_predicates: bool = True,
     ) -> Concept:
-        id = self.code(source.id)
-        logging.debug(f"Converting node {id} from {source}")
-        concept = Concept(code=id, display=source.lbl)
+        _id = self.code(source.id)
+        logging.debug(f"Converting node {_id} from {source}")
+        concept = Concept(code=_id, display=source.lbl)
         target.concept.append(concept)
         if source.meta:
             self._convert_meta(source, concept)
         for e in index.get(source.id, []):
             obj = self.code(e.obj)
-            if e.pred in DIRECT_PREDICATE_MAP:
+            if include_all_predicates or e.pred in DIRECT_PREDICATE_MAP:
                 concept.property.append(
-                    ConceptProperty(code=DIRECT_PREDICATE_MAP[e.pred], valueCode=obj)
+                    ConceptProperty(code=DIRECT_PREDICATE_MAP.get(e.pred, e.pred), valueCode=obj)
                 )
             else:
                 logging.debug(f"Skipping edge {e}")
