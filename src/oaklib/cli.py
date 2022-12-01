@@ -1089,14 +1089,18 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     Example:
 
         runoak -i sqlite:obo:uberon term-metadata lung heart
+
+    You can filter the results for only selected predicates:
+
+        runoak -i sqlite:obo:uberon term-metadata lung heart -p id,oio:hasDbXref
+
+    The default output is YAML documents, where each YAML document is a term, with
+    keys representing selected predicates. Values are always lists of atoms, even
+    when there is typically one value (e.g. rdfs:label)
     """
     impl = settings.impl
-    if output_type is None or output_type == "yaml":
-        writer = StreamingYamlWriter(output)
-    elif output_type == "csv":
-        writer = StreamingCsvWriter(output)
-    else:
-        raise ValueError(f"No such format: {output_type}")
+    writer = _get_writer(output_type, impl, StreamingYamlWriter)
+    writer.output = output
     if isinstance(impl, BasicOntologyInterface):
         for curie in query_terms_iterator(terms, impl):
             if reification:
@@ -1107,6 +1111,8 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
                     raise NotImplementedError
             else:
                 metadata = impl.entity_metadata_map(curie)
+                if predicates:
+                    metadata = {p: metadata.get(p, None) for p in _process_predicates_arg(predicates)}
                 writer.emit(metadata)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
