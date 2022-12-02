@@ -507,6 +507,8 @@ class SqlImplementation(
         search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
         if search_all or SearchProperty(SearchProperty.ALIAS) in config.properties:
             preds += SYNONYM_PREDICATES
+        if search_all or SearchProperty(SearchProperty.MAPPED_IDENTIFIER) in config.properties:
+            preds += ALL_MATCH_PREDICATES
         view = Statements
 
         def make_query(qcol, preds, scol=view.subject):
@@ -530,6 +532,8 @@ class SqlImplementation(
 
         q = make_query(view.value, preds)
         for row in q.distinct():
+            if row.subject.startswith("_:"):
+                continue
             yield str(row.subject)
         if search_all or SearchProperty(SearchProperty.IDENTIFIER) in config.properties:
             q = make_query(view.subject, preds)

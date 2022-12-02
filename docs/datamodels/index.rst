@@ -33,6 +33,7 @@ not need this.
    text-annotator/index
    cross-ontology-diff/index
    association/index
+   fhir/index
 
 
 

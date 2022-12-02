@@ -46,11 +46,45 @@ SCOPE_DISPLAY = {
 
 @dataclass
 class OboGraphToFHIRConverter(DataModelConverter):
-    """Converts from OboGraph to FHIR."""
+    """Converts from OboGraph to FHIR.
+
+    - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
+    - Each node in the OboGraph is converted to a FHIR Concept.
+    - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. "HP:0000001")
+
+         - TODO: make this configurable
+
+    - Each edge in the OboGraph is converted to a FHIR ConceptProperty, if it is in the DIRECT_PREDICATE_MAP.
+    - Each synonym in the OboGraph is converted to a FHIR ConceptDesignation.
+
+        - The synonym predicate is mapped to a FHIR Coding, using the SCOPE_MAP.
+
+    To use:
+
+        >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
+        >>> from oaklib.datamodels.obograph import GraphDocument
+        >>> from oaklib.utilities.obograph_utils import load_obograph
+        >>> from oaklib.utilities.curie_converter import CurieConverter
+        >>> from linkml_runtime.dumpers import json_dumper
+        >>> converter = OboGraphToFHIRConverter(curie_converter=CurieConverter())
+        >>> graph = load_obograph("hp.obo.json")
+        >>> code_system = converter.dump(graph)
+        >>> print(json_dumper.dumps(code_system))
+
+    To run on the command line:
+
+        runoak  --prefix my_prefix=my_expansion -i obograph:my-ont.json dump -O fhirjson -o my-ont.fhir.json
+
+    Here the input is an OboGraph JSON file. You can also specify:
+
+     - OWL as sqlite
+     - OBO Format
+
+    """
 
     def dump(self, source: GraphDocument, target: str = None) -> None:
         """
-        Dump an OBO Graph Document to a FHIR CodeSystem
+        Dump an OBO Graph Document to a FHIR CodeSystem.
 
         :param source:
         :param target:

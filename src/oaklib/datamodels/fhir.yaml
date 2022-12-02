@@ -1,18 +1,21 @@
 id: https://w3id.org/linkml/fhir
 title: FHIR in LinkML
 name: fhir
-description: Schema for working with FHIR objects
+description: |-
+  Schema for working with FHIR objects (Partial).
+  
+  This is currently intentionally incomplete. The sole
+  purpose of this rendering of FHIR is purely for the purposes
+  of using OAK to convert native OAK data models into FHIR
+  using Python code.
 license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
-comments:
-  - currently this only models Concepts and CodeSystems
 
 prefixes:
  linkml: https://w3id.org/linkml/
- fhir: https://w3id.org/linkml/fhir/
+ fhir: https://build.fhir.org/
  sdo: https://schema.org/
  skos: http://www.w3.org/2004/02/skos/core#
- og: https://github.com/geneontology/obographs/
  sh: https://w3id.org/shacl/
  oio: http://www.geneontology.org/formats/oboInOwl#
 
@@ -24,6 +27,7 @@ default_range: string
 
 classes:
   CodeSystem:
+    class_uri: fhir:codesystem
     description: Declares the existence of and describes a code system or code system supplement
     attributes:
       id:
@@ -138,3 +142,67 @@ classes:
       code:
       display:
       userSelected:
+
+  ConceptMap:
+    attributes:
+      id:
+        range: string
+        comments:
+          - not formally defined in FHIR schema, but present in pyrophen
+      resourceType:
+        designates_type: true
+        comments:
+          - not formally part of FHIR schema but used in JSON serialization as type designation
+      url:
+        range: uri
+      identifier:
+        identifier: false
+        multivalued: true
+        #range: Identifier
+      version:
+      name:
+        description: Name for this code system (computer friendly)
+      title:
+      status:
+        #range: PublicationStatus
+      experimental:
+        range: boolean
+      date:
+        range: datetime
+      publisher:
+      contact:
+        multivalued: true
+        #range: ContactDetail
+      description:
+      #useContext:
+      #  multivalued: true
+      #  range: UsageContext
+      sourceUri:
+        range: uri
+      sourceCanonical:
+        range: uri
+      targetUri:
+        range: uri
+      targetCanonical:
+        range: uri
+      group:
+        multivalued: true
+        range: ConceptMapGroup
+        inlined: true
+        inlined_as_list: true
+
+  ConceptMapGroup:
+    attributes:
+      source:
+        range: uri
+      sourceVersion:
+      target:
+        range: uri
+      targetVersion:
+      element:
+        multivalued: true
+        range: ConceptMapElement
+        inlined: true
+        inlined_as_list: true
+      unMapped:
+        range: ConceptMapUnmapped

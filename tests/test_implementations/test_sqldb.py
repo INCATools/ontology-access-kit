@@ -475,6 +475,13 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         curies = list(self.oi.basic_search("^GO:...5773$", config=config))
         self.assertEqual([VACUOLE], curies)
 
+    def test_search_mapped_identifiers(self):
+        config = SearchConfiguration(
+            properties=[SearchProperty.MAPPED_IDENTIFIER], syntax=SearchTermSyntax.STARTS_WITH
+        )
+        curies = list(self.oi.basic_search("NIF_Subcellular:sao830981606", config=config))
+        self.assertEqual(["GO:0031090"], curies)
+
     def test_search_exact(self):
         config = SearchConfiguration(is_partial=False)
         curies = list(self.oi.basic_search("cytoplasm", config=config))
