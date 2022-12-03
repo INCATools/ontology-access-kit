@@ -1,25 +1,25 @@
-.idea
-.vscode
-__pycache__
+.idea/
+.tox/
+__pycache__/
 .ipynb_checkpoints/
+tests/output/
+dist/
+db/
+
+.DS_Store
+.template.db
+.vscode
+.venv
+
 docs/_build/
 docs/src/
 docs/datamodels/*/*.md
-tests/output/
-
-dist/
-db/
 
 notebooks/output/*json
 notebooks/output/*tsv
 notebooks/input/*
-
-
 notebooks/api-key.txt
 
-.template.db
-.venv
-.tox/
 .coverage.*
 .coverage
 coverage.*
