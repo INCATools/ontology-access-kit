@@ -59,6 +59,8 @@ def create_search_configuration(term: str) -> "SearchConfiguration":
                 props = [SearchProperty.LABEL]
             elif prop == "i":
                 props = [SearchProperty.IDENTIFIER]
+            elif prop == "x":
+                props = [SearchProperty.MAPPED_IDENTIFIER]
             else:
                 raise ValueError(f"Unknown property code: {prop}")
             cfg.properties = [SearchProperty(p) for p in props]

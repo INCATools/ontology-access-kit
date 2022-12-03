@@ -433,6 +433,12 @@ class SimpleOboImplementation(
                         logging.info(f"Syn match to {t}")
                         matches.append(t)
                         continue
+            if search_all or SearchProperty(SearchProperty.MAPPED_IDENTIFIER) in config.properties:
+                for x in self.simple_mappings_by_curie(t):
+                    if mfunc(x):
+                        logging.info(f"Syn match to {t}")
+                        matches.append(t)
+                        continue
         for m in matches:
             yield m
 

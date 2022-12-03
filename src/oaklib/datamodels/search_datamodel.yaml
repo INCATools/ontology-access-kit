@@ -179,6 +179,9 @@ enums:
       REPLACEMENT_IDENTIFIER:
         meaning: schema:identifier
         description: A replacement identifier or URI for the entity
+      MAPPED_IDENTIFIER:
+        meaning: skos:closeMatch
+        description: An identifier or URI for a mapping
       LABEL:
         meaning: rdfs:label
         description: The preferred label / human readable name of the entity

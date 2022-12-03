@@ -732,6 +732,12 @@ class ProntoImplementation(
                         logging.info(f"Syn match to {t.id}")
                         matches.append(t.id)
                         continue
+            if search_all or SearchProperty(SearchProperty.MAPPED_IDENTIFIER) in config.properties:
+                for x in t.xrefs:
+                    if mfunc(x.id):
+                        logging.info(f"Mapping match to {t.id}")
+                        matches.append(t.id)
+                        continue
         # if search_all or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties:
         #    if search_term in self._get_alt_id_to_replacement_map():
         #        matches.append(self._get_alt_id_to_replacement_map()[search_term])
