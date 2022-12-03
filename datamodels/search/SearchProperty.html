@@ -48,6 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../converters/index.html">Converters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
@@ -102,27 +103,31 @@
 <td><p>schema:identifier</p></td>
 <td><p>A replacement identifier or URI for the entity</p></td>
 </tr>
-<tr class="row-even"><td><p>LABEL</p></td>
+<tr class="row-even"><td><p>MAPPED_IDENTIFIER</p></td>
+<td><p>skos:closeMatch</p></td>
+<td><p>An identifier or URI for a mapping</p></td>
+</tr>
+<tr class="row-odd"><td><p>LABEL</p></td>
 <td><p>rdfs:label</p></td>
 <td><p>The preferred label / human readable name of the entity</p></td>
 </tr>
-<tr class="row-odd"><td><p>ALIAS</p></td>
+<tr class="row-even"><td><p>ALIAS</p></td>
 <td><p>skos:altLabel</p></td>
 <td><p>An alias or synonym of the entity</p></td>
 </tr>
-<tr class="row-even"><td><p>COMMENT</p></td>
+<tr class="row-odd"><td><p>COMMENT</p></td>
 <td><p>rdfs:comment</p></td>
 <td><p>A comment on the entity</p></td>
 </tr>
-<tr class="row-odd"><td><p>DEFINITION</p></td>
+<tr class="row-even"><td><p>DEFINITION</p></td>
 <td><p>skos:definition</p></td>
 <td><p>The definition of the entity</p></td>
 </tr>
-<tr class="row-even"><td><p>INFORMATIVE_TEXT</p></td>
+<tr class="row-odd"><td><p>INFORMATIVE_TEXT</p></td>
 <td><p>None</p></td>
 <td><p>Any informative text attached to the entity including comments, definitions, …</p></td>
 </tr>
-<tr class="row-odd"><td><p>ANYTHING</p></td>
+<tr class="row-even"><td><p>ANYTHING</p></td>
 <td><p>rdf:Property</p></td>
 <td><p></p></td>
 </tr>
@@ -170,6 +175,10 @@ permissible_values:
     text: REPLACEMENT_IDENTIFIER
     description: A replacement identifier or URI for the entity
     meaning: schema:identifier
+  MAPPED_IDENTIFIER:
+    text: MAPPED_IDENTIFIER
+    description: An identifier or URI for a mapping
+    meaning: skos:closeMatch
   LABEL:
     text: LABEL
     description: The preferred label / human readable name of the entity

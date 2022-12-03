@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../converters/index.html">Converters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
@@ -812,6 +813,12 @@
                 <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">synonyms</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">mfunc</span><span class="p">(</span><span class="n">syn</span><span class="o">.</span><span class="n">description</span><span class="p">):</span>
                         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Syn match to </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                        <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">search_all</span> <span class="ow">or</span> <span class="n">SearchProperty</span><span class="p">(</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">MAPPED_IDENTIFIER</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">xrefs</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mfunc</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mapping match to </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
                         <span class="k">continue</span>
         <span class="c1"># if search_all or SearchProperty(SearchProperty.REPLACEMENT_IDENTIFIER) in config.properties:</span>

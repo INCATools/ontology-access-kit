@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../selectors.html">Ontology Implementation Selectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../datamodels/index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../converters/index.html">Converters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../howtos/index.html">How-To Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../notebooks.html">Notebooks</a></li>
@@ -589,6 +590,8 @@
         <span class="n">search_all</span> <span class="o">=</span> <span class="n">SearchProperty</span><span class="p">(</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">ANYTHING</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span>
         <span class="k">if</span> <span class="n">search_all</span> <span class="ow">or</span> <span class="n">SearchProperty</span><span class="p">(</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">ALIAS</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
             <span class="n">preds</span> <span class="o">+=</span> <span class="n">SYNONYM_PREDICATES</span>
+        <span class="k">if</span> <span class="n">search_all</span> <span class="ow">or</span> <span class="n">SearchProperty</span><span class="p">(</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">MAPPED_IDENTIFIER</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
+            <span class="n">preds</span> <span class="o">+=</span> <span class="n">ALL_MATCH_PREDICATES</span>
         <span class="n">view</span> <span class="o">=</span> <span class="n">Statements</span>
 
         <span class="k">def</span> <span class="nf">make_query</span><span class="p">(</span><span class="n">qcol</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">scol</span><span class="o">=</span><span class="n">view</span><span class="o">.</span><span class="n">subject</span><span class="p">):</span>
@@ -612,6 +615,8 @@
 
         <span class="n">q</span> <span class="o">=</span> <span class="n">make_query</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">distinct</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_:&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
             <span class="k">yield</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">search_all</span> <span class="ow">or</span> <span class="n">SearchProperty</span><span class="p">(</span><span class="n">SearchProperty</span><span class="o">.</span><span class="n">IDENTIFIER</span><span class="p">)</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">make_query</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
