@@ -1,4 +1,6 @@
 # Slot: mapping_count
+_Number of mappings (including xrefs) in the ontology or subset_
+
 
 URI: [reporting:mapping_count](https://w3id.org/linkml/reportmapping_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:mapping_count](https://w3id.org/linkml/reportmapping_count)
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   filter:
     tag: filter
     value: Mapping
+description: Number of mappings (including xrefs) in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: mapping_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: metadata_statistic_group
 range: string
 

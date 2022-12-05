@@ -1,5 +1,5 @@
 # Slot: partitions
-_statistics keyed by category_
+_statistics grouped by a particular property_
 
 
 URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
@@ -15,7 +15,7 @@ URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
 
 | Name | Description |
 | --- | --- |
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource
 
 
 
@@ -24,7 +24,7 @@ URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
 
 ## Properties
 
-* Range: [SummaryStatisticCollection](SummaryStatisticCollection.md)
+* Range: [UngroupedStatistics](UngroupedStatistics.md)
 * Multivalued: True
 
 
@@ -36,7 +36,7 @@ URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
 
 ## Comments
 
-* for example, GO stats may be broken out by MF/BP/CC
+* For example, GO stats may be broken out by MF/BP/CC
 
 ## Identifier and Mapping Information
 
@@ -59,17 +59,17 @@ URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
 <details>
 ```yaml
 name: partitions
-description: statistics keyed by category
+description: statistics grouped by a particular property
 comments:
-- for example, GO stats may be broken out by MF/BP/CC
+- For example, GO stats may be broken out by MF/BP/CC
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: partitions
-owner: GlobalStatistics
+owner: GroupedStatistics
 domain_of:
-- GlobalStatistics
-range: SummaryStatisticCollection
+- GroupedStatistics
+range: UngroupedStatistics
 inlined: true
 
 ```

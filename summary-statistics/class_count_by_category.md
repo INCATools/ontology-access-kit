@@ -1,4 +1,6 @@
 # Slot: class_count_by_category
+_Number of classes grouped by category in the ontology or subset_
+
 
 URI: [reporting:class_count_by_category](https://w3id.org/linkml/reportclass_count_by_category)
 
@@ -13,7 +15,7 @@ URI: [reporting:class_count_by_category](https://w3id.org/linkml/reportclass_cou
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   facet:
     tag: facet
     value: Category
+description: Number of classes grouped by category in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: class_count_by_category
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
 inlined: true

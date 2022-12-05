@@ -15,10 +15,10 @@ Name: obographs_datamodel
 | [DomainRangeAxiom](DomainRangeAxiom.md) |  |
 | [Edge](Edge.md) |  |
 | [EquivalentNodesSet](EquivalentNodesSet.md) |  |
-| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |  |
+| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |
 | [Graph](Graph.md) |  |
 | [GraphDocument](GraphDocument.md) |  |
-| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) |  |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |
 | [Meta](Meta.md) |  |
 | [Node](Node.md) |  |
 | [PrefixDeclaration](PrefixDeclaration.md) | maps individual prefix to namespace |
@@ -35,7 +35,7 @@ Name: obographs_datamodel
 | [basicPropertyValues](basicPropertyValues.md) |  |
 | [chainPredicateIds](chainPredicateIds.md) |  |
 | [comments](comments.md) |  |
-| [definedClassId](definedClassId.md) |  |
+| [definedClassId](definedClassId.md) | The class that is defined by this axiom |
 | [definition](definition.md) |  |
 | [deprecated](deprecated.md) |  |
 | [domainClassIds](domainClassIds.md) |  |
@@ -43,7 +43,7 @@ Name: obographs_datamodel
 | [edges](edges.md) |  |
 | [equivalentNodesSets](equivalentNodesSets.md) |  |
 | [fillerId](fillerId.md) |  |
-| [genusIds](genusIds.md) |  |
+| [genusIds](genusIds.md) | The set of classes that are the genus of the defined class |
 | [graphs](graphs.md) |  |
 | [id](id.md) |  |
 | [isExact](isExact.md) |  |
@@ -62,7 +62,7 @@ Name: obographs_datamodel
 | [propertyId](propertyId.md) |  |
 | [rangeClassIds](rangeClassIds.md) |  |
 | [representativeNodeId](representativeNodeId.md) |  |
-| [restrictions](restrictions.md) |  |
+| [restrictions](restrictions.md) | The set of restrictions that are the differentia of the defined class |
 | [sub](sub.md) |  |
 | [subsets](subsets.md) |  |
 | [synonyms](synonyms.md) |  |

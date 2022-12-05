@@ -83,7 +83,7 @@
              
   <section id="slot-partitions">
 <h1>Slot: partitions<a class="headerlink" href="#slot-partitions" title="Permalink to this headline"></a></h1>
-<p><em>statistics keyed by category</em></p>
+<p><em>statistics grouped by a particular property</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/reportpartitions">reporting:partitions</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,7 +95,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="GlobalStatistics.html"><span class="doc std std-doc">GlobalStatistics</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="GroupedStatistics.html"><span class="doc std std-doc">GroupedStatistics</span></a></p></td>
 <td><p>summary statistics for the entire resource</p></td>
 </tr>
 </tbody>
@@ -104,14 +104,14 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></li>
+<li><p>Range: <a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></li>
 <li><p>Multivalued: True</p></li>
 </ul>
 </section>
 <section id="comments">
 <h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>for example, GO stats may be broken out by MF/BP/CC</p></li>
+<li><p>For example, GO stats may be broken out by MF/BP/CC</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -128,17 +128,17 @@
 <details>
 ```yaml
 name: partitions
-description: statistics keyed by category
+description: statistics grouped by a particular property
 comments:
-- for example, GO stats may be broken out by MF/BP/CC
+- For example, GO stats may be broken out by MF/BP/CC
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: partitions
-owner: GlobalStatistics
+owner: GroupedStatistics
 domain_of:
-- GlobalStatistics
-range: SummaryStatisticCollection
+- GroupedStatistics
+range: UngroupedStatistics
 inlined: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>

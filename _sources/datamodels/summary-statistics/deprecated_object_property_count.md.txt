@@ -1,4 +1,6 @@
 # Slot: deprecated_object_property_count
+_Number of deprecated (obsoleted) object properties in the ontology or subset_
+
 
 URI: [reporting:deprecated_object_property_count](https://w3id.org/linkml/reportdeprecated_object_property_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:deprecated_object_property_count](https://w3id.org/linkml/report
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,15 @@ annotations:
   filter:
     tag: filter
     value: ObjectProperty, Deprecated
+description: Number of deprecated (obsoleted) object properties in the ontology or
+  subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: deprecated_object_property_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: property_statistic_group
 range: string
 

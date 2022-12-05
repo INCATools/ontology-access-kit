@@ -2,7 +2,7 @@
 
 
 
-URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/EquivalentNodesSet)
+URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
 ```{mermaid}
@@ -67,7 +67,7 @@ URI: [og:EquivalentNodesSet](https://github.com/geneontology/obographs/Equivalen
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:EquivalentNodesSet |
+| self | owl:equivalentClass |
 | native | og:EquivalentNodesSet |
 
 
@@ -86,6 +86,7 @@ is_a: Axiom
 slots:
 - representativeNodeId
 - nodeIds
+class_uri: owl:equivalentClass
 
 ```
 </details>
@@ -131,6 +132,7 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+class_uri: owl:equivalentClass
 
 ```
 </details>

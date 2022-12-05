@@ -1,6 +1,8 @@
 # Slot: description
+_a description of the resource_
 
-URI: [reporting:description](https://w3id.org/linkml/reportdescription)
+
+URI: [dcterms:description](http://purl.org/dc/terms/description)
 
 
 
@@ -13,7 +15,7 @@ URI: [reporting:description](https://w3id.org/linkml/reportdescription)
 
 | Name | Description |
 | --- | --- |
-[GlobalStatistics](GlobalStatistics.md) | summary statistics for the entire resource
+[Ontology](Ontology.md) | An ontology
 
 
 
@@ -51,12 +53,14 @@ URI: [reporting:description](https://w3id.org/linkml/reportdescription)
 <details>
 ```yaml
 name: description
+description: a description of the resource
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
+slot_uri: dcterms:description
 alias: description
-owner: GlobalStatistics
+owner: Ontology
 domain_of:
-- GlobalStatistics
+- Ontology
 range: string
 
 ```

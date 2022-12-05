@@ -83,6 +83,7 @@
              
   <section id="slot-synonym-statement-count-by-predicate">
 <h1>Slot: synonym_statement_count_by_predicate<a class="headerlink" href="#slot-synonym-statement-count-by-predicate" title="Permalink to this headline"></a></h1>
+<p><em>Number of synonym statements (assertions) grouped by predicate (scope) in the ontology or subset</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/reportsynonym_statement_count_by_predicate">reporting:synonym_statement_count_by_predicate</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -94,7 +95,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p>A summary statistics report object</p></td>
 </tr>
 </tbody>
@@ -143,13 +144,15 @@ annotations:
   facet:
     tag: facet
     value: Predicate
+description: Number of synonym statements (assertions) grouped by predicate (scope)
+  in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: synonym_statement_count_by_predicate
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
 inlined: true

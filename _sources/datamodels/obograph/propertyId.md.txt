@@ -13,7 +13,7 @@ URI: [og:propertyId](https://github.com/geneontology/obographs/propertyId)
 
 | Name | Description |
 | --- | --- |
-[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | 
+[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression
 
 
 

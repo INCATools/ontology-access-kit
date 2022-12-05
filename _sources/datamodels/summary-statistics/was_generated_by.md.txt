@@ -1,0 +1,68 @@
+# Slot: was_generated_by
+_The process that generated the report_
+
+
+URI: [reporting:was_generated_by](https://w3id.org/linkml/reportwas_generated_by)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SummaryStatisticsReport](SummaryStatisticsReport.md) | abstract base class for all summary statistics reports
+[GroupedStatistics](GroupedStatistics.md) | summary statistics for the entire resource
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
+## Properties
+
+* Range: [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md)
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: was_generated_by
+description: The process that generated the report
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+alias: was_generated_by
+owner: SummaryStatisticsReport
+domain_of:
+- SummaryStatisticsReport
+range: SummaryStatisticsCalculationActivity
+
+```
+</details>

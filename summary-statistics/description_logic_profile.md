@@ -1,4 +1,6 @@
 # Slot: description_logic_profile
+_Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset_
+
 
 URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescription_logic_profile)
 
@@ -13,7 +15,7 @@ URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescrip
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -51,12 +53,13 @@ URI: [reporting:description_logic_profile](https://w3id.org/linkml/reportdescrip
 <details>
 ```yaml
 name: description_logic_profile
+description: Description logic profile (e.g. OWL-EL, OWL-DL) of the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 alias: description_logic_profile
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: owl_statistic_group
 range: string
 

@@ -1,4 +1,6 @@
 # Slot: rdf_triple_count
+_Number of RDF triples in the ontology or subset_
+
 
 URI: [reporting:rdf_triple_count](https://w3id.org/linkml/reportrdf_triple_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:rdf_triple_count](https://w3id.org/linkml/reportrdf_triple_count
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -56,13 +58,14 @@ URI: [reporting:rdf_triple_count](https://w3id.org/linkml/reportrdf_triple_count
 <details>
 ```yaml
 name: rdf_triple_count
+description: Number of RDF triples in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: rdf_triple_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: owl_statistic_group
 range: string
 

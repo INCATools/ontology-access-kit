@@ -83,6 +83,7 @@
              
   <section id="slot-class-count-by-category">
 <h1>Slot: class_count_by_category<a class="headerlink" href="#slot-class-count-by-category" title="Permalink to this headline"></a></h1>
+<p><em>Number of classes grouped by category in the ontology or subset</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/reportclass_count_by_category">reporting:class_count_by_category</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -94,7 +95,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p>A summary statistics report object</p></td>
 </tr>
 </tbody>
@@ -143,13 +144,14 @@ annotations:
   facet:
     tag: facet
     value: Category
+description: Number of classes grouped by category in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: class_count_by_category
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
 inlined: true

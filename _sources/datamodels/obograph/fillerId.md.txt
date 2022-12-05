@@ -13,7 +13,7 @@ URI: [og:fillerId](https://github.com/geneontology/obographs/fillerId)
 
 | Name | Description |
 | --- | --- |
-[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | 
+[ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression
 
 
 

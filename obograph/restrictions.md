@@ -1,6 +1,8 @@
 # Slot: restrictions
+_The set of restrictions that are the differentia of the defined class_
 
-URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
+
+URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 
 | Name | Description |
 | --- | --- |
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | 
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and...
 
 
 
@@ -25,10 +27,17 @@ URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 * Range: [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md)
 * Multivalued: True
 
+* Required: True
 
 
 
 
+
+
+## Aliases
+
+
+* differentia
 
 
 
@@ -53,14 +62,19 @@ URI: [og:restrictions](https://github.com/geneontology/obographs/restrictions)
 <details>
 ```yaml
 name: restrictions
+description: The set of restrictions that are the differentia of the defined class
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- differentia
 rank: 1000
+slot_uri: owl:someValuesFrom
 multivalued: true
 alias: restrictions
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
 range: ExistentialRestrictionExpression
+required: true
 
 ```
 </details>

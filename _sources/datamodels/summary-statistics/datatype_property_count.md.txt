@@ -1,4 +1,6 @@
 # Slot: datatype_property_count
+_Number of datatype properties in the ontology or subset_
+
 
 URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_property_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:datatype_property_count](https://w3id.org/linkml/reportdatatype_
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   filter:
     tag: filter
     value: DatatypeProperty
+description: Number of datatype properties in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: datatype_property_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: property_statistic_group
 range: string
 

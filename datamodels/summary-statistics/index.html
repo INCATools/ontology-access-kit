@@ -121,13 +121,34 @@ Name: summary-statistics</p>
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
+<td><p>An agent</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ChangeTypeStatistic.html"><span class="doc std std-doc">ChangeTypeStatistic</span></a></p></td>
+<td><p>statistics for a particular kind of diff</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ContributorRole.html"><span class="doc std std-doc">ContributorRole</span></a></p></td>
+<td><p>A role that a contributor can have</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ContributorStatistics.html"><span class="doc std std-doc">ContributorStatistics</span></a></p></td>
+<td><p>Statistics for a contributor</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="FacetedCount.html"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 <td><p>Counts broken down by a facet</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="GlobalStatistics.html"><span class="doc std std-doc">GlobalStatistics</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="GroupedStatistics.html"><span class="doc std std-doc">GroupedStatistics</span></a></p></td>
 <td><p>summary statistics for the entire resource</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a></p></td>
+<td><p>An ontology</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="SummaryStatisticsCalculationActivity.html"><span class="doc std std-doc">SummaryStatisticsCalculationActivity</span></a></p></td>
+<td><p>An activity that calculates summary statistics for an ontology</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
+<td><p>abstract base class for all summary statistics reports</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p>A summary statistics report object</p></td>
 </tr>
 </tbody>
@@ -142,140 +163,197 @@ Name: summary-statistics</p>
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="acted_on_behalf_of.html"><span class="doc std std-doc">acted_on_behalf_of</span></a></p></td>
+<td><p>the agent that the activity acted on behalf of</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="agents.html"><span class="doc std std-doc">agents</span></a></p></td>
+<td><p>Agents that contributed to the report</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="annotation_property_count.html"><span class="doc std std-doc">annotation_property_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of annotation properties (metadata properties) in the ontology or subs…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="anonymous_class_expression_count.html"><span class="doc std std-doc">anonymous_class_expression_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of anonymous class expressions in the ontology or subset</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="anonymous_individual_count.html"><span class="doc std std-doc">anonymous_individual_count</span></a></p></td>
+<td><p>Number of anonymous individuals in the ontology or subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="change_summary.html"><span class="doc std std-doc">change_summary</span></a></p></td>
+<td><p>Summary of changes between two versions of an ontology</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="class_count.html"><span class="doc std std-doc">class_count</span></a></p></td>
+<td><p>Number of classes in the ontology or subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="class_count_by_category.html"><span class="doc std std-doc">class_count_by_category</span></a></p></td>
+<td><p>Number of classes grouped by category in the ontology or subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="class_count_by_subset.html"><span class="doc std std-doc">class_count_by_subset</span></a></p></td>
+<td><p>Number of classes grouped by subset (slim, value set) in the ontology or subs…</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="class_count_with_text_definitions.html"><span class="doc std std-doc">class_count_with_text_definitions</span></a></p></td>
+<td><p>Number of classes with text definitions in the ontology or subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="class_count_without_text_definitions.html"><span class="doc std std-doc">class_count_without_text_definitions</span></a></p></td>
+<td><p>Number of classes without text definitions in the ontology or subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="class_statistic_group.html"><span class="doc std std-doc">class_statistic_group</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="class_count.html"><span class="doc std std-doc">class_count</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="compared_with.html"><span class="doc std std-doc">compared_with</span></a></p></td>
+<td><p>For diffs, the ontologies being compared against</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="contributor_id.html"><span class="doc std std-doc">contributor_id</span></a></p></td>
+<td><p>the contributor</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="contributor_name.html"><span class="doc std std-doc">contributor_name</span></a></p></td>
+<td><p>the name of the contributor</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="contributor_summary.html"><span class="doc std std-doc">contributor_summary</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="class_count_by_category.html"><span class="doc std std-doc">class_count_by_category</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="count_statistic.html"><span class="doc std std-doc">count_statistic</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="class_count_by_subset.html"><span class="doc std std-doc">class_count_by_subset</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="datatype_property_count.html"><span class="doc std std-doc">datatype_property_count</span></a></p></td>
+<td><p>Number of datatype properties in the ontology or subset</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="class_count_with_text_definitions.html"><span class="doc std std-doc">class_count_with_text_definitions</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="deprecated_class_count.html"><span class="doc std std-doc">deprecated_class_count</span></a></p></td>
+<td><p>Number of deprecated (obsoleted) classes in the ontology or subset</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="class_count_without_text_definitions.html"><span class="doc std std-doc">class_count_without_text_definitions</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="deprecated_object_property_count.html"><span class="doc std std-doc">deprecated_object_property_count</span></a></p></td>
+<td><p>Number of deprecated (obsoleted) object properties in the ontology or subset</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="class_statistic_group.html"><span class="doc std std-doc">class_statistic_group</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
+<td><p>a description of the resource</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="count_statistic.html"><span class="doc std std-doc">count_statistic</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="description_logic_profile.html"><span class="doc std std-doc">description_logic_profile</span></a></p></td>
+<td><p>Description logic profile (e</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="datatype_property_count.html"><span class="doc std std-doc">datatype_property_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="distinct_synonym_count.html"><span class="doc std std-doc">distinct_synonym_count</span></a></p></td>
+<td><p>Number of distinct synonym strings in the ontology or subset</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="deprecated_class_count.html"><span class="doc std std-doc">deprecated_class_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="edge_count_by_predicate.html"><span class="doc std std-doc">edge_count_by_predicate</span></a></p></td>
+<td><p>Number of edges grouped by predicate in the ontology or subset</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="deprecated_object_property_count.html"><span class="doc std std-doc">deprecated_object_property_count</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="description.html"><span class="doc std std-doc">description</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="description_logic_profile.html"><span class="doc std std-doc">description_logic_profile</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="distinct_synonym_count.html"><span class="doc std std-doc">distinct_synonym_count</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="edge_count_by_predicate.html"><span class="doc std std-doc">edge_count_by_predicate</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ended_at_time.html"><span class="doc std std-doc">ended_at_time</span></a></p></td>
+<td><p>the time at which the activity ended</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="entailed_edge_count_by_predicate.html"><span class="doc std std-doc">entailed_edge_count_by_predicate</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of entailed (includes indirect) edges grouped by predicate in the onto…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="equivalent_classes_axiom_count.html"><span class="doc std std-doc">equivalent_classes_axiom_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of equivalent classes axioms in the ontology or subset</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="facet.html"><span class="doc std std-doc">facet</span></a></p></td>
-<td><p></p></td>
+<td><p>the facet used to group the counts</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="filtered_count.html"><span class="doc std std-doc">filtered_count</span></a></p></td>
-<td><p></p></td>
+<td><p>the number of items in the facet</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
 <td><p>Unique handle for this report</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="individual_count.html"><span class="doc std std-doc">individual_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of individuals (named and anonymous) in the ontology or subset</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="individual_statistic_group.html"><span class="doc std std-doc">individual_statistic_group</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="mapping_count.html"><span class="doc std std-doc">mapping_count</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a></p></td>
+<td><p>the label for the agent</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="mapping_count.html"><span class="doc std std-doc">mapping_count</span></a></p></td>
+<td><p>Number of mappings (including xrefs) in the ontology or subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="mapping_statement_count_by_predicate.html"><span class="doc std std-doc">mapping_statement_count_by_predicate</span></a></p></td>
+<td><p>Number of mappings grouped by predicate (e</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="merged_class_count.html"><span class="doc std std-doc">merged_class_count</span></a></p></td>
+<td><p>Number of merged classes (obsoletions with merge reason) in the ontology or s…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="metadata_statistic_group.html"><span class="doc std std-doc">metadata_statistic_group</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="mapping_statement_count_by_predicate.html"><span class="doc std std-doc">mapping_statement_count_by_predicate</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="named_individual_count.html"><span class="doc std std-doc">named_individual_count</span></a></p></td>
+<td><p>Number of named individuals in the ontology or subset</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="merged_class_count.html"><span class="doc std std-doc">merged_class_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="non_deprecated_class_count.html"><span class="doc std std-doc">non_deprecated_class_count</span></a></p></td>
+<td><p>Number of non-deprecated (non-obsoleted) classes in the ontology or subset</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="metadata_statistic_group.html"><span class="doc std std-doc">metadata_statistic_group</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="non_deprecated_object_property_count.html"><span class="doc std std-doc">non_deprecated_object_property_count</span></a></p></td>
+<td><p>Number of non-deprecated (non-obsoleted) object properties in the ontology or…</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="named_individual_count.html"><span class="doc std std-doc">named_individual_count</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="non_deprecated_class_count.html"><span class="doc std std-doc">non_deprecated_class_count</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="non_deprecated_object_property_count.html"><span class="doc std std-doc">non_deprecated_object_property_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="normalization_comments.html"><span class="doc std std-doc">normalization_comments</span></a></p></td>
+<td><p>if contributor name normalization was applied, provide details here</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object_property_count.html"><span class="doc std std-doc">object_property_count</span></a></p></td>
+<td><p>Number of object properties (relations) in the ontology or subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ontologies.html"><span class="doc std std-doc">ontologies</span></a></p></td>
+<td><p>Ontology for which the statistics are computed</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ontology_count.html"><span class="doc std std-doc">ontology_count</span></a></p></td>
+<td><p>Number of ontologies (including imports) for the ontology or subset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="owl_axiom_count.html"><span class="doc std std-doc">owl_axiom_count</span></a></p></td>
+<td><p>Number of OWL axioms in the ontology or subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="owl_statistic_group.html"><span class="doc std std-doc">owl_statistic_group</span></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ontology_count.html"><span class="doc std std-doc">ontology_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="partitions.html"><span class="doc std std-doc">partitions</span></a></p></td>
+<td><p>statistics grouped by a particular property</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="owl_axiom_count.html"><span class="doc std std-doc">owl_axiom_count</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="owl_statistic_group.html"><span class="doc std std-doc">owl_statistic_group</span></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="partitions.html"><span class="doc std std-doc">partitions</span></a></p></td>
-<td><p>statistics keyed by category</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="prefix.html"><span class="doc std std-doc">prefix</span></a></p></td>
+<td><p>the prefix for the ontology</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="property_count.html"><span class="doc std std-doc">property_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of properties in the ontology or subset</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="property_statistic_group.html"><span class="doc std std-doc">property_statistic_group</span></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="rdf_triple_count.html"><span class="doc std std-doc">rdf_triple_count</span></a></p></td>
+<td><p>Number of RDF triples in the ontology or subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="role_counts.html"><span class="doc std std-doc">role_counts</span></a></p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="started_at_time.html"><span class="doc std std-doc">started_at_time</span></a></p></td>
+<td><p>the time at which the activity started</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="subclass_of_axiom_count.html"><span class="doc std std-doc">subclass_of_axiom_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of subclass axioms in the ontology or subset</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subset_count.html"><span class="doc std std-doc">subset_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of distinct subsets (slims, value sets) in the ontology or subset</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="synonym_statement_count.html"><span class="doc std std-doc">synonym_statement_count</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of synonym statements (assertions) in the ontology or subset</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="synonym_statement_count_by_predicate.html"><span class="doc std std-doc">synonym_statement_count_by_predicate</span></a></p></td>
-<td><p></p></td>
+<td><p>Number of synonym statements (assertions) grouped by predicate (scope) in the…</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="unsatisfiable_class_count.html"><span class="doc std std-doc">unsatisfiable_class_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="title.html"><span class="doc std std-doc">title</span></a></p></td>
+<td><p>the title of the resource</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="untyped_entity_count.html"><span class="doc std std-doc">untyped_entity_count</span></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="unsatisfiable_class_count.html"><span class="doc std std-doc">unsatisfiable_class_count</span></a></p></td>
+<td><p>Number of unsatisfiable classes in the ontology or subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="untyped_entity_count.html"><span class="doc std std-doc">untyped_entity_count</span></a></p></td>
+<td><p>Number of entities whose type could not be determined in the ontology or subs…</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="version.html"><span class="doc std std-doc">version</span></a></p></td>
+<td><p>the version of the resource</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="version_info.html"><span class="doc std std-doc">version_info</span></a></p></td>
+<td><p>the version info of the resource</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="was_associated_with.html"><span class="doc std std-doc">was_associated_with</span></a></p></td>
+<td><p>the agent that was associated with the activity</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="was_generated_by.html"><span class="doc std std-doc">was_generated_by</span></a></p></td>
+<td><p>The process that generated the report</p></td>
 </tr>
 </tbody>
 </table>

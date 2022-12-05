@@ -1,4 +1,6 @@
 # Slot: deprecated_class_count
+_Number of deprecated (obsoleted) classes in the ontology or subset_
+
 
 URI: [reporting:deprecated_class_count](https://w3id.org/linkml/reportdeprecated_class_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:deprecated_class_count](https://w3id.org/linkml/reportdeprecated
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   filter:
     tag: filter
     value: Class, Deprecated
+description: Number of deprecated (obsoleted) classes in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: deprecated_class_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: class_statistic_group
 range: string
 

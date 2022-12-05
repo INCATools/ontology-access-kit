@@ -1,8 +1,10 @@
 # Class: ExistentialRestrictionExpression
+_An existential restriction (OWL some values from) expression_
 
 
 
-URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obographs/ExistentialRestrictionExpression)
+
+URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 ```{mermaid}
@@ -36,6 +38,11 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
+## Aliases
+
+
+* some values from expression
+
 
 
 ## Identifier and Mapping Information
@@ -43,6 +50,12 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl.fstring | ObjectSomeValuesFrom({propertyId} {fillerId}) |
 
 
 
@@ -59,7 +72,7 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:ExistentialRestrictionExpression |
+| self | owl:Restriction |
 | native | og:ExistentialRestrictionExpression |
 
 
@@ -72,11 +85,19 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 <details>
 ```yaml
 name: ExistentialRestrictionExpression
+annotations:
+  owl.fstring:
+    tag: owl.fstring
+    value: ObjectSomeValuesFrom({propertyId} {fillerId})
+description: An existential restriction (OWL some values from) expression
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- some values from expression
 rank: 1000
 slots:
 - fillerId
 - propertyId
+class_uri: owl:Restriction
 
 ```
 </details>
@@ -86,7 +107,14 @@ slots:
 <details>
 ```yaml
 name: ExistentialRestrictionExpression
+annotations:
+  owl.fstring:
+    tag: owl.fstring
+    value: ObjectSomeValuesFrom({propertyId} {fillerId})
+description: An existential restriction (OWL some values from) expression
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- some values from expression
 rank: 1000
 attributes:
   fillerId:
@@ -107,6 +135,7 @@ attributes:
     domain_of:
     - ExistentialRestrictionExpression
     range: string
+class_uri: owl:Restriction
 
 ```
 </details>

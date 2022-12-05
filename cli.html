@@ -3181,6 +3181,22 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace</p>
 </div></blockquote>
+<p>The recommended output types for this command are yaml, json, or csv.
+The default output type is yaml, following the SummaryStatistics data model.
+This is naturally nested, as the statistics includes faceted groupings
+(e.g. edge counts are broken down by predicate). When specifying a flat
+format like csv, this is flattened into a single table, with dynamic
+column names.</p>
+<p>Change statistics:</p>
+<p>You can optionally combine the ontology statistics with a change
+summary relative to another ontology, using the <code class="docutils literal notranslate"><span class="pre">--compare-with</span></code>
+option.</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i v2.obo statistics –group-by-obo-namespace –compare-with v1.obo</p>
+</div></blockquote>
+<p>This will also include change stats broken down by KGCL change types. If
+a group-by option is specified, these will be grouped accordingly.</p>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak statistics <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>BRANCHES<span class="o">]</span>...
 </pre></div>
@@ -3240,6 +3256,12 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-statistics-include-residuals">
 <span id="cmdoption-runoak-statistics-no-include-residuals"></span><span class="sig-name descname"><span class="pre">--include-residuals</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-residuals</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-statistics-include-residuals" title="Permalink to this definition"></a></dt>
 <dd><p>If true include an OTHER category for terms that do not have the property</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-X">
+<span id="cmdoption-runoak-statistics-x"></span><span id="cmdoption-runoak-statistics-compare-with"></span><span class="sig-name descname"><span class="pre">-X</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--compare-with</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;compare_with&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-X" title="Permalink to this definition"></a></dt>
+<dd><p>Compare with another ontology</p>
 </dd></dl>
 
 <dl class="std option">

@@ -1,4 +1,6 @@
 # Slot: class_count_without_text_definitions
+_Number of classes without text definitions in the ontology or subset_
+
 
 URI: [reporting:class_count_without_text_definitions](https://w3id.org/linkml/reportclass_count_without_text_definitions)
 
@@ -18,7 +20,7 @@ URI: [reporting:class_count_without_text_definitions](https://w3id.org/linkml/re
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   filter:
     tag: filter
     value: Class, NotHasTextDefinition
+description: Number of classes without text definitions in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: class_count_without_text_definitions
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: class_statistic_group
 range: string
 

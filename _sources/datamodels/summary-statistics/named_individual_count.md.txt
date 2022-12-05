@@ -1,4 +1,6 @@
 # Slot: named_individual_count
+_Number of named individuals in the ontology or subset_
+
 
 URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_individual_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:named_individual_count](https://w3id.org/linkml/reportnamed_indi
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   filter:
     tag: filter
     value: NamedIndividual
+description: Number of named individuals in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: named_individual_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: individual_statistic_group
 range: string
 

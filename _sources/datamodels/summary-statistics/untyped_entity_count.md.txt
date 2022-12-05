@@ -1,4 +1,6 @@
 # Slot: untyped_entity_count
+_Number of entities whose type could not be determined in the ontology or subset_
+
 
 URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_entity_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_enti
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -56,13 +58,15 @@ URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_enti
 <details>
 ```yaml
 name: untyped_entity_count
+description: Number of entities whose type could not be determined in the ontology
+  or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: untyped_entity_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 range: string
 
 ```

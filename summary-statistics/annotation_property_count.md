@@ -1,4 +1,6 @@
 # Slot: annotation_property_count
+_Number of annotation properties (metadata properties) in the ontology or subset_
+
 
 URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotation_property_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,15 @@ annotations:
   filter:
     tag: filter
     value: AnnotationProperty
+description: Number of annotation properties (metadata properties) in the ontology
+  or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: annotation_property_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: property_statistic_group
 range: string
 

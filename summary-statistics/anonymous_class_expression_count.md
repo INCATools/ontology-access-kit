@@ -1,4 +1,6 @@
 # Slot: anonymous_class_expression_count
+_Number of anonymous class expressions in the ontology or subset_
+
 
 URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/reportanonymous_class_expression_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -56,13 +58,14 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 <details>
 ```yaml
 name: anonymous_class_expression_count
+description: Number of anonymous class expressions in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: anonymous_class_expression_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: class_statistic_group
 range: string
 

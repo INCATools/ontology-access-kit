@@ -1,4 +1,6 @@
 # Class: LogicalDefinitionAxiom
+_An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia_
+
 
 
 
@@ -30,9 +32,9 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [definedClassId](definedClassId.md) | 0..1 <br/> NONE |  | direct |
-| [genusIds](genusIds.md) | 0..* <br/> NONE |  | direct |
-| [restrictions](restrictions.md) | 0..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |  | direct |
+| [definedClassId](definedClassId.md) | 1..1 <br/> NONE | The class that is defined by this axiom | direct |
+| [genusIds](genusIds.md) | 1..* <br/> NONE | The set of classes that are the genus of the defined class | direct |
+| [restrictions](restrictions.md) | 1..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentia of the defined class | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
 
 
@@ -46,6 +48,11 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
+## Aliases
+
+
+* genus differentia definition
+
 
 
 ## Identifier and Mapping Information
@@ -53,6 +60,12 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl.fstring | EquivalentClasses({definedClassId} ObjectIntersectionOf({genusIds} {restrictions})) |
 
 
 
@@ -82,25 +95,44 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 <details>
 ```yaml
 name: LogicalDefinitionAxiom
+annotations:
+  owl.fstring:
+    tag: owl.fstring
+    value: EquivalentClasses({definedClassId} ObjectIntersectionOf({genusIds} {restrictions}))
+description: An axiom that defines a class in terms of a genus or set of genus classes
+  and a set of differentia
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- genus differentia definition
 rank: 1000
 is_a: Axiom
 attributes:
   definedClassId:
     name: definedClassId
+    description: The class that is defined by this axiom
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    required: true
   genusIds:
     name: genusIds
+    description: The set of classes that are the genus of the defined class
+    comments:
+    - typically, this will be a single class
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
+    required: true
   restrictions:
     name: restrictions
+    description: The set of restrictions that are the differentia of the defined class
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - differentia
     rank: 1000
+    slot_uri: owl:someValuesFrom
     multivalued: true
     range: ExistentialRestrictionExpression
+    required: true
 
 ```
 </details>
@@ -110,20 +142,33 @@ attributes:
 <details>
 ```yaml
 name: LogicalDefinitionAxiom
+annotations:
+  owl.fstring:
+    tag: owl.fstring
+    value: EquivalentClasses({definedClassId} ObjectIntersectionOf({genusIds} {restrictions}))
+description: An axiom that defines a class in terms of a genus or set of genus classes
+  and a set of differentia
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- genus differentia definition
 rank: 1000
 is_a: Axiom
 attributes:
   definedClassId:
     name: definedClassId
+    description: The class that is defined by this axiom
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     alias: definedClassId
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
+    required: true
   genusIds:
     name: genusIds
+    description: The set of classes that are the genus of the defined class
+    comments:
+    - typically, this will be a single class
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -131,16 +176,22 @@ attributes:
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
+    required: true
   restrictions:
     name: restrictions
+    description: The set of restrictions that are the differentia of the defined class
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - differentia
     rank: 1000
+    slot_uri: owl:someValuesFrom
     multivalued: true
     alias: restrictions
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
     range: ExistentialRestrictionExpression
+    required: true
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

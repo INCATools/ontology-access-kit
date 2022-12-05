@@ -1,0 +1,66 @@
+# Slot: contributor_name
+_the name of the contributor_
+
+
+URI: [reporting:contributor_name](https://w3id.org/linkml/reportcontributor_name)
+
+
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ContributorStatistics](ContributorStatistics.md) | Statistics for a contributor
+
+
+
+
+
+
+## Properties
+
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/summary_statistics
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: contributor_name
+description: the name of the contributor
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+alias: contributor_name
+owner: ContributorStatistics
+domain_of:
+- ContributorStatistics
+range: string
+
+```
+</details>

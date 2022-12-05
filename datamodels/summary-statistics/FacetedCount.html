@@ -109,7 +109,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="filtered_count.html"><span class="doc std std-doc">filtered_count</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
+<td><p>0..1 <br/> NONE</p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -127,38 +127,49 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p><a class="reference internal" href="edge_count_by_predicate.html"><span class="doc std std-doc">edge_count_by_predicate</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p><a class="reference internal" href="entailed_edge_count_by_predicate.html"><span class="doc std std-doc">entailed_edge_count_by_predicate</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p><a class="reference internal" href="synonym_statement_count_by_predicate.html"><span class="doc std std-doc">synonym_statement_count_by_predicate</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p><a class="reference internal" href="class_count_by_subset.html"><span class="doc std std-doc">class_count_by_subset</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p><a class="reference internal" href="class_count_by_category.html"><span class="doc std std-doc">class_count_by_category</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p><a class="reference internal" href="mapping_statement_count_by_predicate.html"><span class="doc std std-doc">mapping_statement_count_by_predicate</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ContributorStatistics.html"><span class="doc std std-doc">ContributorStatistics</span></a></p></td>
+<td><p><a class="reference internal" href="role_counts.html"><span class="doc std std-doc">role_counts</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">FacetedCount</span></a></p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>For example, edge counts may be grouped by predicate (relationship type)</p></li>
+</ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
@@ -196,16 +207,20 @@
 ```yaml
 name: FacetedCount
 description: Counts broken down by a facet
+comments:
+- For example, edge counts may be grouped by predicate (relationship type)
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
+    description: the facet used to group the counts
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     key: true
   filtered_count:
     name: filtered_count
+    description: the number of items in the facet
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     range: integer
@@ -218,11 +233,14 @@ attributes:
 ```yaml
 name: FacetedCount
 description: Counts broken down by a facet
+comments:
+- For example, edge counts may be grouped by predicate (relationship type)
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
+    description: the facet used to group the counts
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     key: true
@@ -230,15 +248,18 @@ attributes:
     owner: FacetedCount
     domain_of:
     - FacetedCount
+    - ChangeTypeStatistic
     range: string
   filtered_count:
     name: filtered_count
+    description: the number of items in the facet
     from_schema: https://w3id.org/linkml/summary_statistics
     rank: 1000
     alias: filtered_count
     owner: FacetedCount
     domain_of:
     - FacetedCount
+    - ChangeTypeStatistic
     range: integer
     required: true
 

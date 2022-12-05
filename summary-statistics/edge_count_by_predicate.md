@@ -1,4 +1,6 @@
 # Slot: edge_count_by_predicate
+_Number of edges grouped by predicate in the ontology or subset_
+
 
 URI: [reporting:edge_count_by_predicate](https://w3id.org/linkml/reportedge_count_by_predicate)
 
@@ -13,7 +15,7 @@ URI: [reporting:edge_count_by_predicate](https://w3id.org/linkml/reportedge_coun
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   facet:
     tag: facet
     value: Predicate
+description: Number of edges grouped by predicate in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: edge_count_by_predicate
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
 inlined: true

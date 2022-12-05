@@ -83,7 +83,8 @@
              
   <section id="slot-description">
 <h1>Slot: description<a class="headerlink" href="#slot-description" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/reportdescription">reporting:description</a></p>
+<p><em>a description of the resource</em></p>
+<p>URI: <a class="reference external" href="http://purl.org/dc/terms/description">dcterms:description</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
@@ -94,8 +95,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="GlobalStatistics.html"><span class="doc std std-doc">GlobalStatistics</span></a></p></td>
-<td><p>summary statistics for the entire resource</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a></p></td>
+<td><p>An ontology</p></td>
 </tr>
 </tbody>
 </table>
@@ -120,12 +121,14 @@
 <details>
 ```yaml
 name: description
+description: a description of the resource
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
+slot_uri: dcterms:description
 alias: description
-owner: GlobalStatistics
+owner: Ontology
 domain_of:
-- GlobalStatistics
+- Ontology
 range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>

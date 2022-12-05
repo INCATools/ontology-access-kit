@@ -83,7 +83,6 @@
              
   <section id="slot-id">
 <h1>Slot: id<a class="headerlink" href="#slot-id" title="Permalink to this headline"></a></h1>
-<p><em>Unique handle for this report</em></p>
 <p>URI: <a class="reference external" href="https://w3id.org/linkml/reportid">reporting:id</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,8 +94,23 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticCollection.html"><span class="doc std std-doc">SummaryStatisticCollection</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
+<td><p>abstract base class for all summary statistics reports</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="GroupedStatistics.html"><span class="doc std std-doc">GroupedStatistics</span></a></p></td>
+<td><p>summary statistics for the entire resource</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="UngroupedStatistics.html"><span class="doc std std-doc">UngroupedStatistics</span></a></p></td>
 <td><p>A summary statistics report object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a></p></td>
+<td><p>An ontology</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
+<td><p>An agent</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ContributorRole.html"><span class="doc std std-doc">ContributorRole</span></a></p></td>
+<td><p>A role that a contributor can have</p></td>
 </tr>
 </tbody>
 </table>
@@ -105,32 +119,23 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
-<li><p>Required: True</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
-<section id="schema-source">
-<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
-<ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/summary_statistics</p></li>
-</ul>
-</section>
 </section>
 <section id="linkml-source">
 <h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
 <details>
 ```yaml
 name: id
-description: Unique handle for this report
-from_schema: https://w3id.org/linkml/summary_statistics
-rank: 1000
 alias: id
-owner: SummaryStatisticCollection
 domain_of:
-- SummaryStatisticCollection
+- SummaryStatisticsReport
+- Ontology
+- Agent
+- ContributorRole
 range: string
-required: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

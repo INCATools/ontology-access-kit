@@ -24,7 +24,7 @@ URI: [og:meta](https://github.com/geneontology/obographs/meta)
 [SynonymPropertyValue](SynonymPropertyValue.md) | 
 [DomainRangeAxiom](DomainRangeAxiom.md) | 
 [EquivalentNodesSet](EquivalentNodesSet.md) | 
-[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | 
+[LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and...
 [PropertyChainAxiom](PropertyChainAxiom.md) | 
 
 

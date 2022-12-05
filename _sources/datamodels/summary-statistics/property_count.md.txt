@@ -1,4 +1,6 @@
 # Slot: property_count
+_Number of properties in the ontology or subset_
+
 
 URI: [reporting:property_count](https://w3id.org/linkml/reportproperty_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:property_count](https://w3id.org/linkml/reportproperty_count)
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -56,13 +58,14 @@ URI: [reporting:property_count](https://w3id.org/linkml/reportproperty_count)
 <details>
 ```yaml
 name: property_count
+description: Number of properties in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: property_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: property_statistic_group
 range: string
 

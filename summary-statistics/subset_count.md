@@ -1,4 +1,6 @@
 # Slot: subset_count
+_Number of distinct subsets (slims, value sets) in the ontology or subset_
+
 
 URI: [reporting:subset_count](https://w3id.org/linkml/reportsubset_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:subset_count](https://w3id.org/linkml/reportsubset_count)
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -56,13 +58,14 @@ URI: [reporting:subset_count](https://w3id.org/linkml/reportsubset_count)
 <details>
 ```yaml
 name: subset_count
+description: Number of distinct subsets (slims, value sets) in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: subset_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 range: string
 
 ```

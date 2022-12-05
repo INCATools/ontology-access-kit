@@ -1,4 +1,6 @@
 # Slot: ontology_count
+_Number of ontologies (including imports) for the ontology or subset_
+
 
 URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,14 @@ annotations:
   filter:
     tag: filter
     value: Ontology
+description: Number of ontologies (including imports) for the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: ontology_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 range: string
 
 ```

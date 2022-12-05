@@ -1,4 +1,6 @@
 # Slot: merged_class_count
+_Number of merged classes (obsoletions with merge reason) in the ontology or subset_
+
 
 URI: [reporting:merged_class_count](https://w3id.org/linkml/reportmerged_class_count)
 
@@ -18,7 +20,7 @@ URI: [reporting:merged_class_count](https://w3id.org/linkml/reportmerged_class_c
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,15 @@ annotations:
   filter:
     tag: filter
     value: Class, Deprecated, Merged
+description: Number of merged classes (obsoletions with merge reason) in the ontology
+  or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: merged_class_count
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: class_statistic_group
 range: string
 

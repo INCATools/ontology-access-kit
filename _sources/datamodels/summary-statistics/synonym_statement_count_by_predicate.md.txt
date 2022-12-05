@@ -1,4 +1,6 @@
 # Slot: synonym_statement_count_by_predicate
+_Number of synonym statements (assertions) grouped by predicate (scope) in the ontology or subset_
+
 
 URI: [reporting:synonym_statement_count_by_predicate](https://w3id.org/linkml/reportsynonym_statement_count_by_predicate)
 
@@ -13,7 +15,7 @@ URI: [reporting:synonym_statement_count_by_predicate](https://w3id.org/linkml/re
 
 | Name | Description |
 | --- | --- |
-[SummaryStatisticCollection](SummaryStatisticCollection.md) | A summary statistics report object
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
 
 
 
@@ -66,13 +68,15 @@ annotations:
   facet:
     tag: facet
     value: Predicate
+description: Number of synonym statements (assertions) grouped by predicate (scope)
+  in the ontology or subset
 from_schema: https://w3id.org/linkml/summary_statistics
 rank: 1000
 multivalued: true
 alias: synonym_statement_count_by_predicate
-owner: SummaryStatisticCollection
+owner: UngroupedStatistics
 domain_of:
-- SummaryStatisticCollection
+- UngroupedStatistics
 slot_group: metadata_statistic_group
 range: FacetedCount
 inlined: true
