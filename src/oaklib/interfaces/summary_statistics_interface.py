@@ -1,12 +1,19 @@
+import getpass
 import logging
 from abc import ABC
 from collections import defaultdict
-from typing import Any, Dict, List
+from datetime import datetime
+from typing import Any, Dict, Iterator, List
+
+from linkml_runtime.utils.metamodelcore import XSDDateTime
 
 from oaklib.datamodels.summary_statistics_datamodel import (
     FacetedCount,
-    GlobalStatistics,
-    SummaryStatisticCollection,
+    GroupedStatistics,
+    Ontology,
+    SummaryStatisticsCalculationActivity,
+    SummaryStatisticsReport,
+    UngroupedStatistics,
 )
 from oaklib.datamodels.vocabulary import OWL_CLASS
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -32,7 +39,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         group_by: PRED_CURIE = None,
         values: List[Any] = None,
         include_entailed=False,
-    ) -> GlobalStatistics:
+    ) -> GroupedStatistics:
         """
         Gets summary statistics for all ontologies treated as a single ontology.
 
@@ -42,7 +49,9 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :param include_entailed:
         :return:
         """
-        stats = GlobalStatistics()
+        onts = list(self._ontologies())
+        stats = GroupedStatistics(id=f"{onts[0].version}-statistics")
+        self._add_statistics_metadata(stats)
         if group_by is not None and branches is not None:
             raise ValueError("Cannot specify both metadata_property and branches")
         if branches is not None:
@@ -52,6 +61,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
                     branch_name=branch_name,
                     branch_roots=branch_roots,
                     include_entailed=include_entailed,
+                    parent=self,
                 )
                 stats.partitions[branch_name] = branch_statistics
         if group_by is not None:
@@ -66,13 +76,15 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
                     f"Getting summary statistics for metadata property {group_by} value {v}"
                 )
                 branch_statistics = self.branch_summary_statistics(
-                    v, property_values={group_by: v}, include_entailed=include_entailed
+                    v, property_values={group_by: v}, include_entailed=include_entailed, parent=self
                 )
                 if v is None:
                     v = "__OTHER__"
                 stats.partitions[v] = branch_statistics
         if group_by is None and branches is None:
-            branch_statistics = self.branch_summary_statistics(include_entailed=include_entailed)
+            branch_statistics = self.branch_summary_statistics(
+                include_entailed=include_entailed, parent=self
+            )
             stats.partitions[branch_statistics.id] = branch_statistics
         return stats
 
@@ -82,7 +94,8 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         branch_roots: List[CURIE] = None,
         property_values: Dict[CURIE, Any] = None,
         include_entailed=False,
-    ) -> SummaryStatisticCollection:
+        parent: GroupedStatistics = None,
+    ) -> UngroupedStatistics:
         """
         Gets summary statistics for all ontologies treated as a single ontology.
 
@@ -92,6 +105,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :param branch_roots: if provided, only statistics for the given branch roots will be returned
         :param property_values: if provided, only statistics for entities that match these will be considered
         :param include_entailed: if True, include statistics for entailed edges
+        :param parent: set if this is a partition of a larger group
         :return:
         """
         if branch_name is None:
@@ -111,7 +125,9 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
             filtered_entities = list(self.entities(filter_obsoletes=False))
         filtered_entities = set(filtered_entities)
         logging.info(f"Getting summary statistics for branch {branch_name}")
-        ssc = SummaryStatisticCollection(branch_name)
+        ssc = UngroupedStatistics(branch_name)
+        if not parent:
+            self._add_statistics_metadata(ssc)
         class_entities = filtered_entities.intersection(
             list(self.entities(owl_type=OWL_CLASS, filter_obsoletes=False))
         )
@@ -132,6 +148,41 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         self._add_derived_statistics(ssc)
         return ssc
 
+    def _add_statistics_metadata(self, report: SummaryStatisticsReport):
+        """
+        Adds metadata to a report
+
+        :param report:
+        :return:
+        """
+        onts = list(self._ontologies())
+        report.ontologies = onts
+        report.was_generated_by = SummaryStatisticsCalculationActivity(
+            was_associated_with="OAK",
+            acted_on_behalf_of=getpass.getuser(),
+            started_at_time=XSDDateTime(datetime.now()),
+        )
+
+    def _ontologies(self) -> Iterator[Ontology]:
+        """
+        Maps ontology metadata to Ontology object in stats datamodel.
+
+        :return:
+        """
+        property_map = {
+            "version_info": "owl:versionInfo",
+            "version": "owl:versionIRI",
+            "title": "dcterms:title",
+            "description": "dcterms:description",
+        }
+        for ontology in self.ontologies():
+            metadata = self.ontology_metadata_map(ontology)
+            params = {}
+            for slot, pred in property_map.items():
+                if pred in metadata:
+                    params[slot] = metadata[pred][0]
+            yield Ontology(id=ontology, **params)
+
     def metadata_property_summary_statistics(self, metadata_property: PRED_CURIE) -> Dict[Any, int]:
         """
         Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed
@@ -149,7 +200,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
                         self._metadata_property_summary_statistics[p][v] += 1
         return self._metadata_property_summary_statistics[metadata_property]
 
-    def _add_derived_statistics(self, ssc: SummaryStatisticCollection) -> None:
+    def _add_derived_statistics(self, ssc: UngroupedStatistics) -> None:
         """
         Adds derived statistics to the summary statistics collection
 
@@ -160,15 +211,6 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         ssc.class_count_without_text_definitions = (
             ssc.class_count - ssc.class_count_with_text_definitions
         )
-
-    def partitioned_summary_statistics(self) -> Dict[CURIE, SUMMARY_STATISTICS_MAP]:
-        """
-        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed
-        by ontology CURIE
-
-        :return:
-        """
-        raise NotImplementedError
 
     def summary_statistic_description(self, metric: str) -> str:
         """

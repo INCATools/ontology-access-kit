@@ -37,6 +37,7 @@ from tests import (
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
 TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
+TEST_OWL_OFN = INPUT_DIR / "go-nucleus.ofn"
 TEST_DB = INPUT_DIR / "go-nucleus.db"
 BAD_ONTOLOGY_DB = INPUT_DIR / "bad-ontology.db"
 TEST_OUT = str(OUTPUT_DIR / "tmp")
@@ -302,6 +303,8 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_dump(self):
         obojson_input = f"obograph:{TEST_OBOJSON}"
         cases = [
+            (TEST_OWL_OFN, "turtle"),
+            (TEST_OWL_RDF, "turtle"),
             (obojson_input, "obojson"),
             (obojson_input, "obo"),
             (obojson_input, "fhirjson"),
@@ -319,7 +322,7 @@ class TestCommandLineInterface(unittest.TestCase):
             result = self.runner.invoke(
                 main, ["-i", str(input), "dump", "-o", TEST_OUT, "-O", output_format]
             )
-            self.assertEqual(0, result.exit_code)
+            self.assertEqual(0, result.exit_code, f"input={input}, output_format={output_format}")
             if output_format == "obojson":
                 obj: obograph.GraphDocument
                 obj = json_loader.load(TEST_OUT, target_class=obograph.GraphDocument)
@@ -336,12 +339,15 @@ class TestCommandLineInterface(unittest.TestCase):
                 self.assertEqual("nucleus", nucleus_concept.display)
                 # TODO
                 # self.assertTrue(nucleus_concept.definition.startswith("A membrane-bounded organelle"))
-            elif output_format == "owl":
+            elif output_format == "owl" or output_format == "turtle":
                 g = rdflib.Graph()
                 g.parse(TEST_OUT, format="turtle")
                 self.assertGreater(len(list(g.triples((None, None, None)))), 0)
             elif output_format == "obo":
                 oi = get_implementation_from_shorthand(f"simpleobo:{TEST_OUT}")
+                self.assertEqual("nucleus", oi.label(NUCLEUS))
+            elif output_format == "ofn":
+                oi = get_implementation_from_shorthand(f"funowl:{TEST_OUT}")
                 self.assertEqual("nucleus", oi.label(NUCLEUS))
             else:
                 raise AssertionError(f"Unexpected output format: {output_format}")

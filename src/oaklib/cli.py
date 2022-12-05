@@ -51,7 +51,10 @@ from oaklib.datamodels.cross_ontology_diff import DiffCategory
 from oaklib.datamodels.lexical_index import LexicalTransformation, TransformationType
 from oaklib.datamodels.obograph import PrefixDeclaration
 from oaklib.datamodels.search import create_search_configuration
-from oaklib.datamodels.summary_statistics_datamodel import GlobalStatistics
+from oaklib.datamodels.summary_statistics_datamodel import (
+    GroupedStatistics,
+    UngroupedStatistics,
+)
 from oaklib.datamodels.text_annotator import TextAnnotationConfiguration
 from oaklib.datamodels.validation_datamodel import ValidationConfiguration
 from oaklib.datamodels.vocabulary import (
@@ -80,7 +83,11 @@ from oaklib.interfaces.association_provider_interface import (
 from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
-from oaklib.interfaces.differ_interface import DiffConfiguration, DifferInterface
+from oaklib.interfaces.differ_interface import (
+    RESIDUAL_KEY,
+    DiffConfiguration,
+    DifferInterface,
+)
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
@@ -896,6 +903,11 @@ def obsoletes(include_merged: bool, output_type: str, output: str):
     "--include-residuals/--no-include-residuals",
     help="If true include an OTHER category for terms that do not have the property",
 )
+@click.option(
+    "--compare-with",
+    "-X",
+    help="Compare with another ontology",
+)
 @output_option
 @click.argument("branches", nargs=-1)
 def statistics(
@@ -905,6 +917,7 @@ def statistics(
     group_by_defined_by: bool,
     group_by_prefix: bool,
     include_residuals: bool,
+    compare_with: str,
     output_type: str,
     output: str,
 ):
@@ -926,40 +939,84 @@ def statistics(
 
         runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace
 
+    The recommended output types for this command are yaml, json, or csv.
+    The default output type is yaml, following the SummaryStatistics data model.
+    This is naturally nested, as the statistics includes faceted groupings
+    (e.g. edge counts are broken down by predicate). When specifying a flat
+    format like csv, this is flattened into a single table, with dynamic
+    column names.
+
+    Change statistics:
+
+    You can optionally combine the ontology statistics with a change
+    summary relative to another ontology, using the ``--compare-with``
+    option.
+
+    Example:
+
+        runoak -i v2.obo statistics --group-by-obo-namespace --compare-with v1.obo
+
+    This will also include change stats broken down by KGCL change types. If
+    a group-by option is specified, these will be grouped accordingly.
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
-    if isinstance(impl, SummaryStatisticsInterface):
-        impl.include_residuals = include_residuals
-        if group_by_obo_namespace:
-            group_by_property = HAS_OBO_NAMESPACE
-        if group_by_defined_by:
-            group_by_property = IS_DEFINED_BY
-        if group_by_prefix:
-            group_by_property = PREFIX_PREDICATE
-        if not branches and not group_by_property:
-            ssc = impl.branch_summary_statistics()
-        else:
-            if branches and group_by_property:
-                raise ValueError("Cannot specify both branches and predicates")
-            if branches:
-                branches = list(query_terms_iterator(branches, impl))
-                ssc = impl.global_summary_statistics(
-                    branches={impl.label(b): [b] for b in branches}
-                )
-            else:
-                ssc = impl.global_summary_statistics(group_by=group_by_property)
-        if isinstance(writer, StreamingCsvWriter):
-            if isinstance(ssc, GlobalStatistics):
-                for p in ssc.partitions.values():
-                    writer.emit(p)
-            else:
-                writer.emit(ssc)
-        else:
-            writer.emit(ssc)
-    else:
+    diff_config = DiffConfiguration(simple=False)
+    if not isinstance(impl, SummaryStatisticsInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    impl.include_residuals = include_residuals
+    if group_by_obo_namespace:
+        group_by_property = HAS_OBO_NAMESPACE
+        diff_config.group_by_property = HAS_OBO_NAMESPACE
+    if group_by_defined_by:
+        group_by_property = IS_DEFINED_BY
+        diff_config.group_by_property = IS_DEFINED_BY
+    if group_by_prefix:
+        group_by_property = PREFIX_PREDICATE
+        diff_config.group_by_property = PREFIX_PREDICATE
+    diff_stats = None
+    if compare_with:
+        if branches:
+            raise click.UsageError("Cannot specify both branches and compare_with")
+        if not isinstance(impl, DifferInterface):
+            raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        other = get_implementation_from_shorthand(compare_with)
+        logging.info(f"Comparing {impl} with {other} using {diff_config}")
+        diff_stats = impl.diff_summary(other, configuration=diff_config)
+    if not branches and not group_by_property:
+        ssc = impl.branch_summary_statistics()
+    else:
+        if branches and group_by_property:
+            raise click.UsageError("Cannot specify both branches and predicates")
+        if branches:
+            branches = list(query_terms_iterator(branches, impl))
+            ssc = impl.global_summary_statistics(branches={impl.label(b): [b] for b in branches})
+        else:
+            ssc = impl.global_summary_statistics(group_by=group_by_property)
+    if diff_stats:
+        logging.info("Integrating diff stats")
+        for k, v in diff_stats.items():
+            if isinstance(ssc, GroupedStatistics):
+                if k not in ssc.partitions:
+                    if k != RESIDUAL_KEY:
+                        raise RuntimeError(f"Unexpected grouping {k}")
+                    continue
+                ssc.partitions[k].change_summary = v
+            else:
+                if not isinstance(ssc, UngroupedStatistics):
+                    raise RuntimeError(f"Unexpected type {type(ssc)}")
+                if k != RESIDUAL_KEY:
+                    raise RuntimeError(f"Unexpected key {k}")
+                ssc.change_summary = v
+    if isinstance(writer, StreamingCsvWriter) and isinstance(ssc, GroupedStatistics):
+        # special purpose behavior for global stats and TSV writing;
+        # write one block per partition
+        for p in ssc.partitions.values():
+            writer.emit(p)
+    else:
+        writer.emit(ssc)
 
 
 @main.command()
@@ -1205,12 +1262,6 @@ def annotate(
         if text_file:
             for ann in impl.annotate_file(text_file, configuration):
                 writer.emit(ann)
-            # for line in text_file.readlines():
-            #     line = line.strip()
-            #     for ann in impl.annotate_text(line, configuration):
-            #         # TODO: better way to represent this
-            #         ann.subject_source = line
-            #         writer.emit(ann)
         else:
             for ann in impl.annotate_text(words, configuration):
                 writer.emit(ann)
@@ -3850,21 +3901,21 @@ def diff(
     other_impl = get_implementation_from_shorthand(other_ontology)
     config = DiffConfiguration(simple=simple)
     if group_by_obo_namespace:
-        config.summary_partition_property = HAS_OBO_NAMESPACE
+        config.group_by_property = HAS_OBO_NAMESPACE
     if group_by_defined_by:
-        config.summary_partition_property = IS_DEFINED_BY
+        config.group_by_property = IS_DEFINED_BY
     if group_by_prefix:
-        config.summary_partition_property = PREFIX_PREDICATE
+        config.group_by_property = PREFIX_PREDICATE
     if group_by_property:
-        if config.summary_partition_property:
+        if config.group_by_property:
             logging.warning(
-                f"Duplicative setting of property {group_by_property} and {config.summary_partition_property}"
+                f"Duplicative setting of property {group_by_property} and {config.group_by_property}"
             )
-            if config.summary_partition_property != group_by_property:
+            if config.group_by_property != group_by_property:
                 raise ValueError(
-                    f"Cannot set both {config.summary_partition_property} and {group_by_property}"
+                    f"Cannot set both {config.group_by_property} and {group_by_property}"
                 )
-        config.summary_partition_property = group_by_property
+        config.group_by_property = group_by_property
     if isinstance(impl, DifferInterface):
         if statistics:
             summary = impl.diff_summary(other_impl, configuration=config)

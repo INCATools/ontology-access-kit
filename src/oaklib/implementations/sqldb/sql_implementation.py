@@ -71,10 +71,13 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.summary_statistics_datamodel import (
+    ContributorStatistics,
     FacetedCount,
-    SummaryStatisticCollection,
+    GroupedStatistics,
+    UngroupedStatistics,
 )
 from oaklib.datamodels.vocabulary import (
+    ALL_CONTRIBUTOR_PREDICATES,
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
     DISJOINT_WITH,
@@ -124,6 +127,7 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
+from oaklib.utilities.identifier_utils import string_as_base64_curie
 
 __all__ = [
     "get_range_xsd_type",
@@ -408,15 +412,15 @@ class SqlImplementation(
         ):
             return row.value
 
-    def entity_metadata_map(self, curie: CURIE) -> METADATA_MAP:
+    def entity_metadata_map(self, curie: CURIE, include_all_triples=False) -> METADATA_MAP:
         m = defaultdict(list)
         m["id"] = [curie]
-        # subquery = self.session.query(AnnotationPropertyNode.id)
-        subquery = self.session.query(RdfTypeStatement.subject).filter(
-            RdfTypeStatement.object == "owl:AnnotationProperty"
-        )
         q = self.session.query(Statements)
-        q = q.filter(Statements.predicate.in_(subquery))
+        if not include_all_triples:
+            subquery = self.session.query(RdfTypeStatement.subject).filter(
+                RdfTypeStatement.object == "owl:AnnotationProperty"
+            )
+            q = q.filter(Statements.predicate.in_(subquery))
         for row in q.filter(Statements.subject == curie):
             if row.value is not None:
                 v = _python_value(row.value, row.datatype)
@@ -433,7 +437,7 @@ class SqlImplementation(
             yield row.id
 
     def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
-        return self.entity_metadata_map(ontology)
+        return self.entity_metadata_map(ontology, include_all_triples=True)
 
     def _get_subset_curie(self, curie: str) -> str:
         if "#" in curie:
@@ -1769,7 +1773,8 @@ class SqlImplementation(
         branch_roots: List[CURIE] = None,
         property_values: Dict[CURIE, Any] = None,
         include_entailed=False,
-    ) -> SummaryStatisticCollection:
+        parent: GroupedStatistics = None,
+    ) -> UngroupedStatistics:
         session = self.session
         not_in = False
         if branch_name is None:
@@ -1805,7 +1810,9 @@ class SqlImplementation(
                     q = q.filter(x.in_(branch_subq))
             return q
 
-        ssc = SummaryStatisticCollection(branch_name)
+        ssc = UngroupedStatistics(branch_name)
+        if not parent:
+            self._add_statistics_metadata(ssc)
         obs_subq = q(DeprecatedNode.id)
         text_defn_subq = q(HasTextDefinitionStatement.subject)
         ssc.class_count = _filter(ClassNode.id).distinct(ClassNode.id).count()
@@ -1884,6 +1891,42 @@ class SqlImplementation(
             ssc.mapping_statement_count_by_predicate[row.predicate] = FacetedCount(
                 row[0], filtered_count=row[1]
             )
+        # contributor stats
+        contributor_agg_query = session.query(
+            Statements.predicate,
+            Statements.object,
+            Statements.value,
+            func.count(Statements.subject.distinct()),
+        )
+        contributor_agg_query = contributor_agg_query.filter(
+            Statements.predicate.in_(ALL_CONTRIBUTOR_PREDICATES)
+        )
+        if branch_subq:
+            contributor_agg_query = contributor_agg_query.filter(
+                Statements.subject.in_(branch_subq)
+            )
+        for row in contributor_agg_query.group_by(
+            Statements.predicate, Statements.object, Statements.value
+        ):
+            if row.object:
+                contributor_id = row.object
+                contributor_name = None
+            else:
+                contributor_id = row.value
+                contributor_name = row.value
+                if " " in contributor_id or ":" not in contributor_id:
+                    logging.debug(
+                        f"Ad-hoc repair of literal value for contributor: {contributor_id}"
+                    )
+                    contributor_id = string_as_base64_curie(contributor_id)
+            if contributor_id not in ssc.contributor_summary:
+                ssc.contributor_summary[contributor_id] = ContributorStatistics(
+                    contributor_id=contributor_id, contributor_name=contributor_name
+                )
+            ssc.contributor_summary[contributor_id].role_counts[row.predicate] = FacetedCount(
+                row.predicate, row[-1]
+            )
+        # TODO: axiom contributor stats
         self._add_derived_statistics(ssc)
         return ssc
 

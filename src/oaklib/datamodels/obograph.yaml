@@ -240,25 +240,48 @@ classes:
       - rangeClassIds
 
   EquivalentNodesSet:
+    class_uri: owl:equivalentClass
     is_a: Axiom
     slots:
       - representativeNodeId
       - nodeIds
 
   ExistentialRestrictionExpression:
+    aliases:
+      - some values from expression
+    description: An existential restriction (OWL some values from) expression
+    class_uri: owl:Restriction
+    annotations:
+      owl.fstring: "ObjectSomeValuesFrom({propertyId} {fillerId})"
     slots:
       - fillerId
       - propertyId
 
   LogicalDefinitionAxiom:
+    aliases:
+      - genus differentia definition
+    description: An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia
+    annotations:
+      owl.fstring: "EquivalentClasses({definedClassId} ObjectIntersectionOf({genusIds} {restrictions}))"
     is_a: Axiom
     attributes:
       definedClassId:
+        description: The class that is defined by this axiom
+        required: true
       genusIds:
+        description: The set of classes that are the genus of the defined class
+        comments:
+          - typically, this will be a single class
         multivalued: true
+        required: true
       restrictions:
+        aliases:
+          - differentia
+        description: The set of restrictions that are the differentia of the defined class
         multivalued: true
         range: ExistentialRestrictionExpression
+        required: true
+        slot_uri: owl:someValuesFrom
 
   PropertyChainAxiom:
     is_a: Axiom

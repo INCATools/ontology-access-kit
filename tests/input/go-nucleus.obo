@@ -18,6 +18,7 @@ subsetdef: goslim_synapse "synapse GO slim"
 subsetdef: goslim_yeast "Yeast GO slim"
 subsetdef: prokaryote_subset "GO subset for prokaryotes"
 ontology: go
+data-version: releases/2020-01-01/
 
 [Term]
 id: BFO:0000002
