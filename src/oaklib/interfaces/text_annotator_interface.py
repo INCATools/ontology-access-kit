@@ -128,4 +128,5 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         """
         for line in text_file.readlines():
             line = line.strip()
-            return self.annotate_text(line, configuration)
+            annotation = self.annotate_text(line, configuration)
+            yield from annotation
