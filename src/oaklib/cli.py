@@ -4119,7 +4119,7 @@ def diff_via_mappings(
 
     If there are no existing mappings, you can use the lexmatch command to generate them:
 
-        runoak -i ont1.obo -a ont2.obo lexmatch -o mappings.sssom.stv
+        runoak -i ont1.obo -a ont2.obo lexmatch -o mappings.sssom.tsv
         runoak -i ont1.obo --other-input ont2.obo --mapping-input mappings.sssom.tsv
 
     The output from this command follows the cross-ontology-diff data model
