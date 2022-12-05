@@ -186,7 +186,7 @@ specific about the method in which a file is parsed:
 
 .. code-block::
 
-    runoak --input pronto:fbbt.obo search 'wing vein'
+    runoak --input prontolib:fbbt.obo search 'wing vein'
 
 
 Introduction to graphs and trees
