@@ -119,7 +119,7 @@ class StreamingCsvWriter(StreamingWriter):
                 [f"{r.propertyId}={r.fillerId}" for r in original.restrictions]
             )
             del obj_as_dict["meta"]
-        if isinstance(original, summary_stats.SummaryStatisticCollection):
+        if isinstance(original, summary_stats.UngroupedStatistics):
             for slot in [
                 "edge_count_by_predicate",
                 "synonym_statement_count_by_predicate",

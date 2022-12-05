@@ -100,6 +100,17 @@ HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie
 SKOS_DEFINITION_CURIE = "skos:definition"
 
+OIO_CREATED_BY = "oio:created_by"
+OIO_CREATION_DATE = "oio:creation_date"
+CONTRIBUTOR = "dcterms:contributor"
+CREATOR = "dcterms:creator"
+CREATED = "dcterms:created"
+IAO_TERM_EDITOR = "IAO:0000117"
+ALL_CONTRIBUTOR_PREDICATES = [OIO_CREATED_BY, CONTRIBUTOR, CREATOR, IAO_TERM_EDITOR]
+
+OWL_VERSION_INFO = "owl:versionInfo"
+OWL_VERSION_IRI = "owl:versionIRI"
+
 
 class SEMAPV(Enum):
     """SEMAPV Enum containing different mapping_justification."""

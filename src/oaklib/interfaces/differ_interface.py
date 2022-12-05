@@ -17,6 +17,7 @@ from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
 
 TERM_LIST_DIFF = Tuple[CURIE, CURIE]
+RESIDUAL_KEY = "__RESIDUAL__"
 
 
 @dataclass
@@ -24,7 +25,7 @@ class DiffConfiguration:
     """Configuration for the differ."""
 
     simple: bool = False
-    summary_partition_property: PRED_CURIE = None
+    group_by_property: PRED_CURIE = None
 
 
 def _gen_id():
@@ -150,9 +151,18 @@ class DifferInterface(BasicOntologyInterface, ABC):
 
     def diff_summary(
         self, other_ontology: BasicOntologyInterface, configuration: DiffConfiguration = None
-    ) -> Dict[str, int]:
+    ) -> Dict[str, Any]:
         """
         Provides high level summary of differences.
+
+        The result is a two-level dictionary
+
+        - the first level is the grouping key
+        - the second level is the type of change
+
+        The value of the second level is a count of the number of changes of that type.
+
+
 
         :param other_ontology:
         :param configuration:
@@ -166,18 +176,18 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 about = change.about_edge.subject
             else:
                 about = None
-            partition = "__RESIDUAL__"
-            if about and configuration.summary_partition_property:
+            partition = RESIDUAL_KEY
+            if about and configuration.group_by_property:
                 md = self.entity_metadata_map(about)
-                if not md or configuration.summary_partition_property not in md:
+                if not md or configuration.group_by_property not in md:
                     md = other_ontology.entity_metadata_map(about)
-                if configuration.summary_partition_property in md:
-                    v = md[configuration.summary_partition_property]
+                if configuration.group_by_property in md:
+                    v = md[configuration.group_by_property]
                     if len(v) == 1:
                         partition = v[0]
                     else:
                         logging.warning(
-                            f"Multiple values for {configuration.summary_partition_property} = {v}"
+                            f"Multiple values for {configuration.group_by_property} = {v}"
                         )
             if partition not in summary:
                 summary[partition] = {}

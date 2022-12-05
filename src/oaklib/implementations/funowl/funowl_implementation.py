@@ -113,8 +113,10 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     def dump(self, path: str = None, syntax: str = None):
         if syntax is None or syntax == "ofn":
             out = self.ontology_document.to_functional(self.functional_writer)
-        elif syntax == "ttl":
-            out = self.ontology_document.to_rdf(self.functional_writer.g)
+        elif syntax == "ttl" or syntax == "turtle":
+            g = rdflib.Graph()
+            self.ontology_document.to_rdf(g)
+            out = g.serialize(format="ttl")
         else:
             out = str(self.ontology_document)
         if path is None:

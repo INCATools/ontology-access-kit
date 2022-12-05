@@ -34,6 +34,7 @@ from oaklib.datamodels.vocabulary import (
     OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
+    OWL_VERSION_INFO,
     SCOPE_TO_SYNONYM_PRED_MAP,
     SEMAPV,
     SKOS_CLOSE_MATCH,
@@ -288,6 +289,17 @@ class ProntoImplementation(
             if not filter_obsoletes:
                 for s in self._get_alt_id_to_replacement_map().keys():
                     yield s
+
+    def ontologies(self) -> Iterable[CURIE]:
+        yield self.wrapped_ontology.metadata.ontology
+
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
+        m = {}
+        meta = self.wrapped_ontology.metadata
+        ont_id = meta.ontology
+        if meta.data_version:
+            m[OWL_VERSION_INFO] = [f"obo:{ont_id}/{meta.data_version}{ont_id}.owl"]
+        return m
 
     def owl_types(self, entities: Iterable[CURIE]) -> Iterable[Tuple[CURIE, CURIE]]:
         subset_names = [s.name for s in self.wrapped_ontology.metadata.subsetdefs]

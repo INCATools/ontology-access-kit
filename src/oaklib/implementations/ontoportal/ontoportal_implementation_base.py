@@ -145,6 +145,7 @@ class OntoPortalImplementationBase(
         if self.resource and self.resource.slug:
             params["ontologies"] = self.resource.slug.upper()
         results = self._get_json("/annotator", params=params)
+        logging.debug(f"Annotate results: {results}")
         return self._annotator_json_to_results(results, text, configuration)
 
     def _annotator_json_to_results(
