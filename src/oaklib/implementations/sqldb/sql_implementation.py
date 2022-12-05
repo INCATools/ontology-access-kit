@@ -71,7 +71,6 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.similarity import TermPairwiseSimilarity
 from oaklib.datamodels.summary_statistics_datamodel import (
-    Agent,
     ContributorStatistics,
     FacetedCount,
     GroupedStatistics,
