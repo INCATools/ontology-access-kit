@@ -933,6 +933,7 @@ def statistics(
     You can also break down the statistics in two ways:
 
     - by a collection of branch roots
+
     - by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)
 
     Example:
@@ -2689,6 +2690,10 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 @main.command()
 @output_option
 @predicates_option
+@click.option("--has-prefix",
+              "-P",
+              multiple=True,
+              help="filter based on a prefix, e.g. OBI")
 @click.option(
     "--annotated-roots/--no-annotated-roots",
     "-A/--no-A",
@@ -2696,7 +2701,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
     show_default=True,
     help="If true, use annotated roots, if present",
 )
-def roots(output: str, predicates: str, annotated_roots: bool):
+def roots(output: str, predicates: str, has_prefix:str, annotated_roots: bool):
     """
     List all root nodes in the ontology
 
@@ -2718,7 +2723,8 @@ def roots(output: str, predicates: str, annotated_roots: bool):
     impl = settings.impl
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
-        for curie in impl.roots(actual_predicates, annotated_roots=annotated_roots):
+        prefixes = list(has_prefix) if has_prefix else None
+        for curie in impl.roots(actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -2834,10 +2840,12 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
 
 
 @main.command()
-@click.option("--obo-model/--no-obo-model", help="If true, assume the OBO synonym datamodel")
+@click.option("--obo-model/--no-obo-model",
+              help="If true, assume the OBO synonym datamodel, including provenancem synonym types")
+@output_type_option
 @output_option
 @click.argument("terms", nargs=-1)
-def aliases(terms, output, obo_model):
+def aliases(terms, output, output_type, obo_model):
     """
     List aliases for a term or set of terms
 
@@ -2862,7 +2870,8 @@ def aliases(terms, output, obo_model):
     In future, this may become the default
     """
     impl = settings.impl
-    writer = StreamingCsvWriter(output)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
     if obo_model:
         if isinstance(impl, OboGraphInterface):
             curies = list(query_terms_iterator(terms, impl))
@@ -2870,9 +2879,9 @@ def aliases(terms, output, obo_model):
                 writer.emit(
                     dict(
                         curie=curie,
-                        pred=spv.pred,
+                        pred=str(spv.pred),
                         value=spv.val,
-                        type=spv.synonymType,
+                        type=str(spv.synonymType),
                         xrefs=spv.xrefs,
                     )
                 )

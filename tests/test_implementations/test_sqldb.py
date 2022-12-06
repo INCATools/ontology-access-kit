@@ -221,6 +221,9 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
 
+    def test_synonym_types(self):
+        self.compliance_tester.test_synonym_types(self.oi)
+
     def test_defined_bys(self):
         self.compliance_tester.test_defined_bys(self.oi)
 

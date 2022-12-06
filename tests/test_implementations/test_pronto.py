@@ -46,11 +46,12 @@ class TestProntoImplementation(unittest.TestCase):
         resource = OntologyResource(slug="go-nucleus.obo", directory=INPUT_DIR, local=True)
         oi = ProntoImplementation(resource)
         self.oi = oi
+        json_resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
+        self.json_oi = ProntoImplementation(json_resource)
         self.compliance_tester = ComplianceTester(self)
 
     def test_obo_json(self) -> None:
-        resource = OntologyResource(slug="go-nucleus.json", directory=INPUT_DIR, local=True)
-        json_oi = ProntoImplementation(resource)
+        json_oi = self.json_oi
         curies = list(json_oi.entities())
         # for e in curies:
         #    logging.info(e)
@@ -136,6 +137,10 @@ class TestProntoImplementation(unittest.TestCase):
 
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
+
+    def test_synonym_types(self):
+        for oi in [self.oi, self.json_oi]:
+            self.compliance_tester.test_synonym_types(oi)
 
     def test_defined_bys(self):
         self.compliance_tester.test_defined_bys(self.oi)
