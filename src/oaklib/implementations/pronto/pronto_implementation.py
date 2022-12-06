@@ -631,9 +631,13 @@ class ProntoImplementation(
                             t_id = x.id
                 for s in t.synonyms:
                     pred = SCOPE_TO_SYNONYM_PRED_MAP[s.scope].replace("oio:", "")
+                    synonym_type = s.type.id if s.type else None
                     meta.synonyms.append(
                         obograph.SynonymPropertyValue(
-                            val=s.description, pred=pred, xrefs=[x.id for x in s.xrefs]
+                            val=s.description,
+                            pred=pred,
+                            synonymType=synonym_type,
+                            xrefs=[x.id for x in s.xrefs],
                         )
                     )
             return obograph.Node(id=t_id, lbl=t.name, meta=meta)
@@ -659,7 +663,7 @@ class ProntoImplementation(
             e = self._entity(curie)
             if e:
                 for s in e.synonyms:
-                    pred = _synonym_scope_pred(s)
+                    pred = _synonym_scope_pred(s).replace("oio:", "")
                     xrefs = [x.id for x in s.xrefs]
                     t = s.type.id if s.type else None
                     spv = obograph.SynonymPropertyValue(
@@ -668,7 +672,7 @@ class ProntoImplementation(
                     yield curie, spv
 
     def logical_definitions(
-        self, subjects: Iterable[CURIE]
+        self, subjects: Optional[Iterable[CURIE]]
     ) -> Iterable[obograph.LogicalDefinitionAxiom]:
         for s in subjects:
             term = self._entity(s)

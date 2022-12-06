@@ -92,6 +92,7 @@ from oaklib.datamodels.vocabulary import (
     LABEL_PREDICATE,
     OWL_NOTHING,
     OWL_THING,
+    PREFIX_PREDICATE,
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
@@ -127,7 +128,10 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
-from oaklib.utilities.identifier_utils import string_as_base64_curie
+from oaklib.utilities.identifier_utils import (
+    string_as_base64_curie,
+    synonym_type_code_from_curie,
+)
 
 __all__ = [
     "get_range_xsd_type",
@@ -899,6 +903,14 @@ class SqlImplementation(
 
         def _anns_to_xrefs_and_meta(parent_pv: obograph.PropertyValue, anns: List[om.Annotation]):
             parent_pv.xrefs = [ann.object for ann in anns if ann.predicate == HAS_DBXREF]
+            if isinstance(parent_pv, obograph.SynonymPropertyValue):
+                synonym_types = [ann.object for ann in anns if ann.predicate == HAS_SYNONYM_TYPE]
+                if len(synonym_types) > 0:
+                    parent_pv.synonymType = synonym_type_code_from_curie(synonym_types[0])
+                    if len(synonym_types) > 1:
+                        logging.warning(
+                            f"Ignoring multiple synonym types: {synonym_types} for {curie}"
+                        )
             pvs = [
                 obograph.BasicPropertyValue(pred=ann.predicate, val=ann.object)
                 for ann in anns
@@ -969,7 +981,7 @@ class SqlImplementation(
             anns = self._axiom_annotations(row.subject, row.predicate, value=row.value)
             for ann in anns:
                 if ann.predicate == HAS_SYNONYM_TYPE:
-                    spv.synonymType = ann.object
+                    spv.synonymType = synonym_type_code_from_curie(ann.object)
                 if ann.predicate == HAS_DBXREF:
                     spv.xrefs.append(ann.object)
             yield row.subject, spv
@@ -1784,17 +1796,21 @@ class SqlImplementation(
             branch_subq = branch_subq.filter(EntailedEdge.predicate == IS_A)
             branch_subq = branch_subq.filter(EntailedEdge.object.in_(branch_roots))
         elif property_values is not None:
+            logging.info(f"Filtering by {property_values}")
             if len(property_values) > 1:
                 raise NotImplementedError("Only one property value is supported at this time")
             k, v = list(property_values.items())[0]
-            branch_subq = session.query(Statements.subject)
-            branch_subq = branch_subq.filter(Statements.predicate == k)
-            if v is None:
-                not_in = True
-            elif isinstance(v, list):
-                branch_subq = branch_subq.filter(Statements.value.in_(v))
+            if k == PREFIX_PREDICATE:
+                raise NotImplementedError("Prefixes are not yet supported")
             else:
-                branch_subq = branch_subq.filter(Statements.value == v)
+                branch_subq = session.query(Statements.subject)
+                branch_subq = branch_subq.filter(Statements.predicate == k)
+                if v is None:
+                    not_in = True
+                elif isinstance(v, list):
+                    branch_subq = branch_subq.filter(Statements.value.in_(v))
+                else:
+                    branch_subq = branch_subq.filter(Statements.value == v)
         else:
             branch_subq = None
 
@@ -1848,6 +1864,9 @@ class SqlImplementation(
             subset_agg_query = subset_agg_query.filter(Statements.subject.in_(branch_subq))
         for row in subset_agg_query.group_by(Statements.object):
             subset = row.object
+            if subset is None:
+                logging.warning("Skipping subsets modeled as strings")
+                continue
             ssc.class_count_by_subset[subset] = FacetedCount(row[0], filtered_count=row[1])
         synonym_query = q(Statements.value).filter(Statements.predicate.in_(SYNONYM_PREDICATES))
         if branch_subq:
@@ -1931,6 +1950,8 @@ class SqlImplementation(
         return ssc
 
     def metadata_property_summary_statistics(self, metadata_property: PRED_CURIE) -> Dict[Any, int]:
+        if metadata_property == PREFIX_PREDICATE:
+            raise ValueError("Prefixes are not modeled as metadata properties")
         session = self.session
         q = session.query(Statements.value, func.count(Statements.value))
         q = q.filter(Statements.predicate == metadata_property)

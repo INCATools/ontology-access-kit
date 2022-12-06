@@ -109,6 +109,10 @@ class TestOboGraphImplementation(unittest.TestCase):
     def test_synonyms(self):
         self.compliance_tester.test_synonyms(self.oi)
 
+    @unittest.skip("TODO - map synonym type URIs")
+    def test_synonym_types(self):
+        self.compliance_tester.test_synonym_types(self.oi)
+
     def test_labels(self):
         self.compliance_tester.test_labels(self.oi)
 

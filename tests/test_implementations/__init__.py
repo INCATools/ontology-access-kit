@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable
+from typing import Callable, List
 
 import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel import kgcl
@@ -440,6 +440,51 @@ class ComplianceTester:
         test.assertGreater(len(nodes), 10)
         test.assertIn(NUCLEUS, [n.id for n in nodes])
 
+    def test_synonym_types(self, oi: OboGraphInterface):
+        """
+        Tests that synonym types can be retrieved.
+
+        Note that in the OboGraph data model, *scope* (exact, broad, etc.) is distinct
+        from the optional *type* (ontology specific, e.g. ABBREVIATION) of a synonym.
+
+        We use the standard test ontology which has a "systematic_synonym" type on
+        one of the synonyms.
+        """
+        test = self.test
+        node = oi.node(NUCLEUS, include_metadata=True)
+        cases = [
+            (1, "hasExactSynonym", "cell nucleus", [], "systematic_synonym"),
+            (
+                2,
+                "hasNarrowSynonym",
+                "horsetail nucleus",
+                ["GOC:mah", "GOC:vw", "GOC:al", "PMID:15030757"],
+                None,
+            ),
+        ]
+
+        def _check(syns: List[obograph.SynonymPropertyValue]):
+            found = {}
+            for syn in syns:
+                matched = False
+                for case in cases:
+                    num, pred, label, xrefs, typ = case
+                    if (
+                        pred == syn.pred
+                        and label == syn.val
+                        and sorted(xrefs) == sorted(syn.xrefs)
+                        and typ == syn.synonymType
+                    ):
+                        found[num] = True
+                        matched = True
+                test.assertTrue(matched, f"Unexpected synonym: {syn}")
+            for case in cases:
+                test.assertIn(case[0], found, f"Missing synonym: {case}")
+
+        _check(node.meta.synonyms)
+        syns = list(oi.synonym_property_values(NUCLEUS))
+        _check([syn[1] for syn in syns])
+
     def test_dump_obograph(self, oi: BasicOntologyInterface):
         """
         Tests conformance of dump method with obograph json syntax.
@@ -847,7 +892,7 @@ class ComplianceTester:
                 "biological_process",
                 "molecular_function",
                 "external",
-                "__OTHER__",
+                "__RESIDUAL__",
             ],
             list(global_stats.partitions.keys()),
         )

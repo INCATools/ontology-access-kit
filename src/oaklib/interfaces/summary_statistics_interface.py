@@ -79,7 +79,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
                     v, property_values={group_by: v}, include_entailed=include_entailed, parent=self
                 )
                 if v is None:
-                    v = "__OTHER__"
+                    v = "__RESIDUAL__"
                 stats.partitions[v] = branch_statistics
         if group_by is None and branches is None:
             branch_statistics = self.branch_summary_statistics(
