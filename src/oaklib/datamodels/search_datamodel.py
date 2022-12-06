@@ -1,5 +1,5 @@
 # Auto generated from search_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-01T10:19:21
+# Generation date: 2022-12-05T17:16:57
 # Schema: search-datamodel
 #
 # id: https://w3id.org/linkml/search_datamodel

@@ -13,6 +13,7 @@ owl: $(patsubst %, src/oaklib/datamodels/%.owl.ttl, $(MODELS))
 
 src/oaklib/datamodels/%.py: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-python $< > $@.tmp && mv $@.tmp $@
+	$(RUN) tox -e lint
 src/oaklib/datamodels/%.schema.json: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-json-schema $< > $@.tmp && mv $@.tmp $@
 src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
