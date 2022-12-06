@@ -892,7 +892,7 @@ class ComplianceTester:
                 "biological_process",
                 "molecular_function",
                 "external",
-                "__OTHER__",
+                "__RESIDUAL__",
             ],
             list(global_stats.partitions.keys()),
         )

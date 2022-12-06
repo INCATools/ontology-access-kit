@@ -73,7 +73,7 @@ warnings.filterwarnings("ignore", category=pronto.warnings.SyntaxWarning, module
 def _synonym_scope_pred(s: pronto.Synonym) -> str:
     scope = s.scope.upper()
     if scope in SCOPE_TO_SYNONYM_PRED_MAP:
-        return SCOPE_TO_SYNONYM_PRED_MAP[scope].replace("oio:", "")
+        return SCOPE_TO_SYNONYM_PRED_MAP[scope]
     else:
         raise ValueError(f"Unknown scope: {scope}")
 
@@ -663,7 +663,7 @@ class ProntoImplementation(
             e = self._entity(curie)
             if e:
                 for s in e.synonyms:
-                    pred = _synonym_scope_pred(s)
+                    pred = _synonym_scope_pred(s).replace("oio:", "")
                     xrefs = [x.id for x in s.xrefs]
                     t = s.type.id if s.type else None
                     spv = obograph.SynonymPropertyValue(

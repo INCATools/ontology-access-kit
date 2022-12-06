@@ -17,7 +17,7 @@ Search
 
 One of the most common use cases for aliases is to allow for search.
 
-For example, in GO, the entity GO:0000050 has the primary label "urea cycle", but a user
+For example, in GO, the entity ``GO:0000050`` has the primary label "urea cycle", but a user
 may be searching using the string "ornithine cycle". In this case, the search system should
 be able to return the right concept using a synonym in GO.
 
