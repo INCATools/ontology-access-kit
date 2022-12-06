@@ -47,7 +47,22 @@
 <li class="toctree-l2"><a class="reference internal" href="basics.html">OAK Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="curies-and-uris.html">Identifying entities: CURIEs and URIs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="primary-labels.html">Primary Labels</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Aliases and Synonyms</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Aliases and Synonyms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-cases">Use Cases</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#text-mining-and-nlp">Text mining and NLP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#different-aliases-for-different-communities">Different aliases for different communities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#different-languages">Different Languages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#different-approaches-to-representing-synonym-metadata">Different approaches to representing synonym metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#representation-of-synonyms-in-oak">Representation of synonyms in OAK</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simple-core-model">Simple Core Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#obo-graph-data-model">Obo Graph Data Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="mappings.html">Mappings and Cross-References</a></li>
 <li class="toctree-l2"><a class="reference internal" href="obsoletion.html">Obsoletion</a></li>
 </ul>
@@ -94,6 +109,216 @@
              
   <section id="aliases-and-synonyms">
 <span id="aliases"></span><h1>Aliases and Synonyms<a class="headerlink" href="#aliases-and-synonyms" title="Permalink to this headline"></a></h1>
+<p>Most ontologies allow for multiple aliases or synonyms for a given entity. These are typically
+distinguished from the <a class="reference internal" href="primary-labels.html#primary-labels"><span class="std std-ref">primary label</span></a>.</p>
+<p>There is a wide variety of ways in which aliases are represented in ontologies, reflecting
+both different historic practice, and different uses cases.</p>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline"></a></h2>
+<section id="search">
+<h3>Search<a class="headerlink" href="#search" title="Permalink to this headline"></a></h3>
+<p>One of the most common use cases for aliases is to allow for search.</p>
+<p>For example, in GO, the entity <code class="docutils literal notranslate"><span class="pre">GO:0000050</span></code> has the primary label “urea cycle”, but a user
+may be searching using the string “ornithine cycle”. In this case, the search system should
+be able to return the right concept using a synonym in GO.</p>
+<p>In OBO format, a partial representation of this term is:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000050</span><span class="w"></span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">urea cycle</span><span class="w"></span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ornithine</span><span class="nv"> </span><span class="s">cycle&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXACT []</span><span class="w"></span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;urea</span><span class="nv"> </span><span class="s">biosynthesis&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED []</span><span class="w"></span>
+</pre></div>
+</div>
+<p>To support search, a relatively simple synonym system is required, although advanced searches
+may want to boost search, or allow for contextual info in search (see contextual usage, below)</p>
+</section>
+<section id="text-mining-and-nlp">
+<h3>Text mining and NLP<a class="headerlink" href="#text-mining-and-nlp" title="Permalink to this headline"></a></h3>
+<p>Many text mining and NLP tasks rely on being able to recognize or ground concepts in text.</p>
+<p>For example, a phrase:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Inherited</span> <span class="n">mutations</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">PTEN</span> <span class="n">gene</span> <span class="n">increase</span> <span class="n">the</span> <span class="n">risk</span> <span class="n">of</span> <span class="n">developing</span> <span class="n">breast</span> <span class="n">cancer</span>
+</pre></div>
+</div>
+<p>Contains many different concepts, many of which are denoted by something other than their primary label.</p>
+<p>For example, in NCIT the primary label for the concept “breast cancer” is “malignant breast neoplasm”, so
+use of synonyms may be required to ground this concept.</p>
+<p>Adding more synonyms to ontologies can help with text mining, see <a class="reference external" href="https://jbiomedsem.biomedcentral.com/articles/10.1186/s13326-016-0096-7">Funk et al 2016</a></p>
+</section>
+<section id="different-aliases-for-different-communities">
+<h3>Different aliases for different communities<a class="headerlink" href="#different-aliases-for-different-communities" title="Permalink to this headline"></a></h3>
+<p>Ontologies aim to provide a largely terminology-neutral view of concepts or entities. In practice, this
+means that sometimes some communities are prioritized when providing primary labels; e.g</p>
+<ul class="simple">
+<li><p>in Uberon, species-neutral terms and terms from comparative anatomy are prioritized, e.g “manus” over “hand”</p></li>
+<li><p>Scientific or medical terminology is typically favored over less precise layperson terminology</p></li>
+</ul>
+<p>However, it can be very important to provide strings that are intended for use within a particular community
+(e.g. human anatomy users of Uberon, or layperson users of HPO).</p>
+<p>Different applications may use metadata about target community differently - e.g. customizing both search and display
+(favoring the community label), or even making a community specific version of an ontology,
+with community synonyms replacing primary labels.</p>
+<p>For more information see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.nature.com/articles/s41588-018-0096-x">Vasilevsky et al</a>, Plain-language medical vocabulary for precision diagnosis</p></li>
+<li><p><a class="reference external" href="https://github.com/information-artifact-ontology/ontology-metadata/issues/70">OMO issues 70</a></p></li>
+</ul>
+</section>
+<section id="different-languages">
+<h3>Different Languages<a class="headerlink" href="#different-languages" title="Permalink to this headline"></a></h3>
+<p>Many ontologies need to support an international community of users.</p>
+</section>
+</section>
+<section id="different-approaches-to-representing-synonym-metadata">
+<h2>Different approaches to representing synonym metadata<a class="headerlink" href="#different-approaches-to-representing-synonym-metadata" title="Permalink to this headline"></a></h2>
+<p><strong>There is no universal standard for representing synonyms in ontologies.</strong></p>
+<p>Ontologies vary in both structure and vocabularies used.</p>
+<p>Some ontologies like SWEET create a different concept/class URI for each synonym,
+and related these to the “primary” concept using an equivalence axiom.</p>
+<p>It is more common to represent synonyms as <em>literals</em>, so that there is a clear separation
+between the concept and its string forms – but this is by no means universal.</p>
+<p>There are a lot of different predicates used for connecting entities to these literals:</p>
+<ul class="simple">
+<li><p>SKOS provides <cite>skos:altLabel</cite></p></li>
+<li><p>oboInOwl (oio) provides 4 different predicates: <cite>oio:hasExactSynonym</cite>, <cite>oio:hasRelatedSynonym</cite>,
+<cite>oio:hasBroadSynonym</cite>, <cite>oio:hasNarrowSynonym</cite></p></li>
+<li><p>IAO has <cite>IAO:0000118</cite> (has alternative label)</p></li>
+<li><p>Many ontologies mint their own specific properties</p></li>
+</ul>
+<p>Within the context of OBO ontologies, the OMO vocabulary attempts to unify these different models,
+but there is still wide variation, even within OBO.</p>
+<p>One area where there is standardization is language tags in RDF. However, there is still
+a lack of consensus in many ontologies whose primary language is english whether to
+tag each element with a <code class="docutils literal notranslate"><span class="pre">&#64;en</span></code> or to leave as an untyped or string literal.</p>
+</section>
+<section id="representation-of-synonyms-in-oak">
+<h2>Representation of synonyms in OAK<a class="headerlink" href="#representation-of-synonyms-in-oak" title="Permalink to this headline"></a></h2>
+<p>OAK aims to be as pluralistic as possible, and to support a wide variety of ontologies
+and use cases, both for bio-ontologies, and any kind of ontology.</p>
+<p>The approach we take is a multi-level representation. The core OAK data model
+has a simple representation of synonyms, and then we provide different interfaces
+for different ways of representing synonyms.</p>
+<p>The primary advanced interface is the OboGraph interface.</p>
+<section id="simple-core-model">
+<h3>Simple Core Model<a class="headerlink" href="#simple-core-model" title="Permalink to this headline"></a></h3>
+<p>The BasicOntologyInterface in OAK allows for a simple representation of synonyms,
+as either lists of strings associated with entities, or predicate-string tuples.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For full documentation , see <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">entity_aliases</span></code> method returns a list of strings.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">entity_aliases</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>Fluid around heart</p></li>
+<li><p>Pericardial effusions</p></li>
+</ul>
+<p>This is too simplistic for some purposes - often we want to know more about
+the predicate, so we can use <code class="docutils literal notranslate"><span class="pre">alias_relationships</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pred</span><span class="p">,</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">alias_relationships</span><span class="p">(</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">alias</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>rdfs:label Pericardial effusion</p></li>
+<li><p>oboInOwl:hasExactSynonym Fluid around heart</p></li>
+<li><p>oboInOwl:hasExactSynonym Pericardial effusions</p></li>
+</ul>
+<p>(note that label is treated as an alias by default, but you can pass <code class="docutils literal notranslate"><span class="pre">exclude_labels=True</span></code> to
+override this)</p>
+<p>You can get the same information on the command line with the <code class="docutils literal notranslate"><span class="pre">aliases</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">hp</span><span class="o">=</span><span class="s1">&#39;runoak -i sqlite:obo:hp&#39;</span>
+hp aliases HP:0001698
+</pre></div>
+</div>
+<p>This will give a table:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">HPO basic aliases</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>curie</p></th>
+<th class="head"><p>pred</p></th>
+<th class="head"><p>alias</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HP:0001698</p></td>
+<td><p>rdfs:label</p></td>
+<td><p>Pericardial effusion</p></td>
+</tr>
+<tr class="row-odd"><td><p>HP:0001698</p></td>
+<td><p>oio:hasExactSynonym</p></td>
+<td><p>Fluid around heart</p></td>
+</tr>
+<tr class="row-even"><td><p>HP:0001698</p></td>
+<td><p>oio:hasExactSynonym</p></td>
+<td><p>Pericardial effusions</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="obo-graph-data-model">
+<h3>Obo Graph Data Model<a class="headerlink" href="#obo-graph-data-model" title="Permalink to this headline"></a></h3>
+<p>The OboGraphInterface provides a more advanced representation of synonyms,
+conforming to the OboGraph datamodel.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For full documentation , see <span class="xref std std-ref">obo_graph_interface</span></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oi</span> <span class="o">=</span> <span class="n">get_implementation_from_shorthand</span><span class="p">(</span><span class="s2">&quot;sqlite:obo:hp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">spv</span> <span class="ow">in</span> <span class="n">oi</span><span class="o">.</span><span class="n">synonym_property_values</span><span class="p">([</span><span class="s2">&quot;HP:0001698&quot;</span><span class="p">]):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> pred: </span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">pred</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">syn</span><span class="o">.</span><span class="n">synonymType</span><span class="si">}</span><span class="s2">) &#39;</span><span class="si">{</span><span class="n">spv</span><span class="o">.</span><span class="n">val</span><span class="si">}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  xref: </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">spv</span><span class="o">.</span><span class="n">xrefs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also get similar behavior by passing <code class="docutils literal notranslate"><span class="pre">--obo-model</span></code> to the <code class="docutils literal notranslate"><span class="pre">aliases</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hp aliases HP:0001698 --obo-model
+</pre></div>
+</div>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">HPO full aliases</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>curie</p></th>
+<th class="head"><p>pred</p></th>
+<th class="head"><p>value</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>xrefs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HP:0001698</p></td>
+<td><p>hasExactSynonym</p></td>
+<td><p>Fluid around heart</p></td>
+<td><p>layperson</p></td>
+<td><p>[‘ORCID:0000-0002-6548-5200’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>HP:0001698</p></td>
+<td><p>hasExactSynonym</p></td>
+<td><p>Pericardial effusions</p></td>
+<td><p>None</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
 </section>
 
 

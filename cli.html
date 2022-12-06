@@ -367,12 +367,18 @@ richer data if present in the ontology, including synonym categories/types, syno
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-aliases-obo-model">
 <span id="cmdoption-runoak-aliases-no-obo-model"></span><span class="sig-name descname"><span class="pre">--obo-model</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-obo-model</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-aliases-obo-model" title="Permalink to this definition"></a></dt>
-<dd><p>If true, assume the OBO synonym datamodel</p>
+<dd><p>If true, assume the OBO synonym datamodel, including provenancem synonym types</p>
 </dd></dl>
 
 <dl class="std option">
-<dt class="sig sig-object std" id="cmdoption-runoak-aliases-o">
-<span id="cmdoption-runoak-aliases-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-aliases-o" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object std" id="cmdoption-runoak-aliases-O">
+<span id="cmdoption-runoak-aliases-o"></span><span id="cmdoption-runoak-aliases-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-aliases-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-aliases-0">
+<span id="cmdoption-runoak-aliases-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-aliases-0" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
 </dd></dl>
 
@@ -2788,6 +2794,12 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 <dt class="sig sig-object std" id="cmdoption-runoak-roots-p">
 <span id="cmdoption-runoak-roots-predicates"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--predicates</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;predicates&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-roots-p" title="Permalink to this definition"></a></dt>
 <dd><p>A comma-separated list of predicates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-roots-P">
+<span id="cmdoption-runoak-roots-has-prefix"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--has-prefix</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;has_prefix&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-roots-P" title="Permalink to this definition"></a></dt>
+<dd><p>filter based on a prefix, e.g. OBI</p>
 </dd></dl>
 
 <dl class="std option">
