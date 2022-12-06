@@ -2690,10 +2690,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 @main.command()
 @output_option
 @predicates_option
-@click.option("--has-prefix",
-              "-P",
-              multiple=True,
-              help="filter based on a prefix, e.g. OBI")
+@click.option("--has-prefix", "-P", multiple=True, help="filter based on a prefix, e.g. OBI")
 @click.option(
     "--annotated-roots/--no-annotated-roots",
     "-A/--no-A",
@@ -2701,7 +2698,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
     show_default=True,
     help="If true, use annotated roots, if present",
 )
-def roots(output: str, predicates: str, has_prefix:str, annotated_roots: bool):
+def roots(output: str, predicates: str, has_prefix: str, annotated_roots: bool):
     """
     List all root nodes in the ontology
 
@@ -2724,7 +2721,9 @@ def roots(output: str, predicates: str, has_prefix:str, annotated_roots: bool):
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         prefixes = list(has_prefix) if has_prefix else None
-        for curie in impl.roots(actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes):
+        for curie in impl.roots(
+            actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes
+        ):
             print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -2840,8 +2839,10 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
 
 
 @main.command()
-@click.option("--obo-model/--no-obo-model",
-              help="If true, assume the OBO synonym datamodel, including provenancem synonym types")
+@click.option(
+    "--obo-model/--no-obo-model",
+    help="If true, assume the OBO synonym datamodel, including provenancem synonym types",
+)
 @output_type_option
 @output_option
 @click.argument("terms", nargs=-1)

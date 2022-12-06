@@ -440,7 +440,7 @@ class ComplianceTester:
         test.assertGreater(len(nodes), 10)
         test.assertIn(NUCLEUS, [n.id for n in nodes])
 
-    def test_synonym_types(self,  oi: OboGraphInterface):
+    def test_synonym_types(self, oi: OboGraphInterface):
         """
         Tests that synonym types can be retrieved.
 
@@ -454,20 +454,33 @@ class ComplianceTester:
         node = oi.node(NUCLEUS, include_metadata=True)
         cases = [
             (1, "hasExactSynonym", "cell nucleus", [], "systematic_synonym"),
-            (2, "hasNarrowSynonym", "horsetail nucleus", ['GOC:mah', 'GOC:vw', 'GOC:al', 'PMID:15030757'], None),
+            (
+                2,
+                "hasNarrowSynonym",
+                "horsetail nucleus",
+                ["GOC:mah", "GOC:vw", "GOC:al", "PMID:15030757"],
+                None,
+            ),
         ]
+
         def _check(syns: List[obograph.SynonymPropertyValue]):
             found = {}
             for syn in syns:
                 matched = False
                 for case in cases:
                     num, pred, label, xrefs, typ = case
-                    if pred == syn.pred and label == syn.val and sorted(xrefs) == sorted(syn.xrefs) and typ == syn.synonymType:
+                    if (
+                        pred == syn.pred
+                        and label == syn.val
+                        and sorted(xrefs) == sorted(syn.xrefs)
+                        and typ == syn.synonymType
+                    ):
                         found[num] = True
                         matched = True
                 test.assertTrue(matched, f"Unexpected synonym: {syn}")
             for case in cases:
                 test.assertIn(case[0], found, f"Missing synonym: {case}")
+
         _check(node.meta.synonyms)
         syns = list(oi.synonym_property_values(NUCLEUS))
         _check([syn[1] for syn in syns])

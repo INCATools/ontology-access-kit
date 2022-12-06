@@ -92,12 +92,13 @@ from oaklib.datamodels.vocabulary import (
     LABEL_PREDICATE,
     OWL_NOTHING,
     OWL_THING,
+    PREFIX_PREDICATE,
     RDF_TYPE,
     SEMAPV,
     SYNONYM_PREDICATES,
     TERM_REPLACED_BY,
     TERMS_MERGED,
-    omd_slots, PREFIX_PREDICATE,
+    omd_slots,
 )
 from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
@@ -127,7 +128,10 @@ from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInte
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
-from oaklib.utilities.identifier_utils import string_as_base64_curie, synonym_type_code_from_curie
+from oaklib.utilities.identifier_utils import (
+    string_as_base64_curie,
+    synonym_type_code_from_curie,
+)
 
 __all__ = [
     "get_range_xsd_type",
@@ -202,8 +206,6 @@ def regex_to_sql_like(regex: str) -> str:
 
 def _is_quoted_url(curie: CURIE):
     return curie.startswith("<")
-
-
 
 
 @dataclass
@@ -906,7 +908,9 @@ class SqlImplementation(
                 if len(synonym_types) > 0:
                     parent_pv.synonymType = synonym_type_code_from_curie(synonym_types[0])
                     if len(synonym_types) > 1:
-                        logging.warning(f"Ignoring multiple synonym types: {synonym_types} for {curie}")
+                        logging.warning(
+                            f"Ignoring multiple synonym types: {synonym_types} for {curie}"
+                        )
             pvs = [
                 obograph.BasicPropertyValue(pred=ann.predicate, val=ann.object)
                 for ann in anns

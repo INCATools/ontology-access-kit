@@ -634,7 +634,10 @@ class ProntoImplementation(
                     synonym_type = s.type.id if s.type else None
                     meta.synonyms.append(
                         obograph.SynonymPropertyValue(
-                            val=s.description, pred=pred, synonymType=synonym_type, xrefs=[x.id for x in s.xrefs]
+                            val=s.description,
+                            pred=pred,
+                            synonymType=synonym_type,
+                            xrefs=[x.id for x in s.xrefs],
                         )
                     )
             return obograph.Node(id=t_id, lbl=t.name, meta=meta)
