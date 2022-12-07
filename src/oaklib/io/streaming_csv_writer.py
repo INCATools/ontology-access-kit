@@ -57,10 +57,15 @@ class StreamingCsvWriter(StreamingWriter):
         else:
             if self.keys is None:
                 self.keys = []
+            item = {}
             for k in obj_as_dict:
-                if k not in self.keys:
-                    self.keys.append(k)
-            self.rows.append({k: _keyval(v) for k, v in obj_as_dict.items()})
+                v = obj_as_dict.get(k, None)
+                if v is not None:
+                    if k not in self.keys:
+                        self.keys.append(k)
+                    item[k] = _keyval(v)
+            self.rows.append(item)
+            # self.rows.append({k: _keyval(v) for k, v in obj_as_dict.items()})
 
     def finish(self):
         if self.heterogeneous_keys:
@@ -133,4 +138,23 @@ class StreamingCsvWriter(StreamingWriter):
                     elif k.startswith("oio:"):
                         k = k.replace("oio:", "")
                     obj_as_dict[f"{slot}_{k}"] = v.filtered_count
+                del obj_as_dict[slot]
+            for slot in ["was_generated_by"]:
+                obj = getattr(original, slot)
+                if obj:
+                    for k, v in vars(obj).items():
+                        if v is not None:
+                            obj_as_dict[f"{slot}_{k}"] = v
+                    del obj_as_dict[slot]
+            for slot in ["ontologies"]:
+                objs = getattr(original, slot, [])
+                n = 0
+                for obj in objs:
+                    n += 1
+                    for k, v in vars(obj).items():
+                        col_name = f"{slot}_{k}"
+                        if n > 1:
+                            col_name = f"{col_name}_{n}"
+                        if v is not None:
+                            obj_as_dict[col_name] = v
                 del obj_as_dict[slot]

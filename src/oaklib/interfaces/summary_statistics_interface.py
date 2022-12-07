@@ -15,7 +15,7 @@ from oaklib.datamodels.summary_statistics_datamodel import (
     SummaryStatisticsReport,
     UngroupedStatistics,
 )
-from oaklib.datamodels.vocabulary import OWL_CLASS
+from oaklib.datamodels.vocabulary import IS_A, OWL_CLASS
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -38,15 +38,17 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         branches: Dict[str, List[CURIE]] = None,
         group_by: PRED_CURIE = None,
         values: List[Any] = None,
-        include_entailed=False,
+        include_entailed: bool = False,
+        prefixes: List[CURIE] = None,
     ) -> GroupedStatistics:
         """
         Gets summary statistics for all ontologies treated as a single ontology.
 
-        :param branches:
-        :param group_by:
-        :param values:
-        :param include_entailed:
+        :param branches: if provided, only statistics for the given branch roots will be returned
+        :param group_by: if provided, statistics will be grouped by the values of this property
+        :param values: if provided, only statistics where the group_by property value matches this will be considerd
+        :param include_entailed: include inference
+        :param prefixes: if provided, only statistics for entities with these prefixes will be considered
         :return:
         """
         onts = list(self._ontologies())
@@ -61,7 +63,8 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
                     branch_name=branch_name,
                     branch_roots=branch_roots,
                     include_entailed=include_entailed,
-                    parent=self,
+                    parent=stats,
+                    prefixes=prefixes,
                 )
                 stats.partitions[branch_name] = branch_statistics
         if group_by is not None:
@@ -76,14 +79,20 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
                     f"Getting summary statistics for metadata property {group_by} value {v}"
                 )
                 branch_statistics = self.branch_summary_statistics(
-                    v, property_values={group_by: v}, include_entailed=include_entailed, parent=self
+                    v,
+                    property_values={group_by: v},
+                    include_entailed=include_entailed,
+                    parent=stats,
+                    prefixes=prefixes,
                 )
                 if v is None:
                     v = "__RESIDUAL__"
                 stats.partitions[v] = branch_statistics
         if group_by is None and branches is None:
             branch_statistics = self.branch_summary_statistics(
-                include_entailed=include_entailed, parent=self
+                include_entailed=include_entailed,
+                parent=stats,
+                prefixes=prefixes,
             )
             stats.partitions[branch_statistics.id] = branch_statistics
         return stats
@@ -95,6 +104,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         property_values: Dict[CURIE, Any] = None,
         include_entailed=False,
         parent: GroupedStatistics = None,
+        prefixes: List[CURIE] = None,
     ) -> UngroupedStatistics:
         """
         Gets summary statistics for all ontologies treated as a single ontology.
@@ -106,13 +116,16 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :param property_values: if provided, only statistics for entities that match these will be considered
         :param include_entailed: if True, include statistics for entailed edges
         :param parent: set if this is a partition of a larger group
+        :param prefixes: if provided, only statistics for entities with these prefixes will be considered
         :return:
         """
         if branch_name is None:
             branch_name = "AllBranches"
         if branch_roots is not None:
-            raise NotImplementedError(f"branch_roots not implemented for {type(self)}")
-        if property_values is not None:
+            if not isinstance(self, OboGraphInterface):
+                raise NotImplementedError(f"branch_roots not implemented for {type(self)}")
+            filtered_entities = self.descendants(branch_roots, predicates=[IS_A])
+        elif property_values is not None:
 
             def _match(e: CURIE):
                 for p, v in property_values.items():
@@ -145,6 +158,11 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         for k, v in rel_counts.items():
             ssc.edge_count_by_predicate[k] = FacetedCount(k, filtered_count=v)
         ssc.edge_count = sum(rel_counts.values())
+        synonyms = [
+            s for e in filtered_entities for s in self.alias_relationships(e, exclude_labels=True)
+        ]
+        ssc.synonym_statement_count = len(synonyms)
+        ssc.distinct_synonym_count = len(set([s[1] for s in synonyms]))
         self._add_derived_statistics(ssc)
         return ssc
 

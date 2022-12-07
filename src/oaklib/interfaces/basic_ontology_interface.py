@@ -243,7 +243,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         :return: iterator
         """
-        raise NotImplementedError
+        raise NotImplementedError(
+            f"ontologies() method not implemented for {self.__class__.__name__}"
+        )
 
     @deprecated("Replaced by ontologies()")
     def ontology_curies(self) -> Iterable[CURIE]:
@@ -332,7 +334,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :param ontology:
         :return:
         """
-        raise NotImplementedError
+        raise NotImplementedError(
+            f"ontology_metadata_map() method not implemented for {self.__class__.__name__}"
+        )
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         """

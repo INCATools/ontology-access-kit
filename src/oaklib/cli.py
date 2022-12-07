@@ -964,9 +964,10 @@ def statistics(
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter)
     writer.output = output
+    writer.heterogeneous_keys = True
     diff_config = DiffConfiguration(simple=False)
     if not isinstance(impl, SummaryStatisticsInterface):
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+        raise NotImplementedError(f"Cannot execute this using {type(impl)}")
     impl.include_residuals = include_residuals
     if group_by_obo_namespace:
         group_by_property = HAS_OBO_NAMESPACE
@@ -1018,6 +1019,7 @@ def statistics(
             writer.emit(p)
     else:
         writer.emit(ssc)
+    writer.finish()
 
 
 @main.command()
