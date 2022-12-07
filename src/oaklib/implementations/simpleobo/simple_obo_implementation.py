@@ -44,6 +44,7 @@ from oaklib.datamodels.vocabulary import (
     OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
     OWL_OBJECT_PROPERTY,
+    OWL_VERSION_IRI,
     SEMAPV,
     SKOS_CLOSE_MATCH,
     TERM_REPLACED_BY,
@@ -53,12 +54,14 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_ALT_ID,
     TAG_COMMENT,
     TAG_CONSIDER,
+    TAG_DATA_VERSION,
     TAG_DEFINITION,
     TAG_EQUIVALENT_TO,
     TAG_IS_A,
     TAG_IS_OBSOLETE,
     TAG_NAME,
     TAG_NAMESPACE,
+    TAG_ONTOLOGY,
     TAG_RELATIONSHIP,
     TAG_REPLACED_BY,
     TAG_SUBSET,
@@ -83,6 +86,7 @@ from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
+from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
@@ -103,6 +107,7 @@ class SimpleOboImplementation(
     SearchInterface,
     MappingProviderInterface,
     PatcherInterface,
+    SummaryStatisticsInterface,
 ):
     """
     Simple OBO-file backed implementation
@@ -228,6 +233,28 @@ class SimpleOboImplementation(
         for s in od.stanzas.values():
             if subset in s.simple_values(TAG_SUBSET):
                 yield s.id
+
+    def ontologies(self) -> Iterable[CURIE]:
+        od = self.obo_document
+        for v in od.header.simple_values(TAG_ONTOLOGY):
+            yield v
+
+    def ontology_metadata_map(self, ontology: CURIE) -> METADATA_MAP:
+        m = defaultdict(list)
+        m["id"] = [ontology]
+        omo_map = {
+            TAG_DATA_VERSION: OWL_VERSION_IRI,
+        }
+        header = self.obo_document.header
+        for tv in header.tag_values:
+            tag = tv.tag
+            if tag in omo_map:
+                p = omo_map[tag]
+                val = tv.value
+                if p == OWL_VERSION_IRI:
+                    val = f"obo:{ontology}/{val}{ontology}.owl"
+                m[p].append(val)
+        return dict(m)
 
     def _stanza(self, curie: CURIE, strict=True) -> Optional[Stanza]:
         stanza = self.obo_document.stanzas.get(curie, None)

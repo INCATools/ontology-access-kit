@@ -1786,6 +1786,7 @@ class SqlImplementation(
         property_values: Dict[CURIE, Any] = None,
         include_entailed=False,
         parent: GroupedStatistics = None,
+        prefixes: List[CURIE] = None,
     ) -> UngroupedStatistics:
         session = self.session
         not_in = False
@@ -1824,16 +1825,18 @@ class SqlImplementation(
                     q = q.filter(x.not_in(branch_subq))
                 else:
                     q = q.filter(x.in_(branch_subq))
+            if prefixes:
+                q = q.filter(x.startswith(tuple(prefixes)))
             return q
 
         ssc = UngroupedStatistics(branch_name)
         if not parent:
             self._add_statistics_metadata(ssc)
-        obs_subq = q(DeprecatedNode.id)
+        obsoletion_subq = q(DeprecatedNode.id)
         text_defn_subq = q(HasTextDefinitionStatement.subject)
         ssc.class_count = _filter(ClassNode.id).distinct(ClassNode.id).count()
         ssc.named_individual_count = _filter(NamedIndividualNode.id).distinct(ClassNode.id).count()
-        depr_class_query = _filter(ClassNode.id).filter(ClassNode.id.in_(obs_subq))
+        depr_class_query = _filter(ClassNode.id).filter(ClassNode.id.in_(obsoletion_subq))
         ssc.deprecated_class_count = depr_class_query.count()
         merged_subq = (
             q(Statements.subject)
@@ -1847,7 +1850,9 @@ class SqlImplementation(
         ssc.object_property_count = _filter(ObjectPropertyNode.id).count()
         ssc.annotation_property_count = _filter(AnnotationPropertyNode.id).count()
         ssc.deprecated_property_count = (
-            _filter(ObjectPropertyNode.id).filter(ObjectPropertyNode.id.in_(obs_subq)).count()
+            _filter(ObjectPropertyNode.id)
+            .filter(ObjectPropertyNode.id.in_(obsoletion_subq))
+            .count()
         )
         ssc.rdf_triple_count = _filter(Statements.subject).count()
         ssc.equivalent_classes_axiom_count = _filter(OwlEquivalentClassStatement.subject).count()

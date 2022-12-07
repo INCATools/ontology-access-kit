@@ -1,0 +1,305 @@
+subject	predicate	object	subject_label	predicate_label	object_label
+CL:0000127	BFO:0000050	BFO:0000002	astrocyte	part of	continuant
+CL:0000127	BFO:0000050	BFO:0000004	astrocyte	part of	independent continuant
+CL:0000127	BFO:0000050	BFO:0000040	astrocyte	part of	material entity
+CL:0000127	BFO:0000050	CARO:0000000	astrocyte	part of	anatomical entity
+CL:0000127	BFO:0000050	CARO:0000006	astrocyte	part of	material anatomical entity
+CL:0000127	BFO:0000050	CARO:0030000	astrocyte	part of	biological entity
+CL:0000127	BFO:0000050	UBERON:0000061	astrocyte	part of	anatomical structure
+CL:0000127	BFO:0000050	UBERON:0000465	astrocyte	part of	material anatomical entity
+CL:0000127	BFO:0000050	UBERON:0000467	astrocyte	part of	anatomical system
+CL:0000127	BFO:0000050	UBERON:0000468	astrocyte	part of	multicellular organism
+CL:0000127	BFO:0000050	UBERON:0001016	astrocyte	part of	nervous system
+CL:0000127	BFO:0000050	UBERON:0001062	astrocyte	part of	anatomical entity
+CL:0000127	BFO:0000050	UBERON:0010000	astrocyte	part of	multicellular anatomical structure
+CL:0000127	RO:0002131	BFO:0000002	astrocyte	overlaps	continuant
+CL:0000127	RO:0002131	BFO:0000004	astrocyte	overlaps	independent continuant
+CL:0000127	RO:0002131	BFO:0000040	astrocyte	overlaps	material entity
+CL:0000127	RO:0002131	CARO:0000000	astrocyte	overlaps	anatomical entity
+CL:0000127	RO:0002131	CARO:0000006	astrocyte	overlaps	material anatomical entity
+CL:0000127	RO:0002131	CARO:0030000	astrocyte	overlaps	biological entity
+CL:0000127	RO:0002131	UBERON:0000061	astrocyte	overlaps	anatomical structure
+CL:0000127	RO:0002131	UBERON:0000465	astrocyte	overlaps	material anatomical entity
+CL:0000127	RO:0002131	UBERON:0000467	astrocyte	overlaps	anatomical system
+CL:0000127	RO:0002131	UBERON:0000468	astrocyte	overlaps	multicellular organism
+CL:0000127	RO:0002131	UBERON:0001016	astrocyte	overlaps	nervous system
+CL:0000127	RO:0002131	UBERON:0001062	astrocyte	overlaps	anatomical entity
+CL:0000127	RO:0002131	UBERON:0010000	astrocyte	overlaps	multicellular anatomical structure
+CL:0000127	RO:0002160	NCBITaxon:1	astrocyte	only in taxon	root
+CL:0000127	RO:0002160	NCBITaxon:131567	astrocyte	only in taxon	cellular organisms
+CL:0000127	RO:0002160	NCBITaxon:2759	astrocyte	only in taxon	Eukaryota
+CL:0000127	RO:0002160	NCBITaxon:33154	astrocyte	only in taxon	Opisthokonta
+CL:0000127	RO:0002160	NCBITaxon:33208	astrocyte	only in taxon	Metazoa
+CL:0000127	RO:0002162	NCBITaxon:1	astrocyte	in taxon	root
+CL:0000127	RO:0002162	NCBITaxon:131567	astrocyte	in taxon	cellular organisms
+CL:0000127	RO:0002162	NCBITaxon:2759	astrocyte	in taxon	Eukaryota
+CL:0000127	RO:0002162	NCBITaxon:33154	astrocyte	in taxon	Opisthokonta
+CL:0000127	RO:0002162	NCBITaxon:33208	astrocyte	in taxon	Metazoa
+CL:0000127	RO:0002162	NCBITaxon:33213	astrocyte	in taxon	Bilateria
+CL:0000127	RO:0002162	NCBITaxon:33511	astrocyte	in taxon	Deuterostomia
+CL:0000127	RO:0002162	NCBITaxon:6072	astrocyte	in taxon	Eumetazoa
+CL:0000127	RO:0002162	NCBITaxon:7711	astrocyte	in taxon	Chordata
+CL:0000127	RO:0002162	NCBITaxon:7742	astrocyte	in taxon	Vertebrata <vertebrates>
+CL:0000127	RO:0002162	NCBITaxon:89593	astrocyte	in taxon	Craniata <chordates>
+CL:0000127	RO:0002202	BFO:0000002	astrocyte	develops from	continuant
+CL:0000127	RO:0002202	BFO:0000004	astrocyte	develops from	independent continuant
+CL:0000127	RO:0002202	BFO:0000040	astrocyte	develops from	material entity
+CL:0000127	RO:0002202	CARO:0000000	astrocyte	develops from	anatomical entity
+CL:0000127	RO:0002202	CARO:0030000	astrocyte	develops from	biological entity
+CL:0000127	RO:0002202	CL:0000000	astrocyte	develops from	cell
+CL:0000127	RO:0002202	CL:0000003	astrocyte	develops from	native cell
+CL:0000127	RO:0002202	CL:0000030	astrocyte	develops from	glioblast
+CL:0000127	RO:0002202	CL:0000034	astrocyte	develops from	stem cell
+CL:0000127	RO:0002202	CL:0000048	astrocyte	develops from	multi fate stem cell
+CL:0000127	RO:0002202	CL:0000055	astrocyte	develops from	non-terminally differentiated cell
+CL:0000127	RO:0002202	CL:0000095	astrocyte	develops from	neuron associated cell
+CL:0000127	RO:0002202	CL:0000123	astrocyte	develops from	neuron associated cell (sensu Vertebrata)
+CL:0000127	RO:0002202	CL:0000133	astrocyte	develops from	neurectodermal cell
+CL:0000127	RO:0002202	CL:0000219	astrocyte	develops from	motile cell
+CL:0000127	RO:0002202	CL:0000221	astrocyte	develops from	ectodermal cell
+CL:0000127	RO:0002202	CL:0000255	astrocyte	develops from	eukaryotic cell
+CL:0000127	RO:0002202	CL:0000333	astrocyte	develops from	migratory neural crest cell
+CL:0000127	RO:0002202	CL:0000339	astrocyte	develops from	glioblast (sensu Vertebrata)
+CL:0000127	RO:0002202	CL:0000548	astrocyte	develops from	animal cell
+CL:0000127	RO:0002202	CL:0002319	astrocyte	develops from	neural cell
+CL:0000127	RO:0002202	CL:0002321	astrocyte	develops from	embryonic cell (metazoa)
+CL:0000127	RO:0002202	CL:0002371	astrocyte	develops from	somatic cell
+CL:0000127	RO:0002202	CL:0007004	astrocyte	develops from	premigratory neural crest cell
+CL:0000127	RO:0002202	CL:0011012	astrocyte	develops from	neural crest cell
+CL:0000127	RO:0002202	CL:0011026	astrocyte	develops from	progenitor cell
+CL:0000127	RO:0002202	CL:0011115	astrocyte	develops from	precursor cell
+CL:0000127	RO:0002254	BFO:0000002	astrocyte	has developmental contribution from	continuant
+CL:0000127	RO:0002254	BFO:0000004	astrocyte	has developmental contribution from	independent continuant
+CL:0000127	RO:0002254	BFO:0000040	astrocyte	has developmental contribution from	material entity
+CL:0000127	RO:0002254	CARO:0000000	astrocyte	has developmental contribution from	anatomical entity
+CL:0000127	RO:0002254	CARO:0030000	astrocyte	has developmental contribution from	biological entity
+CL:0000127	RO:0002254	CL:0000000	astrocyte	has developmental contribution from	cell
+CL:0000127	RO:0002254	CL:0000003	astrocyte	has developmental contribution from	native cell
+CL:0000127	RO:0002254	CL:0000030	astrocyte	has developmental contribution from	glioblast
+CL:0000127	RO:0002254	CL:0000034	astrocyte	has developmental contribution from	stem cell
+CL:0000127	RO:0002254	CL:0000048	astrocyte	has developmental contribution from	multi fate stem cell
+CL:0000127	RO:0002254	CL:0000055	astrocyte	has developmental contribution from	non-terminally differentiated cell
+CL:0000127	RO:0002254	CL:0000095	astrocyte	has developmental contribution from	neuron associated cell
+CL:0000127	RO:0002254	CL:0000123	astrocyte	has developmental contribution from	neuron associated cell (sensu Vertebrata)
+CL:0000127	RO:0002254	CL:0000133	astrocyte	has developmental contribution from	neurectodermal cell
+CL:0000127	RO:0002254	CL:0000219	astrocyte	has developmental contribution from	motile cell
+CL:0000127	RO:0002254	CL:0000221	astrocyte	has developmental contribution from	ectodermal cell
+CL:0000127	RO:0002254	CL:0000255	astrocyte	has developmental contribution from	eukaryotic cell
+CL:0000127	RO:0002254	CL:0000333	astrocyte	has developmental contribution from	migratory neural crest cell
+CL:0000127	RO:0002254	CL:0000339	astrocyte	has developmental contribution from	glioblast (sensu Vertebrata)
+CL:0000127	RO:0002254	CL:0000548	astrocyte	has developmental contribution from	animal cell
+CL:0000127	RO:0002254	CL:0002319	astrocyte	has developmental contribution from	neural cell
+CL:0000127	RO:0002254	CL:0002321	astrocyte	has developmental contribution from	embryonic cell (metazoa)
+CL:0000127	RO:0002254	CL:0002371	astrocyte	has developmental contribution from	somatic cell
+CL:0000127	RO:0002254	CL:0007004	astrocyte	has developmental contribution from	premigratory neural crest cell
+CL:0000127	RO:0002254	CL:0011012	astrocyte	has developmental contribution from	neural crest cell
+CL:0000127	RO:0002254	CL:0011026	astrocyte	has developmental contribution from	progenitor cell
+CL:0000127	RO:0002254	CL:0011115	astrocyte	has developmental contribution from	precursor cell
+CL:0000127	RO:0002258	BFO:0000002	astrocyte	developmentally preceded by	continuant
+CL:0000127	RO:0002258	BFO:0000004	astrocyte	developmentally preceded by	independent continuant
+CL:0000127	RO:0002258	BFO:0000040	astrocyte	developmentally preceded by	material entity
+CL:0000127	RO:0002258	CARO:0000000	astrocyte	developmentally preceded by	anatomical entity
+CL:0000127	RO:0002258	CARO:0030000	astrocyte	developmentally preceded by	biological entity
+CL:0000127	RO:0002258	CL:0000000	astrocyte	developmentally preceded by	cell
+CL:0000127	RO:0002258	CL:0000003	astrocyte	developmentally preceded by	native cell
+CL:0000127	RO:0002258	CL:0000030	astrocyte	developmentally preceded by	glioblast
+CL:0000127	RO:0002258	CL:0000034	astrocyte	developmentally preceded by	stem cell
+CL:0000127	RO:0002258	CL:0000048	astrocyte	developmentally preceded by	multi fate stem cell
+CL:0000127	RO:0002258	CL:0000055	astrocyte	developmentally preceded by	non-terminally differentiated cell
+CL:0000127	RO:0002258	CL:0000095	astrocyte	developmentally preceded by	neuron associated cell
+CL:0000127	RO:0002258	CL:0000123	astrocyte	developmentally preceded by	neuron associated cell (sensu Vertebrata)
+CL:0000127	RO:0002258	CL:0000133	astrocyte	developmentally preceded by	neurectodermal cell
+CL:0000127	RO:0002258	CL:0000219	astrocyte	developmentally preceded by	motile cell
+CL:0000127	RO:0002258	CL:0000221	astrocyte	developmentally preceded by	ectodermal cell
+CL:0000127	RO:0002258	CL:0000255	astrocyte	developmentally preceded by	eukaryotic cell
+CL:0000127	RO:0002258	CL:0000333	astrocyte	developmentally preceded by	migratory neural crest cell
+CL:0000127	RO:0002258	CL:0000339	astrocyte	developmentally preceded by	glioblast (sensu Vertebrata)
+CL:0000127	RO:0002258	CL:0000548	astrocyte	developmentally preceded by	animal cell
+CL:0000127	RO:0002258	CL:0002319	astrocyte	developmentally preceded by	neural cell
+CL:0000127	RO:0002258	CL:0002321	astrocyte	developmentally preceded by	embryonic cell (metazoa)
+CL:0000127	RO:0002258	CL:0002371	astrocyte	developmentally preceded by	somatic cell
+CL:0000127	RO:0002258	CL:0007004	astrocyte	developmentally preceded by	premigratory neural crest cell
+CL:0000127	RO:0002258	CL:0011012	astrocyte	developmentally preceded by	neural crest cell
+CL:0000127	RO:0002258	CL:0011026	astrocyte	developmentally preceded by	progenitor cell
+CL:0000127	RO:0002258	CL:0011115	astrocyte	developmentally preceded by	precursor cell
+CL:0000127	RO:0002320	NCBITaxon:1	astrocyte	evolutionarily related to	root
+CL:0000127	RO:0002320	NCBITaxon:131567	astrocyte	evolutionarily related to	cellular organisms
+CL:0000127	RO:0002320	NCBITaxon:2759	astrocyte	evolutionarily related to	Eukaryota
+CL:0000127	RO:0002320	NCBITaxon:33154	astrocyte	evolutionarily related to	Opisthokonta
+CL:0000127	RO:0002320	NCBITaxon:33208	astrocyte	evolutionarily related to	Metazoa
+CL:0000127	RO:0002320	NCBITaxon:33213	astrocyte	evolutionarily related to	Bilateria
+CL:0000127	RO:0002320	NCBITaxon:33511	astrocyte	evolutionarily related to	Deuterostomia
+CL:0000127	RO:0002320	NCBITaxon:6072	astrocyte	evolutionarily related to	Eumetazoa
+CL:0000127	RO:0002320	NCBITaxon:7711	astrocyte	evolutionarily related to	Chordata
+CL:0000127	RO:0002320	NCBITaxon:7742	astrocyte	evolutionarily related to	Vertebrata <vertebrates>
+CL:0000127	RO:0002320	NCBITaxon:89593	astrocyte	evolutionarily related to	Craniata <chordates>
+CL:0000127	RO:0002323	BFO:0000002	astrocyte	mereotopologically related to	continuant
+CL:0000127	RO:0002323	BFO:0000004	astrocyte	mereotopologically related to	independent continuant
+CL:0000127	RO:0002323	BFO:0000040	astrocyte	mereotopologically related to	material entity
+CL:0000127	RO:0002323	CARO:0000000	astrocyte	mereotopologically related to	anatomical entity
+CL:0000127	RO:0002323	CARO:0000006	astrocyte	mereotopologically related to	material anatomical entity
+CL:0000127	RO:0002323	CARO:0030000	astrocyte	mereotopologically related to	biological entity
+CL:0000127	RO:0002323	UBERON:0000061	astrocyte	mereotopologically related to	anatomical structure
+CL:0000127	RO:0002323	UBERON:0000465	astrocyte	mereotopologically related to	material anatomical entity
+CL:0000127	RO:0002323	UBERON:0000467	astrocyte	mereotopologically related to	anatomical system
+CL:0000127	RO:0002323	UBERON:0000468	astrocyte	mereotopologically related to	multicellular organism
+CL:0000127	RO:0002323	UBERON:0001016	astrocyte	mereotopologically related to	nervous system
+CL:0000127	RO:0002323	UBERON:0001062	astrocyte	mereotopologically related to	anatomical entity
+CL:0000127	RO:0002323	UBERON:0010000	astrocyte	mereotopologically related to	multicellular anatomical structure
+CL:0000127	RO:0002324	BFO:0000002	astrocyte	developmentally related to	continuant
+CL:0000127	RO:0002324	BFO:0000004	astrocyte	developmentally related to	independent continuant
+CL:0000127	RO:0002324	BFO:0000040	astrocyte	developmentally related to	material entity
+CL:0000127	RO:0002324	CARO:0000000	astrocyte	developmentally related to	anatomical entity
+CL:0000127	RO:0002324	CARO:0030000	astrocyte	developmentally related to	biological entity
+CL:0000127	RO:0002324	CL:0000000	astrocyte	developmentally related to	cell
+CL:0000127	RO:0002324	CL:0000003	astrocyte	developmentally related to	native cell
+CL:0000127	RO:0002324	CL:0000030	astrocyte	developmentally related to	glioblast
+CL:0000127	RO:0002324	CL:0000034	astrocyte	developmentally related to	stem cell
+CL:0000127	RO:0002324	CL:0000048	astrocyte	developmentally related to	multi fate stem cell
+CL:0000127	RO:0002324	CL:0000055	astrocyte	developmentally related to	non-terminally differentiated cell
+CL:0000127	RO:0002324	CL:0000095	astrocyte	developmentally related to	neuron associated cell
+CL:0000127	RO:0002324	CL:0000123	astrocyte	developmentally related to	neuron associated cell (sensu Vertebrata)
+CL:0000127	RO:0002324	CL:0000133	astrocyte	developmentally related to	neurectodermal cell
+CL:0000127	RO:0002324	CL:0000219	astrocyte	developmentally related to	motile cell
+CL:0000127	RO:0002324	CL:0000221	astrocyte	developmentally related to	ectodermal cell
+CL:0000127	RO:0002324	CL:0000255	astrocyte	developmentally related to	eukaryotic cell
+CL:0000127	RO:0002324	CL:0000333	astrocyte	developmentally related to	migratory neural crest cell
+CL:0000127	RO:0002324	CL:0000339	astrocyte	developmentally related to	glioblast (sensu Vertebrata)
+CL:0000127	RO:0002324	CL:0000548	astrocyte	developmentally related to	animal cell
+CL:0000127	RO:0002324	CL:0002319	astrocyte	developmentally related to	neural cell
+CL:0000127	RO:0002324	CL:0002321	astrocyte	developmentally related to	embryonic cell (metazoa)
+CL:0000127	RO:0002324	CL:0002371	astrocyte	developmentally related to	somatic cell
+CL:0000127	RO:0002324	CL:0007004	astrocyte	developmentally related to	premigratory neural crest cell
+CL:0000127	RO:0002324	CL:0011012	astrocyte	developmentally related to	neural crest cell
+CL:0000127	RO:0002324	CL:0011026	astrocyte	developmentally related to	progenitor cell
+CL:0000127	RO:0002324	CL:0011115	astrocyte	developmentally related to	precursor cell
+CL:0000127	RO:0002328	BFO:0000003	astrocyte	functionally related to	occurrent
+CL:0000127	RO:0002328	BFO:0000015	astrocyte	functionally related to	process
+CL:0000127	RO:0002328	GO:0003008	astrocyte	functionally related to	system process
+CL:0000127	RO:0002328	GO:0008150	astrocyte	functionally related to	biological_process
+CL:0000127	RO:0002328	GO:0032501	astrocyte	functionally related to	multicellular organismal process
+CL:0000127	RO:0002328	GO:0050877	astrocyte	functionally related to	nervous system process
+CL:0000127	RO:0002329	BFO:0000003	astrocyte	part of structure that is capable of	occurrent
+CL:0000127	RO:0002329	BFO:0000015	astrocyte	part of structure that is capable of	process
+CL:0000127	RO:0002329	GO:0003008	astrocyte	part of structure that is capable of	system process
+CL:0000127	RO:0002329	GO:0008150	astrocyte	part of structure that is capable of	biological_process
+CL:0000127	RO:0002329	GO:0032501	astrocyte	part of structure that is capable of	multicellular organismal process
+CL:0000127	RO:0002329	GO:0050877	astrocyte	part of structure that is capable of	nervous system process
+CL:0000127	RO:0002487	BFO:0000003	astrocyte	relation between physical entity and a process or stage	occurrent
+CL:0000127	RO:0002487	BFO:0000015	astrocyte	relation between physical entity and a process or stage	process
+CL:0000127	RO:0002487	GO:0001838	astrocyte	relation between physical entity and a process or stage	embryonic epithelial tube formation
+CL:0000127	RO:0002487	GO:0001841	astrocyte	relation between physical entity and a process or stage	neural tube formation
+CL:0000127	RO:0002487	GO:0002009	astrocyte	relation between physical entity and a process or stage	morphogenesis of an epithelium
+CL:0000127	RO:0002487	GO:0007275	astrocyte	relation between physical entity and a process or stage	multicellular organism development
+CL:0000127	RO:0002487	GO:0007369	astrocyte	relation between physical entity and a process or stage	gastrulation
+CL:0000127	RO:0002487	GO:0007399	astrocyte	relation between physical entity and a process or stage	nervous system development
+CL:0000127	RO:0002487	GO:0008150	astrocyte	relation between physical entity and a process or stage	biological_process
+CL:0000127	RO:0002487	GO:0009653	astrocyte	relation between physical entity and a process or stage	anatomical structure morphogenesis
+CL:0000127	RO:0002487	GO:0009790	astrocyte	relation between physical entity and a process or stage	embryo development
+CL:0000127	RO:0002487	GO:0009791	astrocyte	relation between physical entity and a process or stage	post-embryonic development
+CL:0000127	RO:0002487	GO:0009792	astrocyte	relation between physical entity and a process or stage	embryo development ending in birth or egg hatching
+CL:0000127	RO:0002487	GO:0009888	astrocyte	relation between physical entity and a process or stage	tissue development
+CL:0000127	RO:0002487	GO:0009987	astrocyte	relation between physical entity and a process or stage	cellular process
+CL:0000127	RO:0002487	GO:0016331	astrocyte	relation between physical entity and a process or stage	morphogenesis of embryonic epithelium
+CL:0000127	RO:0002487	GO:0021915	astrocyte	relation between physical entity and a process or stage	neural tube development
+CL:0000127	RO:0002487	GO:0032501	astrocyte	relation between physical entity and a process or stage	multicellular organismal process
+CL:0000127	RO:0002487	GO:0032502	astrocyte	relation between physical entity and a process or stage	developmental process
+CL:0000127	RO:0002487	GO:0035148	astrocyte	relation between physical entity and a process or stage	tube formation
+CL:0000127	RO:0002487	GO:0035239	astrocyte	relation between physical entity and a process or stage	tube morphogenesis
+CL:0000127	RO:0002487	GO:0035295	astrocyte	relation between physical entity and a process or stage	tube development
+CL:0000127	RO:0002487	GO:0040016	astrocyte	relation between physical entity and a process or stage	embryonic cleavage
+CL:0000127	RO:0002487	GO:0043009	astrocyte	relation between physical entity and a process or stage	chordate embryonic development
+CL:0000127	RO:0002487	GO:0048513	astrocyte	relation between physical entity and a process or stage	animal organ development
+CL:0000127	RO:0002487	GO:0048598	astrocyte	relation between physical entity and a process or stage	embryonic morphogenesis
+CL:0000127	RO:0002487	GO:0048646	astrocyte	relation between physical entity and a process or stage	anatomical structure formation involved in morphogenesis
+CL:0000127	RO:0002487	GO:0048729	astrocyte	relation between physical entity and a process or stage	tissue morphogenesis
+CL:0000127	RO:0002487	GO:0048731	astrocyte	relation between physical entity and a process or stage	system development
+CL:0000127	RO:0002487	GO:0048856	astrocyte	relation between physical entity and a process or stage	anatomical structure development
+CL:0000127	RO:0002487	GO:0051301	astrocyte	relation between physical entity and a process or stage	cell division
+CL:0000127	RO:0002487	GO:0060429	astrocyte	relation between physical entity and a process or stage	epithelium development
+CL:0000127	RO:0002487	GO:0060562	astrocyte	relation between physical entity and a process or stage	epithelial tube morphogenesis
+CL:0000127	RO:0002487	GO:0072175	astrocyte	relation between physical entity and a process or stage	epithelial tube formation
+CL:0000127	RO:0002487	UBERON:0000000	astrocyte	relation between physical entity and a process or stage	processual entity
+CL:0000127	RO:0002487	UBERON:0000066	astrocyte	relation between physical entity and a process or stage	fully formed stage
+CL:0000127	RO:0002487	UBERON:0000068	astrocyte	relation between physical entity and a process or stage	embryo stage
+CL:0000127	RO:0002487	UBERON:0000071	astrocyte	relation between physical entity and a process or stage	death stage
+CL:0000127	RO:0002487	UBERON:0000092	astrocyte	relation between physical entity and a process or stage	post-embryonic stage
+CL:0000127	RO:0002487	UBERON:0000104	astrocyte	relation between physical entity and a process or stage	life cycle
+CL:0000127	RO:0002487	UBERON:0000105	astrocyte	relation between physical entity and a process or stage	life cycle stage
+CL:0000127	RO:0002487	UBERON:0000106	astrocyte	relation between physical entity and a process or stage	zygote stage
+CL:0000127	RO:0002487	UBERON:0000107	astrocyte	relation between physical entity and a process or stage	cleavage stage
+CL:0000127	RO:0002487	UBERON:0000108	astrocyte	relation between physical entity and a process or stage	blastula stage
+CL:0000127	RO:0002487	UBERON:0000109	astrocyte	relation between physical entity and a process or stage	gastrula stage
+CL:0000127	RO:0002487	UBERON:0000110	astrocyte	relation between physical entity and a process or stage	neurula stage
+CL:0000127	RO:0002487	UBERON:0000111	astrocyte	relation between physical entity and a process or stage	organogenesis stage
+CL:0000127	RO:0002496	BFO:0000003	astrocyte	existence starts during or after	occurrent
+CL:0000127	RO:0002496	BFO:0000015	astrocyte	existence starts during or after	process
+CL:0000127	RO:0002496	GO:0001838	astrocyte	existence starts during or after	embryonic epithelial tube formation
+CL:0000127	RO:0002496	GO:0001841	astrocyte	existence starts during or after	neural tube formation
+CL:0000127	RO:0002496	GO:0002009	astrocyte	existence starts during or after	morphogenesis of an epithelium
+CL:0000127	RO:0002496	GO:0007275	astrocyte	existence starts during or after	multicellular organism development
+CL:0000127	RO:0002496	GO:0007369	astrocyte	existence starts during or after	gastrulation
+CL:0000127	RO:0002496	GO:0007399	astrocyte	existence starts during or after	nervous system development
+CL:0000127	RO:0002496	GO:0008150	astrocyte	existence starts during or after	biological_process
+CL:0000127	RO:0002496	GO:0009653	astrocyte	existence starts during or after	anatomical structure morphogenesis
+CL:0000127	RO:0002496	GO:0009790	astrocyte	existence starts during or after	embryo development
+CL:0000127	RO:0002496	GO:0009792	astrocyte	existence starts during or after	embryo development ending in birth or egg hatching
+CL:0000127	RO:0002496	GO:0009888	astrocyte	existence starts during or after	tissue development
+CL:0000127	RO:0002496	GO:0009987	astrocyte	existence starts during or after	cellular process
+CL:0000127	RO:0002496	GO:0016331	astrocyte	existence starts during or after	morphogenesis of embryonic epithelium
+CL:0000127	RO:0002496	GO:0021915	astrocyte	existence starts during or after	neural tube development
+CL:0000127	RO:0002496	GO:0032501	astrocyte	existence starts during or after	multicellular organismal process
+CL:0000127	RO:0002496	GO:0032502	astrocyte	existence starts during or after	developmental process
+CL:0000127	RO:0002496	GO:0035148	astrocyte	existence starts during or after	tube formation
+CL:0000127	RO:0002496	GO:0035239	astrocyte	existence starts during or after	tube morphogenesis
+CL:0000127	RO:0002496	GO:0035295	astrocyte	existence starts during or after	tube development
+CL:0000127	RO:0002496	GO:0040016	astrocyte	existence starts during or after	embryonic cleavage
+CL:0000127	RO:0002496	GO:0043009	astrocyte	existence starts during or after	chordate embryonic development
+CL:0000127	RO:0002496	GO:0048513	astrocyte	existence starts during or after	animal organ development
+CL:0000127	RO:0002496	GO:0048598	astrocyte	existence starts during or after	embryonic morphogenesis
+CL:0000127	RO:0002496	GO:0048646	astrocyte	existence starts during or after	anatomical structure formation involved in morphogenesis
+CL:0000127	RO:0002496	GO:0048729	astrocyte	existence starts during or after	tissue morphogenesis
+CL:0000127	RO:0002496	GO:0048731	astrocyte	existence starts during or after	system development
+CL:0000127	RO:0002496	GO:0048856	astrocyte	existence starts during or after	anatomical structure development
+CL:0000127	RO:0002496	GO:0051301	astrocyte	existence starts during or after	cell division
+CL:0000127	RO:0002496	GO:0060429	astrocyte	existence starts during or after	epithelium development
+CL:0000127	RO:0002496	GO:0060562	astrocyte	existence starts during or after	epithelial tube morphogenesis
+CL:0000127	RO:0002496	GO:0072175	astrocyte	existence starts during or after	epithelial tube formation
+CL:0000127	RO:0002496	UBERON:0000000	astrocyte	existence starts during or after	processual entity
+CL:0000127	RO:0002496	UBERON:0000068	astrocyte	existence starts during or after	embryo stage
+CL:0000127	RO:0002496	UBERON:0000104	astrocyte	existence starts during or after	life cycle
+CL:0000127	RO:0002496	UBERON:0000105	astrocyte	existence starts during or after	life cycle stage
+CL:0000127	RO:0002496	UBERON:0000106	astrocyte	existence starts during or after	zygote stage
+CL:0000127	RO:0002496	UBERON:0000107	astrocyte	existence starts during or after	cleavage stage
+CL:0000127	RO:0002496	UBERON:0000108	astrocyte	existence starts during or after	blastula stage
+CL:0000127	RO:0002496	UBERON:0000109	astrocyte	existence starts during or after	gastrula stage
+CL:0000127	RO:0002496	UBERON:0000110	astrocyte	existence starts during or after	neurula stage
+CL:0000127	RO:0002496	UBERON:0000111	astrocyte	existence starts during or after	organogenesis stage
+CL:0000127	RO:0002497	BFO:0000003	astrocyte	existence ends during or before	occurrent
+CL:0000127	RO:0002497	BFO:0000015	astrocyte	existence ends during or before	process
+CL:0000127	RO:0002497	GO:0007275	astrocyte	existence ends during or before	multicellular organism development
+CL:0000127	RO:0002497	GO:0008150	astrocyte	existence ends during or before	biological_process
+CL:0000127	RO:0002497	GO:0009791	astrocyte	existence ends during or before	post-embryonic development
+CL:0000127	RO:0002497	GO:0032501	astrocyte	existence ends during or before	multicellular organismal process
+CL:0000127	RO:0002497	GO:0032502	astrocyte	existence ends during or before	developmental process
+CL:0000127	RO:0002497	GO:0048856	astrocyte	existence ends during or before	anatomical structure development
+CL:0000127	RO:0002497	UBERON:0000000	astrocyte	existence ends during or before	processual entity
+CL:0000127	RO:0002497	UBERON:0000066	astrocyte	existence ends during or before	fully formed stage
+CL:0000127	RO:0002497	UBERON:0000071	astrocyte	existence ends during or before	death stage
+CL:0000127	RO:0002497	UBERON:0000092	astrocyte	existence ends during or before	post-embryonic stage
+CL:0000127	RO:0002497	UBERON:0000104	astrocyte	existence ends during or before	life cycle
+CL:0000127	RO:0002497	UBERON:0000105	astrocyte	existence ends during or before	life cycle stage
+CL:0000127	rdfs:subClassOf	BFO:0000002	astrocyte	None	continuant
+CL:0000127	rdfs:subClassOf	BFO:0000004	astrocyte	None	independent continuant
+CL:0000127	rdfs:subClassOf	CARO:0000000	astrocyte	None	anatomical entity
+CL:0000127	rdfs:subClassOf	CARO:0030000	astrocyte	None	biological entity
+CL:0000127	rdfs:subClassOf	CL:0000000	astrocyte	None	cell
+CL:0000127	rdfs:subClassOf	CL:0000003	astrocyte	None	native cell
+CL:0000127	rdfs:subClassOf	CL:0000095	astrocyte	None	neuron associated cell
+CL:0000127	rdfs:subClassOf	CL:0000125	astrocyte	None	glial cell
+CL:0000127	rdfs:subClassOf	CL:0000126	astrocyte	None	macroglial cell
+CL:0000127	rdfs:subClassOf	CL:0000127	astrocyte	None	astrocyte
+CL:0000127	rdfs:subClassOf	CL:0000255	astrocyte	None	eukaryotic cell
+CL:0000127	rdfs:subClassOf	CL:0000548	astrocyte	None	animal cell
+CL:0000127	rdfs:subClassOf	CL:0002319	astrocyte	None	neural cell
+CL:0000127	rdfs:subClassOf	CL:0002371	astrocyte	None	somatic cell
