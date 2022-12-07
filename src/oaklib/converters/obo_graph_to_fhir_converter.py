@@ -93,7 +93,11 @@ class OboGraphToFHIRConverter(DataModelConverter):
     """
 
     def dump(
-        self, source: GraphDocument, target: str = None, include_all_predicates: bool = True, **kwargs
+        self,
+        source: GraphDocument,
+        target: str = None,
+        include_all_predicates: bool = True,
+        **kwargs,
     ) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem.
@@ -118,7 +122,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         source: GraphDocument,
         target: CodeSystem = None,
         include_all_predicates: bool = True,
-        **kwargs
+        **kwargs,
     ) -> CodeSystem:
         """
         Convert an OBO Graph Document to a FHIR CodingSystem
@@ -176,7 +180,9 @@ class OboGraphToFHIRConverter(DataModelConverter):
             self._convert_meta(source, concept)
         for e in index.get(source.id, []):
             obj = self.code(e.obj)
-            logging.debug(f"Converting edge {e.pred} {e.obj} // include_all={include_all_predicates}")
+            logging.debug(
+                f"Converting edge {e.pred} {e.obj} // include_all={include_all_predicates}"
+            )
             if include_all_predicates or e.pred in DIRECT_PREDICATE_MAP:
                 concept.property.append(
                     ConceptProperty(code=DIRECT_PREDICATE_MAP.get(e.pred, e.pred), valueCode=obj)

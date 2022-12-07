@@ -19,7 +19,10 @@ class LogicalDefinitionFlattener(DataModelConverter):
         raise NotImplementedError
 
     def convert(
-        self, source: Union[LogicalDefinitionAxiom, Graph, GraphDocument], target: Any = None, **kwargs
+        self,
+        source: Union[LogicalDefinitionAxiom, Graph, GraphDocument],
+        target: Any = None,
+        **kwargs,
     ) -> Union[dict, List[dict]]:
         """
         Convert a logical definition axiom or a graph including logical definition axioms.
