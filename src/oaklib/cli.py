@@ -1849,8 +1849,12 @@ def descendants(terms, predicates, display: str, output_type: str, output: TextI
 @main.command()
 @click.argument("terms", nargs=-1)
 @click.option("-o", "--output")
+@click.option("--include-all-predicates/--no-include-all-predicates",
+              default=False,
+              show_default=True,
+              help="For formats that export only IS_A by default, this will include all possible predicates")
 @output_type_option
-def dump(terms, output, output_type: str):
+def dump(terms, output, output_type: str, **kwargs):
     """
     Exports (dumps) the entire contents of an ontology.
 
@@ -1872,7 +1876,7 @@ def dump(terms, output, output_type: str):
     impl = settings.impl
     if isinstance(impl, BasicOntologyInterface):
         logging.info(f"Out={output} syntax={output_type}")
-        impl.dump(output, syntax=output_type)
+        impl.dump(output, syntax=output_type, **kwargs)
     else:
         raise NotImplementedError
 

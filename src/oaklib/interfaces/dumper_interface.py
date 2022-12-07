@@ -1,3 +1,4 @@
+
 from abc import ABC
 from typing import Any, Dict
 
@@ -27,7 +28,7 @@ class DumperInterface(BasicOntologyInterface, ABC):
     An OntologyInterface that is capable of exporting entire contents.
     """
 
-    def dump(self, path: str = None, syntax: str = None):
+    def dump(self, path: str = None, syntax: str = None, **kwargs):
         """
         Exports current contents.
 
@@ -53,4 +54,5 @@ class DumperInterface(BasicOntologyInterface, ABC):
         else:
             converter = OBOGRAPH_CONVERTERS[syntax]()
             converter.curie_converter = self.converter
-            converter.dump(ogdoc, target=path)
+            kwargs = {k: v for k, v in kwargs.items() if v is not None}
+            converter.dump(ogdoc, target=path, **kwargs)

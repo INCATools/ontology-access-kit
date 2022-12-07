@@ -372,7 +372,7 @@ class OboGraphImplementation(
             for x in meta.xrefs:
                 yield HAS_DBXREF, x.val
 
-    def dump(self, path: str = None, syntax: str = "json"):
+    def dump(self, path: str = None, syntax: str = "json", **kwargs):
         logging.info(f"Dumping graph to {path} syntax: {syntax}")
         if syntax == "json" or syntax == "obojson":
             if path is None:
@@ -380,7 +380,7 @@ class OboGraphImplementation(
             else:
                 json_dumper.dump(self.obograph_document, to_file=str(path))
         else:
-            super().dump(path, syntax)
+            super().dump(path, syntax, **kwargs)
 
     def save(
         self,

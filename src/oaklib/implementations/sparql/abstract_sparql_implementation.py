@@ -590,7 +590,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         else:
             return None
 
-    def dump(self, path: str = None, syntax: str = "turtle"):
+    def dump(self, path: str = None, syntax: str = "turtle", **kwargs):
         if syntax in ["fhirjson", "obo", "obojson"]:
             return super().dump(path, syntax)
         if self.named_graph is None and not self.graph:

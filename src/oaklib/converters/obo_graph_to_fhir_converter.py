@@ -92,21 +92,20 @@ class OboGraphToFHIRConverter(DataModelConverter):
 
     """
 
-    # TODO: `include_all_predicates` may be temporary. Need in the CLI and possibly elsewhere. I'm also doing this a
-    #  pure way, passing it to dump and then further down, rather than an instance property. - Joe 2022/12/01
     def dump(
-        self, source: GraphDocument, target: str = None, include_all_predicates: bool = True
+        self, source: GraphDocument, target: str = None, include_all_predicates: bool = True, **kwargs
     ) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem.
 
+        By default, only IS_A predicates are converted to ConceptProperties. To override this,
+        specify ``include_all_predicates=True``.
+
         :param source:
         :param target:
-        :param include_all_predicates: Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the
-          `include_all_predicates` param is True. Otherwise, will only convert edges if the predicate is in the
-          `DIRECT_PREDICATE_MAP`.
+        :param include_all_predicates: include the maximal amount of predicates
         """
-        cs = self.convert(source, include_all_predicates=include_all_predicates)
+        cs = self.convert(source, include_all_predicates=include_all_predicates, **kwargs)
         json_str = json_dumper.dumps(cs)
         if target is None:
             print(json_str)
@@ -119,12 +118,14 @@ class OboGraphToFHIRConverter(DataModelConverter):
         source: GraphDocument,
         target: CodeSystem = None,
         include_all_predicates: bool = True,
+        **kwargs
     ) -> CodeSystem:
         """
         Convert an OBO Graph Document to a FHIR CodingSystem
 
         :param source:
         :param target: if None, one will be created
+        :param include_all_predicates: include the maximal amount of predicates
         :return:
         """
         if target is None:
@@ -175,6 +176,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
             self._convert_meta(source, concept)
         for e in index.get(source.id, []):
             obj = self.code(e.obj)
+            logging.debug(f"Converting edge {e.pred} {e.obj} // include_all={include_all_predicates}")
             if include_all_predicates or e.pred in DIRECT_PREDICATE_MAP:
                 concept.property.append(
                     ConceptProperty(code=DIRECT_PREDICATE_MAP.get(e.pred, e.pred), valueCode=obj)

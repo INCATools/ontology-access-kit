@@ -45,7 +45,7 @@ SCOPE_MAP = {
 class OboGraphToRdfOwlConverter(DataModelConverter):
     """Converts from OboGraph to OWL layered on RDF."""
 
-    def dump(self, source: GraphDocument, target: str = None) -> None:
+    def dump(self, source: GraphDocument, target: str = None, **kwargs) -> None:
         """
         Dump an OBO Graph Document to a FHIR CodeSystem
 
@@ -59,7 +59,7 @@ class OboGraphToRdfOwlConverter(DataModelConverter):
         else:
             g.serialize(format="turtle", destination=target)
 
-    def convert(self, source: GraphDocument, target: rdflib.Graph = None) -> rdflib.Graph:
+    def convert(self, source: GraphDocument, target: rdflib.Graph = None, **kwargs) -> rdflib.Graph:
         """
         Convert an OBO GraphDocument.
 

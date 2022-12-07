@@ -548,7 +548,7 @@ class ProntoImplementation(
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
 
-    def dump(self, path: str = None, syntax: str = "obo"):
+    def dump(self, path: str = None, syntax: str = "obo", **kwargs):
         if syntax is None:
             syntax = "obo"
         if syntax in ["obo", "json"]:
@@ -562,7 +562,7 @@ class ProntoImplementation(
                 else:
                     self.wrapped_ontology.dump(path, format=syntax)
         else:
-            super().dump(path, syntax)
+            super().dump(path, syntax, **kwargs)
 
     def save(
         self,
