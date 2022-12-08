@@ -56,7 +56,7 @@ class TranslatorImplementation(
             label = None
             for x in data["equivalent_identifiers"]:
                 if x["identifier"] == curies:
-                    label = x["label"]
+                    label = x.get("label", None)
             for x in data["equivalent_identifiers"]:
                 pred = (
                     SKOS_EXACT_MATCH

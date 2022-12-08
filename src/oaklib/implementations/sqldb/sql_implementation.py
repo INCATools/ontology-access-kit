@@ -1779,7 +1779,7 @@ class SqlImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: SummaryStatisticsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    def branch_summary_statistics(
+    def branch_summary_statistics_via_sql(
         self,
         branch_name: str = None,
         branch_roots: List[CURIE] = None,
