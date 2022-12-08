@@ -15,11 +15,7 @@ from sssom.parsers import parse_sssom_table, to_mapping_set_document
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import main
 from oaklib.datamodels import fhir, obograph
-from oaklib.datamodels.vocabulary import (
-    IN_TAXON,
-    SKOS_CLOSE_MATCH,
-    SKOS_EXACT_MATCH,
-)
+from oaklib.datamodels.vocabulary import IN_TAXON, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
