@@ -1,6 +1,6 @@
 import logging
 from abc import ABC
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Union
 
 from deprecation import deprecated
 from sssom_schema import Mapping
@@ -53,35 +53,38 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         return self.sssom_mappings_by_source(subject_or_object_source)
 
     @deprecated("Use sssom_mappings()")
-    def get_sssom_mappings_by_curie(self, curie: CURIE) -> Iterable[Mapping]:
+    def get_sssom_mappings_by_curie(self, *args, **kwargs) -> Iterable[Mapping]:
         """
         All SSSOM mappings about a curie
 
         MUST yield mappings where EITHER subject OR object equals the CURIE
 
-        :param curie:
+        :param kwargs:
         :return:
         """
-        raise NotImplementedError
+        return self.sssom_mappings(*args, **kwargs)
 
     def sssom_mappings(
-        self, curie: Optional[CURIE] = None, source: Optional[str] = None
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
     ) -> Iterable[Mapping]:
         """
         returns all sssom mappings matching filter conditions
 
-        :param curie:
+        :param curies:
         :param source:
         :return:
         """
         logging.info("Getting all mappings")
-        if curie:
-            it = [curie]
+        if curies is not None:
+            if isinstance(curies, CURIE):
+                it = [curies]
+            else:
+                it = curies
         else:
             it = self.entities()
-        for curie in it:
-            logging.debug(f"Getting mappings for {curie}")
-            for m in self.get_sssom_mappings_by_curie(curie):
+        for curies in it:
+            logging.debug(f"Getting mappings for {curies}")
+            for m in self.get_sssom_mappings_by_curie(curies):
                 if source:
                     if m.object_source != source and m.subject_source != source:
                         continue
