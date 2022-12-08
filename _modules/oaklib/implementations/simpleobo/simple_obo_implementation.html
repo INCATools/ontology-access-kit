@@ -140,6 +140,7 @@
     <span class="n">TAG_DATA_VERSION</span><span class="p">,</span>
     <span class="n">TAG_DEFINITION</span><span class="p">,</span>
     <span class="n">TAG_EQUIVALENT_TO</span><span class="p">,</span>
+    <span class="n">TAG_ID_SPACE</span><span class="p">,</span>
     <span class="n">TAG_IS_A</span><span class="p">,</span>
     <span class="n">TAG_IS_OBSOLETE</span><span class="p">,</span>
     <span class="n">TAG_NAME</span><span class="p">,</span>
@@ -212,6 +213,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span> <span class="o">=</span> <span class="n">parse_obo_document</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">local_path</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span> <span class="o">=</span> <span class="n">OboDocument</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">expansion</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">pair_values</span><span class="p">(</span><span class="n">TAG_ID_SPACE</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">()[</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">expansion</span>
 
     <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource</span><span class="p">:</span> <span class="n">OntologyResource</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">resource</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
