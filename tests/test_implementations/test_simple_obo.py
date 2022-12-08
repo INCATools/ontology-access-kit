@@ -49,6 +49,20 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.oi = oi
         self.compliance_tester = ComplianceTester(self)
 
+    def test_custom_prefixes(self):
+        resource = OntologyResource(slug="alignment-test.obo", directory=INPUT_DIR, local=True)
+        oi = SimpleOboImplementation(resource)
+        cases = [
+            ("XX:1", "http://purl.obolibrary.org/obo/XX_1"),
+            (NUCLEUS, "http://purl.obolibrary.org/obo/GO_0005634"),
+            ("schema:Person", "http://schema.org/Person"),
+            ("FOO:1", None),
+        ]
+        for curie, iri in cases:
+            self.assertEqual(oi.curie_to_uri(curie), iri, f"in expand curie: {curie}")
+            if iri is not None:
+                self.assertEqual(oi.uri_to_curie(iri), curie, f"in contract iri: {iri}")
+
     def test_relationships_extra(self):
         oi = self.oi
         rels = oi.outgoing_relationship_map("GO:0005773")

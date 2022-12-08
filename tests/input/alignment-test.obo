@@ -1,0 +1,17 @@
+format-version: 1.4
+ontology: alignment-test
+idspace: XX http://purl.obolibrary.org/obo/XX_
+idspace: YY http://purl.obolibrary.org/obo/YY_
+idspace: ZZ http://purl.obolibrary.org/obo/ZZ_
+idspace: schema http://schema.org/
+
+[Term]
+id: XX:1
+name: nucleus
+
+[Term]
+id: XX:2
+name: protoplast
+
+[Term]
+id: SWEET:Role

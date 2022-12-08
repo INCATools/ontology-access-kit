@@ -37,6 +37,7 @@ STANZA_TYPEDEF = "Typedef"
 
 TAG = str
 TAG_ONTOLOGY = "ontology"
+TAG_ID_SPACE = "idspace"
 TAG_DATA_VERSION = "data-version"
 TAG_SUBSETDEF = "subsetdef"
 TAG_SYNONYMTYPEDEF = "synonymtypedef"

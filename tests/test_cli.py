@@ -10,11 +10,12 @@ import yaml
 from click.testing import CliRunner
 from kgcl_schema.datamodel.kgcl import NodeChange
 from linkml_runtime.loaders import json_loader
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib import get_implementation_from_shorthand
 from oaklib.cli import main
 from oaklib.datamodels import fhir, obograph
-from oaklib.datamodels.vocabulary import IN_TAXON
+from oaklib.datamodels.vocabulary import IN_TAXON, SKOS_CLOSE_MATCH, SKOS_EXACT_MATCH
 from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
@@ -35,6 +36,7 @@ from tests import (
 )
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
+TEST_SIMPLE_OBO = f'simpleobo:{INPUT_DIR / "go-nucleus.obo"}'
 TEST_OBOJSON = INPUT_DIR / "go-nucleus.json"
 TEST_OWL_RDF = INPUT_DIR / "go-nucleus.owl.ttl"
 TEST_OWL_OFN = INPUT_DIR / "go-nucleus.ofn"
@@ -559,6 +561,78 @@ class TestCommandLineInterface(unittest.TestCase):
             self.assertEqual("", err)
 
     # LEXICAL
+
+    def test_lexmatch(self):
+        """
+        Test lexical matching of two ontologies.
+
+        We cycle through all formats for the core test ontology (go-nucleus), and
+        align it against another ontology.
+
+        We test both directions (e.g. go-nucleus vs alignment-test, and vice versa).
+
+        The test alignment ontology includes a custom prefix (XX), to test the scenario
+        where we want to align an unregistered otology.
+
+        The output SSSOM is parsed to check all expected mappings are there
+        with expected predicates, and that the prefix map has the expected prefixes.
+        """
+        outfile = f"{OUTPUT_DIR}/matcher-test-cli.sssom.tsv"
+        nucleus_match = "XX:1"
+        intracellular_match = "XX:2"
+        OTHER_ONTOLOGY = f"{INPUT_DIR}/alignment-test.obo"
+        for input_arg in [TEST_SIMPLE_OBO, TEST_OBOJSON, TEST_OWL_RDF, TEST_ONT, TEST_DB]:
+            for reversed in [False, True]:
+                if reversed:
+                    args = [
+                        "-a",
+                        input_arg,
+                        "-i",
+                        OTHER_ONTOLOGY,
+                    ]
+                else:
+                    args = [
+                        "-i",
+                        input_arg,
+                        "-a",
+                        OTHER_ONTOLOGY,
+                    ]
+                result = self.runner.invoke(
+                    main,
+                    args
+                    + [
+                        "lexmatch",
+                        "-R",
+                        RULES_FILE,
+                        "-o",
+                        outfile,
+                    ],
+                )
+                err = result.stderr
+                self.assertEqual(0, result.exit_code)
+                with open(outfile) as stream:
+                    contents = "\n".join(stream.readlines())
+                    self.assertIn("skos:closeMatch", contents)
+                    self.assertIn("skos:exactMatch", contents)
+                    self.assertIn(nucleus_match, contents)
+                    self.assertIn(intracellular_match, contents)
+                msdf = parse_sssom_table(outfile)
+                msd = to_mapping_set_document(msdf)
+                self.assertEqual("http://purl.obolibrary.org/obo/XX_", msd.prefix_map["XX"])
+                cases = [
+                    (nucleus_match, NUCLEUS, SKOS_EXACT_MATCH),
+                    (intracellular_match, INTRACELLULAR, SKOS_CLOSE_MATCH),
+                    ("BFO:0000023", "CHEBI:50906", SKOS_EXACT_MATCH),
+                ]
+                for mapping in msd.mapping_set.mappings:
+                    tpl = (mapping.subject_id, mapping.object_id, mapping.predicate_id)
+                    tpl2 = (mapping.object_id, mapping.subject_id, mapping.predicate_id)
+                    if tpl in cases:
+                        cases.remove(tpl)
+                    elif tpl2 in cases:
+                        cases.remove(tpl2)
+                self.assertEqual(0, len(cases), f"Cases not found: {cases} for {input_arg}")
+                self.assertEqual("", err)
 
     def test_lexmatch_owl(self):
         outfile = f"{OUTPUT_DIR}/matcher-test-cli.owl.sssom.tsv"

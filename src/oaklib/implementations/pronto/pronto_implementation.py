@@ -159,6 +159,8 @@ class ProntoImplementation(
             else:
                 ontology = Ontology.from_obo_library(resource.slug, **kwargs)
             self.wrapped_ontology = ontology
+            for prefix, expansion in ontology.metadata.idspaces.items():
+                self.prefix_map()[prefix] = expansion[0]
 
     @classmethod
     @deprecated("old style")

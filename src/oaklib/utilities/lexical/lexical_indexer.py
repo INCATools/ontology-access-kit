@@ -207,6 +207,7 @@ def lexical_index_to_sssom(
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
+    ensure_strict_prefixes: bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
@@ -214,9 +215,11 @@ def lexical_index_to_sssom(
     :param oi: An ontology interface for making label lookups.
     :param lexical_index: An index over an ontology keyed by lexical unit.
     :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :param prefix_map: Prefix maps provided externally for mapping.
     :param subjects: An optional collection of entities, if specified, then only subjects in this set are reported
     :param objects: An optional collection of entities, if specified, then only objects in this set are reported
     :param symmetric: If true, then mappings in either direction are reported
+    :param ensure_strict_prefixes: If true, prefixes & mappings in SSSOM MappingSetDataFrame will be filtred.
     :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
@@ -265,7 +268,11 @@ def lexical_index_to_sssom(
     # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
-    msdf.clean_prefix_map()
+    num_mappings = len(msdf.df.index)
+    if ensure_strict_prefixes:
+        msdf.clean_prefix_map()
+        if len(msdf.df.index) < num_mappings:
+            raise ValueError("Mappings included prefixes that were not in the prefix map")
     return msdf
 
 
