@@ -3750,6 +3750,7 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms
         ruleset = load_mapping_rules(rules_file)
     else:
         ruleset = None
+    prefix_map = impl.prefix_map()
 
     # if exclude_tokens:
     #     token_exclusion_list = get_exclusion_token_list(exclude_tokens)
@@ -3784,7 +3785,9 @@ def lexmatch(output, recreate, rules_file, lexical_index_file, add_labels, terms
                 logging.info("Saving index")
                 save_lexical_index(ix, lexical_index_file)
         logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
-        msdf = lexical_index_to_sssom(impl, ix, ruleset=ruleset, subjects=subjects, objects=objects)
+        msdf = lexical_index_to_sssom(
+            impl, ix, ruleset=ruleset, subjects=subjects, objects=objects, prefix_map=prefix_map
+        )
         sssom_writers.write_table(msdf, output)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")

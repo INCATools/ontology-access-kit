@@ -590,6 +590,8 @@ class TestCommandLineInterface(unittest.TestCase):
         result = self.runner.invoke(
             main,
             [
+                "--prefix",
+                "x=http://example.org/x/",
                 "-i",
                 f"sqlite:{INPUT_DIR}/matcher-test.db",
                 "lexmatch",
