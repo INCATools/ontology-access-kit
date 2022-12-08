@@ -3700,7 +3700,9 @@ def set_apikey(endpoint, keyval):
 )
 @output_option
 @click.argument("terms", nargs=-1)
-def lexmatch(output, recreate, ensure_strict_prefixes, rules_file, lexical_index_file, add_labels, terms):
+def lexmatch(
+    output, recreate, ensure_strict_prefixes, rules_file, lexical_index_file, add_labels, terms
+):
     """
     Performs lexical matching between pairs of terms in one more more ontologies.
 
@@ -3792,7 +3794,13 @@ def lexmatch(output, recreate, ensure_strict_prefixes, rules_file, lexical_index
                 save_lexical_index(ix, lexical_index_file)
         logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
         msdf = lexical_index_to_sssom(
-            impl, ix, ruleset=ruleset, subjects=subjects, objects=objects, prefix_map=prefix_map, ensure_strict_prefixes=ensure_strict_prefixes
+            impl,
+            ix,
+            ruleset=ruleset,
+            subjects=subjects,
+            objects=objects,
+            prefix_map=prefix_map,
+            ensure_strict_prefixes=ensure_strict_prefixes,
         )
         sssom_writers.write_table(msdf, output)
     else:

@@ -207,7 +207,7 @@ def lexical_index_to_sssom(
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
-    ensure_strict_prefixes:bool = False,
+    ensure_strict_prefixes: bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
