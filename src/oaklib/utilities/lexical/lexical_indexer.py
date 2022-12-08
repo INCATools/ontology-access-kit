@@ -215,9 +215,11 @@ def lexical_index_to_sssom(
     :param oi: An ontology interface for making label lookups.
     :param lexical_index: An index over an ontology keyed by lexical unit.
     :param meta: Metadata object that contains the curie_map and metadata for the SSSOM maaping.
+    :param prefix_map: Prefix maps provided externally for mapping.
     :param subjects: An optional collection of entities, if specified, then only subjects in this set are reported
     :param objects: An optional collection of entities, if specified, then only objects in this set are reported
     :param symmetric: If true, then mappings in either direction are reported
+    :param ensure_strict_prefixes: If true, then prefixes and the mappings in the SSSOM MappingSetDataFrame will be filtred.
     :return: SSSOM MappingSetDataFrame object.
     """
     mappings = []
