@@ -254,8 +254,10 @@ def lexical_index_to_sssom(
 
     if meta is None:
         meta = get_default_metadata()
-
-    meta.prefix_map.update({k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()})
+    if prefix_map:
+        meta.prefix_map.update(
+            {k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()}
+        )
     mapping_set_id = meta.metadata[MAPPING_SET_ID]
     license = meta.metadata[LICENSE]
 
