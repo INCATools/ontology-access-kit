@@ -574,28 +574,37 @@ class ProntoImplementation(
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
+    def sssom_mappings(
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+    ) -> Iterable[sssom.Mapping]:
+        if isinstance(curies, CURIE):
+            curies = [curies]
+        else:
+            curies = list(curies)
         # mappings where curie is the subject:
-        t = self._entity(curie)
-        if t:
-            for x in t.xrefs:
-                yield sssom.Mapping(
-                    subject_id=curie,
-                    predicate_id=SKOS_CLOSE_MATCH,
-                    object_id=x.id,
-                    mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
-                )
+        for curie in curies:
+            t = self._entity(curie)
+            if t:
+                for x in t.xrefs:
+                    yield sssom.Mapping(
+                        subject_id=t.id,
+                        predicate_id=SKOS_CLOSE_MATCH,
+                        object_id=x.id,
+                        mapping_justification=sssom.EntityReference(
+                            SEMAPV.UnspecifiedMatching.value
+                        ),
+                    )
         # mappings where curie is the object:
         # TODO: use a cache to avoid re-calculating
         for e in self.entities():
             t = self._entity(e)
             if t:
                 for x in t.xrefs:
-                    if x.id == curie:
+                    if x.id in curies:
                         yield sssom.Mapping(
                             subject_id=e,
                             predicate_id=SKOS_CLOSE_MATCH,
-                            object_id=curie,
+                            object_id=x.id,
                             mapping_justification=sssom.EntityReference(
                                 SEMAPV.UnspecifiedMatching.value
                             ),

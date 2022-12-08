@@ -2831,11 +2831,11 @@ def mappings(terms, maps_to_source, autolabel: bool, output, output_type):
                     impl.inject_mapping_labels([mapping])
                 writer.emit(mapping)
         else:
-            for curie in query_terms_iterator(terms, impl):
-                for mapping in impl.get_sssom_mappings_by_curie(curie):
-                    if autolabel:
-                        impl.inject_mapping_labels([mapping])
-                    writer.emit(mapping)
+            curies = query_terms_iterator(terms, impl)
+            for mapping in impl.sssom_mappings(curies):
+                if autolabel:
+                    impl.inject_mapping_labels([mapping])
+                writer.emit(mapping)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 

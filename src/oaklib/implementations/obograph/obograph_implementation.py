@@ -38,7 +38,6 @@ from oaklib.interfaces.basic_ontology_interface import (
 )
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
-from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
@@ -64,7 +63,6 @@ class OboGraphImplementation(
     RdfInterface,
     OboGraphInterface,
     SearchInterface,
-    MappingProviderInterface,
     PatcherInterface,
     DumperInterface,
 ):
@@ -394,8 +392,10 @@ class OboGraphImplementation(
     # Implements: MappingsInterface
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
-        raise NotImplementedError
+    def sssom_mappings(
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+    ) -> Iterable[sssom.Mapping]:
+        raise NotImplementedError()
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: OboGraphInterface

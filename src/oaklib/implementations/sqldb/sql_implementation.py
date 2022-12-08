@@ -127,7 +127,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CATEGORY_CURIE, CURIE, SUBSET_CURIE
-from oaklib.utilities.basic_utils import get_curie_prefix, pairs_as_dict
+from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.identifier_utils import (
     string_as_base64_curie,
     synonym_type_code_from_curie,
@@ -140,6 +140,7 @@ __all__ = [
 ]
 
 from oaklib.utilities.iterator_utils import chunk
+from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
 
 
 def _is_blank(curie: CURIE) -> bool:
@@ -155,14 +156,6 @@ def _python_value(val: Any, datatype: CURIE = None) -> Any:
         return bool(val)
     else:
         return val
-
-
-def _mapping(m: Mapping):
-    # enhances a mapping with sources
-    # TODO: move to sssom utils
-    m.subject_source = get_curie_prefix(m.subject_id)
-    m.object_source = get_curie_prefix(m.object_id)
-    return m
 
 
 def get_range_xsd_type(sv: SchemaView, rng: str) -> Optional[URIorCURIE]:
@@ -1168,7 +1161,7 @@ class SqlImplementation(
                     predicate_id=row.predicate,
                     mapping_justification=SEMAPV.UnspecifiedMatching.value,
                 )
-                _mapping(mpg)
+                inject_mapping_sources(mpg)
                 if subject_or_object_source:
                     # TODO: consider moving to query for efficiency
                     if (
@@ -1181,35 +1174,42 @@ class SqlImplementation(
                 if self.strict:
                     raise ValueError(f"not a CURIE: {v}")
 
-    def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[Mapping]:
+    def sssom_mappings(
+        self, curies: Optional[Union[CURIE, Iterable[CURIE]]] = None, source: Optional[str] = None
+    ) -> Iterator[Mapping]:
+        if isinstance(curies, CURIE):
+            curies = [curies]
+        else:
+            curies = list(curies)
+        justification = str(SEMAPV.UnspecifiedMatching.value)
         predicates = tuple(ALL_MATCH_PREDICATES)
         base_query = self.session.query(Statements).filter(Statements.predicate.in_(predicates))
-        for row in base_query.filter(Statements.subject == curie):
+        for row in base_query.filter(Statements.subject.in_(curies)):
             mpg = Mapping(
-                subject_id=curie,
+                subject_id=row.subject,
                 object_id=row.value if row.value is not None else row.object,
                 predicate_id=row.predicate,
-                mapping_justification=SEMAPV.UnspecifiedMatching.value,
+                mapping_justification=justification,
             )
-            yield _mapping(mpg)
+            yield inject_mapping_sources(mpg)
         # xrefs are stored as literals
-        for row in base_query.filter(Statements.value == curie):
+        for row in base_query.filter(Statements.value.in_(curies)):
             mpg = Mapping(
                 subject_id=row.subject,
-                object_id=curie,
+                object_id=row.value,
                 predicate_id=row.predicate,
-                mapping_justification=SEMAPV.UnspecifiedMatching.value,
+                mapping_justification=justification,
             )
-            yield _mapping(mpg)
+            yield inject_mapping_sources(mpg)
         # skos mappings are stored as objects
-        for row in base_query.filter(Statements.object == curie):
+        for row in base_query.filter(Statements.object.in_(curies)):
             mpg = Mapping(
                 subject_id=row.subject,
-                object_id=curie,
+                object_id=row.object,
                 predicate_id=row.predicate,
-                mapping_justification=SEMAPV.UnspecifiedMatching.value,
+                mapping_justification=justification,
             )
-            yield _mapping(mpg)
+            yield inject_mapping_sources(mpg)
 
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     # Implements: ValidatorInterface

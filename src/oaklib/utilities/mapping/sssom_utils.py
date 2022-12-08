@@ -9,6 +9,7 @@ from sssom_schema import Mapping, MappingSet
 
 from oaklib.io.streaming_writer import StreamingWriter
 from oaklib.types import CURIE
+from oaklib.utilities.basic_utils import get_curie_prefix
 
 
 def create_sssom_mapping(
@@ -48,6 +49,15 @@ def mappings_to_pairs(mappings: Iterable[Mapping]) -> List[Tuple[CURIE, CURIE]]:
     :return:
     """
     return list(set([(m.subject_id, m.object_id) for m in mappings]))
+
+
+def inject_mapping_sources(m: Mapping) -> Mapping:
+    """Auto-adds subject_source and object_source if they are not present"""
+    if not m.subject_source:
+        m.subject_source = get_curie_prefix(m.subject_id)
+    if not m.object_source:
+        m.object_source = get_curie_prefix(m.object_id)
+    return m
 
 
 @dataclass
