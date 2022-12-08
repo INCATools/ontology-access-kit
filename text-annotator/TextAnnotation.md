@@ -54,9 +54,9 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [info](info.md) | 0..1 <br/> NONE |  | direct |
 | [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
 | [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
-| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | [HasSpan](HasSpan.md) |
-| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | [HasSpan](HasSpan.md) |
 | [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | [HasSpan](HasSpan.md) |
+| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | [HasSpan](HasSpan.md) |
 
 
 
