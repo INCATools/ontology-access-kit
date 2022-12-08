@@ -1870,6 +1870,11 @@ def dump(terms, output, output_type: str, **kwargs):
 
     Currently each implementation only supports a subset of formats.
 
+    Some dumpers accept additional options. For example, dumping
+    to fhirjson accepts --include-all-predicates, which changes
+    the default behavior from only exporting IS_A to all mappable
+    predicates.
+
     The dump command is also blocked for remote endpoints such as Ubergraph,
     to avoid killer queries.
     """
