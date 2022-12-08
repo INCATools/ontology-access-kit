@@ -72,8 +72,6 @@ class TranslatorImplementation(
                     predicate_id=pred,
                     object_id=x["identifier"],
                     object_label=x.get("label", None),
-                    subject_source="translator",
-                    object_source="translator",
                     mapping_justification=str(SEMAPV.ManualMappingCuration.value),
                 )
                 inject_mapping_sources(m)
