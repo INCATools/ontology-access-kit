@@ -3694,7 +3694,7 @@ def set_apikey(endpoint, keyval):
 )
 @click.option(
     "--ensure-strict-prefixes/--no-ensure-strict-prefixes",
-    default=False,
+    default=True,
     show_default=True,
     help="Clean prefix map and mappings before generating an output.",
 )

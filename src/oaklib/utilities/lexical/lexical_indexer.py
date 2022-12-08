@@ -268,8 +268,11 @@ def lexical_index_to_sssom(
     # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
+    num_mappings = len(msdf.df.index)
     if ensure_strict_prefixes:
         msdf.clean_prefix_map()
+        if len(msdf.df.index) < num_mappings:
+            raise ValueError("Mappings included prefixes that were not in the prefix map")
     return msdf
 
 

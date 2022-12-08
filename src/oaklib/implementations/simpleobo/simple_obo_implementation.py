@@ -57,6 +57,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_DATA_VERSION,
     TAG_DEFINITION,
     TAG_EQUIVALENT_TO,
+    TAG_ID_SPACE,
     TAG_IS_A,
     TAG_IS_OBSOLETE,
     TAG_NAME,
@@ -129,6 +130,8 @@ class SimpleOboImplementation(
                 self.obo_document = parse_obo_document(resource.local_path)
             else:
                 self.obo_document = OboDocument()
+        for prefix, expansion in self.obo_document.header.pair_values(TAG_ID_SPACE):
+            self.prefix_map()[prefix] = expansion
 
     def store(self, resource: OntologyResource = None) -> None:
         if resource is None:

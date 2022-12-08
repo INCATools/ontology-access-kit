@@ -19,6 +19,8 @@ subsetdef: goslim_yeast "Yeast GO slim"
 subsetdef: prokaryote_subset "GO subset for prokaryotes"
 ontology: go
 data-version: releases/2020-01-01/
+idspace: NCBITaxon_Union http://purl.obolibrary.org/obo/NCBITaxon_Union_
+idspace: SWEET http://identifiers.org/sweet/
 
 [Term]
 id: BFO:0000002
