@@ -203,6 +203,7 @@ def lexical_index_to_sssom(
     lexical_index: LexicalIndex,
     ruleset: MappingRuleCollection = None,
     meta: Metadata = None,
+    prefix_map: dict = None,
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
@@ -253,7 +254,10 @@ def lexical_index_to_sssom(
 
     if meta is None:
         meta = get_default_metadata()
-
+    if prefix_map:
+        meta.prefix_map.update(
+            {k: v for k, v in prefix_map.items() if k not in meta.prefix_map.keys()}
+        )
     mapping_set_id = meta.metadata[MAPPING_SET_ID]
     license = meta.metadata[LICENSE]
 
@@ -261,9 +265,7 @@ def lexical_index_to_sssom(
     # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
-    # TODO uncomment below.
-    # TODO Right now it erases the entire msdf.df in the absence of CURIEs in map.
-    # msdf.clean_prefix_map()
+    msdf.clean_prefix_map()
     return msdf
 
 
