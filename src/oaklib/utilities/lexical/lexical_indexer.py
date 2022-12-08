@@ -207,6 +207,7 @@ def lexical_index_to_sssom(
     subjects: Collection[CURIE] = None,
     objects: Collection[CURIE] = None,
     symmetric: bool = False,
+    ensure_strict_prefixes:bool = False,
 ) -> MappingSetDataFrame:
     """
     Transform a lexical index to an SSSOM MappingSetDataFrame by finding all pairs for any given index term.
@@ -265,7 +266,8 @@ def lexical_index_to_sssom(
     # doc = MappingSetDocument(prefix_map=oi.prefix_map(), mapping_set=mset)
     doc = MappingSetDocument(prefix_map=meta.prefix_map, mapping_set=mset)
     msdf = to_mapping_set_dataframe(doc)
-    msdf.clean_prefix_map()
+    if ensure_strict_prefixes:
+        msdf.clean_prefix_map()
     return msdf
 
 
