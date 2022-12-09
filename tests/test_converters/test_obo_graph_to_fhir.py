@@ -25,13 +25,13 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def test_convert(self):
         """Tests parsing then converting to fhir documents."""
         gd: GraphDocument = json_loader.load(str(ONT), target_class=GraphDocument)
-        self.converter.dump(gd, OUT)
+        self.converter.dump(gd, OUT, include_all_predicates=True)
         cs: CodeSystem
         cs = json_loader.load(str(OUT), target_class=CodeSystem)
         self.assertEqual("CodeSystem", cs.resourceType)
         [nucleus_concept] = [c for c in cs.concept if c.code == NUCLEUS]
         self.assertEqual("nucleus", nucleus_concept.display)
         self.assertTrue(nucleus_concept.definition.startswith("A membrane-bounded organelle"))
-        parent = nucleus_concept.property[0]
-        self.assertTrue(parent.code == "parent")
-        self.assertTrue(parent.valueCode == IMBO)
+        parents = [x for x in nucleus_concept.property if x.code == "parent"]
+        self.assertEqual(len(parents), 1)
+        self.assertTrue(parents[0].valueCode == IMBO)

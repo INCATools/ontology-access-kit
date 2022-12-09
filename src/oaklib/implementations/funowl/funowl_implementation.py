@@ -110,7 +110,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
     def set_axioms(self, axioms: List[Axiom]) -> None:
         self._ontology.axioms = axioms
 
-    def dump(self, path: str = None, syntax: str = None):
+    def dump(self, path: str = None, syntax: str = None, **kwargs):
         if syntax is None or syntax == "ofn":
             out = self.ontology_document.to_functional(self.functional_writer)
         elif syntax == "ttl" or syntax == "turtle":

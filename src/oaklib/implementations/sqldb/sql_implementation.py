@@ -786,7 +786,7 @@ class SqlImplementation(
             g.add((s, p, o))
         return g
 
-    def dump(self, path: str = None, syntax: str = None):
+    def dump(self, path: str = None, syntax: str = None, **kwargs):
         """
         Implements :ref:`dump`.
 
@@ -797,6 +797,7 @@ class SqlImplementation(
 
         :param path:
         :param syntax:
+        :param kwargs:
         :return:
         """
         if syntax is None:

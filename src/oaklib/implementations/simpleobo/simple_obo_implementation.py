@@ -516,7 +516,7 @@ class SimpleOboImplementation(
         shutil.copyfile(self.resource.slug, resource.slug)
         return type(self)(resource)
 
-    def dump(self, path: Union[str, TextIO] = None, syntax: str = "obo"):
+    def dump(self, path: Union[str, TextIO] = None, syntax: str = "obo", **kwargs):
         if syntax == "obo":
             if isinstance(path, str) or isinstance(path, Path):
                 logging.info(f"Saving to {path}")

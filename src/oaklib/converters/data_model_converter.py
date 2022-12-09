@@ -25,7 +25,7 @@ class DataModelConverter(ABC):
         return hash(str(self))
 
     @abstractmethod
-    def convert(self, source: Any, target: Any = None) -> Any:
+    def convert(self, source: Any, target: Any = None, **kwargs) -> Any:
         """
         Converts from a source object to a target object.
 
@@ -33,12 +33,13 @@ class DataModelConverter(ABC):
 
         :param source:
         :param target: Optional. If passed, modified in place
+        :param kwargs: Additional arguments
         :return:
         """
         raise NotImplementedError
 
     @abstractmethod
-    def dump(self, source: Any, target: str = None) -> None:
+    def dump(self, source: Any, target: str = None, **kwargs) -> None:
         """
         Dumps a source object to a target file.
 

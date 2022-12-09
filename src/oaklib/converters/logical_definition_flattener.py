@@ -15,11 +15,14 @@ GENUS_CLASS_FIELD = "genus_class"
 class LogicalDefinitionFlattener(DataModelConverter):
     """Flattens logical definitions to tuples for use in template libraries."""
 
-    def dump(self, source: Any, target: str = None) -> None:
+    def dump(self, source: Any, target: str = None, **kwargs) -> None:
         raise NotImplementedError
 
     def convert(
-        self, source: Union[LogicalDefinitionAxiom, Graph, GraphDocument], target: Any = None
+        self,
+        source: Union[LogicalDefinitionAxiom, Graph, GraphDocument],
+        target: Any = None,
+        **kwargs,
     ) -> Union[dict, List[dict]]:
         """
         Convert a logical definition axiom or a graph including logical definition axioms.
