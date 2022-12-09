@@ -210,7 +210,8 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">sqlite</span><span class="p">:</span><span class="n">obo</span><span class="p">:</span><span class="n">pato</span> <span class="n">search</span> <span class="n">t</span><span class="o">~</span><span class="n">shape</span>
 </pre></div>
 </div>
-<p>This will download the pato.db sqlite file once, and cache it</p>
+<p>This will download the pato.db sqlite file once, and cache it.</p>
+<p>PyStow is used to cache the file, and the default location is <code class="docutils literal notranslate"><span class="pre">~/.data/oaklib</span></code>.</p>
 </section>
 </section>
 <section id="building-your-own-sqlite-files">
@@ -223,9 +224,9 @@
 </ul>
 <section id="with-docker">
 <h3>With docker<a class="headerlink" href="#with-docker" title="Permalink to this headline"></a></h3>
-<p>If you have an OWL file in <code class="docutils literal notranslate"><span class="pre">path/to/obi.owl</span></code></p>
+<p>If you have an OWL file in <code class="docutils literal notranslate"><span class="pre">./path/to/obi.owl</span></code></p>
 <p>Then you can do this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">semsql</span> <span class="n">make</span> <span class="o">--</span><span class="n">docker</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">obi</span><span class="o">.</span><span class="n">db</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.owl
 </pre></div>
 </div>
 <p>This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don’t need to do anythiong else)</p>
@@ -237,6 +238,12 @@
 <p class="admonition-title">Warning</p>
 <p>for this to work, the OWL file <strong>must</strong> be in RDF/XML. Also, imports merging will NOT be done by default,
 please merge in advance using ROBOT if this is your desired behavior.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The recipe above works for any OWL file in a descendant of your current folder.
+If you wish to use a file outside of your current folder, then change the
+option from <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">`pwd`:/work</span></code> to <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/path/to/:/work/</span></code></p>
 </div>
 </section>
 <section id="without-docker">
