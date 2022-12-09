@@ -4197,21 +4197,22 @@ def diff_via_mappings(
 
     Example:
 
-        runoak -i sqlite:obo:uberon --other-input sqlite:obo:zfa  --source UBERON --source ZFA -O csv
+        runoak -i sqlite:obo:uberon diff-via-mappings --other-input sqlite:obo:zfa  --source UBERON --source ZFA -O csv
 
     Note the above command does not have any mapping file specified; the mappings that are distributed within
     each ontology is used (in this case, Uberon contains mappings to ZFA)
 
     If the mappings are provided externally:
 
-        runoak -i ont1.obo --other-input ont2.obo --mapping-input mappings.sssom.tsv
+        runoak -i ont1.obo diff-via-mappings --other-input ont2.obo --mapping-input mappings.sssom.tsv
 
     (in the above example, --source is not passed, so all mappings are tested)
 
     If there are no existing mappings, you can use the lexmatch command to generate them:
 
-        runoak -i ont1.obo -a ont2.obo lexmatch -o mappings.sssom.tsv
-        runoak -i ont1.obo --other-input ont2.obo --mapping-input mappings.sssom.tsv
+        runoak -i ont1.obo diff-via-mappings -a ont2.obo lexmatch -o mappings.sssom.tsv
+        
+        runoak -i ont1.obo diff-via-mappings --other-input ont2.obo --mapping-input mappings.sssom.tsv
 
     The output from this command follows the cross-ontology-diff data model
     (https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html)
