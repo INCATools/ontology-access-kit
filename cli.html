@@ -1293,6 +1293,10 @@ runoak -i ont1.obo –other-input ont2.obo –mapping-input mappings.sssom.tsv</
 <div><p>runoak -i pato.owl dump -o pato.ttl -O turtle</p>
 </div></blockquote>
 <p>Currently each implementation only supports a subset of formats.</p>
+<p>Some dumpers accept additional options. For example, dumping
+to fhirjson accepts –include-all-predicates, which changes
+the default behavior from only exporting IS_A to all mappable
+predicates.</p>
 <p>The dump command is also blocked for remote endpoints such as Ubergraph,
 to avoid killer queries.</p>
 </div></blockquote>
@@ -1304,6 +1308,17 @@ to avoid killer queries.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-dump-o">
 <span id="cmdoption-runoak-dump-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-dump-o" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-dump-include-all-predicates">
+<span id="cmdoption-runoak-dump-no-include-all-predicates"></span><span class="sig-name descname"><span class="pre">--include-all-predicates</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-all-predicates</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-dump-include-all-predicates" title="Permalink to this definition"></a></dt>
+<dd><p>For formats that export only IS_A by default, this will include all possible predicates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-runoak-dump-O">

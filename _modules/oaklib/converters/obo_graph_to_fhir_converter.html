@@ -81,7 +81,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.converters.obo_graph_to_fhir_converter</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="sd">&quot;&quot;&quot;OboGraph to FHIR Converter</span>
+
+<span class="sd">Resources</span>
+<span class="sd">- Updates issue: https://github.com/INCATools/ontology-access-kit/issues/369</span>
+<span class="sd">- Conversion examples: https://drive.google.com/drive/folders/1lwGQ63_fedfWlGlRemq8OeZhZsvIXN01</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
@@ -132,16 +138,20 @@
     <span class="sd">&quot;&quot;&quot;Converts from OboGraph to FHIR.</span>
 
 <span class="sd">    - An ontology is mapped to a FHIR `CodeSystem &lt;https://build.fhir.org/codesystem.html&gt;`_.</span>
-<span class="sd">    - Each node in the OboGraph is converted to a FHIR Concept.</span>
+<span class="sd">    - Each node in the OboGraph is converted to a _FHIR Concept_.</span>
 <span class="sd">    - Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. &quot;HP:0000001&quot;)</span>
 
 <span class="sd">         - TODO: make this configurable</span>
 
-<span class="sd">    - Each edge in the OboGraph is converted to a FHIR ConceptProperty, if it is in the DIRECT_PREDICATE_MAP.</span>
-<span class="sd">    - Each synonym in the OboGraph is converted to a FHIR ConceptDesignation.</span>
+<span class="sd">    - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is True.</span>
+<span class="sd">      Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.</span>
+<span class="sd">    - Each synonym in the OboGraph is converted to a _FHIR ConceptDesignation_.</span>
 
-<span class="sd">        - The synonym predicate is mapped to a FHIR Coding, using the SCOPE_MAP.</span>
+<span class="sd">        - The synonym predicate is mapped to a _FHIR Coding_, using the `SCOPE_MAP`.</span>
 
+<span class="sd">    # TODO: These currently unresolvable</span>
+<span class="sd">        from oaklib.utilities.obograph_utils import load_obograph</span>
+<span class="sd">        from oaklib.utilities.curie_converter import CurieConverter</span>
 <span class="sd">    To use:</span>
 
 <span class="sd">        &gt;&gt;&gt; from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter</span>
@@ -165,15 +175,24 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="OboGraphToFHIRConverter.dump"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToFHIRConverter.dump"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to a FHIR CodeSystem.</span>
 
+<span class="sd">        By default, only IS_A predicates are converted to ConceptProperties. To override this,</span>
+<span class="sd">        specify ``include_all_predicates=True``.</span>
+
 <span class="sd">        :param source:</span>
 <span class="sd">        :param target:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param include_all_predicates: include the maximal amount of predicates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">json_str</span> <span class="o">=</span> <span class="n">json_dumper</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
@@ -181,53 +200,75 @@
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OboGraphToFHIRConverter.convert"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToFHIRConverter.convert"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">GraphDocument</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an OBO Graph Document to a FHIR CodingSystem</span>
 
 <span class="sd">        :param source:</span>
 <span class="sd">        :param target: if None, one will be created</span>
+<span class="sd">        :param include_all_predicates: include the maximal amount of predicates</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">CodeSystem</span><span class="p">()</span>
         <span class="n">target</span><span class="o">.</span><span class="n">resourceType</span> <span class="o">=</span> <span class="n">CodeSystem</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">target</span></div>
 
-    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="OboGraphToFHIRConverter.code"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert a code&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">uri</span>
         <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">curie</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">uri</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">curie</span>
+            <span class="k">return</span> <span class="n">curie</span></div>
 
-    <span class="k">def</span> <span class="nf">_convert_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_convert_graph</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span> <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
         <span class="n">target</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">id</span>
         <span class="n">edges_by_subject</span> <span class="o">=</span> <span class="n">index_graph_edges_by_subject</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting graph to obo: </span><span class="si">{</span><span class="n">source</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, nodes=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting node </span><span class="si">{</span><span class="n">n</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_node</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">edges_by_subject</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_node</span><span class="p">(</span>
+                <span class="n">n</span><span class="p">,</span>
+                <span class="n">index</span><span class="o">=</span><span class="n">edges_by_subject</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                <span class="n">include_all_predicates</span><span class="o">=</span><span class="n">include_all_predicates</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">target</span>
 
     <span class="k">def</span> <span class="nf">_convert_node</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]],</span> <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]],</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span>
+        <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Concept</span><span class="p">:</span>
-        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting node </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">concept</span> <span class="o">=</span> <span class="n">Concept</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="n">source</span><span class="o">.</span><span class="n">lbl</span><span class="p">)</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting node </span><span class="si">{</span><span class="n">_id</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">concept</span> <span class="o">=</span> <span class="n">Concept</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">_id</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="n">source</span><span class="o">.</span><span class="n">lbl</span><span class="p">)</span>
         <span class="n">target</span><span class="o">.</span><span class="n">concept</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">concept</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">meta</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_convert_meta</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">concept</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">[]):</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">pred</span> <span class="ow">in</span> <span class="n">DIRECT_PREDICATE_MAP</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Converting edge </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">pred</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">obj</span><span class="si">}</span><span class="s2"> // include_all=</span><span class="si">{</span><span class="n">include_all_predicates</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">include_all_predicates</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">pred</span> <span class="ow">in</span> <span class="n">DIRECT_PREDICATE_MAP</span><span class="p">:</span>
                 <span class="n">concept</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">ConceptProperty</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">DIRECT_PREDICATE_MAP</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">pred</span><span class="p">],</span> <span class="n">valueCode</span><span class="o">=</span><span class="n">obj</span><span class="p">)</span>
+                    <span class="n">ConceptProperty</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">DIRECT_PREDICATE_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">pred</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">pred</span><span class="p">),</span> <span class="n">valueCode</span><span class="o">=</span><span class="n">obj</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping edge </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

@@ -101,7 +101,7 @@
 <dd><p>Converts from OboGraph to FHIR.</p>
 <ul>
 <li><p>An ontology is mapped to a FHIR <a class="reference external" href="https://build.fhir.org/codesystem.html">CodeSystem</a>.</p></li>
-<li><p>Each node in the OboGraph is converted to a FHIR Concept.</p></li>
+<li><p>Each node in the OboGraph is converted to a _FHIR <a href="#id2"><span class="problematic" id="id3">Concept_</span></a>.</p></li>
 <li><p>Each CURIE/URI in the OboGraph is treated as a CURIE when it becomes a code (e.g. “HP:0000001”)</p>
 <blockquote>
 <div><ul class="simple">
@@ -109,15 +109,21 @@
 </ul>
 </div></blockquote>
 </li>
-<li><p>Each edge in the OboGraph is converted to a FHIR ConceptProperty, if it is in the DIRECT_PREDICATE_MAP.</p></li>
-<li><p>Each synonym in the OboGraph is converted to a FHIR ConceptDesignation.</p>
+<li><p>Each edge in the OboGraph is converted to a _FHIR <a href="#id4"><span class="problematic" id="id5">ConceptProperty_</span></a> if the <cite>include_all_predicates</cite> param is True.
+Otherwise, will only convert edges if the predicate is in the <cite>DIRECT_PREDICATE_MAP</cite>.</p></li>
+<li><p>Each synonym in the OboGraph is converted to a _FHIR <a href="#id6"><span class="problematic" id="id7">ConceptDesignation_</span></a>.</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>The synonym predicate is mapped to a FHIR Coding, using the SCOPE_MAP.</p></li>
+<li><p>The synonym predicate is mapped to a _FHIR <a href="#id8"><span class="problematic" id="id9">Coding_</span></a>, using the <cite>SCOPE_MAP</cite>.</p></li>
 </ul>
 </div></blockquote>
 </li>
 </ul>
+<dl class="simple">
+<dt># TODO: These currently unresolvable</dt><dd><p>from oaklib.utilities.obograph_utils import load_obograph
+from oaklib.utilities.curie_converter import CurieConverter</p>
+</dd>
+</dl>
 <p>To use:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.converters.obo_graph_to_fhir_converter</span> <span class="kn">import</span> <span class="n">OboGraphToFHIRConverter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">oaklib.datamodels.obograph</span> <span class="kn">import</span> <span class="n">GraphDocument</span>
@@ -142,14 +148,21 @@
 </ul>
 </div></blockquote>
 <dl class="py method">
+<dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">
+<span class="sig-name descname"><span class="pre">code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a code</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert">
-<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.datamodels.obograph.GraphDocument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.fhir.CodeSystem</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.fhir.CodeSystem</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.datamodels.obograph.GraphDocument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">oaklib.datamodels.fhir.CodeSystem</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_all_predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">oaklib.datamodels.fhir.CodeSystem</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.convert" title="Permalink to this definition"></a></dt>
 <dd><p>Convert an OBO Graph Document to a FHIR CodingSystem</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source</strong> – </p></li>
 <li><p><strong>target</strong> – if None, one will be created</p></li>
+<li><p><strong>include_all_predicates</strong> – include the maximal amount of predicates</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -160,17 +173,17 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump">
-<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.datamodels.obograph.GraphDocument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">oaklib.datamodels.obograph.GraphDocument</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_all_predicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/oaklib/converters/obo_graph_to_fhir_converter.html#OboGraphToFHIRConverter.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.dump" title="Permalink to this definition"></a></dt>
 <dd><p>Dump an OBO Graph Document to a FHIR CodeSystem.</p>
+<p>By default, only IS_A predicates are converted to ConceptProperties. To override this,
+specify <code class="docutils literal notranslate"><span class="pre">include_all_predicates=True</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source</strong> – </p></li>
 <li><p><strong>target</strong> – </p></li>
+<li><p><strong>include_all_predicates</strong> – include the maximal amount of predicates</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>
