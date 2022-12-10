@@ -4173,7 +4173,7 @@ def lint(output, output_type, report_format, dry_run: bool):
 )
 @click.option(
     "--bidirectional/--no-bidirectional",
-    default=False,
+    default=True,
     show_default=True,
     help="Show diff from both left and right perspectives",
 )
