@@ -451,6 +451,17 @@ class ProntoImplementation(
             if predicate_term not in t.relationships.keys():
                 t.relationships[predicate_term] = []
             t.relationships[predicate_term].add(filler_term)
+        self._clear_relationship_index()
+
+    def remove_relationship(self, curie: CURIE, predicate: Optional[PRED_CURIE], filler: CURIE):
+        t = self._entity(curie)
+        filler_term = self._entity(filler)
+        if not predicate or predicate == IS_A:
+            t.superclasses().remove(filler_term)
+        else:
+            predicate_term = self._create_pred(predicate)
+            t.relationships[predicate_term].remove(filler_term)
+        self._clear_relationship_index()
 
     def definition(self, curie: CURIE) -> Optional[str]:
         e = self._entity(curie)
@@ -817,6 +828,8 @@ class ProntoImplementation(
             t.add_synonym(description=patch.new_value, scope=scope)
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
+        elif isinstance(patch, kgcl.EdgeDeletion):
+            self.remove_relationship(patch.subject, patch.predicate, patch.object)
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
         return patch

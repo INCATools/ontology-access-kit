@@ -4171,6 +4171,12 @@ def lint(output, output_type, report_format, dry_run: bool):
     show_default=True,
     help="Do not report cases where a relationship has not changed",
 )
+@click.option(
+    "--bidirectional/--no-bidirectional",
+    default=False,
+    show_default=True,
+    help="Show diff from both left and right perspectives",
+)
 @predicates_option
 @output_option
 @output_type_option
@@ -4185,6 +4191,7 @@ def diff_via_mappings(
     other_input,
     other_input_type,
     predicates,
+    bidirectional: bool,
     output_type,
     output,
     terms,
@@ -4264,8 +4271,9 @@ def diff_via_mappings(
         entities=entities,
         mappings=mappings,
         add_labels=autolabel,
-        include_identity=include_identity_mappings,
+        include_identity_mappings=include_identity_mappings,
         predicates=actual_predicates,
+        bidirectional=bidirectional,
     ):
         if filter_category_identical and r.category == DiffCategory(DiffCategory.Identical):
             continue
