@@ -94,6 +94,8 @@ from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.kgcl_utilities import tidy_change_object
 
+PRED_CODE = Union[str, PRED_CURIE]
+
 
 def _is_isa(x: str):
     return x == IS_A or x.lower() == "is_a" or x.lower() == "isa"
@@ -319,6 +321,14 @@ class SimpleOboImplementation(
         else:
             t.add_tag_value_pair(TAG_RELATIONSHIP, predicate, filler)
 
+    def remove_relationship(self, curie: CURIE, predicate: Optional[PRED_CURIE], filler: CURIE):
+        t = self._stanza(curie)
+        if not predicate or predicate == IS_A:
+            t.remove_simple_tag_value(TAG_IS_A, filler)
+        else:
+            predicate_code = self._get_relationship_type_shorthand(predicate)
+            t.remove_pairwise_tag_value(TAG_RELATIONSHIP, predicate_code, filler)
+
     def definition(self, curie: CURIE) -> Optional[str]:
         s = self._stanza(curie, strict=False)
         if s:
@@ -356,15 +366,20 @@ class SimpleOboImplementation(
                 for v in vs:
                     yield curie, SynonymPropertyValue(pred=p.replace("oio:", ""), val=v)
 
-    def _get_relationship_type_curie(self, rel_type: str) -> PRED_CURIE:
-        for _, x in self.simple_mappings_by_curie(rel_type):
+    def _get_relationship_type_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
+        for _, x in self.simple_mappings_by_curie(rel_code):
             if x.startswith("BFO:") or x.startswith("RO:"):
                 return x
-        return rel_type
+        return rel_code
 
-    def _get_relationship_type_shorthand(self, rel_type: PRED_CURIE) -> str:
-        for _, x in self.simple_mappings_by_curie(rel_type):
-            return x
+    def _get_relationship_type_shorthand(self, rel_type: PRED_CURIE) -> PRED_CODE:
+        if not (rel_type.startswith("BFO:") or rel_type.startswith("RO:")):
+            return rel_type
+        for s in self.obo_document.stanzas.values():
+            if s.type == "Typedef":
+                for x in s.simple_values(TAG_XREF):
+                    if x == rel_type:
+                        return s.id
         return rel_type
 
     def relationships(
@@ -676,6 +691,8 @@ class SimpleOboImplementation(
             t.remove_simple_tag_value(TAG_SYNONYM, f'"{v}"')
         elif isinstance(patch, kgcl.EdgeCreation):
             self.add_relationship(patch.subject, patch.predicate, patch.object)
+        elif isinstance(patch, kgcl.EdgeDeletion):
+            self.remove_relationship(patch.subject, patch.predicate, patch.object)
         elif isinstance(patch, kgcl.NodeMove):
             logging.warning(f"Cannot handle {patch}")
         elif isinstance(patch, kgcl.PredicateChange):

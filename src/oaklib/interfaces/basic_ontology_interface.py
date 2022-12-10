@@ -231,6 +231,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         self._relationship_index_cache = None
         _ = self._relationship_index  # force re-index
 
+    def _clear_relationship_index(self):
+        self._relationship_index_cache = None
+
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
         raise NotImplementedError
 

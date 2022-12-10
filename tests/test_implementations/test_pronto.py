@@ -28,8 +28,12 @@ from tests import (
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
+    IMBO,
     INPUT_DIR,
+    NUCLEAR_ENVELOPE,
+    NUCLEAR_MEMBRANE,
     NUCLEUS,
+    ORGANELLE_MEMBRANE,
     OUTPUT_DIR,
     VACUOLE,
 )
@@ -388,6 +392,13 @@ class TestProntoImplementation(unittest.TestCase):
                 new_value="foo bar",
             )
         )
+        oi.apply_patch(kgcl.RemoveUnder(id="x", subject=NUCLEUS, object=IMBO))
+        oi.apply_patch(
+            kgcl.EdgeDeletion(id="x", subject=NUCLEAR_MEMBRANE, object=NUCLEUS, predicate=PART_OF)
+        )
+        oi.apply_patch(
+            kgcl.EdgeCreation(id="x", subject=NUCLEUS, object=NUCLEAR_MEMBRANE, predicate=HAS_PART)
+        )
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
@@ -395,6 +406,14 @@ class TestProntoImplementation(unittest.TestCase):
         self.assertCountEqual(
             ["cell or subcellular entity", "cellular component", "cellular_component", "foo bar"],
             oi2.entity_aliases(CELLULAR_COMPONENT),
+        )
+        cases = [
+            (NUCLEAR_MEMBRANE, IS_A, ORGANELLE_MEMBRANE),
+            (NUCLEAR_MEMBRANE, PART_OF, NUCLEAR_ENVELOPE),
+        ]
+        self.assertCountEqual(cases, list(oi2.relationships([NUCLEAR_MEMBRANE])))
+        self.assertCountEqual(
+            [(NUCLEUS, HAS_PART, NUCLEAR_MEMBRANE)], list(oi2.relationships([NUCLEUS]))
         )
 
     def test_create_ontology_via_patches(self):

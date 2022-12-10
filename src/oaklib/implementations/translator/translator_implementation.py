@@ -7,7 +7,7 @@ Adapter for NCATS Biomedical Translator endpoints (experimental).
     Only NodeNormalizer API implemented so far
 
 """
-
+import logging
 from dataclasses import dataclass
 from typing import Iterable, Mapping, Optional, Union
 
@@ -48,34 +48,44 @@ class TranslatorImplementation(
         non_conflated_results = r.json()
         r = requests.get(NODE_NORMALIZER_ENDPOINT, params={"curie": curies, "conflate": "true"})
         results = r.json()
+        objects = set()
         if "detail" in results:
             if results["detail"] == "Not found.":
                 return
-        for curies, data in results.items():
-            nc_data = non_conflated_results.get(curies, {})
+        for curie, data in results.items():
+            if not data:
+                logging.info(f"No results for {curie} in {curies}")
+                continue
+            nc_data = non_conflated_results.get(curie, {})
             label = None
-            for x in data["equivalent_identifiers"]:
-                if x["identifier"] == curies:
-                    label = x["label"]
-            for x in data["equivalent_identifiers"]:
+            equiv_identifiers = data.get("equivalent_identifiers", [])
+            for x in equiv_identifiers:
+                if x["identifier"] == curie:
+                    label = x.get("label", None)
+            for x in equiv_identifiers:
+                object_id = x["identifier"]
                 pred = (
                     SKOS_EXACT_MATCH
                     if any(
-                        x2["identifier"] == x["identifier"]
-                        for x2 in nc_data["equivalent_identifiers"]
+                        x2["identifier"] == object_id
+                        for x2 in nc_data.get("equivalent_identifiers", [])
                     )
                     else SKOS_CLOSE_MATCH
                 )
                 m = sssom.Mapping(
-                    subject_id=curies,
+                    subject_id=curie,
                     subject_label=label,
                     predicate_id=pred,
-                    object_id=x["identifier"],
+                    object_id=object_id,
                     object_label=x.get("label", None),
                     mapping_justification=str(SEMAPV.ManualMappingCuration.value),
                 )
                 inject_mapping_sources(m)
                 yield m
+                objects.add(object_id)
+        for curie in curies:
+            if curie not in objects:
+                logging.warning(f"Could not find any mappings for {curie}")
 
     def inject_mapping_labels(self, mappings: Iterable[Mapping]) -> None:
         return

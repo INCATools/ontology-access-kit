@@ -28,9 +28,12 @@ from tests import (
     FAKE_ID,
     FAKE_PREDICATE,
     HUMAN,
+    IMBO,
     INPUT_DIR,
+    NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
     NUCLEUS,
+    ORGANELLE_MEMBRANE,
     OUTPUT_DIR,
     VACUOLE,
 )
@@ -357,6 +360,10 @@ class TestSimpleOboImplementation(unittest.TestCase):
         oi.apply_patch(
             kgcl.NewSynonym(id=generate_change_id(), about_node=HUMAN, new_value="people")
         )
+        oi.apply_patch(kgcl.RemoveUnder(id="x", subject=NUCLEUS, object=IMBO))
+        oi.apply_patch(
+            kgcl.EdgeDeletion(id="x", subject=NUCLEAR_MEMBRANE, object=NUCLEUS, predicate=PART_OF)
+        )
         out_file = str(OUTPUT_DIR / "post-kgcl.obo")
         oi.dump(out_file, syntax="obo")
         resource = OntologyResource(slug=out_file, local=True)
@@ -369,6 +376,19 @@ class TestSimpleOboImplementation(unittest.TestCase):
             ["people", "Homo sapiens"],
             oi2.entity_aliases(HUMAN),
         )
+        self.assertNotIn((NUCLEUS, IS_A, IMBO), list(oi2.relationships([NUCLEUS])))
+        cases = [
+            (NUCLEAR_MEMBRANE, IS_A, ORGANELLE_MEMBRANE, True),
+            (NUCLEAR_MEMBRANE, PART_OF, NUCLEAR_ENVELOPE, True),
+            (NUCLEAR_MEMBRANE, PART_OF, NUCLEUS, False),
+        ]
+        rels = list(oi2.relationships([NUCLEAR_MEMBRANE]))
+        for s, p, o, is_in in cases:
+            rel = s, p, o
+            if is_in:
+                self.assertIn(rel, rels)
+            else:
+                self.assertNotIn(rel, rels)
 
     def test_migrate_curies(self):
         """
