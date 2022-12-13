@@ -90,6 +90,7 @@ from oaklib.datamodels.vocabulary import (
     IN_SUBSET,
     IS_A,
     LABEL_PREDICATE,
+    OBSOLETION_RELATIONSHIP_PREDICATES,
     OWL_NOTHING,
     OWL_THING,
     PREFIX_PREDICATE,
@@ -363,6 +364,17 @@ class SqlImplementation(
             q = q.filter(DeprecatedNode.id.not_in(subq))
         for row in q:
             yield row.id
+
+    def obsoletes_migration_relationships(
+        self, entities: Iterable[CURIE]
+    ) -> Iterable[RELATIONSHIP]:
+        q = (
+            self.session.query(Statements)
+            .filter(Statements.subject.in_(entities))
+            .filter(Statements.predicate.in_(OBSOLETION_RELATIONSHIP_PREDICATES))
+        )
+        for row in q:
+            yield row.subject, row.predicate, row.object if row.object else row.value
 
     def all_relationships(self) -> Iterable[RELATIONSHIP]:
         for row in self.session.query(Edge):
@@ -1957,7 +1969,11 @@ class SqlImplementation(
 
     def metadata_property_summary_statistics(self, metadata_property: PRED_CURIE) -> Dict[Any, int]:
         if metadata_property == PREFIX_PREDICATE:
-            raise ValueError("Prefixes are not modeled as metadata properties")
+            d = defaultdict(int)
+            for e in self.entities(filter_obsoletes=False):
+                prefix = e.split(":")[0]
+                d[prefix] += 1
+            return dict(d)
         session = self.session
         q = session.query(Statements.value, func.count(Statements.value))
         q = q.filter(Statements.predicate == metadata_property)

@@ -63,6 +63,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_OBO_NAMESPACE,
     IS_A,
     IS_DEFINED_BY,
+    OBSOLETION_RELATIONSHIP_PREDICATES,
     PART_OF,
     PREFIX_PREDICATE,
     RDF_TYPE,
@@ -866,11 +867,20 @@ def subsets(output: str):
     show_default=True,
     help="Include merged terms in output",
 )
+@click.option(
+    "--show-migration-relationships/--no-show-migration-relationships",
+    default=False,
+    show_default=True,
+    help="Show migration relationships (e.g. replaced_by, consider)",
+)
 @ontological_output_type_option
 @output_option
-def obsoletes(include_merged: bool, output_type: str, output: str):
+@click.argument("terms", nargs=-1)
+def obsoletes(
+    terms, include_merged: bool, show_migration_relationships: bool, output_type: str, output: str
+):
     """
-    Shows all obsolete entities
+    Shows all obsolete entities.
 
     Example:
 
@@ -882,13 +892,43 @@ def obsoletes(include_merged: bool, output_type: str, output: str):
 
         runoak -i obolibrary:go.obo obsoletes --no-include-merged
 
+    To show migration relationships, use the ``--show-migration-relationships`` flag
+
+    Example:
+
+        runoak -i obolibrary:go.obo obsoletes --show-migration-relationships
+
+    You can also specify terms to show obsoletes for:
+
+    Example:
+
+        runoak -i obolibrary:go.obo obsoletes --show-migration-relationships GO:0000187 GO:0000188
+
     """
     impl = settings.impl
-    writer = _get_writer(output_type, impl, StreamingInfoWriter)
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    if show_migration_relationships and isinstance(writer, StreamingInfoWriter):
+        raise ValueError("Cannot show migration relationships with info output")
     writer.output = output
+    if terms:
+        term_iterator = query_terms_iterator(terms, impl)
+    else:
+        term_iterator = impl.obsoletes(include_merged=include_merged)
     if isinstance(impl, BasicOntologyInterface):
-        for term in impl.obsoletes(include_merged=include_merged):
-            writer.emit_curie(term, label=impl.label(term))
+        for chunk_iterator in chunk(term_iterator):
+            curies = list(chunk_iterator)
+            logging.debug(f"Processing chunk of {len(curies)}")
+            objs = {}
+            for curie, label in impl.labels(curies):
+                objs[curie] = dict(id=curie, label=label)
+            if show_migration_relationships:
+                for obj in objs.values():
+                    for p in OBSOLETION_RELATIONSHIP_PREDICATES:
+                        obj[p] = []
+                for curie, rel, filler in impl.obsoletes_migration_relationships(curies):
+                    objs[curie][rel].append(filler)
+            for obj in objs.values():
+                writer.emit(obj)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -1266,7 +1306,8 @@ def annotate(
             for ann in impl.annotate_file(text_file, configuration):
                 writer.emit(ann)
         else:
-            for ann in impl.annotate_text(words, configuration):
+            logging.info(f"Annotating: {words}")
+            for ann in impl.annotate_text(" ".join(list(words)), configuration):
                 writer.emit(ann)
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
@@ -1728,42 +1769,38 @@ def paths(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.file = output
-    if isinstance(impl, OboGraphInterface) and isinstance(impl, SearchInterface):
-        actual_predicates = _process_predicates_arg(predicates)
-        start_curies = list(query_terms_iterator(terms, impl))
-        logging.info(f"Ancestor seed: {start_curies}")
-        if isinstance(impl, OboGraphInterface):
-            if target:
-                end_curies = list(list(query_terms_iterator(list(target), impl)))
-                all_curies = start_curies + end_curies
-            else:
-                end_curies = None
-                all_curies = start_curies
-                logging.info("Will search all ancestors")
-            if predicate_weights:
-                pw = {}
-                for k, v in yaml.safe_load(predicate_weights).items():
-                    [p] = _process_predicates_arg(k, expected_number=1)
-                    pw[k] = v
-            else:
-                pw = None
-            graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
-            logging.info("Calculating graph stats")
-            for s, o, path in shortest_paths(
-                graph, start_curies, end_curies=end_curies, predicate_weights=pw
-            ):
-                if flat:
-                    for path_node in path:
-                        writer.emit_curie(path_node, impl.label(path_node))
-                else:
-                    writer.emit(
-                        dict(subject=s, object=o, path=path),
-                        label_fields=["subject", "object", "path"],
-                    )
-        else:
-            raise NotImplementedError
+    start_curies = list(query_terms_iterator(terms, impl))
+    actual_predicates = _process_predicates_arg(predicates)
+    if predicate_weights:
+        pw = {}
+        for k, v in yaml.safe_load(predicate_weights).items():
+            [p] = _process_predicates_arg(k, expected_number=1)
+            pw[k] = v
     else:
+        pw = None
+    if not isinstance(impl, OboGraphInterface):
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    logging.info(f"Ancestor seed: {start_curies}")
+    if target:
+        end_curies = list(list(query_terms_iterator(list(target), impl)))
+        all_curies = start_curies + end_curies
+    else:
+        end_curies = None
+        all_curies = start_curies
+        logging.info("Will search all ancestors")
+    graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
+    logging.info("Calculating graph stats")
+    for s, o, path in shortest_paths(
+        graph, start_curies, end_curies=end_curies, predicate_weights=pw
+    ):
+        if flat:
+            for path_node in path:
+                writer.emit_curie(path_node, impl.label(path_node))
+        else:
+            writer.emit(
+                dict(subject=s, object=o, path=path),
+                label_fields=["subject", "object", "path"],
+            )
 
 
 @main.command()

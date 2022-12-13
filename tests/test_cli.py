@@ -288,6 +288,33 @@ class TestCommandLineInterface(unittest.TestCase):
             print(out)
             assert NUCLEAR_ENVELOPE not in out
 
+    def test_obsoletes(self):
+        """Tests the obsoletes command using the obsoletion test ontology.
+
+        This should return
+        """
+        input_args = [
+            str(INPUT_DIR / f"obsoletion_test.{suffix}") for suffix in ["obo", "owl", "db"]
+        ]
+        cases = [
+            {
+                "id": "CL:2",
+                "label": "obsolete x2",
+                "IAO:0100001": "['CL:2replacement']",
+                "oio:consider": "[]",
+            }`
+        ]
+        for input_arg in input_args:
+            result = self.runner.invoke(
+                main,
+                ["-i", input_arg, "obsoletes", "-o", TEST_OUT, "--show-migration-relationships"],
+            )
+            with open(TEST_OUT) as file:
+                reader = csv.DictReader(file, delimiter="\t")
+                rows = [row for row in reader]
+                for case in cases:
+                    self.assertIn(case, rows, f"input={input_arg}")
+
     # MAPPINGS
 
     def test_mappings_local(self):

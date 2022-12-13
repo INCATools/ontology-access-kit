@@ -49,17 +49,7 @@ Then create a python program: ``my_oak_demo/demo.py`` and add the following:
 
 .. code-block:: python
 
-    from oaklib.resource import OntologyResource
-    from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
-    resource = OntologyResource(slug='fbbt.obo', local=True)
-    oi = ProntoImplementation(resource)
-
-- We first import the general ``OntologyResource`` implementation which allows us to declare where to get the ontology from.
-- We then load this resource using the ``ProntoImplementation``, which allows us to perform all operations on the resource that we could do with `pronto <https://github.com/althonos/pronto>`_.
-
-.. warning::
-
-    The way in which a connection is made to a backend may change in the near future!
+    oi = get_implementation_from_shorthand("fbbt.obo")
 
 Next, let's perform some basic lookup operations on the ontology:
 
