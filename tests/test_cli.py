@@ -309,6 +309,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 main,
                 ["-i", input_arg, "obsoletes", "-o", TEST_OUT, "--show-migration-relationships"],
             )
+            self.assertEqual(0, result.exit_code)
             with open(TEST_OUT) as file:
                 reader = csv.DictReader(file, delimiter="\t")
                 rows = [row for row in reader]
