@@ -945,6 +945,13 @@
 </li>
       </ul></li>
       <li>
+    --no-show-migration-relationships
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-show-migration-relationships">runoak-obsoletes command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-simple
 
       <ul>
@@ -1475,6 +1482,13 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-similarity-set2-file">runoak-similarity command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --show-migration-relationships
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-show-migration-relationships">runoak-obsoletes command line option</a>
 </li>
       </ul></li>
       <li>
@@ -2248,10 +2262,10 @@
 </li>
       <li><a href="interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">entailed_relationships_between() (oaklib.interfaces.relation_graph_interface.RelationGraphInterface method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">EntailedEdge (class in semsql.sqla.semsql)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">entity_alias_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
@@ -2263,6 +2277,8 @@
       <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.equivalence_axioms">equivalence_axioms() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.exclude_owl_top_and_bottom">exclude_owl_top_and_bottom (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+</li>
+      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">expand_change() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.extract_graph">extract_graph() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
@@ -2601,12 +2617,14 @@
 </li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">PatcherInterface (class in oaklib.interfaces.patcher_interface)</a>
 </li>
-      <li><a href="glossary.html#term-Predicate"><strong>Predicate</strong></a>
+      <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.paths">paths() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
 </li>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">preferred_language (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+      <li><a href="glossary.html#term-Predicate"><strong>Predicate</strong></a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.preferred_language">preferred_language (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">prefix_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="glossary.html#term-Pronto"><strong>Pronto</strong></a>
@@ -3377,13 +3395,19 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-include-merged">--no-include-merged</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-show-migration-relationships">--no-show-migration-relationships</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-0">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-O">--output-type</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-show-migration-relationships">--show-migration-relationships</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-O">-O</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-obsoletes-0">-o</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-arg-TERMS">TERMS</a>
 </li>
       </ul></li>
       <li>
@@ -4144,6 +4168,8 @@
         <li><a href="cli.html#cmdoption-runoak-logical-definitions-arg-TERMS">runoak-logical-definitions command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-mappings-arg-TERMS">runoak-mappings command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-obsoletes-arg-TERMS">runoak-obsoletes command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-paths-arg-TERMS">runoak-paths command line option</a>
 </li>

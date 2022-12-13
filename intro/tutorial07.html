@@ -226,10 +226,10 @@
 <h3>With docker<a class="headerlink" href="#with-docker" title="Permalink to this headline"></a></h3>
 <p>If you have an OWL file in <code class="docutils literal notranslate"><span class="pre">./path/to/obi.owl</span></code></p>
 <p>Then you can do this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.owl
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.db
 </pre></div>
 </div>
-<p>This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don’t need to do anythiong else)</p>
+<p>This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don’t need to do anything else)</p>
 <p>You can then query the file as normal:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runoak</span> <span class="o">-</span><span class="n">i</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">obi</span><span class="o">.</span><span class="n">db</span> <span class="n">info</span> <span class="n">assay</span>
 </pre></div>

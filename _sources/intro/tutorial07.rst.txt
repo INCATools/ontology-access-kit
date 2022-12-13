@@ -83,9 +83,9 @@ Then you can do this:
 
 .. code-block::
 
-   docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.owl
+   docker run -w /work  -v `pwd`:/work --rm -ti obolibrary/odkfull:dev semsql make path/to/obi.db
 
-This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don't need to do anythiong else)
+This will do a one-time build of obi.db, using the ODK docker. You will need Docker installed (but you don't need to do anything else)
 
 You can then query the file as normal:
 

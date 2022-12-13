@@ -2322,7 +2322,7 @@ source and the target</p>
 <section id="runoak-obsoletes">
 <h4>obsoletes<a class="headerlink" href="#runoak-obsoletes" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Shows all obsolete entities</p>
+<div><p>Shows all obsolete entities.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes</p>
@@ -2332,8 +2332,18 @@ source and the target</p>
 <blockquote>
 <div><p>runoak -i obolibrary:go.obo obsoletes –no-include-merged</p>
 </div></blockquote>
+<p>To show migration relationships, use the <code class="docutils literal notranslate"><span class="pre">--show-migration-relationships</span></code> flag</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak obsoletes <span class="o">[</span>OPTIONS<span class="o">]</span>
+<p>You can also specify terms to show obsoletes for:</p>
+<p>Example:</p>
+<blockquote>
+<div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships GO:0000187 GO:0000188</p>
+</div></blockquote>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak obsoletes <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2344,6 +2354,17 @@ source and the target</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
 <dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-obsoletes-show-migration-relationships">
+<span id="cmdoption-runoak-obsoletes-no-show-migration-relationships"></span><span class="sig-name descname"><span class="pre">--show-migration-relationships</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-show-migration-relationships</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-obsoletes-show-migration-relationships" title="Permalink to this definition"></a></dt>
+<dd><p>Show migration relationships (e.g. replaced_by, consider)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2363,6 +2384,13 @@ source and the target</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-obsoletes-0">
 <span id="cmdoption-runoak-obsoletes-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-obsoletes-0" title="Permalink to this definition"></a></dt>
 <dd><p>Output file, e.g. obo file</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-obsoletes-arg-TERMS">
+<span id="cmdoption-runoak-obsoletes-arg-terms"></span><span class="sig-name descname"><span class="pre">TERMS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-obsoletes-arg-TERMS" title="Permalink to this definition"></a></dt>
+<dd><p>Optional argument(s)</p>
 </dd></dl>
 
 </section>

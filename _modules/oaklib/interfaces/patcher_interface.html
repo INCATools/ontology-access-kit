@@ -82,9 +82,15 @@
              
   <h1>Source code for oaklib.interfaces.patcher_interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="n">Activity</span><span class="p">,</span> <span class="n">Change</span>
+<span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Activity</span><span class="p">,</span>
+    <span class="n">Change</span><span class="p">,</span>
+    <span class="n">NameBecomesSynonym</span><span class="p">,</span>
+    <span class="n">NewSynonym</span><span class="p">,</span>
+    <span class="n">NodeRename</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
@@ -129,7 +135,27 @@
 <span class="sd">        Commits all changes</span>
 
 <span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span></div></div>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="PatcherInterface.expand_change"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">[docs]</a>    <span class="k">def</span> <span class="nf">expand_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">:</span> <span class="n">Change</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Expand a change object to a list of atomic changes.</span>
+
+<span class="sd">        :param change:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">NameBecomesSynonym</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">change_1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">change</span><span class="o">.</span><span class="n">change_1</span> <span class="o">=</span> <span class="n">NodeRename</span><span class="p">(</span>
+                    <span class="n">about_node</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span>
+                    <span class="n">old_value</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">old_value</span><span class="p">,</span>
+                    <span class="n">new_value</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">new_value</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">change_2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">current_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">)</span>
+                <span class="n">change</span><span class="o">.</span><span class="n">change_2</span> <span class="o">=</span> <span class="n">NewSynonym</span><span class="p">(</span><span class="n">about_node</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">current_label</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">change</span><span class="o">.</span><span class="n">change_1</span><span class="p">,</span> <span class="n">change</span><span class="o">.</span><span class="n">change_2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">change</span><span class="p">]</span></div></div>
 </pre></div>
 
            </div>
