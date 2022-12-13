@@ -302,7 +302,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 "label": "obsolete x2",
                 "IAO:0100001": "['CL:2replacement']",
                 "oio:consider": "[]",
-            }`
+            }
         ]
         for input_arg in input_args:
             result = self.runner.invoke(
