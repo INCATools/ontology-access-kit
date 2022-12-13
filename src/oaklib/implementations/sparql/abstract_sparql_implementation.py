@@ -217,7 +217,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         for row in bindings:
             yield self.uri_to_curie(row["s"]["value"])
 
-    def obsoletes(self) -> Iterable[CURIE]:
+    def obsoletes(self, include_merged=True) -> Iterable[CURIE]:
         query = SparqlQuery(select=["?s"], distinct=True, where=["?s owl:deprecated true"])
         bindings = self._query(query.query_str())
         for row in bindings:

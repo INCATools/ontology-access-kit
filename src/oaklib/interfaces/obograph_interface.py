@@ -19,6 +19,9 @@ from oaklib.interfaces.basic_ontology_interface import (
 )
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.graph.relationship_walker import walk_down, walk_up
+from oaklib.utilities.obograph_utils import shortest_paths
+
+GRAPH_PATH = Tuple[CURIE, CURIE, CURIE]
 
 
 class Distance(Enum):
@@ -359,6 +362,42 @@ class OboGraphInterface(BasicOntologyInterface, ABC):
         :return:
         """
         return walk_up(self, start_curies, predicates=predicates)
+
+    def paths(
+        self,
+        start_curies: Union[CURIE, List[CURIE]],
+        target_curies: Union[CURIE, List[CURIE]],
+        predicates: List[PRED_CURIE] = None,
+        predicate_weights: Dict[PRED_CURIE, float] = None,
+        shortest=True,
+    ) -> Iterator[GRAPH_PATH]:
+        """
+        Returns all paths between sources and targets
+
+        :param start_curies:
+        :param start_curies:
+        :param predicates:
+        :param predicate_weights:
+        :param shortest:
+        :return:
+        """
+        if not shortest:
+            raise NotImplementedError("Only shortest paths are supported")
+        if isinstance(start_curies, CURIE):
+            start_curies = [start_curies]
+        if isinstance(target_curies, CURIE):
+            target_curies = [target_curies]
+        if target_curies is None:
+            all_curies = start_curies
+        else:
+            all_curies = list(set(start_curies).union(set(target_curies)))
+        graph = self.ancestor_graph(all_curies, predicates=predicates)
+        logging.info("Calculating graph stats")
+        for s, o, intermediates in shortest_paths(
+            graph, start_curies, end_curies=target_curies, predicate_weights=predicate_weights
+        ):
+            for intermediate in intermediates:
+                yield s, o, intermediate
 
     def logical_definitions(
         self, subjects: Optional[Iterable[CURIE]] = None

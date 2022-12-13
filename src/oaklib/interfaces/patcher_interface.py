@@ -1,7 +1,13 @@
 from abc import ABC
-from typing import Any, Dict, Mapping, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
-from kgcl_schema.datamodel.kgcl import Activity, Change
+from kgcl_schema.datamodel.kgcl import (
+    Activity,
+    Change,
+    NameBecomesSynonym,
+    NewSynonym,
+    NodeRename,
+)
 
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
@@ -47,3 +53,23 @@ class PatcherInterface(BasicOntologyInterface, ABC):
 
         :return:
         """
+
+    def expand_change(self, change: Change) -> List[Change]:
+        """
+        Expand a change object to a list of atomic changes.
+
+        :param change:
+        :return:
+        """
+        if isinstance(change, NameBecomesSynonym):
+            if change.change_1 is None:
+                change.change_1 = NodeRename(
+                    about_node=change.about_node,
+                    old_value=change.old_value,
+                    new_value=change.new_value,
+                )
+            if change.change_2 is None:
+                current_label = self.label(change.about_node)
+                change.change_2 = NewSynonym(about_node=change.about_node, new_value=current_label)
+            return [change.change_1, change.change_2]
+        return [change]
