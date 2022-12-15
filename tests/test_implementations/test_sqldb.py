@@ -786,3 +786,30 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
 
     def test_disjoint_with(self):
         self.compliance_tester.test_disjoint_with(self.oi)
+
+
+class TestSqlDatabaseImplementationFhirDumps(unittest.TestCase):
+    """Tests FHIR dumping from SemanticSQL sqlite DB against various ontologies."""
+
+    def test_dump_hpo(self):
+        """Test HPO"""
+        pass
+
+    def test_dump_rxnorm(self):
+        """Test RxNorm"""
+        pass
+
+    def test_dump_mondo(self):
+        """Test Mondo"""
+        pass
+
+    def test_dump_comploinc(self):
+        """Test CompLOINC"""
+        DB = INPUT_DIR / "go-nucleus.db"
+        oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{str(DB)}"))
+        self.oi = oi
+        bad_ont = INPUT_DIR / "bad-ontology.db"
+        self.bad_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{bad_ont}"))
+        self.ssn_oi = SqlImplementation(OntologyResource(slug=f"sqlite:///{SSN_DB}"))
+        self.inst_oi = SqlImplementation(OntologyResource(INST_DB))
+        self.compliance_tester = ComplianceTester(self)
