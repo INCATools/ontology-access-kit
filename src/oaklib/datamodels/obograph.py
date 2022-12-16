@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-10-08T12:34:48
+# Generation date: 2022-12-15T16:32:52
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -7,6 +7,8 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
+import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -150,6 +152,9 @@ class Graph(YAMLRoot):
     domainRangeAxioms: Optional[
         Union[Union[dict, "DomainRangeAxiom"], List[Union[dict, "DomainRangeAxiom"]]]
     ] = empty_list()
+    allValuesFromEdges: Optional[
+        Union[Union[dict, "Edge"], List[Union[dict, "Edge"]]]
+    ] = empty_list()
     propertyChainAxioms: Optional[
         Union[Union[dict, "PropertyChainAxiom"], List[Union[dict, "PropertyChainAxiom"]]]
     ] = empty_list()
@@ -183,14 +188,12 @@ class Graph(YAMLRoot):
             for v in self.equivalentNodesSets
         ]
 
-        if not isinstance(self.logicalDefinitionAxioms, list):
-            self.logicalDefinitionAxioms = (
-                [self.logicalDefinitionAxioms] if self.logicalDefinitionAxioms is not None else []
-            )
-        self.logicalDefinitionAxioms = [
-            v if isinstance(v, LogicalDefinitionAxiom) else LogicalDefinitionAxiom(**as_dict(v))
-            for v in self.logicalDefinitionAxioms
-        ]
+        self._normalize_inlined_as_dict(
+            slot_name="logicalDefinitionAxioms",
+            slot_type=LogicalDefinitionAxiom,
+            key_name="definedClassId",
+            keyed=False,
+        )
 
         if not isinstance(self.domainRangeAxioms, list):
             self.domainRangeAxioms = (
@@ -199,6 +202,14 @@ class Graph(YAMLRoot):
         self.domainRangeAxioms = [
             v if isinstance(v, DomainRangeAxiom) else DomainRangeAxiom(**as_dict(v))
             for v in self.domainRangeAxioms
+        ]
+
+        if not isinstance(self.allValuesFromEdges, list):
+            self.allValuesFromEdges = (
+                [self.allValuesFromEdges] if self.allValuesFromEdges is not None else []
+            )
+        self.allValuesFromEdges = [
+            v if isinstance(v, Edge) else Edge(**as_dict(v)) for v in self.allValuesFromEdges
         ]
 
         if not isinstance(self.propertyChainAxioms, list):
@@ -473,8 +484,8 @@ class DomainRangeAxiom(Axiom):
 class EquivalentNodesSet(Axiom):
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.EquivalentNodesSet
-    class_class_curie: ClassVar[str] = "og:EquivalentNodesSet"
+    class_class_uri: ClassVar[URIRef] = OWL.equivalentClass
+    class_class_curie: ClassVar[str] = "owl:equivalentClass"
     class_name: ClassVar[str] = "EquivalentNodesSet"
     class_model_uri: ClassVar[URIRef] = OG.EquivalentNodesSet
 
@@ -494,10 +505,14 @@ class EquivalentNodesSet(Axiom):
 
 @dataclass
 class ExistentialRestrictionExpression(YAMLRoot):
+    """
+    An existential restriction (OWL some values from) expression
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = OG.ExistentialRestrictionExpression
-    class_class_curie: ClassVar[str] = "og:ExistentialRestrictionExpression"
+    class_class_uri: ClassVar[URIRef] = OWL.Restriction
+    class_class_curie: ClassVar[str] = "owl:Restriction"
     class_name: ClassVar[str] = "ExistentialRestrictionExpression"
     class_model_uri: ClassVar[URIRef] = OG.ExistentialRestrictionExpression
 
@@ -516,6 +531,10 @@ class ExistentialRestrictionExpression(YAMLRoot):
 
 @dataclass
 class LogicalDefinitionAxiom(Axiom):
+    """
+    An axiom that defines a class in terms of a genus or set of genus classes and a set of differentia
+    """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
@@ -523,23 +542,27 @@ class LogicalDefinitionAxiom(Axiom):
     class_name: ClassVar[str] = "LogicalDefinitionAxiom"
     class_model_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
 
-    definedClassId: Optional[str] = None
-    genusIds: Optional[Union[str, List[str]]] = empty_list()
-    restrictions: Optional[
-        Union[
-            Union[dict, ExistentialRestrictionExpression],
-            List[Union[dict, ExistentialRestrictionExpression]],
-        ]
-    ] = empty_list()
+    definedClassId: str = None
+    genusIds: Union[str, List[str]] = None
+    restrictions: Union[
+        Union[dict, ExistentialRestrictionExpression],
+        List[Union[dict, ExistentialRestrictionExpression]],
+    ] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.definedClassId is not None and not isinstance(self.definedClassId, str):
+        if self._is_empty(self.definedClassId):
+            self.MissingRequiredField("definedClassId")
+        if not isinstance(self.definedClassId, str):
             self.definedClassId = str(self.definedClassId)
 
+        if self._is_empty(self.genusIds):
+            self.MissingRequiredField("genusIds")
         if not isinstance(self.genusIds, list):
             self.genusIds = [self.genusIds] if self.genusIds is not None else []
         self.genusIds = [v if isinstance(v, str) else str(v) for v in self.genusIds]
 
+        if self._is_empty(self.restrictions):
+            self.MissingRequiredField("restrictions")
         if not isinstance(self.restrictions, list):
             self.restrictions = [self.restrictions] if self.restrictions is not None else []
         self.restrictions = [
@@ -774,6 +797,15 @@ slots.domainRangeAxioms = Slot(
     range=Optional[Union[Union[dict, DomainRangeAxiom], List[Union[dict, DomainRangeAxiom]]]],
 )
 
+slots.allValuesFromEdges = Slot(
+    uri=OG.allValuesFromEdges,
+    name="allValuesFromEdges",
+    curie=OG.curie("allValuesFromEdges"),
+    model_uri=OG.allValuesFromEdges,
+    domain=None,
+    range=Optional[Union[Union[dict, Edge], List[Union[dict, Edge]]]],
+)
+
 slots.propertyChainAxioms = Slot(
     uri=OG.propertyChainAxioms,
     name="propertyChainAxioms",
@@ -926,7 +958,7 @@ slots.logicalDefinitionAxiom__definedClassId = Slot(
     curie=OG.curie("definedClassId"),
     model_uri=OG.logicalDefinitionAxiom__definedClassId,
     domain=None,
-    range=Optional[str],
+    range=str,
 )
 
 slots.logicalDefinitionAxiom__genusIds = Slot(
@@ -935,20 +967,18 @@ slots.logicalDefinitionAxiom__genusIds = Slot(
     curie=OG.curie("genusIds"),
     model_uri=OG.logicalDefinitionAxiom__genusIds,
     domain=None,
-    range=Optional[Union[str, List[str]]],
+    range=Union[str, List[str]],
 )
 
 slots.logicalDefinitionAxiom__restrictions = Slot(
-    uri=OG.restrictions,
+    uri=OWL.someValuesFrom,
     name="logicalDefinitionAxiom__restrictions",
-    curie=OG.curie("restrictions"),
+    curie=OWL.curie("someValuesFrom"),
     model_uri=OG.logicalDefinitionAxiom__restrictions,
     domain=None,
-    range=Optional[
-        Union[
-            Union[dict, ExistentialRestrictionExpression],
-            List[Union[dict, ExistentialRestrictionExpression]],
-        ]
+    range=Union[
+        Union[dict, ExistentialRestrictionExpression],
+        List[Union[dict, ExistentialRestrictionExpression]],
     ],
 )
 

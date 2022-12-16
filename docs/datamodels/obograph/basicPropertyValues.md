@@ -1,15 +1,34 @@
 # Slot: basicPropertyValues
 
-URI: [https://github.com/geneontology/obographs/basicPropertyValues](https://github.com/geneontology/obographs/basicPropertyValues)
+URI: [og:basicPropertyValues](https://github.com/geneontology/obographs/basicPropertyValues)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [BasicPropertyValue](BasicPropertyValue.md)
+* Range: [BasicPropertyValue](BasicPropertyValue.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -28,3 +47,19 @@ URI: [https://github.com/geneontology/obographs/basicPropertyValues](https://git
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: basicPropertyValues
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: basicPropertyValues
+domain_of:
+- Meta
+range: BasicPropertyValue
+
+```
+</details>

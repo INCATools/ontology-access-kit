@@ -97,6 +97,11 @@ slots:
   domainRangeAxioms:
     multivalued: true
     range: DomainRangeAxiom
+  allValuesFromEdges:
+    description: >-
+      A list of edges that represent subclasses of universal restrictions
+    multivalued: true
+    range: Edge
   propertyChainAxioms:
     multivalued: true
     range: PropertyChainAxiom
@@ -171,6 +176,7 @@ classes:
       - equivalentNodesSets
       - logicalDefinitionAxioms
       - domainRangeAxioms
+      - allValuesFromEdges
       - propertyChainAxioms
 
   Node:

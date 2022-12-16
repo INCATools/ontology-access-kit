@@ -1,15 +1,33 @@
 # Slot: lbl
 
-URI: [https://github.com/geneontology/obographs/lbl](https://github.com/geneontology/obographs/lbl)
+URI: [og:lbl](https://github.com/geneontology/obographs/lbl)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | 
+[Node](Node.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+
+
+
+
 
 
 
@@ -28,3 +46,19 @@ URI: [https://github.com/geneontology/obographs/lbl](https://github.com/geneonto
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: lbl
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: lbl
+domain_of:
+- Graph
+- Node
+range: string
+
+```
+</details>

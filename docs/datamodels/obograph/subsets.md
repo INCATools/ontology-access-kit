@@ -1,15 +1,34 @@
 # Slot: subsets
 
-URI: [https://github.com/geneontology/obographs/subsets](https://github.com/geneontology/obographs/subsets)
+URI: [og:subsets](https://github.com/geneontology/obographs/subsets)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -28,3 +47,19 @@ URI: [https://github.com/geneontology/obographs/subsets](https://github.com/gene
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: subsets
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: subsets
+domain_of:
+- Meta
+range: string
+
+```
+</details>

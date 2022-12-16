@@ -2,10 +2,7 @@
 
 
 
-
-URI: [og:Node](https://github.com/geneontology/obographs/Node)
-
-
+URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
 ```{mermaid}
@@ -20,26 +17,30 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [id](id.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [lbl](lbl.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [type](type.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [nodes](nodes.md) | range | Node |
+| [Graph](Graph.md) | [nodes](nodes.md) | range | [Node](Node.md) |
+
+
+
 
 
 
@@ -60,17 +61,15 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Node'] |
-| native | ['og:Node'] |
+| self | rdf:Resource |
+| native | og:Node |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -80,11 +79,13 @@ URI: [og:Node](https://github.com/geneontology/obographs/Node)
 ```yaml
 name: Node
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - id
 - lbl
 - type
 - meta
+class_uri: rdf:Resource
 
 ```
 </details>
@@ -95,32 +96,52 @@ slots:
 ```yaml
 name: Node
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   id:
     name: id
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     identifier: true
     alias: id
     owner: Node
+    domain_of:
+    - Graph
+    - Node
     range: string
   lbl:
     name: lbl
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: lbl
     owner: Node
+    domain_of:
+    - Graph
+    - Node
     range: string
   type:
     name: type
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: type
     owner: Node
+    domain_of:
+    - Node
     range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: Node
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
+class_uri: rdf:Resource
 
 ```
 </details>

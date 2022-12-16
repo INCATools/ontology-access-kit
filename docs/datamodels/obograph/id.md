@@ -1,15 +1,33 @@
 # Slot: id
 
-URI: [https://github.com/geneontology/obographs/id](https://github.com/geneontology/obographs/id)
+URI: [og:id](https://github.com/geneontology/obographs/id)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | 
+[Node](Node.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+
+
+
+
 
 
 
@@ -28,3 +46,20 @@ URI: [https://github.com/geneontology/obographs/id](https://github.com/geneontol
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: id
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+identifier: true
+alias: id
+domain_of:
+- Graph
+- Node
+range: string
+
+```
+</details>

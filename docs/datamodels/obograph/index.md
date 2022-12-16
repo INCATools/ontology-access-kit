@@ -9,66 +9,97 @@ Name: obographs_datamodel
 
 | Class | Description |
 | --- | --- |
-| [Axiom](Axiom.md) | None |
-| [BasicPropertyValue](BasicPropertyValue.md) | None |
-| [DefinitionPropertyValue](DefinitionPropertyValue.md) | None |
-| [DomainRangeAxiom](DomainRangeAxiom.md) | None |
-| [Edge](Edge.md) | None |
-| [EquivalentNodesSet](EquivalentNodesSet.md) | None |
-| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | None |
-| [Graph](Graph.md) | None |
-| [GraphDocument](GraphDocument.md) | None |
-| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | None |
-| [Meta](Meta.md) | None |
-| [Node](Node.md) | None |
-| [PropertyChainAxiom](PropertyChainAxiom.md) | None |
-| [PropertyValue](PropertyValue.md) | None |
-| [SynonymPropertyValue](SynonymPropertyValue.md) | None |
-| [XrefPropertyValue](XrefPropertyValue.md) | None |
+| [Axiom](Axiom.md) |  |
+| [BasicPropertyValue](BasicPropertyValue.md) |  |
+| [DefinitionPropertyValue](DefinitionPropertyValue.md) |  |
+| [DomainRangeAxiom](DomainRangeAxiom.md) |  |
+| [Edge](Edge.md) |  |
+| [EquivalentNodesSet](EquivalentNodesSet.md) |  |
+| [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | An existential restriction (OWL some values from) expression |
+| [Graph](Graph.md) |  |
+| [GraphDocument](GraphDocument.md) |  |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | An axiom that defines a class in terms of a genus or set of genus classes and... |
+| [Meta](Meta.md) |  |
+| [Node](Node.md) |  |
+| [PrefixDeclaration](PrefixDeclaration.md) | maps individual prefix to namespace |
+| [PropertyChainAxiom](PropertyChainAxiom.md) |  |
+| [PropertyValue](PropertyValue.md) |  |
+| [SynonymPropertyValue](SynonymPropertyValue.md) |  |
+| [XrefPropertyValue](XrefPropertyValue.md) |  |
 
 
 ## Slots
 
 | Slot | Description |
 | --- | --- |
-| [basicPropertyValues](basicPropertyValues.md) | None |
-| [comments](comments.md) | None |
-| [definition](definition.md) | None |
-| [deprecated](deprecated.md) | None |
-| [domainRangeAxioms](domainRangeAxioms.md) | None |
-| [edges](edges.md) | None |
-| [equivalentNodesSets](equivalentNodesSets.md) | None |
-| [fillerId](fillerId.md) | None |
-| [graphs](graphs.md) | None |
-| [id](id.md) | None |
-| [isExact](isExact.md) | None |
-| [lbl](lbl.md) | None |
-| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | None |
-| [meta](meta.md) | None |
-| [nodeIds](nodeIds.md) | None |
-| [nodes](nodes.md) | None |
-| [obj](obj.md) | None |
-| [pred](pred.md) | None |
-| [propertyChainAxioms](propertyChainAxioms.md) | None |
-| [propertyId](propertyId.md) | None |
-| [representitiveNodeId](representitiveNodeId.md) | None |
-| [scope](scope.md) | None |
-| [sub](sub.md) | None |
-| [subsets](subsets.md) | None |
-| [synonyms](synonyms.md) | None |
-| [synonymType](synonymType.md) | None |
-| [type](type.md) | None |
-| [val](val.md) | None |
-| [version](version.md) | None |
-| [xrefs](xrefs.md) | None |
+| [allValuesFromEdges](allValuesFromEdges.md) | A list of edges that represent subclasses of universal restrictions |
+| [basicPropertyValues](basicPropertyValues.md) |  |
+| [chainPredicateIds](chainPredicateIds.md) |  |
+| [comments](comments.md) |  |
+| [definedClassId](definedClassId.md) | The class that is defined by this axiom |
+| [definition](definition.md) |  |
+| [deprecated](deprecated.md) |  |
+| [domainClassIds](domainClassIds.md) |  |
+| [domainRangeAxioms](domainRangeAxioms.md) |  |
+| [edges](edges.md) |  |
+| [equivalentNodesSets](equivalentNodesSets.md) |  |
+| [fillerId](fillerId.md) |  |
+| [genusIds](genusIds.md) | The set of classes that are the genus of the defined class |
+| [graphs](graphs.md) |  |
+| [id](id.md) |  |
+| [isExact](isExact.md) |  |
+| [lbl](lbl.md) |  |
+| [logicalDefinitionAxioms](logicalDefinitionAxioms.md) |  |
+| [meta](meta.md) |  |
+| [namespace](namespace.md) | The namespace associated with a prefix in a prefix declaration |
+| [nodeIds](nodeIds.md) |  |
+| [nodes](nodes.md) |  |
+| [obj](obj.md) |  |
+| [pred](pred.md) |  |
+| [predicateId](predicateId.md) |  |
+| [prefix](prefix.md) | The prefix of a prefix declaration |
+| [prefixes](prefixes.md) | maps prefixes to namespaces |
+| [propertyChainAxioms](propertyChainAxioms.md) |  |
+| [propertyId](propertyId.md) |  |
+| [rangeClassIds](rangeClassIds.md) |  |
+| [representativeNodeId](representativeNodeId.md) |  |
+| [restrictions](restrictions.md) | The set of restrictions that are the differentia of the defined class |
+| [sub](sub.md) |  |
+| [subsets](subsets.md) |  |
+| [synonyms](synonyms.md) |  |
+| [synonymType](synonymType.md) |  |
+| [type](type.md) |  |
+| [val](val.md) |  |
+| [version](version.md) |  |
+| [xrefs](xrefs.md) |  |
 
 
 ## Enumerations
 
 | Enumeration | Description |
 | --- | --- |
-| [PredsEnum](PredsEnum.md) | None |
-| [ScopesEnum](ScopesEnum.md) | None |
+| [ScopeEnum](ScopeEnum.md) |  |
+
+
+## Types
+
+| Type | Description |
+| --- | --- |
+| [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | A binary (true or false) value |
+| [xsd:date](http://www.w3.org/2001/XMLSchema#date) | a date (year, month and day) in an idealized calendar |
+| [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |
+| [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | The combination of a date and time |
+| [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
+| [xsd:double](http://www.w3.org/2001/XMLSchema#double) | A real number that conforms to the xsd:double specification |
+| [xsd:float](http://www.w3.org/2001/XMLSchema#float) | A real number that conforms to the xsd:float specification |
+| [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | An integer |
+| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Prefix part of CURIE |
+| [shex:nonLiteral](shex:nonLiteral) | A URI, CURIE or BNODE that represents a node in a model |
+| [shex:iri](shex:iri) | A URI or CURIE that represents an object in the model |
+| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | A character string |
+| [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | A time object represents a (local) time of day, independent of any particular... |
+| [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | a complete URI |
+| [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | a URI or a CURIE |
 
 
 ## Subsets
