@@ -7,7 +7,6 @@ from oaklib.datamodels.lexical_index import LexicalIndex
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
-from oaklib.datamodels.vocabulary import SYNONYM_PREDICATES
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
