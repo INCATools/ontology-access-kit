@@ -15,6 +15,7 @@ class TestTranslatorImplementation(unittest.TestCase):
     def setUp(self) -> None:
         self.impl = TranslatorImplementation()
 
+    @unittest.skip("TODO: use mock tests; service is sometimes unavailable")
     def test_sssom_mappings(self):
         """
         Tests SSSOM mappings from Node Normalizer using a known stable gene
