@@ -512,9 +512,7 @@ class SqlImplementation(
         )
         self._execute(stmt)
 
-    def basic_search(
-        self, search_term: str, config: SearchConfiguration = None
-    ) -> Iterable[CURIE]:
+    def basic_search(self, search_term: str, config: SearchConfiguration = None) -> Iterable[CURIE]:
         if config is None:
             config = SEARCH_CONFIG
         if config.force_case_insensitive:
