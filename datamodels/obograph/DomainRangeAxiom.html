@@ -89,6 +89,7 @@
     class DomainRangeAxiom
       Axiom &lt;|-- DomainRangeAxiom
       
+      DomainRangeAxiom : allValuesFromEdges
       DomainRangeAxiom : domainClassIds
       DomainRangeAxiom : meta
       DomainRangeAxiom : predicateId
@@ -130,7 +131,12 @@
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="doc std std-doc">allValuesFromEdges</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
+<td><p>A list of edges that represent subclasses of universal restrictions</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
@@ -199,6 +205,7 @@ slots:
 - predicateId
 - domainClassIds
 - rangeClassIds
+- allValuesFromEdges
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -240,6 +247,18 @@ attributes:
     domain_of:
     - DomainRangeAxiom
     range: string
+  allValuesFromEdges:
+    name: allValuesFromEdges
+    description: A list of edges that represent subclasses of universal restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: allValuesFromEdges
+    owner: DomainRangeAxiom
+    domain_of:
+    - Graph
+    - DomainRangeAxiom
+    range: Edge
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

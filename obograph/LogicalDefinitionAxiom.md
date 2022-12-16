@@ -33,8 +33,8 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [definedClassId](definedClassId.md) | 1..1 <br/> NONE | The class that is defined by this axiom | direct |
-| [genusIds](genusIds.md) | 1..* <br/> NONE | The set of classes that are the genus of the defined class | direct |
-| [restrictions](restrictions.md) | 1..* <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentia of the defined class | direct |
+| [genusIds](genusIds.md) | 0..* _recommended_ <br/> NONE | The set of classes that are the genus of the defined class | direct |
+| [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentia of the defined class | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
 
 
@@ -121,7 +121,7 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
-    required: true
+    recommended: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
@@ -132,7 +132,7 @@ attributes:
     slot_uri: owl:someValuesFrom
     multivalued: true
     range: ExistentialRestrictionExpression
-    required: true
+    recommended: true
 
 ```
 </details>
@@ -176,7 +176,7 @@ attributes:
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
-    required: true
+    recommended: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
@@ -191,7 +191,7 @@ attributes:
     domain_of:
     - LogicalDefinitionAxiom
     range: ExistentialRestrictionExpression
-    required: true
+    recommended: true
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

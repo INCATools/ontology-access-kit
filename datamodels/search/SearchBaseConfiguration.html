@@ -90,6 +90,7 @@
     class SearchBaseConfiguration
       SearchBaseConfiguration : categories
       SearchBaseConfiguration : cursor
+      SearchBaseConfiguration : force_case_insensitive
       SearchBaseConfiguration : include_obsoletes_in_results
       SearchBaseConfiguration : is_complete
       SearchBaseConfiguration : is_fuzzy
@@ -159,6 +160,11 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="categories.html"><span class="doc std std-doc">categories</span></a></p></td>
 <td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a></p></td>
 <td><p>categories that should be matched</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="force_case_insensitive.html"><span class="doc std std-doc">force_case_insensitive</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
+<td><p>force case insensitive matching</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -309,6 +315,12 @@ attributes:
     rank: 1000
     multivalued: true
     range: uriorcurie
+  force_case_insensitive:
+    name: force_case_insensitive
+    description: force case insensitive matching
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    range: boolean
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -432,6 +444,16 @@ attributes:
     domain_of:
     - SearchBaseConfiguration
     range: uriorcurie
+  force_case_insensitive:
+    name: force_case_insensitive
+    description: force case insensitive matching
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: force_case_insensitive
+    owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
+    range: boolean
 
 </pre></div>
 </div>

@@ -27,7 +27,7 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 * Range: [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md)
 * Multivalued: True
 
-* Required: True
+* Recommended: True
 
 
 
@@ -74,7 +74,7 @@ owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
 range: ExistentialRestrictionExpression
-required: true
+recommended: true
 
 ```
 </details>

@@ -34,6 +34,7 @@ Name: search-datamodel
 | [categories](categories.md) | categories that should be matched |
 | [configuration](configuration.md) |  |
 | [cursor](cursor.md) | when the number of search results exceed the limit this can be used to iterat... |
+| [force_case_insensitive](force_case_insensitive.md) | force case insensitive matching |
 | [graph_predicates](graph_predicates.md) |  |
 | [include_obsoletes_in_results](include_obsoletes_in_results.md) |  |
 | [is_complete](is_complete.md) |  |

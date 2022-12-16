@@ -8,6 +8,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 ```{mermaid}
  classDiagram
     class Graph
+      Graph : allValuesFromEdges
       Graph : domainRangeAxioms
       Graph : edges
       Graph : equivalentNodesSets
@@ -37,6 +38,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [equivalentNodesSets](equivalentNodesSets.md) | 0..* <br/> [EquivalentNodesSet](EquivalentNodesSet.md) |  | direct |
 | [logicalDefinitionAxioms](logicalDefinitionAxioms.md) | 0..* <br/> [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) |  | direct |
 | [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md) |  | direct |
+| [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
 | [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md) |  | direct |
 
 
@@ -97,6 +99,7 @@ slots:
 - equivalentNodesSets
 - logicalDefinitionAxioms
 - domainRangeAxioms
+- allValuesFromEdges
 - propertyChainAxioms
 class_uri: owl:Ontology
 
@@ -189,6 +192,8 @@ attributes:
     domain_of:
     - Graph
     range: LogicalDefinitionAxiom
+    inlined: true
+    inlined_as_list: true
   domainRangeAxioms:
     name: domainRangeAxioms
     from_schema: https://github.com/geneontology/obographs
@@ -199,6 +204,18 @@ attributes:
     domain_of:
     - Graph
     range: DomainRangeAxiom
+  allValuesFromEdges:
+    name: allValuesFromEdges
+    description: A list of edges that represent subclasses of universal restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: allValuesFromEdges
+    owner: Graph
+    domain_of:
+    - Graph
+    - DomainRangeAxiom
+    range: Edge
   propertyChainAxioms:
     name: propertyChainAxioms
     from_schema: https://github.com/geneontology/obographs

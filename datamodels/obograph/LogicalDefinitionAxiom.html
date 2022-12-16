@@ -122,12 +122,12 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="genusIds.html"><span class="doc std std-doc">genusIds</span></a></p></td>
-<td><p>1..* <br/> NONE</p></td>
+<td><p>0..* <em>recommended</em> <br/> NONE</p></td>
 <td><p>The set of classes that are the genus of the defined class</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="restrictions.html"><span class="doc std std-doc">restrictions</span></a></p></td>
-<td><p>1..* <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="doc std std-doc">ExistentialRestrictionExpression</span></a></p></td>
+<td><p>0..* <em>recommended</em> <br/> <a class="reference internal" href="ExistentialRestrictionExpression.html"><span class="doc std std-doc">ExistentialRestrictionExpression</span></a></p></td>
 <td><p>The set of restrictions that are the differentia of the defined class</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -240,7 +240,7 @@ attributes:
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
-    required: true
+    recommended: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
@@ -251,7 +251,7 @@ attributes:
     slot_uri: owl:someValuesFrom
     multivalued: true
     range: ExistentialRestrictionExpression
-    required: true
+    recommended: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -293,7 +293,7 @@ attributes:
     owner: LogicalDefinitionAxiom
     domain_of:
     - LogicalDefinitionAxiom
-    required: true
+    recommended: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
@@ -308,7 +308,7 @@ attributes:
     domain_of:
     - LogicalDefinitionAxiom
     range: ExistentialRestrictionExpression
-    required: true
+    recommended: true
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

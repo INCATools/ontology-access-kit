@@ -60,6 +60,8 @@ alias: logicalDefinitionAxioms
 domain_of:
 - Graph
 range: LogicalDefinitionAxiom
+inlined: true
+inlined_as_list: true
 
 ```
 </details>

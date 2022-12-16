@@ -32,6 +32,7 @@ Name: obographs_datamodel
 
 | Slot | Description |
 | --- | --- |
+| [allValuesFromEdges](allValuesFromEdges.md) | A list of edges that represent subclasses of universal restrictions |
 | [basicPropertyValues](basicPropertyValues.md) |  |
 | [chainPredicateIds](chainPredicateIds.md) |  |
 | [comments](comments.md) |  |

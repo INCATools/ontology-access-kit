@@ -34,6 +34,8 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
 | [Graph](Graph.md) | [edges](edges.md) | range | [Edge](Edge.md) |
+| [Graph](Graph.md) | [allValuesFromEdges](allValuesFromEdges.md) | range | [Edge](Edge.md) |
+| [DomainRangeAxiom](DomainRangeAxiom.md) | [allValuesFromEdges](allValuesFromEdges.md) | range | [Edge](Edge.md) |
 
 
 

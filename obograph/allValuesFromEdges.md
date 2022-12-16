@@ -1,6 +1,8 @@
-# Slot: logicalDefinitionAxioms
+# Slot: allValuesFromEdges
+_A list of edges that represent subclasses of universal restrictions_
 
-URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logicalDefinitionAxioms)
+
+URI: [og:allValuesFromEdges](https://github.com/geneontology/obographs/allValuesFromEdges)
 
 
 
@@ -14,6 +16,7 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 | Name | Description |
 | --- | --- |
 [Graph](Graph.md) | 
+[DomainRangeAxiom](DomainRangeAxiom.md) | 
 
 
 
@@ -22,7 +25,7 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 ## Properties
 
-* Range: [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md)
+* Range: [Edge](Edge.md)
 * Multivalued: True
 
 
@@ -52,16 +55,16 @@ URI: [og:logicalDefinitionAxioms](https://github.com/geneontology/obographs/logi
 
 <details>
 ```yaml
-name: logicalDefinitionAxioms
+name: allValuesFromEdges
+description: A list of edges that represent subclasses of universal restrictions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true
-alias: logicalDefinitionAxioms
+alias: allValuesFromEdges
 domain_of:
 - Graph
-range: LogicalDefinitionAxiom
-inlined: true
-inlined_as_list: true
+- DomainRangeAxiom
+range: Edge
 
 ```
 </details>

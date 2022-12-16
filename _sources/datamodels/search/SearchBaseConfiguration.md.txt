@@ -12,6 +12,7 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
     class SearchBaseConfiguration
       SearchBaseConfiguration : categories
       SearchBaseConfiguration : cursor
+      SearchBaseConfiguration : force_case_insensitive
       SearchBaseConfiguration : include_obsoletes_in_results
       SearchBaseConfiguration : is_complete
       SearchBaseConfiguration : is_fuzzy
@@ -42,6 +43,7 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 | [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [is_fuzzy](is_fuzzy.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [categories](categories.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | categories that should be matched | direct |
+| [force_case_insensitive](force_case_insensitive.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | force case insensitive matching | direct |
 
 
 
@@ -171,6 +173,12 @@ attributes:
     rank: 1000
     multivalued: true
     range: uriorcurie
+  force_case_insensitive:
+    name: force_case_insensitive
+    description: force case insensitive matching
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    range: boolean
 
 ```
 </details>
@@ -296,6 +304,16 @@ attributes:
     domain_of:
     - SearchBaseConfiguration
     range: uriorcurie
+  force_case_insensitive:
+    name: force_case_insensitive
+    description: force case insensitive matching
+    from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
+    alias: force_case_insensitive
+    owner: SearchBaseConfiguration
+    domain_of:
+    - SearchBaseConfiguration
+    range: boolean
 
 ```
 </details>
