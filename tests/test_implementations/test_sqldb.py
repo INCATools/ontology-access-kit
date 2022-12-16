@@ -491,6 +491,16 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
         # logging.info(curies)
         self.assertCountEqual([CYTOPLASM], curies)
 
+    def test_search_case_insensitive(self):
+        config = SearchConfiguration(force_case_insensitive=True)
+        curies = list(self.oi.basic_search("CYTOPLASM", config=config))
+        # logging.info(curies)
+        self.assertCountEqual([CYTOPLASM], curies)
+        config = SearchConfiguration(force_case_insensitive=False)
+        curies = list(self.oi.basic_search("CYTOPLASM", config=config))
+        # logging.info(curies)
+        self.assertCountEqual([], curies)
+
     def test_search_partial(self):
         config = SearchConfiguration(is_partial=True)
         curies = list(self.oi.basic_search("nucl", config=config))
