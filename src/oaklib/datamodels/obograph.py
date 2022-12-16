@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-15T16:32:52
+# Generation date: 2022-12-15T16:52:54
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -543,23 +543,17 @@ class LogicalDefinitionAxiom(Axiom):
     class_model_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
 
     definedClassId: str = None
-    genusIds: Union[str, List[str]] = None
     restrictions: Union[
         Union[dict, ExistentialRestrictionExpression],
         List[Union[dict, ExistentialRestrictionExpression]],
     ] = None
+    genusIds: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.definedClassId):
             self.MissingRequiredField("definedClassId")
         if not isinstance(self.definedClassId, str):
             self.definedClassId = str(self.definedClassId)
-
-        if self._is_empty(self.genusIds):
-            self.MissingRequiredField("genusIds")
-        if not isinstance(self.genusIds, list):
-            self.genusIds = [self.genusIds] if self.genusIds is not None else []
-        self.genusIds = [v if isinstance(v, str) else str(v) for v in self.genusIds]
 
         if self._is_empty(self.restrictions):
             self.MissingRequiredField("restrictions")
@@ -571,6 +565,10 @@ class LogicalDefinitionAxiom(Axiom):
             else ExistentialRestrictionExpression(**as_dict(v))
             for v in self.restrictions
         ]
+
+        if not isinstance(self.genusIds, list):
+            self.genusIds = [self.genusIds] if self.genusIds is not None else []
+        self.genusIds = [v if isinstance(v, str) else str(v) for v in self.genusIds]
 
         super().__post_init__(**kwargs)
 
@@ -967,7 +965,7 @@ slots.logicalDefinitionAxiom__genusIds = Slot(
     curie=OG.curie("genusIds"),
     model_uri=OG.logicalDefinitionAxiom__genusIds,
     domain=None,
-    range=Union[str, List[str]],
+    range=Optional[Union[str, List[str]]],
 )
 
 slots.logicalDefinitionAxiom__restrictions = Slot(

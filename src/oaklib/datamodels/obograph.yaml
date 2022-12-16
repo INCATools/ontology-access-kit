@@ -279,7 +279,8 @@ classes:
         comments:
           - typically, this will be a single class
         multivalued: true
-        required: true
+        required: false ## https://github.com/geneontology/obographs/issues/89
+        recommended: true
       restrictions:
         aliases:
           - differentia
