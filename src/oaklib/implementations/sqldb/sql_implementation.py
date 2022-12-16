@@ -194,7 +194,7 @@ def regex_to_sql_like(regex: str) -> str:
         like = like[0:-1]
     else:
         like = f"{like}%"
-    logging.info(f"Translated {regex} => {like}")
+    logging.info(f"Translated {regex} => LIKE {like}")
     return like
 
 
@@ -513,8 +513,19 @@ class SqlImplementation(
         self._execute(stmt)
 
     def basic_search(
-        self, search_term: str, config: SearchConfiguration = SEARCH_CONFIG
+        self, search_term: str, config: SearchConfiguration = None
     ) -> Iterable[CURIE]:
+        if config is None:
+            config = SEARCH_CONFIG
+        if config.force_case_insensitive:
+            # in sqlite, LIKEs are case insensitive
+            if config.syntax:
+                if config.syntax != SearchTermSyntax(SearchTermSyntax.SQL):
+                    raise ValueError(
+                        f"Cannot force case insensitive search with syntax {config.syntax}"
+                    )
+            else:
+                config.syntax = SearchTermSyntax(SearchTermSyntax.SQL)
         preds = []
         preds.append(omd_slots.label.curie)
         search_all = SearchProperty(SearchProperty.ANYTHING) in config.properties
