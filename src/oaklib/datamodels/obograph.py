@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-15T17:24:49
+# Generation date: 2022-12-15T18:11:14
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -188,12 +188,14 @@ class Graph(YAMLRoot):
             for v in self.equivalentNodesSets
         ]
 
-        self._normalize_inlined_as_dict(
-            slot_name="logicalDefinitionAxioms",
-            slot_type=LogicalDefinitionAxiom,
-            key_name="definedClassId",
-            keyed=False,
-        )
+        if not isinstance(self.logicalDefinitionAxioms, list):
+            self.logicalDefinitionAxioms = (
+                [self.logicalDefinitionAxioms] if self.logicalDefinitionAxioms is not None else []
+            )
+        self.logicalDefinitionAxioms = [
+            v if isinstance(v, LogicalDefinitionAxiom) else LogicalDefinitionAxiom(**as_dict(v))
+            for v in self.logicalDefinitionAxioms
+        ]
 
         if not isinstance(self.domainRangeAxioms, list):
             self.domainRangeAxioms = (

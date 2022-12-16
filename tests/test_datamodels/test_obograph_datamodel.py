@@ -48,5 +48,26 @@ class TestOboGraphDatamodel(AbstractDatamodelTestCase):
                 ],
             )
         )
+        # allow no restrictions, even though formally permitted
+        g.logicalDefinitionAxioms.append(
+            obograph.LogicalDefinitionAxiom(
+                definedClassId="EXAMPLE:5",
+                genusIds=["EXAMPLE:1", "EXAMPLE:2"],
+            )
+        )
+        # allow no genusIds, even though formally permitted
+        g.logicalDefinitionAxioms.append(
+            obograph.LogicalDefinitionAxiom(
+                definedClassId="EXAMPLE:8",
+                restrictions=[
+                    obograph.ExistentialRestrictionExpression(
+                        propertyId="RO:1", fillerId="EXAMPLE:3"
+                    ),
+                    obograph.ExistentialRestrictionExpression(
+                        propertyId="RO:2", fillerId="EXAMPLE:4"
+                    ),
+                ],
+            )
+        )
         yaml_dumper.dump(g, output_path("example-ldefs.obograph.yaml"))
         self.attempt_streaming_writers(g.logicalDefinitionAxioms)
