@@ -30,7 +30,7 @@ from oaklib.implementations.sparql.abstract_sparql_implementation import (
     AbstractSparqlImplementation,
 )
 from oaklib.implementations.sparql.sparql_query import SparqlQuery
-from oaklib.interfaces import SubsetterInterface
+from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
 )
@@ -74,6 +74,7 @@ class UniprotImplementation(
     SemanticSimilarityInterface,
     SubsetterInterface,
     AssociationProviderInterface,
+    TextAnnotatorInterface,
 ):
     """
     Wraps the Uniprot sparql endpoint.

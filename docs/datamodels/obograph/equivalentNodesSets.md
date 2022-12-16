@@ -1,15 +1,34 @@
 # Slot: equivalentNodesSets
 
-URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
+URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Graph](Graph.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [EquivalentNodesSet](EquivalentNodesSet.md)
+* Range: [EquivalentNodesSet](EquivalentNodesSet.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -28,3 +47,19 @@ URI: [https://github.com/geneontology/obographs/equivalentNodesSets](https://git
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: equivalentNodesSets
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+multivalued: true
+alias: equivalentNodesSets
+domain_of:
+- Graph
+range: EquivalentNodesSet
+
+```
+</details>

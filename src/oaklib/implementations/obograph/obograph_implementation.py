@@ -87,7 +87,6 @@ class OboGraphImplementation(
         if self.obograph_document is None:
             resource = self.resource
             if resource and resource.local_path:
-                print(resource.local_path)
                 gd = json_loader.load(str(resource.local_path), target_class=GraphDocument)
             else:
                 gd = GraphDocument()

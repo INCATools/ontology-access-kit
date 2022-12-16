@@ -1,15 +1,32 @@
 # Slot: definition
 
-URI: [https://github.com/geneontology/obographs/definition](https://github.com/geneontology/obographs/definition)
+URI: [og:definition](https://github.com/geneontology/obographs/definition)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Meta](Meta.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [DefinitionPropertyValue](DefinitionPropertyValue.md)
+* Range: [DefinitionPropertyValue](DefinitionPropertyValue.md)
+
+
+
+
 
 
 
@@ -28,3 +45,18 @@ URI: [https://github.com/geneontology/obographs/definition](https://github.com/g
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: definition
+from_schema: https://github.com/geneontology/obographs
+rank: 1000
+alias: definition
+domain_of:
+- Meta
+range: DefinitionPropertyValue
+
+```
+</details>

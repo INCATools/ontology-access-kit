@@ -48,5 +48,47 @@ class TestOboGraphDatamodel(AbstractDatamodelTestCase):
                 ],
             )
         )
+        # allow no restrictions, even though formally permitted
+        g.logicalDefinitionAxioms.append(
+            obograph.LogicalDefinitionAxiom(
+                definedClassId="EXAMPLE:5",
+                genusIds=["EXAMPLE:1", "EXAMPLE:2"],
+            )
+        )
+        # allow no genusIds, even though formally permitted
+        g.logicalDefinitionAxioms.append(
+            obograph.LogicalDefinitionAxiom(
+                definedClassId="EXAMPLE:8",
+                restrictions=[
+                    obograph.ExistentialRestrictionExpression(
+                        propertyId="RO:1", fillerId="EXAMPLE:3"
+                    ),
+                    obograph.ExistentialRestrictionExpression(
+                        propertyId="RO:2", fillerId="EXAMPLE:4"
+                    ),
+                ],
+            )
+        )
+        # domain and range
+        # https://github.com/INCATools/ontology-access-kit/issues/413
+        g.domainRangeAxioms.append(
+            obograph.DomainRangeAxiom(
+                predicateId="RO:1",
+                domainClassIds=["EXAMPLE:1"],
+                rangeClassIds=["EXAMPLE:2"],
+            )
+        )
+        g.domainRangeAxioms.append(
+            obograph.DomainRangeAxiom(
+                predicateId="RO:1",
+                allValuesFromEdges=[
+                    obograph.Edge(
+                        sub="EXAMPLE:1",
+                        pred="RO:1",
+                        obj="EXAMPLE:2",
+                    ),
+                ],
+            )
+        )
         yaml_dumper.dump(g, output_path("example-ldefs.obograph.yaml"))
         self.attempt_streaming_writers(g.logicalDefinitionAxioms)

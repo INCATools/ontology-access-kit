@@ -4,14 +4,12 @@
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-
 URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
-
-
 
 
 ```{mermaid}
  classDiagram
+    class Axiom
       Axiom <|-- DomainRangeAxiom
       Axiom <|-- EquivalentNodesSet
       Axiom <|-- LogicalDefinitionAxiom
@@ -20,7 +18,6 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
       Axiom : meta
       
 ```
-
 
 
 
@@ -36,12 +33,15 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
 
 
-## Usages
+
+
+
+
 
 
 
@@ -62,17 +62,15 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Axiom'] |
-| native | ['og:Axiom'] |
+| self | og:Axiom |
+| native | og:Axiom |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -82,6 +80,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 ```yaml
 name: Axiom
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 abstract: true
 slots:
 - meta
@@ -95,13 +94,21 @@ slots:
 ```yaml
 name: Axiom
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 abstract: true
 attributes:
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: Axiom
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

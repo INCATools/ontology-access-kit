@@ -89,6 +89,10 @@ classes:
         multivalued: true
         range: uriorcurie
         description: categories that should be matched
+      force_case_insensitive:
+        range: boolean
+        description: >-
+          force case insensitive matching
 
   ComplexQuery:
     attributes:

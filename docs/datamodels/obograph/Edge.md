@@ -2,10 +2,7 @@
 
 
 
-
 URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
-
-
 
 
 ```{mermaid}
@@ -19,25 +16,30 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [sub](sub.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [obj](obj.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [sub](sub.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [obj](obj.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Graph](Graph.md) | [edges](edges.md) | range | Edge |
+| [Graph](Graph.md) | [edges](edges.md) | range | [Edge](Edge.md) |
+| [Graph](Graph.md) | [allValuesFromEdges](allValuesFromEdges.md) | range | [Edge](Edge.md) |
+
+
+
 
 
 
@@ -58,17 +60,15 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:Edge'] |
-| native | ['og:Edge'] |
+| self | og:Edge |
+| native | og:Edge |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -78,6 +78,7 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 ```yaml
 name: Edge
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 slots:
 - sub
 - pred
@@ -92,24 +93,36 @@ slots:
 ```yaml
 name: Edge
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 attributes:
   sub:
     name: sub
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: sub
     owner: Edge
+    domain_of:
+    - Edge
     range: string
   pred:
     name: pred
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: pred
     owner: Edge
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
     range: string
   obj:
     name: obj
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: obj
     owner: Edge
+    domain_of:
+    - Edge
     range: string
 
 ```

@@ -1,11 +1,10 @@
 # Class: ExistentialRestrictionExpression
+_An existential restriction (OWL some values from) expression_
 
 
 
 
-URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obographs/ExistentialRestrictionExpression)
-
-
+URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 ```{mermaid}
@@ -18,19 +17,33 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [fillerId](fillerId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [propertyId](propertyId.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
+
 
 
 ## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [LogicalDefinitionAxiom](LogicalDefinitionAxiom.md) | [restrictions](restrictions.md) | range | [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) |
+
+
+
+
+## Aliases
+
+
+* some values from expression
 
 
 
@@ -39,6 +52,12 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| owl.fstring | ObjectSomeValuesFrom({propertyId} {fillerId}) |
 
 
 
@@ -51,17 +70,15 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:ExistentialRestrictionExpression'] |
-| native | ['og:ExistentialRestrictionExpression'] |
+| self | owl:Restriction |
+| native | og:ExistentialRestrictionExpression |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -70,10 +87,19 @@ URI: [og:ExistentialRestrictionExpression](https://github.com/geneontology/obogr
 <details>
 ```yaml
 name: ExistentialRestrictionExpression
+annotations:
+  owl.fstring:
+    tag: owl.fstring
+    value: ObjectSomeValuesFrom({propertyId} {fillerId})
+description: An existential restriction (OWL some values from) expression
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- some values from expression
+rank: 1000
 slots:
 - fillerId
 - propertyId
+class_uri: owl:Restriction
 
 ```
 </details>
@@ -83,20 +109,35 @@ slots:
 <details>
 ```yaml
 name: ExistentialRestrictionExpression
+annotations:
+  owl.fstring:
+    tag: owl.fstring
+    value: ObjectSomeValuesFrom({propertyId} {fillerId})
+description: An existential restriction (OWL some values from) expression
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- some values from expression
+rank: 1000
 attributes:
   fillerId:
     name: fillerId
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: fillerId
     owner: ExistentialRestrictionExpression
+    domain_of:
+    - ExistentialRestrictionExpression
     range: string
   propertyId:
     name: propertyId
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: propertyId
     owner: ExistentialRestrictionExpression
+    domain_of:
+    - ExistentialRestrictionExpression
     range: string
+class_uri: owl:Restriction
 
 ```
 </details>

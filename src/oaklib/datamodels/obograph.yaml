@@ -93,10 +93,16 @@ slots:
     range: EquivalentNodesSet
   logicalDefinitionAxioms:
     multivalued: true
+    inlined_as_list: true
     range: LogicalDefinitionAxiom
   domainRangeAxioms:
     multivalued: true
     range: DomainRangeAxiom
+  allValuesFromEdges:
+    description: >-
+      A list of edges that represent subclasses of universal restrictions
+    multivalued: true
+    range: Edge
   propertyChainAxioms:
     multivalued: true
     range: PropertyChainAxiom
@@ -171,6 +177,7 @@ classes:
       - equivalentNodesSets
       - logicalDefinitionAxioms
       - domainRangeAxioms
+      - allValuesFromEdges
       - propertyChainAxioms
 
   Node:
@@ -238,6 +245,7 @@ classes:
       - predicateId
       - domainClassIds
       - rangeClassIds
+      - allValuesFromEdges
 
   EquivalentNodesSet:
     class_uri: owl:equivalentClass
@@ -273,14 +281,16 @@ classes:
         comments:
           - typically, this will be a single class
         multivalued: true
-        required: true
+        #required: false ## https://github.com/geneontology/obographs/issues/89
+        recommended: true
       restrictions:
         aliases:
           - differentia
         description: The set of restrictions that are the differentia of the defined class
         multivalued: true
         range: ExistentialRestrictionExpression
-        required: true
+        #required: false ## https://github.com/geneontology/obographs/issues/89
+        recommended: true
         slot_uri: owl:someValuesFrom
 
   PropertyChainAxiom:

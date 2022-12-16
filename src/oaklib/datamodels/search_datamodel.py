@@ -1,5 +1,5 @@
 # Auto generated from search_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-05T17:16:57
+# Generation date: 2022-12-15T18:41:02
 # Schema: search-datamodel
 #
 # id: https://w3id.org/linkml/search_datamodel
@@ -105,6 +105,7 @@ class SearchBaseConfiguration(YAMLRoot):
     include_obsoletes_in_results: Optional[Union[bool, Bool]] = None
     is_fuzzy: Optional[Union[bool, Bool]] = None
     categories: Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]] = empty_list()
+    force_case_insensitive: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if not isinstance(self.search_terms, list):
@@ -147,6 +148,11 @@ class SearchBaseConfiguration(YAMLRoot):
         self.categories = [
             v if isinstance(v, URIorCURIE) else URIorCURIE(v) for v in self.categories
         ]
+
+        if self.force_case_insensitive is not None and not isinstance(
+            self.force_case_insensitive, Bool
+        ):
+            self.force_case_insensitive = Bool(self.force_case_insensitive)
 
         super().__post_init__(**kwargs)
 
@@ -520,6 +526,15 @@ slots.searchBaseConfiguration__categories = Slot(
     model_uri=SEARCH.searchBaseConfiguration__categories,
     domain=None,
     range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]],
+)
+
+slots.searchBaseConfiguration__force_case_insensitive = Slot(
+    uri=SEARCH.force_case_insensitive,
+    name="searchBaseConfiguration__force_case_insensitive",
+    curie=SEARCH.curie("force_case_insensitive"),
+    model_uri=SEARCH.searchBaseConfiguration__force_case_insensitive,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )
 
 slots.complexQuery__all_of = Slot(

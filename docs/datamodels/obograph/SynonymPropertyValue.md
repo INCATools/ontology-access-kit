@@ -2,27 +2,22 @@
 
 
 
-
 URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
-
-
 
 
 ```{mermaid}
  classDiagram
+    class SynonymPropertyValue
       PropertyValue <|-- SynonymPropertyValue
       
       SynonymPropertyValue : isExact
       SynonymPropertyValue : meta
       SynonymPropertyValue : pred
-      SynonymPropertyValue : scope
       SynonymPropertyValue : synonymType
       SynonymPropertyValue : val
       SynonymPropertyValue : xrefs
       
-
 ```
-
 
 
 
@@ -35,23 +30,27 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [synonymType](synonymType.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [isExact](isExact.md) | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | 0..1 | None  | . |
-| [scope](scope.md) | [ScopesEnum](ScopesEnum.md) | 0..1 | None  | . |
-| [pred](pred.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [val](val.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [xrefs](xrefs.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [meta](meta.md) | [Meta](Meta.md) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [synonymType](synonymType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Meta](Meta.md) | [synonyms](synonyms.md) | range | SynonymPropertyValue |
+| [Meta](Meta.md) | [synonyms](synonyms.md) | range | [SynonymPropertyValue](SynonymPropertyValue.md) |
+
+
+
 
 
 
@@ -72,17 +71,15 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['og:SynonymPropertyValue'] |
-| native | ['og:SynonymPropertyValue'] |
+| self | og:SynonymPropertyValue |
+| native | og:SynonymPropertyValue |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -92,11 +89,23 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 ```yaml
 name: SynonymPropertyValue
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: PropertyValue
 slots:
 - synonymType
 - isExact
-- scope
+- pred
+slot_usage:
+  pred:
+    name: pred
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    range: ScopeEnum
 
 ```
 </details>
@@ -107,50 +116,84 @@ slots:
 ```yaml
 name: SynonymPropertyValue
 from_schema: https://github.com/geneontology/obographs
+rank: 1000
 is_a: PropertyValue
+slot_usage:
+  pred:
+    name: pred
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    range: ScopeEnum
 attributes:
   synonymType:
     name: synonymType
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: synonymType
     owner: SynonymPropertyValue
+    domain_of:
+    - SynonymPropertyValue
     range: string
   isExact:
     name: isExact
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: isExact
     owner: SynonymPropertyValue
+    domain_of:
+    - SynonymPropertyValue
     range: boolean
-  scope:
-    name: scope
-    from_schema: https://github.com/geneontology/obographs
-    alias: scope
-    owner: SynonymPropertyValue
-    range: scopes_enum
   pred:
     name: pred
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: pred
     owner: SynonymPropertyValue
-    range: string
+    domain_of:
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    - Edge
+    - SynonymPropertyValue
+    - PropertyValue
+    range: ScopeEnum
   val:
     name: val
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: val
     owner: SynonymPropertyValue
+    domain_of:
+    - PropertyValue
     range: string
   xrefs:
     name: xrefs
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     multivalued: true
     alias: xrefs
     owner: SynonymPropertyValue
+    domain_of:
+    - Meta
+    - PropertyValue
     range: string
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs
+    rank: 1000
     alias: meta
     owner: SynonymPropertyValue
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - PropertyValue
+    - Axiom
     range: Meta
 
 ```

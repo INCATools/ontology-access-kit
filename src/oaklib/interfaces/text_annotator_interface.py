@@ -4,6 +4,8 @@ from io import TextIOWrapper
 from typing import Iterable, Iterator, Optional
 
 from oaklib.datamodels.lexical_index import LexicalIndex
+from oaklib.datamodels.search import SearchConfiguration
+from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.text_annotator import TextAnnotation, TextAnnotationConfiguration
 from oaklib.interfaces import SearchInterface
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
@@ -85,9 +87,14 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         #     configuration = TextAnnotationConfiguration()
         if configuration.matches_whole_text:
             if isinstance(self, SearchInterface):
-                for object_id in self.basic_search(text):
+                search_config = SearchConfiguration(force_case_insensitive=True)
+                for object_id in self.basic_search(text, config=search_config):
                     label = self.label(object_id)
-                    # amap = self.alias_map_by_curie(object_id)
+                    yield nen_annotation(text=text, curie=object_id, label=label)
+                search_config.properties = [SearchProperty(SearchProperty.ALIAS)]
+                logging.debug(f"Config, including synonyms: {search_config}")
+                for object_id in self.basic_search(text, config=search_config):
+                    label = self.label(object_id)
                     yield nen_annotation(text=text, curie=object_id, label=label)
             else:
                 raise NotImplementedError(
