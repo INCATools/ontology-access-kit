@@ -245,6 +245,7 @@ classes:
       - predicateId
       - domainClassIds
       - rangeClassIds
+      - allValuesFromEdges
 
   EquivalentNodesSet:
     class_uri: owl:equivalentClass

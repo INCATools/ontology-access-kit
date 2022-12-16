@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-15T18:11:14
+# Generation date: 2022-12-15T18:23:13
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -466,6 +466,7 @@ class DomainRangeAxiom(Axiom):
     predicateId: Optional[str] = None
     domainClassIds: Optional[Union[str, List[str]]] = empty_list()
     rangeClassIds: Optional[Union[str, List[str]]] = empty_list()
+    allValuesFromEdges: Optional[Union[Union[dict, Edge], List[Union[dict, Edge]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.predicateId is not None and not isinstance(self.predicateId, str):
@@ -478,6 +479,14 @@ class DomainRangeAxiom(Axiom):
         if not isinstance(self.rangeClassIds, list):
             self.rangeClassIds = [self.rangeClassIds] if self.rangeClassIds is not None else []
         self.rangeClassIds = [v if isinstance(v, str) else str(v) for v in self.rangeClassIds]
+
+        if not isinstance(self.allValuesFromEdges, list):
+            self.allValuesFromEdges = (
+                [self.allValuesFromEdges] if self.allValuesFromEdges is not None else []
+            )
+        self.allValuesFromEdges = [
+            v if isinstance(v, Edge) else Edge(**as_dict(v)) for v in self.allValuesFromEdges
+        ]
 
         super().__post_init__(**kwargs)
 

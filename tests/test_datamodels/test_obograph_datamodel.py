@@ -69,5 +69,26 @@ class TestOboGraphDatamodel(AbstractDatamodelTestCase):
                 ],
             )
         )
+        # domain and range
+        # https://github.com/INCATools/ontology-access-kit/issues/413
+        g.domainRangeAxioms.append(
+            obograph.DomainRangeAxiom(
+                predicateId="RO:1",
+                domainClassIds=["EXAMPLE:1"],
+                rangeClassIds=["EXAMPLE:2"],
+            )
+        )
+        g.domainRangeAxioms.append(
+            obograph.DomainRangeAxiom(
+                predicateId="RO:1",
+                allValuesFromEdges=[
+                    obograph.Edge(
+                        sub="EXAMPLE:1",
+                        pred="RO:1",
+                        obj="EXAMPLE:2",
+                    ),
+                ],
+            )
+        )
         yaml_dumper.dump(g, output_path("example-ldefs.obograph.yaml"))
         self.attempt_streaming_writers(g.logicalDefinitionAxioms)
