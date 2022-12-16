@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-15T16:52:54
+# Generation date: 2022-12-15T17:24:49
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -543,11 +543,13 @@ class LogicalDefinitionAxiom(Axiom):
     class_model_uri: ClassVar[URIRef] = OG.LogicalDefinitionAxiom
 
     definedClassId: str = None
-    restrictions: Union[
-        Union[dict, ExistentialRestrictionExpression],
-        List[Union[dict, ExistentialRestrictionExpression]],
-    ] = None
     genusIds: Optional[Union[str, List[str]]] = empty_list()
+    restrictions: Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
+    ] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.definedClassId):
@@ -555,8 +557,10 @@ class LogicalDefinitionAxiom(Axiom):
         if not isinstance(self.definedClassId, str):
             self.definedClassId = str(self.definedClassId)
 
-        if self._is_empty(self.restrictions):
-            self.MissingRequiredField("restrictions")
+        if not isinstance(self.genusIds, list):
+            self.genusIds = [self.genusIds] if self.genusIds is not None else []
+        self.genusIds = [v if isinstance(v, str) else str(v) for v in self.genusIds]
+
         if not isinstance(self.restrictions, list):
             self.restrictions = [self.restrictions] if self.restrictions is not None else []
         self.restrictions = [
@@ -565,10 +569,6 @@ class LogicalDefinitionAxiom(Axiom):
             else ExistentialRestrictionExpression(**as_dict(v))
             for v in self.restrictions
         ]
-
-        if not isinstance(self.genusIds, list):
-            self.genusIds = [self.genusIds] if self.genusIds is not None else []
-        self.genusIds = [v if isinstance(v, str) else str(v) for v in self.genusIds]
 
         super().__post_init__(**kwargs)
 
@@ -974,9 +974,11 @@ slots.logicalDefinitionAxiom__restrictions = Slot(
     curie=OWL.curie("someValuesFrom"),
     model_uri=OG.logicalDefinitionAxiom__restrictions,
     domain=None,
-    range=Union[
-        Union[dict, ExistentialRestrictionExpression],
-        List[Union[dict, ExistentialRestrictionExpression]],
+    range=Optional[
+        Union[
+            Union[dict, ExistentialRestrictionExpression],
+            List[Union[dict, ExistentialRestrictionExpression]],
+        ]
     ],
 )
 

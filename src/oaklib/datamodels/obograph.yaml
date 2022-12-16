@@ -287,7 +287,8 @@ classes:
         description: The set of restrictions that are the differentia of the defined class
         multivalued: true
         range: ExistentialRestrictionExpression
-        required: true
+        required: false ## https://github.com/geneontology/obographs/issues/89
+        recommended: true
         slot_uri: owl:someValuesFrom
 
   PropertyChainAxiom:
