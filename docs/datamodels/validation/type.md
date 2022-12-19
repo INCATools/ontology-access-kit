@@ -2,16 +2,37 @@
 _The type of validation result. SHACL validation vocabulary is recommended for checks against a datamodel. For principle checks use the corresponding rule or principle, e.g. GO RULE ID, OBO Principle ID_
 
 
-URI: [http://www.w3.org/ns/shacl#sourceConstraintComponent](http://www.w3.org/ns/shacl#sourceConstraintComponent)
+URI: [sh:sourceConstraintComponent](http://www.w3.org/ns/shacl#sourceConstraintComponent)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[TypeSeverityKeyValue](TypeSeverityKeyValue.md) | key-value pair that maps a validation result type to a severity setting, for ...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [ConstraintComponent](ConstraintComponent.md)
+* Required: True
+
+
+
+
+
 
 
 
@@ -30,3 +51,24 @@ URI: [http://www.w3.org/ns/shacl#sourceConstraintComponent](http://www.w3.org/ns
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: type
+description: The type of validation result. SHACL validation vocabulary is recommended
+  for checks against a datamodel. For principle checks use the corresponding rule
+  or principle, e.g. GO RULE ID, OBO Principle ID
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+slot_uri: sh:sourceConstraintComponent
+alias: type
+domain_of:
+- TypeSeverityKeyValue
+- ValidationResult
+range: ConstraintComponent
+required: true
+
+```
+</details>

@@ -1,6 +1,6 @@
 # Slot: version_property
 
-URI: [http://purl.obolibrary.org/obo/schema/version_property](http://purl.obolibrary.org/obo/schema/version_property)
+URI: [omoschema:version_property](http://purl.obolibrary.org/obo/omo/schema/version_property)
 
 
 
@@ -8,12 +8,22 @@ URI: [http://purl.obolibrary.org/obo/schema/version_property](http://purl.obolib
 ## Inheritance
 
 * **version_property**
+    * [versionIRI](versionIRI.md)
+    * [versionInfo](versionInfo.md)
+
+
+
+
 
 
 
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+
+
+
+
 
 
 
@@ -32,3 +42,17 @@ URI: [http://purl.obolibrary.org/obo/schema/version_property](http://purl.obolib
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: version_property
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+abstract: true
+alias: version_property
+range: string
+
+```
+</details>

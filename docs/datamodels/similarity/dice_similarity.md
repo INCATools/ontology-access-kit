@@ -1,6 +1,6 @@
 # Slot: dice_similarity
 
-URI: [https://w3id.org/linkml/similarity/dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
+URI: [sim:dice_similarity](https://w3id.org/linkml/similarity/dice_similarity)
 
 
 
@@ -12,9 +12,26 @@ URI: [https://w3id.org/linkml/similarity/dice_similarity](https://w3id.org/linkm
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
+
+
+
+
 ## Properties
 
- * Range: [ZeroToOne](ZeroToOne.md)
+* Range: [ZeroToOne](ZeroToOne.md)
+
+
+
+
 
 
 
@@ -33,3 +50,19 @@ URI: [https://w3id.org/linkml/similarity/dice_similarity](https://w3id.org/linkm
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: dice_similarity
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: score
+alias: dice_similarity
+domain_of:
+- TermPairwiseSimilarity
+range: ZeroToOne
+
+```
+</details>

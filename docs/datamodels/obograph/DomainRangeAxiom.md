@@ -10,6 +10,7 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
     class DomainRangeAxiom
       Axiom <|-- DomainRangeAxiom
       
+      DomainRangeAxiom : allValuesFromEdges
       DomainRangeAxiom : domainClassIds
       DomainRangeAxiom : meta
       DomainRangeAxiom : predicateId
@@ -33,9 +34,8 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 | [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [domainClassIds](domainClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [rangeClassIds](rangeClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
-
-
 
 
 
@@ -91,6 +91,7 @@ slots:
 - predicateId
 - domainClassIds
 - rangeClassIds
+- allValuesFromEdges
 
 ```
 </details>
@@ -134,6 +135,18 @@ attributes:
     domain_of:
     - DomainRangeAxiom
     range: string
+  allValuesFromEdges:
+    name: allValuesFromEdges
+    description: A list of edges that represent subclasses of universal restrictions
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    multivalued: true
+    alias: allValuesFromEdges
+    owner: DomainRangeAxiom
+    domain_of:
+    - Graph
+    - DomainRangeAxiom
+    range: Edge
   meta:
     name: meta
     from_schema: https://github.com/geneontology/obographs

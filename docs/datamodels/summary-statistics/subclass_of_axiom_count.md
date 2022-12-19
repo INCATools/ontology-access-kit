@@ -1,6 +1,8 @@
 # Slot: subclass_of_axiom_count
+_Number of subclass axioms in the ontology or subset_
 
-URI: [https://w3id.org/linkml/reportsubclass_of_axiom_count](https://w3id.org/linkml/reportsubclass_of_axiom_count)
+
+URI: [reporting:subclass_of_axiom_count](https://w3id.org/linkml/reportsubclass_of_axiom_count)
 
 
 
@@ -12,9 +14,26 @@ URI: [https://w3id.org/linkml/reportsubclass_of_axiom_count](https://w3id.org/li
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+
+
+
+
 
 
 
@@ -33,3 +52,22 @@ URI: [https://w3id.org/linkml/reportsubclass_of_axiom_count](https://w3id.org/li
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: subclass_of_axiom_count
+description: Number of subclass axioms in the ontology or subset
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: subclass_of_axiom_count
+owner: UngroupedStatistics
+domain_of:
+- UngroupedStatistics
+slot_group: owl_statistic_group
+range: integer
+
+```
+</details>

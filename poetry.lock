@@ -1046,16 +1046,16 @@ python-versions = ">=3.7"
 
 [package.dependencies]
 attrs = ">=17.4.0"
-fqdn = {version = "*", optional = true, markers = "extra == \"format\""}
-idna = {version = "*", optional = true, markers = "extra == \"format\""}
-isoduration = {version = "*", optional = true, markers = "extra == \"format\""}
-jsonpointer = {version = ">1.13", optional = true, markers = "extra == \"format\""}
+fqdn = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
+idna = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
+isoduration = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
+jsonpointer = {version = ">1.13", optional = true, markers = "extra == \"format-nongpl\""}
 pyrsistent = ">=0.14.0,<0.17.0 || >0.17.0,<0.17.1 || >0.17.1,<0.17.2 || >0.17.2"
-rfc3339-validator = {version = "*", optional = true, markers = "extra == \"format\""}
+rfc3339-validator = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
 rfc3986-validator = {version = ">0.1.0", optional = true, markers = "extra == \"format-nongpl\""}
 rfc3987 = {version = "*", optional = true, markers = "extra == \"format\""}
-uri-template = {version = "*", optional = true, markers = "extra == \"format\""}
-webcolors = {version = ">=1.11", optional = true, markers = "extra == \"format\""}
+uri-template = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
+webcolors = {version = ">=1.11", optional = true, markers = "extra == \"format-nongpl\""}
 
 [package.extras]
 format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
@@ -2388,7 +2388,7 @@ dev = ["mypy", "typing-extensions", "pycodestyle", "flake8"]
 
 [[package]]
 name = "semsql"
-version = "0.2.4"
+version = "0.2.5"
 description = ""
 category = "main"
 optional = false
@@ -3057,7 +3057,7 @@ gilda = ["gilda"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "9203b970df07fe89a8a006d9b1536971be11708bc4f0a8dd6e67412f68700923"
+content-hash = "e2c535acd8e060dca5d87f096fa79bdb7b16bebbadd3ef280eb2b79565494691"
 
 [metadata.files]
 adeft = []

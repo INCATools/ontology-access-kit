@@ -1,6 +1,6 @@
 # Slot: has_ontology_root_term
 
-URI: [http://purl.obolibrary.org/obo/IAO_0000700](http://purl.obolibrary.org/obo/IAO_0000700)
+URI: [IAO:0000700](http://purl.obolibrary.org/obo/IAO_0000700)
 
 
 
@@ -12,9 +12,28 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000700](http://purl.obolibrary.org/obo
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Ontology](Ontology.md) | An OWL ontology
+
+
+
+
+
+
 ## Properties
 
- * Range: [Class](Class.md)
+* Range: [Class](Class.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -33,3 +52,21 @@ URI: [http://purl.obolibrary.org/obo/IAO_0000700](http://purl.obolibrary.org/obo
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: has_ontology_root_term
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: informative_property
+slot_uri: IAO:0000700
+multivalued: true
+alias: has_ontology_root_term
+domain_of:
+- Ontology
+range: Class
+
+```
+</details>

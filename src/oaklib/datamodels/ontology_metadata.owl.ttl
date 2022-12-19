@@ -1,23 +1,23 @@
 @prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix NCBITaxon: <http://purl.obolibrary.org/obo/NCBITaxon_> .
 @prefix NCIT: <http://purl.obolibrary.org/obo/NCIT_> .
 @prefix OBI: <http://purl.obolibrary.org/obo/OBI_> .
 @prefix RO: <http://purl.obolibrary.org/obo/RO_> .
 @prefix biolink: <https://w3id.org/biolink/vocab/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix oio: <http://www.geneontology.org/formats/oboInOwl#> .
-@prefix omoschema: <http://purl.obolibrary.org/obo/schema/> .
+@prefix omoschema: <http://purl.obolibrary.org/obo/omo/schema/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pav: <http://purl.org/pav/> .
-@prefix prov1: <http://www.w3.org/ns/prov-o#> .
+@prefix prov: <http://www.w3.org/ns/prov-o#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sdo: <http://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://purl.obolibrary.org/obo/omo/schema> a owl:Ontology ;
+<http://purl.obolibrary.org/obo/omo/schema.owl.ttl> a owl:Ontology ;
     rdfs:label "Ontology-Metadata" ;
     IAO:0000700 omoschema:Annotation,
         omoschema:AnnotationPropertyMixin,
@@ -31,17 +31,35 @@
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Ontology Metadata Ontology Schema" ;
     pav:version "0.0.1" ;
-    linkml:generation_date "2022-08-18T13:42:09" ;
+    linkml:generation_date "2022-12-18T15:11:04" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "ontology_metadata.yaml" ;
-    linkml:source_file_date "2022-06-28T19:55:38" ;
-    linkml:source_file_size 27414 .
+    linkml:source_file_date "2022-11-23T17:19:48" ;
+    linkml:source_file_size 30018 .
+
+omoschema:DefinitionConstraintComponent a owl:Class ;
+    rdfs:label "DefinitionConstraintComponent" ;
+    rdfs:seeAlso "https://github.com/INCATools/ontology-access-kit/issues/305" ;
+    owl:unionOf ( omoschema:DCC.Any omoschema:DCC.S0 omoschema:DCC.S1 omoschema:DCC.S1.1 omoschema:DCC.S3 omoschema:DCC.S3.1 omoschema:DCC.S7 omoschema:DCC.S11 ) ;
+    linkml:permissible_values omoschema:DCC.Any,
+        omoschema:DCC.S0,
+        omoschema:DCC.S1,
+        omoschema:DCC.S1.1,
+        omoschema:DCC.S11,
+        omoschema:DCC.S3,
+        omoschema:DCC.S3.1,
+        omoschema:DCC.S7 .
 
 omoschema:Restriction a owl:Class ;
     rdfs:label "Restriction" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty owl:someValuesFrom ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty owl:cardinality ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty owl:unionOf ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:ClassExpression ;
             owl:onProperty owl:equivalentClass ],
@@ -49,12 +67,11 @@ omoschema:Restriction a owl:Class ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty owl:disjointWith ],
         [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:PropertyExpression ;
+            owl:onProperty owl:onProperty ],
+        [ a owl:Restriction ;
             owl:allValuesFrom omoschema:ClassExpression ;
             owl:onProperty rdfs:subClassOf ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty owl:cardinality ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
@@ -62,22 +79,18 @@ omoschema:Restriction a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:ClassExpression ;
-            owl:onProperty owl:oneOf ],
+            owl:onProperty owl:intersectionOf ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty owl:someValuesFrom ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:ClassExpression ;
-            owl:onProperty owl:intersectionOf ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:PropertyExpression ;
-            owl:onProperty owl:onProperty ],
+            owl:onProperty owl:oneOf ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty owl:allValuesFrom ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty owl:unionOf ],
         omoschema:AnonymousClassExpression,
         omoschema:ClassExpression,
         linkml:mixin ;
@@ -85,7 +98,8 @@ omoschema:Restriction a owl:Class ;
 
 omoschema:TransitiveProperty a owl:Class ;
     rdfs:label "TransitiveProperty" ;
-    rdfs:subClassOf omoschema:ObjectProperty .
+    rdfs:subClassOf omoschema:ObjectProperty ;
+    skos:definition "An ObjectProperty with the property of transitivity" .
 
 <http://example.org/UNKNOWN/protege/defaultLanguage> a owl:DatatypeProperty ;
     rdfs:label "defaultLanguage" ;
@@ -115,12 +129,16 @@ omoschema:AnonymousClassExpression a owl:Class ;
 omoschema:Axiom a owl:Class ;
     rdfs:label "Axiom" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:AnnotationProperty ;
-            owl:onProperty oio:hasSynonymType ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oio:created_by ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:hasDbXref ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Thing ;
-            owl:onProperty IAO:0010000 ],
+            owl:onDataRange xsd:string ;
+            owl:onProperty oio:url ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty dcterms:source ],
@@ -128,48 +146,9 @@ omoschema:Axiom a owl:Class ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty oio:hasExactSynonym ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Annotation ;
-            owl:onProperty omoschema:annotations ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty RO:0002581 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty oio:created_by ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty rdfs:seeAlso ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:NamedObject ;
-            owl:onProperty owl:annotatedSource ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Any ;
-            owl:onProperty owl:annotatedTarget ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty oio:evidence ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty oio:url ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty rdfs:comment ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasDbXref ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:notes ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty oio:is_inferred ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:AnnotationProperty ;
@@ -179,60 +158,96 @@ omoschema:Axiom a owl:Class ;
             owl:onProperty oio:external_ontology ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty oio:date_retrieved ],
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty oio:is_inferred ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty rdfs:label ],
         [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty rdfs:seeAlso ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Any ;
+            owl:onProperty owl:annotatedTarget ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:NamedObject ;
+            owl:onProperty owl:annotatedSource ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty RO:0002582 ] ;
+            owl:onProperty oio:date_retrieved ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Annotation ;
+            owl:onProperty omoschema:annotations ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:comment ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Thing ;
+            owl:onProperty IAO:0010000 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty RO:0002582 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty RO:0002581 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:AnnotationProperty ;
+            owl:onProperty oio:hasSynonymType ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:notes ] ;
+    skos:definition "A logical or non-logical statement" ;
     skos:exactMatch rdf:Statement,
         owl:Axiom .
 
 omoschema:HasCategory a owl:Class ;
     rdfs:label "HasCategory" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:hasOBONamespace ],
+        [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Thing ;
             owl:onProperty dcterms:conformsTo ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Subset ;
-            owl:onProperty oio:inSubset ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty biolink:category ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasOBONamespace ],
+            owl:allValuesFrom omoschema:Subset ;
+            owl:onProperty oio:inSubset ],
         omoschema:AnnotationPropertyMixin,
         linkml:mixin .
 
 omoschema:HasLifeCycle a owl:Class ;
     rdfs:label "HasLifeCycle" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Any ;
-            owl:onProperty oio:consider ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty IAO:0000231 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Any ;
-            owl:onProperty IAO:0100001 ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:anyURI ;
             owl:onProperty oio:hasAlternativeId ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Any ;
+            owl:onProperty IAO:0100001 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Any ;
+            owl:onProperty oio:consider ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:Thing ;
             owl:onProperty omoschema:should_conform_to ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty omoschema:excluded_synonym ],
+            owl:allValuesFrom omoschema:Class ;
+            owl:onProperty omoschema:excluded_subClassOf ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:Thing ;
@@ -242,8 +257,8 @@ omoschema:HasLifeCycle a owl:Class ;
             owl:onDataRange xsd:boolean ;
             owl:onProperty owl:deprecated ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Class ;
-            owl:onProperty omoschema:excluded_subClassOf ],
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty omoschema:excluded_synonym ],
         omoschema:AnnotationPropertyMixin,
         linkml:mixin .
 
@@ -251,19 +266,19 @@ omoschema:HasMappings a owl:Class ;
     rdfs:label "HasMappings" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:broadMatch ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:narrowMatch ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
             owl:onProperty skos:closeMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty skos:exactMatch ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty oio:hasDbXref ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:exactMatch ],
+            owl:onProperty skos:broadMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty skos:narrowMatch ],
         omoschema:AnnotationPropertyMixin,
         linkml:mixin .
 
@@ -283,9 +298,37 @@ omoschema:HasMinimalMetadata a owl:Class ;
 omoschema:HasProvenance a owl:Class ;
     rdfs:label "HasProvenance" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000233 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000117 ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:Ontology ;
             owl:onProperty rdfs:isDefinedBy ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:NamedIndividual ;
+            owl:onProperty IAO:0000412 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty dcterms:created ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:HomoSapiens ;
+            owl:onProperty dcterms:contributor ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:creation_date ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000116 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:HomoSapiens ;
+            owl:onProperty dcterms:creator ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcterms:date ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty IAO:0000119 ],
@@ -297,34 +340,6 @@ omoschema:HasProvenance a owl:Class ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty IAO:0000234 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty dcterms:date ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000116 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000117 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000233 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty dcterms:created ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:NamedIndividual ;
-            owl:onProperty IAO:0000412 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty dcterms:contributor ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:creation_date ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty dcterms:creator ],
         omoschema:AnnotationPropertyMixin,
         linkml:mixin .
 
@@ -332,31 +347,31 @@ omoschema:HasSynonyms a owl:Class ;
     rdfs:label "HasSynonyms" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000111 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000118 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasRelatedSynonym ],
+            owl:onProperty OBI:0001847 ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty oio:hasBroadSynonym ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty OBI:0001847 ],
+            owl:onProperty IAO:0000111 ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasNarrowSynonym ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000589 ],
+            owl:onProperty oio:hasRelatedSynonym ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty OBI:9991118 ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000118 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000589 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
             owl:onProperty oio:hasExactSynonym ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:hasNarrowSynonym ],
         omoschema:AnnotationPropertyMixin,
         linkml:mixin ;
     skos:definition "a mixin for a class whose members can have synonyms" ;
@@ -366,31 +381,31 @@ omoschema:HasSynonyms a owl:Class ;
 omoschema:HasUserInformation a owl:Class ;
     rdfs:label "HasUserInformation" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty foaf:depicted_by ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty rdfs:seeAlso ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:Thing ;
             owl:onProperty sdo:image ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty rdfs:comment ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty foaf:page ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000232 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty IAO:0000114 ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty <http://xmlns.com/foaf/0.1/page> ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
             owl:onProperty IAO:0000112 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty rdfs:seeAlso ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000232 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty <http://xmlns.com/foaf/0.1/depicted_by> ],
         omoschema:AnnotationPropertyMixin,
         linkml:mixin .
 
@@ -400,12 +415,12 @@ omoschema:ObjectProperty a owl:Class ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty owl:propertyChainAxiom ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty owl:disjointWith ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:boolean ;
-            owl:onProperty oio:is_cyclic ],
+            owl:onProperty oio:is_transitive ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty owl:disjointWith ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Property ;
             owl:onProperty owl:equivalentProperty ],
@@ -423,9 +438,10 @@ omoschema:ObjectProperty a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:boolean ;
-            owl:onProperty oio:is_transitive ],
+            owl:onProperty oio:is_cyclic ],
         omoschema:Property,
         omoschema:PropertyExpression ;
+    skos:definition "A property that connects two objects in logical axioms" ;
     skos:exactMatch owl:ObjectProperty .
 
 omoschema:annotations a owl:ObjectProperty ;
@@ -441,12 +457,6 @@ omoschema:has_rank a owl:ObjectProperty ;
     rdfs:label "has_rank" ;
     rdfs:range omoschema:Thing ;
     skos:exactMatch <http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim#has_rank> .
-
-omoschema:id a owl:DatatypeProperty ;
-    rdfs:label "id" ;
-    rdfs:range xsd:anyURI ;
-    rdfs:subPropertyOf omoschema:core_property ;
-    skos:definition "this maps to the URI in RDF" .
 
 omoschema:object a owl:DatatypeProperty ;
     rdfs:label "object" ;
@@ -567,6 +577,30 @@ omoschema:Anonymous a owl:Class ;
     rdfs:label "Anonymous" ;
     skos:definition "Abstract root class for all anonymous (non-named; lacking an identifier) expressions" .
 
+omoschema:DCC.Any a owl:Class ;
+    rdfs:label "DefinitionConstraint" .
+
+omoschema:DCC.S0 a owl:Class ;
+    rdfs:label "DefinitionPresence" .
+
+omoschema:DCC.S1 a owl:Class ;
+    rdfs:label "Conventions" .
+
+omoschema:DCC.S1.1 a owl:Class ;
+    rdfs:label "Harmonized" .
+
+omoschema:DCC.S11 a owl:Class ;
+    rdfs:label "MatchTextAndLogical" .
+
+omoschema:DCC.S3 a owl:Class ;
+    rdfs:label "GenusDifferentiaForm" .
+
+omoschema:DCC.S3.1 a owl:Class ;
+    rdfs:label "SingleGenus" .
+
+omoschema:DCC.S7 a owl:Class ;
+    rdfs:label "Circularity" .
+
 omoschema:NotObsoleteAspect a owl:Class ;
     rdfs:label "NotObsoleteAspect" ;
     rdfs:subClassOf linkml:mixin ;
@@ -587,6 +621,12 @@ omoschema:excluded_synonym a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf omoschema:excluded_axiom ;
     skos:exactMatch skos:hiddenSynonym .
+
+omoschema:id a owl:DatatypeProperty ;
+    rdfs:label "id" ;
+    rdfs:range xsd:anyURI ;
+    rdfs:subPropertyOf omoschema:core_property ;
+    skos:definition "this maps to the URI in RDF" .
 
 omoschema:should_conform_to a owl:ObjectProperty ;
     rdfs:label "should_conform_to" ;
@@ -859,11 +899,12 @@ omoschema:Annotation a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty omoschema:object ],
+            owl:onProperty omoschema:predicate ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty omoschema:predicate ] .
+            owl:onProperty omoschema:object ] ;
+    skos:definition "A reified property-object pair" .
 
 omoschema:Expression a owl:Class ;
     rdfs:label "Expression" ;
@@ -872,31 +913,6 @@ omoschema:Expression a owl:Class ;
 omoschema:Ontology a owl:Class ;
     rdfs:label "Ontology" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty dcterms:title ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty dcterms:creator ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty dcterms:source ],
-        [ a owl:Restriction ;
-            owl:onClass omoschema:Thing ;
-            owl:onProperty dcterms:license ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty dcterms:created ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty rdfs:comment ],
-        [ a owl:Restriction ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty owl:versionInfo ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Class ;
             owl:onProperty IAO:0000700 ],
         [ a owl:Restriction ;
@@ -904,8 +920,33 @@ omoschema:Ontology a owl:Class ;
             owl:onDataRange xsd:string ;
             owl:onProperty owl:imports ],
         [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:comment ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty dcterms:created ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty dcterms:title ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty owl:versionIRI ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty owl:versionInfo ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:HomoSapiens ;
+            owl:onProperty dcterms:creator ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcterms:source ],
+        [ a owl:Restriction ;
+            owl:onClass omoschema:Thing ;
+            owl:onProperty dcterms:license ;
             owl:qualifiedCardinality 1 ],
         omoschema:NamedObject ;
     skos:definition "An OWL ontology" ;
@@ -929,60 +970,88 @@ omoschema:Term a owl:Class ;
     rdfs:label "Term" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasExactSynonym ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty omoschema:excluded_synonym ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty dcterms:date ],
+            owl:onProperty oio:hasDbXref ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Thing ;
-            owl:onProperty omoschema:should_conform_to ],
+            owl:onDataRange xsd:string ;
+            owl:onProperty dcterms:created ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000111 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty skos:broadMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000589 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Any ;
+            owl:onProperty oio:consider ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000233 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000119 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:HomoSapiens ;
+            owl:onProperty dcterms:contributor ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty oio:hasBroadSynonym ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty dcterms:creator ],
+            owl:onProperty oio:hasOBONamespace ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasNarrowSynonym ],
+            owl:onProperty OBI:0001847 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Any ;
+            owl:onProperty IAO:0100001 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty <http://xmlns.com/foaf/0.1/depicted_by> ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty skos:closeMatch ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty IAO:0000118 ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty rdfs:comment ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000115 ],
+            owl:onProperty OBI:9991118 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:Thing ;
             owl:onProperty omoschema:excluded_from_QC_check ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty oio:hasAlternativeId ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Ontology ;
+            owl:onProperty rdfs:isDefinedBy ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Subset ;
-            owl:onProperty oio:inSubset ],
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000115 ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Any ;
-            owl:onProperty oio:consider ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty rdfs:label ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty rdfs:seeAlso ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Thing ;
+            owl:onProperty omoschema:should_conform_to ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Class ;
-            owl:onProperty omoschema:excluded_subClassOf ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty oio:created_by ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:broadMatch ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Thing ;
+            owl:onProperty sdo:image ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:closeMatch ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty IAO:0000114 ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Thing ;
             owl:onProperty dcterms:conformsTo ],
@@ -990,106 +1059,78 @@ omoschema:Term a owl:Class ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty IAO:0000112 ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty IAO:0000231 ],
-        [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasDbXref ],
+            owl:onProperty <http://xmlns.com/foaf/0.1/page> ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:exactMatch ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty biolink:category ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty OBI:9991118 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty OBI:0001847 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000589 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty rdfs:label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Ontology ;
-            owl:onProperty rdfs:isDefinedBy ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Any ;
-            owl:onProperty IAO:0100001 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty foaf:page ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000116 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000119 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty dcterms:contributor ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:NamedIndividual ;
-            owl:onProperty IAO:0000412 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Thing ;
-            owl:onProperty skos:narrowMatch ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty foaf:depicted_by ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Thing ;
-            owl:onProperty sdo:image ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasRelatedSynonym ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000232 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000233 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty IAO:0000234 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:creation_date ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty IAO:0000114 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty dcterms:created ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty oio:created_by ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000111 ],
+            owl:allValuesFrom omoschema:Subset ;
+            owl:onProperty oio:inSubset ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:boolean ;
             owl:onProperty owl:deprecated ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000117 ],
+            owl:onProperty oio:hasNarrowSynonym ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty oio:hasOBONamespace ],
+            owl:onProperty oio:hasExactSynonym ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcterms:date ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty biolink:category ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty omoschema:excluded_synonym ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty oio:hasAlternativeId ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty skos:narrowMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:creation_date ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty IAO:0000231 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:NamedIndividual ;
+            owl:onProperty IAO:0000412 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000232 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000116 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty oio:hasRelatedSynonym ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty rdfs:seeAlso ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Class ;
+            owl:onProperty omoschema:excluded_subClassOf ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:HomoSapiens ;
+            owl:onProperty dcterms:creator ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Thing ;
+            owl:onProperty skos:exactMatch ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty IAO:0000234 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000117 ],
         omoschema:HasCategory,
         omoschema:HasLifeCycle,
         omoschema:HasMappings,
@@ -1118,9 +1159,9 @@ dcterms:conformsTo a owl:ObjectProperty ;
 
 dcterms:contributor a owl:ObjectProperty ;
     rdfs:label "contributor" ;
-    rdfs:range omoschema:Thing ;
+    rdfs:range omoschema:HomoSapiens ;
     rdfs:subPropertyOf omoschema:provenance_property ;
-    skos:closeMatch prov1:wasAttributedTo ;
+    skos:closeMatch prov:wasAttributedTo ;
     skos:exactMatch dcterms:contributor .
 
 dcterms:date a owl:DatatypeProperty ;
@@ -1216,17 +1257,17 @@ owl:deprecated a owl:DatatypeProperty ;
     skos:altLabel "is obsolete" ;
     skos:exactMatch owl:deprecated .
 
-foaf:depicted_by a owl:DatatypeProperty ;
+<http://xmlns.com/foaf/0.1/depicted_by> a owl:DatatypeProperty ;
     rdfs:label "depicted_by" ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf omoschema:informative_property ;
-    skos:exactMatch foaf:depicted_by .
+    skos:exactMatch <http://xmlns.com/foaf/0.1/depicted_by> .
 
-foaf:page a owl:DatatypeProperty ;
+<http://xmlns.com/foaf/0.1/page> a owl:DatatypeProperty ;
     rdfs:label "page" ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf omoschema:informative_property ;
-    skos:exactMatch foaf:page .
+    skos:exactMatch <http://xmlns.com/foaf/0.1/page> .
 
 biolink:category a owl:DatatypeProperty ;
     rdfs:label "category" ;
@@ -1262,11 +1303,11 @@ dcterms:created a owl:DatatypeProperty ;
     skos:definition "when the term came into being" ;
     skos:exactMatch dcterms:created .
 
-dcterms:creator a owl:DatatypeProperty ;
+dcterms:creator a owl:ObjectProperty ;
     rdfs:label "creator" ;
-    rdfs:range xsd:string ;
+    rdfs:range omoschema:HomoSapiens ;
     rdfs:subPropertyOf omoschema:provenance_property ;
-    skos:closeMatch prov1:wasAttributedTo ;
+    skos:closeMatch prov:wasAttributedTo ;
     skos:exactMatch dcterms:creator .
 
 oio:created_by a owl:DatatypeProperty ;
@@ -1349,12 +1390,8 @@ omoschema:AnnotationProperty a owl:Class ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty oio:shorthand ],
         omoschema:Property ;
+    skos:definition "A property used in non-logical axioms" ;
     skos:exactMatch owl:AnnotationProperty .
-
-omoschema:NamedIndividual a owl:Class ;
-    rdfs:label "NamedIndividual" ;
-    rdfs:subClassOf omoschema:Term ;
-    skos:exactMatch owl:NamedIndividual .
 
 omoschema:ObsoleteAspect a owl:Class ;
     rdfs:label "ObsoleteAspect" ;
@@ -1412,11 +1449,27 @@ skos:narrowMatch a owl:ObjectProperty ;
     rdfs:subPropertyOf omoschema:match ;
     skos:exactMatch skos:narrowMatch .
 
+omoschema:NamedIndividual a owl:Class ;
+    rdfs:label "NamedIndividual" ;
+    rdfs:subClassOf omoschema:Term ;
+    skos:definition "An instance that has a IRI" ;
+    skos:exactMatch owl:NamedIndividual .
+
 owl:disjointWith a owl:DatatypeProperty ;
     rdfs:label "disjointWith" ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf omoschema:logical_predicate ;
     skos:exactMatch owl:disjointWith .
+
+omoschema:HomoSapiens a owl:Class ;
+    rdfs:label "HomoSapiens" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty omoschema:id ;
+            owl:qualifiedCardinality 1 ],
+        omoschema:NamedIndividual ;
+    skos:definition "An individual human being" ;
+    skos:exactMatch NCBITaxon:9606 .
 
 rdfs:label a owl:DatatypeProperty ;
     rdfs:label "label" ;
@@ -1446,41 +1499,41 @@ omoschema:Any a owl:Class ;
 omoschema:Property a owl:Class ;
     rdfs:label "Property" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000115 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty rdfs:range ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Property ;
-            owl:onProperty rdfs:subClassOf ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Property ;
-            owl:onProperty skos:closeMatch ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Property ;
-            owl:onProperty skos:exactMatch ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty oio:is_metadata_tag ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Property ;
-            owl:onProperty skos:narrowMatch ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty rdfs:label ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Property ;
-            owl:onProperty skos:broadMatch ],
+            owl:onProperty rdfs:subClassOf ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty rdfs:domain ],
         [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Property ;
+            owl:onProperty skos:closeMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Property ;
+            owl:onProperty skos:narrowMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Property ;
+            owl:onProperty skos:exactMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:range ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:boolean ;
             owl:onProperty oio:is_class_level ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000115 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Property ;
+            owl:onProperty skos:broadMatch ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty oio:is_metadata_tag ],
         omoschema:Term ;
     skos:exactMatch rdf:Property .
 
@@ -1491,64 +1544,64 @@ omoschema:informative_property a owl:DatatypeProperty ;
 omoschema:Class a owl:Class ;
     rdfs:label "Class" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Thing ;
-            owl:onProperty omoschema:has_rank ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty owl:disjointWith ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:ClassExpression ;
-            owl:onProperty owl:oneOf ],
+            owl:allValuesFrom omoschema:Class ;
+            owl:onProperty skos:narrowMatch ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Class ;
-            owl:onProperty rdfs:subClassOf ],
+            owl:onProperty skos:broadMatch ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty owl:complementOf ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty IAO:0000115 ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Class ;
-            owl:onProperty skos:narrowMatch ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:Class ;
+            owl:onProperty omoschema:disconnected_from ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Class ;
             owl:onProperty RO:0002161 ],
         [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Class ;
-            owl:onProperty skos:broadMatch ],
+            owl:onProperty rdfs:subClassOf ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass omoschema:ClassExpression ;
+            owl:onProperty owl:oneOf ],
         [ a owl:Restriction ;
             owl:onDataRange xsd:string ;
             owl:onProperty rdfs:label ;
             owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:Class ;
-            owl:onProperty skos:closeMatch ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:ClassExpression ;
             owl:onProperty owl:intersectionOf ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty owl:cardinality ],
-        [ a owl:Restriction ;
             owl:allValuesFrom omoschema:Class ;
             owl:onProperty skos:exactMatch ],
         [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty owl:disjointWith ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass omoschema:Class ;
-            owl:onProperty omoschema:disconnected_from ],
+            owl:onClass omoschema:Thing ;
+            owl:onProperty omoschema:has_rank ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:ClassExpression ;
+            owl:onProperty owl:equivalentClass ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:Class ;
+            owl:onProperty skos:closeMatch ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty IAO:0000115 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty owl:unionOf ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:ClassExpression ;
-            owl:onProperty owl:equivalentClass ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty owl:cardinality ],
         omoschema:ClassExpression,
         omoschema:Term ;
     skos:altLabel "concept",
@@ -1564,7 +1617,7 @@ omoschema:ClassExpression a owl:Class ;
     rdfs:label "ClassExpression" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:allValuesFrom omoschema:ClassExpression ;
-            owl:onProperty rdfs:subClassOf ],
+            owl:onProperty owl:equivalentClass ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:ClassExpression ;
@@ -1572,21 +1625,21 @@ omoschema:ClassExpression a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty owl:unionOf ],
+            owl:onProperty owl:cardinality ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom omoschema:ClassExpression ;
+            owl:onProperty rdfs:subClassOf ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty owl:disjointWith ],
         [ a owl:Restriction ;
-            owl:allValuesFrom omoschema:ClassExpression ;
-            owl:onProperty owl:equivalentClass ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty owl:unionOf ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass omoschema:ClassExpression ;
             owl:onProperty owl:oneOf ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty owl:cardinality ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;

@@ -35,8 +35,6 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 
 
 
-
-
 ## Usages
 
 | used by | used in | type | used |

@@ -2,22 +2,17 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
-URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
-
-
+URI: [omoschema:Expression](http://purl.obolibrary.org/obo/omo/schema/Expression)
 
 
 ```{mermaid}
  classDiagram
+    class Expression
       Expression <|-- ClassExpression
       Expression <|-- PropertyExpression
       
       
 ```
-
 
 
 
@@ -31,11 +26,17 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
 
 
-## Usages
+
+
+
 
 
 
@@ -56,17 +57,15 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:Expression'] |
-| native | ['omoschema:Expression'] |
+| self | omoschema:Expression |
+| native | omoschema:Expression |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -76,6 +75,7 @@ URI: [omoschema:Expression](http://purl.obolibrary.org/obo/schema/Expression)
 ```yaml
 name: Expression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```
@@ -87,6 +87,7 @@ mixin: true
 ```yaml
 name: Expression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```

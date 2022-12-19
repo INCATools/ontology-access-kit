@@ -2,16 +2,34 @@
 _The type of the subject_
 
 
-URI: [https://w3id.org/linkml/validation-model/instantiates](https://w3id.org/linkml/validation-model/instantiates)
+URI: [vm:instantiates](https://w3id.org/linkml/validation-model/instantiates)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Node](Node.md)
+
+
+
+
 
 
 
@@ -30,3 +48,21 @@ URI: [https://w3id.org/linkml/validation-model/instantiates](https://w3id.org/li
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: instantiates
+description: The type of the subject
+from_schema: https://w3id.org/linkml/validation_results
+exact_mappings:
+- sh:sourceShape
+rank: 1000
+alias: instantiates
+domain_of:
+- ValidationResult
+range: Node
+
+```
+</details>

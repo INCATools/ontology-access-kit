@@ -1,0 +1,147 @@
+@prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vsconf: <https://w3id.org/linkml/value-set-configuration/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linkml:value-set-configuration.owl.ttl a owl:Ontology ;
+    rdfs:label "value-set-configuration" ;
+    IAO:0000700 vsconf:Resolver,
+        vsconf:ValueSetConfiguration ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "Value Set Configuration" ;
+    linkml:generation_date "2022-12-18T15:11:26" ;
+    linkml:metamodel_version "1.7.0" ;
+    linkml:source_file "value_set_configuration.yaml" ;
+    linkml:source_file_date "2022-12-01T10:17:37" ;
+    linkml:source_file_size 2276 .
+
+vsconf:NamedResolver a owl:Class ;
+    rdfs:label "NamedResolver" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vsconf:name ;
+            owl:qualifiedCardinality 1 ],
+        vsconf:Resolver ;
+    skos:definition "A resolver that is associated with a named resource or prefix" .
+
+vsconf:ValueSetConfiguration a owl:Class ;
+    rdfs:label "ValueSetConfiguration" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass vsconf:Resolver ;
+            owl:onProperty vsconf:default_resolver ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom vsconf:Resolver ;
+            owl:onProperty vsconf:prefix_resolvers ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom vsconf:Resolver ;
+            owl:onProperty vsconf:resource_resolvers ] ;
+    skos:definition "configuration for value sets" .
+
+vsconf:default_resolver a owl:ObjectProperty ;
+    rdfs:label "default_resolver" ;
+    rdfs:range vsconf:Resolver .
+
+vsconf:method a owl:ObjectProperty ;
+    rdfs:label "method" ;
+    rdfs:range vsconf:ResolverMethod ;
+    skos:definition "The method used to resolve the value set." .
+
+vsconf:prefix_resolvers a owl:ObjectProperty ;
+    rdfs:label "prefix_resolvers" ;
+    rdfs:range vsconf:Resolver .
+
+vsconf:resource_resolvers a owl:ObjectProperty ;
+    rdfs:label "resource_resolvers" ;
+    rdfs:range vsconf:Resolver .
+
+vsconf:shorthand a owl:DatatypeProperty ;
+    rdfs:label "shorthand" ;
+    rdfs:range xsd:string ;
+    skos:definition "A shorthand for the resolver, using the OAK shorthand syntax" .
+
+vsconf:shorthand_prefix a owl:DatatypeProperty ;
+    rdfs:label "shorthand_prefix" ;
+    rdfs:range xsd:string .
+
+vsconf:url a owl:DatatypeProperty ;
+    rdfs:label "url" ;
+    rdfs:range xsd:anyURI .
+
+vsconf:ResolverMethod a owl:Class ;
+    rdfs:label "ResolverMethod" ;
+    owl:unionOf ( <https://w3id.org/linkml/value-set-configuration/ResolverMethod#SemanticSQL> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#OLS> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#BioPortal> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#OntoBee> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#Ubergraph> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#TCCM> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#SPARQL> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#LOV> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#Pronto> <https://w3id.org/linkml/value-set-configuration/ResolverMethod#Uniprot> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/value-set-configuration/ResolverMethod#BioPortal>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#LOV>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#OLS>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#OntoBee>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#Pronto>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#SPARQL>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#SemanticSQL>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#TCCM>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#Ubergraph>,
+        <https://w3id.org/linkml/value-set-configuration/ResolverMethod#Uniprot> .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#BioPortal> a owl:Class ;
+    rdfs:label "BioPortal" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#LOV> a owl:Class ;
+    rdfs:label "LOV" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#OLS> a owl:Class ;
+    rdfs:label "OLS" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#OntoBee> a owl:Class ;
+    rdfs:label "OntoBee" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#Pronto> a owl:Class ;
+    rdfs:label "Pronto" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#SPARQL> a owl:Class ;
+    rdfs:label "SPARQL" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#SemanticSQL> a owl:Class ;
+    rdfs:label "SemanticSQL" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#TCCM> a owl:Class ;
+    rdfs:label "TCCM" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#Ubergraph> a owl:Class ;
+    rdfs:label "Ubergraph" .
+
+<https://w3id.org/linkml/value-set-configuration/ResolverMethod#Uniprot> a owl:Class ;
+    rdfs:label "Uniprot" .
+
+vsconf:name a owl:DatatypeProperty .
+
+vsconf:Resolver a owl:Class ;
+    rdfs:label "Resolver" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty vsconf:url ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass vsconf:ResolverMethod ;
+            owl:onProperty vsconf:method ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vsconf:shorthand ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vsconf:name ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty vsconf:shorthand_prefix ] ;
+    skos:definition "A mechanism for resolving using an ontology" .
+
+
+

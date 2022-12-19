@@ -29,6 +29,7 @@ from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
 from oaklib.implementations.sparql.lov_implementation import LovImplementation
+from oaklib.implementations.sparql.oak_metamodel_implementation import OakMetaModelImplementation
 from oaklib.implementations.sparql.sparql_implementation import SparqlImplementation
 from oaklib.implementations.sqldb.sql_implementation import SqlImplementation
 from oaklib.implementations.translator.translator_implementation import (
@@ -75,6 +76,7 @@ SCHEME_DICT = {
     "prontolib": ProntoImplementation,
     "gilda": GildaImplementation,
     "translator": TranslatorImplementation,
+    "oak": OakMetaModelImplementation,
 }
 
 

@@ -1,6 +1,6 @@
 # Slot: disjointWith
 
-URI: [http://www.w3.org/2002/07/owl#disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
+URI: [owl:disjointWith](http://www.w3.org/2002/07/owl#disjointWith)
 
 
 
@@ -12,11 +12,39 @@ URI: [http://www.w3.org/2002/07/owl#disjointWith](http://www.w3.org/2002/07/owl#
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | 
+[PropertyExpression](PropertyExpression.md) | 
+[Class](Class.md) | 
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+[Restriction](Restriction.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Multivalued: True
 
 
+
+
+
+
+
+
+## TODOs
+
+* restrict range
 
 ## Identifier and Mapping Information
 
@@ -33,3 +61,24 @@ URI: [http://www.w3.org/2002/07/owl#disjointWith](http://www.w3.org/2002/07/owl#
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: disjointWith
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:disjointWith
+multivalued: true
+alias: disjointWith
+domain_of:
+- ClassExpression
+- PropertyExpression
+range: string
+
+```
+</details>

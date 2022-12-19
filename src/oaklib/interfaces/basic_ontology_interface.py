@@ -3,11 +3,13 @@ from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass, field
 from functools import lru_cache
-from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple
+from pathlib import Path
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Tuple, Union
 
 import curies
 from deprecation import deprecated
 from prefixmaps.io.parser import load_context
+from sssom.parsers import parse_sssom_table, to_mapping_set_document
 
 from oaklib.datamodels.vocabulary import (
     DEFAULT_PREFIX_MAP,
@@ -153,13 +155,19 @@ class BasicOntologyInterface(OntologyInterface, ABC):
             self._converter = curies.Converter.from_prefix_map(self.prefix_map())
         return self._converter
 
-    def set_metamodel_mappings(self, mappings: List[Mapping]) -> None:
+    def set_metamodel_mappings(self, mappings: Union[str, Path, List[Mapping]]) -> None:
         """
         Sets the ontology metamodel mapper.
 
         :param mappings: Mappings for predicates such as rdfs:subClassOf
         :return:
         """
+        if isinstance(mappings, Path):
+            mappings = str
+        if isinstance(mappings, str):
+            msdf = parse_sssom_table(mappings)
+            msd = to_mapping_set_document(msdf)
+            mappings = msd.mapping_set.mappings
         self.ontology_metamodel_mapper = OntologyMetadataMapper(
             mappings, curie_converter=self.converter
         )

@@ -43,8 +43,6 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
 
-
-
 ## Identifier and Mapping Information
 
 

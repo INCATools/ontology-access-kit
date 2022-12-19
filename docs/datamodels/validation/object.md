@@ -1,15 +1,33 @@
 # Slot: object
 
-URI: [http://www.w3.org/ns/shacl#value](http://www.w3.org/ns/shacl#value)
+URI: [sh:value](http://www.w3.org/ns/shacl#value)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ValidationResult](ValidationResult.md) | An individual result arising from validation of a data instance using a parti...
+[ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | A validation result where the check is to determine if a link to an external ...
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI)
+* Range: [Node](Node.md)
+
+
+
+
 
 
 
@@ -28,3 +46,19 @@ URI: [http://www.w3.org/ns/shacl#value](http://www.w3.org/ns/shacl#value)
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: object
+from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
+slot_uri: sh:value
+alias: object
+domain_of:
+- ValidationResult
+range: Node
+
+```
+</details>

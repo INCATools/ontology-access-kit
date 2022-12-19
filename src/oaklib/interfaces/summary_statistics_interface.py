@@ -46,7 +46,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
 
         :param branches: if provided, only statistics for the given branch roots will be returned
         :param group_by: if provided, statistics will be grouped by the values of this property
-        :param values: if provided, only statistics where the group_by property value matches this will be considerd
+        :param values: if provided, only statistics where the group_by property value matches this will be considered
         :param include_entailed: include inference
         :param prefixes: if provided, only statistics for entities with these prefixes will be considered
         :return:
@@ -225,6 +225,7 @@ class SummaryStatisticsInterface(BasicOntologyInterface, ABC):
         :param ssc:
         :return:
         """
+        logging.debug("Adding derived statistics")
         ssc.non_deprecated_class_count = ssc.class_count - ssc.deprecated_class_count
         ssc.class_count_without_text_definitions = (
             ssc.class_count - ssc.class_count_with_text_definitions

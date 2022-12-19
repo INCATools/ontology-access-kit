@@ -1,6 +1,6 @@
 # Slot: annotatedTarget
 
-URI: [http://www.w3.org/2002/07/owl#annotatedTarget](http://www.w3.org/2002/07/owl#annotatedTarget)
+URI: [owl:annotatedTarget](http://www.w3.org/2002/07/owl#annotatedTarget)
 
 
 
@@ -12,11 +12,32 @@ URI: [http://www.w3.org/2002/07/owl#annotatedTarget](http://www.w3.org/2002/07/o
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Axiom](Axiom.md) | A logical or non-logical statement
+
+
+
+
+
+
 ## Properties
 
- * Range: [Any](Any.md)
+* Range: [Any](Any.md)
 
 
+
+
+
+
+
+## TODOs
+
+* restrict range
 
 ## Identifier and Mapping Information
 
@@ -33,3 +54,25 @@ URI: [http://www.w3.org/2002/07/owl#annotatedTarget](http://www.w3.org/2002/07/o
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: annotatedTarget
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+exact_mappings:
+- rdf:object
+rank: 1000
+is_a: reification_predicate
+slot_uri: owl:annotatedTarget
+alias: annotatedTarget
+domain_of:
+- Axiom
+relational_role: OBJECT
+range: Any
+
+```
+</details>

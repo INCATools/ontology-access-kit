@@ -1,6 +1,6 @@
 # Slot: allValuesFrom
 
-URI: [http://www.w3.org/2002/07/owl#allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
+URI: [owl:allValuesFrom](http://www.w3.org/2002/07/owl#allValuesFrom)
 
 
 
@@ -12,11 +12,32 @@ URI: [http://www.w3.org/2002/07/owl#allValuesFrom](http://www.w3.org/2002/07/owl
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Restriction](Restriction.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 
 
+
+
+
+
+
+## TODOs
+
+* restrict range
 
 ## Identifier and Mapping Information
 
@@ -33,3 +54,22 @@ URI: [http://www.w3.org/2002/07/owl#allValuesFrom](http://www.w3.org/2002/07/owl
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: allValuesFrom
+todos:
+- restrict range
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:allValuesFrom
+alias: allValuesFrom
+domain_of:
+- Restriction
+range: string
+
+```
+</details>

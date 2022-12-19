@@ -4,21 +4,17 @@ _A report that consists of validation results_
 
 
 
-
 URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
-
-
 
 
 ```{mermaid}
  classDiagram
+    class ValidationReport
       Report <|-- ValidationReport
       
       ValidationReport : results
       
-
 ```
-
 
 
 
@@ -31,14 +27,18 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [results](results.md) | [ValidationResult](ValidationResult.md) | 0..* | collection of results  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | [Report](Report.md) |
 
 
-## Usages
 
 
+
+
+
+## TODOs
+
+* add prov object
 
 ## Identifier and Mapping Information
 
@@ -57,17 +57,15 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['sh:ValidationReport'] |
-| native | ['vm:ValidationReport'] |
+| self | sh:ValidationReport |
+| native | vm:ValidationReport |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -80,10 +78,14 @@ description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
 class_uri: sh:ValidationReport
 
@@ -99,20 +101,28 @@ description: A report that consists of validation results
 todos:
 - add prov object
 from_schema: https://w3id.org/linkml/validation_results
+rank: 1000
 is_a: Report
 slot_usage:
   results:
     name: results
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
 attributes:
   results:
     name: results
     description: collection of results
     from_schema: https://w3id.org/linkml/validation_results
+    rank: 1000
     slot_uri: sh:result
     multivalued: true
     alias: results
     owner: ValidationReport
+    domain_of:
+    - Report
+    - Report
     range: ValidationResult
     inlined: true
     inlined_as_list: true
