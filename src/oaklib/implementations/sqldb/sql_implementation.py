@@ -1163,8 +1163,11 @@ class SqlImplementation(
         logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
         if subjects is None:
-            return self._logical_definitions_from_eq_query(q)
+            for ldef in self._logical_definitions_from_eq_query(q):
+                yield ldef
+            return
         for curie_it in chunk(subjects, self.max_items_for_in_clause):
+            print(f"Getting logical definitions for {curie_it} from {subjects}")
             q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
             for ldef in self._logical_definitions_from_eq_query(q):
                 yield ldef
