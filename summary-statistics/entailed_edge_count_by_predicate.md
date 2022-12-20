@@ -2,7 +2,7 @@
 _Number of entailed (includes indirect) edges grouped by predicate in the ontology or subset_
 
 
-URI: [reporting:entailed_edge_count_by_predicate](https://w3id.org/linkml/reportentailed_edge_count_by_predicate)
+URI: [summary_statistics:entailed_edge_count_by_predicate](https://w3id.org/oaklib/summary_statistics.entailed_edge_count_by_predicate)
 
 
 
@@ -51,7 +51,7 @@ URI: [reporting:entailed_edge_count_by_predicate](https://w3id.org/linkml/report
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: Predicate
 description: Number of entailed (includes indirect) edges grouped by predicate in
   the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: entailed_edge_count_by_predicate

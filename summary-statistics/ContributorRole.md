@@ -42,7 +42,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -53,7 +53,7 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | sh:ContributorRole |
-| native | reporting:ContributorRole |
+| native | summary_statistics:ContributorRole |
 
 
 ## LinkML Source
@@ -66,13 +66,13 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 ```yaml
 name: ContributorRole
 description: A role that a contributor can have
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   id:
     name: id
     description: the unique identifier for the role
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     identifier: true
     range: uriorcurie
 class_uri: sh:ContributorRole
@@ -86,13 +86,13 @@ class_uri: sh:ContributorRole
 ```yaml
 name: ContributorRole
 description: A role that a contributor can have
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   id:
     name: id
     description: the unique identifier for the role
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     identifier: true
     alias: id
     owner: ContributorRole

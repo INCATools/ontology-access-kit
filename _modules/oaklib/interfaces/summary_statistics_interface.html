@@ -129,7 +129,7 @@
 
 <span class="sd">        :param branches: if provided, only statistics for the given branch roots will be returned</span>
 <span class="sd">        :param group_by: if provided, statistics will be grouped by the values of this property</span>
-<span class="sd">        :param values: if provided, only statistics where the group_by property value matches this will be considerd</span>
+<span class="sd">        :param values: if provided, only statistics where the group_by property value matches this will be considered</span>
 <span class="sd">        :param include_entailed: include inference</span>
 <span class="sd">        :param prefixes: if provided, only statistics for entities with these prefixes will be considered</span>
 <span class="sd">        :return:</span>
@@ -308,6 +308,7 @@
 <span class="sd">        :param ssc:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Adding derived statistics&quot;</span><span class="p">)</span>
         <span class="n">ssc</span><span class="o">.</span><span class="n">non_deprecated_class_count</span> <span class="o">=</span> <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">-</span> <span class="n">ssc</span><span class="o">.</span><span class="n">deprecated_class_count</span>
         <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_without_text_definitions</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">ssc</span><span class="o">.</span><span class="n">class_count</span> <span class="o">-</span> <span class="n">ssc</span><span class="o">.</span><span class="n">class_count_with_text_definitions</span>

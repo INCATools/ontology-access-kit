@@ -43,7 +43,7 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [sh:prefix](https://w3id.org/shacl/prefix)
 ```yaml
 name: prefix
 description: the prefix for the ontology
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 slot_uri: sh:prefix
 alias: prefix

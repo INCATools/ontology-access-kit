@@ -2,7 +2,7 @@
 _Number of synonym statements (assertions) in the ontology or subset_
 
 
-URI: [reporting:synonym_statement_count](https://w3id.org/linkml/reportsynonym_statement_count)
+URI: [summary_statistics:synonym_statement_count](https://w3id.org/oaklib/summary_statistics.synonym_statement_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:synonym_statement_count](https://w3id.org/linkml/reportsynonym_s
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:synonym_statement_count](https://w3id.org/linkml/reportsynonym_s
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: Synonym
 description: Number of synonym statements (assertions) in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: synonym_statement_count
@@ -77,7 +77,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
-range: string
+range: integer
 
 ```
 </details>

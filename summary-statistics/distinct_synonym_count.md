@@ -2,7 +2,7 @@
 _Number of distinct synonym strings in the ontology or subset_
 
 
-URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_synonym_count)
+URI: [summary_statistics:distinct_synonym_count](https://w3id.org/oaklib/summary_statistics.distinct_synonym_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_s
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:distinct_synonym_count](https://w3id.org/linkml/reportdistinct_s
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -72,7 +72,7 @@ annotations:
     tag: distinct
     value: Value
 description: Number of distinct synonym strings in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: distinct_synonym_count
@@ -80,7 +80,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: metadata_statistic_group
-range: string
+range: integer
 
 ```
 </details>

@@ -86,11 +86,13 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">curies</span>
 <span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">prefixmaps.io.parser</span> <span class="kn">import</span> <span class="n">load_context</span>
+<span class="kn">from</span> <span class="nn">sssom.parsers</span> <span class="kn">import</span> <span class="n">parse_sssom_table</span><span class="p">,</span> <span class="n">to_mapping_set_document</span>
 
 <span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">DEFAULT_PREFIX_MAP</span><span class="p">,</span>
@@ -236,13 +238,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span> <span class="o">=</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="o">.</span><span class="n">from_prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_map</span><span class="p">())</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converter</span>
 
-<div class="viewcode-block" id="BasicOntologyInterface.set_metamodel_mappings"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_metamodel_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">set_metamodel_mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BasicOntologyInterface.set_metamodel_mappings"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.set_metamodel_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">set_metamodel_mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mappings</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the ontology metamodel mapper.</span>
 
 <span class="sd">        :param mappings: Mappings for predicates such as rdfs:subClassOf</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+            <span class="n">mappings</span> <span class="o">=</span> <span class="nb">str</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">msdf</span> <span class="o">=</span> <span class="n">parse_sssom_table</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
+            <span class="n">msd</span> <span class="o">=</span> <span class="n">to_mapping_set_document</span><span class="p">(</span><span class="n">msdf</span><span class="p">)</span>
+            <span class="n">mappings</span> <span class="o">=</span> <span class="n">msd</span><span class="o">.</span><span class="n">mapping_set</span><span class="o">.</span><span class="n">mappings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ontology_metamodel_mapper</span> <span class="o">=</span> <span class="n">OntologyMetadataMapper</span><span class="p">(</span>
             <span class="n">mappings</span><span class="p">,</span> <span class="n">curie_converter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">converter</span>
         <span class="p">)</span></div>

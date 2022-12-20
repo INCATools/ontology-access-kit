@@ -2,7 +2,7 @@
 _Ontology for which the statistics are computed_
 
 
-URI: [reporting:ontologies](https://w3id.org/linkml/reportontologies)
+URI: [summary_statistics:ontologies](https://w3id.org/oaklib/summary_statistics.ontologies)
 
 
 
@@ -47,7 +47,7 @@ URI: [reporting:ontologies](https://w3id.org/linkml/reportontologies)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -58,7 +58,7 @@ URI: [reporting:ontologies](https://w3id.org/linkml/reportontologies)
 ```yaml
 name: ontologies
 description: Ontology for which the statistics are computed
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: ontologies

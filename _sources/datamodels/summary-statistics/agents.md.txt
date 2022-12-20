@@ -2,7 +2,7 @@
 _Agents that contributed to the report_
 
 
-URI: [reporting:agents](https://w3id.org/linkml/reportagents)
+URI: [summary_statistics:agents](https://w3id.org/oaklib/summary_statistics.agents)
 
 
 
@@ -47,7 +47,7 @@ URI: [reporting:agents](https://w3id.org/linkml/reportagents)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -58,7 +58,7 @@ URI: [reporting:agents](https://w3id.org/linkml/reportagents)
 ```yaml
 name: agents
 description: Agents that contributed to the report
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: agents

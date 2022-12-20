@@ -84,7 +84,7 @@
   <section id="class-facetedcount">
 <h1>Class: FacetedCount<a class="headerlink" href="#class-facetedcount" title="Permalink to this headline"></a></h1>
 <p><em>Counts broken down by a facet</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/reportFacetedCount">reporting:FacetedCount</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oaklib/summary_statistics.FacetedCount">summary_statistics:FacetedCount</a></p>
 <div class="mermaid">
              classDiagram
     class FacetedCount
@@ -176,7 +176,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/summary_statistics</p></li>
+<li><p>from schema: https://w3id.org/oaklib/summary_statistics</p></li>
 </ul>
 </section>
 </section>
@@ -190,10 +190,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>reporting:FacetedCount</p></td>
+<td><p>summary_statistics:FacetedCount</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>reporting:FacetedCount</p></td>
+<td><p>summary_statistics:FacetedCount</p></td>
 </tr>
 </tbody>
 </table>
@@ -209,19 +209,19 @@ name: FacetedCount
 description: Counts broken down by a facet
 comments:
 - For example, edge counts may be grouped by predicate (relationship type)
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
     description: the facet used to group the counts
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     key: true
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     range: integer
     required: true
@@ -235,13 +235,13 @@ name: FacetedCount
 description: Counts broken down by a facet
 comments:
 - For example, edge counts may be grouped by predicate (relationship type)
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   facet:
     name: facet
     description: the facet used to group the counts
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     key: true
     alias: facet
@@ -253,7 +253,7 @@ attributes:
   filtered_count:
     name: filtered_count
     description: the number of items in the facet
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     alias: filtered_count
     owner: FacetedCount

@@ -1,6 +1,6 @@
 # Slot: filtered_count
 
-URI: [reporting:filtered_count](https://w3id.org/linkml/reportfiltered_count)
+URI: [summary_statistics:filtered_count](https://w3id.org/oaklib/summary_statistics.filtered_count)
 
 
 

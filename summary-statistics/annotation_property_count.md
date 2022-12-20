@@ -2,7 +2,7 @@
 _Number of annotation properties (metadata properties) in the ontology or subset_
 
 
-URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotation_property_count)
+URI: [summary_statistics:annotation_property_count](https://w3id.org/oaklib/summary_statistics.annotation_property_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:annotation_property_count](https://w3id.org/linkml/reportannotat
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: AnnotationProperty
 description: Number of annotation properties (metadata properties) in the ontology
   or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: annotation_property_count
@@ -78,7 +78,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: property_statistic_group
-range: string
+range: integer
 
 ```
 </details>

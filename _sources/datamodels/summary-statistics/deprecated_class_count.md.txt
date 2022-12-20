@@ -2,7 +2,7 @@
 _Number of deprecated (obsoleted) classes in the ontology or subset_
 
 
-URI: [reporting:deprecated_class_count](https://w3id.org/linkml/reportdeprecated_class_count)
+URI: [summary_statistics:deprecated_class_count](https://w3id.org/oaklib/summary_statistics.deprecated_class_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:deprecated_class_count](https://w3id.org/linkml/reportdeprecated
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:deprecated_class_count](https://w3id.org/linkml/reportdeprecated
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: Class, Deprecated
 description: Number of deprecated (obsoleted) classes in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: deprecated_class_count
@@ -77,7 +77,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: class_statistic_group
-range: string
+range: integer
 
 ```
 </details>

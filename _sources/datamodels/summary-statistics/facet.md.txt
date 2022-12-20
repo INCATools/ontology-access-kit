@@ -1,6 +1,6 @@
 # Slot: facet
 
-URI: [reporting:facet](https://w3id.org/linkml/reportfacet)
+URI: [summary_statistics:facet](https://w3id.org/oaklib/summary_statistics.facet)
 
 
 

@@ -4,7 +4,7 @@ _An activity that calculates summary statistics for an ontology_
 
 
 
-URI: [reporting:SummaryStatisticsCalculationActivity](https://w3id.org/linkml/reportSummaryStatisticsCalculationActivity)
+URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/oaklib/summary_statistics.SummaryStatisticsCalculationActivity)
 
 
 ```{mermaid}
@@ -57,7 +57,7 @@ URI: [reporting:SummaryStatisticsCalculationActivity](https://w3id.org/linkml/re
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -67,8 +67,8 @@ URI: [reporting:SummaryStatisticsCalculationActivity](https://w3id.org/linkml/re
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | reporting:SummaryStatisticsCalculationActivity |
-| native | reporting:SummaryStatisticsCalculationActivity |
+| self | summary_statistics:SummaryStatisticsCalculationActivity |
+| native | summary_statistics:SummaryStatisticsCalculationActivity |
 
 
 ## LinkML Source
@@ -81,34 +81,34 @@ URI: [reporting:SummaryStatisticsCalculationActivity](https://w3id.org/linkml/re
 ```yaml
 name: SummaryStatisticsCalculationActivity
 description: An activity that calculates summary statistics for an ontology
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   started_at_time:
     name: started_at_time
     description: the time at which the activity started
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:startedAtTime
     range: datetime
   ended_at_time:
     name: ended_at_time
     description: the time at which the activity ended
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:endedAtTime
     range: datetime
   was_associated_with:
     name: was_associated_with
     description: the agent that was associated with the activity
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:wasAssociatedWith
     range: Agent
   acted_on_behalf_of:
     name: acted_on_behalf_of
     description: the agent that the activity acted on behalf of
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:actedOnBehalfOf
     range: Agent
@@ -122,13 +122,13 @@ attributes:
 ```yaml
 name: SummaryStatisticsCalculationActivity
 description: An activity that calculates summary statistics for an ontology
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   started_at_time:
     name: started_at_time
     description: the time at which the activity started
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:startedAtTime
     alias: started_at_time
@@ -139,7 +139,7 @@ attributes:
   ended_at_time:
     name: ended_at_time
     description: the time at which the activity ended
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:endedAtTime
     alias: ended_at_time
@@ -150,7 +150,7 @@ attributes:
   was_associated_with:
     name: was_associated_with
     description: the agent that was associated with the activity
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:wasAssociatedWith
     alias: was_associated_with
@@ -161,7 +161,7 @@ attributes:
   acted_on_behalf_of:
     name: acted_on_behalf_of
     description: the agent that the activity acted on behalf of
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     slot_uri: prov:actedOnBehalfOf
     alias: acted_on_behalf_of

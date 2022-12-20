@@ -1,6 +1,6 @@
 # Slot: individual_statistic_group
 
-URI: [reporting:individual_statistic_group](https://w3id.org/linkml/reportindividual_statistic_group)
+URI: [summary_statistics:individual_statistic_group](https://w3id.org/oaklib/summary_statistics.individual_statistic_group)
 
 
 
@@ -32,7 +32,7 @@ URI: [reporting:individual_statistic_group](https://w3id.org/linkml/reportindivi
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -42,7 +42,7 @@ URI: [reporting:individual_statistic_group](https://w3id.org/linkml/reportindivi
 <details>
 ```yaml
 name: individual_statistic_group
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 alias: individual_statistic_group
 is_grouping_slot: true

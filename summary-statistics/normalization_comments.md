@@ -2,7 +2,7 @@
 _if contributor name normalization was applied, provide details here_
 
 
-URI: [reporting:normalization_comments](https://w3id.org/linkml/reportnormalization_comments)
+URI: [summary_statistics:normalization_comments](https://w3id.org/oaklib/summary_statistics.normalization_comments)
 
 
 
@@ -43,7 +43,7 @@ URI: [reporting:normalization_comments](https://w3id.org/linkml/reportnormalizat
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:normalization_comments](https://w3id.org/linkml/reportnormalizat
 ```yaml
 name: normalization_comments
 description: if contributor name normalization was applied, provide details here
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 alias: normalization_comments
 owner: ContributorStatistics

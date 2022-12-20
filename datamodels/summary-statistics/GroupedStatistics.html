@@ -84,7 +84,7 @@
   <section id="class-groupedstatistics">
 <h1>Class: GroupedStatistics<a class="headerlink" href="#class-groupedstatistics" title="Permalink to this headline"></a></h1>
 <p><em>summary statistics for the entire resource</em></p>
-<p>URI: <a class="reference external" href="https://w3id.org/linkml/reportGroupedStatistics">reporting:GroupedStatistics</a></p>
+<p>URI: <a class="reference external" href="https://w3id.org/oaklib/summary_statistics.GroupedStatistics">summary_statistics:GroupedStatistics</a></p>
 <div class="mermaid">
              classDiagram
     class GroupedStatistics
@@ -123,14 +123,14 @@
 <td><p>statistics grouped by a particular property</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
-<td><p></p></td>
-<td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="agents.html"><span class="doc std std-doc">agents</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="agents.html"><span class="doc std std-doc">agents</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
 <td><p>Agents that contributed to the report</p></td>
+<td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="was_generated_by.html"><span class="doc std std-doc">was_generated_by</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SummaryStatisticsCalculationActivity.html"><span class="doc std std-doc">SummaryStatisticsCalculationActivity</span></a></p></td>
+<td><p>The process that generated the report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ontologies.html"><span class="doc std std-doc">ontologies</span></a></p></td>
@@ -143,9 +143,9 @@
 <td><p>For diffs, the ontologies being compared against</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="was_generated_by.html"><span class="doc std std-doc">was_generated_by</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="SummaryStatisticsCalculationActivity.html"><span class="doc std std-doc">SummaryStatisticsCalculationActivity</span></a></p></td>
-<td><p>The process that generated the report</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<td><p>0..1 <br/> NONE</p></td>
+<td><p></p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 </tbody>
@@ -156,7 +156,7 @@
 <section id="schema-source">
 <h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>from schema: https://w3id.org/linkml/summary_statistics</p></li>
+<li><p>from schema: https://w3id.org/oaklib/summary_statistics</p></li>
 </ul>
 </section>
 </section>
@@ -170,10 +170,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>self</p></td>
-<td><p>reporting:GroupedStatistics</p></td>
+<td><p>summary_statistics:GroupedStatistics</p></td>
 </tr>
 <tr class="row-odd"><td><p>native</p></td>
-<td><p>reporting:GroupedStatistics</p></td>
+<td><p>summary_statistics:GroupedStatistics</p></td>
 </tr>
 </tbody>
 </table>
@@ -187,7 +187,7 @@
 ```yaml
 name: GroupedStatistics
 description: summary statistics for the entire resource
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: SummaryStatisticsReport
 attributes:
@@ -196,7 +196,7 @@ attributes:
     description: statistics grouped by a particular property
     comments:
     - For example, GO stats may be broken out by MF/BP/CC
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     range: UngroupedStatistics
@@ -209,7 +209,7 @@ attributes:
 ```yaml
 name: GroupedStatistics
 description: summary statistics for the entire resource
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: SummaryStatisticsReport
 attributes:
@@ -218,7 +218,7 @@ attributes:
     description: statistics grouped by a particular property
     comments:
     - For example, GO stats may be broken out by MF/BP/CC
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     alias: partitions
@@ -230,7 +230,7 @@ attributes:
   id:
     name: id
     description: Unique handle for this report
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     alias: id
     owner: GroupedStatistics
@@ -244,7 +244,7 @@ attributes:
   ontologies:
     name: ontologies
     description: Ontology for which the statistics are computed
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     alias: ontologies
@@ -257,7 +257,7 @@ attributes:
   compared_with:
     name: compared_with
     description: For diffs, the ontologies being compared against
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     alias: compared_with
@@ -270,7 +270,7 @@ attributes:
   was_generated_by:
     name: was_generated_by
     description: The process that generated the report
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     alias: was_generated_by
     owner: GroupedStatistics
@@ -280,7 +280,7 @@ attributes:
   agents:
     name: agents
     description: Agents that contributed to the report
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     alias: agents

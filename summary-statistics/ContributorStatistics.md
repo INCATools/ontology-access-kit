@@ -4,7 +4,7 @@ _Statistics for a contributor_
 
 
 
-URI: [reporting:ContributorStatistics](https://w3id.org/linkml/reportContributorStatistics)
+URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_statistics.ContributorStatistics)
 
 
 ```{mermaid}
@@ -55,7 +55,7 @@ URI: [reporting:ContributorStatistics](https://w3id.org/linkml/reportContributor
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -65,8 +65,8 @@ URI: [reporting:ContributorStatistics](https://w3id.org/linkml/reportContributor
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | reporting:ContributorStatistics |
-| native | reporting:ContributorStatistics |
+| self | summary_statistics:ContributorStatistics |
+| native | summary_statistics:ContributorStatistics |
 
 
 ## LinkML Source
@@ -79,13 +79,13 @@ URI: [reporting:ContributorStatistics](https://w3id.org/linkml/reportContributor
 ```yaml
 name: ContributorStatistics
 description: Statistics for a contributor
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   contributor_id:
     name: contributor_id
     description: the contributor
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     key: true
     range: uriorcurie
@@ -93,18 +93,18 @@ attributes:
   contributor_name:
     name: contributor_name
     description: the name of the contributor
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     range: string
   normalization_comments:
     name: normalization_comments
     description: if contributor name normalization was applied, provide details here
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     range: string
   role_counts:
     name: role_counts
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     range: FacetedCount
@@ -119,13 +119,13 @@ attributes:
 ```yaml
 name: ContributorStatistics
 description: Statistics for a contributor
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 attributes:
   contributor_id:
     name: contributor_id
     description: the contributor
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     key: true
     alias: contributor_id
@@ -137,7 +137,7 @@ attributes:
   contributor_name:
     name: contributor_name
     description: the name of the contributor
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     alias: contributor_name
     owner: ContributorStatistics
@@ -147,7 +147,7 @@ attributes:
   normalization_comments:
     name: normalization_comments
     description: if contributor name normalization was applied, provide details here
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     alias: normalization_comments
     owner: ContributorStatistics
@@ -156,7 +156,7 @@ attributes:
     range: string
   role_counts:
     name: role_counts
-    from_schema: https://w3id.org/linkml/summary_statistics
+    from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
     alias: role_counts

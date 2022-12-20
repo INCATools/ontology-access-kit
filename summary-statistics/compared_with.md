@@ -2,7 +2,7 @@
 _For diffs, the ontologies being compared against_
 
 
-URI: [reporting:compared_with](https://w3id.org/linkml/reportcompared_with)
+URI: [summary_statistics:compared_with](https://w3id.org/oaklib/summary_statistics.compared_with)
 
 
 
@@ -47,7 +47,7 @@ URI: [reporting:compared_with](https://w3id.org/linkml/reportcompared_with)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -58,7 +58,7 @@ URI: [reporting:compared_with](https://w3id.org/linkml/reportcompared_with)
 ```yaml
 name: compared_with
 description: For diffs, the ontologies being compared against
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: compared_with

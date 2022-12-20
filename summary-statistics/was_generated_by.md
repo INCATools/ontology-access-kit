@@ -2,7 +2,7 @@
 _The process that generated the report_
 
 
-URI: [reporting:was_generated_by](https://w3id.org/linkml/reportwas_generated_by)
+URI: [summary_statistics:was_generated_by](https://w3id.org/oaklib/summary_statistics.was_generated_by)
 
 
 
@@ -45,7 +45,7 @@ URI: [reporting:was_generated_by](https://w3id.org/linkml/reportwas_generated_by
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -56,7 +56,7 @@ URI: [reporting:was_generated_by](https://w3id.org/linkml/reportwas_generated_by
 ```yaml
 name: was_generated_by
 description: The process that generated the report
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 alias: was_generated_by
 owner: SummaryStatisticsReport

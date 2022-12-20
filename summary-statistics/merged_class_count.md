@@ -2,7 +2,7 @@
 _Number of merged classes (obsoletions with merge reason) in the ontology or subset_
 
 
-URI: [reporting:merged_class_count](https://w3id.org/linkml/reportmerged_class_count)
+URI: [summary_statistics:merged_class_count](https://w3id.org/oaklib/summary_statistics.merged_class_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:merged_class_count](https://w3id.org/linkml/reportmerged_class_c
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:merged_class_count](https://w3id.org/linkml/reportmerged_class_c
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -70,7 +70,7 @@ annotations:
     value: Class, Deprecated, Merged
 description: Number of merged classes (obsoletions with merge reason) in the ontology
   or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: merged_class_count
@@ -78,7 +78,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: class_statistic_group
-range: string
+range: integer
 
 ```
 </details>

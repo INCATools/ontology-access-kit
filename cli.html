@@ -3253,11 +3253,25 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p>
 <ul class="simple">
 <li><p>by a collection of branch roots</p></li>
 <li><p>by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)</p></li>
+<li><p>by prefix (e.g. GO, PR, CL, OBI)</p></li>
 </ul>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace</p>
 </div></blockquote>
+<p>Note: the oio:hasOBONamespace is <em>not</em> the same as the ID prefix, it is
+a field that is used by a subset of ontologies to partition classes into
+broad groupings, similar to subsets. Its use is non-standard, yet a lot
+of ontologies use this as the main partitioning mechanism.</p>
+<p>A note on bundled ontologies:</p>
+<p>The standard release many OBO ontologies “bundles” parts of other ontologies
+(formally, the release product includes a merged imports closure of import
+modules). This can complicate generation of statistics. A naive count of
+all classes in the main OBI release will include not only “native” OBI classes,
+but also classes from other ontologies that are bundled in the release.</p>
+<p>For bundled ontologies, we recommend some kind of partitioning, such as via
+defined roots, or via the CURIE prefix, using the <code class="docutils literal notranslate"><span class="pre">--group-by-prefix</span></code> option.</p>
+<p>Ouput formats:</p>
 <p>The recommended output types for this command are yaml, json, or csv.
 The default output type is yaml, following the SummaryStatistics data model.
 This is naturally nested, as the statistics includes faceted groupings
@@ -3339,6 +3353,12 @@ a group-by option is specified, these will be grouped accordingly.</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-statistics-X">
 <span id="cmdoption-runoak-statistics-x"></span><span id="cmdoption-runoak-statistics-compare-with"></span><span class="sig-name descname"><span class="pre">-X</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--compare-with</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;compare_with&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-X" title="Permalink to this definition"></a></dt>
 <dd><p>Compare with another ontology</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-statistics-P">
+<span id="cmdoption-runoak-statistics-p"></span><span id="cmdoption-runoak-statistics-has-prefix"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--has-prefix</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;has_prefix&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-statistics-P" title="Permalink to this definition"></a></dt>
+<dd><p>filter based on a prefix, e.g. OBI</p>
 </dd></dl>
 
 <dl class="std option">

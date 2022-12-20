@@ -2,7 +2,7 @@
 _Number of anonymous class expressions in the ontology or subset_
 
 
-URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/reportanonymous_class_expression_count)
+URI: [summary_statistics:anonymous_class_expression_count](https://w3id.org/oaklib/summary_statistics.anonymous_class_expression_count)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -48,7 +48,7 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -59,7 +59,7 @@ URI: [reporting:anonymous_class_expression_count](https://w3id.org/linkml/report
 ```yaml
 name: anonymous_class_expression_count
 description: Number of anonymous class expressions in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: anonymous_class_expression_count
@@ -67,7 +67,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: class_statistic_group
-range: string
+range: integer
 
 ```
 </details>

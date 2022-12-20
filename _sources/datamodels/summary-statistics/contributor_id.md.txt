@@ -2,7 +2,7 @@
 _the contributor_
 
 
-URI: [reporting:contributor_id](https://w3id.org/linkml/reportcontributor_id)
+URI: [summary_statistics:contributor_id](https://w3id.org/oaklib/summary_statistics.contributor_id)
 
 
 
@@ -45,7 +45,7 @@ URI: [reporting:contributor_id](https://w3id.org/linkml/reportcontributor_id)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -56,7 +56,7 @@ URI: [reporting:contributor_id](https://w3id.org/linkml/reportcontributor_id)
 ```yaml
 name: contributor_id
 description: the contributor
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 key: true
 alias: contributor_id

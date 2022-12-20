@@ -1,6 +1,6 @@
 # Slot: contributor_summary
 
-URI: [reporting:contributor_summary](https://w3id.org/linkml/reportcontributor_summary)
+URI: [summary_statistics:contributor_summary](https://w3id.org/oaklib/summary_statistics.contributor_summary)
 
 
 
@@ -43,7 +43,7 @@ URI: [reporting:contributor_summary](https://w3id.org/linkml/reportcontributor_s
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -53,7 +53,7 @@ URI: [reporting:contributor_summary](https://w3id.org/linkml/reportcontributor_s
 <details>
 ```yaml
 name: contributor_summary
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: contributor_summary

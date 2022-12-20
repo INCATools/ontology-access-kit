@@ -1,6 +1,6 @@
 # Slot: id
 
-URI: [reporting:id](https://w3id.org/linkml/reportid)
+URI: [summary_statistics:id](https://w3id.org/oaklib/summary_statistics.id)
 
 
 

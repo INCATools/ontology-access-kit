@@ -2,7 +2,7 @@
 _Number of edges grouped by predicate in the ontology or subset_
 
 
-URI: [reporting:edge_count_by_predicate](https://w3id.org/linkml/reportedge_count_by_predicate)
+URI: [summary_statistics:edge_count_by_predicate](https://w3id.org/oaklib/summary_statistics.edge_count_by_predicate)
 
 
 
@@ -51,7 +51,7 @@ URI: [reporting:edge_count_by_predicate](https://w3id.org/linkml/reportedge_coun
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: facet
     value: Predicate
 description: Number of edges grouped by predicate in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: edge_count_by_predicate

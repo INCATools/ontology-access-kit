@@ -2,7 +2,7 @@
 _statistics grouped by a particular property_
 
 
-URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
+URI: [summary_statistics:partitions](https://w3id.org/oaklib/summary_statistics.partitions)
 
 
 
@@ -49,7 +49,7 @@ URI: [reporting:partitions](https://w3id.org/linkml/reportpartitions)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -62,7 +62,7 @@ name: partitions
 description: statistics grouped by a particular property
 comments:
 - For example, GO stats may be broken out by MF/BP/CC
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: partitions

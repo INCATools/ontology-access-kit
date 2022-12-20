@@ -1,6 +1,6 @@
 # Slot: role_counts
 
-URI: [reporting:role_counts](https://w3id.org/linkml/reportrole_counts)
+URI: [summary_statistics:role_counts](https://w3id.org/oaklib/summary_statistics.role_counts)
 
 
 
@@ -43,7 +43,7 @@ URI: [reporting:role_counts](https://w3id.org/linkml/reportrole_counts)
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -53,7 +53,7 @@ URI: [reporting:role_counts](https://w3id.org/linkml/reportrole_counts)
 <details>
 ```yaml
 name: role_counts
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 multivalued: true
 alias: role_counts

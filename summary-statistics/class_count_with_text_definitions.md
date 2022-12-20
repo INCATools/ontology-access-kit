@@ -2,7 +2,7 @@
 _Number of classes with text definitions in the ontology or subset_
 
 
-URI: [reporting:class_count_with_text_definitions](https://w3id.org/linkml/reportclass_count_with_text_definitions)
+URI: [summary_statistics:class_count_with_text_definitions](https://w3id.org/oaklib/summary_statistics.class_count_with_text_definitions)
 
 
 
@@ -29,7 +29,7 @@ URI: [reporting:class_count_with_text_definitions](https://w3id.org/linkml/repor
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
 
 
 
@@ -54,7 +54,7 @@ URI: [reporting:class_count_with_text_definitions](https://w3id.org/linkml/repor
 ### Schema Source
 
 
-* from schema: https://w3id.org/linkml/summary_statistics
+* from schema: https://w3id.org/oaklib/summary_statistics
 
 
 
@@ -69,7 +69,7 @@ annotations:
     tag: filter
     value: Class, HasTextDefinition
 description: Number of classes with text definitions in the ontology or subset
-from_schema: https://w3id.org/linkml/summary_statistics
+from_schema: https://w3id.org/oaklib/summary_statistics
 rank: 1000
 is_a: count_statistic
 alias: class_count_with_text_definitions
@@ -77,7 +77,7 @@ owner: UngroupedStatistics
 domain_of:
 - UngroupedStatistics
 slot_group: class_statistic_group
-range: string
+range: integer
 
 ```
 </details>
