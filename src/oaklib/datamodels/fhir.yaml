@@ -128,10 +128,18 @@ classes:
   CodeSystemProperty:
     attributes:
       code:
+        range: string  # Pattern: [^\s]+(\s[^\s]+)* / See: https://hl7.org/fhir/datatypes.html#code
         required: true
       uri:
+        range: uri
+        required: false
       description:
+        range: string
+        required: false
       type:
+        # TODO: type: an enum of: code | Coding | string | integer | boolean | dateTime | decimal
+        #  https://hl7:org/fhir/valueset-concept-property-type.html
+        required: true
         range: string
 
   Coding:
