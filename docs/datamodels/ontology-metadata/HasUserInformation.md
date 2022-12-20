@@ -2,16 +2,12 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
-URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUserInformation)
-
-
+URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/HasUserInformation)
 
 
 ```{mermaid}
  classDiagram
+    class HasUserInformation
       AnnotationPropertyMixin <|-- HasUserInformation
       
       HasUserInformation : comment
@@ -24,8 +20,18 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
       HasUserInformation : seeAlso
       
 
+      HasUserInformation <|-- Term
+      
+      HasUserInformation : comment
+      HasUserInformation : curator_note
+      HasUserInformation : depicted_by
+      HasUserInformation : example_of_usage
+      HasUserInformation : has_curation_status
+      HasUserInformation : image
+      HasUserInformation : page
+      HasUserInformation : seeAlso
+      
 ```
-
 
 
 
@@ -38,19 +44,27 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [comment](comment.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [seeAlso](seeAlso.md) | [Thing](Thing.md) | 0..* | None  | . |
-| [image](image.md) | [Thing](Thing.md) | 0..1 | None  | . |
-| [example_of_usage](example_of_usage.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [curator_note](curator_note.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [has_curation_status](has_curation_status.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..1 | None  | . |
-| [depicted_by](depicted_by.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
-| [page](page.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [comment](comment.md) | 0..* <br/> NONE |  | direct |
+| [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
+| [image](image.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
+| [example_of_usage](example_of_usage.md) | 0..* <br/> NONE |  | direct |
+| [curator_note](curator_note.md) | 0..* <br/> NONE |  | direct |
+| [has_curation_status](has_curation_status.md) | 0..1 <br/> NONE |  | direct |
+| [depicted_by](depicted_by.md) | 0..* <br/> NONE |  | direct |
+| [page](page.md) | 0..* <br/> NONE |  | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
 
 
-## Usages
+
+
+
 
 
 
@@ -71,17 +85,15 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasUserInformation'] |
-| native | ['omoschema:HasUserInformation'] |
+| self | omoschema:HasUserInformation |
+| native | omoschema:HasUserInformation |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -91,6 +103,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/schema/HasUse
 ```yaml
 name: HasUserInformation
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -112,6 +125,7 @@ slots:
 ```yaml
 name: HasUserInformation
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -120,29 +134,41 @@ attributes:
     comments:
     - in obo format, a term cannot have more than one comment
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: rdfs:comment
     multivalued: true
     alias: comment
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
+    - Ontology
+    - Axiom
     range: string
   seeAlso:
     name: seeAlso
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     slot_uri: rdfs:seeAlso
     multivalued: true
     alias: seeAlso
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
+    - Axiom
     range: Thing
   image:
     name: image
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: sdo:image
     alias: image
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
     range: Thing
   example_of_usage:
     name: example_of_usage
@@ -151,46 +177,61 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:example
+    rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000112
     multivalued: true
     alias: example_of_usage
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
     range: string
   curator_note:
     name: curator_note
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: provenance_property
     slot_uri: IAO:0000232
     multivalued: true
     alias: curator_note
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
     range: string
   has_curation_status:
     name: has_curation_status
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: IAO:0000114
     alias: has_curation_status
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
     range: string
   depicted_by:
     name: depicted_by
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: foaf:depicted_by
     multivalued: true
     alias: depicted_by
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
     range: string
   page:
     name: page
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: informative_property
     slot_uri: foaf:page
     multivalued: true
     alias: page
     owner: HasUserInformation
+    domain_of:
+    - HasUserInformation
     range: string
 
 ```

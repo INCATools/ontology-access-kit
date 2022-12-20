@@ -309,6 +309,10 @@ dry_run_option = click.option(
     show_default=False,
     help="If true, nothing will be modified by executing command",
 )
+has_prefix_option = click.option(
+    "--has-prefix", "-P", multiple=True, help="filter based on a prefix, e.g. OBI"
+)
+
 autolabel_option = click.option(
     "--autolabel/--no-autolabel",
     default=True,
@@ -751,6 +755,7 @@ def main(
     if metamodel_mappings:
         msdf = parse_sssom_table(metamodel_mappings)
         msd = to_mapping_set_document(msdf)
+        logging.info(f"Using {len(msd.mapping_set.mappings)} metamodel mappings")
         settings.impl.ontology_metamodel_mapper = OntologyMetadataMapper(
             msd.mapping_set.mappings, curie_converter=settings.impl.converter
         )
@@ -948,6 +953,7 @@ def obsoletes(
     "-X",
     help="Compare with another ontology",
 )
+@has_prefix_option
 @output_option
 @click.argument("branches", nargs=-1)
 def statistics(
@@ -957,6 +963,7 @@ def statistics(
     group_by_defined_by: bool,
     group_by_prefix: bool,
     include_residuals: bool,
+    has_prefix: str,
     compare_with: str,
     output_type: str,
     output: str,
@@ -976,9 +983,29 @@ def statistics(
 
     - by a metadata property (e.g. oio:hasOBONamespace, rdfs:isDefinedBy)
 
+    - by prefix (e.g. GO, PR, CL, OBI)
+
     Example:
 
         runoak -i sqlite:obo:pr statistics -p oio:hasOBONamespace
+
+    Note: the oio:hasOBONamespace is *not* the same as the ID prefix, it is
+    a field that is used by a subset of ontologies to partition classes into
+    broad groupings, similar to subsets. Its use is non-standard, yet a lot
+    of ontologies use this as the main partitioning mechanism.
+
+    A note on bundled ontologies:
+
+    The standard release many OBO ontologies "bundles" parts of other ontologies
+    (formally, the release product includes a merged imports closure of import
+    modules). This can complicate generation of statistics. A naive count of
+    all classes in the main OBI release will include not only "native" OBI classes,
+    but also classes from other ontologies that are bundled in the release.
+
+    For bundled ontologies, we recommend some kind of partitioning, such as via
+    defined roots, or via the CURIE prefix, using the ``--group-by-prefix`` option.
+
+    Ouput formats:
 
     The recommended output types for this command are yaml, json, or csv.
     The default output type is yaml, following the SummaryStatistics data model.
@@ -1009,6 +1036,7 @@ def statistics(
     if not isinstance(impl, SummaryStatisticsInterface):
         raise NotImplementedError(f"Cannot execute this using {type(impl)}")
     impl.include_residuals = include_residuals
+    prefixes = list(has_prefix) if has_prefix else None
     if group_by_obo_namespace:
         group_by_property = HAS_OBO_NAMESPACE
         diff_config.group_by_property = HAS_OBO_NAMESPACE
@@ -1028,15 +1056,17 @@ def statistics(
         logging.info(f"Comparing {impl} with {other} using {diff_config}")
         diff_stats = impl.diff_summary(other, configuration=diff_config)
     if not branches and not group_by_property:
-        ssc = impl.branch_summary_statistics()
+        ssc = impl.branch_summary_statistics(prefixes=prefixes)
     else:
         if branches and group_by_property:
             raise click.UsageError("Cannot specify both branches and predicates")
         if branches:
             branches = list(query_terms_iterator(branches, impl))
-            ssc = impl.global_summary_statistics(branches={impl.label(b): [b] for b in branches})
+            ssc = impl.global_summary_statistics(
+                branches={impl.label(b): [b] for b in branches}, prefixes=prefixes
+            )
         else:
-            ssc = impl.global_summary_statistics(group_by=group_by_property)
+            ssc = impl.global_summary_statistics(group_by=group_by_property, prefixes=prefixes)
     if diff_stats:
         logging.info("Integrating diff stats")
         for k, v in diff_stats.items():
@@ -2740,7 +2770,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 @main.command()
 @output_option
 @predicates_option
-@click.option("--has-prefix", "-P", multiple=True, help="filter based on a prefix, e.g. OBI")
+@has_prefix_option
 @click.option(
     "--annotated-roots/--no-annotated-roots",
     "-A/--no-A",

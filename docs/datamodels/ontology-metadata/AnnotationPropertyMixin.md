@@ -4,16 +4,12 @@ _Groups all annotation property bundles_
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
-URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/AnnotationPropertyMixin)
-
-
+URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/schema/AnnotationPropertyMixin)
 
 
 ```{mermaid}
  classDiagram
+    class AnnotationPropertyMixin
       AnnotationPropertyMixin <|-- HasMinimalMetadata
       AnnotationPropertyMixin <|-- HasSynonyms
       AnnotationPropertyMixin <|-- HasMappings
@@ -24,7 +20,6 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
       
       
 ```
-
 
 
 
@@ -43,11 +38,17 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
 
 
-## Usages
+
+
+
 
 
 
@@ -68,17 +69,15 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:AnnotationPropertyMixin'] |
-| native | ['omoschema:AnnotationPropertyMixin'] |
+| self | omoschema:AnnotationPropertyMixin |
+| native | omoschema:AnnotationPropertyMixin |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -89,6 +88,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/schema/A
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```
@@ -101,6 +101,7 @@ mixin: true
 name: AnnotationPropertyMixin
 description: Groups all annotation property bundles
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 mixin: true
 
 ```

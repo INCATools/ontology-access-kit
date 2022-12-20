@@ -1,6 +1,6 @@
 # Slot: equivalentProperty
 
-URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
+URI: [owl:equivalentProperty](http://www.w3.org/2002/07/owl#equivalentProperty)
 
 
 
@@ -8,13 +8,33 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 ## Inheritance
 
 * [logical_predicate](logical_predicate.md)
-    * **equivalentProperty** [ match_aspect]
+    * **equivalentProperty** [ [match_aspect](match_aspect.md)]
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms
+[TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
+
+
+
 
 
 
 ## Properties
 
- * Range: [Property](Property.md)
+* Range: [Property](Property.md)
+* Multivalued: True
+
+
+
+
+
 
 
 
@@ -33,3 +53,23 @@ URI: [http://www.w3.org/2002/07/owl#equivalentProperty](http://www.w3.org/2002/0
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: equivalentProperty
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+mixins:
+- match_aspect
+slot_uri: owl:equivalentProperty
+multivalued: true
+alias: equivalentProperty
+domain_of:
+- ObjectProperty
+range: Property
+
+```
+</details>

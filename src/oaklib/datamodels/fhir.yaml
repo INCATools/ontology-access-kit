@@ -201,8 +201,8 @@ classes:
       targetVersion:
       element:
         multivalued: true
-        range: ConceptMapElement
+        #range: ConceptMapElement
         inlined: true
         inlined_as_list: true
-      unMapped:
-        range: ConceptMapUnmapped
+      #unMapped:
+      #  range: ConceptMapUnmapped

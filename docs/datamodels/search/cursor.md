@@ -1,17 +1,33 @@
 # Slot: cursor
-_when the number of search results exceed the limit this can be used to iterate through results_
 
-
-URI: [https://w3id.org/linkml/search_datamodel/cursor](https://w3id.org/linkml/search_datamodel/cursor)
+URI: [search:cursor](https://w3id.org/linkml/search_datamodel/cursor)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[SearchBaseConfiguration](SearchBaseConfiguration.md) | A user-specified configuration that determines how a particular search operat...
+[SearchResultSet](SearchResultSet.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+
+
+
+
 
 
 
@@ -23,10 +39,17 @@ URI: [https://w3id.org/linkml/search_datamodel/cursor](https://w3id.org/linkml/s
 
 
 
-### Schema Source
 
+## LinkML Source
 
-* from schema: https://w3id.org/linkml/search_datamodel
+<details>
+```yaml
+name: cursor
+alias: cursor
+domain_of:
+- SearchBaseConfiguration
+- SearchResultSet
+range: string
 
-
-
+```
+</details>

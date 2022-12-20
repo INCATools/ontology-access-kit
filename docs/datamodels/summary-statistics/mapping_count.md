@@ -1,6 +1,8 @@
 # Slot: mapping_count
+_Number of mappings (including xrefs) in the ontology or subset_
 
-URI: [https://w3id.org/linkml/reportmapping_count](https://w3id.org/linkml/reportmapping_count)
+
+URI: [reporting:mapping_count](https://w3id.org/linkml/reportmapping_count)
 
 
 
@@ -12,9 +14,26 @@ URI: [https://w3id.org/linkml/reportmapping_count](https://w3id.org/linkml/repor
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+
+
+
+
 
 
 
@@ -23,6 +42,12 @@ URI: [https://w3id.org/linkml/reportmapping_count](https://w3id.org/linkml/repor
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Mapping |
 
 
 
@@ -33,3 +58,26 @@ URI: [https://w3id.org/linkml/reportmapping_count](https://w3id.org/linkml/repor
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: mapping_count
+annotations:
+  filter:
+    tag: filter
+    value: Mapping
+description: Number of mappings (including xrefs) in the ontology or subset
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: mapping_count
+owner: UngroupedStatistics
+domain_of:
+- UngroupedStatistics
+slot_group: metadata_statistic_group
+range: integer
+
+```
+</details>

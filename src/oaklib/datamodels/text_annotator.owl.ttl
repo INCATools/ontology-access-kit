@@ -11,7 +11,7 @@
 @prefix sssom: <http://w3id.org/sssom/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-linkml:text_annotator a owl:Ontology ;
+linkml:text_annotator.owl.ttl a owl:Ontology ;
     rdfs:label "text-annotator" ;
     IAO:0000700 ann:HasSpan,
         ann:TextAnnotationConfiguration,
@@ -20,11 +20,11 @@ linkml:text_annotator a owl:Ontology ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Text Annotator Datamodel" ;
     rdfs:seeAlso "https://github.com/mapping-commons/sssom/issues/155" ;
-    linkml:generation_date "2022-08-18T13:42:23" ;
+    linkml:generation_date "2022-12-18T15:11:16" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "text_annotator.yaml" ;
-    linkml:source_file_date "2022-06-10T12:27:40" ;
-    linkml:source_file_size 4039 .
+    linkml:source_file_date "2022-11-29T12:07:10" ;
+    linkml:source_file_size 4093 .
 
 ann:TransformationType a owl:Class ;
     rdfs:label "TransformationType" ;
@@ -40,16 +40,19 @@ ann:TransformationType a owl:Class ;
 ann:TextAnnotationConfiguration a owl:Class ;
     rdfs:label "TextAnnotationConfiguration" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty ann:sources ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:boolean ;
             owl:onProperty ann:matches_whole_text ],
         [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ann:token_exclusion_list ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:integer ;
-            owl:onProperty ann:limit ] ;
+            owl:onProperty ann:limit ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ann:sources ] ;
     skos:definition "configuration for search" .
 
 ann:TextAnnotationResultSet a owl:Class ;
@@ -100,6 +103,10 @@ ann:text a owl:DatatypeProperty ;
     rdfs:label "text" ;
     rdfs:range xsd:string .
 
+ann:token_exclusion_list a owl:DatatypeProperty ;
+    rdfs:label "token_exclusion_list" ;
+    rdfs:range xsd:string .
+
 sssom:confidence a owl:DatatypeProperty ;
     rdfs:label "confidence" ;
     rdfs:range xsd:float ;
@@ -137,7 +144,11 @@ ann:HasSpan a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:integer ;
-            owl:onProperty ann:subject_start ],
+            owl:onProperty ann:subject_end ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass ann:TextualElement ;
+            owl:onProperty ann:subject_text_id ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
@@ -145,11 +156,7 @@ ann:HasSpan a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:integer ;
-            owl:onProperty ann:subject_end ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass ann:TextualElement ;
-            owl:onProperty ann:subject_text_id ],
+            owl:onProperty ann:subject_start ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
@@ -161,7 +168,31 @@ ann:TextAnnotation a owl:Class ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sssom:object_label ],
+            owl:onProperty sssom:object_id ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty ann:is_longest_match ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty ann:matches_whole_text ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:subject_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:info ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty sssom:object_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty sssom:confidence ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass ann:TextualElement ;
@@ -169,23 +200,11 @@ ann:TextAnnotation a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
+            owl:onProperty sssom:subject_source ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
             owl:onProperty sssom:predicate_id ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty sssom:match_string ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:match_type ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:subject_label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty ann:is_longest_match ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:integer ;
@@ -193,19 +212,11 @@ ann:TextAnnotation a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sssom:subject_source ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty ann:matches_whole_text ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:float ;
-            owl:onProperty sssom:confidence ],
+            owl:onProperty sssom:match_string ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sssom:object_source ],
+            owl:onProperty sssom:object_label ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:integer ;
@@ -213,11 +224,7 @@ ann:TextAnnotation a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
-            owl:onProperty sssom:object_id ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:info ],
+            owl:onProperty ann:match_type ],
         ann:HasSpan ;
     skos:definition "An individual text annotation" ;
     skos:exactMatch oa:Annotation .
@@ -274,6 +281,10 @@ sssom:subject_source a owl:DatatypeProperty ;
 ann:TextualElement a owl:Class ;
     rdfs:label "TextualElement" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:text ],
+        [ a owl:Restriction ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty ann:id ;
             owl:qualifiedCardinality 1 ],
@@ -284,11 +295,7 @@ ann:TextualElement a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:anyURI ;
-            owl:onProperty ann:parent_document ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:text ] .
+            owl:onProperty ann:parent_document ] .
 
 
 

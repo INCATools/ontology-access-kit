@@ -2,7 +2,7 @@
 _The IC of the object_
 
 
-URI: [https://w3id.org/linkml/similarity/ancestor_information_content](https://w3id.org/linkml/similarity/ancestor_information_content)
+URI: [sim:ancestor_information_content](https://w3id.org/linkml/similarity/ancestor_information_content)
 
 
 
@@ -15,9 +15,26 @@ URI: [https://w3id.org/linkml/similarity/ancestor_information_content](https://w
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[TermPairwiseSimilarity](TermPairwiseSimilarity.md) | A simple pairwise similarity between two atomic concepts/terms
+
+
+
+
+
+
 ## Properties
 
- * Range: [NegativeLogValue](NegativeLogValue.md)
+* Range: [NegativeLogValue](NegativeLogValue.md)
+
+
+
+
 
 
 
@@ -36,3 +53,20 @@ URI: [https://w3id.org/linkml/similarity/ancestor_information_content](https://w
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: ancestor_information_content
+description: The IC of the object
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: information_content
+alias: ancestor_information_content
+domain_of:
+- TermPairwiseSimilarity
+range: NegativeLogValue
+
+```
+</details>

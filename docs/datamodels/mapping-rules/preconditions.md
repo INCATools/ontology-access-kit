@@ -2,16 +2,33 @@
 _all of the criteria that must be true before a rule is fired_
 
 
-URI: [https://w3id.org/shacl/condition](https://w3id.org/shacl/condition)
+URI: [sh:condition](https://w3id.org/shacl/condition)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[MappingRule](MappingRule.md) | An individual mapping rule, if preconditions match the postconditions are app...
+
+
+
+
+
+
 ## Properties
 
- * Range: [Precondition](Precondition.md)
+* Range: [Precondition](Precondition.md)
+
+
+
+
 
 
 
@@ -30,3 +47,21 @@ URI: [https://w3id.org/shacl/condition](https://w3id.org/shacl/condition)
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: preconditions
+description: all of the criteria that must be true before a rule is fired
+from_schema: https://w3id.org/linkml/mapping_rules_datamodel
+rank: 1000
+slot_uri: sh:condition
+alias: preconditions
+owner: MappingRule
+domain_of:
+- MappingRule
+range: Precondition
+
+```
+</details>

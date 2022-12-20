@@ -20,8 +20,10 @@ from oaklib.utilities.kgcl_utilities import parse_kgcl_files
 from tests import (
     ATOM,
     CATALYTIC_ACTIVITY,
+    CELL,
     CELLULAR_COMPONENT,
     CHEBI_NUCLEUS,
+    CYTOPLASM,
     IMBO,
     INPUT_DIR,
     INTRACELLULAR,
@@ -287,6 +289,32 @@ class TestCommandLineInterface(unittest.TestCase):
             out = result.stdout
             print(out)
             assert NUCLEAR_ENVELOPE not in out
+
+    def test_tree(self):
+        """Test tree command on core adapters"""
+        for input_arg in [TEST_ONT, TEST_DB, TEST_OWL_RDF, TEST_SIMPLE_OBO]:
+            cases = [
+                (
+                    ["-p", "i", NUCLEUS, VACUOLE],
+                    [NUCLEUS, VACUOLE, IMBO, CELLULAR_COMPONENT],
+                    [CYTOPLASM],
+                ),
+                (["-p", "i,p", NUCLEUS], [NUCLEUS, IMBO, CELLULAR_COMPONENT], []),
+                (
+                    ["-p", "i,p", NUCLEUS, "--max-hops", "1"],
+                    [NUCLEUS, IMBO],
+                    [CELLULAR_COMPONENT, CELL],
+                ),
+                (["-p", "i,p", CYTOPLASM, "--down"], [CYTOPLASM, VACUOLE, "GO:0110165"], []),
+            ]
+            for args, expected_in, expected_not_in in cases:
+                result = self.runner.invoke(main, ["-i", input_arg, "tree", *args])
+                self.assertEqual(0, result.exit_code)
+                out = result.stdout
+                for term in expected_in:
+                    self.assertIn(term, out)
+                for term in expected_not_in:
+                    self.assertNotIn(term, out)
 
     def test_obsoletes(self):
         """Tests the obsoletes command using the obsoletion test ontology.

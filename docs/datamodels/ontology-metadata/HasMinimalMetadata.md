@@ -4,24 +4,24 @@ _Absolute minimum metadata model_
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
-URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMinimalMetadata)
-
-
+URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/HasMinimalMetadata)
 
 
 ```{mermaid}
  classDiagram
+    class HasMinimalMetadata
       AnnotationPropertyMixin <|-- HasMinimalMetadata
       
       HasMinimalMetadata : definition
       HasMinimalMetadata : label
       
 
+      HasMinimalMetadata <|-- Term
+      
+      HasMinimalMetadata : definition
+      HasMinimalMetadata : label
+      
 ```
-
 
 
 
@@ -34,13 +34,21 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [label](label.md) | [label_type](label_type.md) | 0..1 | None  | . |
-| [definition](definition.md) | [narrative_text](narrative_text.md) | 0..* | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
+| [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [Term](Term.md) | A NamedThing that includes classes, properties, but not ontologies |
 
 
-## Usages
+
+
+
 
 
 
@@ -61,17 +69,15 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:HasMinimalMetadata'] |
-| native | ['omoschema:HasMinimalMetadata'] |
+| self | omoschema:HasMinimalMetadata |
+| native | omoschema:HasMinimalMetadata |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -82,6 +88,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/schema/HasMin
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 slots:
@@ -98,6 +105,7 @@ slots:
 name: HasMinimalMetadata
 description: Absolute minimum metadata model
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: AnnotationPropertyMixin
 mixin: true
 attributes:
@@ -114,11 +122,15 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:prefLabel
+    rank: 1000
     is_a: core_property
     slot_uri: rdfs:label
     multivalued: false
     alias: label
     owner: HasMinimalMetadata
+    domain_of:
+    - HasMinimalMetadata
+    - Axiom
     range: label type
   definition:
     name: definition
@@ -131,11 +143,14 @@ attributes:
     from_schema: http://purl.obolibrary.org/obo/omo/schema
     exact_mappings:
     - skos:definition
+    rank: 1000
     is_a: core_property
     slot_uri: IAO:0000115
     multivalued: true
     alias: definition
     owner: HasMinimalMetadata
+    domain_of:
+    - HasMinimalMetadata
     range: narrative text
 
 ```

@@ -1,6 +1,66 @@
-# similarity
+# Slot: similarity
 
-A datamodel for representing semantic similarity between terms or lists of terms.
+URI: [sim:similarity](https://w3id.org/linkml/similarity/similarity)
 
-URI: https://w3id.org/linkml/similarity
 
+
+<!-- no inheritance hierarchy -->
+
+
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[BestMatch](BestMatch.md) | 
+
+
+
+
+
+
+## Properties
+
+* Range: [TermPairwiseSimilarity](TermPairwiseSimilarity.md)
+* Required: True
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/similarity
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: similarity
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+alias: similarity
+owner: BestMatch
+domain_of:
+- BestMatch
+range: TermPairwiseSimilarity
+required: true
+
+```
+</details>

@@ -843,8 +843,9 @@ class ComplianceTester:
         print(yaml_dumper.dumps(stats))
         test.assertEqual(247, stats.class_count)
         test.assertEqual(94, stats.class_count_with_text_definitions)
+        test.assertEqual(16, stats.subset_count)
+        test.assertEqual(12, stats.class_count_by_subset["obo:go#goslim_yeast"].filtered_count)
         test.assertEqual(23, stats.edge_count_by_predicate[PART_OF].filtered_count)
-        test.assertEqual(223, stats.edge_count_by_predicate[IS_A].filtered_count)
         test.assertEqual(223, stats.edge_count_by_predicate[IS_A].filtered_count)
         test.assertEqual(425754, stats.entailed_edge_count_by_predicate[IS_A].filtered_count)
         test.assertEqual(255, stats.distinct_synonym_count)
@@ -870,7 +871,7 @@ class ComplianceTester:
         stats_ns = oi.branch_summary_statistics(
             "cc_namespace", property_values={"oio:hasOBONamespace": "cellular_component"}
         )
-        print(yaml_dumper.dumps(stats_ns))
+        # print(yaml_dumper.dumps(stats_ns))
         test.assertEqual(23, stats_ns.class_count)
         test.assertEqual(23, stats_ns.class_count_with_text_definitions)
         test.assertEqual(19, stats_ns.edge_count_by_predicate[PART_OF].filtered_count)
@@ -883,9 +884,12 @@ class ComplianceTester:
         test.assertEqual(
             17, stats_ns.mapping_statement_count_by_predicate[HAS_DBXREF].filtered_count
         )
+        logging.info("Test grouping by OBO Namespace")
         global_stats = oi.global_summary_statistics(group_by="oio:hasOBONamespace")
-        print(yaml_dumper.dumps(global_stats))
+        # print(yaml_dumper.dumps(global_stats))
         gs_cc = global_stats.partitions["cellular_component"]
+        test.assertEqual(14, gs_cc.subset_count)
+        test.assertEqual(8, gs_cc.class_count_by_subset["obo:go#goslim_yeast"].filtered_count)
         test.assertCountEqual(
             [
                 "cellular_component",
@@ -899,6 +903,29 @@ class ComplianceTester:
         for k, v in vars(stats_ns).items():
             if isinstance(v, int):
                 test.assertEqual(v, getattr(gs_cc, k))
+        logging.info("Test grouping by prefix")
+        global_stats = oi.global_summary_statistics(group_by="sh:prefix")
+        # print(yaml_dumper.dumps(global_stats))
+        ro_stats = global_stats.partitions["RO"]
+        test.assertEqual(0, ro_stats.class_count)
+        test.assertEqual(88, ro_stats.object_property_count)
+        test.assertEqual(13, ro_stats.distinct_synonym_count)
+        test.assertEqual(14, ro_stats.synonym_statement_count)
+        go_stats = global_stats.partitions["GO"]
+        test.assertEqual(74, go_stats.class_count)
+        test.assertEqual(0, go_stats.object_property_count)
+        test.assertEqual(23, go_stats.edge_count_by_predicate[PART_OF].filtered_count)
+        test.assertEqual(104, go_stats.edge_count_by_predicate[IS_A].filtered_count)
+        test.assertEqual(15, go_stats.subset_count)
+        test.assertEqual(179, go_stats.distinct_synonym_count)
+        test.assertEqual(179, go_stats.synonym_statement_count)
+        # check numbers agree
+        go_stats2 = oi.branch_summary_statistics(prefixes=["GO"])
+        ro_stats2 = oi.branch_summary_statistics(prefixes=["RO"])
+        for s1, s2 in [(go_stats, go_stats2), (ro_stats, ro_stats2)]:
+            for k, v in vars(s1).items():
+                if isinstance(v, int):
+                    test.assertEqual(v, getattr(s2, k))
 
     def test_create_ontology_via_patches(
         self, oi: PatcherInterface, roundtrip_function: Callable = None

@@ -2,23 +2,22 @@
 
 
 
-* __NOTE__: this is a mixin class intended to be used in combination with other classes, and not used directly
-
-
-URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/PropertyExpression)
-
-
+URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/omo/schema/PropertyExpression)
 
 
 ```{mermaid}
  classDiagram
+    class PropertyExpression
       Expression <|-- PropertyExpression
       
       PropertyExpression : disjointWith
       
 
+      PropertyExpression <|-- ObjectProperty
+      
+      PropertyExpression : disjointWith
+      
 ```
-
 
 
 
@@ -31,17 +30,27 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [disjointWith](disjointWith.md) | [xsd:string](http://www.w3.org/2001/XMLSchema#string) | 0..* | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [disjointWith](disjointWith.md) | 0..* <br/> NONE |  | direct |
+
+## Mixin Usage
+
+| mixed into | description |
+| --- | --- |
+| [ObjectProperty](ObjectProperty.md) | A property that connects two objects in logical axioms |
+
+
 
 
 ## Usages
 
-
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Restriction](Restriction.md) | [onProperty](onProperty.md) | range | PropertyExpression |
+| [Restriction](Restriction.md) | [onProperty](onProperty.md) | range | [PropertyExpression](PropertyExpression.md) |
+
+
+
 
 
 
@@ -62,17 +71,15 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['omoschema:PropertyExpression'] |
-| native | ['omoschema:PropertyExpression'] |
+| self | omoschema:PropertyExpression |
+| native | omoschema:PropertyExpression |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -82,6 +89,7 @@ URI: [omoschema:PropertyExpression](http://purl.obolibrary.org/obo/schema/Proper
 ```yaml
 name: PropertyExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Expression
 mixin: true
 slots:
@@ -96,6 +104,7 @@ slots:
 ```yaml
 name: PropertyExpression
 from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
 is_a: Expression
 mixin: true
 attributes:
@@ -104,11 +113,15 @@ attributes:
     todos:
     - restrict range
     from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
     is_a: logical_predicate
     slot_uri: owl:disjointWith
     multivalued: true
     alias: disjointWith
     owner: PropertyExpression
+    domain_of:
+    - ClassExpression
+    - PropertyExpression
     range: string
 
 ```

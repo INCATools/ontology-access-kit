@@ -4,10 +4,7 @@ _An index over an ontology keyed by lexical unit_
 
 
 
-
 URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
-
-
 
 
 ```{mermaid}
@@ -20,19 +17,19 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [groupings](groupings.md) | [LexicalGrouping](LexicalGrouping.md) | 0..* | all groupings  | . |
-| [pipelines](pipelines.md) | [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | 0..* | all pipelines used to build the index  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [groupings](groupings.md) | 0..* <br/> [LexicalGrouping](LexicalGrouping.md) | all groupings | direct |
+| [pipelines](pipelines.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | all pipelines used to build the index | direct |
 
 
-## Usages
+
+
 
 
 
@@ -53,17 +50,15 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['li:LexicalIndex'] |
-| native | ['li:LexicalIndex'] |
+| self | li:LexicalIndex |
+| native | li:LexicalIndex |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -74,11 +69,13 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: LexicalGrouping
     inlined: true
@@ -86,6 +83,7 @@ attributes:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     range: LexicalTransformationPipeline
     inlined: true
@@ -100,23 +98,30 @@ attributes:
 name: LexicalIndex
 description: An index over an ontology keyed by lexical unit
 from_schema: https://w3id.org/linkml/lexical_index
+rank: 1000
 attributes:
   groupings:
     name: groupings
     description: all groupings
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: groupings
     owner: LexicalIndex
+    domain_of:
+    - LexicalIndex
     range: LexicalGrouping
     inlined: true
   pipelines:
     name: pipelines
     description: all pipelines used to build the index
     from_schema: https://w3id.org/linkml/lexical_index
+    rank: 1000
     multivalued: true
     alias: pipelines
     owner: LexicalIndex
+    domain_of:
+    - LexicalIndex
     range: LexicalTransformationPipeline
     inlined: true
 

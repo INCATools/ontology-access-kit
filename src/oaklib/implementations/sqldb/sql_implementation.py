@@ -30,6 +30,7 @@ from linkml_runtime.utils.introspection import package_schemaview
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 from semsql.sqla.semsql import (
     AnnotationPropertyNode,
+    Base,
     ClassNode,
     DeprecatedNode,
     Edge,
@@ -40,6 +41,7 @@ from semsql.sqla.semsql import (
     IriNode,
     NamedIndividualNode,
     Node,
+    NodeIdentifier,
     ObjectPropertyNode,
     OntologyNode,
     OwlAxiomAnnotation,
@@ -142,6 +144,18 @@ __all__ = [
 
 from oaklib.utilities.iterator_utils import chunk
 from oaklib.utilities.mapping.sssom_utils import inject_mapping_sources
+
+
+class SqlSchemaError(Exception):
+    """Raised when there are issues with the version of the SQL DDL uses"""
+
+    pass
+
+
+class ViewNotFoundError(SqlSchemaError):
+    """Raised when a SQL view is not found"""
+
+    pass
 
 
 def _is_blank(curie: CURIE) -> bool:
@@ -323,6 +337,25 @@ class SqlImplementation(
     def is_postgres(self):
         # TODO
         return False
+
+    def _check_has_view(
+        self, sqla_class: Type[Base], minimum_version=None, fail_if_absent=True
+    ) -> bool:
+        engine = self.session.get_bind()
+        tn = sqla_class.__tablename__
+        cn = sqla_class.__name__
+        has_view = sqlalchemy.inspect(engine).has_table(tn)
+        if fail_if_absent and not has_view:
+            raise ViewNotFoundError(
+                f"View {tn} does not exist (required semsql v{minimum_version})"
+                f"""
+                              Potential remedies:
+                              (1) obtain a new ready-made copy of the database, OR
+                              (2) rebuild the database from source OWL, OR
+                              (3) add the missing table to the database using CREATE VIEW {tn} AS ...
+                              Using the definition in https://incatools.github.io/semantic-sql/{cn}"""
+            )
+        return has_view
 
     def prefix_map(self) -> PREFIX_MAP:
         if self._prefix_map is None:
@@ -1130,10 +1163,14 @@ class SqlImplementation(
         logging.info("Getting logical definitions")
         q = self.session.query(OwlEquivalentClassStatement)
         if subjects is None:
-            return self._logical_definitions_from_eq_query(q)
+            for ldef in self._logical_definitions_from_eq_query(q):
+                yield ldef
+            return
         for curie_it in chunk(subjects, self.max_items_for_in_clause):
+            print(f"Getting logical definitions for {curie_it} from {subjects}")
             q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
-            return self._logical_definitions_from_eq_query(q)
+            for ldef in self._logical_definitions_from_eq_query(q):
+                yield ldef
 
     def _logical_definitions_from_eq_query(self, query) -> Iterable[LogicalDefinitionAxiom]:
         for eq_row in query:
@@ -1824,7 +1861,9 @@ class SqlImplementation(
                 raise NotImplementedError("Only one property value is supported at this time")
             k, v = list(property_values.items())[0]
             if k == PREFIX_PREDICATE:
-                raise NotImplementedError("Prefixes are not yet supported")
+                self._check_has_view(NodeIdentifier, "0.2.5")
+                branch_subq = session.query(NodeIdentifier.id)
+                branch_subq = branch_subq.filter(NodeIdentifier.prefix == v)
             else:
                 branch_subq = session.query(Statements.subject)
                 branch_subq = branch_subq.filter(Statements.predicate == k)
@@ -1836,19 +1875,31 @@ class SqlImplementation(
                     branch_subq = branch_subq.filter(Statements.value == v)
         else:
             branch_subq = None
+            if prefixes:
+                self._check_has_view(NodeIdentifier, "0.2.5")
+                branch_subq = session.query(NodeIdentifier.id)
+                branch_subq = branch_subq.filter(NodeIdentifier.prefix.in_(tuple(prefixes)))
 
         def q(x):
             return session.query(x)
 
-        def _filter(x):
-            q = session.query(x)
+        def _filter(select_expr, filter_expr=None):
+            if not filter_expr:
+                filter_expr = select_expr
+            q = session.query(select_expr)
             if branch_subq is not None:
                 if not_in:
-                    q = q.filter(x.not_in(branch_subq))
+                    q = q.filter(filter_expr.not_in(branch_subq))
                 else:
-                    q = q.filter(x.in_(branch_subq))
-            if prefixes:
-                q = q.filter(x.startswith(tuple(prefixes)))
+                    q = q.filter(filter_expr.in_(branch_subq))
+            if False and prefixes:
+                if len(prefixes) == 1:
+                    q = q.filter(filter_expr.startswith(prefixes[0]))
+                else:
+                    self._check_has_view(NodeIdentifier, "0.2.5")
+                    prefix_subq = session.query(NodeIdentifier.id)
+                    prefix_subq = prefix_subq.filter(NodeIdentifier.prefix.in_(tuple(prefixes)))
+                    q = q.filter(filter_expr.in_(prefix_subq))
             return q
 
         ssc = UngroupedStatistics(branch_name)
@@ -1856,16 +1907,20 @@ class SqlImplementation(
             self._add_statistics_metadata(ssc)
         obsoletion_subq = q(DeprecatedNode.id)
         text_defn_subq = q(HasTextDefinitionStatement.subject)
+        logging.debug(f"Subqueries: {obsoletion_subq} {text_defn_subq}")
+        logging.debug("Getting basic counts")
         ssc.class_count = _filter(ClassNode.id).distinct(ClassNode.id).count()
         ssc.named_individual_count = _filter(NamedIndividualNode.id).distinct(ClassNode.id).count()
         depr_class_query = _filter(ClassNode.id).filter(ClassNode.id.in_(obsoletion_subq))
         ssc.deprecated_class_count = depr_class_query.count()
-        merged_subq = (
-            q(Statements.subject)
+        logging.debug(f"Calculated basic counts. Classes: {ssc.class_count}")
+        merged_class_query = (
+            _filter(Statements.subject)
             .filter(Statements.predicate == HAS_OBSOLESCENCE_REASON)
             .filter(Statements.object == TERMS_MERGED)
         )
-        ssc.merged_class_count = merged_subq.count()
+        ssc.merged_class_query = merged_class_query.count()
+        logging.debug(f"Calculated merged counts. Classes: {ssc.merged_class_count}")
         ssc.class_count_with_text_definitions = (
             _filter(ClassNode.id).filter(ClassNode.id.in_(text_defn_subq)).count()
         )
@@ -1876,12 +1931,14 @@ class SqlImplementation(
             .filter(ObjectPropertyNode.id.in_(obsoletion_subq))
             .count()
         )
+        logging.debug(f"Calculated basic property counts. OPs: {ssc.object_property_count}")
         ssc.rdf_triple_count = _filter(Statements.subject).count()
         ssc.equivalent_classes_axiom_count = _filter(OwlEquivalentClassStatement.subject).count()
         ssc.subclass_of_axiom_count = _filter(RdfsSubclassOfStatement.subject).count()
-        subset_query = q(Statements.object).filter(Statements.predicate == IN_SUBSET)
-        if branch_subq:
-            subset_query = subset_query.filter(Statements.subject.in_(branch_subq))
+        logging.debug(f"Calculated basic axiom counts. SCAs: {ssc.subclass_of_axiom_count}")
+        subset_query = _filter(Statements.object, Statements.subject).filter(
+            Statements.predicate == IN_SUBSET
+        )
         ssc.subset_count = subset_query.distinct(Statements.object).count()
         subset_agg_query = session.query(
             Statements.object, func.count(Statements.subject.distinct())
@@ -1895,11 +1952,13 @@ class SqlImplementation(
                 logging.warning("Skipping subsets modeled as strings")
                 continue
             ssc.class_count_by_subset[subset] = FacetedCount(row[0], filtered_count=row[1])
+            logging.debug(f"Agg count for subset {subset}: {ssc.class_count_by_subset[subset]}")
         synonym_query = q(Statements.value).filter(Statements.predicate.in_(SYNONYM_PREDICATES))
         if branch_subq:
             synonym_query = synonym_query.filter(Statements.subject.in_(branch_subq))
         ssc.synonym_statement_count = synonym_query.count()
         ssc.distinct_synonym_count = synonym_query.distinct().count()
+        logging.debug(f"Calculated basic synonym counts. Statements: {ssc.synonym_statement_count}")
         synonym_agg_query = session.query(
             Statements.predicate, func.count(Statements.value.distinct())
         )
@@ -1911,12 +1970,14 @@ class SqlImplementation(
             ssc.synonym_statement_count_by_predicate[pred] = FacetedCount(
                 row[0], filtered_count=row[1]
             )
+            logging.debug(f"Agg count for synonym {pred}: {row}")
         edge_agg_query = session.query(Edge.predicate, func.count(Edge.subject))
         if branch_subq:
             edge_agg_query = edge_agg_query.filter(Edge.subject.in_(branch_subq))
         for row in edge_agg_query.group_by(Edge.predicate):
             ssc.edge_count_by_predicate[row.predicate] = FacetedCount(row[0], filtered_count=row[1])
         if include_entailed:
+            logging.debug("Calculating entailed counts")
             entailed_edge_agg_query = session.query(
                 EntailedEdge.predicate, func.count(Edge.subject)
             )
@@ -1928,6 +1989,7 @@ class SqlImplementation(
                 ssc.entailed_edge_count_by_predicate[row.predicate] = FacetedCount(
                     row[0], filtered_count=row[1]
                 )
+                logging.debug(f"Agg count for entailed edge {row}")
         match_agg_query = session.query(
             Statements.predicate, func.count(Statements.value.distinct())
         ).filter(Statements.predicate.in_(ALL_MATCH_PREDICATES))
@@ -1937,7 +1999,8 @@ class SqlImplementation(
             ssc.mapping_statement_count_by_predicate[row.predicate] = FacetedCount(
                 row[0], filtered_count=row[1]
             )
-        # contributor stats
+            logging.debug(f"Agg count for mapping {row}")
+        logging.debug("Calculating contributor stats")
         contributor_agg_query = session.query(
             Statements.predicate,
             Statements.object,
@@ -1972,6 +2035,7 @@ class SqlImplementation(
             ssc.contributor_summary[contributor_id].role_counts[row.predicate] = FacetedCount(
                 row.predicate, row[-1]
             )
+            logging.debug(f"Agg count for contributor {row}")
         # TODO: axiom contributor stats
         self._add_derived_statistics(ssc)
         return ssc

@@ -33,8 +33,6 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
 
-
-
 ## Identifier and Mapping Information
 
 

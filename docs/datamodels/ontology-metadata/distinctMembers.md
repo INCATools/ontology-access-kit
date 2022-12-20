@@ -1,6 +1,6 @@
 # Slot: distinctMembers
 
-URI: [http://www.w3.org/2002/07/owl#distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
+URI: [owl:distinctMembers](http://www.w3.org/2002/07/owl#distinctMembers)
 
 
 
@@ -12,9 +12,17 @@ URI: [http://www.w3.org/2002/07/owl#distinctMembers](http://www.w3.org/2002/07/o
 
 
 
+
+
+
+
 ## Properties
 
- * Range: [Thing](Thing.md)
+* Range: [Thing](Thing.md)
+
+
+
+
 
 
 
@@ -33,3 +41,18 @@ URI: [http://www.w3.org/2002/07/owl#distinctMembers](http://www.w3.org/2002/07/o
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: distinctMembers
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:distinctMembers
+alias: distinctMembers
+range: Thing
+
+```
+</details>

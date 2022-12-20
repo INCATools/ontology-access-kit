@@ -1,6 +1,6 @@
 # Slot: minCardinality
 
-URI: [http://www.w3.org/2002/07/owl#minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
+URI: [owl:minCardinality](http://www.w3.org/2002/07/owl#minCardinality)
 
 
 
@@ -12,9 +12,17 @@ URI: [http://www.w3.org/2002/07/owl#minCardinality](http://www.w3.org/2002/07/ow
 
 
 
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+
+
+
+
 
 
 
@@ -33,3 +41,18 @@ URI: [http://www.w3.org/2002/07/owl#minCardinality](http://www.w3.org/2002/07/ow
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: minCardinality
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:minCardinality
+alias: minCardinality
+range: integer
+
+```
+</details>

@@ -1,15 +1,33 @@
 # Slot: facet
 
-URI: [https://w3id.org/linkml/reportfacet](https://w3id.org/linkml/reportfacet)
+URI: [reporting:facet](https://w3id.org/linkml/reportfacet)
 
 
 
 <!-- no inheritance hierarchy -->
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[FacetedCount](FacetedCount.md) | Counts broken down by a facet
+[ChangeTypeStatistic](ChangeTypeStatistic.md) | statistics for a particular kind of diff
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+
+
+
+
 
 
 
@@ -21,10 +39,17 @@ URI: [https://w3id.org/linkml/reportfacet](https://w3id.org/linkml/reportfacet)
 
 
 
-### Schema Source
 
+## LinkML Source
 
-* from schema: https://w3id.org/linkml/summary_statistics
+<details>
+```yaml
+name: facet
+alias: facet
+domain_of:
+- FacetedCount
+- ChangeTypeStatistic
+range: string
 
-
-
+```
+</details>

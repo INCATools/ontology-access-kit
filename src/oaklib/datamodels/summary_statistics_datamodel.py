@@ -1,5 +1,5 @@
 # Auto generated from summary_statistics_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-05T10:27:06
+# Generation date: 2022-12-18T14:17:15
 # Schema: summary-statistics
 #
 # id: https://w3id.org/linkml/summary_statistics
@@ -515,6 +515,7 @@ class ContributorStatistics(YAMLRoot):
 
     contributor_id: Union[str, ContributorStatisticsContributorId] = None
     contributor_name: Optional[str] = None
+    normalization_comments: Optional[str] = None
     role_counts: Optional[
         Union[
             Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
@@ -530,6 +531,11 @@ class ContributorStatistics(YAMLRoot):
 
         if self.contributor_name is not None and not isinstance(self.contributor_name, str):
             self.contributor_name = str(self.contributor_name)
+
+        if self.normalization_comments is not None and not isinstance(
+            self.normalization_comments, str
+        ):
+            self.normalization_comments = str(self.normalization_comments)
 
         self._normalize_inlined_as_dict(
             slot_name="role_counts", slot_type=FacetedCount, key_name="facet", keyed=True
@@ -1206,6 +1212,15 @@ slots.contributorStatistics__contributor_name = Slot(
     name="contributorStatistics__contributor_name",
     curie=REPORTING.curie("contributor_name"),
     model_uri=REPORTING.contributorStatistics__contributor_name,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.contributorStatistics__normalization_comments = Slot(
+    uri=REPORTING.normalization_comments,
+    name="contributorStatistics__normalization_comments",
+    curie=REPORTING.curie("normalization_comments"),
+    model_uri=REPORTING.contributorStatistics__normalization_comments,
     domain=None,
     range=Optional[str],
 )

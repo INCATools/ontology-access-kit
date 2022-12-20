@@ -29,8 +29,6 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
 
-
-
 ## Usages
 
 | used by | used in | type | used |

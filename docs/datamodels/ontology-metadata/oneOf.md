@@ -1,6 +1,6 @@
 # Slot: oneOf
 
-URI: [http://www.w3.org/2002/07/owl#oneOf](http://www.w3.org/2002/07/owl#oneOf)
+URI: [owl:oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 
 
@@ -12,9 +12,28 @@ URI: [http://www.w3.org/2002/07/owl#oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[ClassExpression](ClassExpression.md) | 
+[Class](Class.md) | 
+[Restriction](Restriction.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [ClassExpression](ClassExpression.md)
+* Range: [ClassExpression](ClassExpression.md)
+
+
+
+
 
 
 
@@ -33,3 +52,20 @@ URI: [http://www.w3.org/2002/07/owl#oneOf](http://www.w3.org/2002/07/owl#oneOf)
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: oneOf
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: logical_predicate
+slot_uri: owl:oneOf
+alias: oneOf
+domain_of:
+- ClassExpression
+range: ClassExpression
+
+```
+</details>

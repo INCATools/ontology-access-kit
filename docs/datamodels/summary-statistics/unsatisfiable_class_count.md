@@ -1,6 +1,8 @@
 # Slot: unsatisfiable_class_count
+_Number of unsatisfiable classes in the ontology or subset_
 
-URI: [https://w3id.org/linkml/reportunsatisfiable_class_count](https://w3id.org/linkml/reportunsatisfiable_class_count)
+
+URI: [reporting:unsatisfiable_class_count](https://w3id.org/linkml/reportunsatisfiable_class_count)
 
 
 
@@ -12,9 +14,26 @@ URI: [https://w3id.org/linkml/reportunsatisfiable_class_count](https://w3id.org/
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+
+
+
+
 
 
 
@@ -23,6 +42,12 @@ URI: [https://w3id.org/linkml/reportunsatisfiable_class_count](https://w3id.org/
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Class, Unsatisfiable |
 
 
 
@@ -33,3 +58,26 @@ URI: [https://w3id.org/linkml/reportunsatisfiable_class_count](https://w3id.org/
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: unsatisfiable_class_count
+annotations:
+  filter:
+    tag: filter
+    value: Class, Unsatisfiable
+description: Number of unsatisfiable classes in the ontology or subset
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: unsatisfiable_class_count
+owner: UngroupedStatistics
+domain_of:
+- UngroupedStatistics
+slot_group: class_statistic_group
+range: integer
+
+```
+</details>

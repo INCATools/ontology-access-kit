@@ -1,6 +1,8 @@
 # Slot: ontology_count
+_Number of ontologies (including imports) for the ontology or subset_
 
-URI: [https://w3id.org/linkml/reportontology_count](https://w3id.org/linkml/reportontology_count)
+
+URI: [reporting:ontology_count](https://w3id.org/linkml/reportontology_count)
 
 
 
@@ -12,9 +14,26 @@ URI: [https://w3id.org/linkml/reportontology_count](https://w3id.org/linkml/repo
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+
+
+
+
 
 
 
@@ -23,6 +42,12 @@ URI: [https://w3id.org/linkml/reportontology_count](https://w3id.org/linkml/repo
 
 
 
+
+### Annotations
+
+| property | value |
+| --- | --- |
+| filter | Ontology |
 
 
 
@@ -33,3 +58,25 @@ URI: [https://w3id.org/linkml/reportontology_count](https://w3id.org/linkml/repo
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: ontology_count
+annotations:
+  filter:
+    tag: filter
+    value: Ontology
+description: Number of ontologies (including imports) for the ontology or subset
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: ontology_count
+owner: UngroupedStatistics
+domain_of:
+- UngroupedStatistics
+range: integer
+
+```
+</details>

@@ -1,6 +1,8 @@
 # Slot: untyped_entity_count
+_Number of entities whose type could not be determined in the ontology or subset_
 
-URI: [https://w3id.org/linkml/reportuntyped_entity_count](https://w3id.org/linkml/reportuntyped_entity_count)
+
+URI: [reporting:untyped_entity_count](https://w3id.org/linkml/reportuntyped_entity_count)
 
 
 
@@ -12,9 +14,26 @@ URI: [https://w3id.org/linkml/reportuntyped_entity_count](https://w3id.org/linkm
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[UngroupedStatistics](UngroupedStatistics.md) | A summary statistics report object
+
+
+
+
+
+
 ## Properties
 
- * Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+* Range: [xsd:integer](http://www.w3.org/2001/XMLSchema#integer)
+
+
+
+
 
 
 
@@ -33,3 +52,22 @@ URI: [https://w3id.org/linkml/reportuntyped_entity_count](https://w3id.org/linkm
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: untyped_entity_count
+description: Number of entities whose type could not be determined in the ontology
+  or subset
+from_schema: https://w3id.org/linkml/summary_statistics
+rank: 1000
+is_a: count_statistic
+alias: untyped_entity_count
+owner: UngroupedStatistics
+domain_of:
+- UngroupedStatistics
+range: integer
+
+```
+</details>

@@ -2,10 +2,7 @@
 
 
 
-
 URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchResultSet)
-
-
 
 
 ```{mermaid}
@@ -20,21 +17,21 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
-
 <!-- no inheritance hierarchy -->
 
 
 ## Slots
 
-| Name | Range | Cardinality | Description  | Info |
-| ---  | --- | --- | --- | --- |
-| [configuration](configuration.md) | [SearchBaseConfiguration](SearchBaseConfiguration.md) | 0..1 | None  | . |
-| [results](results.md) | [SearchResult](SearchResult.md) | 0..* | None  | . |
-| [result_count](result_count.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
-| [cursor](cursor.md) | [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | 0..1 | None  | . |
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [configuration](configuration.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
+| [results](results.md) | 0..* <br/> [SearchResult](SearchResult.md) |  | direct |
+| [result_count](result_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
+| [cursor](cursor.md) | 0..1 <br/> NONE |  | direct |
 
 
-## Usages
+
+
 
 
 
@@ -55,17 +52,15 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 
 
 
-
-
 ## Mappings
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | ['search:SearchResultSet'] |
-| native | ['search:SearchResultSet'] |
+| self | search:SearchResultSet |
+| native | search:SearchResultSet |
 
 
-## LinkML Specification
+## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 
@@ -75,19 +70,23 @@ URI: [search:SearchResultSet](https://w3id.org/linkml/search_datamodel/SearchRes
 ```yaml
 name: SearchResultSet
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   configuration:
     name: configuration
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: SearchBaseConfiguration
   results:
     name: results
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     range: SearchResult
   result_count:
     name: result_count
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     range: integer
   cursor:
     name: cursor
@@ -103,31 +102,44 @@ attributes:
 ```yaml
 name: SearchResultSet
 from_schema: https://w3id.org/linkml/search_datamodel
+rank: 1000
 attributes:
   configuration:
     name: configuration
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: configuration
     owner: SearchResultSet
+    domain_of:
+    - SearchResultSet
     range: SearchBaseConfiguration
   results:
     name: results
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     multivalued: true
     alias: results
     owner: SearchResultSet
+    domain_of:
+    - SearchResultSet
     range: SearchResult
   result_count:
     name: result_count
     from_schema: https://w3id.org/linkml/search_datamodel
+    rank: 1000
     alias: result_count
     owner: SearchResultSet
+    domain_of:
+    - SearchResultSet
     range: integer
   cursor:
     name: cursor
     from_schema: https://w3id.org/linkml/search_datamodel
     alias: cursor
     owner: SearchResultSet
+    domain_of:
+    - SearchBaseConfiguration
+    - SearchResultSet
     range: integer
 
 ```

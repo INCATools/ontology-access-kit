@@ -49,8 +49,6 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 
 
-
-
 ## Identifier and Mapping Information
 
 

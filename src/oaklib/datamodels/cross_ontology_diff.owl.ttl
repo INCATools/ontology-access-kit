@@ -8,32 +8,32 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-linkml:cross_ontology_diff a owl:Ontology ;
+linkml:cross_ontology_diff.owl.ttl a owl:Ontology ;
     rdfs:label "cross-ontology-diff" ;
     IAO:0000700 ann:RelationalDiff,
         ann:StructureDiffResultSet ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Cross-Ontology Diff" ;
-    linkml:generation_date "2022-08-18T13:42:37" ;
+    linkml:generation_date "2022-12-18T15:11:21" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "cross_ontology_diff.yaml" ;
-    linkml:source_file_date "2022-07-11T16:11:28" ;
-    linkml:source_file_size 9894 .
+    linkml:source_file_date "2022-10-03T14:52:13" ;
+    linkml:source_file_size 10682 .
 
 ann:StructureDiffResultSet a owl:Class ;
     rdfs:label "StructureDiffResultSet" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:right_source ],
+            owl:allValuesFrom ann:RelationalDiff ;
+            owl:onProperty ann:results ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty ann:left_source ],
         [ a owl:Restriction ;
-            owl:allValuesFrom ann:RelationalDiff ;
-            owl:onProperty ann:results ] ;
-    skos:definition "A collection of relational diff results results" .
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:right_source ] ;
+    skos:definition "A collection of relational diff results" .
 
 ann:category a owl:ObjectProperty ;
     rdfs:label "category" ;
@@ -79,7 +79,8 @@ ann:left_predicate_label a owl:DatatypeProperty ;
 
 ann:left_source a owl:DatatypeProperty ;
     rdfs:label "left_source" ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:string ;
+    skos:definition "Ontology source for left entities" .
 
 ann:left_subject_id a owl:DatatypeProperty ;
     rdfs:label "left_subject_id" ;
@@ -158,7 +159,8 @@ ann:right_predicate_labels a owl:DatatypeProperty ;
 
 ann:right_source a owl:DatatypeProperty ;
     rdfs:label "right_source" ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:string ;
+    skos:definition "Ontology source for right entities" .
 
 ann:right_subject_id a owl:DatatypeProperty ;
     rdfs:label "right_subject_id" ;
@@ -259,87 +261,89 @@ ann:DiffCategory a owl:Class ;
 
 ann:is_functional a owl:DatatypeProperty ;
     rdfs:label "is_functional" ;
-    rdfs:range xsd:boolean .
+    rdfs:range xsd:boolean ;
+    skos:definition "Maps to exactly one thing" .
 
 ann:side a owl:DatatypeProperty ;
     rdfs:label "side" ;
-    rdfs:range xsd:string .
+    rdfs:range xsd:string ;
+    skos:definition "left or right side" .
 
 ann:RelationalDiff a owl:Class ;
     rdfs:label "RelationalDiff" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange rdfs:Resource ;
-            owl:onProperty ann:subject_mapping_predicate ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:right_subject_label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:right_object_label ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom rdfs:Resource ;
-            owl:onProperty ann:right_predicate_ids ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass ann:MappingCardinalityEnum ;
-            owl:onProperty ann:object_mapping_cardinality ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass ann:DiffCategory ;
-            owl:onProperty ann:category ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange rdfs:Resource ;
             owl:onProperty ann:right_subject_id ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange rdfs:Resource ;
-            owl:onProperty ann:object_mapping_predicate ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:left_object_label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:left_subject_is_functional ],
-        [ a owl:Restriction ;
-            owl:onDataRange rdfs:Resource ;
-            owl:onProperty ann:left_predicate_id ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:left_predicate_label ],
-        [ a owl:Restriction ;
-            owl:onDataRange rdfs:Resource ;
-            owl:onProperty ann:left_object_id ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty ann:left_subject_label ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onDataRange xsd:string ;
             owl:onProperty ann:left_object_is_functional ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty ann:right_predicate_labels ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:left_subject_label ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty ann:right_intermediate_ids ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass ann:MappingCardinalityEnum ;
             owl:onProperty ann:subject_mapping_cardinality ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:left_subject_is_functional ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:right_object_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange rdfs:Resource ;
+            owl:onProperty ann:object_mapping_predicate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass ann:MappingCardinalityEnum ;
+            owl:onProperty ann:object_mapping_cardinality ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
             owl:onDataRange rdfs:Resource ;
             owl:onProperty ann:right_object_id ],
         [ a owl:Restriction ;
+            owl:onDataRange rdfs:Resource ;
+            owl:onProperty ann:left_object_id ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty ann:right_predicate_labels ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange rdfs:Resource ;
+            owl:onProperty ann:subject_mapping_predicate ],
+        [ a owl:Restriction ;
             owl:allValuesFrom rdfs:Resource ;
-            owl:onProperty ann:right_intermediate_ids ],
+            owl:onProperty ann:right_predicate_ids ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:left_predicate_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:right_subject_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass ann:DiffCategory ;
+            owl:onProperty ann:category ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty ann:left_object_label ],
+        [ a owl:Restriction ;
+            owl:onDataRange rdfs:Resource ;
+            owl:onProperty ann:left_predicate_id ;
+            owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
             owl:onDataRange rdfs:Resource ;
             owl:onProperty ann:left_subject_id ;
@@ -383,32 +387,38 @@ ann:MappingCardinalityEnum a owl:Class ;
 rdf:object a owl:DatatypeProperty ;
     rdfs:label "object" ;
     rdfs:range xsd:string ;
+    skos:definition "The object node on left or right side" ;
     skos:exactMatch rdf:object .
 
 ann:right_side a owl:DatatypeProperty ;
     rdfs:label "right_side" ;
     rdfs:range xsd:string ;
-    rdfs:subPropertyOf ann:side .
+    rdfs:subPropertyOf ann:side ;
+    skos:definition "The second ontology is arbitrarily designated the right side" .
 
 rdf:predicate a owl:DatatypeProperty ;
     rdfs:label "predicate" ;
     rdfs:range xsd:string ;
+    skos:definition "The relationship type between subject and object on left or right side" ;
     skos:exactMatch rdf:predicate .
 
 rdf:subject a owl:DatatypeProperty ;
     rdfs:label "subject" ;
     rdfs:range xsd:string ;
+    skos:definition "The child node on left or right side" ;
     skos:exactMatch rdf:subject .
 
 rdfs:label a owl:DatatypeProperty ;
     rdfs:label "label" ;
     rdfs:range xsd:string ;
+    skos:definition "human readable label" ;
     skos:exactMatch rdfs:label .
 
 ann:left_side a owl:DatatypeProperty ;
     rdfs:label "left_side" ;
     rdfs:range xsd:string ;
-    rdfs:subPropertyOf ann:side .
+    rdfs:subPropertyOf ann:side ;
+    skos:definition "The first ontology is arbitrarily designated the left side" .
 
 
 

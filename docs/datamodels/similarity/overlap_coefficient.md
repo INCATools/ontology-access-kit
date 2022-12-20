@@ -1,6 +1,6 @@
 # Slot: overlap_coefficient
 
-URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coefficient)
+URI: [sim:overlap_coefficient](https://w3id.org/linkml/similarity/overlap_coefficient)
 
 
 
@@ -12,9 +12,17 @@ URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/l
 
 
 
+
+
+
+
 ## Properties
 
- * Range: [ZeroToOne](ZeroToOne.md)
+* Range: [ZeroToOne](ZeroToOne.md)
+
+
+
+
 
 
 
@@ -33,3 +41,17 @@ URI: [https://w3id.org/linkml/similarity/overlap_coefficient](https://w3id.org/l
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: overlap_coefficient
+from_schema: https://w3id.org/linkml/similarity
+rank: 1000
+is_a: score
+alias: overlap_coefficient
+range: ZeroToOne
+
+```
+</details>

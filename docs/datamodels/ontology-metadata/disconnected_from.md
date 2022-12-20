@@ -1,6 +1,6 @@
 # Slot: disconnected_from
 
-URI: [http://purl.obolibrary.org/obo/schema/disconnected_from](http://purl.obolibrary.org/obo/schema/disconnected_from)
+URI: [omoschema:disconnected_from](http://purl.obolibrary.org/obo/omo/schema/disconnected_from)
 
 
 
@@ -12,9 +12,26 @@ URI: [http://purl.obolibrary.org/obo/schema/disconnected_from](http://purl.oboli
 
 
 
+
+
+## Applicable Classes
+
+| Name | Description |
+| --- | --- |
+[Class](Class.md) | 
+
+
+
+
+
+
 ## Properties
 
- * Range: [Class](Class.md)
+* Range: [Class](Class.md)
+
+
+
+
 
 
 
@@ -33,3 +50,19 @@ URI: [http://purl.obolibrary.org/obo/schema/disconnected_from](http://purl.oboli
 
 
 
+
+## LinkML Source
+
+<details>
+```yaml
+name: disconnected_from
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: shortcut_annotation_property
+alias: disconnected_from
+domain_of:
+- Class
+range: Class
+
+```
+</details>

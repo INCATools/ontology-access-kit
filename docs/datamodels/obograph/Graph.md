@@ -43,8 +43,6 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
-
-
 ## Usages
 
 | used by | used in | type | used |
@@ -194,6 +192,8 @@ attributes:
     domain_of:
     - Graph
     range: LogicalDefinitionAxiom
+    inlined: true
+    inlined_as_list: true
   domainRangeAxioms:
     name: domainRangeAxioms
     from_schema: https://github.com/geneontology/obographs
@@ -214,6 +214,7 @@ attributes:
     owner: Graph
     domain_of:
     - Graph
+    - DomainRangeAxiom
     range: Edge
   propertyChainAxioms:
     name: propertyChainAxioms
