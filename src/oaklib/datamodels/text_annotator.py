@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-11-16T17:09:19
+# Generation date: 2022-12-23T16:11:20
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -102,6 +102,7 @@ class TextAnnotationConfiguration(YAMLRoot):
     sources: Optional[Union[str, List[str]]] = empty_list()
     limit: Optional[int] = None
     token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
+    scispacy_model_name: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -121,6 +122,9 @@ class TextAnnotationConfiguration(YAMLRoot):
         self.token_exclusion_list = [
             v if isinstance(v, str) else str(v) for v in self.token_exclusion_list
         ]
+
+        if self.scispacy_model_name is not None and not isinstance(self.scispacy_model_name, str):
+            self.scispacy_model_name = str(self.scispacy_model_name)
 
         super().__post_init__(**kwargs)
 
@@ -380,6 +384,15 @@ slots.textAnnotationConfiguration__token_exclusion_list = Slot(
     model_uri=ANN.textAnnotationConfiguration__token_exclusion_list,
     domain=None,
     range=Optional[Union[str, List[str]]],
+)
+
+slots.textAnnotationConfiguration__scispacy_model_name = Slot(
+    uri=ANN.scispacy_model_name,
+    name="textAnnotationConfiguration__scispacy_model_name",
+    curie=ANN.curie("scispacy_model_name"),
+    model_uri=ANN.textAnnotationConfiguration__scispacy_model_name,
+    domain=None,
+    range=Optional[str],
 )
 
 slots.textAnnotationResultSet__annotations = Slot(
