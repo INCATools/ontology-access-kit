@@ -1276,6 +1276,11 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     help="Text file or list of tokens to filter from input prior to annotation.\
         If passed as text file, each newline separated entry is a distinct text.",
 )
+@click.option(
+    "--scispacy-model-name",
+    "-m",
+    help="Name of SciSpacy model to use as the pipeline.",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1286,6 +1291,7 @@ def annotate(
     exclude_tokens: str,
     text_file: TextIO,
     output_type: str,
+    scispacy_model_name: str,
 ):
     """
     Annotate a piece of text using a Named Entity Recognition annotation
@@ -1330,6 +1336,8 @@ def annotate(
         if exclude_tokens:
             token_exclusion_list = get_exclusion_token_list(exclude_tokens)
             configuration.token_exclusion_list = token_exclusion_list
+        if scispacy_model_name:
+            configuration.scispacy_model_name = scispacy_model_name
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
