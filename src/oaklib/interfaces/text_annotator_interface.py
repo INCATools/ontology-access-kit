@@ -129,7 +129,6 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         """Annotate text in a file.
 
         :param text_file: Text file that is iterated line-by-line.
-        :param token_exclusion_list: List of tokens to exclude.
         :param configuration: Text annotation configuration, defaults to None.
         :yield: Annotation of each line.
         """
