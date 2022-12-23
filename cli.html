@@ -3025,33 +3025,33 @@ always being explicit and passing a predicate using -p (–predicates)</p>
 </ul>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i hp.db all-similarity -p i –set1-file HPO-TERMS1 –set2-file HPO-TERMS2 -O csv</p>
+<div><p>runoak -i hp.db similarity -p i –set1-file HPO-TERMS1 –set2-file HPO-TERMS2 -O csv</p>
 </div></blockquote>
 <p>This will compare every term in TERMS1 vs TERMS2</p>
 <p>Alternatively standard OAK term queries can be used, with “&#64;” separating the two lists</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i hp.db all-similarity -p i TERM_1 TERM_2 … TERM_N &#64; TERM_N+1 … TERM_M</p>
+<div><p>runoak -i hp.db similarity -p i TERM_1 TERM_2 … TERM_N &#64; TERM_N+1 … TERM_M</p>
 </div></blockquote>
 <p>The .all term syntax can be used to select all terms in an ontology</p>
 <p>Example:</p>
 <blockquote>
-<div><p>runoak -i ma.db all-similarity -p i,p .all &#64; .all</p>
+<div><p>runoak -i ma.db similarity -p i,p .all &#64; .all</p>
 </div></blockquote>
 <p>This can be mixed with other term selectors; for example to calculate the similarity of “neuron”
 vs all terms in CL:</p>
 <blockquote>
-<div><p>runoak -i cl.db all-similarity -p i,p .all &#64; neuron</p>
+<div><p>runoak -i cl.db similarity -p i,p .all &#64; neuron</p>
 </div></blockquote>
 <p>An example pipeline to do all by all over all phenotypes in HPO:</p>
 <p>Explicit:</p>
 <blockquote>
 <div><p>runoak -i hp.db descendants -p i HP:0000118 &gt; HPO
-runoak -i hp.db all-similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
+runoak -i hp.db similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESULTS.tsv</p>
 </div></blockquote>
 <p>The same thing can be done more compactly with term queries:</p>
 <blockquote>
-<div><p>runoak -i hp.db all-similarity -p i .desc//p=i HP:0000118 &#64; .desc//p=i HP:0000118</p>
+<div><p>runoak -i hp.db similarity -p i .desc//p=i HP:0000118 &#64; .desc//p=i HP:0000118</p>
 </div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
