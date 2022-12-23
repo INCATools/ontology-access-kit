@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oaklib"
-version = "0.0.0"
+version = "0.1.66"
 description = "Ontology Access Kit: Python library for common ontology operations over a variety of backends"
 authors = ["cmungall <cjm@berkeleybop.org>"]
 
