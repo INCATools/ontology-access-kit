@@ -2170,7 +2170,7 @@ def similarity(
 
     Example:
 
-        runoak -i hp.db all-similarity -p i --set1-file HPO-TERMS1 --set2-file HPO-TERMS2 -O csv
+        runoak -i hp.db similarity -p i --set1-file HPO-TERMS1 --set2-file HPO-TERMS2 -O csv
 
     This will compare every term in TERMS1 vs TERMS2
 
@@ -2178,29 +2178,29 @@ def similarity(
 
     Example:
 
-        runoak -i hp.db all-similarity -p i TERM_1 TERM_2 ... TERM_N @ TERM_N+1 ... TERM_M
+        runoak -i hp.db similarity -p i TERM_1 TERM_2 ... TERM_N @ TERM_N+1 ... TERM_M
 
     The .all term syntax can be used to select all terms in an ontology
 
     Example:
 
-        runoak -i ma.db all-similarity -p i,p .all @ .all
+        runoak -i ma.db similarity -p i,p .all @ .all
 
     This can be mixed with other term selectors; for example to calculate the similarity of "neuron"
     vs all terms in CL:
 
-        runoak -i cl.db all-similarity -p i,p .all @ neuron
+        runoak -i cl.db similarity -p i,p .all @ neuron
 
     An example pipeline to do all by all over all phenotypes in HPO:
 
     Explicit:
 
         runoak -i hp.db descendants -p i HP:0000118 > HPO
-        runoak -i hp.db all-similarity -p i --set1-file HPO --set2-file HPO -O csv -o RESULTS.tsv
+        runoak -i hp.db similarity -p i --set1-file HPO --set2-file HPO -O csv -o RESULTS.tsv
 
     The same thing can be done more compactly with term queries:
 
-        runoak -i hp.db all-similarity -p i .desc//p=i HP:0000118 @ .desc//p=i HP:0000118
+        runoak -i hp.db similarity -p i .desc//p=i HP:0000118 @ .desc//p=i HP:0000118
 
     """
     impl = settings.impl
