@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-23T16:11:20
+# Generation date: 2022-12-27T11:33:18
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -102,7 +102,8 @@ class TextAnnotationConfiguration(YAMLRoot):
     sources: Optional[Union[str, List[str]]] = empty_list()
     limit: Optional[int] = None
     token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
-    scispacy_model_name: Optional[str] = None
+    scispacy_model_name: Optional[Union[str, "SciSpacyModelType"]] = None
+    entity_linker: Optional[Union[str, "EntityLinkerType"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -123,8 +124,13 @@ class TextAnnotationConfiguration(YAMLRoot):
             v if isinstance(v, str) else str(v) for v in self.token_exclusion_list
         ]
 
-        if self.scispacy_model_name is not None and not isinstance(self.scispacy_model_name, str):
-            self.scispacy_model_name = str(self.scispacy_model_name)
+        if self.scispacy_model_name is not None and not isinstance(
+            self.scispacy_model_name, SciSpacyModelType
+        ):
+            self.scispacy_model_name = SciSpacyModelType(self.scispacy_model_name)
+
+        if self.entity_linker is not None and not isinstance(self.entity_linker, EntityLinkerType):
+            self.entity_linker = EntityLinkerType(self.entity_linker)
 
         super().__post_init__(**kwargs)
 
@@ -345,6 +351,79 @@ class TransformationType(EnumDefinitionImpl):
     )
 
 
+class SciSpacyModelType(EnumDefinitionImpl):
+    """
+    Pre-trained SciSpacy models for named-entity recognition.
+    """
+
+    en_core_sci_sm = PermissibleValue(
+        text="en_core_sci_sm",
+        description="A full spaCy pipeline for biomedical data with a ~100k vocabulary.",
+    )
+    en_core_sci_md = PermissibleValue(
+        text="en_core_sci_md",
+        description="A full spaCy pipeline for biomedical data with a ~360k vocabulary and 50k word vectors.",
+    )
+    en_core_sci_lg = PermissibleValue(
+        text="en_core_sci_lg",
+        description="A full spaCy pipeline for biomedical data with a ~785k vocabulary and 600k word vectors.",
+    )
+    en_core_sci_scibert = PermissibleValue(
+        text="en_core_sci_scibert",
+        description="A full spaCy pipeline for biomedical data with a ~785k vocabulary and allenai/scibert-base as the transformer model. You may want to use a GPU with this model.",
+    )
+    en_ner_craft_md = PermissibleValue(
+        text="en_ner_craft_md", description="A spaCy NER model trained on the CRAFT corpus."
+    )
+    en_ner_jnlpba_md = PermissibleValue(
+        text="en_ner_jnlpba_md", description="A spaCy NER model trained on the JNLPBA corpus."
+    )
+    en_ner_bc5cdr_md = PermissibleValue(
+        text="en_ner_bc5cdr_md", description="A spaCy NER model trained on the BC5CDR corpus."
+    )
+    en_ner_bionlp13cg_md = PermissibleValue(
+        text="en_ner_bionlp13cg_md",
+        description="A spaCy NER model trained on the BIONLP13CG corpus.",
+    )
+
+    _defn = EnumDefinition(
+        name="SciSpacyModelType",
+        description="Pre-trained SciSpacy models for named-entity recognition.",
+    )
+
+
+class EntityLinkerType(EnumDefinitionImpl):
+    """
+    The EntityLinker is a SpaCy component which performs linking to a knowledge base.
+    """
+
+    umls = PermissibleValue(
+        text="umls",
+        description="Links to the Unified Medical Language System, levels 0,1,2 and 9. This has ~3M concepts.",
+    )
+    mesh = PermissibleValue(
+        text="mesh",
+        description="Links to the Medical Subject Headings. MeSH contains ~30k entities.",
+    )
+    rxnorm = PermissibleValue(
+        text="rxnorm",
+        description="Links to the RxNorm ontology. RxNorm contains ~100k concepts focused on normalized names for clinical drugs.",
+    )
+    go = PermissibleValue(
+        text="go",
+        description="Links to the Gene Ontology. The Gene Ontology contains ~67k concepts focused on the functions of genes.",
+    )
+    hpo = PermissibleValue(
+        text="hpo",
+        description="Links to the Human Phenotype Ontology. The Human Phenotype Ontology contains 16k concepts focused on phenotypic abnormalities encountered in human disease.",
+    )
+
+    _defn = EnumDefinition(
+        name="EntityLinkerType",
+        description="The EntityLinker is a SpaCy component which performs linking to a knowledge base.",
+    )
+
+
 # Slots
 class slots:
     pass
@@ -392,7 +471,16 @@ slots.textAnnotationConfiguration__scispacy_model_name = Slot(
     curie=ANN.curie("scispacy_model_name"),
     model_uri=ANN.textAnnotationConfiguration__scispacy_model_name,
     domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, "SciSpacyModelType"]],
+)
+
+slots.textAnnotationConfiguration__entity_linker = Slot(
+    uri=ANN.entity_linker,
+    name="textAnnotationConfiguration__entity_linker",
+    curie=ANN.curie("entity_linker"),
+    model_uri=ANN.textAnnotationConfiguration__entity_linker,
+    domain=None,
+    range=Optional[Union[str, "EntityLinkerType"]],
 )
 
 slots.textAnnotationResultSet__annotations = Slot(

@@ -1281,6 +1281,11 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     "-m",
     help="Name of SciSpacy model to use as the pipeline.",
 )
+@click.option(
+    "--entity-linker",
+    "-m",
+    help="Name of the entity linker for SciSpacy to recognize entities.",
+)
 @output_option
 @output_type_option
 def annotate(
@@ -1292,6 +1297,7 @@ def annotate(
     text_file: TextIO,
     output_type: str,
     scispacy_model_name: str,
+    entity_linker: str,
 ):
     """
     Annotate a piece of text using a Named Entity Recognition annotation
@@ -1338,6 +1344,8 @@ def annotate(
             configuration.token_exclusion_list = token_exclusion_list
         if scispacy_model_name:
             configuration.scispacy_model_name = scispacy_model_name
+        if entity_linker:
+            configuration.entity_linker = entity_linker
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
