@@ -1283,7 +1283,7 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
 )
 @click.option(
     "--entity-linker",
-    "-m",
+    "-l",
     help="Name of the entity linker for SciSpacy to recognize entities.",
 )
 @output_option
