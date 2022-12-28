@@ -1336,7 +1336,7 @@ def annotate(
         if exclude_tokens:
             token_exclusion_list = get_exclusion_token_list(exclude_tokens)
             configuration.token_exclusion_list = token_exclusion_list
-        if plugin_config:
+        # if plugin_config:
             # with open(plugin_config, "r") as p:
             #     configuration.plugin_configuration = yaml.safe_load(p)
         if words and text_file:
