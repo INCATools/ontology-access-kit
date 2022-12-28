@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-28T10:37:04
+# Generation date: 2022-12-28T11:17:27
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
