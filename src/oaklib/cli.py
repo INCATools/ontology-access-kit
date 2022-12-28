@@ -1270,21 +1270,16 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
+    "--plugin-config",
+    "-c",
+    help="path to YAML file containing plugin configuration.",
+)
+@click.option(
     "--exclude-tokens",
     "-x",
     multiple=True,
     help="Text file or list of tokens to filter from input prior to annotation.\
         If passed as text file, each newline separated entry is a distinct text.",
-)
-@click.option(
-    "--scispacy-model-name",
-    "-m",
-    help="Name of SciSpacy model to use as the pipeline.",
-)
-@click.option(
-    "--entity-linker",
-    "-l",
-    help="Name of the entity linker for SciSpacy to recognize entities.",
 )
 @output_option
 @output_type_option
@@ -1295,9 +1290,8 @@ def annotate(
     matches_whole_text: bool,
     exclude_tokens: str,
     text_file: TextIO,
+    plugin_config: TextIO,
     output_type: str,
-    scispacy_model_name: str,
-    entity_linker: str,
 ):
     """
     Annotate a piece of text using a Named Entity Recognition annotation
@@ -1342,10 +1336,9 @@ def annotate(
         if exclude_tokens:
             token_exclusion_list = get_exclusion_token_list(exclude_tokens)
             configuration.token_exclusion_list = token_exclusion_list
-        if scispacy_model_name:
-            configuration.scispacy_model_name = scispacy_model_name
-        if entity_linker:
-            configuration.entity_linker = entity_linker
+        if plugin_config:
+            with open(plugin_config, "r") as p:
+                configuration.plugin_configuration = yaml.safe_load(p)
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:

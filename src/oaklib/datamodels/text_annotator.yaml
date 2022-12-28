@@ -55,10 +55,8 @@ classes:
         range: integer
       token_exclusion_list:
         multivalued: true
-      scispacy_model_name:
-        range: SciSpacyModelType
-      entity_linker:
-        range: EntityLinkerType
+      plugin_configuration:
+        range: string
 
   TextAnnotationResultSet:
     description: A collection of annotation results
@@ -133,9 +131,6 @@ classes:
       match_type:
       info:
 
-#==================================
-# Enums                           #
-#==================================
 enums:
   TransformationType:
     description: A controlled datamodels of the types of transformation that can be applied to
@@ -155,39 +150,7 @@ enums:
       TermExpanson:
         description: Expand terms using a dictionary
   
-  SciSpacyModelType:
-    description: Pre-trained SciSpacy models for named-entity recognition.
-    permissible_values:
-      en_core_sci_sm:
-        description: A full spaCy pipeline for biomedical data with a ~100k vocabulary.
-      en_core_sci_md:
-        description: A full spaCy pipeline for biomedical data with a ~360k vocabulary and 50k word vectors.
-      en_core_sci_lg:
-        description: A full spaCy pipeline for biomedical data with a ~785k vocabulary and 600k word vectors.
-      en_core_sci_scibert:
-        description: A full spaCy pipeline for biomedical data with a ~785k vocabulary and allenai/scibert-base as the transformer model. You may want to use a GPU with this model.
-      en_ner_craft_md:
-        description: A spaCy NER model trained on the CRAFT corpus.
-      en_ner_jnlpba_md:
-        description: A spaCy NER model trained on the JNLPBA corpus.
-      en_ner_bc5cdr_md:
-        description: A spaCy NER model trained on the BC5CDR corpus.
-      en_ner_bionlp13cg_md:
-        description: A spaCy NER model trained on the BIONLP13CG corpus.
-
-  EntityLinkerType:
-    description: The EntityLinker is a SpaCy component which performs linking to a knowledge base.
-    permissible_values:
-      umls:
-        description: Links to the Unified Medical Language System, levels 0,1,2 and 9. This has ~3M concepts.
-      mesh:
-        description: Links to the Medical Subject Headings. MeSH contains ~30k entities.
-      rxnorm:
-        description: Links to the RxNorm ontology. RxNorm contains ~100k concepts focused on normalized names for clinical drugs.
-      go:
-        description: Links to the Gene Ontology. The Gene Ontology contains ~67k concepts focused on the functions of genes.
-      hpo:
-        description: Links to the Human Phenotype Ontology. The Human Phenotype Ontology contains 16k concepts focused on phenotypic abnormalities encountered in human disease.
+ 
       
 
 
