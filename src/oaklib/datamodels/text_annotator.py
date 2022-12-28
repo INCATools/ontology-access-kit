@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-28T08:55:21
+# Generation date: 2022-12-28T10:29:11
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -102,7 +102,6 @@ class TextAnnotationConfiguration(YAMLRoot):
     sources: Optional[Union[str, List[str]]] = empty_list()
     limit: Optional[int] = None
     token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
-    plugin_configuration: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -122,9 +121,6 @@ class TextAnnotationConfiguration(YAMLRoot):
         self.token_exclusion_list = [
             v if isinstance(v, str) else str(v) for v in self.token_exclusion_list
         ]
-
-        if self.plugin_configuration is not None and not isinstance(self.plugin_configuration, str):
-            self.plugin_configuration = str(self.plugin_configuration)
 
         super().__post_init__(**kwargs)
 
@@ -384,15 +380,6 @@ slots.textAnnotationConfiguration__token_exclusion_list = Slot(
     model_uri=ANN.textAnnotationConfiguration__token_exclusion_list,
     domain=None,
     range=Optional[Union[str, List[str]]],
-)
-
-slots.textAnnotationConfiguration__plugin_configuration = Slot(
-    uri=ANN.plugin_configuration,
-    name="textAnnotationConfiguration__plugin_configuration",
-    curie=ANN.curie("plugin_configuration"),
-    model_uri=ANN.textAnnotationConfiguration__plugin_configuration,
-    domain=None,
-    range=Optional[str],
 )
 
 slots.textAnnotationResultSet__annotations = Slot(
