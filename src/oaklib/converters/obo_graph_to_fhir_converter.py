@@ -53,6 +53,10 @@ SCOPE_DISPLAY = {
 
 @dataclass
 class OboGraphToFHIRConverter(DataModelConverter):
+    # TODO: Fix: these are currently unresolvable (noinspection PyUnresolvedReferences):
+    #  from oaklib.utilities.obograph_utils import load_obograph
+    #  from oaklib.utilities.curie_converter import CurieConverter
+    # noinspection PyUnresolvedReferences
     """Converts from OboGraph to FHIR.
 
     - An ontology is mapped to a FHIR `CodeSystem <https://build.fhir.org/codesystem.html>`_.
@@ -61,15 +65,12 @@ class OboGraphToFHIRConverter(DataModelConverter):
 
          - TODO: make this configurable
 
-    - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is True.
-      Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.
+    - Each edge in the OboGraph is converted to a _FHIR ConceptProperty_ if the `include_all_predicates` param is
+      True. Otherwise, will only convert edges if the predicate is in the `DIRECT_PREDICATE_MAP`.
     - Each synonym in the OboGraph is converted to a _FHIR ConceptDesignation_.
 
         - The synonym predicate is mapped to a _FHIR Coding_, using the `SCOPE_MAP`.
 
-    # TODO: These currently unresolvable
-        from oaklib.utilities.obograph_utils import load_obograph
-        from oaklib.utilities.curie_converter import CurieConverter
     To use:
 
         >>> from oaklib.converters.obo_graph_to_fhir_converter import OboGraphToFHIRConverter
@@ -79,7 +80,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         >>> from linkml_runtime.dumpers import json_dumper
         >>> converter = OboGraphToFHIRConverter(curie_converter=CurieConverter())
         >>> graph = load_obograph("hp.obo.json")
-        >>> code_system = converter.dump(graph)
+        >>> code_system = converter.convert(graph)
         >>> print(json_dumper.dumps(code_system))
 
     To run on the command line:
@@ -97,7 +98,12 @@ class OboGraphToFHIRConverter(DataModelConverter):
         self,
         source: GraphDocument,
         target: str = None,
+        code_system_id: str = None,
+        code_system_url: str = None,
         include_all_predicates: bool = True,
+        native_uri_stems: List[str] = None,
+        use_curies_native_concepts: bool = False,
+        use_curies_foreign_concepts: bool = False,
         **kwargs,
     ) -> None:
         """
@@ -110,19 +116,34 @@ class OboGraphToFHIRConverter(DataModelConverter):
         :param target:
         :param include_all_predicates: include the maximal amount of predicates
         """
-        cs = self.convert(source, include_all_predicates=include_all_predicates, **kwargs)
-        json_str = json_dumper.dumps(cs)
+        cs = self.convert(
+            source,
+            code_system_id=code_system_id,
+            code_system_url=code_system_url,
+            include_all_predicates=include_all_predicates,
+            native_uri_stems=native_uri_stems,
+            use_curies_native_concepts=use_curies_native_concepts,
+            use_curies_foreign_concepts=use_curies_foreign_concepts,
+            **kwargs,
+        )
+        json_str = json_dumper.dumps(cs, inject_type=False)
         if target is None:
             print(json_str)
         else:
             with open(target, "w", encoding="UTF-8") as f:
                 f.write(json_str)
 
+    # todo: id/url: any way to try to ascertain ID or URL if not passed? and warn if not determined?
     def convert(
         self,
         source: GraphDocument,
         target: CodeSystem = None,
+        code_system_id: str = None,
+        code_system_url: str = None,
         include_all_predicates: bool = True,
+        native_uri_stems: List[str] = None,
+        use_curies_native_concepts: bool = False,
+        use_curies_foreign_concepts: bool = False,
         **kwargs,
     ) -> CodeSystem:
         """
@@ -137,7 +158,19 @@ class OboGraphToFHIRConverter(DataModelConverter):
             target = CodeSystem()
         target.resourceType = CodeSystem.__name__
         for g in source.graphs:
-            self._convert_graph(g, target=target, include_all_predicates=include_all_predicates)
+            self._convert_graph(
+                g,
+                target=target,
+                include_all_predicates=include_all_predicates,
+                native_uri_stems=native_uri_stems,
+                use_curies_native_concepts=use_curies_native_concepts,
+                use_curies_foreign_concepts=use_curies_foreign_concepts,
+            )
+        target.id = code_system_id
+        if not code_system_id:
+            del target.id
+        if code_system_id:
+            target.url = code_system_url
         return target
 
     def code(self, uri: CURIE) -> str:
@@ -151,7 +184,13 @@ class OboGraphToFHIRConverter(DataModelConverter):
             return curie
 
     def _convert_graph(
-        self, source: Graph, target: CodeSystem, include_all_predicates: bool = True
+        self,
+        source: Graph,
+        target: CodeSystem,
+        include_all_predicates: bool = True,
+        native_uri_stems: List[str] = None,
+        use_curies_native_concepts: bool = False,
+        use_curies_foreign_concepts: bool = False,
     ) -> CodeSystem:
         target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
@@ -165,6 +204,9 @@ class OboGraphToFHIRConverter(DataModelConverter):
                 index=edges_by_subject,
                 target=target,
                 include_all_predicates=include_all_predicates,
+                native_uri_stems=native_uri_stems,
+                use_curies_native_concepts=use_curies_native_concepts,
+                use_curies_foreign_concepts=use_curies_foreign_concepts,
             )
         # CodeSystem.property
         # todo's
@@ -184,8 +226,14 @@ class OboGraphToFHIRConverter(DataModelConverter):
         index: Dict[CURIE, List[Edge]],
         target: CodeSystem,
         include_all_predicates: bool = True,
+        native_uri_stems: List[str] = None,
+        use_curies_native_concepts: bool = False,
+        use_curies_foreign_concepts: bool = False,
     ) -> Concept:
         """Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property."""
+        # TODO: Use new flags
+        #  self.uri(source.id)  # <--- self.uri does not exist
+        #  self.code is actually a curie. change to self.curie and add a self.code func?
         _id = self.code(source.id)
         logging.debug(f"Converting node {_id} from {source}")
         concept = Concept(code=_id, display=source.lbl)
