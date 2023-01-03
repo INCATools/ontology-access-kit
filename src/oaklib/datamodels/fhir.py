@@ -5,7 +5,6 @@
 # id: https://w3id.org/linkml/fhir
 # description: Schema for working with FHIR objects
 # license: https://creativecommons.org/publicdomain/zero/1.0/
-
 import dataclasses
 import re
 import sys

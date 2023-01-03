@@ -14,6 +14,7 @@ from linkml_runtime.dumpers import json_dumper
 from oaklib.converters.data_model_converter import DataModelConverter
 from oaklib.datamodels.fhir import (
     CodeSystem,
+    CodeSystemProperty,
     Coding,
     Concept,
     ConceptDesignation,
@@ -155,6 +156,8 @@ class OboGraphToFHIRConverter(DataModelConverter):
         target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
         logging.info(f"Converting graph to obo: {source.id}, nodes={len(source.nodes)}")
+        self.predicates_to_export = set()
+        # CodeSystem.concept
         for n in source.nodes:
             logging.debug(f"Converting node {n.id}")
             self._convert_node(
@@ -163,6 +166,16 @@ class OboGraphToFHIRConverter(DataModelConverter):
                 target=target,
                 include_all_predicates=include_all_predicates,
             )
+        # CodeSystem.property
+        # todo's
+        #  i. code: mostly URIs, which don't conform to [^\s]+(\s[^\s]+)* (https://hl7.org/fhir/datatypes.html#code)
+        #  ii. description: can get, but tedious; downloading and caching and looking up in source ontologies
+        #  iii. type: ideally Coding (https://build.fhir.org/datatypes.html#Coding). The property value is a code
+        #  defined in an external code system. This may be used for translations, but is not the intent.
+        #  https://hl7.org/fhir/codesystem-concept-property-type.htm
+        target.property = [
+            CodeSystemProperty(code=x, uri=x, type="code") for x in self.predicates_to_export
+        ]
         return target
 
     def _convert_node(
@@ -172,6 +185,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         target: CodeSystem,
         include_all_predicates: bool = True,
     ) -> Concept:
+        """Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property."""
         _id = self.code(source.id)
         logging.debug(f"Converting node {_id} from {source}")
         concept = Concept(code=_id, display=source.lbl)
@@ -184,9 +198,9 @@ class OboGraphToFHIRConverter(DataModelConverter):
                 f"Converting edge {e.pred} {e.obj} // include_all={include_all_predicates}"
             )
             if include_all_predicates or e.pred in DIRECT_PREDICATE_MAP:
-                concept.property.append(
-                    ConceptProperty(code=DIRECT_PREDICATE_MAP.get(e.pred, e.pred), valueCode=obj)
-                )
+                pred: str = DIRECT_PREDICATE_MAP.get(e.pred, e.pred)
+                concept.property.append(ConceptProperty(code=pred, valueCode=obj))
+                self.predicates_to_export.add(pred)
             else:
                 logging.debug(f"Skipping edge {e}")
         return concept
