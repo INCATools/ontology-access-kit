@@ -1270,10 +1270,9 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     help="path to lexical index. This is recreated each time unless --no-recreate is passed",
 )
 @click.option(
-    "--plugin-config",
-    "-c",
+    "--model",
     required=False,
-    help="path to YAML file containing plugin configuration.",
+    help="Name of trained model to use for annotation, e.g. 'en_ner_craft_md'.",
 )
 @click.option(
     "--exclude-tokens",
@@ -1291,7 +1290,7 @@ def annotate(
     matches_whole_text: bool,
     exclude_tokens: str,
     text_file: TextIO,
-    plugin_config: TextIO,
+    model: str,
     output_type: str,
 ):
     """
@@ -1337,9 +1336,11 @@ def annotate(
         if exclude_tokens:
             token_exclusion_list = get_exclusion_token_list(exclude_tokens)
             configuration.token_exclusion_list = token_exclusion_list
-        if plugin_config:
-            with open(plugin_config, "r") as p:
-                configuration.plugin_configuration = yaml.safe_load(p)
+        if model:
+            configuration.model = model
+        # if plugin_config:
+        #     with open(plugin_config, "r") as p:
+        #         configuration.plugin_configuration = yaml.safe_load(p)
         if words and text_file:
             raise ValueError("Specify EITHER text-file OR a list of words as arguments")
         if text_file:
