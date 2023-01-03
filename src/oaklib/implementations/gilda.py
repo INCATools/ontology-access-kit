@@ -42,8 +42,8 @@ class GildaImplementation(TextAnnotatorInterface):
 
         for match in gilda.ground(text):
             term_id_split = match.term.id.split(":")
-            if len(term_id_split) == 1: 
-                curie=f"{match.term.db}:{match.term.id}"
+            if len(term_id_split) == 1:
+                curie = f"{match.term.db}:{match.term.id}"
             elif len(term_id_split) == 2:
                 curie = match.term.id
             else:
