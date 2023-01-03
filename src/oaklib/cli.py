@@ -1271,6 +1271,7 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
 )
 @click.option(
     "--model",
+    "-m",
     required=False,
     help="Name of trained model to use for annotation, e.g. 'en_ner_craft_md'.",
 )
