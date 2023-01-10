@@ -82,7 +82,7 @@
              
   <h1>Source code for oaklib.datamodels.text_annotator</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0</span>
-<span class="c1"># Generation date: 2022-11-16T17:09:19</span>
+<span class="c1"># Generation date: 2023-01-03T13:27:29</span>
 <span class="c1"># Schema: text-annotator</span>
 <span class="c1">#</span>
 <span class="c1"># id: https://w3id.org/linkml/text_annotator</span>
@@ -185,6 +185,7 @@
     <span class="n">sources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
     <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">token_exclusion_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">empty_list</span><span class="p">()</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matches_whole_text</span><span class="p">,</span> <span class="n">Bool</span><span class="p">):</span>
@@ -204,6 +205,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_exclusion_list</span>
         <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -463,6 +467,15 @@
     <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__token_exclusion_list</span><span class="p">,</span>
     <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span>
+<span class="p">)</span>
+
+<span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationConfiguration__model</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;textAnnotationConfiguration__model&quot;</span><span class="p">,</span>
+    <span class="n">curie</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">curie</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">),</span>
+    <span class="n">model_uri</span><span class="o">=</span><span class="n">ANN</span><span class="o">.</span><span class="n">textAnnotationConfiguration__model</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">range</span><span class="o">=</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span>
 
 <span class="n">slots</span><span class="o">.</span><span class="n">textAnnotationResultSet__annotations</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span>

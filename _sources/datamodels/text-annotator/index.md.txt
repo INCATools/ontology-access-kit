@@ -29,6 +29,7 @@ Name: text-annotator
 | [match_string](match_string.md) |  |
 | [match_type](match_type.md) |  |
 | [matches_whole_text](matches_whole_text.md) |  |
+| [model](model.md) |  |
 | [object_id](object_id.md) |  |
 | [object_label](object_label.md) |  |
 | [object_source](object_source.md) |  |

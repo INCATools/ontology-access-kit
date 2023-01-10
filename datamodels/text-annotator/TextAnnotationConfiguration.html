@@ -90,6 +90,7 @@
     class TextAnnotationConfiguration
       TextAnnotationConfiguration : limit
       TextAnnotationConfiguration : matches_whole_text
+      TextAnnotationConfiguration : model
       TextAnnotationConfiguration : sources
       TextAnnotationConfiguration : token_exclusion_list
       
@@ -122,6 +123,11 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="token_exclusion_list.html"><span class="doc std std-doc">token_exclusion_list</span></a></p></td>
 <td><p>0..* <br/> NONE</p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="model.html"><span class="doc std std-doc">model</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -187,6 +193,11 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
     multivalued: true
+  model:
+    name: model
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    range: string
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -233,6 +244,15 @@ attributes:
     rank: 1000
     multivalued: true
     alias: token_exclusion_list
+    owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
+    range: string
+  model:
+    name: model
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    alias: model
     owner: TextAnnotationConfiguration
     domain_of:
     - TextAnnotationConfiguration

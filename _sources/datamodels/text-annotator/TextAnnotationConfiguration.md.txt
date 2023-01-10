@@ -12,6 +12,7 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
     class TextAnnotationConfiguration
       TextAnnotationConfiguration : limit
       TextAnnotationConfiguration : matches_whole_text
+      TextAnnotationConfiguration : model
       TextAnnotationConfiguration : sources
       TextAnnotationConfiguration : token_exclusion_list
       
@@ -30,6 +31,7 @@ URI: [ann:TextAnnotationConfiguration](https://w3id.org/linkml/text_annotator/Te
 | [sources](sources.md) | 0..* <br/> NONE |  | direct |
 | [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
 | [token_exclusion_list](token_exclusion_list.md) | 0..* <br/> NONE |  | direct |
+| [model](model.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 
 
 
@@ -95,6 +97,11 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
     multivalued: true
+  model:
+    name: model
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    range: string
 
 ```
 </details>
@@ -143,6 +150,15 @@ attributes:
     rank: 1000
     multivalued: true
     alias: token_exclusion_list
+    owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
+    range: string
+  model:
+    name: model
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    alias: model
     owner: TextAnnotationConfiguration
     domain_of:
     - TextAnnotationConfiguration
