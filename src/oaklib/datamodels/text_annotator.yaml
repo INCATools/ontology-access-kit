@@ -55,6 +55,8 @@ classes:
         range: integer
       token_exclusion_list:
         multivalued: true
+      model:
+        range: string
 
   TextAnnotationResultSet:
     description: A collection of annotation results
