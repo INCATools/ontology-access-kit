@@ -1,5 +1,6 @@
 """A text annotator based on Gilda."""
 
+import logging
 from dataclasses import dataclass
 from typing import Iterator
 
@@ -41,8 +42,20 @@ class GildaImplementation(TextAnnotatorInterface):
         import gilda
 
         for match in gilda.ground(text):
+            term_id_split = match.term.id.split(":")
+            if len(term_id_split) == 1:
+                curie = f"{match.term.db}:{match.term.id}"
+            elif len(term_id_split) == 2:
+                curie = match.term.id
+                if str(match.term.db) != str(term_id_split[0]):
+                    logging.warning(
+                        f"Match term db {match.term.db} does not match prefix of {match.term.id}."
+                    )
+            else:
+                raise ValueError(f"Invalid term id: {match.term.id}")
+
             yield nen_annotation(
                 text=text,
-                curie=f"{match.term.db}:{match.term.id}",
+                curie=curie,
                 label=match.term.entry_name,
             )
