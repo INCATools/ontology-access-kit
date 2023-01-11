@@ -1,5 +1,5 @@
 # Auto generated from obograph.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-15T18:23:13
+# Generation date: 2023-01-11T14:21:08
 # Schema: obographs_datamodel
 #
 # id: https://github.com/geneontology/obographs
@@ -270,6 +270,7 @@ class Edge(YAMLRoot):
     sub: Optional[str] = None
     pred: Optional[str] = None
     obj: Optional[str] = None
+    meta: Optional[Union[dict, "Meta"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.sub is not None and not isinstance(self.sub, str):
@@ -280,6 +281,9 @@ class Edge(YAMLRoot):
 
         if self.obj is not None and not isinstance(self.obj, str):
             self.obj = str(self.obj)
+
+        if self.meta is not None and not isinstance(self.meta, Meta):
+            self.meta = Meta(**as_dict(self.meta))
 
         super().__post_init__(**kwargs)
 

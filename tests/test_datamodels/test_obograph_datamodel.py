@@ -92,3 +92,23 @@ class TestOboGraphDatamodel(AbstractDatamodelTestCase):
         )
         yaml_dumper.dump(g, output_path("example-ldefs.obograph.yaml"))
         self.attempt_streaming_writers(g.logicalDefinitionAxioms)
+
+    def test_edge_meta(self):
+        """
+        Tests the ability to create edge metadata
+
+        https://github.com/INCATools/ontology-access-kit/issues/428
+        """
+        g = obograph.Graph(id="test")
+        g.edges.append(
+            obograph.Edge(
+                sub="EXAMPLE:10",
+                pred="RO:1",
+                obj="EXAMPLE:11",
+                meta=obograph.Meta(
+                    basicPropertyValues=[obograph.BasicPropertyValue(pred="oio:is_inferred", val="true")]),
+            )
+        )
+        yaml_dumper.dump(g, output_path("example-edge-meta.obograph.yaml"))
+        self.attempt_streaming_writers(g.logicalDefinitionAxioms)
+
