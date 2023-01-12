@@ -202,6 +202,7 @@ attributes:
     - GraphDocument
     - Graph
     - Node
+    - Edge
     - PropertyValue
     - Axiom
     range: Meta

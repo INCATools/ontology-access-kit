@@ -46,6 +46,7 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 | [GraphDocument](GraphDocument.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [Graph](Graph.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [Node](Node.md) | [meta](meta.md) | range | [Meta](Meta.md) |
+| [Edge](Edge.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [DefinitionPropertyValue](DefinitionPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [BasicPropertyValue](BasicPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |
 | [XrefPropertyValue](XrefPropertyValue.md) | [meta](meta.md) | range | [Meta](Meta.md) |

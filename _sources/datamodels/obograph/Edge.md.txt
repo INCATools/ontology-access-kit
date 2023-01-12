@@ -8,6 +8,7 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 ```{mermaid}
  classDiagram
     class Edge
+      Edge : meta
       Edge : obj
       Edge : pred
       Edge : sub
@@ -26,6 +27,7 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 | [sub](sub.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [obj](obj.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
 
 
 
@@ -82,6 +84,7 @@ slots:
 - sub
 - pred
 - obj
+- meta
 
 ```
 </details>
@@ -123,6 +126,20 @@ attributes:
     domain_of:
     - Edge
     range: string
+  meta:
+    name: meta
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: meta
+    owner: Edge
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - Edge
+    - PropertyValue
+    - Axiom
+    range: Meta
 
 ```
 </details>

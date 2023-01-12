@@ -46,15 +46,15 @@ URI: [vm:ExternalReferenceValidationResult](https://w3id.org/linkml/validation-m
 | [time_checked](time_checked.md) | 0..1 <br/> NONE |  | direct |
 | [number_of_attempts](number_of_attempts.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
 | [http_response_code](http_response_code.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) |  | direct |
+| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | [ValidationResult](ValidationResult.md) |
+| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | [ValidationResult](ValidationResult.md) |
+| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
 | [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | [ValidationResult](ValidationResult.md) |
 | [instantiates](instantiates.md) | 0..1 <br/> [Node](Node.md) | The type of the subject | [ValidationResult](ValidationResult.md) |
 | [source](source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
-| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | [ValidationResult](ValidationResult.md) |
-| [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | [ValidationResult](ValidationResult.md) |
-| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
-| [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [ValidationResult](ValidationResult.md) |
-| [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
 | [object](object.md) | 0..1 <br/> [Node](Node.md) |  | [ValidationResult](ValidationResult.md) |
+| [predicate](predicate.md) | 0..1 <br/> [Node](Node.md) | The predicate or property of the subject which the result is about | [ValidationResult](ValidationResult.md) |
+| [subject](subject.md) | 1..1 <br/> [Node](Node.md) | The instance which the result is about | [ValidationResult](ValidationResult.md) |
 
 
 

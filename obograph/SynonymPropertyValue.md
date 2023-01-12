@@ -36,8 +36,8 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 | [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 
 
 
@@ -190,6 +190,7 @@ attributes:
     - GraphDocument
     - Graph
     - Node
+    - Edge
     - PropertyValue
     - Axiom
     range: Meta

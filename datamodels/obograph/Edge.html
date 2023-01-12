@@ -87,6 +87,7 @@
 <div class="mermaid">
              classDiagram
     class Edge
+      Edge : meta
       Edge : obj
       Edge : pred
       Edge : sub
@@ -115,6 +116,11 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="obj.html"><span class="doc std std-doc">obj</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -191,6 +197,7 @@ slots:
 - sub
 - pred
 - obj
+- meta
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -230,6 +237,20 @@ attributes:
     domain_of:
     - Edge
     range: string
+  meta:
+    name: meta
+    from_schema: https://github.com/geneontology/obographs
+    rank: 1000
+    alias: meta
+    owner: Edge
+    domain_of:
+    - GraphDocument
+    - Graph
+    - Node
+    - Edge
+    - PropertyValue
+    - Axiom
+    range: Meta
 
 </pre></div>
 </div>

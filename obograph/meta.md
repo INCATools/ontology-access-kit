@@ -16,6 +16,7 @@ URI: [og:meta](https://github.com/geneontology/obographs/meta)
 [GraphDocument](GraphDocument.md) | 
 [Graph](Graph.md) | 
 [Node](Node.md) | 
+[Edge](Edge.md) | 
 [PropertyValue](PropertyValue.md) | 
 [Axiom](Axiom.md) | 
 [DefinitionPropertyValue](DefinitionPropertyValue.md) | 
@@ -70,6 +71,7 @@ domain_of:
 - GraphDocument
 - Graph
 - Node
+- Edge
 - PropertyValue
 - Axiom
 range: Meta
