@@ -106,9 +106,11 @@ class TestOboGraphDatamodel(AbstractDatamodelTestCase):
                 pred="RO:1",
                 obj="EXAMPLE:11",
                 meta=obograph.Meta(
-                    basicPropertyValues=[obograph.BasicPropertyValue(pred="oio:is_inferred", val="true")]),
+                    basicPropertyValues=[
+                        obograph.BasicPropertyValue(pred="oio:is_inferred", val="true")
+                    ]
+                ),
             )
         )
         yaml_dumper.dump(g, output_path("example-edge-meta.obograph.yaml"))
         self.attempt_streaming_writers(g.logicalDefinitionAxioms)
-
