@@ -280,6 +280,9 @@ def get_term_with_taxon_constraints(
     if add_labels:
         inject_labels(oi, st)
     st.description = get_taxon_constraints_description(oi, st)
+    if not include_redundant:
+        st.only_in = [tc for tc in st.only_in if not tc.redundant]
+        st.never_in = [tc for tc in st.never_in if not tc.redundant]
     return st
 
 

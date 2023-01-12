@@ -20,7 +20,7 @@ src/oaklib/datamodels/%.owl.ttl: src/oaklib/datamodels/%.yaml
 	$(RUN) gen-owl --no-metaclasses --no-type-objects $< > $@.tmp && mv $@.tmp $@
 
 RUN_GENDOC = $(RUN) gen-doc --dialect myst
-gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc
+gendoc: gendoc-om gendoc-og gendoc-ss gendoc-val gendoc-mr gendoc-li gendoc-ann gendoc-search gendoc-xodiff gendoc-sim gendoc-assoc gendoc-tc
 
 gendoc-om: src/oaklib/datamodels/ontology_metadata.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/ontology-metadata/
@@ -44,6 +44,8 @@ gendoc-xodiff: src/oaklib/datamodels/cross_ontology_diff.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/cross-ontology-diff
 gendoc-assoc: src/oaklib/datamodels/association.yaml
 	$(RUN_GENDOC)  $< -d docs/datamodels/association
+gendoc-tc: src/oaklib/datamodels/taxon_constraints.yaml
+	$(RUN_GENDOC)  $< -d docs/datamodels/taxon-constraints
 
 nb:
 	$(RUN) jupyter notebook

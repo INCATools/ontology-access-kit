@@ -657,6 +657,9 @@ class SqlImplementation(
         include_entailed: bool = False,
         include_dangling: bool = True,
     ) -> Iterator[RELATIONSHIP]:
+        if subjects is not None:
+            # materialize iterators
+            subjects = list(subjects)
         if subjects is not None and len(subjects) > self.max_items_for_in_clause:
             logging.info(
                 f"Chunking {len(subjects)} subjects into subqueries to avoid large IN clauses"
@@ -987,7 +990,11 @@ class SqlImplementation(
                     _anns_to_xrefs_and_meta(meta.definition, anns)
                 elif pred in SYNONYM_PREDICATES:
                     # TODO: handle in a separate util
-                    scope_pred = pred.replace("oio:", "")
+                    if pred.startswith("oio:"):
+                        pred = pred.replace("IAO:", "IAO_")
+                        scope_pred = pred.replace("oio:", "")
+                    else:
+                        scope_pred = "hasExactSynonym"
                     pv = obograph.SynonymPropertyValue(pred=scope_pred, val=v)
                     _anns_to_xrefs_and_meta(pv, anns)
                     meta.synonyms.append(pv)
@@ -1167,7 +1174,7 @@ class SqlImplementation(
                 yield ldef
             return
         for curie_it in chunk(subjects, self.max_items_for_in_clause):
-            print(f"Getting logical definitions for {curie_it} from {subjects}")
+            logging.info(f"Getting logical definitions for {curie_it} from {subjects}")
             q = q.filter(OwlEquivalentClassStatement.subject.in_(tuple(curie_it)))
             for ldef in self._logical_definitions_from_eq_query(q):
                 yield ldef

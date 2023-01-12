@@ -1792,12 +1792,24 @@ def paths(
 
     This shows all shortest paths between 4 combinations of starts and ends
 
+    You can also use "@" to separate start node list and end node list. Like most OAK commands,
+    you can pass either explicit terms, or term queries. For example, if you have two files of IDs,
+    then you can do this:
+
+        runoak -i sqlite:obo:go paths  -p i,p .idfile START_NODES.txt @ .idfile END_NODES.txt
+
+    You can also pass in weights for each predicate, used when calculating shortest paths.
+
     Example:
 
         runoak -i sqlite:obo:go paths  -p i,p 'nuclear membrane' --target cytoplasm \
                 --predicate-weights "{i: 0.0001, p: 999}"
 
     This shows all shortest paths after weighting relations
+
+    (Note: you can use the same shorthands as in the `--predicates` option)
+
+    This command can be combined with others to visualize the paths.
 
     Example:
 
@@ -1811,7 +1823,8 @@ def paths(
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.autolabel = autolabel
     writer.file = output
-    start_curies = list(query_terms_iterator(terms, impl))
+    if not isinstance(impl, OboGraphInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
     actual_predicates = _process_predicates_arg(predicates)
     if predicate_weights:
         pw = {}
@@ -1820,16 +1833,27 @@ def paths(
             pw[k] = v
     else:
         pw = None
-    if not isinstance(impl, OboGraphInterface):
-        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
-    logging.info(f"Ancestor seed: {start_curies}")
-    if target:
-        end_curies = list(list(query_terms_iterator(list(target), impl)))
+    if "@" in terms:
+        if target:
+            raise ValueError("Cannot use @ and --target together")
+        ix = terms.index("@")
+        logging.info(f"Splitting terms {terms} on {ix}")
+        start_curies = list(query_terms_iterator(terms[0:ix], impl))
+        end_curies = list(query_terms_iterator(terms[ix + 1 :], impl))
         all_curies = start_curies + end_curies
     else:
-        end_curies = None
-        all_curies = start_curies
-        logging.info("Will search all ancestors")
+        start_curies = list(query_terms_iterator(terms, impl))
+        if target:
+            logging.info(f"Using explicit target list: {target}")
+            end_curies = list(list(query_terms_iterator(list(target), impl)))
+            all_curies = start_curies + end_curies
+        else:
+            end_curies = None
+            all_curies = start_curies
+            logging.info("Will search all ancestors")
+    logging.info(f"Start curies: {start_curies}")
+    logging.info(f"End curies: {end_curies}")
+    # TODO: move the logic from CLI to OboGraphInterface
     graph = impl.ancestor_graph(all_curies, predicates=actual_predicates)
     logging.info("Calculating graph stats")
     for s, o, path in shortest_paths(
@@ -2783,6 +2807,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
 @output_option
 @predicates_option
 @has_prefix_option
+@output_type_option
 @click.option(
     "--annotated-roots/--no-annotated-roots",
     "-A/--no-A",
@@ -2790,7 +2815,7 @@ def terms(output: str, owl_type, filter_obsoletes: bool):
     show_default=True,
     help="If true, use annotated roots, if present",
 )
-def roots(output: str, predicates: str, has_prefix: str, annotated_roots: bool):
+def roots(output: str, output_type: str, predicates: str, has_prefix: str, annotated_roots: bool):
     """
     List all root nodes in the ontology
 
@@ -2810,13 +2835,16 @@ def roots(output: str, predicates: str, has_prefix: str, annotated_roots: bool):
 
     """
     impl = settings.impl
+    writer = _get_writer(output_type, impl, StreamingCsvWriter)
+    writer.output = output
     if isinstance(impl, OboGraphInterface):
         actual_predicates = _process_predicates_arg(predicates)
         prefixes = list(has_prefix) if has_prefix else None
         for curie in impl.roots(
             actual_predicates, annotated_roots=annotated_roots, id_prefixes=prefixes
         ):
-            print(f"{curie} ! {impl.label(curie)}")
+            writer.emit(dict(id=curie, label=impl.label(curie)))
+            # print(f"{curie} ! {impl.label(curie)}")
     else:
         raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
 
@@ -3129,9 +3157,13 @@ def axioms(terms, output: str, output_type: str, axiom_type: str, about: str, re
 @click.argument("terms", nargs=-1)
 def taxon_constraints(terms: list, all: bool, include_redundant: bool, predicates: List, output):
     """
-    Compute all taxon constraints for a term or terms
+    Compute all taxon constraints for a term or terms.
 
-    Note that this *computes* the taxon constraints rather than doing a lookup
+    This will apply rules using the inferred ancestors of subject terms, as well as inferred
+    ancestors/descendants of taxon terms.
+
+    The input ontology MUST include both the taxon constraint relationships AND the relevant portion
+    of NCBI Taxonomy
 
     Example:
 
