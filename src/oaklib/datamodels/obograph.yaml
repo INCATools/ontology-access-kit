@@ -193,7 +193,7 @@ classes:
       - sub
       - pred
       - obj
-#      - meta
+      - meta
 
   Meta:
     slots:
