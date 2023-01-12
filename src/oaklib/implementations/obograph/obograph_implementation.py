@@ -174,7 +174,7 @@ class OboGraphImplementation(
         else:
             return []
 
-    def _graph(self) -> Graph:
+    def _entire_graph(self) -> Graph:
         if len(self.obograph_document.graphs) > 1:
             raise ValueError("Multiple graphs")
         return self.obograph_document.graphs[0]
@@ -244,7 +244,7 @@ class OboGraphImplementation(
         relationships: Optional[RELATIONSHIP_MAP] = None,
         type: Optional[str] = None,
     ) -> CURIE:
-        g = self._graph()
+        g = self._entire_graph()
         g.nodes.append(Node(curie, lbl=label, type=type))
         for p, objs in relationships:
             for obj in objs:
@@ -406,7 +406,7 @@ class OboGraphImplementation(
         return self._node(curie)
 
     def as_obograph(self) -> Graph:
-        return self._graph()
+        return self._entire_graph()
 
     def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
         subjects = list(subjects)

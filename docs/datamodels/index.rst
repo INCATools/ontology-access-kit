@@ -27,6 +27,7 @@ not need this.
    kgcl/index
    similarity/index
    summary-statistics/index
+   taxon-constraints/index
    validation/index
    lexical-index/index
    mapping-rules/index

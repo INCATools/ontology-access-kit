@@ -277,12 +277,18 @@ def shortest_paths(
     dg = as_graph(graph, predicate_weights=predicate_weights)
     logging.info(f"Calculating paths, starts={start_curies}")
     for start_curie in start_curies:
+        if not dg.has_node(start_curie):
+            logging.info(f"Skipping {start_curie} because it is not in the graph")
+            continue
         if end_curies:
             this_end_curies = end_curies
         else:
             this_end_curies = list(nx.ancestors(dg, start_curie))
         logging.info(f"Calculating distances for {start_curie}")
         for end_curie in set(this_end_curies):
+            if not dg.has_node(end_curie):
+                logging.info(f"Skipping {end_curie} because it is not in the graph")
+                continue
             logging.debug(f"COMPUTING {start_curie} to {end_curie}")
             try:
                 paths = nx.all_shortest_paths(

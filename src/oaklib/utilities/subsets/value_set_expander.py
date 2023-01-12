@@ -40,7 +40,7 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
 
     def expand_value_set(
         self,
-        value_set: EnumExpression,
+        value_set: Union[EnumDefinition, AnonymousEnumExpression],
         schema: SchemaDefinition = None,
         source_enum_definition: EnumDefinition = None,
     ) -> Iterator[PermissibleValue]:
@@ -53,9 +53,9 @@ class ValueSetExpander(BasicOntologyInterface, ABC):
 
         TODO: extend this to allow FHIR value sets
 
-        :param value_set:
-        :param schema:
-        :param source_enum_definition:
+        :param value_set: a named enum or enum expression
+        :param schema: the schema to which the enum belongs
+        :param source_enum_definition: if empty, the value_set is assumed to be a named enum
         :return:
         """
         if isinstance(value_set, EnumDefinition):
