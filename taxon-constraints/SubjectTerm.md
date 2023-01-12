@@ -1,0 +1,272 @@
+# Class: SubjectTerm
+_A term that is the subject of a taxon constraint. Typically comes from ontologies like GO, UBERON, CL, ..._
+
+
+
+
+URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
+
+
+```{mermaid}
+ classDiagram
+    class SubjectTerm
+      Term <|-- SubjectTerm
+      
+      SubjectTerm : description
+      SubjectTerm : id
+      SubjectTerm : label
+      SubjectTerm : never_in
+      SubjectTerm : only_in
+      SubjectTerm : present_in
+      SubjectTerm : present_in_ancestor_of
+      SubjectTerm : unsatisfiable
+      
+```
+
+
+
+
+## Inheritance
+* [Term](Term.md)
+    * **SubjectTerm**
+
+
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [description](description.md) | 0..1 <br/> NONE | A description of the term | direct |
+| [unsatisfiable](unsatisfiable.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | If true then some combination of taxon constraints plus ontology lead to cont... | direct |
+| [only_in](only_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term AND its descendants MUST be in the specified taxon, or a descendant ... | direct |
+| [never_in](never_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term AND its descendants MUST NOT be in the specified taxon, or a descend... | direct |
+| [present_in](present_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term MAY be in the specified taxon, or a descendant of that taxon | direct |
+| [present_in_ancestor_of](present_in_ancestor_of.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) |  | direct |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
+
+
+
+## Usages
+
+| used by | used in | type | used |
+| ---  | --- | --- | --- |
+| [TaxonConstraint](TaxonConstraint.md) | [subject](subject.md) | range | [SubjectTerm](SubjectTerm.md) |
+| [TaxonConstraint](TaxonConstraint.md) | [via_terms](via_terms.md) | range | [SubjectTerm](SubjectTerm.md) |
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/linkml/taxon_constraints
+
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | tc:SubjectTerm |
+| native | tc:SubjectTerm |
+
+
+## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: SubjectTerm
+description: A term that is the subject of a taxon constraint. Typically comes from
+  ontologies like GO, UBERON, CL, ...
+from_schema: https://w3id.org/linkml/taxon_constraints
+rank: 1000
+is_a: Term
+attributes:
+  description:
+    name: description
+    description: A description of the term
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+  unsatisfiable:
+    name: unsatisfiable
+    description: If true then some combination of taxon constraints plus ontology
+      lead to contradictions
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    range: boolean
+  only_in:
+    name: only_in
+    description: 'The term AND its descendants MUST be in the specified taxon, or
+      a descendant of that taxon
+
+      '
+    comments:
+    - Note that we conflate between the RO "only in taxon" and "in taxon" relations
+      here
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: RO:0002160
+    multivalued: true
+    range: TaxonConstraint
+  never_in:
+    name: never_in
+    description: 'The term AND its descendants MUST NOT be in the specified taxon,
+      or a descendant of that taxon
+
+      '
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: RO:0002161
+    multivalued: true
+    range: TaxonConstraint
+  present_in:
+    name: present_in
+    description: 'The term MAY be in the specified taxon, or a descendant of that
+      taxon
+
+      '
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: RO:0002175
+    multivalued: true
+    range: TaxonConstraint
+  present_in_ancestor_of:
+    name: present_in_ancestor_of
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    multivalued: true
+    range: TaxonConstraint
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: SubjectTerm
+description: A term that is the subject of a taxon constraint. Typically comes from
+  ontologies like GO, UBERON, CL, ...
+from_schema: https://w3id.org/linkml/taxon_constraints
+rank: 1000
+is_a: Term
+attributes:
+  description:
+    name: description
+    description: A description of the term
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    alias: description
+    owner: SubjectTerm
+    domain_of:
+    - SubjectTerm
+    range: string
+  unsatisfiable:
+    name: unsatisfiable
+    description: If true then some combination of taxon constraints plus ontology
+      lead to contradictions
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    alias: unsatisfiable
+    owner: SubjectTerm
+    domain_of:
+    - SubjectTerm
+    range: boolean
+  only_in:
+    name: only_in
+    description: 'The term AND its descendants MUST be in the specified taxon, or
+      a descendant of that taxon
+
+      '
+    comments:
+    - Note that we conflate between the RO "only in taxon" and "in taxon" relations
+      here
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: RO:0002160
+    multivalued: true
+    alias: only_in
+    owner: SubjectTerm
+    domain_of:
+    - SubjectTerm
+    range: TaxonConstraint
+  never_in:
+    name: never_in
+    description: 'The term AND its descendants MUST NOT be in the specified taxon,
+      or a descendant of that taxon
+
+      '
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: RO:0002161
+    multivalued: true
+    alias: never_in
+    owner: SubjectTerm
+    domain_of:
+    - SubjectTerm
+    range: TaxonConstraint
+  present_in:
+    name: present_in
+    description: 'The term MAY be in the specified taxon, or a descendant of that
+      taxon
+
+      '
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: RO:0002175
+    multivalued: true
+    alias: present_in
+    owner: SubjectTerm
+    domain_of:
+    - SubjectTerm
+    range: TaxonConstraint
+  present_in_ancestor_of:
+    name: present_in_ancestor_of
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    multivalued: true
+    alias: present_in_ancestor_of
+    owner: SubjectTerm
+    domain_of:
+    - SubjectTerm
+    range: TaxonConstraint
+  id:
+    name: id
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    identifier: true
+    alias: id
+    owner: SubjectTerm
+    domain_of:
+    - Term
+    range: uriorcurie
+  label:
+    name: label
+    from_schema: https://w3id.org/linkml/taxon_constraints
+    rank: 1000
+    slot_uri: rdfs:label
+    alias: label
+    owner: SubjectTerm
+    domain_of:
+    - Term
+    range: string
+
+```
+</details>

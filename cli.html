@@ -2543,11 +2543,20 @@ a single line, with the name of the input ontology</p>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’ ‘thylakoid’ –target cytoplasm ‘thylakoid membrane’</p>
 </div></blockquote>
 <p>This shows all shortest paths between 4 combinations of starts and ends</p>
+<p>You can also use “&#64;” to separate start node list and end node list. Like most OAK commands,
+you can pass either explicit terms, or term queries. For example, if you have two files of IDs,
+then you can do this:</p>
+<blockquote>
+<div><p>runoak -i sqlite:obo:go paths  -p i,p .idfile START_NODES.txt &#64; .idfile END_NODES.txt</p>
+</div></blockquote>
+<p>You can also pass in weights for each predicate, used when calculating shortest paths.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i sqlite:obo:go paths  -p i,p ‘nuclear membrane’ –target cytoplasm                 –predicate-weights “{i: 0.0001, p: 999}”</p>
 </div></blockquote>
 <p>This shows all shortest paths after weighting relations</p>
+<p>(Note: you can use the same shorthands as in the <cite>–predicates</cite> option)</p>
+<p>This command can be combined with others to visualize the paths.</p>
 <p>Example:</p>
 <blockquote>
 <div><p>alias go=”runoak -i sqlite:obo:go”
@@ -2871,6 +2880,12 @@ oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 <dt class="sig sig-object std" id="cmdoption-runoak-roots-P">
 <span id="cmdoption-runoak-roots-has-prefix"></span><span class="sig-name descname"><span class="pre">-P</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--has-prefix</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;has_prefix&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-roots-P" title="Permalink to this definition"></a></dt>
 <dd><p>filter based on a prefix, e.g. OBI</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-roots-O">
+<span id="cmdoption-runoak-roots-output-type"></span><span class="sig-name descname"><span class="pre">-O</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output-type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_type&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-roots-O" title="Permalink to this definition"></a></dt>
+<dd><p>Desired output type</p>
 </dd></dl>
 
 <dl class="std option">
@@ -3470,8 +3485,11 @@ see <a class="reference external" href="https://github.com/INCATools/kgcl">https
 <section id="runoak-taxon-constraints">
 <h4>taxon-constraints<a class="headerlink" href="#runoak-taxon-constraints" title="Permalink to this headline"></a></h4>
 <blockquote>
-<div><p>Compute all taxon constraints for a term or terms</p>
-<p>Note that this <em>computes</em> the taxon constraints rather than doing a lookup</p>
+<div><p>Compute all taxon constraints for a term or terms.</p>
+<p>This will apply rules using the inferred ancestors of subject terms, as well as inferred
+ancestors/descendants of taxon terms.</p>
+<p>The input ontology MUST include both the taxon constraint relationships AND the relevant portion
+of NCBI Taxonomy</p>
 <p>Example:</p>
 <blockquote>
 <div><p>runoak -i db/go.db taxon-constraints <a class="reference external" href="GO:0034357">GO:0034357</a> –include-redundant -p i,p</p>
