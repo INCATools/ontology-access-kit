@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-01-03T13:27:29
+# Generation date: 2023-01-13T15:47:08
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -103,6 +103,8 @@ class TextAnnotationConfiguration(YAMLRoot):
     limit: Optional[int] = None
     token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
     model: Optional[str] = None
+    alias_map: Optional[Union[bool, Bool]] = None
+    synonym_map: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -125,6 +127,12 @@ class TextAnnotationConfiguration(YAMLRoot):
 
         if self.model is not None and not isinstance(self.model, str):
             self.model = str(self.model)
+
+        if self.alias_map is not None and not isinstance(self.alias_map, Bool):
+            self.alias_map = Bool(self.alias_map)
+
+        if self.synonym_map is not None and not isinstance(self.synonym_map, Bool):
+            self.synonym_map = Bool(self.synonym_map)
 
         super().__post_init__(**kwargs)
 
@@ -393,6 +401,24 @@ slots.textAnnotationConfiguration__model = Slot(
     model_uri=ANN.textAnnotationConfiguration__model,
     domain=None,
     range=Optional[str],
+)
+
+slots.textAnnotationConfiguration__alias_map = Slot(
+    uri=ANN.alias_map,
+    name="textAnnotationConfiguration__alias_map",
+    curie=ANN.curie("alias_map"),
+    model_uri=ANN.textAnnotationConfiguration__alias_map,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
+)
+
+slots.textAnnotationConfiguration__synonym_map = Slot(
+    uri=ANN.synonym_map,
+    name="textAnnotationConfiguration__synonym_map",
+    curie=ANN.curie("synonym_map"),
+    model_uri=ANN.textAnnotationConfiguration__synonym_map,
+    domain=None,
+    range=Optional[Union[bool, Bool]],
 )
 
 slots.textAnnotationResultSet__annotations = Slot(

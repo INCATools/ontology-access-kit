@@ -57,6 +57,10 @@ classes:
         multivalued: true
       model:
         range: string
+      alias_map:
+        range: boolean
+      synonym_map:
+        range: boolean
 
   TextAnnotationResultSet:
     description: A collection of annotation results
