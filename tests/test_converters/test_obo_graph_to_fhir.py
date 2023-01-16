@@ -47,11 +47,13 @@ class OboGraphToFHIRTest(unittest.TestCase):
         else:
             gd: GraphDocument = json_loader.load(str(obograph_path), target_class=GraphDocument)
         self.converter.dump(
-            gd, outpath,
+            gd,
+            outpath,
             code_system_id=code_system_id,
             code_system_url=code_system_url,
             include_all_predicates=True,
-            native_uri_stems=native_uri_stems)
+            native_uri_stems=native_uri_stems,
+        )
         return json_loader.load(str(outpath), target_class=CodeSystem)
 
     def setUp(self):
@@ -62,14 +64,15 @@ class OboGraphToFHIRTest(unittest.TestCase):
 
     def test_convert_go_nucleus(self):
         """General test & specifis for go nucleus."""
-        _id = "CodeSystem-go-nucleus"
+        filename = "CodeSystem-go-nucleus"
         ont = INPUT_DIR / "go-nucleus.json"
-        out = OUTPUT_DIR / f"{_id}.json"
+        out = OUTPUT_DIR / f"{filename}.json"
         cs: CodeSystem = self._load_and_convert(
-            out, ont,
-            code_system_id=_id,
-            code_system_url='http://purl.obolibrary.org/obo/go.owl',
-            native_uri_stems=["http://purl.obolibrary.org/obo/GO_"]
+            out,
+            ont,
+            code_system_id=filename.replace("CodeSystem-", ""),
+            code_system_url="http://purl.obolibrary.org/obo/go.owl",
+            native_uri_stems=["http://purl.obolibrary.org/obo/GO_"],
         )
         self.assertEqual("CodeSystem", cs.resourceType)
         [nucleus_concept] = [c for c in cs.concept if c.code == NUCLEUS]
@@ -82,19 +85,20 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def test_convert_mondo(self):
         """Tests specific to Mondo."""
         if DOWNLOAD_TESTS_ON:
-            _id = "CodeSystem-Mondo"
+            filename = "CodeSystem-mondo"
             dl_url = (
                 "https://github.com/"
-                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-09/mondo.owl.obographs.json"
+                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-13/mondo.owl.obographs.json"
             )
             dl_path = OUTPUT_DIR / "mondo.owl.obographs.json"
-            out = OUTPUT_DIR / f"{_id}.json"
+            out = OUTPUT_DIR / f"{filename}.json"
             cs: CodeSystem = self._load_and_convert(
-                out, dl_path,
+                out,
+                dl_path,
                 dl_url=dl_url,
-                code_system_id=_id,
-                code_system_url='http://purl.obolibrary.org/obo/mondo.owl',
-                native_uri_stems=["http://purl.obolibrary.org/obo/MONDO_"]
+                code_system_id=filename.replace("CodeSystem-", ""),
+                code_system_url="http://purl.obolibrary.org/obo/mondo.owl",
+                native_uri_stems=["http://purl.obolibrary.org/obo/MONDO_"],
             )
             self.assertGreater(len(cs.concept), 40000)
             prop_uris: List[str] = [p.uri for p in cs.property]
@@ -103,19 +107,20 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def test_convert_hpo(self):
         """Tests specific to HPO."""
         if DOWNLOAD_TESTS_ON:
-            _id = "CodeSystem-HPO"
+            filename = "CodeSystem-HPO"
             dl_url = (
                 "https://github.com/"
-                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-09/hpo.owl.obographs.json"
+                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-13/hpo.owl.obographs.json"
             )
             dl_path = OUTPUT_DIR / "hpo.owl.obographs.json"
-            out = OUTPUT_DIR / f"{_id}.json"
+            out = OUTPUT_DIR / f"{filename}.json"
             cs: CodeSystem = self._load_and_convert(
-                out, dl_path,
+                out,
+                dl_path,
                 dl_url=dl_url,
-                code_system_id=_id,
-                code_system_url='http://purl.obolibrary.org/obo/hp.owl',
-                native_uri_stems=["http://purl.obolibrary.org/obo/HP_"]
+                code_system_id=filename.replace("CodeSystem-", ""),
+                code_system_url="http://purl.obolibrary.org/obo/hp.owl",
+                native_uri_stems=["http://purl.obolibrary.org/obo/HP_"],
             )
             self.assertGreater(len(cs.concept), 30000)
             prop_uris: List[str] = [p.uri for p in cs.property]
@@ -124,20 +129,21 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def test_convert_comploinc(self):
         """Tests specific to CompLOINC."""
         if DOWNLOAD_TESTS_ON:
-            _id = "CodeSystem-CompLOINC"
+            filename = "CodeSystem-comp-loinc"
             dl_url = (
                 "https://github.com/"
-                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-09/comploinc.owl.obographs.json"
+                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-13/comploinc.owl.obographs.json"
             )
             dl_path = OUTPUT_DIR / "comploinc.owl.obographs.json"
-            out = OUTPUT_DIR / f"{_id}.json"
+            out = OUTPUT_DIR / f"{filename}.json"
             cs: CodeSystem = self._load_and_convert(
-                out, dl_path,
+                out,
+                dl_path,
                 dl_url=dl_url,
-                code_system_id=_id,
-                code_system_url='https://github.com/'
-                                'loinc/comp-loinc/releases/latest/download/merged_reasoned_loinc.owl',
-                native_uri_stems=["https://loinc.org/"]
+                code_system_id=filename.replace("CodeSystem-", ""),
+                code_system_url="https://github.com/"
+                "loinc/comp-loinc/releases/latest/download/merged_reasoned_loinc.owl",
+                native_uri_stems=["https://loinc.org/"],
             )
             self.assertGreater(len(cs.concept), 5000)
             prop_uris: List[str] = [p.uri for p in cs.property]
@@ -146,21 +152,21 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def test_convert_rxnorm(self):
         """Tests specific to Bioportal RXNORM.ttl."""
         if DOWNLOAD_TESTS_ON:
-            _id = "CodeSystem-RXNORM"
+            filename = "CodeSystem-rxnorm"
             dl_url = (
                 "https://github.com/"
-                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-09/RXNORM-fixed.ttl.obographs.json"
+                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-13/RXNORM-fixed.ttl.obographs.json"
             )
             dl_path = OUTPUT_DIR / "RXNORM-fixed.ttl.obographs.json"
-            out = OUTPUT_DIR / f"{_id}.json"
-            cs: CodeSystem = \
-                self._load_and_convert(
-                    out, dl_path,
-                    dl_url=dl_url,
-                    code_system_id=_id,
-                    code_system_url='http://purl.bioontology.org/ontology/RXNORM',
-                    native_uri_stems=["http://purl.bioontology.org/ontology/RXNORM/"]
-                )
+            out = OUTPUT_DIR / f"{filename}.json"
+            cs: CodeSystem = self._load_and_convert(
+                out,
+                dl_path,
+                dl_url=dl_url,
+                code_system_id=filename.replace("CodeSystem-", ""),
+                code_system_url="http://purl.bioontology.org/ontology/RXNORM",
+                native_uri_stems=["http://purl.bioontology.org/ontology/RXNORM/"],
+            )
             # TODO: choose a better threshold
             self.assertGreater(len(cs.concept), 100)
             # TODO: choose a property to assert
@@ -170,20 +176,21 @@ class OboGraphToFHIRTest(unittest.TestCase):
     def test_convert_so(self):
         """Tests specific to Sequence Ontology (SO)."""
         if DOWNLOAD_TESTS_ON:
-            _id = "CodeSystem-so"
+            filename = "CodeSystem-sequence-ontology"
             dl_url = (
                 "https://github.com/"
-                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-09/so.owl.obographs.json"
+                "HOT-Ecosystem/owl-on-fhir-content/releases/download/2023-01-13/so.owl.obographs.json"
             )
             dl_path = OUTPUT_DIR / "so.owl.obographs.json"
-            out = OUTPUT_DIR / f"{_id}.json"
-            cs: CodeSystem = \
-                self._load_and_convert(
-                    out, dl_path,
-                    dl_url=dl_url,
-                    code_system_id=_id,
-                    code_system_url='http://purl.obolibrary.org/obo/so.owl',
-                    native_uri_stems=["http://purl.obolibrary.org/obo/SO_"])
+            out = OUTPUT_DIR / f"{filename}.json"
+            cs: CodeSystem = self._load_and_convert(
+                out,
+                dl_path,
+                dl_url=dl_url,
+                code_system_id=filename.replace("CodeSystem-", ""),
+                code_system_url="http://purl.obolibrary.org/obo/so.owl",
+                native_uri_stems=["http://purl.obolibrary.org/obo/SO_"],
+            )
             # TODO: choose a better threshold
             self.assertGreater(len(cs.concept), 100)
             # TODO: choose a property to assert

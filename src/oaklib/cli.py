@@ -2290,31 +2290,31 @@ def descendants(
     "--code-system-id",
     default=False,
     help="For `fhirjson` only. The code system ID to use for identification on the server uploaded to. "
-         "See: https://hl7.org/fhir/resource-definitions.html#Resource.id",
+    "See: https://hl7.org/fhir/resource-definitions.html#Resource.id",
 )
 @click.option(
     "--code-system-url",
     default=False,
     help="For `fhirjson` only. Canonical URL for the code system. "
-         "See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url",
+    "See: https://hl7.org/fhir/codesystem-definitions.html#CodeSystem.url",
 )
 @click.option(
     "--use-curies-native-concepts/--no-use-curies-native-concepts",
     default=False,
-    help="For `fhirjson` only. FHIR conventionally uses codes for references to concepts that are native to a given CodeSystem. "
-    "With this option, references will be CURIEs instead.",
+    help="For `fhirjson` only. FHIR conventionally uses codes for references to concepts that are native to a given "
+    "CodeSystem. With this option, references will be CURIEs instead.",
 )
 @click.option(
     "--use-curies-foreign-concepts/--no-use-curies-foreign-concepts",
     default=False,
-    help="For `fhirjson` only. Typical FHIR CodeSystems do not contain any concepts that are not native to that CodeSystem. In "
-    "cases where they do appear, this converter defaults to URIs for references, unless this flag is present, in "
-    "which case the converter will attempt to construct CURIEs.",
+    help="For `fhirjson` only. Typical FHIR CodeSystems do not contain any concepts that are not native to that "
+    "CodeSystem. In cases where they do appear, this converter defaults to URIs for references, unless this flag is "
+    "present, in which case the converter will attempt to construct CURIEs.",
 )
 @click.option(
     "--native-uri-stems",
-    help="For `fhirjson` only. A comma-separated list of URI stems that will be used to determine whether a concept is native to "
-    "the CodeSystem. For example, for OMIM, the following URI stems are native: "
+    help="For `fhirjson` only. A comma-separated list of URI stems that will be used to determine whether a concept is "
+    "native to the CodeSystem. For example, for OMIM, the following URI stems are native: "
     "https://omim.org/entry/,https://omim.org/phenotypicSeries/PS",
 )
 @click.option(

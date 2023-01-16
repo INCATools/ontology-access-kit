@@ -6,7 +6,7 @@ Resources
 """
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 import rdflib
 from linkml_runtime.dumpers import json_dumper
@@ -27,7 +27,7 @@ from oaklib.datamodels.vocabulary import (
     HAS_NARROW_SYNONYM,
     HAS_RELATED_SYNONYM,
 )
-from oaklib.types import CURIE
+from oaklib.types import CURIE, URI
 from oaklib.utilities.obograph_utils import index_graph_edges_by_subject
 
 TRIPLE = Tuple[rdflib.URIRef, rdflib.URIRef, Any]
@@ -103,7 +103,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         include_all_predicates: bool = True,
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
-        use_curies_foreign_concepts: bool = False,
+        use_curies_foreign_concepts: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -143,7 +143,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         include_all_predicates: bool = True,
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
-        use_curies_foreign_concepts: bool = False,
+        use_curies_foreign_concepts: bool = True,
         **kwargs,
     ) -> CodeSystem:
         """
@@ -190,7 +190,7 @@ class OboGraphToFHIRConverter(DataModelConverter):
         include_all_predicates: bool = True,
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
-        use_curies_foreign_concepts: bool = False,
+        use_curies_foreign_concepts: bool = True,
     ) -> CodeSystem:
         target.id = source.id
         edges_by_subject = index_graph_edges_by_subject(source)
@@ -223,12 +223,12 @@ class OboGraphToFHIRConverter(DataModelConverter):
     def _convert_node(
         self,
         source: Node,
-        index: Dict[CURIE, List[Edge]],
+        index: Dict[Union[URI, CURIE], List[Edge]],
         target: CodeSystem,
         include_all_predicates: bool = True,
         native_uri_stems: List[str] = None,
         use_curies_native_concepts: bool = False,
-        use_curies_foreign_concepts: bool = False,
+        use_curies_foreign_concepts: bool = True,
     ) -> Concept:
         """Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property."""
         # TODO: Use new flags
