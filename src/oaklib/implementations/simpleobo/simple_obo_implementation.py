@@ -532,7 +532,7 @@ class SimpleOboImplementation(
         return type(self)(resource)
 
     def dump(self, path: Union[str, TextIO] = None, syntax: str = "obo", **kwargs):
-        if syntax == "obo":
+        if syntax is None or syntax == "obo":
             if isinstance(path, str) or isinstance(path, Path):
                 logging.info(f"Saving to {path}")
                 with open(path, "w", encoding="UTF-8") as file:
@@ -640,6 +640,7 @@ class SimpleOboImplementation(
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> kgcl.Change:
         od = self.obo_document
         tidy_change_object(patch)

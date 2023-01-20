@@ -39,7 +39,7 @@ import sssom.writers as sssom_writers
 import sssom_schema
 import yaml
 from kgcl_schema.datamodel import kgcl
-from linkml_runtime.dumpers import json_dumper, yaml_dumper
+from linkml_runtime.dumpers import yaml_dumper
 from linkml_runtime.utils.introspection import package_schemaview
 from prefixmaps.io.parser import load_multi_context
 from sssom.parsers import parse_sssom_table, to_mapping_set_document
@@ -127,7 +127,11 @@ from oaklib.utilities import table_filler
 from oaklib.utilities.apikey_manager import set_apikey_value
 from oaklib.utilities.associations.association_differ import AssociationDiffer
 from oaklib.utilities.iterator_utils import chunk
-from oaklib.utilities.kgcl_utilities import generate_change_id, parse_kgcl_files
+from oaklib.utilities.kgcl_utilities import (
+    generate_change_id,
+    parse_kgcl_files,
+    write_kgcl,
+)
 from oaklib.utilities.lexical.lexical_indexer import (
     DEFAULT_QUALIFIER,
     add_labels_from_uris,
@@ -4091,13 +4095,20 @@ def diff(
 
 @main.command()
 @click.option("--output", "-o")
+@click.option("--changes-output", help="output file for KGCL changes")
 @click.option("--changes-input", type=click.File(mode="r"), help="Path to an input changes file")
 @click.option("--changes-format", help="Format of the changes file (json or kgcl)")
 @click.option(
-    "--parse-only/--no-parse-only",
+    "--dry-run/--no-dry-run",
     default=False,
     show_default=True,
     help="if true, only perform the parse of KCGL and do not apply",
+)
+@click.option(
+    "--expand/--no-expand",
+    default=True,
+    show_default=True,
+    help="if true, expand complex changes to atomic changes",
 )
 @output_type_option
 @overwrite_option
@@ -4108,7 +4119,9 @@ def apply(
     output_type,
     changes_input: TextIO,
     changes_format,
-    parse_only: bool,
+    changes_output,
+    dry_run: bool,
+    expand: bool,
     overwrite: bool,
 ):
     """
@@ -4137,6 +4150,7 @@ def apply(
     - only a subset of KGCL commands are supported by each backend
     """
     impl = settings.impl
+    configuration = kgcl.Configuration()
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
         changes = []
@@ -4151,10 +4165,15 @@ def apply(
                 logging.info(f"parsed {command} == {change}")
                 changes.append(change)
         changes += list(parse_kgcl_files(files, changes_format))
+        if expand:
+            changes = impl.expand_changes(changes, configuration=configuration)
+        if dry_run or changes_output:
+            write_kgcl(changes, changes_output, changes_format)
         for change in changes:
             logging.info(f"Change: {change}")
-            if parse_only:
-                print(json_dumper.dumps(change))
+            if dry_run:
+                # print(json_dumper.dumps(change))
+                logging.info(" (skipping)")
             else:
                 impl.apply_patch(change)
         if not settings.autosave and not overwrite and not output:
