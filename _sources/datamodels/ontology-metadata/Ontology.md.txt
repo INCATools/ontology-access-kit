@@ -51,8 +51,8 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [creator](creator.md) | 0..* <br/> [HomoSapiens](HomoSapiens.md) |  | direct |
 | [created](created.md) | 0..1 <br/> NONE | when the term came into being | direct |
 | [imports](imports.md) | 0..1 <br/> NONE |  | direct |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
 | [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
 
 
 
