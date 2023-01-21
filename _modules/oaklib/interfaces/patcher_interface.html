@@ -81,19 +81,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for oaklib.interfaces.patcher_interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">kgcl_schema.datamodel.kgcl</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Activity</span><span class="p">,</span>
     <span class="n">Change</span><span class="p">,</span>
+    <span class="n">Configuration</span><span class="p">,</span>
+    <span class="n">EdgeCreation</span><span class="p">,</span>
+    <span class="n">EdgeDeletion</span><span class="p">,</span>
     <span class="n">NameBecomesSynonym</span><span class="p">,</span>
     <span class="n">NewSynonym</span><span class="p">,</span>
+    <span class="n">NodeObsoletion</span><span class="p">,</span>
     <span class="n">NodeRename</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.vocabulary</span> <span class="kn">import</span> <span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span>
+<span class="kn">from</span> <span class="nn">oaklib.utilities.kgcl_utilities</span> <span class="kn">import</span> <span class="n">generate_change_id</span>
 
 
 <div class="viewcode-block" id="PatcherInterface"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">[docs]</a><span class="k">class</span> <span class="nc">PatcherInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -109,7 +116,11 @@
 <span class="sd">       If this is set then the recommended value is dct:contributor&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="PatcherInterface.apply_patch"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.apply_patch">[docs]</a>    <span class="k">def</span> <span class="nf">apply_patch</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span> <span class="n">activity</span><span class="p">:</span> <span class="n">Activity</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">patch</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span>
+        <span class="n">activity</span><span class="p">:</span> <span class="n">Activity</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies a change description</span>
@@ -117,6 +128,7 @@
 <span class="sd">        :param patch: TBD use KGCL</span>
 <span class="sd">        :param activity:</span>
 <span class="sd">        :param metadata:</span>
+<span class="sd">        :param configuration:</span>
 <span class="sd">        :return: if successful, return copy of change object with additional metadata attached</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -137,14 +149,34 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="PatcherInterface.expand_change"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">[docs]</a>    <span class="k">def</span> <span class="nf">expand_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">:</span> <span class="n">Change</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+<div class="viewcode-block" id="PatcherInterface.expand_changes"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_changes">[docs]</a>    <span class="k">def</span> <span class="nf">expand_changes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">],</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Expand a change object to a list of atomic changes.</span>
+<span class="sd">        Expand a list of complex change objects to a list of atomic changes.</span>
 
-<span class="sd">        :param change:</span>
+<span class="sd">        :param changes:</span>
+<span class="sd">        :param configuration:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">changes</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">expand_change</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="PatcherInterface.expand_change"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">[docs]</a>    <span class="k">def</span> <span class="nf">expand_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Expand a complex change object to a list of atomic changes.</span>
+
+<span class="sd">        Examples:</span>
+
+<span class="sd">        - An obsoletion command may also generate a label change and removal or rewiring of edges</span>
+<span class="sd">        - A NameBecomesSynonym may generate a NewSynonym and a NodeRename</span>
+
+<span class="sd">        :param change:</span>
+<span class="sd">        :param configuration:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">changes</span> <span class="o">=</span> <span class="p">[</span><span class="n">change</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">NameBecomesSynonym</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expanding </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">change</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">change_1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">change</span><span class="o">.</span><span class="n">change_1</span> <span class="o">=</span> <span class="n">NodeRename</span><span class="p">(</span>
                     <span class="n">about_node</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span>
@@ -153,9 +185,51 @@
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">change</span><span class="o">.</span><span class="n">change_2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">current_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">)</span>
-                <span class="n">change</span><span class="o">.</span><span class="n">change_2</span> <span class="o">=</span> <span class="n">NewSynonym</span><span class="p">(</span><span class="n">about_node</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">current_label</span><span class="p">)</span>
+                <span class="n">change</span><span class="o">.</span><span class="n">change_2</span> <span class="o">=</span> <span class="n">NewSynonym</span><span class="p">(</span>
+                    <span class="n">generate_change_id</span><span class="p">(),</span> <span class="n">about_node</span><span class="o">=</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">new_value</span><span class="o">=</span><span class="n">current_label</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">change</span><span class="o">.</span><span class="n">change_1</span><span class="p">,</span> <span class="n">change</span><span class="o">.</span><span class="n">change_2</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">change</span><span class="p">]</span></div></div>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">NodeObsoletion</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expanding </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">change</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">about_node</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">about_node</span>
+            <span class="n">changes</span> <span class="o">=</span> <span class="p">[</span><span class="n">change</span><span class="p">]</span>
+            <span class="n">old_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">about_node</span><span class="p">)</span>
+            <span class="n">obsolete_node_label_prefix</span> <span class="o">=</span> <span class="s2">&quot;obsolete &quot;</span>
+            <span class="c1"># TODO: do this with new version of kgcl</span>
+            <span class="c1"># if configuration and configuration.obsolete_node_label_prefix is not None:</span>
+            <span class="c1">#     obsolete_node_label_prefix = configuration.obsolete_node_label_prefix</span>
+            <span class="n">new_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obsolete_node_label_prefix</span><span class="si">}{</span><span class="n">old_label</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">NodeRename</span><span class="p">(</span>
+                    <span class="n">generate_change_id</span><span class="p">(),</span>
+                    <span class="n">about_node</span><span class="o">=</span><span class="n">about_node</span><span class="p">,</span>
+                    <span class="n">old_value</span><span class="o">=</span><span class="n">old_label</span><span class="p">,</span>
+                    <span class="n">new_value</span><span class="o">=</span><span class="n">new_label</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">parent_relationships</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">([</span><span class="n">about_node</span><span class="p">]))</span>
+            <span class="n">child_relationships</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relationships</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">about_node</span><span class="p">]))</span>
+            <span class="c1"># TODO: set this based on configuration</span>
+            <span class="n">rewire</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">rewire</span><span class="p">:</span>
+                <span class="n">rewire_predicates</span> <span class="o">=</span> <span class="p">[</span><span class="n">IS_A</span><span class="p">,</span> <span class="n">PART_OF</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">rewire_predicates</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">child_relationships</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">p1</span> <span class="o">==</span> <span class="n">pred</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">parent_relationships</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">p2</span> <span class="o">==</span> <span class="n">pred</span><span class="p">:</span>
+                                    <span class="n">ch</span> <span class="o">=</span> <span class="n">EdgeCreation</span><span class="p">(</span>
+                                        <span class="n">generate_change_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">o</span>
+                                    <span class="p">)</span>
+                                    <span class="n">changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+                                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rewiring </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">about_node</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">o</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># TODO: set this based on configuration</span>
+            <span class="n">remove_edges</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">remove_edges</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">child_relationships</span> <span class="o">+</span> <span class="n">parent_relationships</span><span class="p">:</span>
+                    <span class="n">ch</span> <span class="o">=</span> <span class="n">EdgeDeletion</span><span class="p">(</span><span class="n">generate_change_id</span><span class="p">(),</span> <span class="n">subject</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="nb">object</span><span class="o">=</span><span class="n">o</span><span class="p">)</span>
+                    <span class="n">changes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">changes</span></div></div>
 </pre></div>
 
            </div>
