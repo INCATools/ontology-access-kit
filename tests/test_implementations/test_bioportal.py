@@ -50,7 +50,7 @@ class TestBioportal(unittest.TestCase):
         for m in mappings:
             logging.info(yaml_dumper.dumps(m))
         assert any(
-            m for m in mappings if m.object_id == "http://purl.obolibrary.org/obo/NCIT_C73791"
+            m for m in mappings if m.object_id == "http://purl.obolibrary.org/obo/NCIT_C40186"
         )
 
         # FMA:24879 cannot be converted to the IRI recognized by BioPortal automatically,

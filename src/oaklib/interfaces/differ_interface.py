@@ -15,6 +15,7 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE, PRED_CURIE
+from oaklib.utilities.kgcl_utilities import generate_change_id
 
 TERM_LIST_DIFF = Tuple[CURIE, CURIE]
 RESIDUAL_KEY = "__RESIDUAL__"
@@ -29,7 +30,7 @@ class DiffConfiguration:
 
 
 def _gen_id():
-    return "_:"
+    return generate_change_id()
 
 
 class DifferInterface(BasicOntologyInterface, ABC):
@@ -63,7 +64,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
         if configuration is None:
             configuration = DiffConfiguration()
         other_ontology_entities = set(list(other_ontology.entities(filter_obsoletes=False)))
-        for e1 in self.entities(filter_obsoletes=False):
+        self_entities = set(list(self.entities(filter_obsoletes=False)))
+        logging.info(f"Comparing {len(self_entities)} terms in this ontology")
+        for e1 in self_entities:
             # e1_types = self.owl_type(e1)
             # is_class = OWL_CLASS in e1_types
             logging.debug(f"Comparing e1 {e1}")
@@ -139,8 +142,10 @@ class DifferInterface(BasicOntologyInterface, ABC):
                 pred, filler = rel
                 edge = kgcl.Edge(subject=e1, predicate=pred, object=filler)
                 yield kgcl.NodeMove(id=_gen_id(), about_edge=edge, old_value=pred)
-        for e2 in other_ontology.entities():
-            if e2 not in self.entities():
+        logging.info(f"Comparing {len(other_ontology_entities)} terms in other ontology")
+        for e2 in other_ontology_entities:
+            logging.debug(f"Comparing e2 {e2}")
+            if e2 not in self_entities:
                 e2_types = other_ontology.owl_type(e2)
                 is_class = OWL_CLASS in e2_types
                 if is_class:

@@ -850,6 +850,7 @@ class AbstractSparqlImplementation(RdfInterface, DumperInterface, ABC):
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: typing.Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> Optional[kgcl.Change]:
         if self.graph:
             logging.info(f"Applying: {patch} to {self.graph}")

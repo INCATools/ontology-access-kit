@@ -147,6 +147,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> Optional[kgcl.Change]:
         if isinstance(patch, kgcl.NodeChange):
             about = patch.about_node

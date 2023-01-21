@@ -434,5 +434,6 @@ class OboGraphImplementation(
         patch: kgcl.Change,
         activity: kgcl.Activity = None,
         metadata: Mapping[PRED_CURIE, Any] = None,
+        configuration: kgcl.Configuration = None,
     ) -> kgcl.Change:
         raise NotImplementedError

@@ -1,13 +1,16 @@
 import base64
 import json
 import re
+import sys
 import uuid
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Iterator, List, TextIO, Union
+from typing import Iterator, List, Optional, TextIO, Union
 
 import kgcl_schema.datamodel.kgcl as kgcl
 import kgcl_schema.grammar.parser as kgcl_parser
+from kgcl_schema.grammar.render_operations import render
+from linkml_runtime.dumpers import json_dumper, yaml_dumper
 
 from oaklib.datamodels.vocabulary import IS_A
 from oaklib.types import CURIE
@@ -67,6 +70,30 @@ def parse_kgcl_files(
     for change in changes:
         # tidy_change_object(change)
         yield change
+
+
+def write_kgcl(
+    changes: List[kgcl.Change], file: Optional[Union[str, Path, TextIO]], changes_format="json"
+):
+    """
+    Writes a list of changes to a file
+
+    :param changes:
+    :param file:
+    :param changes_format:
+    :return:
+    """
+    if file is None:
+        file = sys.stdout
+    elif not isinstance(file, TextIOWrapper):
+        file = open(str(file), "w")
+    if changes_format == "json":
+        out = json_dumper.dumps(changes)
+    elif changes_format == "yaml":
+        out = yaml_dumper.dumps(changes)
+    else:
+        out = "\n".join([render(c) for c in changes])
+    file.write(out)
 
 
 def tidy_change_object(change: kgcl.Change):
