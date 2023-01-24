@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-01-13T15:47:08
+# Generation date: 2023-01-24T13:16:45
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -256,6 +256,8 @@ class TextAnnotation(YAMLRoot):
     matches_whole_text: Optional[Union[bool, Bool]] = None
     match_type: Optional[str] = None
     info: Optional[str] = None
+    aliases: Optional[str] = None
+    synonyms: Optional[str] = None
     subject_start: Optional[Union[int, Position]] = None
     subject_end: Optional[Union[int, Position]] = None
     subject_label: Optional[str] = None
@@ -292,6 +294,12 @@ class TextAnnotation(YAMLRoot):
 
         if self.info is not None and not isinstance(self.info, str):
             self.info = str(self.info)
+
+        if self.aliases is not None and not isinstance(self.aliases, str):
+            self.aliases = str(self.aliases)
+
+        if self.synonyms is not None and not isinstance(self.synonyms, str):
+            self.synonyms = str(self.synonyms)
 
         if self.subject_start is not None and not isinstance(self.subject_start, Position):
             self.subject_start = Position(self.subject_start)
@@ -597,6 +605,24 @@ slots.textAnnotation__info = Slot(
     name="textAnnotation__info",
     curie=ANN.curie("info"),
     model_uri=ANN.textAnnotation__info,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.textAnnotation__aliases = Slot(
+    uri=ANN.aliases,
+    name="textAnnotation__aliases",
+    curie=ANN.curie("aliases"),
+    model_uri=ANN.textAnnotation__aliases,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.textAnnotation__synonyms = Slot(
+    uri=ANN.synonyms,
+    name="textAnnotation__synonyms",
+    curie=ANN.curie("synonyms"),
+    model_uri=ANN.textAnnotation__synonyms,
     domain=None,
     range=Optional[str],
 )

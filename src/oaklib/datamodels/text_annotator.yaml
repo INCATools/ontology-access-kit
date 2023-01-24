@@ -134,6 +134,8 @@ classes:
         range: boolean
       match_type:
       info:
+      aliases:
+      synonyms:
 
 enums:
   TransformationType:
