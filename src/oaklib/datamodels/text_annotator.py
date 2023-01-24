@@ -1,5 +1,5 @@
 # Auto generated from text_annotator.yaml by pythongen.py version: 0.9.0
-# Generation date: 2023-01-24T13:16:45
+# Generation date: 2023-01-24T17:05:32
 # Schema: text-annotator
 #
 # id: https://w3id.org/linkml/text_annotator
@@ -103,8 +103,7 @@ class TextAnnotationConfiguration(YAMLRoot):
     limit: Optional[int] = None
     token_exclusion_list: Optional[Union[str, List[str]]] = empty_list()
     model: Optional[str] = None
-    alias_map: Optional[Union[bool, Bool]] = None
-    synonym_map: Optional[Union[bool, Bool]] = None
+    include_aliases: Optional[Union[bool, Bool]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.matches_whole_text is not None and not isinstance(self.matches_whole_text, Bool):
@@ -128,11 +127,8 @@ class TextAnnotationConfiguration(YAMLRoot):
         if self.model is not None and not isinstance(self.model, str):
             self.model = str(self.model)
 
-        if self.alias_map is not None and not isinstance(self.alias_map, Bool):
-            self.alias_map = Bool(self.alias_map)
-
-        if self.synonym_map is not None and not isinstance(self.synonym_map, Bool):
-            self.synonym_map = Bool(self.synonym_map)
+        if self.include_aliases is not None and not isinstance(self.include_aliases, Bool):
+            self.include_aliases = Bool(self.include_aliases)
 
         super().__post_init__(**kwargs)
 
@@ -256,8 +252,7 @@ class TextAnnotation(YAMLRoot):
     matches_whole_text: Optional[Union[bool, Bool]] = None
     match_type: Optional[str] = None
     info: Optional[str] = None
-    aliases: Optional[str] = None
-    synonyms: Optional[str] = None
+    object_aliases: Optional[Union[str, List[str]]] = empty_list()
     subject_start: Optional[Union[int, Position]] = None
     subject_end: Optional[Union[int, Position]] = None
     subject_label: Optional[str] = None
@@ -295,11 +290,9 @@ class TextAnnotation(YAMLRoot):
         if self.info is not None and not isinstance(self.info, str):
             self.info = str(self.info)
 
-        if self.aliases is not None and not isinstance(self.aliases, str):
-            self.aliases = str(self.aliases)
-
-        if self.synonyms is not None and not isinstance(self.synonyms, str):
-            self.synonyms = str(self.synonyms)
+        if not isinstance(self.object_aliases, list):
+            self.object_aliases = [self.object_aliases] if self.object_aliases is not None else []
+        self.object_aliases = [v if isinstance(v, str) else str(v) for v in self.object_aliases]
 
         if self.subject_start is not None and not isinstance(self.subject_start, Position):
             self.subject_start = Position(self.subject_start)
@@ -411,20 +404,11 @@ slots.textAnnotationConfiguration__model = Slot(
     range=Optional[str],
 )
 
-slots.textAnnotationConfiguration__alias_map = Slot(
-    uri=ANN.alias_map,
-    name="textAnnotationConfiguration__alias_map",
-    curie=ANN.curie("alias_map"),
-    model_uri=ANN.textAnnotationConfiguration__alias_map,
-    domain=None,
-    range=Optional[Union[bool, Bool]],
-)
-
-slots.textAnnotationConfiguration__synonym_map = Slot(
-    uri=ANN.synonym_map,
-    name="textAnnotationConfiguration__synonym_map",
-    curie=ANN.curie("synonym_map"),
-    model_uri=ANN.textAnnotationConfiguration__synonym_map,
+slots.textAnnotationConfiguration__include_aliases = Slot(
+    uri=ANN.include_aliases,
+    name="textAnnotationConfiguration__include_aliases",
+    curie=ANN.curie("include_aliases"),
+    model_uri=ANN.textAnnotationConfiguration__include_aliases,
     domain=None,
     range=Optional[Union[bool, Bool]],
 )
@@ -609,20 +593,11 @@ slots.textAnnotation__info = Slot(
     range=Optional[str],
 )
 
-slots.textAnnotation__aliases = Slot(
-    uri=ANN.aliases,
-    name="textAnnotation__aliases",
-    curie=ANN.curie("aliases"),
-    model_uri=ANN.textAnnotation__aliases,
+slots.textAnnotation__object_aliases = Slot(
+    uri=ANN.object_aliases,
+    name="textAnnotation__object_aliases",
+    curie=ANN.curie("object_aliases"),
+    model_uri=ANN.textAnnotation__object_aliases,
     domain=None,
-    range=Optional[str],
-)
-
-slots.textAnnotation__synonyms = Slot(
-    uri=ANN.synonyms,
-    name="textAnnotation__synonyms",
-    curie=ANN.curie("synonyms"),
-    model_uri=ANN.textAnnotation__synonyms,
-    domain=None,
-    range=Optional[str],
+    range=Optional[Union[str, List[str]]],
 )

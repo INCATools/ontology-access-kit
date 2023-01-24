@@ -57,9 +57,7 @@ classes:
         multivalued: true
       model:
         range: string
-      alias_map:
-        range: boolean
-      synonym_map:
+      include_aliases:
         range: boolean
 
   TextAnnotationResultSet:
@@ -134,8 +132,8 @@ classes:
         range: boolean
       match_type:
       info:
-      aliases:
-      synonyms:
+      object_aliases:
+        multivalued: true
 
 enums:
   TransformationType:

@@ -1260,16 +1260,10 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     help="if true, then only show matches that span the entire input text",
 )
 @click.option(
-    "--alias-map/--no-alias-map",
+    "--include-aliases/--no-include-aliases",
     default=False,
     show_default=True,
     help="Include alias maps in output.",
-)
-@click.option(
-    "--synonym-map/--no-synonym-map",
-    default=False,
-    show_default=True,
-    help="Include synonym maps in output.",
 )
 @click.option(
     "--text-file",
@@ -1301,8 +1295,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
-    alias_map: bool,
-    synonym_map: bool,
+    include_aliases: bool,
     exclude_tokens: str,
     text_file: TextIO,
     model: str,
@@ -1353,8 +1346,7 @@ def annotate(
             configuration.token_exclusion_list = token_exclusion_list
         if model:
             configuration.model = model
-        configuration.alias_map = alias_map
-        configuration.synonym_map = synonym_map
+        configuration.include_aliases = include_aliases
         # if plugin_config:
         #     with open(plugin_config, "r") as p:
         #         configuration.plugin_configuration = yaml.safe_load(p)
