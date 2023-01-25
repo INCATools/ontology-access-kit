@@ -119,19 +119,30 @@ class TestCommandLineInterface(unittest.TestCase):
     def test_definitions(self):
         for input_arg in [f"sqlite:{TEST_DB}"]:
             result = self.runner.invoke(main, ["-i", str(input_arg), "definitions", ".all"])
-            print(result.stdout)
-            assert "cytoplasm" in result.stdout
-            assert "IAO:0000078" in result.stdout
+            self.assertIn("cytoplasm", result.stdout, "cytoplasm should be defined in .all")
+            self.assertIn("IAO:0000078", result.stdout, "IAO:0000078 should be included in .all")
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "present-only"]
             )
-            assert "cytoplasm" in result.stdout
-            assert "IAO:0000078" not in result.stdout
+            self.assertIn(
+                "cytoplasm", result.stdout, "cytoplasm should be included with present-only query"
+            )
+            self.assertNotIn("IAO:0000078", result.stdout)
             result = self.runner.invoke(
                 main, ["-i", str(input_arg), "definitions", ".all", "--if-absent", "absent-only"]
             )
-            assert "cytoplasm" not in result.stdout
-            assert "IAO:0000078" in result.stdout
+            self.assertNotIn(
+                "cytoplasm", result.stdout, "cytoplasm should be excluded with absent-only query"
+            )
+            self.assertIn("IAO:0000078", result.stdout)
+            result = self.runner.invoke(
+                main, ["-i", str(input_arg), "definitions", "--additional-metadata", "cytoplasm"]
+            )
+            self.assertIn(
+                "ISBN:0198547684",
+                result.stdout,
+                "cytoplasm should be included in additional metadata",
+            )
 
     # OBOGRAPH
 
@@ -287,7 +298,6 @@ class TestCommandLineInterface(unittest.TestCase):
             assert NUCLEAR_ENVELOPE in out
             result = self.runner.invoke(main, ["-i", input_arg, "singletons", "-p", "i"])
             out = result.stdout
-            print(out)
             assert NUCLEAR_ENVELOPE not in out
 
     def test_tree(self):
@@ -956,8 +966,6 @@ class TestCommandLineInterface(unittest.TestCase):
                     f"{outfile}.{fmt}",
                 ],
             )
-        print(result.stderr)
-        print(result.stdout)
         self.assertEqual(0, result.exit_code)
 
     def test_statistics(self):

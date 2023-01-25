@@ -37,6 +37,7 @@ ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
 # ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
+DEFINITION = Tuple[CURIE, str, METADATA_MAP]
 
 MISSING_PREFIX_MAP = dict(
     EFO="http://www.ebi.ac.uk/efo/EFO_",
@@ -852,10 +853,29 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Lookup the text definition of an entity.
 
-        :param curie:
+        :param curie: entity identifier to be looked up
         :return:
         """
         raise NotImplementedError()
+
+    def definitions(
+        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
+    ) -> Iterator[DEFINITION]:
+        """
+        Lookup the text definition plus metadata for a list of entities.
+
+        :param curies: iterable collection of entity identifiers to be looked up
+        :param include_metadata: if true, include metadata
+        :param include_missing: if true, include curies with no definition
+        :return:
+        """
+        if include_metadata:
+            raise NotImplementedError()
+        for curie in curies:
+            defn = self.definition(curie)
+            if not defn and not include_missing:
+                continue
+            yield curie, defn, {}
 
     @deprecated("Use definition()")
     def get_definition_by_curie(self, curie: CURIE) -> Optional[str]:
@@ -867,7 +887,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
         Here, each mapping is represented as a simple tuple (predicate, object)
 
-        :param curie:
+        :param curie: entity identifier to be looked up
         :return: iterator over predicate-object tuples
         """
         raise NotImplementedError()
@@ -876,8 +896,8 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         """
         Yields simple mappings for a collection of subjects
 
-        :param curies:
-        :return:
+        :param curies: iterable collection of entity identifiers to be looked up
+        :return: iterable subject-predicate-object tuples
         """
         for s in curies:
             for p, o in self.simple_mappings_by_curie(s):

@@ -123,17 +123,27 @@ class ComplianceTester:
     test: unittest.TestCase
     """Link back to implementation-specific unit test."""
 
-    def test_definitions(self, oi: BasicOntologyInterface):
+    def test_definitions(self, oi: BasicOntologyInterface, include_metadata=False):
         """
         Tests text definition lookup.
 
         :param oi:
+        :param include_metadata:
         :return:
         """
         test = self.test
         tdef = oi.definition(NUCLEUS)
         test.assertTrue(tdef.startswith("A membrane-bounded organelle of eukaryotic cells"))
         test.assertIsNone(oi.definition(FAKE_ID))
+        if include_metadata:
+            tdefs = list(oi.definitions([NUCLEUS, VACUOLE], include_metadata=True))
+            test.assertEqual(2, len(tdefs))
+            [tdef_nucleus] = [tdef for tdef in tdefs if tdef[0] == NUCLEUS]
+            [tdef_vacuole] = [tdef for tdef in tdefs if tdef[0] == VACUOLE]
+            test.assertTrue(
+                tdef_nucleus[1].startswith("A membrane-bounded organelle of eukaryotic cells")
+            )
+            test.assertCountEqual(["GOC:go_curators"], tdef_nucleus[2][HAS_DBXREF])
 
     def test_owl_types(self, oi: BasicOntologyInterface, skip_oio=False):
         test = self.test

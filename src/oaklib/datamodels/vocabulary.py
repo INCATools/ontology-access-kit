@@ -100,6 +100,9 @@ HAS_DEFINITION_URI = omd.slots.definition.uri
 HAS_DEFINITION_CURIE = omd.slots.definition.curie
 SKOS_DEFINITION_CURIE = "skos:definition"
 
+DEFINITION_SOURCE = omd.slots.definition_source.curie
+ENTITY_LEVEL_DEFINITION_PREDICATES = [DEFINITION_SOURCE]
+
 OIO_CREATED_BY = "oio:created_by"
 OIO_CREATION_DATE = "oio:creation_date"
 CONTRIBUTOR = "dcterms:contributor"

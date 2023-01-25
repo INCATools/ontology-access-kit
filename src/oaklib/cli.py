@@ -316,6 +316,12 @@ dry_run_option = click.option(
 has_prefix_option = click.option(
     "--has-prefix", "-P", multiple=True, help="filter based on a prefix, e.g. OBI"
 )
+additional_metadata_option = click.option(
+    "--additional-metadata/--no-additional-metadata",
+    default=False,
+    show_default=True,
+    help="if true then fetch additional metadata about statements stored as OWL reification",
+)
 
 autolabel_option = click.option(
     "--autolabel/--no-autolabel",
@@ -1209,14 +1215,9 @@ def ontology_metadata(ontologies, output_type: str, output: str, all: bool):
 @output_option
 @output_type_option
 @predicates_option
-@click.option(
-    "--reification/--no-reification",
-    default=False,
-    show_default=True,
-    help="if true then fetch axiom triples with annotations",
-)
+@additional_metadata_option
 @click.argument("terms", nargs=-1)
-def term_metadata(terms, predicates, reification: bool, output_type: str, output: str):
+def term_metadata(terms, predicates, additional_metadata: bool, output_type: str, output: str):
     """
     Shows term metadata.
 
@@ -1237,7 +1238,7 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     writer.output = output
     if isinstance(impl, BasicOntologyInterface):
         for curie in query_terms_iterator(terms, impl):
-            if reification:
+            if additional_metadata:
                 if isinstance(impl, MetadataInterface):
                     for ax in impl.statements_with_annotations(curie):
                         writer.emit(ax)
@@ -2463,8 +2464,17 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent: boo
 @display_option
 @ontological_output_type_option
 @if_absent_option
+@additional_metadata_option
 @set_value_option
-def definitions(terms, output: TextIO, display: str, output_type: str, if_absent: bool, set_value):
+def definitions(
+    terms,
+    output: TextIO,
+    additional_metadata: bool,
+    display: str,
+    output_type: str,
+    if_absent: bool,
+    set_value,
+):
     """
     Show textual definitions for term or set of terms
 
@@ -2483,12 +2493,23 @@ def definitions(terms, output: TextIO, display: str, output_type: str, if_absent
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
     writer.display_options = display.split(",")
     writer.file = output
+    if additional_metadata:
+        writer.heterogeneous_keys = True
     changes = []
-    for curie in query_terms_iterator(terms, impl):
-        if isinstance(impl, BasicOntologyInterface):
-            defn = impl.definition(curie)
-            obj = dict(id=curie, definition=defn)
+    if not isinstance(impl, BasicOntologyInterface):
+        raise NotImplementedError(f"Cannot execute this using {impl} of type {type(impl)}")
+    all_curies = []
+    for curie_it in chunk(query_terms_iterator(terms, impl)):
+        curies = list(curie_it)
+        all_curies.extend(curies)
+        for curie, defn, metadata in impl.definitions(
+            curies, include_metadata=additional_metadata, include_missing=True
+        ):
+            if metadata is None:
+                metadata = {}
+            obj = dict(id=curie, definition=defn, **metadata)
             if set_value is not None:
+                # set the value by creating a KGCL change object for applying later
                 obj["new_value"] = set_value
                 if set_value != defn:
                     changes.append(
@@ -2501,6 +2522,7 @@ def definitions(terms, output: TextIO, display: str, output_type: str, if_absent
             if _skip_if_absent(if_absent, defn):
                 continue
             writer.emit(obj)
+    writer.finish()
     _apply_changes(impl, changes)
 
 
