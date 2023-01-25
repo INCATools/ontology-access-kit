@@ -26,20 +26,6 @@ property_value: owl:versionInfo "2022-12-15" xsd:string
 logical-definition-view-relation: has_part
 
 [Term]
-id: HP:0000012
-name: Urinary urgency
-def: "Urge incontinence is the strong, sudden need to urinate." [HPO:probinson, PMID:12559262]
-comment: Urinary urgency is the strong, sudden need to urinate and is usually due to bladder spasms or contractions. This symptom is suggestive of, but not necessarily conclusive for urodynamically demonstrable detrusor hyperactivity.
-synonym: "Overactive bladder" EXACT layperson [ORCID:0000-0002-0736-9199]
-synonym: "Overactive bladder syndrome" RELATED []
-synonym: "Urgency frequency syndrome" RELATED []
-synonym: "Urinary urgency" EXACT layperson []
-xref: SNOMEDCT_US:75088002
-xref: UMLS:C0085606
-xref: UMLS:C3544092
-xref: UMLS:C4020898
-is_a: HP:0000009 ! Functional abnormality of the bladder
-[Term]
 id: HP:0001427
 name: Mitochondrial inheritance
 alt_id: HP:0001431

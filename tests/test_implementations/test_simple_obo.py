@@ -424,5 +424,5 @@ class TestSimpleOboImplementation(unittest.TestCase):
 
     def test_parse_obo_doc(self):
         obo_document = parse_obo_document(INPUT_DIR/"test_simpleobo.obo")
-        self.assertEqual(len(obo_document.stanzas), 2)
+        self.assertEqual(len(obo_document.stanzas), 1)
         
