@@ -427,9 +427,9 @@ class TestSimpleOboImplementation(unittest.TestCase):
         resource = OntologyResource(slug="test_simpleobo.obo", directory=INPUT_DIR, local=True)
         impl = SimpleOboImplementation(resource)
         alias_list = []
-        for curie in query_terms_iterator(".all", impl):
+        for curie in query_terms_iterator(('.all',), impl):
             for pred, aliases in impl.entity_alias_map(curie).items():
                 for alias in aliases:
                     alias_list.append(dict(curie=curie, pred=pred, alias=alias))
-
-        # self.assertEqual(len(alias_list), 2)
+                    
+        self.assertEqual(len(alias_list), 3)
