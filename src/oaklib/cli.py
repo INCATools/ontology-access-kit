@@ -1333,25 +1333,20 @@ def annotate(
 
     Example (using the plugin oakx-spacy):
 
-        runoak -i spacy: annotate Myeloid derived suppressor cells. --include-aliases
+        runoak -i spacy:sqlite:obo:bero annotate Myeloid derived suppressor cells. --include-aliases
     
     will yield:
 
-        confidence: 0.9999999403953552
+        confidence: 0.8
         object_aliases:
-        - t cell suppressor
-        - suppressor cell
-        - T suppressor cell
-        - suppressor cells
-        - Suppressor cell
-        - suppressor T lymphocyte
-        - cells suppressor t
-        - Suppressor cells
-        - Suppressor cell (cell)
-        object_id: C0038856
-        object_label: suppressor cell
+        - Myeloid-Derived Suppressor Cells
+        - MDSCs
+        - mdscs
+        - myeloid-derived suppressor cells
+        object_id: obo:MESH_D000072737
+        object_label: Myeloid-Derived Suppressor Cells
         subject_end: 30
-        subject_start: 15
+        subject_start: 0
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
