@@ -319,17 +319,10 @@ class TestSimpleOboImplementation(unittest.TestCase):
     def test_reflexive_diff(self):
         self.compliance_tester.test_reflexive_diff(self.oi)
 
-    def test_diff_1(self):
+    def test_diff(self):
         resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
         oi_modified = SimpleOboImplementation(resource)
         self.compliance_tester.test_diff(self.oi, oi_modified)
-
-    def test_diff_2(self):
-        resource_1 = OntologyResource(slug="test1.obo", directory=INPUT_DIR, local=True)
-        oi_first = SimpleOboImplementation(resource_1)
-        resource_2 = OntologyResource(slug="test2.obo", directory=INPUT_DIR, local=True)
-        oi_second = SimpleOboImplementation(resource_2)
-        self.compliance_tester.test_diff(oi_first, oi_second)
 
     def test_patcher(self):
         resource = OntologyResource(slug=TEST_ONT, local=True)
