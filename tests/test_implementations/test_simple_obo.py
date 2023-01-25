@@ -323,7 +323,7 @@ class TestSimpleOboImplementation(unittest.TestCase):
         resource = OntologyResource(slug="go-nucleus-modified.obo", directory=INPUT_DIR, local=True)
         oi_modified = SimpleOboImplementation(resource)
         self.compliance_tester.test_diff(self.oi, oi_modified)
-    
+
     def test_diff_2(self):
         resource_1 = OntologyResource(slug="test1.obo", directory=INPUT_DIR, local=True)
         oi_first = SimpleOboImplementation(resource_1)
