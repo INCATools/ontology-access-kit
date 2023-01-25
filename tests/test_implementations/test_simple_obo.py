@@ -423,6 +423,5 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
 
     def test_parse_obo_doc(self):
-        obo_document = parse_obo_document(INPUT_DIR/"test_simpleobo.obo")
+        obo_document = parse_obo_document(INPUT_DIR / "test_simpleobo.obo")
         self.assertEqual(len(obo_document.stanzas), 1)
-        
