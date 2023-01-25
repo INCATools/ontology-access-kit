@@ -11,6 +11,7 @@ from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
+from oaklib.implementations.simpleobo.simple_obo_parser import parse_obo_document
 from oaklib.resource import OntologyResource
 from oaklib.utilities.kgcl_utilities import generate_change_id
 from oaklib.utilities.obograph_utils import (
@@ -420,3 +421,8 @@ class TestSimpleOboImplementation(unittest.TestCase):
         )
         # query with UNrewired preds should be incomplete
         self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+
+    def test_parse_obo_doc(self):
+        obo_document = parse_obo_document(INPUT_DIR/"test_simpleobo.obo")
+        self.assertEqual(len(obo_document.stanzas), 2)
+        
