@@ -140,6 +140,15 @@
 </li>
       </ul></li>
       <li>
+    --additional-metadata
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-definitions-additional-metadata">runoak-definitions command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-term-metadata-additional-metadata">runoak-term-metadata command line option</a>
+</li>
+      </ul></li>
+      <li>
     --all
 
       <ul>
@@ -701,6 +710,15 @@
 </li>
       </ul></li>
       <li>
+    --no-additional-metadata
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-definitions-additional-metadata">runoak-definitions command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-term-metadata-additional-metadata">runoak-term-metadata command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-all
 
       <ul>
@@ -969,13 +987,6 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-lexmatch-recreate">runoak-lexmatch command line option</a>
-</li>
-      </ul></li>
-      <li>
-    --no-reification
-
-      <ul>
-        <li><a href="cli.html#cmdoption-runoak-term-metadata-reification">runoak-term-metadata command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1406,13 +1417,6 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-axioms-references">runoak-axioms command line option</a>
-</li>
-      </ul></li>
-      <li>
-    --reification
-
-      <ul>
-        <li><a href="cli.html#cmdoption-runoak-term-metadata-reification">runoak-term-metadata command line option</a>
 </li>
       </ul></li>
       <li>
@@ -2265,6 +2269,8 @@
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definition">definition() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions">definitions() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_count">descendant_count() (oaklib.interfaces.obograph_interface.OboGraphInterface method)</a>
@@ -2950,9 +2956,13 @@
     runoak-definitions command line option
 
       <ul>
+        <li><a href="cli.html#cmdoption-runoak-definitions-additional-metadata">--additional-metadata</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-definitions-D">--display</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-if-absent">--if-absent</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-definitions-additional-metadata">--no-additional-metadata</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-o">--output</a>
 </li>
@@ -3875,15 +3885,15 @@
     runoak-term-metadata command line option
 
       <ul>
-        <li><a href="cli.html#cmdoption-runoak-term-metadata-reification">--no-reification</a>
+        <li><a href="cli.html#cmdoption-runoak-term-metadata-additional-metadata">--additional-metadata</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-term-metadata-additional-metadata">--no-additional-metadata</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-o">--output</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-O">--output-type</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-p">--predicates</a>
-</li>
-        <li><a href="cli.html#cmdoption-runoak-term-metadata-reification">--reification</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-term-metadata-o">-o</a>
 </li>

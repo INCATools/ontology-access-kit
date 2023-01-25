@@ -392,7 +392,25 @@ may choose to use heuristic measures, including using the ontology prefix.</p>
 <dd><p>Lookup the text definition of an entity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><p><strong>curie</strong> – entity identifier to be looked up</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions">
+<span class="sig-name descname"><span class="pre">definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oaklib/interfaces/basic_ontology_interface.html#BasicOntologyInterface.definitions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.definitions" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup the text definition plus metadata for a list of entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>curies</strong> – iterable collection of entity identifiers to be looked up</p></li>
+<li><p><strong>include_metadata</strong> – if true, include metadata</p></li>
+<li><p><strong>include_missing</strong> – if true, include curies with no definition</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -1017,10 +1035,10 @@ optionally constraining to a given set of entity CURIE prefixes</p>
 <dd><p>Yields simple mappings for a collection of subjects</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curies</strong> – </p>
+<dd class="field-odd"><p><strong>curies</strong> – iterable collection of entity identifiers to be looked up</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>iterable subject-predicate-object tuples</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1032,7 +1050,7 @@ optionally constraining to a given set of entity CURIE prefixes</p>
 <p>Here, each mapping is represented as a simple tuple (predicate, object)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>curie</strong> – </p>
+<dd class="field-odd"><p><strong>curie</strong> – entity identifier to be looked up</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>iterator over predicate-object tuples</p>
