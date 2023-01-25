@@ -181,7 +181,7 @@ class TestSqlDatabaseImplementation(unittest.TestCase):
             logging.info(curie)
 
     def test_definitions(self):
-        self.compliance_tester.test_definitions(self.oi)
+        self.compliance_tester.test_definitions(self.oi, include_metadata=True)
 
     def test_owl_types(self):
         self.compliance_tester.test_owl_types(self.oi, skip_oio=True)

@@ -83,8 +83,10 @@ from oaklib.datamodels.vocabulary import (
     ALL_MATCH_PREDICATES,
     DEPRECATED_PREDICATE,
     DISJOINT_WITH,
+    ENTITY_LEVEL_DEFINITION_PREDICATES,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
+    HAS_DEFINITION_CURIE,
     HAS_EXACT_SYNONYM,
     HAS_OBSOLESCENCE_REASON,
     HAS_SYNONYM_TYPE,
@@ -107,6 +109,7 @@ from oaklib.implementations.sqldb import SEARCH_CONFIG
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.basic_ontology_interface import (
     ALIAS_MAP,
+    DEFINITION,
     METADATA_MAP,
     PRED_CURIE,
     PREFIX_MAP,
@@ -453,6 +456,66 @@ class SqlImplementation(
             HasTextDefinitionStatement.subject == curie
         ):
             return row.value
+
+    def definitions(
+        self, curies: Iterable[CURIE], include_metadata=False, include_missing=False
+    ) -> Iterator[DEFINITION]:
+        curies = list(curies)
+        has_definition = set()
+        metadata_map: Dict[Tuple[str, Optional[str]], METADATA_MAP] = defaultdict(dict)
+        if include_metadata:
+            # definition metadata may be axiom annotations
+            for aa in self._axiom_annotations_multi(curies, predicate=HAS_DEFINITION_CURIE):
+                k = (aa.subject, aa.value)
+                metadata = metadata_map[k]
+                if aa.annotation_predicate not in metadata:
+                    metadata[aa.annotation_predicate] = []
+                metadata[aa.annotation_predicate].append(aa.annotation_value)
+            # or direct annotations
+            q = (
+                self.session.query(Statements)
+                .filter(Statements.predicate.in_(ENTITY_LEVEL_DEFINITION_PREDICATES))
+                .filter(Statements.subject.in_(curies))
+            )
+            for row in q:
+                # note that direct annotation is unable to distinguish between multiple definitions;
+                # set to match all
+                k = (row.subject, None)
+                metadata = metadata_map[k]
+                if row.predicate not in metadata:
+                    metadata[row.predicate] = []
+                metadata[row.predicate].append(row.value if row.value else row.object)
+        for row in self.session.query(HasTextDefinitionStatement).filter(
+            HasTextDefinitionStatement.subject.in_(curies)
+        ):
+            reification_metadata = metadata_map.get((row.subject, row.value), {})
+            direct_metadata = metadata_map.get((row.subject, None), {})
+            yield row.subject, row.value, {**reification_metadata, **direct_metadata}
+            if include_missing:
+                has_definition.add(row.subject)
+        if include_missing:
+            for curie in curies:
+                if curie not in has_definition:
+                    yield curie, None, None
+
+    def _definitions_with_metadata(
+        self, curies: Iterable[CURIE], include_missing=False
+    ) -> Iterator[DEFINITION]:
+        curies = list(curies)
+        has_definition = set()
+        q = self.session.query(HasTextDefinitionStatement)
+        q.filter(HasTextDefinitionStatement.subject.in_(curies))
+        q.join(HasTextDefinitionStatement.metadata)
+        for row in self.session.query(HasTextDefinitionStatement).filter(
+            HasTextDefinitionStatement.subject.in_(curies)
+        ):
+            yield row.subject, row.value, row.source, row.date
+            if include_missing:
+                has_definition.add(row.subject)
+        if include_missing:
+            for curie in curies:
+                if curie not in has_definition:
+                    yield curie, None, None, None
 
     def entity_metadata_map(self, curie: CURIE, include_all_triples=False) -> METADATA_MAP:
         m = defaultdict(list)
@@ -1058,6 +1121,24 @@ class SqlImplementation(
             )
             for row in q
         ]
+
+    def _axiom_annotations_multi(
+        self,
+        subjects: List[CURIE],
+        predicate: CURIE,
+        objects: List[CURIE] = None,
+        values: List[Any] = None,
+    ) -> Iterator[OwlAxiomAnnotation]:
+        q = self.session.query(OwlAxiomAnnotation)
+        if subjects:
+            q = q.filter(OwlAxiomAnnotation.subject.in_(subjects))
+        q = q.filter(OwlAxiomAnnotation.predicate == predicate)
+        if objects:
+            q = q.filter(OwlAxiomAnnotation.object.in_(objects))
+        if values:
+            q = q.filter(OwlAxiomAnnotation.value.in_(values))
+        for row in q:
+            yield row
 
     def ancestors(
         self,
