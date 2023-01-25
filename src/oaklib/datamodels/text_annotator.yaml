@@ -57,6 +57,8 @@ classes:
         multivalued: true
       model:
         range: string
+      include_aliases:
+        range: boolean
 
   TextAnnotationResultSet:
     description: A collection of annotation results
@@ -130,6 +132,8 @@ classes:
         range: boolean
       match_type:
       info:
+      object_aliases:
+        multivalued: true
 
 enums:
   TransformationType:

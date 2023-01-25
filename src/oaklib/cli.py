@@ -1264,6 +1264,12 @@ def term_metadata(terms, predicates, reification: bool, output_type: str, output
     help="if true, then only show matches that span the entire input text",
 )
 @click.option(
+    "--include-aliases/--no-include-aliases",
+    default=False,
+    show_default=True,
+    help="Include alias maps in output.",
+)
+@click.option(
     "--text-file",
     type=click.File(mode="r"),
     help="Text file to annotate. Each newline separated entry is a distinct text.",
@@ -1293,6 +1299,7 @@ def annotate(
     output: str,
     lexical_index_file: str,
     matches_whole_text: bool,
+    include_aliases: bool,
     exclude_tokens: str,
     text_file: TextIO,
     model: str,
@@ -1324,6 +1331,26 @@ def annotate(
         this is provided as part of the *TextAnnotator* interface:
 
         https://incatools.github.io/ontology-access-kit/interfaces/text-annotator
+
+    Aliases can be listed in the output by setting the flag
+    --include-aliases to `true` (default: false).
+
+    Example (using the plugin oakx-spacy):
+
+        runoak -i spacy:sqlite:obo:bero annotate Myeloid derived suppressor cells. --include-aliases
+
+    will yield:
+
+        confidence: 0.8
+        object_aliases:
+        - Myeloid-Derived Suppressor Cells
+        - MDSCs
+        - mdscs
+        - myeloid-derived suppressor cells
+        object_id: obo:MESH_D000072737
+        object_label: Myeloid-Derived Suppressor Cells
+        subject_end: 30
+        subject_start: 0
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
@@ -1343,6 +1370,7 @@ def annotate(
             configuration.token_exclusion_list = token_exclusion_list
         if model:
             configuration.model = model
+        configuration.include_aliases = include_aliases
         # if plugin_config:
         #     with open(plugin_config, "r") as p:
         #         configuration.plugin_configuration = yaml.safe_load(p)

@@ -83,8 +83,6 @@ class TextAnnotatorInterface(BasicOntologyInterface, ABC):
         else:
             logging.info("No token exclusion list provided. Proceeding ...")
 
-        # if not configuration:
-        #     configuration = TextAnnotationConfiguration()
         if configuration.matches_whole_text:
             if isinstance(self, SearchInterface):
                 search_config = SearchConfiguration(force_case_insensitive=True)
