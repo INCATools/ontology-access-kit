@@ -1328,7 +1328,7 @@ def annotate(
 
         https://incatools.github.io/ontology-access-kit/interfaces/text-annotator
 
-    A list of aliases can be listed in the output by setting the flag
+    Aliases can be listed in the output by setting the flag
     --include-aliases to `true` (default: false).
 
     Example (using the plugin oakx-spacy):
