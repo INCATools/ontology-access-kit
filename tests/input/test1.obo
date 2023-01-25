@@ -339,8 +339,6 @@ alt_id: HP:0001431
 alt_id: HP:0001458
 alt_id: HP:0001506
 def: "A mode of inheritance that is observed for traits related to a gene encoded on the mitochondrial genome. Because the mitochondrial genome is essentially always maternally inherited, a mitochondrial condition can only be transmitted by females, although the condition can affect both sexes. The proportion of mutant mitochondria can vary (heteroplasmy)." [HPO:probinson]
-synonym: "Mitochondrial" EXACT []
-synonym: "mitochondrial" EXACT HP:0034334 []
 xref: MSH:D050259
 xref: UMLS:C0887941
 is_a: HP:0034345 ! Mendelian inheritance
