@@ -88,6 +88,7 @@
 <div class="mermaid">
              classDiagram
     class TextAnnotationConfiguration
+      TextAnnotationConfiguration : include_aliases
       TextAnnotationConfiguration : limit
       TextAnnotationConfiguration : matches_whole_text
       TextAnnotationConfiguration : model
@@ -128,6 +129,11 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="model.html"><span class="doc std std-doc">model</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="include_aliases.html"><span class="doc std std-doc">include_aliases</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -198,6 +204,11 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
     range: string
+  include_aliases:
+    name: include_aliases
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    range: boolean
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -257,6 +268,15 @@ attributes:
     domain_of:
     - TextAnnotationConfiguration
     range: string
+  include_aliases:
+    name: include_aliases
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    alias: include_aliases
+    owner: TextAnnotationConfiguration
+    domain_of:
+    - TextAnnotationConfiguration
+    range: boolean
 
 </pre></div>
 </div>

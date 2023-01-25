@@ -488,6 +488,25 @@ as gilda only performs grounding.</p>
 this is provided as part of the <em>TextAnnotator</em> interface:</p>
 <p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/text-annotator">https://incatools.github.io/ontology-access-kit/interfaces/text-annotator</a></p>
 </div></blockquote>
+<p>Aliases can be listed in the output by setting the flag
+–include-aliases to <cite>true</cite> (default: false).</p>
+<p>Example (using the plugin oakx-spacy):</p>
+<blockquote>
+<div><p>runoak -i spacy:sqlite:obo:bero annotate Myeloid derived suppressor cells. –include-aliases</p>
+</div></blockquote>
+<p>will yield:</p>
+<blockquote>
+<div><p>confidence: 0.8
+object_aliases:
+- Myeloid-Derived Suppressor Cells
+- MDSCs
+- mdscs
+- myeloid-derived suppressor cells
+object_id: obo:MESH_D000072737
+object_label: Myeloid-Derived Suppressor Cells
+subject_end: 30
+subject_start: 0</p>
+</div></blockquote>
 </div></blockquote>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak annotate <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>WORDS<span class="o">]</span>...
 </pre></div>
@@ -497,6 +516,17 @@ this is provided as part of the <em>TextAnnotator</em> interface:</p>
 <dt class="sig sig-object std" id="cmdoption-runoak-annotate-W">
 <span id="cmdoption-runoak-annotate-w"></span><span id="cmdoption-runoak-annotate-matches-whole-text"></span><span id="cmdoption-runoak-annotate-no-W"></span><span id="cmdoption-runoak-annotate-no-w"></span><span id="cmdoption-runoak-annotate-no-matches-whole-text"></span><span class="sig-name descname"><span class="pre">-W</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--matches-whole-text</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-W</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-matches-whole-text</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-annotate-W" title="Permalink to this definition"></a></dt>
 <dd><p>if true, then only show matches that span the entire input text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-annotate-include-aliases">
+<span id="cmdoption-runoak-annotate-no-include-aliases"></span><span class="sig-name descname"><span class="pre">--include-aliases</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-include-aliases</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-runoak-annotate-include-aliases" title="Permalink to this definition"></a></dt>
+<dd><p>Include alias maps in output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
 <dd class="field-odd"><p>False</p>

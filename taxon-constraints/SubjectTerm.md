@@ -42,8 +42,8 @@ URI: [tc:SubjectTerm](https://w3id.org/linkml/taxon_constraints/SubjectTerm)
 | [never_in](never_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term AND its descendants MUST NOT be in the specified taxon, or a descend... | direct |
 | [present_in](present_in.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) | The term MAY be in the specified taxon, or a descendant of that taxon | direct |
 | [present_in_ancestor_of](present_in_ancestor_of.md) | 0..* <br/> [TaxonConstraint](TaxonConstraint.md) |  | direct |
-| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
 | [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
 
 
 

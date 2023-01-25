@@ -96,6 +96,7 @@
       TextAnnotation : match_string
       TextAnnotation : match_type
       TextAnnotation : matches_whole_text
+      TextAnnotation : object_aliases
       TextAnnotation : object_id
       TextAnnotation : object_label
       TextAnnotation : object_source
@@ -173,13 +174,23 @@
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="object_aliases.html"><span class="doc std std-doc">object_aliases</span></a></p></td>
+<td><p>0..* <br/> NONE</p></td>
+<td><p></p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_end.html"><span class="doc std std-doc">subject_end</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="Position.html"><span class="doc std std-doc">Position</span></a></p></td>
+<td><p></p></td>
+<td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="subject_label.html"><span class="doc std std-doc">subject_label</span></a></p></td>
 <td><p>0..1 <br/> NONE</p></td>
 <td><p>The portion of the subject text that is matched, ranging from subject_start t…</p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_text_id.html"><span class="doc std std-doc">subject_text_id</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="TextualElement.html"><span class="doc std std-doc">TextualElement</span></a></p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
 </tr>
@@ -188,13 +199,8 @@
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subject_end.html"><span class="doc std std-doc">subject_end</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="Position.html"><span class="doc std std-doc">Position</span></a></p></td>
-<td><p></p></td>
-<td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subject_text_id.html"><span class="doc std std-doc">subject_text_id</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="TextualElement.html"><span class="doc std std-doc">TextualElement</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="subject_source.html"><span class="doc std std-doc">subject_source</span></a></p></td>
+<td><p>0..1 <br/> NONE</p></td>
 <td><p></p></td>
 <td><p><a class="reference internal" href="HasSpan.html"><span class="doc std std-doc">HasSpan</span></a></p></td>
 </tr>
@@ -313,6 +319,11 @@ attributes:
     name: info
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
+  object_aliases:
+    name: object_aliases
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    multivalued: true
 class_uri: oa:Annotation
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
@@ -423,6 +434,16 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
     alias: info
+    owner: TextAnnotation
+    domain_of:
+    - TextAnnotation
+    range: string
+  object_aliases:
+    name: object_aliases
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    multivalued: true
+    alias: object_aliases
     owner: TextAnnotation
     domain_of:
     - TextAnnotation

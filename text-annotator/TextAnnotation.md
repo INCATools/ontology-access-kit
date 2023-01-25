@@ -18,6 +18,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
       TextAnnotation : match_string
       TextAnnotation : match_type
       TextAnnotation : matches_whole_text
+      TextAnnotation : object_aliases
       TextAnnotation : object_id
       TextAnnotation : object_label
       TextAnnotation : object_source
@@ -52,11 +53,12 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | [matches_whole_text](matches_whole_text.md) | 0..1 <br/> NONE |  | direct |
 | [match_type](match_type.md) | 0..1 <br/> NONE |  | direct |
 | [info](info.md) | 0..1 <br/> NONE |  | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
-| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | [HasSpan](HasSpan.md) |
-| [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [object_aliases](object_aliases.md) | 0..* <br/> NONE |  | direct |
 | [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
 | [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | [HasSpan](HasSpan.md) |
+| [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | [HasSpan](HasSpan.md) |
 
 
 
@@ -163,6 +165,11 @@ attributes:
     name: info
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
+  object_aliases:
+    name: object_aliases
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    multivalued: true
 class_uri: oa:Annotation
 
 ```
@@ -275,6 +282,16 @@ attributes:
     from_schema: https://w3id.org/linkml/text_annotator
     rank: 1000
     alias: info
+    owner: TextAnnotation
+    domain_of:
+    - TextAnnotation
+    range: string
+  object_aliases:
+    name: object_aliases
+    from_schema: https://w3id.org/linkml/text_annotator
+    rank: 1000
+    multivalued: true
+    alias: object_aliases
     owner: TextAnnotation
     domain_of:
     - TextAnnotation

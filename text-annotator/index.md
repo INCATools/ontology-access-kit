@@ -23,6 +23,7 @@ Name: text-annotator
 | [annotations](annotations.md) | all annotations |
 | [confidence](confidence.md) |  |
 | [id](id.md) |  |
+| [include_aliases](include_aliases.md) |  |
 | [info](info.md) |  |
 | [is_longest_match](is_longest_match.md) |  |
 | [limit](limit.md) |  |
@@ -30,6 +31,7 @@ Name: text-annotator
 | [match_type](match_type.md) |  |
 | [matches_whole_text](matches_whole_text.md) |  |
 | [model](model.md) |  |
+| [object_aliases](object_aliases.md) |  |
 | [object_id](object_id.md) |  |
 | [object_label](object_label.md) |  |
 | [object_source](object_source.md) |  |
