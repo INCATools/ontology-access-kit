@@ -1327,6 +1327,31 @@ def annotate(
         this is provided as part of the *TextAnnotator* interface:
 
         https://incatools.github.io/ontology-access-kit/interfaces/text-annotator
+
+    A list of aliases can be listed in the output by setting the flag --include-aliases
+    to `true` (default: false).
+
+    Example (using the plugin oakx-spacy):
+
+        runoak -i spacy: annotate Myeloid derived suppressor cells. --include-aliases
+    
+    will yield:
+
+        confidence: 0.9999999403953552
+        object_aliases:
+        - t cell suppressor
+        - suppressor cell
+        - T suppressor cell
+        - suppressor cells
+        - Suppressor cell
+        - suppressor T lymphocyte
+        - cells suppressor t
+        - Suppressor cells
+        - Suppressor cell (cell)
+        object_id: C0038856
+        object_label: suppressor cell
+        subject_end: 30
+        subject_start: 15
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingYamlWriter, datamodels.text_annotator)
