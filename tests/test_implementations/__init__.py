@@ -41,7 +41,7 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_THING,
     PART_OF,
-    TERM_REPLACED_BY,
+    TERM_REPLACED_BY, TERM_TRACKER_ITEM,
 )
 from oaklib.interfaces import MappingProviderInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
@@ -266,9 +266,9 @@ class ComplianceTester:
             m = oi.entity_metadata_map(curie)
             logging.info(f"{curie} {m}")
         m = oi.entity_metadata_map(INTRACELLULAR)
-        test.assertIn("term_tracker_item", m.keys())  # TODO: check this generalizes
+        test.assertIn(TERM_TRACKER_ITEM, m.keys())  # TODO: check this generalizes
         test.assertIn(
-            "https://github.com/geneontology/go-ontology/issues/17776", m["term_tracker_item"]
+            "https://github.com/geneontology/go-ontology/issues/17776", m[TERM_TRACKER_ITEM]
         )
 
     def test_obsolete_entities(self, oi: SearchInterface):
