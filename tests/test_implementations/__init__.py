@@ -23,6 +23,9 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty
 from oaklib.datamodels.vocabulary import (
     CONSIDER_REPLACEMENT,
+    CONTRIBUTOR,
+    CREATED,
+    CREATOR,
     DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
@@ -30,6 +33,8 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     LOCATED_IN,
     NEVER_IN_TAXON,
+    OIO_CREATED_BY,
+    OIO_CREATION_DATE,
     OIO_SUBSET_PROPERTY,
     OIO_SYNONYM_TYPE_PROPERTY,
     ONLY_IN_TAXON,
@@ -47,6 +52,7 @@ from oaklib.interfaces.class_enrichment_calculation_interface import (
     ClassEnrichmentCalculationInterface,
 )
 from oaklib.interfaces.differ_interface import DifferInterface
+from oaklib.interfaces.metadata_interface import MetadataInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
 from oaklib.interfaces.owl_interface import OwlInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
@@ -80,6 +86,7 @@ from tests import (
     HUMAN,
     IMBO,
     INPUT_DIR,
+    INTRACELLULAR,
     MAMMALIA,
     NUCLEAR_ENVELOPE,
     NUCLEAR_MEMBRANE,
@@ -245,6 +252,24 @@ class ComplianceTester:
         ]
         actual = list(oi.defined_bys([c[0] for c in cases]))
         test.assertCountEqual(cases, actual)
+
+    def test_subsets(self, oi: BasicOntologyInterface):
+        test = self.test
+        subsets = list(oi.subsets())
+        test.assertIn("goslim_aspergillus", subsets)
+        test.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
+        test.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
+
+    def test_metadata(self, oi: MetadataInterface):
+        test = self.test
+        for curie in oi.entities():
+            m = oi.entity_metadata_map(curie)
+            logging.info(f"{curie} {m}")
+        m = oi.entity_metadata_map(INTRACELLULAR)
+        test.assertIn("term_tracker_item", m.keys())  # TODO: check this generalizes
+        test.assertIn(
+            "https://github.com/geneontology/go-ontology/issues/17776", m["term_tracker_item"]
+        )
 
     def test_obsolete_entities(self, oi: SearchInterface):
         """
@@ -840,6 +865,30 @@ class ComplianceTester:
                 # TODO: raise exception
                 print(f"Expected change not found: {ch}")
             test.assertLessEqual(len(expected_changes), 4)
+
+    def test_add_contributors(self, oi: PatcherInterface, legacy: bool = True):
+        """
+        Tests adding contributor metadata using default properties
+
+        :param oi:
+        :param legacy: if True, assume legacy oboInOwl properties
+        :return:
+        """
+        test = self.test
+        contributors = ["orcid:1234", "orcid:5678"]
+        date = "2022-02-02"
+        creator = contributors[0]
+        oi.add_contributors(NUCLEUS, contributors)
+        oi.set_creator(NUCLEUS, creator)
+        oi.set_creation_date(NUCLEUS, date)
+        mm = oi.entity_metadata_map(NUCLEUS)
+        test.assertCountEqual(mm[CONTRIBUTOR], contributors)
+        if legacy:
+            test.assertEqual(mm[OIO_CREATED_BY], [creator])
+            test.assertEqual(mm[OIO_CREATION_DATE], [date])
+        else:
+            test.assertEqual(mm[CREATOR], [creator])
+            test.assertEqual(mm[CREATED], [date])
 
     def test_summary_statistics(self, oi: SummaryStatisticsInterface):
         """

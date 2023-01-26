@@ -56,6 +56,7 @@ from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.dumper_interface import DumperInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obolegacy_interface import OboLegacyInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -83,6 +84,7 @@ class ProntoImplementation(
     ValidatorInterface,
     RdfInterface,
     OboGraphInterface,
+    OboLegacyInterface,
     SearchInterface,
     MappingProviderInterface,
     PatcherInterface,
@@ -235,6 +237,7 @@ class ProntoImplementation(
 
     def _entity(self, curie: CURIE, strict=False):
         for r in self.wrapped_ontology.relationships():
+            # TODO: use OboLegacyInterface
             # see https://owlcollab.github.io/oboformat/doc/obo-syntax.html#4.4.1
             # pronto gives relations shorthand IDs for RO and BFO, as it is providing
             # oboformat as a level of abstraction. We want to map these back to the CURIEs

@@ -1,5 +1,5 @@
 # Auto generated from ontology_metadata.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-11-22T11:41:06
+# Generation date: 2023-01-26T08:32:03
 # Schema: Ontology-Metadata
 #
 # id: http://purl.obolibrary.org/obo/omo/schema
@@ -8,6 +8,7 @@
 
 import dataclasses
 import re
+import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
@@ -165,6 +166,14 @@ class NamedIndividualId(TermId):
 
 
 class HomoSapiensId(NamedIndividualId):
+    pass
+
+
+class AgentId(NamedIndividualId):
+    pass
+
+
+class ImageId(NamedIndividualId):
     pass
 
 
@@ -389,12 +398,8 @@ class HasProvenance(AnnotationPropertyMixin):
 
     created_by: Optional[str] = None
     creation_date: Optional[Union[str, List[str]]] = empty_list()
-    contributor: Optional[
-        Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]
-    ] = empty_list()
-    creator: Optional[
-        Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]
-    ] = empty_list()
+    contributor: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
+    creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
     created: Optional[str] = None
     date: Optional[Union[str, List[str]]] = empty_list()
     isDefinedBy: Optional[Union[str, OntologyId]] = None
@@ -419,15 +424,11 @@ class HasProvenance(AnnotationPropertyMixin):
 
         if not isinstance(self.contributor, list):
             self.contributor = [self.contributor] if self.contributor is not None else []
-        self.contributor = [
-            v if isinstance(v, HomoSapiensId) else HomoSapiensId(v) for v in self.contributor
-        ]
+        self.contributor = [v if isinstance(v, AgentId) else AgentId(v) for v in self.contributor]
 
         if not isinstance(self.creator, list):
             self.creator = [self.creator] if self.creator is not None else []
-        self.creator = [
-            v if isinstance(v, HomoSapiensId) else HomoSapiensId(v) for v in self.creator
-        ]
+        self.creator = [v if isinstance(v, AgentId) else AgentId(v) for v in self.creator]
 
         if self.created is not None and not isinstance(self.created, str):
             self.created = str(self.created)
@@ -599,7 +600,7 @@ class HasUserInformation(AnnotationPropertyMixin):
     example_of_usage: Optional[Union[str, List[str]]] = empty_list()
     curator_note: Optional[Union[str, List[str]]] = empty_list()
     has_curation_status: Optional[str] = None
-    depicted_by: Optional[Union[str, List[str]]] = empty_list()
+    depicted_by: Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]] = empty_list()
     page: Optional[Union[str, List[str]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -629,7 +630,7 @@ class HasUserInformation(AnnotationPropertyMixin):
 
         if not isinstance(self.depicted_by, list):
             self.depicted_by = [self.depicted_by] if self.depicted_by is not None else []
-        self.depicted_by = [v if isinstance(v, str) else str(v) for v in self.depicted_by]
+        self.depicted_by = [v if isinstance(v, ImageId) else ImageId(v) for v in self.depicted_by]
 
         if not isinstance(self.page, list):
             self.page = [self.page] if self.page is not None else []
@@ -704,9 +705,7 @@ class Ontology(NamedObject):
     ] = empty_list()
     source: Optional[Union[str, List[str]]] = empty_list()
     comment: Optional[Union[str, List[str]]] = empty_list()
-    creator: Optional[
-        Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]
-    ] = empty_list()
+    creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
     created: Optional[str] = None
     imports: Optional[str] = None
 
@@ -754,9 +753,7 @@ class Ontology(NamedObject):
 
         if not isinstance(self.creator, list):
             self.creator = [self.creator] if self.creator is not None else []
-        self.creator = [
-            v if isinstance(v, HomoSapiensId) else HomoSapiensId(v) for v in self.creator
-        ]
+        self.creator = [v if isinstance(v, AgentId) else AgentId(v) for v in self.creator]
 
         if self.created is not None and not isinstance(self.created, str):
             self.created = str(self.created)
@@ -813,12 +810,8 @@ class Term(NamedObject):
     should_conform_to: Optional[Union[dict, Thing]] = None
     created_by: Optional[str] = None
     creation_date: Optional[Union[str, List[str]]] = empty_list()
-    contributor: Optional[
-        Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]
-    ] = empty_list()
-    creator: Optional[
-        Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]
-    ] = empty_list()
+    contributor: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
+    creator: Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]] = empty_list()
     created: Optional[str] = None
     date: Optional[Union[str, List[str]]] = empty_list()
     isDefinedBy: Optional[Union[str, OntologyId]] = None
@@ -849,7 +842,7 @@ class Term(NamedObject):
     example_of_usage: Optional[Union[str, List[str]]] = empty_list()
     curator_note: Optional[Union[str, List[str]]] = empty_list()
     has_curation_status: Optional[str] = None
-    depicted_by: Optional[Union[str, List[str]]] = empty_list()
+    depicted_by: Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]] = empty_list()
     page: Optional[Union[str, List[str]]] = empty_list()
     label: Optional[Union[str, LabelType]] = None
     definition: Optional[
@@ -974,15 +967,11 @@ class Term(NamedObject):
 
         if not isinstance(self.contributor, list):
             self.contributor = [self.contributor] if self.contributor is not None else []
-        self.contributor = [
-            v if isinstance(v, HomoSapiensId) else HomoSapiensId(v) for v in self.contributor
-        ]
+        self.contributor = [v if isinstance(v, AgentId) else AgentId(v) for v in self.contributor]
 
         if not isinstance(self.creator, list):
             self.creator = [self.creator] if self.creator is not None else []
-        self.creator = [
-            v if isinstance(v, HomoSapiensId) else HomoSapiensId(v) for v in self.creator
-        ]
+        self.creator = [v if isinstance(v, AgentId) else AgentId(v) for v in self.creator]
 
         if self.created is not None and not isinstance(self.created, str):
             self.created = str(self.created)
@@ -1112,7 +1101,7 @@ class Term(NamedObject):
 
         if not isinstance(self.depicted_by, list):
             self.depicted_by = [self.depicted_by] if self.depicted_by is not None else []
-        self.depicted_by = [v if isinstance(v, str) else str(v) for v in self.depicted_by]
+        self.depicted_by = [v if isinstance(v, ImageId) else ImageId(v) for v in self.depicted_by]
 
         if not isinstance(self.page, list):
             self.page = [self.page] if self.page is not None else []
@@ -1494,6 +1483,46 @@ class HomoSapiens(NamedIndividual):
             self.MissingRequiredField("id")
         if not isinstance(self.id, HomoSapiensId):
             self.id = HomoSapiensId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Agent(NamedIndividual):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = PROV.Agent
+    class_class_curie: ClassVar[str] = "prov:Agent"
+    class_name: ClassVar[str] = "Agent"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Agent
+
+    id: Union[str, AgentId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, AgentId):
+            self.id = AgentId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class Image(NamedIndividual):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = IAO["0000101"]
+    class_class_curie: ClassVar[str] = "IAO:0000101"
+    class_name: ClassVar[str] = "Image"
+    class_model_uri: ClassVar[URIRef] = OMOSCHEMA.Image
+
+    id: Union[str, ImageId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, ImageId):
+            self.id = ImageId(self.id)
 
         super().__post_init__(**kwargs)
 
@@ -2201,7 +2230,7 @@ slots.depicted_by = Slot(
     curie=FOAF.curie("depicted_by"),
     model_uri=OMOSCHEMA.depicted_by,
     domain=None,
-    range=Optional[Union[str, List[str]]],
+    range=Optional[Union[Union[str, ImageId], List[Union[str, ImageId]]]],
 )
 
 slots.page = Slot(
@@ -2345,7 +2374,7 @@ slots.contributor = Slot(
     curie=DCTERMS.curie("contributor"),
     model_uri=OMOSCHEMA.contributor,
     domain=None,
-    range=Optional[Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]],
+    range=Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]],
 )
 
 slots.creator = Slot(
@@ -2354,7 +2383,7 @@ slots.creator = Slot(
     curie=DCTERMS.curie("creator"),
     model_uri=OMOSCHEMA.creator,
     domain=None,
-    range=Optional[Union[Union[str, HomoSapiensId], List[Union[str, HomoSapiensId]]]],
+    range=Optional[Union[Union[str, AgentId], List[Union[str, AgentId]]]],
 )
 
 slots.created = Slot(
@@ -3300,6 +3329,16 @@ slots.HomoSapiens_id = Slot(
     model_uri=OMOSCHEMA.HomoSapiens_id,
     domain=HomoSapiens,
     range=Union[str, HomoSapiensId],
+    pattern=re.compile(r"^orcid:.*"),
+)
+
+slots.Agent_id = Slot(
+    uri=OMOSCHEMA.id,
+    name="Agent_id",
+    curie=OMOSCHEMA.curie("id"),
+    model_uri=OMOSCHEMA.Agent_id,
+    domain=Agent,
+    range=Union[str, AgentId],
     pattern=re.compile(r"^orcid:.*"),
 )
 

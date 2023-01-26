@@ -147,3 +147,39 @@ class PatcherInterface(BasicOntologyInterface, ABC):
                     ch = EdgeDeletion(generate_change_id(), subject=s, predicate=p, object=o)
                     changes.append(ch)
         return changes
+
+    def undo(self, changes: List[Change], expand=False, strict=True, **kwargs) -> List[Change]:
+        """
+        Undo a list of changes
+
+        :param changes:
+        :param kwargs:
+        :return:
+        """
+        reversed = self.reverse_changes(changes)
+        if expand:
+            reversed = self.expand_changes(reversed)
+        applied_changes = []
+        while reversed:
+            change = reversed.pop()
+            applied_change = self.apply_patch(change, **kwargs)
+            if applied_change:
+                applied_changes.append(applied_change)
+            elif strict:
+                raise ValueError(f"Could not apply {change}")
+        return applied_changes
+
+    def reverse_changes(self, changes: List[Change]) -> List[Change]:
+        """
+        Creates reciprocal Undo operations for a list of changes
+
+        :param changes:
+        :return:
+        """
+        raise NotImplementedError
+
+    def add_contributors(self, curie: CURIE, agents: List[CURIE]) -> None:
+        raise NotImplementedError
+
+    def set_creator(self, curie: CURIE, agent: CURIE) -> None:
+        raise NotImplementedError

@@ -2494,6 +2494,7 @@ def labels(terms, output: TextIO, display: str, output_type: str, if_absent: boo
 @if_absent_option
 @additional_metadata_option
 @set_value_option
+@autolabel_option
 def definitions(
     terms,
     output: TextIO,
@@ -2501,6 +2502,7 @@ def definitions(
     display: str,
     output_type: str,
     if_absent: bool,
+    autolabel: bool,
     set_value,
 ):
     """
@@ -2516,6 +2518,10 @@ def definitions(
 
         runoak -i sqlite:obo:envo definitions .all
 
+    You can also include definition metadata, such as provenance and source:
+
+        runoak -i sqlite:obo:cl definitions --additional-metadata neuron
+
     """
     impl = settings.impl
     writer = _get_writer(output_type, impl, StreamingCsvWriter)
@@ -2530,12 +2536,15 @@ def definitions(
     for curie_it in chunk(query_terms_iterator(terms, impl)):
         curies = list(curie_it)
         all_curies.extend(curies)
+        labels = {}
+        if autolabel:
+            labels = {curie: label for curie, label in impl.labels(curies)}
         for curie, defn, metadata in impl.definitions(
             curies, include_metadata=additional_metadata, include_missing=True
         ):
             if metadata is None:
                 metadata = {}
-            obj = dict(id=curie, definition=defn, **metadata)
+            obj = dict(id=curie, label=labels.get(curie, None), definition=defn, **metadata)
             if set_value is not None:
                 # set the value by creating a KGCL change object for applying later
                 obj["new_value"] = set_value
@@ -4160,6 +4169,7 @@ def diff(
     show_default=True,
     help="if true, expand complex changes to atomic changes",
 )
+@click.option("--contributor", help="CURIE for the person contributing the patch")
 @output_type_option
 @overwrite_option
 @click.argument("commands", nargs=-1)
@@ -4170,6 +4180,7 @@ def apply(
     changes_input: TextIO,
     changes_format,
     changes_output,
+    contributor: str,
     dry_run: bool,
     expand: bool,
     overwrite: bool,
@@ -4220,6 +4231,12 @@ def apply(
         if dry_run or changes_output:
             write_kgcl(changes, changes_output, changes_format)
         for change in changes:
+            if contributor:
+                if change.contributor and change.contributor != contributor:
+                    raise ValueError(
+                        f"Cannot set contributor to {contributor} existing value = {change.contributor}"
+                    )
+                change.contributor = contributor
             logging.info(f"Change: {change}")
             if dry_run:
                 # print(json_dumper.dumps(change))

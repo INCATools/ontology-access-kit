@@ -8,7 +8,13 @@ from oaklib.cli import query_terms_iterator
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
-from oaklib.datamodels.vocabulary import HAS_PART, IS_A, ONLY_IN_TAXON, PART_OF
+from oaklib.datamodels.vocabulary import (
+    HAS_PART,
+    IS_A,
+    ONLY_IN_TAXON,
+    PART_OF,
+    TERM_TRACKER_ITEM,
+)
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
 )
@@ -113,12 +119,18 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert t.lbl.startswith("part")
 
     def test_metadata(self):
-        for curie in self.oi.entities():
-            m = self.oi.entity_metadata_map(curie)
-            logging.info(f"{curie} {m}")
-        m = self.oi.entity_metadata_map("GO:0005622")
-        assert "term_tracker_item" in m.keys()
-        assert "https://github.com/geneontology/go-ontology/issues/17776" in m["term_tracker_item"]
+        self.compliance_tester.test_metadata(self.oi)
+
+    def test_shorthand(self):
+        oi = self.oi
+        cases = [
+            (PART_OF, "part_of"),
+            (TERM_TRACKER_ITEM, "term_tracker_item"),
+        ]
+        print(oi.map_curie_to_shorthand(TERM_TRACKER_ITEM))
+        for curie, shorthand in cases:
+            self.assertEqual(oi.map_shorthand_to_curie(shorthand), curie)
+            self.assertEqual(oi.map_curie_to_shorthand(curie), shorthand)
 
     def test_labels(self):
         """
@@ -168,27 +180,14 @@ class TestSimpleOboImplementation(unittest.TestCase):
             ],
         )
 
-    @unittest.skip("TODO")
-    def test_mappings(self):
-        oi = self.oi
-        mappings = list(oi.get_sssom_mappings_by_curie(NUCLEUS))
-        assert any(m for m in mappings if m.object_id == "Wikipedia:Cell_nucleus")
-        self.assertEqual(len(mappings), 2)
-        for m in mappings:
-            logging.info(f"GETTING {m.object_id}")
-            reverse_mappings = list(oi.get_sssom_mappings_by_curie(m.object_id))
-            reverse_subject_ids = [m.subject_id for m in reverse_mappings]
-            self.assertEqual(reverse_subject_ids, [NUCLEUS])
+    def test_sssom_mappings(self):
+        self.compliance_tester.test_sssom_mappings(self.oi)
 
     def test_definitions(self):
         self.compliance_tester.test_definitions(self.oi)
 
     def test_subsets(self):
-        oi = self.oi
-        subsets = list(oi.subsets())
-        self.assertIn("goslim_aspergillus", subsets)
-        self.assertIn("GO:0003674", oi.subset_members("goslim_generic"))
-        self.assertNotIn("GO:0003674", oi.subset_members("gocheck_do_not_manually_annotate"))
+        self.compliance_tester.test_subsets(self.oi)
 
     def test_obsolete_entities(self):
         resource = OntologyResource(slug="obsoletion_test.obo", directory=INPUT_DIR, local=True)
@@ -213,7 +212,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
             logging.info(t)
         self.assertIn("CARO:0000003", oi.term_curies_without_definitions())
 
-    @unittest.skip("TODO")
     def test_walk_up(self):
         oi = self.oi
         rels = list(oi.walk_up_relationship_graph("GO:0005773"))
@@ -229,7 +227,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert ("GO:0043227", HAS_PART, "GO:0016020") not in rels
         assert ("GO:0110165", IS_A, "CARO:0000000") in rels
 
-    @unittest.skip("TODO")
     def test_ancestors(self):
         oi = self.oi
         ancs = list(oi.ancestors("GO:0005773"))
@@ -244,7 +241,6 @@ class TestSimpleOboImplementation(unittest.TestCase):
         assert "GO:0005773" in ancs  # reflexive
         assert "GO:0043231" in ancs  # reflexive
 
-    @unittest.skip("TODO")
     def test_obograph(self):
         g = self.oi.ancestor_graph(VACUOLE)
         nix = index_graph_nodes(g)
@@ -339,6 +335,22 @@ class TestSimpleOboImplementation(unittest.TestCase):
         self.compliance_tester.test_patcher(
             self.oi, original_oi=original_oi, roundtrip_function=roundtrip
         )
+
+    def test_add_contributors(self):
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
+        self.assertTrue(oi.uses_legacy_properties)
+        self.compliance_tester.test_add_contributors(oi, legacy=True)
+        oi.dump(str(OUTPUT_DIR / "go-nucleus-contributors.obo"), syntax="obo")
+
+    def test_add_contributors_non_legacy(self):
+        """Tests adding contributor metadata using newer standard properties"""
+        resource = OntologyResource(slug=TEST_ONT, local=True)
+        oi = SimpleOboImplementation(resource)
+        oi.set_uses_legacy_properties(False)
+        self.assertFalse(oi.uses_legacy_properties)
+        self.compliance_tester.test_add_contributors(oi, legacy=False)
+        oi.dump(str(OUTPUT_DIR / "go-nucleus-contributors2.obo"), syntax="obo")
 
     def test_patcher2(self):
         resource = OntologyResource(slug=TEST_ONT, local=True)

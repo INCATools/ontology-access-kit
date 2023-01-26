@@ -37,6 +37,10 @@ ALIAS_MAP = Dict[PRED_CURIE, List[str]]
 METADATA_MAP = Dict[PRED_CURIE, List[str]]
 # ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]
 RELATIONSHIP = Tuple[CURIE, PRED_CURIE, CURIE]
+DATATYPE = CURIE
+LITERAL_METADATA_STATEMENT = Tuple[CURIE, PRED_CURIE, Any, DATATYPE, Optional[METADATA_MAP]]
+OBJECT_METADATA_STATEMENT = Tuple[CURIE, PRED_CURIE, CURIE, None, Optional[METADATA_MAP]]
+METADATA_STATEMENT = Union[LITERAL_METADATA_STATEMENT, OBJECT_METADATA_STATEMENT]
 DEFINITION = Tuple[CURIE, str, METADATA_MAP]
 
 MISSING_PREFIX_MAP = dict(
@@ -130,6 +134,9 @@ class BasicOntologyInterface(OntologyInterface, ABC):
     """An optional mapper that overrides metamodel properties"""
 
     _converter: Optional[curies.Converter] = None
+
+    auto_relax_axioms: bool = None
+    """If True, relax some OWL axioms as per https://robot.obolibrary.org/relax"""
 
     def prefix_map(self) -> PREFIX_MAP:
         """
@@ -434,11 +441,11 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     def roots(
         self,
-        predicates: List[PRED_CURIE] = None,
+        predicates: Optional[List[PRED_CURIE]] = None,
         ignore_owl_thing=True,
         filter_obsoletes=True,
         annotated_roots=False,
-        id_prefixes: List[CURIE] = None,
+        id_prefixes: Optional[List[CURIE]] = None,
     ) -> Iterable[CURIE]:
         """
         Yields all entities without a parent.
@@ -501,7 +508,10 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 yield term
 
     def leafs(
-        self, predicates: List[PRED_CURIE] = None, ignore_owl_nothing=True, filter_obsoletes=True
+        self,
+        predicates: Optional[List[PRED_CURIE]] = None,
+        ignore_owl_nothing=True,
+        filter_obsoletes=True,
     ) -> Iterable[CURIE]:
         """
         Yields all nodes that have no children.
@@ -543,7 +553,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
                 yield term
 
     def singletons(
-        self, predicates: List[PRED_CURIE] = None, filter_obsoletes=True
+        self, predicates: Optional[List[PRED_CURIE]] = None, filter_obsoletes=True
     ) -> Iterable[CURIE]:
         """
         Yields entities that have neither parents nor children.
@@ -745,7 +755,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         return self.outgoing_relationship_map(curie)
 
     def outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
         Yields relationships where the input curie in the subject.
@@ -762,7 +772,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
 
     @deprecated("Use outgoing_relationships()")
     def get_outgoing_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         return self.outgoing_relationships(curie, predicates)
 
@@ -782,7 +792,7 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         return self.incoming_relationship_map(curie)
 
     def incoming_relationships(
-        self, curie: CURIE, predicates: List[PRED_CURIE] = None
+        self, curie: CURIE, predicates: Optional[List[PRED_CURIE]] = None
     ) -> Iterator[Tuple[PRED_CURIE, CURIE]]:
         """
         Returns relationships where curie in the object
@@ -960,6 +970,24 @@ class BasicOntologyInterface(OntologyInterface, ABC):
         :return:
         """
         raise NotImplementedError
+
+    def entities_metadata_statements(
+        self, curies: Iterable[CURIE], predicates: Optional[List[PRED_CURIE]] = None
+    ) -> Iterator[METADATA_STATEMENT]:
+        """
+        Retrieve metadata statements (entity annotations) for a collection of entities.
+
+        :param curies:
+        :return:
+        """
+        # Note: this implementation may be inefficient for some backends.
+        # It is recommended to override this method in specific implementations.
+        for curie in curies:
+            for k, vs in self.entity_metadata_map(curie).items():
+                if predicates is not None and k not in predicates:
+                    continue
+                for v in vs:
+                    yield curie, k, v, None, None
 
     def add_missing_property_values(self, curie: CURIE, metadata_map: METADATA_MAP) -> None:
         """

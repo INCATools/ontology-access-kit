@@ -33,6 +33,9 @@ from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
 from oaklib.datamodels.vocabulary import (
     CONSIDER_REPLACEMENT,
+    CONTRIBUTOR,
+    CREATED,
+    CREATOR,
     DEPRECATED_PREDICATE,
     EQUIVALENT_CLASS,
     HAS_DBXREF,
@@ -40,6 +43,8 @@ from oaklib.datamodels.vocabulary import (
     HAS_OBSOLESCENCE_REASON,
     IS_A,
     LABEL_PREDICATE,
+    OIO_CREATED_BY,
+    OIO_CREATION_DATE,
     OIO_SUBSET_PROPERTY,
     OIO_SYNONYM_TYPE_PROPERTY,
     OWL_CLASS,
@@ -54,6 +59,8 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_ALT_ID,
     TAG_COMMENT,
     TAG_CONSIDER,
+    TAG_CREATED_BY,
+    TAG_CREATION_DATE,
     TAG_DATA_VERSION,
     TAG_DEFINITION,
     TAG_EQUIVALENT_TO,
@@ -63,6 +70,7 @@ from oaklib.implementations.simpleobo.simple_obo_parser import (
     TAG_NAME,
     TAG_NAMESPACE,
     TAG_ONTOLOGY,
+    TAG_PROPERTY_VALUE,
     TAG_RELATIONSHIP,
     TAG_REPLACED_BY,
     TAG_SUBSET,
@@ -84,6 +92,7 @@ from oaklib.interfaces.basic_ontology_interface import (
 from oaklib.interfaces.differ_interface import DifferInterface
 from oaklib.interfaces.mapping_provider_interface import MappingProviderInterface
 from oaklib.interfaces.obograph_interface import OboGraphInterface
+from oaklib.interfaces.obolegacy_interface import PRED_CODE, OboLegacyInterface
 from oaklib.interfaces.patcher_interface import PatcherInterface
 from oaklib.interfaces.rdf_interface import RdfInterface
 from oaklib.interfaces.search_interface import SearchInterface
@@ -93,8 +102,6 @@ from oaklib.resource import OntologyResource
 from oaklib.types import CURIE, PRED_CURIE, SUBSET_CURIE
 from oaklib.utilities.basic_utils import pairs_as_dict
 from oaklib.utilities.kgcl_utilities import tidy_change_object
-
-PRED_CODE = Union[str, PRED_CURIE]
 
 
 def _is_isa(x: str):
@@ -107,6 +114,7 @@ class SimpleOboImplementation(
     DifferInterface,
     RdfInterface,
     OboGraphInterface,
+    OboLegacyInterface,
     SearchInterface,
     MappingProviderInterface,
     PatcherInterface,
@@ -123,6 +131,7 @@ class SimpleOboImplementation(
     obo_document: OboDocument = None
     _relationship_index_cache: Dict[CURIE, List[RELATIONSHIP]] = None
     _alt_id_to_replacement_map: Dict[CURIE, List[CURIE]] = None
+    _uses_legacy_properties: bool = None
 
     def __post_init__(self):
         if self.obo_document is None:
@@ -130,6 +139,12 @@ class SimpleOboImplementation(
             if resource and resource.local_path:
                 logging.info(f"Creating doc for {resource}")
                 self.obo_document = parse_obo_document(resource.local_path)
+                if "edit.obo" in str(resource.local_path) and self.auto_relax_axioms is None:
+                    # TODO: in future ontology modules should explicitly set this in the metadata
+                    logging.info(
+                        f"Auto-setting auto_relax_axioms based on name: {resource.local_path}"
+                    )
+                    self.auto_relax_axioms = True
             else:
                 self.obo_document = OboDocument()
         for prefix, expansion in self.obo_document.header.pair_values(TAG_ID_SPACE):
@@ -155,7 +170,8 @@ class SimpleOboImplementation(
     def _all_relationships(self) -> Iterator[RELATIONSHIP]:
         logging.info("Commencing indexing")
         n = 0
-        for s in self.entities(filter_obsoletes=False):
+        entities = list(self.entities(filter_obsoletes=False))
+        for s in entities:
             t = self._stanza(s, strict=False)
             if t is None:
                 # alt_ids
@@ -168,11 +184,22 @@ class SimpleOboImplementation(
                 yield s, EQUIVALENT_CLASS, v
                 yield v, EQUIVALENT_CLASS, s
             for p, v in t.pair_values(TAG_RELATIONSHIP):
-                yield s, self._get_relationship_type_curie(p), v
+                yield s, self.map_shorthand_to_curie(p), v
             # for p, v in t.intersection_of_tuples():
             #    n += 1
             #    yield s, self._get_relationship_type_curie(p), v
         logging.info(f"Indexed {n} relationships")
+        if self.auto_relax_axioms:
+            n = 0
+            logging.info("Auto-relaxing axioms")
+            for ldef in self.logical_definitions(entities):
+                for p in ldef.genusIds:
+                    yield ldef.definedClassId, IS_A, p
+                    n += 1
+                for r in ldef.restrictions:
+                    yield ldef.definedClassId, r.propertyId, r.fillerId
+                    n += 1
+            logging.info(f"Relaxed {n} relationships")
 
     def entities(self, filter_obsoletes=True, owl_type=None) -> Iterable[CURIE]:
         od = self.obo_document
@@ -263,6 +290,10 @@ class SimpleOboImplementation(
 
     def _stanza(self, curie: CURIE, strict=True) -> Optional[Stanza]:
         stanza = self.obo_document.stanzas.get(curie, None)
+        if stanza is None:
+            alt_curie = self.map_curie_to_shorthand(curie)
+            if alt_curie and alt_curie != curie:
+                stanza = self.obo_document.stanzas.get(alt_curie)
         if strict and not stanza:
             raise ValueError(f"No such stanza {curie}")
         return stanza
@@ -326,7 +357,7 @@ class SimpleOboImplementation(
         if not predicate or predicate == IS_A:
             t.remove_simple_tag_value(TAG_IS_A, filler)
         else:
-            predicate_code = self._get_relationship_type_shorthand(predicate)
+            predicate_code = self.map_curie_to_shorthand(predicate)
             t.remove_pairwise_tag_value(TAG_RELATIONSHIP, predicate_code, filler)
 
     def definition(self, curie: CURIE) -> Optional[str]:
@@ -366,20 +397,36 @@ class SimpleOboImplementation(
                 for v in vs:
                     yield curie, SynonymPropertyValue(pred=p.replace("oio:", ""), val=v)
 
-    def _get_relationship_type_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
+    def map_shorthand_to_curie(self, rel_code: PRED_CODE) -> PRED_CURIE:
+        """
+        Maps either a true relationship type CURIE or a shorthand code to a CURIE.
+
+        See `section 5.9 <https://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9>`_
+
+        :param rel_code:
+        :return:
+        """
         for _, x in self.simple_mappings_by_curie(rel_code):
             if x.startswith("BFO:") or x.startswith("RO:"):
                 return x
+            if ":" not in rel_code and ":" in x:
+                return x
         return rel_code
 
-    def _get_relationship_type_shorthand(self, rel_type: PRED_CURIE) -> PRED_CODE:
-        if not (rel_type.startswith("BFO:") or rel_type.startswith("RO:")):
-            return rel_type
+    def map_curie_to_shorthand(self, rel_type: PRED_CURIE) -> PRED_CODE:
+        """
+        Reciprocal of `_get_relationship_type_curie`
+
+        :param rel_type:
+        :return:
+        """
+        is_core = rel_type.startswith("BFO:") or rel_type.startswith("RO:")
         for s in self.obo_document.stanzas.values():
             if s.type == "Typedef":
                 for x in s.simple_values(TAG_XREF):
                     if x == rel_type:
-                        return s.id
+                        if is_core or ":" not in s.id:
+                            return s.id
         return rel_type
 
     def relationships(
@@ -503,13 +550,15 @@ class SimpleOboImplementation(
                 (TAG_CONSIDER, CONSIDER_REPLACEMENT),
                 (TAG_NAMESPACE, HAS_OBO_NAMESPACE),
                 (TAG_IS_OBSOLETE, DEPRECATED_PREDICATE),
+                (TAG_CREATION_DATE, OIO_CREATION_DATE),
+                (TAG_CREATED_BY, OIO_CREATED_BY),
             ]:
                 for v in t.simple_values(tag):
                     if tag == TAG_IS_OBSOLETE:
                         v = True if v == "true" else False
                     m[mkey].append(v)
             for pv in t.property_values():
-                m[pv[0]].append(pv[1])
+                m[self.map_shorthand_to_curie(pv[0])].append(pv[1])
         if curie in _alt_id_map:
             m[TERM_REPLACED_BY] += _alt_id_map[curie]
             m[DEPRECATED_PREDICATE].append(True)
@@ -553,14 +602,14 @@ class SimpleOboImplementation(
     # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     def get_sssom_mappings_by_curie(self, curie: Union[str, CURIE]) -> Iterator[sssom.Mapping]:
-        s = self._stanza(curie)
+        s = self._stanza(curie, strict=False)
         if s:
             for x in s.simple_values(TAG_XREF):
                 yield sssom.Mapping(
                     subject_id=curie,
                     predicate_id=SKOS_CLOSE_MATCH,
                     object_id=x,
-                    mapping_justification=SEMAPV.UnspecifiedMatching.value,
+                    mapping_justification=sssom.EntityReference(SEMAPV.UnspecifiedMatching.value),
                 )
         # TODO: use a cache to avoid re-calculating
         for _, stanza in self.obo_document.stanzas.items():
@@ -568,7 +617,7 @@ class SimpleOboImplementation(
                 for x in stanza.simple_values(TAG_XREF):
                     if x == curie:
                         yield sssom.Mapping(
-                            subject_id=s.id,
+                            subject_id=stanza.id,
                             predicate_id=SKOS_CLOSE_MATCH,
                             object_id=curie,
                             mapping_justification=SEMAPV.UnspecifiedMatching.value,
@@ -602,12 +651,18 @@ class SimpleOboImplementation(
     def logical_definitions(self, subjects: Iterable[CURIE]) -> Iterable[LogicalDefinitionAxiom]:
         for s in subjects:
             t = self._stanza(s, strict=False)
+            if not t:
+                continue
             ldef_tuples = t.intersection_of_tuples()
             if ldef_tuples:
                 ldef = LogicalDefinitionAxiom(definedClassId=s)
                 for m1, m2 in ldef_tuples:
                     if m2:
-                        ldef.restrictions.append(ExistentialRestrictionExpression(m1, m2))
+                        ldef.restrictions.append(
+                            ExistentialRestrictionExpression(
+                                propertyId=self.map_shorthand_to_curie(m1), fillerId=m2
+                            )
+                        )
                     else:
                         ldef.genusIds.append(m1)
                 yield ldef
@@ -634,6 +689,41 @@ class SimpleOboImplementation(
             t.replace_token(curie_map)
         od.reindex()
         self._rebuild_relationship_index()
+
+    @property
+    def uses_legacy_properties(self) -> bool:
+        if self._uses_legacy_properties is not None:
+            return self._uses_legacy_properties
+        for s in self.obo_document.stanzas.values():
+            for tv in s.tag_values:
+                if tv.tag in [TAG_CREATED_BY, TAG_CREATION_DATE]:
+                    self._uses_legacy_properties = True
+                    return True
+        return False
+
+    def set_uses_legacy_properties(self, value: bool) -> None:
+        self._uses_legacy_properties = value
+
+    def add_contributors(self, curie: CURIE, agents: List[CURIE]) -> None:
+        t = self._stanza(curie, strict=True)
+        for agent in agents:
+            t.add_tag_value_pair(TAG_PROPERTY_VALUE, CONTRIBUTOR, agent)
+
+    def set_creator(self, curie: CURIE, agent: CURIE, date: Optional[str] = None) -> None:
+        t = self._stanza(curie, strict=True)
+        if self._uses_legacy_properties:
+            t.set_singular_tag(TAG_CREATED_BY, agent)
+        else:
+            t.add_tag_value_pair(TAG_PROPERTY_VALUE, CREATOR, agent)
+        if date:
+            self.set_creation_date(curie, date)
+
+    def set_creation_date(self, curie: CURIE, date: str) -> None:
+        t = self._stanza(curie, strict=True)
+        if self._uses_legacy_properties:
+            t.set_singular_tag(TAG_CREATION_DATE, date)
+        else:
+            t.add_tag_value_pair(TAG_PROPERTY_VALUE, CREATED, date)
 
     def apply_patch(
         self,
@@ -675,6 +765,9 @@ class SimpleOboImplementation(
             for tv in t.tag_values:
                 if tv == TAG_DEFINITION:
                     tv.replace_quoted_part(patch.new_value)
+        elif isinstance(patch, kgcl.NewTextDefinition):
+            t = self._stanza(patch.about_node, strict=True)
+            t.add_tag_value(TAG_DEFINITION, patch.new_value)
         elif isinstance(patch, kgcl.NewSynonym):
             t = self._stanza(patch.about_node, strict=True)
             # Get scope from patch.qualifier
@@ -704,7 +797,7 @@ class SimpleOboImplementation(
             if _is_isa(patch.old_value):
                 t.remove_simple_tag_value(TAG_IS_A, object)
             else:
-                pred = self._get_relationship_type_shorthand(patch.old_value)
+                pred = self.map_curie_to_shorthand(patch.old_value)
                 t.remove_pairwise_tag_value(TAG_RELATIONSHIP, pred, object)
             if _is_isa(patch.new_value):
                 t.add_tag_value(TAG_IS_A, object)
@@ -712,4 +805,6 @@ class SimpleOboImplementation(
                 t.add_tag_value(TAG_RELATIONSHIP, f"{patch.new_value} {object}")
         else:
             raise NotImplementedError(f"cannot handle KGCL type {type(patch)}")
+        if patch.contributor:
+            self.add_contributors(patch.about_node, [patch.contributor])
         return patch
