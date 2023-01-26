@@ -41,7 +41,8 @@ from oaklib.datamodels.vocabulary import (
     OWL_CLASS,
     OWL_THING,
     PART_OF,
-    TERM_REPLACED_BY, TERM_TRACKER_ITEM,
+    TERM_REPLACED_BY,
+    TERM_TRACKER_ITEM,
 )
 from oaklib.interfaces import MappingProviderInterface, SearchInterface
 from oaklib.interfaces.association_provider_interface import (
