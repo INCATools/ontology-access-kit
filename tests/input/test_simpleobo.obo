@@ -1,0 +1,39 @@
+format-version: 1.2
+data-version: hp/releases/2022-12-15
+saved-by: Peter Robinson, Sebastian Koehler, Sandra Doelken, Chris Mungall, Melissa Haendel, Nicole Vasilevsky, Monarch Initiative, et al.
+subsetdef: hposlim_core "Core clinical terminology"
+subsetdef: secondary_consequence "Consequence of a disorder in another organ system."
+synonymtypedef: abbreviation "abbreviation"
+synonymtypedef: HP:0034334 "allelic_requirement"
+synonymtypedef: layperson "layperson term"
+synonymtypedef: obsolete_synonym "discarded/obsoleted synonym"
+synonymtypedef: plural_form "plural form"
+synonymtypedef: uk_spelling "UK spelling"
+default-namespace: human_phenotype
+remark: Please see license of HPO at http://www.human-phenotype-ontology.org
+ontology: hp.obo
+property_value: http://purl.org/dc/elements/1.1/creator "Human Phenotype Ontology Consortium" xsd:string
+property_value: http://purl.org/dc/elements/1.1/creator "Monarch Initiative" xsd:string
+property_value: http://purl.org/dc/elements/1.1/creator "Peter Robinson" xsd:string
+property_value: http://purl.org/dc/elements/1.1/creator "Sebastian Köhler" xsd:string
+property_value: http://purl.org/dc/elements/1.1/description "The Human Phenotype Ontology (HPO) provides a standardized vocabulary of phenotypic abnormalities and clinical features encountered in human disease." xsd:string
+property_value: http://purl.org/dc/elements/1.1/rights "Peter Robinson, Sebastian Koehler, The Human Phenotype Ontology Consortium, and The Monarch Initiative" xsd:string
+property_value: http://purl.org/dc/elements/1.1/subject "Phenotypic abnormalities encountered in human disease" xsd:string
+property_value: http://purl.org/dc/elements/1.1/title "Human Phenotype Ontology" xsd:string
+property_value: http://purl.org/dc/terms/license https://hpo.jax.org/app/license
+property_value: IAO:0000700 HP:0000001
+property_value: owl:versionInfo "2022-12-15" xsd:string
+logical-definition-view-relation: has_part
+
+[Term]
+id: HP:0001427
+name: Mitochondrial inheritance
+alt_id: HP:0001431
+alt_id: HP:0001458
+alt_id: HP:0001506
+def: "A mode of inheritance that is observed for traits related to a gene encoded on the mitochondrial genome. Because the mitochondrial genome is essentially always maternally inherited, a mitochondrial condition can only be transmitted by females, although the condition can affect both sexes. The proportion of mutant mitochondria can vary (heteroplasmy)." [HPO:probinson]
+synonym: "Mitochondrial" EXACT []
+synonym: "mitochondrial" EXACT HP:0034334 []
+xref: MSH:D050259
+xref: UMLS:C0887941
+is_a: HP:0034345 ! Mendelian inheritance

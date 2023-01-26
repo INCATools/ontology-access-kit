@@ -4,6 +4,7 @@ from copy import deepcopy
 
 from kgcl_schema.datamodel import kgcl
 
+from oaklib.cli import query_terms_iterator
 from oaklib.datamodels import obograph
 from oaklib.datamodels.search import SearchConfiguration
 from oaklib.datamodels.search_datamodel import SearchProperty, SearchTermSyntax
@@ -420,3 +421,15 @@ class TestSimpleOboImplementation(unittest.TestCase):
         )
         # query with UNrewired preds should be incomplete
         self.assertNotIn(NUCLEAR_MEMBRANE, oi.ancestors(NUCLEUS, predicates=preds, reflexive=False))
+
+    def test_entity_alias_map(self):
+        """Test aliases."""
+        resource = OntologyResource(slug="test_simpleobo.obo", directory=INPUT_DIR, local=True)
+        impl = SimpleOboImplementation(resource)
+        alias_list = []
+        for curie in query_terms_iterator((".all",), impl):
+            for pred, aliases in impl.entity_alias_map(curie).items():
+                for alias in aliases:
+                    alias_list.append(dict(curie=curie, pred=pred, alias=alias))
+
+        self.assertEqual(len(alias_list), 3)
