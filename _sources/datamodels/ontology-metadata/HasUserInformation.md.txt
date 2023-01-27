@@ -52,7 +52,7 @@ URI: [omoschema:HasUserInformation](http://purl.obolibrary.org/obo/omo/schema/Ha
 | [example_of_usage](example_of_usage.md) | 0..* <br/> NONE |  | direct |
 | [curator_note](curator_note.md) | 0..* <br/> NONE |  | direct |
 | [has_curation_status](has_curation_status.md) | 0..1 <br/> NONE |  | direct |
-| [depicted_by](depicted_by.md) | 0..* <br/> NONE |  | direct |
+| [depicted_by](depicted_by.md) | 0..* <br/> [Image](Image.md) |  | direct |
 | [page](page.md) | 0..* <br/> NONE |  | direct |
 
 ## Mixin Usage
@@ -220,7 +220,7 @@ attributes:
     owner: HasUserInformation
     domain_of:
     - HasUserInformation
-    range: string
+    range: Image
   page:
     name: page
     from_schema: http://purl.obolibrary.org/obo/omo/schema

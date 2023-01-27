@@ -164,7 +164,7 @@
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="HomoSapiens.html"><span class="doc std std-doc">HomoSapiens</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -243,6 +243,16 @@
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">Ontology</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="HomoSapiens.html"><span class="doc std std-doc">HomoSapiens</span></a></p></td>
+<td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Ontology</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
+<td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Ontology</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Image.html"><span class="doc std std-doc">Image</span></a></p></td>
 <td><p><a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a></p></td>
 <td><p>range</p></td>
 <td><p><a class="reference internal" href="#"><span class="doc std std-doc">Ontology</span></a></p></td>
@@ -477,7 +487,7 @@ attributes:
     domain_of:
     - HasProvenance
     - Ontology
-    range: HomoSapiens
+    range: Agent
     structured_pattern:
       syntax: &#39;{orcid_regex}&#39;
       interpolated: true

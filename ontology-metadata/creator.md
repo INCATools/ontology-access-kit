@@ -28,6 +28,8 @@ URI: [dcterms:creator](http://purl.org/dc/terms/creator)
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
 [HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 
@@ -37,7 +39,7 @@ URI: [dcterms:creator](http://purl.org/dc/terms/creator)
 
 ## Properties
 
-* Range: [HomoSapiens](HomoSapiens.md)
+* Range: [Agent](Agent.md)
 * Multivalued: True
 
 
@@ -79,7 +81,7 @@ alias: creator
 domain_of:
 - HasProvenance
 - Ontology
-range: HomoSapiens
+range: Agent
 structured_pattern:
   syntax: '{orcid_regex}'
   interpolated: true

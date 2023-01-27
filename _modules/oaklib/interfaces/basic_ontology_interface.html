@@ -120,6 +120,10 @@
 <span class="n">METADATA_MAP</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="c1"># ANNOTATED_METADATA_MAP = Dict[PRED_CURIE, List[Tuple[str, METADATA_MAP]]]</span>
 <span class="n">RELATIONSHIP</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]</span>
+<span class="n">DATATYPE</span> <span class="o">=</span> <span class="n">CURIE</span>
+<span class="n">LITERAL_METADATA_STATEMENT</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">DATATYPE</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">METADATA_MAP</span><span class="p">]]</span>
+<span class="n">OBJECT_METADATA_STATEMENT</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">METADATA_MAP</span><span class="p">]]</span>
+<span class="n">METADATA_STATEMENT</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">LITERAL_METADATA_STATEMENT</span><span class="p">,</span> <span class="n">OBJECT_METADATA_STATEMENT</span><span class="p">]</span>
 <span class="n">DEFINITION</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">METADATA_MAP</span><span class="p">]</span>
 
 <span class="n">MISSING_PREFIX_MAP</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -213,6 +217,9 @@
     <span class="sd">&quot;&quot;&quot;An optional mapper that overrides metamodel properties&quot;&quot;&quot;</span>
 
     <span class="n">_converter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">curies</span><span class="o">.</span><span class="n">Converter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">auto_relax_axioms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;If True, relax some OWL axioms as per https://robot.obolibrary.org/relax&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BasicOntologyInterface.prefix_map"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.prefix_map">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PREFIX_MAP</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -517,11 +524,11 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.roots"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">[docs]</a>    <span class="k">def</span> <span class="nf">roots</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ignore_owl_thing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">annotated_roots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">id_prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">id_prefixes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all entities without a parent.</span>
@@ -584,7 +591,10 @@
                 <span class="k">yield</span> <span class="n">term</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.leafs"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs">[docs]</a>    <span class="k">def</span> <span class="nf">leafs</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore_owl_nothing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ignore_owl_nothing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all nodes that have no children.</span>
@@ -626,7 +636,7 @@
                 <span class="k">yield</span> <span class="n">term</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.singletons"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons">[docs]</a>    <span class="k">def</span> <span class="nf">singletons</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filter_obsoletes</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields entities that have neither parents nor children.</span>
@@ -828,7 +838,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.outgoing_relationships"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.outgoing_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">outgoing_relationships</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields relationships where the input curie in the subject.</span>
@@ -845,7 +855,7 @@
 
 <div class="viewcode-block" id="BasicOntologyInterface.get_outgoing_relationships"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.get_outgoing_relationships">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use outgoing_relationships()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_outgoing_relationships</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_relationships</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">predicates</span><span class="p">)</span></div>
 
@@ -865,7 +875,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">incoming_relationship_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.incoming_relationships"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.incoming_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">incoming_relationships</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns relationships where curie in the object</span>
@@ -1043,6 +1053,24 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasicOntologyInterface.entities_metadata_statements"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities_metadata_statements">[docs]</a>    <span class="k">def</span> <span class="nf">entities_metadata_statements</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">METADATA_STATEMENT</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve metadata statements (entity annotations) for a collection of entities.</span>
+
+<span class="sd">        :param curies:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note: this implementation may be inefficient for some backends.</span>
+        <span class="c1"># It is recommended to override this method in specific implementations.</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">vs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_metadata_map</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">predicates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">predicates</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vs</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="BasicOntologyInterface.add_missing_property_values"><a class="viewcode-back" href="../../../interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.add_missing_property_values">[docs]</a>    <span class="k">def</span> <span class="nf">add_missing_property_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">metadata_map</span><span class="p">:</span> <span class="n">METADATA_MAP</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>

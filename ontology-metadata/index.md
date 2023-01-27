@@ -9,6 +9,7 @@ Name: Ontology-Metadata
 
 | Class | Description |
 | --- | --- |
+| [Agent](Agent.md) |  |
 | [Annotation](Annotation.md) | A reified property-object pair |
 | [AnnotationProperty](AnnotationProperty.md) | A property used in non-logical axioms |
 | [AnnotationPropertyMixin](AnnotationPropertyMixin.md) | Groups all annotation property bundles |
@@ -27,6 +28,7 @@ Name: Ontology-Metadata
 | [HasSynonyms](HasSynonyms.md) | a mixin for a class whose members can have synonyms |
 | [HasUserInformation](HasUserInformation.md) |  |
 | [HomoSapiens](HomoSapiens.md) | An individual human being |
+| [Image](Image.md) |  |
 | [NamedIndividual](NamedIndividual.md) | An instance that has a IRI |
 | [NamedObject](NamedObject.md) | Anything with an IRI |
 | [NotObsoleteAspect](NotObsoleteAspect.md) | Auto-classifies anything that is not obsolete |

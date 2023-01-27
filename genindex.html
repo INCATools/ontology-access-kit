@@ -211,6 +211,8 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-associations-autolabel">runoak-associations command line option</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-definitions-autolabel">runoak-definitions command line option</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-diff-associations-autolabel">runoak-diff-associations command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-diff-via-mappings-autolabel">runoak-diff-via-mappings command line option</a>
@@ -309,6 +311,13 @@
         <li><a href="cli.html#cmdoption-runoak-tree-C">runoak-tree command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-viz-C">runoak-viz command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --contributor
+
+      <ul>
+        <li><a href="cli.html#cmdoption-runoak-apply-contributor">runoak-apply command line option</a>
 </li>
       </ul></li>
       <li>
@@ -755,6 +764,8 @@
 
       <ul>
         <li><a href="cli.html#cmdoption-runoak-associations-autolabel">runoak-associations command line option</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-definitions-autolabel">runoak-definitions command line option</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-diff-associations-autolabel">runoak-diff-associations command line option</a>
 </li>
@@ -2150,6 +2161,8 @@
 </li>
       <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.auto_add_contributor_using">auto_add_contributor_using (oaklib.interfaces.patcher_interface.PatcherInterface attribute)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.auto_relax_axioms">auto_relax_axioms (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.autosave">autosave (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface attribute)</a>
 </li>
       <li><a href="interfaces/owl.html#oaklib.interfaces.owl_interface.OwlInterface.axiom_is_about">axiom_is_about() (oaklib.interfaces.owl_interface.OwlInterface method)</a>
@@ -2317,9 +2330,11 @@
 </li>
       <li><a href="implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">EntailedEdge (class in semsql.sqla.semsql)</a>
 </li>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities">entities() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
+      <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entities_metadata_statements">entities_metadata_statements() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.entity_alias_map">entity_alias_map() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
@@ -2714,6 +2729,8 @@
 </li>
       <li><a href="interfaces/validator.html#oaklib.interfaces.validator_interface.ValidatorInterface.repair">repair() (oaklib.interfaces.validator_interface.ValidatorInterface method)</a>
 </li>
+      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.reverse_changes">reverse_changes() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
+</li>
       <li><a href="interfaces/basic.html#oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots">roots() (oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface method)</a>
 </li>
       <li>
@@ -2860,6 +2877,8 @@
 </li>
         <li><a href="cli.html#cmdoption-runoak-apply-changes-output">--changes-output</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-apply-contributor">--contributor</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-apply-dry-run">--dry-run</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-apply-expand">--expand</a>
@@ -2958,11 +2977,15 @@
       <ul>
         <li><a href="cli.html#cmdoption-runoak-definitions-additional-metadata">--additional-metadata</a>
 </li>
+        <li><a href="cli.html#cmdoption-runoak-definitions-autolabel">--autolabel</a>
+</li>
         <li><a href="cli.html#cmdoption-runoak-definitions-D">--display</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-if-absent">--if-absent</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-additional-metadata">--no-additional-metadata</a>
+</li>
+        <li><a href="cli.html#cmdoption-runoak-definitions-autolabel">--no-autolabel</a>
 </li>
         <li><a href="cli.html#cmdoption-runoak-definitions-o">--output</a>
 </li>
@@ -4310,6 +4333,8 @@
       <li><a href="glossary.html#term-Ubergraph"><strong>Ubergraph</strong></a>
 </li>
       <li><a href="implementations/ubergraph.html#oaklib.implementations.ubergraph.ubergraph_implementation.UbergraphImplementation">UbergraphImplementation (class in oaklib.implementations.ubergraph.ubergraph_implementation)</a>
+</li>
+      <li><a href="interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.undo">undo() (oaklib.interfaces.patcher_interface.PatcherInterface method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class: Image &mdash; oaklib  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> oaklib
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/index.html">The OAK Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implementations/index.html">Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../selectors.html">Ontology Implementation Selectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Datamodels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../converters/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howtos/index.html">How-To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Ontology Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">oaklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Class: Image</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/datamodels/ontology-metadata/Image.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-image">
+<h1>Class: Image<a class="headerlink" href="#class-image" title="Permalink to this headline"></a></h1>
+<p>URI: <a class="reference external" href="http://purl.obolibrary.org/obo/IAO_0000101">IAO:0000101</a></p>
+<div class="mermaid">
+             classDiagram
+    class Image
+      NamedIndividual &lt;|-- Image
+      
+      Image : alternative_term
+      Image : broadMatch
+      Image : category
+      Image : closeMatch
+      Image : comment
+      Image : conformsTo
+      Image : consider
+      Image : contributor
+      Image : created
+      Image : created_by
+      Image : creation_date
+      Image : creator
+      Image : curator_note
+      Image : database_cross_reference
+      Image : date
+      Image : definition
+      Image : definition_source
+      Image : depicted_by
+      Image : deprecated
+      Image : editor_note
+      Image : editor_preferred_term
+      Image : exactMatch
+      Image : example_of_usage
+      Image : excluded_from_QC_check
+      Image : excluded_subClassOf
+      Image : excluded_synonym
+      Image : has_alternative_id
+      Image : has_broad_synonym
+      Image : has_curation_status
+      Image : has_exact_synonym
+      Image : has_narrow_synonym
+      Image : has_obo_namespace
+      Image : has_obsolescence_reason
+      Image : has_related_synonym
+      Image : id
+      Image : IEDB_alternative_term
+      Image : image
+      Image : imported_from
+      Image : in_subset
+      Image : ISA_alternative_term
+      Image : isDefinedBy
+      Image : label
+      Image : narrowMatch
+      Image : OBO_foundry_unique_label
+      Image : ontology_term_requester
+      Image : page
+      Image : seeAlso
+      Image : should_conform_to
+      Image : term_editor
+      Image : term_replaced_by
+      Image : term_tracker_item
+      Image : type
+      
+        </div><section id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a> [ <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> <a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a>]</p>
+<ul>
+<li><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p>
+<ul>
+<li><p><strong>Image</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="slots">
+<h2>Slots<a class="headerlink" href="#slots" title="Permalink to this headline"></a></h2>
+<p>| Name | Cardinality and Range | Description | Inheritance |
+| —  | — | — | — || <a class="reference internal" href="has_curation_status.html"><span class="doc std std-doc">has_curation_status</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="excluded_synonym.html"><span class="doc std std-doc">excluded_synonym</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="has_narrow_synonym.html"><span class="doc std std-doc">has_narrow_synonym</span></a> | 0..* <br/> <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a> |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="isDefinedBy.html"><span class="doc std std-doc">isDefinedBy</span></a> | 0..1 <br/> <a class="reference internal" href="Ontology.html"><span class="doc std std-doc">Ontology</span></a> |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="has_exact_synonym.html"><span class="doc std std-doc">has_exact_synonym</span></a> | 0..* <br/> <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a> |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a> | 1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a> | this maps to the URI in RDF | <a class="reference internal" href="NamedObject.html"><span class="doc std std-doc">NamedObject</span></a> |
+| <a class="reference internal" href="ontology_term_requester.html"><span class="doc std std-doc">ontology_term_requester</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="exactMatch.html"><span class="doc std std-doc">exactMatch</span></a> | 0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> |
+| <a class="reference internal" href="definition.html"><span class="doc std std-doc">definition</span></a> | 0..* <br/> <a class="reference internal" href="NarrativeText.html"><span class="doc std std-doc">NarrativeText</span></a> |  | <a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a> |
+| <a class="reference internal" href="term_editor.html"><span class="doc std std-doc">term_editor</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="editor_note.html"><span class="doc std std-doc">editor_note</span></a> | 0..* <br/> <a class="reference internal" href="NarrativeText.html"><span class="doc std std-doc">NarrativeText</span></a> |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="category.html"><span class="doc std std-doc">category</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> |
+| <a class="reference internal" href="should_conform_to.html"><span class="doc std std-doc">should_conform_to</span></a> | 0..1 <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="term_tracker_item.html"><span class="doc std std-doc">term_tracker_item</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="in_subset.html"><span class="doc std std-doc">in_subset</span></a> | 0..* <br/> <a class="reference internal" href="Subset.html"><span class="doc std std-doc">Subset</span></a> | Maps an ontology element to a subset it belongs to | <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> |
+| <a class="reference internal" href="comment.html"><span class="doc std std-doc">comment</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="has_broad_synonym.html"><span class="doc std std-doc">has_broad_synonym</span></a> | 0..* <br/> <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a> |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="has_alternative_id.html"><span class="doc std std-doc">has_alternative_id</span></a> | 0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a> | Relates a live term to a deprecated ID that was merged in | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="alternative_term.html"><span class="doc std std-doc">alternative_term</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="term_replaced_by.html"><span class="doc std std-doc">term_replaced_by</span></a> | 0..1 <br/> <a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a> |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a> | 0..* <br/> <a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a> |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="broadMatch.html"><span class="doc std std-doc">broadMatch</span></a> | 0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> |
+| <a class="reference internal" href="date.html"><span class="doc std std-doc">date</span></a> | 0..* <br/> NONE | when the term was updated | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="page.html"><span class="doc std std-doc">page</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="closeMatch.html"><span class="doc std std-doc">closeMatch</span></a> | 0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> |
+| <a class="reference internal" href="label.html"><span class="doc std std-doc">label</span></a> | 0..1 <br/> <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a> |  | <a class="reference internal" href="HasMinimalMetadata.html"><span class="doc std std-doc">HasMinimalMetadata</span></a> |
+| <a class="reference internal" href="curator_note.html"><span class="doc std std-doc">curator_note</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="creator.html"><span class="doc std std-doc">creator</span></a> | 0..* <br/> <a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a> |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="database_cross_reference.html"><span class="doc std std-doc">database_cross_reference</span></a> | 0..* <br/> <a class="reference internal" href="CURIELiteral.html"><span class="doc std std-doc">CURIELiteral</span></a> |  | <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> |
+| <a class="reference internal" href="OBO_foundry_unique_label.html"><span class="doc std std-doc">OBO_foundry_unique_label</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="consider.html"><span class="doc std std-doc">consider</span></a> | 0..* <br/> <a class="reference internal" href="Any.html"><span class="doc std std-doc">Any</span></a> |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="IEDB_alternative_term.html"><span class="doc std std-doc">IEDB_alternative_term</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="excluded_from_QC_check.html"><span class="doc std std-doc">excluded_from_QC_check</span></a> | 0..1 <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="excluded_subClassOf.html"><span class="doc std std-doc">excluded_subClassOf</span></a> | 0..* <br/> <a class="reference internal" href="Class.html"><span class="doc std std-doc">Class</span></a> |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="has_obsolescence_reason.html"><span class="doc std std-doc">has_obsolescence_reason</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="creation_date.html"><span class="doc std std-doc">creation_date</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="narrowMatch.html"><span class="doc std std-doc">narrowMatch</span></a> | 0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasMappings.html"><span class="doc std std-doc">HasMappings</span></a> |
+| <a class="reference internal" href="contributor.html"><span class="doc std std-doc">contributor</span></a> | 0..* <br/> <a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a> |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="conformsTo.html"><span class="doc std std-doc">conformsTo</span></a> | 0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> |
+| <a class="reference internal" href="example_of_usage.html"><span class="doc std std-doc">example_of_usage</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a> | 0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a> |  | <a class="reference internal" href="HasLifeCycle.html"><span class="doc std std-doc">HasLifeCycle</span></a> |
+| <a class="reference internal" href="created.html"><span class="doc std std-doc">created</span></a> | 0..1 <br/> NONE | when the term came into being | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="seeAlso.html"><span class="doc std std-doc">seeAlso</span></a> | 0..* <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="editor_preferred_term.html"><span class="doc std std-doc">editor_preferred_term</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="image.html"><span class="doc std std-doc">image</span></a> | 0..1 <br/> <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |  | <a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a> |
+| <a class="reference internal" href="definition_source.html"><span class="doc std std-doc">definition_source</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="imported_from.html"><span class="doc std std-doc">imported_from</span></a> | 0..* <br/> <a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a> |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="has_obo_namespace.html"><span class="doc std std-doc">has_obo_namespace</span></a> | 0..* <br/> NONE |  | <a class="reference internal" href="HasCategory.html"><span class="doc std std-doc">HasCategory</span></a> |
+| <a class="reference internal" href="ISA_alternative_term.html"><span class="doc std std-doc">ISA_alternative_term</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="has_related_synonym.html"><span class="doc std std-doc">has_related_synonym</span></a> | 0..* <br/> <a class="reference internal" href="LabelType.html"><span class="doc std std-doc">LabelType</span></a> |  | <a class="reference internal" href="HasSynonyms.html"><span class="doc std std-doc">HasSynonyms</span></a> |
+| <a class="reference internal" href="created_by.html"><span class="doc std std-doc">created_by</span></a> | 0..1 <br/> NONE |  | <a class="reference internal" href="HasProvenance.html"><span class="doc std std-doc">HasProvenance</span></a> |
+| <a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a> | 0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a> |  | <a class="reference internal" href="Thing.html"><span class="doc std std-doc">Thing</span></a> |</p>
+</section>
+<section id="usages">
+<h2>Usages<a class="headerlink" href="#usages" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>used by</p></th>
+<th class="head"><p>used in</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>used</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="HasUserInformation.html"><span class="doc std std-doc">HasUserInformation</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Term.html"><span class="doc std std-doc">Term</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Class.html"><span class="doc std std-doc">Class</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Property.html"><span class="doc std std-doc">Property</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="AnnotationProperty.html"><span class="doc std std-doc">AnnotationProperty</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ObjectProperty.html"><span class="doc std std-doc">ObjectProperty</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="TransitiveProperty.html"><span class="doc std std-doc">TransitiveProperty</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="NamedIndividual.html"><span class="doc std std-doc">NamedIndividual</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="HomoSapiens.html"><span class="doc std std-doc">HomoSapiens</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Subset.html"><span class="doc std std-doc">Subset</span></a></p></td>
+<td><p><a class="reference internal" href="depicted_by.html"><span class="doc std std-doc">depicted_by</span></a></p></td>
+<td><p>range</p></td>
+<td><p><a class="reference internal" href="#"><span class="doc std std-doc">Image</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="identifier-and-mapping-information">
+<h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
+<section id="schema-source">
+<h3>Schema Source<a class="headerlink" href="#schema-source" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>from schema: http://purl.obolibrary.org/obo/omo/schema</p></li>
+</ul>
+</section>
+</section>
+<section id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping Type</p></th>
+<th class="head"><p>Mapped Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self</p></td>
+<td><p>IAO:0000101</p></td>
+</tr>
+<tr class="row-odd"><td><p>native</p></td>
+<td><p>omoschema:Image</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkml-source">
+<h2>LinkML Source<a class="headerlink" href="#linkml-source" title="Permalink to this headline"></a></h2>
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+<section id="direct">
+<h3>Direct<a class="headerlink" href="#direct" title="Permalink to this headline"></a></h3>
+<details>
+```yaml
+name: Image
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: NamedIndividual
+class_uri: IAO:0000101
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
+
+### Induced
+
+&lt;details&gt;
+```yaml
+name: Image
+from_schema: http://purl.obolibrary.org/obo/omo/schema
+rank: 1000
+is_a: NamedIndividual
+attributes:
+  has_exact_synonym:
+    name: has_exact_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: synonym
+    slot_uri: oio:hasExactSynonym
+    multivalued: true
+    alias: has_exact_synonym
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    - Axiom
+    disjoint_with:
+    - label
+    range: label type
+  has_narrow_synonym:
+    name: has_narrow_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: synonym
+    slot_uri: oio:hasNarrowSynonym
+    multivalued: true
+    alias: has_narrow_synonym
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: label type
+  has_broad_synonym:
+    name: has_broad_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: synonym
+    slot_uri: oio:hasBroadSynonym
+    multivalued: true
+    alias: has_broad_synonym
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: label type
+  has_related_synonym:
+    name: has_related_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    slot_uri: oio:hasRelatedSynonym
+    multivalued: true
+    alias: has_related_synonym
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: label type
+  alternative_term:
+    name: alternative_term
+    in_subset:
+    - allotrope permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:altLabel
+    rank: 1000
+    slot_uri: IAO:0000118
+    multivalued: true
+    alias: alternative_term
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: string
+  ISA_alternative_term:
+    name: ISA_alternative_term
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: alternative_term
+    slot_uri: OBI:0001847
+    multivalued: true
+    alias: ISA_alternative_term
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: string
+  IEDB_alternative_term:
+    name: IEDB_alternative_term
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: alternative_term
+    slot_uri: OBI:9991118
+    multivalued: true
+    alias: IEDB_alternative_term
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: string
+  editor_preferred_term:
+    name: editor_preferred_term
+    in_subset:
+    - obi permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: alternative_term
+    slot_uri: IAO:0000111
+    multivalued: true
+    alias: editor_preferred_term
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: string
+  OBO_foundry_unique_label:
+    name: OBO_foundry_unique_label
+    todos:
+    - add uniquekey
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: alternative_term
+    slot_uri: IAO:0000589
+    multivalued: true
+    alias: OBO_foundry_unique_label
+    owner: Image
+    domain_of:
+    - HasSynonyms
+    range: string
+  deprecated:
+    name: deprecated
+    in_subset:
+    - allotrope permitted profile
+    - go permitted profile
+    - obi permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    aliases:
+    - is obsolete
+    rank: 1000
+    is_a: obsoletion_related_property
+    domain: ObsoleteAspect
+    slot_uri: owl:deprecated
+    alias: deprecated
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: boolean
+  has_obsolescence_reason:
+    name: has_obsolescence_reason
+    todos:
+    - restrict range
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: obsoletion_related_property
+    domain: ObsoleteAspect
+    slot_uri: IAO:0000231
+    alias: has_obsolescence_reason
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: string
+  term_replaced_by:
+    name: term_replaced_by
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
+    in_subset:
+    - go permitted profile
+    - obi permitted profile
+    - allotrope permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - dcterms:isReplacedBy
+    rank: 1000
+    is_a: obsoletion_related_property
+    domain: ObsoleteAspect
+    slot_uri: IAO:0100001
+    alias: term_replaced_by
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: Any
+  consider:
+    name: consider
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;subject must be deprecated&#39;&#39;}&#39;
+    in_subset:
+    - go permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: obsoletion_related_property
+    domain: ObsoleteAspect
+    slot_uri: oio:consider
+    multivalued: true
+    alias: consider
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: Any
+  has_alternative_id:
+    name: has_alternative_id
+    description: Relates a live term to a deprecated ID that was merged in
+    deprecated: This is deprecated as it is redundant with the inverse replaced_by
+      triple
+    comments:
+    - &#39;{&#39;&#39;RULE&#39;&#39;: &#39;&#39;object must NOT be deprecated&#39;&#39;}&#39;
+    in_subset:
+    - go permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    see_also:
+    - https://github.com/owlcs/owlapi/issues/317
+    rank: 1000
+    is_a: obsoletion_related_property
+    domain: NotObsoleteAspect
+    slot_uri: oio:hasAlternativeId
+    multivalued: true
+    alias: has_alternative_id
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: uriorcurie
+  excluded_from_QC_check:
+    name: excluded_from_QC_check
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: excluded_axiom
+    alias: excluded_from_QC_check
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: Thing
+  excluded_subClassOf:
+    name: excluded_subClassOf
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: excluded_axiom
+    multivalued: true
+    alias: excluded_subClassOf
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: Class
+  excluded_synonym:
+    name: excluded_synonym
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:hiddenSynonym
+    rank: 1000
+    is_a: excluded_axiom
+    multivalued: true
+    alias: excluded_synonym
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: string
+  should_conform_to:
+    name: should_conform_to
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: excluded_axiom
+    alias: should_conform_to
+    owner: Image
+    domain_of:
+    - HasLifeCycle
+    range: Thing
+  created_by:
+    name: created_by
+    deprecated: proposed obsoleted by OMO group 2022-04-12
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: creator
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: oio:created_by
+    alias: created_by
+    owner: Image
+    domain_of:
+    - HasProvenance
+    - Axiom
+    range: string
+  creation_date:
+    name: creation_date
+    deprecated: proposed obsoleted by OMO group 2022-04-12
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    deprecated_element_has_exact_replacement: created
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: oio:creation_date
+    multivalued: true
+    alias: creation_date
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: string
+  contributor:
+    name: contributor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - prov:wasAttributedTo
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: dcterms:contributor
+    multivalued: true
+    alias: contributor
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: Agent
+    structured_pattern:
+      syntax: &#39;{orcid_regex}&#39;
+      interpolated: true
+      partial_match: false
+  creator:
+    name: creator
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - prov:wasAttributedTo
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: dcterms:creator
+    multivalued: true
+    alias: creator
+    owner: Image
+    domain_of:
+    - HasProvenance
+    - Ontology
+    range: Agent
+    structured_pattern:
+      syntax: &#39;{orcid_regex}&#39;
+      interpolated: true
+      partial_match: false
+  created:
+    name: created
+    description: when the term came into being
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:createdOn
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: dcterms:created
+    multivalued: false
+    alias: created
+    owner: Image
+    domain_of:
+    - HasProvenance
+    - Ontology
+    range: string
+  date:
+    name: date
+    description: when the term was updated
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:authoredOn
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: dcterms:date
+    multivalued: true
+    alias: date
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: string
+  isDefinedBy:
+    name: isDefinedBy
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    close_mappings:
+    - pav:importedFrom
+    - dcterms:publisher
+    rank: 1000
+    slot_uri: rdfs:isDefinedBy
+    alias: isDefinedBy
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: Ontology
+  editor_note:
+    name: editor_note
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000116
+    multivalued: true
+    alias: editor_note
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: narrative text
+  term_editor:
+    name: term_editor
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000117
+    multivalued: true
+    alias: term_editor
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: string
+  definition_source:
+    name: definition_source
+    todos:
+    - restrict range
+    in_subset:
+    - obi permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000119
+    multivalued: true
+    alias: definition_source
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: string
+  ontology_term_requester:
+    name: ontology_term_requester
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000234
+    alias: ontology_term_requester
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: string
+  imported_from:
+    name: imported_from
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000412
+    multivalued: true
+    alias: imported_from
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: NamedIndividual
+  term_tracker_item:
+    name: term_tracker_item
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000233
+    multivalued: true
+    alias: term_tracker_item
+    owner: Image
+    domain_of:
+    - HasProvenance
+    range: string
+  broadMatch:
+    name: broadMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: match
+    slot_uri: skos:broadMatch
+    multivalued: true
+    alias: broadMatch
+    owner: Image
+    domain_of:
+    - HasMappings
+    range: Thing
+  closeMatch:
+    name: closeMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: match
+    slot_uri: skos:closeMatch
+    multivalued: true
+    alias: closeMatch
+    owner: Image
+    domain_of:
+    - HasMappings
+    range: Thing
+  exactMatch:
+    name: exactMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: match
+    slot_uri: skos:exactMatch
+    multivalued: true
+    alias: exactMatch
+    owner: Image
+    domain_of:
+    - HasMappings
+    range: Thing
+  narrowMatch:
+    name: narrowMatch
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: match
+    slot_uri: skos:narrowMatch
+    multivalued: true
+    alias: narrowMatch
+    owner: Image
+    domain_of:
+    - HasMappings
+    range: Thing
+  database_cross_reference:
+    name: database_cross_reference
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: match
+    slot_uri: oio:hasDbXref
+    multivalued: true
+    alias: database_cross_reference
+    owner: Image
+    domain_of:
+    - HasMappings
+    - Axiom
+    range: CURIELiteral
+  has_obo_namespace:
+    name: has_obo_namespace
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    slot_uri: oio:hasOBONamespace
+    multivalued: true
+    alias: has_obo_namespace
+    owner: Image
+    domain_of:
+    - HasCategory
+    range: string
+  category:
+    name: category
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: biolink:category
+    alias: category
+    owner: Image
+    domain_of:
+    - HasCategory
+    range: string
+  in_subset:
+    name: in_subset
+    description: Maps an ontology element to a subset it belongs to
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    slot_uri: oio:inSubset
+    multivalued: true
+    alias: in_subset
+    owner: Image
+    domain_of:
+    - HasCategory
+    range: Subset
+  conformsTo:
+    name: conformsTo
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: dcterms:conformsTo
+    multivalued: true
+    alias: conformsTo
+    owner: Image
+    domain_of:
+    - HasCategory
+    range: Thing
+  comment:
+    name: comment
+    comments:
+    - in obo format, a term cannot have more than one comment
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: rdfs:comment
+    multivalued: true
+    alias: comment
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    - Ontology
+    - Axiom
+    range: string
+  seeAlso:
+    name: seeAlso
+    todos:
+    - restrict range
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    slot_uri: rdfs:seeAlso
+    multivalued: true
+    alias: seeAlso
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    - Axiom
+    range: Thing
+  image:
+    name: image
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: sdo:image
+    alias: image
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    range: Thing
+  example_of_usage:
+    name: example_of_usage
+    in_subset:
+    - allotrope permitted profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:example
+    rank: 1000
+    is_a: informative_property
+    slot_uri: IAO:0000112
+    multivalued: true
+    alias: example_of_usage
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    range: string
+  curator_note:
+    name: curator_note
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: provenance_property
+    slot_uri: IAO:0000232
+    multivalued: true
+    alias: curator_note
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    range: string
+  has_curation_status:
+    name: has_curation_status
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: IAO:0000114
+    alias: has_curation_status
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    range: string
+  depicted_by:
+    name: depicted_by
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: foaf:depicted_by
+    multivalued: true
+    alias: depicted_by
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    range: Image
+  page:
+    name: page
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: informative_property
+    slot_uri: foaf:page
+    multivalued: true
+    alias: page
+    owner: Image
+    domain_of:
+    - HasUserInformation
+    range: string
+  label:
+    name: label
+    comments:
+    - SHOULD follow OBO label guidelines
+    - MUST be unique within an ontology
+    - SHOULD be unique across OBO
+    in_subset:
+    - allotrope required profile
+    - go required profile
+    - obi required profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:prefLabel
+    rank: 1000
+    is_a: core_property
+    slot_uri: rdfs:label
+    multivalued: false
+    alias: label
+    owner: Image
+    domain_of:
+    - HasMinimalMetadata
+    - Axiom
+    range: label type
+  definition:
+    name: definition
+    comments:
+    - SHOULD be in Aristotelian (genus-differentia) form
+    in_subset:
+    - allotrope required profile
+    - go required profile
+    - obi required profile
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    exact_mappings:
+    - skos:definition
+    rank: 1000
+    is_a: core_property
+    slot_uri: IAO:0000115
+    multivalued: true
+    alias: definition
+    owner: Image
+    domain_of:
+    - HasMinimalMetadata
+    range: narrative text
+  id:
+    name: id
+    description: this maps to the URI in RDF
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: core_property
+    identifier: true
+    alias: id
+    owner: Image
+    domain_of:
+    - NamedObject
+    range: uriorcurie
+    required: true
+  type:
+    name: type
+    from_schema: http://purl.obolibrary.org/obo/omo/schema
+    rank: 1000
+    is_a: logical_predicate
+    slot_uri: rdf:type
+    multivalued: true
+    designates_type: true
+    alias: type
+    owner: Image
+    domain_of:
+    - Thing
+    range: uriorcurie
+class_uri: IAO:0000101
+
+</pre></div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, OAK developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

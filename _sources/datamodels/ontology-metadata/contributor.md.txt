@@ -27,6 +27,8 @@ URI: [dcterms:contributor](http://purl.org/dc/terms/contributor)
 [TransitiveProperty](TransitiveProperty.md) | An ObjectProperty with the property of transitivity
 [NamedIndividual](NamedIndividual.md) | An instance that has a IRI
 [HomoSapiens](HomoSapiens.md) | An individual human being
+[Agent](Agent.md) | 
+[Image](Image.md) | 
 [Subset](Subset.md) | A collection of terms grouped for some purpose
 
 
@@ -36,7 +38,7 @@ URI: [dcterms:contributor](http://purl.org/dc/terms/contributor)
 
 ## Properties
 
-* Range: [HomoSapiens](HomoSapiens.md)
+* Range: [Agent](Agent.md)
 * Multivalued: True
 
 
@@ -77,7 +79,7 @@ multivalued: true
 alias: contributor
 domain_of:
 - HasProvenance
-range: HomoSapiens
+range: Agent
 structured_pattern:
   syntax: '{orcid_regex}'
   interpolated: true
