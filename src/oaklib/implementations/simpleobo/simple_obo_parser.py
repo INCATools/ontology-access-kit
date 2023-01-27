@@ -59,8 +59,10 @@ TAG_INVERSE_OF = "inverse_of"
 TAG_EQUIVALENT_TO = "equivalent_to"
 TAG_RELATIONSHIP = "relationship"
 TAG_INTERSECTION_OF = "intersection_of"
+TAG_CREATED_BY = "created_by"
+TAG_CREATION_DATE = "creation_date"
 SYNONYM_TUPLE = Tuple[PRED_CURIE, str, Optional[str], List[CURIE]]
-PROPERTY_VALUE_TUPLE = Tuple[PRED_CURIE, str, Optional[CURIE], List[CURIE]]
+PROPERTY_VALUE_TUPLE = Tuple[PRED_CURIE, str, Optional[CURIE], Optional[List[CURIE]]]
 
 
 def _parse_list(as_str: str) -> List[str]:
@@ -113,11 +115,13 @@ class TagValue:
             return
         m = re_property_value1.match(self.value)
         if m:
+            # includes datatype (literal annotation)
             pv = m.groups()
         else:
+            # no datatype
             m = re_property_value2.match(self.value)
             if m:
-                pv = m.group(1), None, m.group(2), None
+                pv = m.group(1), m.group(2), None, None
             else:
                 raise ValueError(f"Bad property value: {self.value}")
         return pv[0], pv[1], pv[2], None
