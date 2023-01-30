@@ -2089,6 +2089,27 @@ class SqlImplementation(
                 row[0], filtered_count=row[1]
             )
             logging.debug(f"Agg count for mapping {row}")
+        # non-aggregate query for matches
+        match_query = session.query(Statements).filter(
+            Statements.predicate.in_(ALL_MATCH_PREDICATES)
+        )
+        if branch_subq:
+            match_query = match_query.filter(Statements.subject.in_(branch_subq))
+        subject_ids_by_object_source = defaultdict(list)
+        for row in match_query:
+            subject_id = row.subject
+            object_id = row.value if row.value else row.object
+            if ":" not in object_id:
+                logging.warning(f"bad mapping: {object_id}")
+            object_source = object_id.split(":")[0]
+            subject_ids_by_object_source[object_source].append(subject_id)
+        for object_source, subject_ids in subject_ids_by_object_source.items():
+            ssc.mapping_statement_count_by_object_source[object_source] = FacetedCount(
+                object_source, filtered_count=len(subject_ids)
+            )
+            ssc.mapping_statement_count_subject_by_object_source[object_source] = FacetedCount(
+                object_source, filtered_count=len(set(subject_ids))
+            )
         logging.debug("Calculating contributor stats")
         contributor_agg_query = session.query(
             Statements.predicate,
