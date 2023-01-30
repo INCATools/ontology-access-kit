@@ -129,6 +129,8 @@ class StreamingCsvWriter(StreamingWriter):
                 "edge_count_by_predicate",
                 "synonym_statement_count_by_predicate",
                 "mapping_statement_count_by_predicate",
+                "mapping_statement_count_by_object_source",
+                "mapping_statement_count_subject_by_object_source",
                 "class_count_by_subset",
             ]:
                 fc = obj_as_dict[slot]

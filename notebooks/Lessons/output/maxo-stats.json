@@ -1,0 +1,504 @@
+[
+{
+  "id": "AllOntologies",
+  "ontologies": [
+    {
+      "id": "obo:maxo.owl",
+      "version": "obo:maxo/releases/2022-12-19/maxo.owl",
+      "version_info": "2022-12-19"
+    }
+  ],
+  "was_generated_by": {
+    "started_at_time": "2023-01-29T12:43:53.947724",
+    "was_associated_with": "OAK",
+    "acted_on_behalf_of": "cjm"
+  },
+  "class_count": 1440,
+  "deprecated_class_count": 53,
+  "non_deprecated_class_count": 1387,
+  "class_count_with_text_definitions": 1374,
+  "class_count_without_text_definitions": 66,
+  "object_property_count": 4,
+  "annotation_property_count": 0,
+  "named_individual_count": 0,
+  "subset_count": 0,
+  "rdf_triple_count": 15642,
+  "subclass_of_axiom_count": 2842,
+  "equivalent_classes_axiom_count": 584,
+  "edge_count_by_predicate": {
+    "BFO:0000051": {
+      "facet": "BFO:0000051",
+      "filtered_count": 8
+    },
+    "MAXO:0000521": {
+      "facet": "MAXO:0000521",
+      "filtered_count": 20
+    },
+    "MAXO:0000864": {
+      "facet": "MAXO:0000864",
+      "filtered_count": 134
+    },
+    "MAXO:0001015": {
+      "facet": "MAXO:0001015",
+      "filtered_count": 9
+    },
+    "MAXO:0001027": {
+      "facet": "MAXO:0001027",
+      "filtered_count": 76
+    },
+    "RO:0002233": {
+      "facet": "RO:0002233",
+      "filtered_count": 441
+    },
+    "rdfs:subClassOf": {
+      "facet": "rdfs:subClassOf",
+      "filtered_count": 2154
+    }
+  },
+  "distinct_synonym_count": 4391,
+  "synonym_statement_count": 4391,
+  "synonym_statement_count_by_predicate": {
+    "oio:hasBroadSynonym": {
+      "facet": "oio:hasBroadSynonym",
+      "filtered_count": 25
+    },
+    "oio:hasExactSynonym": {
+      "facet": "oio:hasExactSynonym",
+      "filtered_count": 4250
+    },
+    "oio:hasNarrowSynonym": {
+      "facet": "oio:hasNarrowSynonym",
+      "filtered_count": 97
+    },
+    "oio:hasRelatedSynonym": {
+      "facet": "oio:hasRelatedSynonym",
+      "filtered_count": 19
+    }
+  },
+  "mapping_statement_count_by_predicate": {
+    "oio:hasDbXref": {
+      "facet": "oio:hasDbXref",
+      "filtered_count": 554
+    }
+  },
+  "mapping_statement_count_by_object_source": {
+    "OGMS": {
+      "facet": "OGMS",
+      "filtered_count": 8
+    },
+    "NCIT": {
+      "facet": "NCIT",
+      "filtered_count": 330
+    },
+    "OAE": {
+      "facet": "OAE",
+      "filtered_count": 2
+    },
+    "SIO": {
+      "facet": "SIO",
+      "filtered_count": 1
+    },
+    "ERO": {
+      "facet": "ERO",
+      "filtered_count": 4
+    },
+    "NCRO": {
+      "facet": "NCRO",
+      "filtered_count": 2
+    },
+    "SCDO": {
+      "facet": "SCDO",
+      "filtered_count": 5
+    },
+    "OMIT": {
+      "facet": "OMIT",
+      "filtered_count": 5
+    },
+    "CHEBI": {
+      "facet": "CHEBI",
+      "filtered_count": 134
+    },
+    "MeSH": {
+      "facet": "MeSH",
+      "filtered_count": 20
+    },
+    "OBI": {
+      "facet": "OBI",
+      "filtered_count": 15
+    },
+    "IDO": {
+      "facet": "IDO",
+      "filtered_count": 1
+    },
+    "VO": {
+      "facet": "VO",
+      "filtered_count": 4
+    },
+    "https": {
+      "facet": "https",
+      "filtered_count": 3
+    },
+    "PMID": {
+      "facet": "PMID",
+      "filtered_count": 11
+    },
+    "NCIt": {
+      "facet": "NCIt",
+      "filtered_count": 1
+    },
+    "UMLS_CUI": {
+      "facet": "UMLS_CUI",
+      "filtered_count": 1
+    },
+    "CMO": {
+      "facet": "CMO",
+      "filtered_count": 6
+    },
+    "NCBIBook": {
+      "facet": "NCBIBook",
+      "filtered_count": 5
+    },
+    "MMO": {
+      "facet": "MMO",
+      "filtered_count": 1
+    },
+    "VSO": {
+      "facet": "VSO",
+      "filtered_count": 4
+    },
+    "http": {
+      "facet": "http",
+      "filtered_count": 2
+    },
+    "EFO": {
+      "facet": "EFO",
+      "filtered_count": 1
+    },
+    "IDOMAL": {
+      "facet": "IDOMAL",
+      "filtered_count": 1
+    }
+  },
+  "mapping_statement_count_subject_by_object_source": {
+    "OGMS": {
+      "facet": "OGMS",
+      "filtered_count": 8
+    },
+    "NCIT": {
+      "facet": "NCIT",
+      "filtered_count": 321
+    },
+    "OAE": {
+      "facet": "OAE",
+      "filtered_count": 2
+    },
+    "SIO": {
+      "facet": "SIO",
+      "filtered_count": 1
+    },
+    "ERO": {
+      "facet": "ERO",
+      "filtered_count": 4
+    },
+    "NCRO": {
+      "facet": "NCRO",
+      "filtered_count": 2
+    },
+    "SCDO": {
+      "facet": "SCDO",
+      "filtered_count": 5
+    },
+    "OMIT": {
+      "facet": "OMIT",
+      "filtered_count": 5
+    },
+    "CHEBI": {
+      "facet": "CHEBI",
+      "filtered_count": 133
+    },
+    "MeSH": {
+      "facet": "MeSH",
+      "filtered_count": 20
+    },
+    "OBI": {
+      "facet": "OBI",
+      "filtered_count": 15
+    },
+    "IDO": {
+      "facet": "IDO",
+      "filtered_count": 1
+    },
+    "VO": {
+      "facet": "VO",
+      "filtered_count": 4
+    },
+    "https": {
+      "facet": "https",
+      "filtered_count": 3
+    },
+    "PMID": {
+      "facet": "PMID",
+      "filtered_count": 11
+    },
+    "NCIt": {
+      "facet": "NCIt",
+      "filtered_count": 1
+    },
+    "UMLS_CUI": {
+      "facet": "UMLS_CUI",
+      "filtered_count": 1
+    },
+    "CMO": {
+      "facet": "CMO",
+      "filtered_count": 6
+    },
+    "NCBIBook": {
+      "facet": "NCBIBook",
+      "filtered_count": 5
+    },
+    "MMO": {
+      "facet": "MMO",
+      "filtered_count": 1
+    },
+    "VSO": {
+      "facet": "VSO",
+      "filtered_count": 4
+    },
+    "http": {
+      "facet": "http",
+      "filtered_count": 2
+    },
+    "EFO": {
+      "facet": "EFO",
+      "filtered_count": 1
+    },
+    "IDOMAL": {
+      "facet": "IDOMAL",
+      "filtered_count": 1
+    }
+  },
+  "contributor_summary": {
+    "http://orcid.org/0000-0001-7941-2961": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2961",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2961",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 491
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-29610": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-29610",
+      "contributor_name": "http://orcid.org/0000-0001-7941-29610",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2962": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2962",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2962",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2963": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2963",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2963",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 2
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2964": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2964",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2964",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2965": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2965",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2965",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 18
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2969": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2969",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2969",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 2
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2970": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2970",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2970",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2974": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2974",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2974",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 2
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2975": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2975",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2975",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2978": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2978",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2978",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 14
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2979": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2979",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2979",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 5
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2981": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2981",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2981",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2987": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2987",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2987",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2990": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2990",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2990",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2994": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2994",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2994",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-2995": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-2995",
+      "contributor_name": "http://orcid.org/0000-0001-7941-2995",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-3000": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-3000",
+      "contributor_name": "http://orcid.org/0000-0001-7941-3000",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-3008": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-3008",
+      "contributor_name": "http://orcid.org/0000-0001-7941-3008",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 1
+        }
+      }
+    },
+    "http://orcid.org/0000-0001-7941-3010": {
+      "contributor_id": "http://orcid.org/0000-0001-7941-3010",
+      "contributor_name": "http://orcid.org/0000-0001-7941-3010",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 15
+        }
+      }
+    },
+    "<http://orcid.org/0000-0001-7941-2961>": {
+      "contributor_id": "<http://orcid.org/0000-0001-7941-2961>",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 822
+        }
+      }
+    },
+    "<http://orcid.org/0000-0002-7463-6306>": {
+      "contributor_id": "<http://orcid.org/0000-0002-7463-6306>",
+      "role_counts": {
+        "oio:created_by": {
+          "facet": "oio:created_by",
+          "filtered_count": 3
+        }
+      }
+    }
+  },
+  "merged_class_query": 0,
+  "deprecated_property_count": 0,
+  "@type": "UngroupedStatistics"
+}
+]
