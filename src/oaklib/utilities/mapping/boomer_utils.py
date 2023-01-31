@@ -1,10 +1,16 @@
 import logging
+from collections import defaultdict
 from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
-from typing import Iterator, List, Optional, TextIO, Union
+from typing import Iterator, List, Optional, TextIO, Union, Dict, Tuple
 
 import click
 import sssom_schema as sssom
+from oaklib import get_implementation_from_shorthand
+from oaklib.interfaces import MappingProviderInterface
+from oaklib.io.streaming_csv_writer import StreamingCsvWriter
+from oaklib.types import CURIE, PRED_CURIE
 from sssom.constants import SEMAPV
 
 from oaklib.datamodels.mapping_cluster_datamodel import (
@@ -16,6 +22,22 @@ from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 
 logger = logging.getLogger(__name__)
 
+PAIR = Tuple[CURIE, CURIE]
+MAPPING_SP_INDEX = Dict[PAIR, List[sssom.Mapping]]
+
+
+class DiffType(Enum):
+    OK = "OK"
+    AMBIGUOUS = "AMBIGUOUS"
+    NEW = "NEW"
+    CONFLICT = "CONFLICT"
+
+
+MAPPING_DIFF = Tuple[DiffType, PRED_CURIE, sssom.Mapping, Optional[float]]
+
+
+def _predicate_ids(mappings: List[sssom.Mapping]) -> List[CURIE]:
+    return list(set([m.predicate_id for m in mappings]))
 
 @dataclass
 class BoomerEngine:
@@ -27,6 +49,7 @@ class BoomerEngine:
 
     report: Optional[MappingClusterReport] = None
     _mappings: Optional[List[sssom.Mapping]] = None
+    _mappings_by_sp: Optional[MAPPING_SP_INDEX] = None
 
     def mappings(
         self,
@@ -85,6 +108,41 @@ class BoomerEngine:
         self.report = MappingClusterReport(clusters=clusters)
         return self.report
 
+    def index_mappings(self, mappings: List[sssom.Mapping], max_per_pair: Optional[int] = None) -> MAPPING_SP_INDEX:
+        mix: MAPPING_SP_INDEX = defaultdict(list)
+        for m in mappings:
+            pair = (m.subject_id, m.object_id)
+            mix[pair].append(m)
+            if max_per_pair is not None and len(mix[pair]) > max_per_pair:
+                raise ValueError(f"Too many for {pair} => {mix[pair]}")
+        return mix
+
+    def compare(self, current_mappings: List[sssom.Mapping], minimum_confidence: Optional[float] = 0.95) -> Iterator[MAPPING_DIFF]:
+        boomer_mapping_ix = self.index_mappings(list(self.mappings(minimum_confidence=minimum_confidence)), max_per_pair=1)
+        current_mapping_ix = self.index_mappings(current_mappings)
+        for pair, mappings in boomer_mapping_ix.items():
+            [bm] = mappings
+            boomer_pred_id = bm.predicate_id
+            if pair in current_mapping_ix:
+                current_mappings_for_pair = current_mapping_ix[pair]
+                if len(current_mappings_for_pair) > 1:
+                    for m in current_mappings_for_pair:
+                        yield DiffType.AMBIGUOUS, m.predicate_id, m, None
+                for m in current_mappings_for_pair:
+                    if m.predicate_id == boomer_pred_id:
+                        yield DiffType.OK, m.predicate_id, m, bm.confidence
+                    else:
+                        yield DiffType.CONFLICT, bm.predicate_id, m, bm.confidence
+            else:
+                yield DiffType.NEW, bm.predicate_id, bm, bm.confidence
+
+
+min_confidence_option = click.option(
+    "--minimum-confidence",
+    "-L",
+    type=click.FLOAT,
+    help="Do not show mappings with lower confidence",
+)
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
@@ -108,12 +166,7 @@ def main(verbose: int, quiet: bool, prefix_map):
 
 
 @main.command()
-@click.option(
-    "--minimum-confidence",
-    "-L",
-    type=click.FLOAT,
-    help="Do not show mappings with lower confidence",
-)
+@min_confidence_option
 @click.option(
     "--maximum-confidence",
     "-H",
@@ -132,6 +185,30 @@ def export(input_report, **kwargs):
     writer = StreamingSssomWriter()
     for m in ben.mappings(**kwargs):
         writer.emit(m)
+
+
+@main.command()
+@click.option("--input-ontology",
+              "-i",
+              help="use OAK selector syntax")
+@min_confidence_option
+@click.argument("input_report")
+def compare(input_report, input_ontology: str, **kwargs):
+    """
+    Compares boomer results with existing mappings.
+
+    See https://github.com/INCATools/boomer/issues/334
+    """
+    writer = StreamingCsvWriter()
+    adapter = get_implementation_from_shorthand(input_ontology)
+    if not isinstance(adapter, MappingProviderInterface):
+        raise NotImplementedError(f"{input_ontology} can't supply mappings")
+    current_mappings = list(adapter.all_sssom_mappings())
+    ben = BoomerEngine()
+    ben.load(input_report)
+    for md in ben.compare(current_mappings, **kwargs):
+        t, pred, m, conf = md
+        writer.emit(dict(type=t.value, confidence=conf, predicate_id=pred, subject_id=m.subject_id, object_id=m.object_id))
 
 
 if __name__ == "__main__":
