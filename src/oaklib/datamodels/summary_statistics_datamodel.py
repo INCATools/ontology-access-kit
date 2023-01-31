@@ -1,8 +1,8 @@
 # Auto generated from summary_statistics_datamodel.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-12-18T14:17:15
+# Generation date: 2023-01-29T12:10:35
 # Schema: summary-statistics
 #
-# id: https://w3id.org/linkml/summary_statistics
+# id: https://w3id.org/oaklib/summary_statistics
 # description: A datamodel for reports on data
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -55,12 +55,14 @@ PAV = CurieNamespace("pav", "http://purl.org/pav/")
 PROV = CurieNamespace("prov", "http://www.w3.org/ns/prov#")
 RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 RDFS = CurieNamespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
-REPORTING = CurieNamespace("reporting", "https://w3id.org/linkml/report")
 SCHEMA = CurieNamespace("schema", "http://schema.org/")
 SH = CurieNamespace("sh", "https://w3id.org/shacl/")
 SKOS = CurieNamespace("skos", "http://www.w3.org/2004/02/skos/core#")
+SUMMARY_STATISTICS = CurieNamespace(
+    "summary_statistics", "https://w3id.org/oaklib/summary_statistics."
+)
 XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
-DEFAULT_ = REPORTING
+DEFAULT_ = SUMMARY_STATISTICS
 
 
 # Types
@@ -98,10 +100,10 @@ class SummaryStatisticsReport(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.SummaryStatisticsReport
-    class_class_curie: ClassVar[str] = "reporting:SummaryStatisticsReport"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.SummaryStatisticsReport
+    class_class_curie: ClassVar[str] = "summary_statistics:SummaryStatisticsReport"
     class_name: ClassVar[str] = "SummaryStatisticsReport"
-    class_model_uri: ClassVar[URIRef] = REPORTING.SummaryStatisticsReport
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.SummaryStatisticsReport
 
     id: str = None
     ontologies: Optional[
@@ -151,10 +153,10 @@ class GroupedStatistics(SummaryStatisticsReport):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.GroupedStatistics
-    class_class_curie: ClassVar[str] = "reporting:GroupedStatistics"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.GroupedStatistics
+    class_class_curie: ClassVar[str] = "summary_statistics:GroupedStatistics"
     class_name: ClassVar[str] = "GroupedStatistics"
-    class_model_uri: ClassVar[URIRef] = REPORTING.GroupedStatistics
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.GroupedStatistics
 
     id: str = None
     partitions: Optional[
@@ -177,10 +179,10 @@ class UngroupedStatistics(SummaryStatisticsReport):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.UngroupedStatistics
-    class_class_curie: ClassVar[str] = "reporting:UngroupedStatistics"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.UngroupedStatistics
+    class_class_curie: ClassVar[str] = "summary_statistics:UngroupedStatistics"
     class_name: ClassVar[str] = "UngroupedStatistics"
-    class_model_uri: ClassVar[URIRef] = REPORTING.UngroupedStatistics
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.UngroupedStatistics
 
     id: str = None
     class_count: Optional[int] = None
@@ -241,6 +243,18 @@ class UngroupedStatistics(SummaryStatisticsReport):
     ] = empty_dict()
     mapping_count: Optional[int] = None
     mapping_statement_count_by_predicate: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
+    mapping_statement_count_by_object_source: Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
+            List[Union[dict, "FacetedCount"]],
+        ]
+    ] = empty_dict()
+    mapping_statement_count_subject_by_object_source: Optional[
         Union[
             Dict[Union[str, FacetedCountFacet], Union[dict, "FacetedCount"]],
             List[Union[dict, "FacetedCount"]],
@@ -423,6 +437,20 @@ class UngroupedStatistics(SummaryStatisticsReport):
             keyed=True,
         )
 
+        self._normalize_inlined_as_dict(
+            slot_name="mapping_statement_count_by_object_source",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
+
+        self._normalize_inlined_as_dict(
+            slot_name="mapping_statement_count_subject_by_object_source",
+            slot_type=FacetedCount,
+            key_name="facet",
+            keyed=True,
+        )
+
         if self.ontology_count is not None and not isinstance(self.ontology_count, int):
             self.ontology_count = int(self.ontology_count)
 
@@ -448,10 +476,10 @@ class FacetedCount(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.FacetedCount
-    class_class_curie: ClassVar[str] = "reporting:FacetedCount"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.FacetedCount
+    class_class_curie: ClassVar[str] = "summary_statistics:FacetedCount"
     class_name: ClassVar[str] = "FacetedCount"
-    class_model_uri: ClassVar[URIRef] = REPORTING.FacetedCount
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.FacetedCount
 
     facet: Union[str, FacetedCountFacet] = None
     filtered_count: int = None
@@ -478,10 +506,10 @@ class ChangeTypeStatistic(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.ChangeTypeStatistic
-    class_class_curie: ClassVar[str] = "reporting:ChangeTypeStatistic"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.ChangeTypeStatistic
+    class_class_curie: ClassVar[str] = "summary_statistics:ChangeTypeStatistic"
     class_name: ClassVar[str] = "ChangeTypeStatistic"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ChangeTypeStatistic
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.ChangeTypeStatistic
 
     facet: Union[str, ChangeTypeStatisticFacet] = None
     filtered_count: int = None
@@ -508,10 +536,10 @@ class ContributorStatistics(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.ContributorStatistics
-    class_class_curie: ClassVar[str] = "reporting:ContributorStatistics"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.ContributorStatistics
+    class_class_curie: ClassVar[str] = "summary_statistics:ContributorStatistics"
     class_name: ClassVar[str] = "ContributorStatistics"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ContributorStatistics
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.ContributorStatistics
 
     contributor_id: Union[str, ContributorStatisticsContributorId] = None
     contributor_name: Optional[str] = None
@@ -555,7 +583,7 @@ class Ontology(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = OWL.Ontology
     class_class_curie: ClassVar[str] = "owl:Ontology"
     class_name: ClassVar[str] = "Ontology"
-    class_model_uri: ClassVar[URIRef] = REPORTING.Ontology
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.Ontology
 
     id: Union[str, OntologyId] = None
     description: Optional[str] = None
@@ -596,10 +624,10 @@ class SummaryStatisticsCalculationActivity(YAMLRoot):
 
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = REPORTING.SummaryStatisticsCalculationActivity
-    class_class_curie: ClassVar[str] = "reporting:SummaryStatisticsCalculationActivity"
+    class_class_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.SummaryStatisticsCalculationActivity
+    class_class_curie: ClassVar[str] = "summary_statistics:SummaryStatisticsCalculationActivity"
     class_name: ClassVar[str] = "SummaryStatisticsCalculationActivity"
-    class_model_uri: ClassVar[URIRef] = REPORTING.SummaryStatisticsCalculationActivity
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.SummaryStatisticsCalculationActivity
 
     started_at_time: Optional[Union[str, XSDDateTime]] = None
     ended_at_time: Optional[Union[str, XSDDateTime]] = None
@@ -635,7 +663,7 @@ class Agent(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = PROV.Agent
     class_class_curie: ClassVar[str] = "prov:Agent"
     class_name: ClassVar[str] = "Agent"
-    class_model_uri: ClassVar[URIRef] = REPORTING.Agent
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.Agent
 
     id: Union[str, AgentId] = None
     label: Optional[str] = None
@@ -663,7 +691,7 @@ class ContributorRole(YAMLRoot):
     class_class_uri: ClassVar[URIRef] = SH.ContributorRole
     class_class_curie: ClassVar[str] = "sh:ContributorRole"
     class_name: ClassVar[str] = "ContributorRole"
-    class_model_uri: ClassVar[URIRef] = REPORTING.ContributorRole
+    class_model_uri: ClassVar[URIRef] = SUMMARY_STATISTICS.ContributorRole
 
     id: Union[str, ContributorRoleId] = None
 
@@ -685,73 +713,73 @@ class slots:
 
 
 slots.count_statistic = Slot(
-    uri=REPORTING.count_statistic,
+    uri=SUMMARY_STATISTICS.count_statistic,
     name="count_statistic",
-    curie=REPORTING.curie("count_statistic"),
-    model_uri=REPORTING.count_statistic,
+    curie=SUMMARY_STATISTICS.curie("count_statistic"),
+    model_uri=SUMMARY_STATISTICS.count_statistic,
     domain=None,
     range=Optional[int],
 )
 
 slots.class_statistic_group = Slot(
-    uri=REPORTING.class_statistic_group,
+    uri=SUMMARY_STATISTICS.class_statistic_group,
     name="class_statistic_group",
-    curie=REPORTING.curie("class_statistic_group"),
-    model_uri=REPORTING.class_statistic_group,
+    curie=SUMMARY_STATISTICS.curie("class_statistic_group"),
+    model_uri=SUMMARY_STATISTICS.class_statistic_group,
     domain=None,
     range=Optional[str],
 )
 
 slots.property_statistic_group = Slot(
-    uri=REPORTING.property_statistic_group,
+    uri=SUMMARY_STATISTICS.property_statistic_group,
     name="property_statistic_group",
-    curie=REPORTING.curie("property_statistic_group"),
-    model_uri=REPORTING.property_statistic_group,
+    curie=SUMMARY_STATISTICS.curie("property_statistic_group"),
+    model_uri=SUMMARY_STATISTICS.property_statistic_group,
     domain=None,
     range=Optional[str],
 )
 
 slots.individual_statistic_group = Slot(
-    uri=REPORTING.individual_statistic_group,
+    uri=SUMMARY_STATISTICS.individual_statistic_group,
     name="individual_statistic_group",
-    curie=REPORTING.curie("individual_statistic_group"),
-    model_uri=REPORTING.individual_statistic_group,
+    curie=SUMMARY_STATISTICS.curie("individual_statistic_group"),
+    model_uri=SUMMARY_STATISTICS.individual_statistic_group,
     domain=None,
     range=Optional[str],
 )
 
 slots.metadata_statistic_group = Slot(
-    uri=REPORTING.metadata_statistic_group,
+    uri=SUMMARY_STATISTICS.metadata_statistic_group,
     name="metadata_statistic_group",
-    curie=REPORTING.curie("metadata_statistic_group"),
-    model_uri=REPORTING.metadata_statistic_group,
+    curie=SUMMARY_STATISTICS.curie("metadata_statistic_group"),
+    model_uri=SUMMARY_STATISTICS.metadata_statistic_group,
     domain=None,
     range=Optional[str],
 )
 
 slots.owl_statistic_group = Slot(
-    uri=REPORTING.owl_statistic_group,
+    uri=SUMMARY_STATISTICS.owl_statistic_group,
     name="owl_statistic_group",
-    curie=REPORTING.curie("owl_statistic_group"),
-    model_uri=REPORTING.owl_statistic_group,
+    curie=SUMMARY_STATISTICS.curie("owl_statistic_group"),
+    model_uri=SUMMARY_STATISTICS.owl_statistic_group,
     domain=None,
     range=Optional[str],
 )
 
 slots.summaryStatisticsReport__id = Slot(
-    uri=REPORTING.id,
+    uri=SUMMARY_STATISTICS.id,
     name="summaryStatisticsReport__id",
-    curie=REPORTING.curie("id"),
-    model_uri=REPORTING.summaryStatisticsReport__id,
+    curie=SUMMARY_STATISTICS.curie("id"),
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsReport__id,
     domain=None,
     range=str,
 )
 
 slots.summaryStatisticsReport__ontologies = Slot(
-    uri=REPORTING.ontologies,
+    uri=SUMMARY_STATISTICS.ontologies,
     name="summaryStatisticsReport__ontologies",
-    curie=REPORTING.curie("ontologies"),
-    model_uri=REPORTING.summaryStatisticsReport__ontologies,
+    curie=SUMMARY_STATISTICS.curie("ontologies"),
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsReport__ontologies,
     domain=None,
     range=Optional[
         Union[Dict[Union[str, OntologyId], Union[dict, Ontology]], List[Union[dict, Ontology]]]
@@ -759,10 +787,10 @@ slots.summaryStatisticsReport__ontologies = Slot(
 )
 
 slots.summaryStatisticsReport__compared_with = Slot(
-    uri=REPORTING.compared_with,
+    uri=SUMMARY_STATISTICS.compared_with,
     name="summaryStatisticsReport__compared_with",
-    curie=REPORTING.curie("compared_with"),
-    model_uri=REPORTING.summaryStatisticsReport__compared_with,
+    curie=SUMMARY_STATISTICS.curie("compared_with"),
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsReport__compared_with,
     domain=None,
     range=Optional[
         Union[Dict[Union[str, OntologyId], Union[dict, Ontology]], List[Union[dict, Ontology]]]
@@ -770,253 +798,253 @@ slots.summaryStatisticsReport__compared_with = Slot(
 )
 
 slots.summaryStatisticsReport__was_generated_by = Slot(
-    uri=REPORTING.was_generated_by,
+    uri=SUMMARY_STATISTICS.was_generated_by,
     name="summaryStatisticsReport__was_generated_by",
-    curie=REPORTING.curie("was_generated_by"),
-    model_uri=REPORTING.summaryStatisticsReport__was_generated_by,
+    curie=SUMMARY_STATISTICS.curie("was_generated_by"),
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsReport__was_generated_by,
     domain=None,
     range=Optional[Union[dict, SummaryStatisticsCalculationActivity]],
 )
 
 slots.summaryStatisticsReport__agents = Slot(
-    uri=REPORTING.agents,
+    uri=SUMMARY_STATISTICS.agents,
     name="summaryStatisticsReport__agents",
-    curie=REPORTING.curie("agents"),
-    model_uri=REPORTING.summaryStatisticsReport__agents,
+    curie=SUMMARY_STATISTICS.curie("agents"),
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsReport__agents,
     domain=None,
     range=Optional[Union[Dict[Union[str, AgentId], Union[dict, Agent]], List[Union[dict, Agent]]]],
 )
 
 slots.groupedStatistics__partitions = Slot(
-    uri=REPORTING.partitions,
+    uri=SUMMARY_STATISTICS.partitions,
     name="groupedStatistics__partitions",
-    curie=REPORTING.curie("partitions"),
-    model_uri=REPORTING.groupedStatistics__partitions,
+    curie=SUMMARY_STATISTICS.curie("partitions"),
+    model_uri=SUMMARY_STATISTICS.groupedStatistics__partitions,
     domain=None,
     range=Optional[Union[Union[dict, UngroupedStatistics], List[Union[dict, UngroupedStatistics]]]],
 )
 
 slots.ungroupedStatistics__class_count = Slot(
-    uri=REPORTING.class_count,
+    uri=SUMMARY_STATISTICS.class_count,
     name="ungroupedStatistics__class_count",
-    curie=REPORTING.curie("class_count"),
-    model_uri=REPORTING.ungroupedStatistics__class_count,
+    curie=SUMMARY_STATISTICS.curie("class_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__class_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__anonymous_class_expression_count = Slot(
-    uri=REPORTING.anonymous_class_expression_count,
+    uri=SUMMARY_STATISTICS.anonymous_class_expression_count,
     name="ungroupedStatistics__anonymous_class_expression_count",
-    curie=REPORTING.curie("anonymous_class_expression_count"),
-    model_uri=REPORTING.ungroupedStatistics__anonymous_class_expression_count,
+    curie=SUMMARY_STATISTICS.curie("anonymous_class_expression_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__anonymous_class_expression_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__unsatisfiable_class_count = Slot(
-    uri=REPORTING.unsatisfiable_class_count,
+    uri=SUMMARY_STATISTICS.unsatisfiable_class_count,
     name="ungroupedStatistics__unsatisfiable_class_count",
-    curie=REPORTING.curie("unsatisfiable_class_count"),
-    model_uri=REPORTING.ungroupedStatistics__unsatisfiable_class_count,
+    curie=SUMMARY_STATISTICS.curie("unsatisfiable_class_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__unsatisfiable_class_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__deprecated_class_count = Slot(
-    uri=REPORTING.deprecated_class_count,
+    uri=SUMMARY_STATISTICS.deprecated_class_count,
     name="ungroupedStatistics__deprecated_class_count",
-    curie=REPORTING.curie("deprecated_class_count"),
-    model_uri=REPORTING.ungroupedStatistics__deprecated_class_count,
+    curie=SUMMARY_STATISTICS.curie("deprecated_class_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__deprecated_class_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__non_deprecated_class_count = Slot(
-    uri=REPORTING.non_deprecated_class_count,
+    uri=SUMMARY_STATISTICS.non_deprecated_class_count,
     name="ungroupedStatistics__non_deprecated_class_count",
-    curie=REPORTING.curie("non_deprecated_class_count"),
-    model_uri=REPORTING.ungroupedStatistics__non_deprecated_class_count,
+    curie=SUMMARY_STATISTICS.curie("non_deprecated_class_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__non_deprecated_class_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__merged_class_count = Slot(
-    uri=REPORTING.merged_class_count,
+    uri=SUMMARY_STATISTICS.merged_class_count,
     name="ungroupedStatistics__merged_class_count",
-    curie=REPORTING.curie("merged_class_count"),
-    model_uri=REPORTING.ungroupedStatistics__merged_class_count,
+    curie=SUMMARY_STATISTICS.curie("merged_class_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__merged_class_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__class_count_with_text_definitions = Slot(
-    uri=REPORTING.class_count_with_text_definitions,
+    uri=SUMMARY_STATISTICS.class_count_with_text_definitions,
     name="ungroupedStatistics__class_count_with_text_definitions",
-    curie=REPORTING.curie("class_count_with_text_definitions"),
-    model_uri=REPORTING.ungroupedStatistics__class_count_with_text_definitions,
+    curie=SUMMARY_STATISTICS.curie("class_count_with_text_definitions"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__class_count_with_text_definitions,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__class_count_without_text_definitions = Slot(
-    uri=REPORTING.class_count_without_text_definitions,
+    uri=SUMMARY_STATISTICS.class_count_without_text_definitions,
     name="ungroupedStatistics__class_count_without_text_definitions",
-    curie=REPORTING.curie("class_count_without_text_definitions"),
-    model_uri=REPORTING.ungroupedStatistics__class_count_without_text_definitions,
+    curie=SUMMARY_STATISTICS.curie("class_count_without_text_definitions"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__class_count_without_text_definitions,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__property_count = Slot(
-    uri=REPORTING.property_count,
+    uri=SUMMARY_STATISTICS.property_count,
     name="ungroupedStatistics__property_count",
-    curie=REPORTING.curie("property_count"),
-    model_uri=REPORTING.ungroupedStatistics__property_count,
+    curie=SUMMARY_STATISTICS.curie("property_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__property_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__object_property_count = Slot(
-    uri=REPORTING.object_property_count,
+    uri=SUMMARY_STATISTICS.object_property_count,
     name="ungroupedStatistics__object_property_count",
-    curie=REPORTING.curie("object_property_count"),
-    model_uri=REPORTING.ungroupedStatistics__object_property_count,
+    curie=SUMMARY_STATISTICS.curie("object_property_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__object_property_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__deprecated_object_property_count = Slot(
-    uri=REPORTING.deprecated_object_property_count,
+    uri=SUMMARY_STATISTICS.deprecated_object_property_count,
     name="ungroupedStatistics__deprecated_object_property_count",
-    curie=REPORTING.curie("deprecated_object_property_count"),
-    model_uri=REPORTING.ungroupedStatistics__deprecated_object_property_count,
+    curie=SUMMARY_STATISTICS.curie("deprecated_object_property_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__deprecated_object_property_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__non_deprecated_object_property_count = Slot(
-    uri=REPORTING.non_deprecated_object_property_count,
+    uri=SUMMARY_STATISTICS.non_deprecated_object_property_count,
     name="ungroupedStatistics__non_deprecated_object_property_count",
-    curie=REPORTING.curie("non_deprecated_object_property_count"),
-    model_uri=REPORTING.ungroupedStatistics__non_deprecated_object_property_count,
+    curie=SUMMARY_STATISTICS.curie("non_deprecated_object_property_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__non_deprecated_object_property_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__datatype_property_count = Slot(
-    uri=REPORTING.datatype_property_count,
+    uri=SUMMARY_STATISTICS.datatype_property_count,
     name="ungroupedStatistics__datatype_property_count",
-    curie=REPORTING.curie("datatype_property_count"),
-    model_uri=REPORTING.ungroupedStatistics__datatype_property_count,
+    curie=SUMMARY_STATISTICS.curie("datatype_property_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__datatype_property_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__annotation_property_count = Slot(
-    uri=REPORTING.annotation_property_count,
+    uri=SUMMARY_STATISTICS.annotation_property_count,
     name="ungroupedStatistics__annotation_property_count",
-    curie=REPORTING.curie("annotation_property_count"),
-    model_uri=REPORTING.ungroupedStatistics__annotation_property_count,
+    curie=SUMMARY_STATISTICS.curie("annotation_property_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__annotation_property_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__individual_count = Slot(
-    uri=REPORTING.individual_count,
+    uri=SUMMARY_STATISTICS.individual_count,
     name="ungroupedStatistics__individual_count",
-    curie=REPORTING.curie("individual_count"),
-    model_uri=REPORTING.ungroupedStatistics__individual_count,
+    curie=SUMMARY_STATISTICS.curie("individual_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__individual_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__named_individual_count = Slot(
-    uri=REPORTING.named_individual_count,
+    uri=SUMMARY_STATISTICS.named_individual_count,
     name="ungroupedStatistics__named_individual_count",
-    curie=REPORTING.curie("named_individual_count"),
-    model_uri=REPORTING.ungroupedStatistics__named_individual_count,
+    curie=SUMMARY_STATISTICS.curie("named_individual_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__named_individual_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__anonymous_individual_count = Slot(
-    uri=REPORTING.anonymous_individual_count,
+    uri=SUMMARY_STATISTICS.anonymous_individual_count,
     name="ungroupedStatistics__anonymous_individual_count",
-    curie=REPORTING.curie("anonymous_individual_count"),
-    model_uri=REPORTING.ungroupedStatistics__anonymous_individual_count,
+    curie=SUMMARY_STATISTICS.curie("anonymous_individual_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__anonymous_individual_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__untyped_entity_count = Slot(
-    uri=REPORTING.untyped_entity_count,
+    uri=SUMMARY_STATISTICS.untyped_entity_count,
     name="ungroupedStatistics__untyped_entity_count",
-    curie=REPORTING.curie("untyped_entity_count"),
-    model_uri=REPORTING.ungroupedStatistics__untyped_entity_count,
+    curie=SUMMARY_STATISTICS.curie("untyped_entity_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__untyped_entity_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__subset_count = Slot(
-    uri=REPORTING.subset_count,
+    uri=SUMMARY_STATISTICS.subset_count,
     name="ungroupedStatistics__subset_count",
-    curie=REPORTING.curie("subset_count"),
-    model_uri=REPORTING.ungroupedStatistics__subset_count,
+    curie=SUMMARY_STATISTICS.curie("subset_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__subset_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__description_logic_profile = Slot(
-    uri=REPORTING.description_logic_profile,
+    uri=SUMMARY_STATISTICS.description_logic_profile,
     name="ungroupedStatistics__description_logic_profile",
-    curie=REPORTING.curie("description_logic_profile"),
-    model_uri=REPORTING.ungroupedStatistics__description_logic_profile,
+    curie=SUMMARY_STATISTICS.curie("description_logic_profile"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__description_logic_profile,
     domain=None,
     range=Optional[str],
 )
 
 slots.ungroupedStatistics__owl_axiom_count = Slot(
-    uri=REPORTING.owl_axiom_count,
+    uri=SUMMARY_STATISTICS.owl_axiom_count,
     name="ungroupedStatistics__owl_axiom_count",
-    curie=REPORTING.curie("owl_axiom_count"),
-    model_uri=REPORTING.ungroupedStatistics__owl_axiom_count,
+    curie=SUMMARY_STATISTICS.curie("owl_axiom_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__owl_axiom_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__rdf_triple_count = Slot(
-    uri=REPORTING.rdf_triple_count,
+    uri=SUMMARY_STATISTICS.rdf_triple_count,
     name="ungroupedStatistics__rdf_triple_count",
-    curie=REPORTING.curie("rdf_triple_count"),
-    model_uri=REPORTING.ungroupedStatistics__rdf_triple_count,
+    curie=SUMMARY_STATISTICS.curie("rdf_triple_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__rdf_triple_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__subclass_of_axiom_count = Slot(
-    uri=REPORTING.subclass_of_axiom_count,
+    uri=SUMMARY_STATISTICS.subclass_of_axiom_count,
     name="ungroupedStatistics__subclass_of_axiom_count",
-    curie=REPORTING.curie("subclass_of_axiom_count"),
-    model_uri=REPORTING.ungroupedStatistics__subclass_of_axiom_count,
+    curie=SUMMARY_STATISTICS.curie("subclass_of_axiom_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__subclass_of_axiom_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__equivalent_classes_axiom_count = Slot(
-    uri=REPORTING.equivalent_classes_axiom_count,
+    uri=SUMMARY_STATISTICS.equivalent_classes_axiom_count,
     name="ungroupedStatistics__equivalent_classes_axiom_count",
-    curie=REPORTING.curie("equivalent_classes_axiom_count"),
-    model_uri=REPORTING.ungroupedStatistics__equivalent_classes_axiom_count,
+    curie=SUMMARY_STATISTICS.curie("equivalent_classes_axiom_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__equivalent_classes_axiom_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__edge_count_by_predicate = Slot(
-    uri=REPORTING.edge_count_by_predicate,
+    uri=SUMMARY_STATISTICS.edge_count_by_predicate,
     name="ungroupedStatistics__edge_count_by_predicate",
-    curie=REPORTING.curie("edge_count_by_predicate"),
-    model_uri=REPORTING.ungroupedStatistics__edge_count_by_predicate,
+    curie=SUMMARY_STATISTICS.curie("edge_count_by_predicate"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__edge_count_by_predicate,
     domain=None,
     range=Optional[
         Union[
@@ -1027,10 +1055,10 @@ slots.ungroupedStatistics__edge_count_by_predicate = Slot(
 )
 
 slots.ungroupedStatistics__entailed_edge_count_by_predicate = Slot(
-    uri=REPORTING.entailed_edge_count_by_predicate,
+    uri=SUMMARY_STATISTICS.entailed_edge_count_by_predicate,
     name="ungroupedStatistics__entailed_edge_count_by_predicate",
-    curie=REPORTING.curie("entailed_edge_count_by_predicate"),
-    model_uri=REPORTING.ungroupedStatistics__entailed_edge_count_by_predicate,
+    curie=SUMMARY_STATISTICS.curie("entailed_edge_count_by_predicate"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__entailed_edge_count_by_predicate,
     domain=None,
     range=Optional[
         Union[
@@ -1041,28 +1069,28 @@ slots.ungroupedStatistics__entailed_edge_count_by_predicate = Slot(
 )
 
 slots.ungroupedStatistics__distinct_synonym_count = Slot(
-    uri=REPORTING.distinct_synonym_count,
+    uri=SUMMARY_STATISTICS.distinct_synonym_count,
     name="ungroupedStatistics__distinct_synonym_count",
-    curie=REPORTING.curie("distinct_synonym_count"),
-    model_uri=REPORTING.ungroupedStatistics__distinct_synonym_count,
+    curie=SUMMARY_STATISTICS.curie("distinct_synonym_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__distinct_synonym_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__synonym_statement_count = Slot(
-    uri=REPORTING.synonym_statement_count,
+    uri=SUMMARY_STATISTICS.synonym_statement_count,
     name="ungroupedStatistics__synonym_statement_count",
-    curie=REPORTING.curie("synonym_statement_count"),
-    model_uri=REPORTING.ungroupedStatistics__synonym_statement_count,
+    curie=SUMMARY_STATISTICS.curie("synonym_statement_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__synonym_statement_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__synonym_statement_count_by_predicate = Slot(
-    uri=REPORTING.synonym_statement_count_by_predicate,
+    uri=SUMMARY_STATISTICS.synonym_statement_count_by_predicate,
     name="ungroupedStatistics__synonym_statement_count_by_predicate",
-    curie=REPORTING.curie("synonym_statement_count_by_predicate"),
-    model_uri=REPORTING.ungroupedStatistics__synonym_statement_count_by_predicate,
+    curie=SUMMARY_STATISTICS.curie("synonym_statement_count_by_predicate"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__synonym_statement_count_by_predicate,
     domain=None,
     range=Optional[
         Union[
@@ -1073,10 +1101,10 @@ slots.ungroupedStatistics__synonym_statement_count_by_predicate = Slot(
 )
 
 slots.ungroupedStatistics__class_count_by_subset = Slot(
-    uri=REPORTING.class_count_by_subset,
+    uri=SUMMARY_STATISTICS.class_count_by_subset,
     name="ungroupedStatistics__class_count_by_subset",
-    curie=REPORTING.curie("class_count_by_subset"),
-    model_uri=REPORTING.ungroupedStatistics__class_count_by_subset,
+    curie=SUMMARY_STATISTICS.curie("class_count_by_subset"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__class_count_by_subset,
     domain=None,
     range=Optional[
         Union[
@@ -1087,10 +1115,10 @@ slots.ungroupedStatistics__class_count_by_subset = Slot(
 )
 
 slots.ungroupedStatistics__class_count_by_category = Slot(
-    uri=REPORTING.class_count_by_category,
+    uri=SUMMARY_STATISTICS.class_count_by_category,
     name="ungroupedStatistics__class_count_by_category",
-    curie=REPORTING.curie("class_count_by_category"),
-    model_uri=REPORTING.ungroupedStatistics__class_count_by_category,
+    curie=SUMMARY_STATISTICS.curie("class_count_by_category"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__class_count_by_category,
     domain=None,
     range=Optional[
         Union[
@@ -1101,19 +1129,47 @@ slots.ungroupedStatistics__class_count_by_category = Slot(
 )
 
 slots.ungroupedStatistics__mapping_count = Slot(
-    uri=REPORTING.mapping_count,
+    uri=SUMMARY_STATISTICS.mapping_count,
     name="ungroupedStatistics__mapping_count",
-    curie=REPORTING.curie("mapping_count"),
-    model_uri=REPORTING.ungroupedStatistics__mapping_count,
+    curie=SUMMARY_STATISTICS.curie("mapping_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__mapping_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__mapping_statement_count_by_predicate = Slot(
-    uri=REPORTING.mapping_statement_count_by_predicate,
+    uri=SUMMARY_STATISTICS.mapping_statement_count_by_predicate,
     name="ungroupedStatistics__mapping_statement_count_by_predicate",
-    curie=REPORTING.curie("mapping_statement_count_by_predicate"),
-    model_uri=REPORTING.ungroupedStatistics__mapping_statement_count_by_predicate,
+    curie=SUMMARY_STATISTICS.curie("mapping_statement_count_by_predicate"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__mapping_statement_count_by_predicate,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
+)
+
+slots.ungroupedStatistics__mapping_statement_count_by_object_source = Slot(
+    uri=SUMMARY_STATISTICS.mapping_statement_count_by_object_source,
+    name="ungroupedStatistics__mapping_statement_count_by_object_source",
+    curie=SUMMARY_STATISTICS.curie("mapping_statement_count_by_object_source"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__mapping_statement_count_by_object_source,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, FacetedCountFacet], Union[dict, FacetedCount]],
+            List[Union[dict, FacetedCount]],
+        ]
+    ],
+)
+
+slots.ungroupedStatistics__mapping_statement_count_subject_by_object_source = Slot(
+    uri=SUMMARY_STATISTICS.mapping_statement_count_subject_by_object_source,
+    name="ungroupedStatistics__mapping_statement_count_subject_by_object_source",
+    curie=SUMMARY_STATISTICS.curie("mapping_statement_count_subject_by_object_source"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__mapping_statement_count_subject_by_object_source,
     domain=None,
     range=Optional[
         Union[
@@ -1124,19 +1180,19 @@ slots.ungroupedStatistics__mapping_statement_count_by_predicate = Slot(
 )
 
 slots.ungroupedStatistics__ontology_count = Slot(
-    uri=REPORTING.ontology_count,
+    uri=SUMMARY_STATISTICS.ontology_count,
     name="ungroupedStatistics__ontology_count",
-    curie=REPORTING.curie("ontology_count"),
-    model_uri=REPORTING.ungroupedStatistics__ontology_count,
+    curie=SUMMARY_STATISTICS.curie("ontology_count"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__ontology_count,
     domain=None,
     range=Optional[int],
 )
 
 slots.ungroupedStatistics__contributor_summary = Slot(
-    uri=REPORTING.contributor_summary,
+    uri=SUMMARY_STATISTICS.contributor_summary,
     name="ungroupedStatistics__contributor_summary",
-    curie=REPORTING.curie("contributor_summary"),
-    model_uri=REPORTING.ungroupedStatistics__contributor_summary,
+    curie=SUMMARY_STATISTICS.curie("contributor_summary"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__contributor_summary,
     domain=None,
     range=Optional[
         Union[
@@ -1149,10 +1205,10 @@ slots.ungroupedStatistics__contributor_summary = Slot(
 )
 
 slots.ungroupedStatistics__change_summary = Slot(
-    uri=REPORTING.change_summary,
+    uri=SUMMARY_STATISTICS.change_summary,
     name="ungroupedStatistics__change_summary",
-    curie=REPORTING.curie("change_summary"),
-    model_uri=REPORTING.ungroupedStatistics__change_summary,
+    curie=SUMMARY_STATISTICS.curie("change_summary"),
+    model_uri=SUMMARY_STATISTICS.ungroupedStatistics__change_summary,
     domain=None,
     range=Optional[
         Union[
@@ -1163,73 +1219,73 @@ slots.ungroupedStatistics__change_summary = Slot(
 )
 
 slots.facetedCount__facet = Slot(
-    uri=REPORTING.facet,
+    uri=SUMMARY_STATISTICS.facet,
     name="facetedCount__facet",
-    curie=REPORTING.curie("facet"),
-    model_uri=REPORTING.facetedCount__facet,
+    curie=SUMMARY_STATISTICS.curie("facet"),
+    model_uri=SUMMARY_STATISTICS.facetedCount__facet,
     domain=None,
     range=URIRef,
 )
 
 slots.facetedCount__filtered_count = Slot(
-    uri=REPORTING.filtered_count,
+    uri=SUMMARY_STATISTICS.filtered_count,
     name="facetedCount__filtered_count",
-    curie=REPORTING.curie("filtered_count"),
-    model_uri=REPORTING.facetedCount__filtered_count,
+    curie=SUMMARY_STATISTICS.curie("filtered_count"),
+    model_uri=SUMMARY_STATISTICS.facetedCount__filtered_count,
     domain=None,
     range=int,
 )
 
 slots.changeTypeStatistic__facet = Slot(
-    uri=REPORTING.facet,
+    uri=SUMMARY_STATISTICS.facet,
     name="changeTypeStatistic__facet",
-    curie=REPORTING.curie("facet"),
-    model_uri=REPORTING.changeTypeStatistic__facet,
+    curie=SUMMARY_STATISTICS.curie("facet"),
+    model_uri=SUMMARY_STATISTICS.changeTypeStatistic__facet,
     domain=None,
     range=URIRef,
 )
 
 slots.changeTypeStatistic__filtered_count = Slot(
-    uri=REPORTING.filtered_count,
+    uri=SUMMARY_STATISTICS.filtered_count,
     name="changeTypeStatistic__filtered_count",
-    curie=REPORTING.curie("filtered_count"),
-    model_uri=REPORTING.changeTypeStatistic__filtered_count,
+    curie=SUMMARY_STATISTICS.curie("filtered_count"),
+    model_uri=SUMMARY_STATISTICS.changeTypeStatistic__filtered_count,
     domain=None,
     range=int,
 )
 
 slots.contributorStatistics__contributor_id = Slot(
-    uri=REPORTING.contributor_id,
+    uri=SUMMARY_STATISTICS.contributor_id,
     name="contributorStatistics__contributor_id",
-    curie=REPORTING.curie("contributor_id"),
-    model_uri=REPORTING.contributorStatistics__contributor_id,
+    curie=SUMMARY_STATISTICS.curie("contributor_id"),
+    model_uri=SUMMARY_STATISTICS.contributorStatistics__contributor_id,
     domain=None,
     range=URIRef,
 )
 
 slots.contributorStatistics__contributor_name = Slot(
-    uri=REPORTING.contributor_name,
+    uri=SUMMARY_STATISTICS.contributor_name,
     name="contributorStatistics__contributor_name",
-    curie=REPORTING.curie("contributor_name"),
-    model_uri=REPORTING.contributorStatistics__contributor_name,
+    curie=SUMMARY_STATISTICS.curie("contributor_name"),
+    model_uri=SUMMARY_STATISTICS.contributorStatistics__contributor_name,
     domain=None,
     range=Optional[str],
 )
 
 slots.contributorStatistics__normalization_comments = Slot(
-    uri=REPORTING.normalization_comments,
+    uri=SUMMARY_STATISTICS.normalization_comments,
     name="contributorStatistics__normalization_comments",
-    curie=REPORTING.curie("normalization_comments"),
-    model_uri=REPORTING.contributorStatistics__normalization_comments,
+    curie=SUMMARY_STATISTICS.curie("normalization_comments"),
+    model_uri=SUMMARY_STATISTICS.contributorStatistics__normalization_comments,
     domain=None,
     range=Optional[str],
 )
 
 slots.contributorStatistics__role_counts = Slot(
-    uri=REPORTING.role_counts,
+    uri=SUMMARY_STATISTICS.role_counts,
     name="contributorStatistics__role_counts",
-    curie=REPORTING.curie("role_counts"),
-    model_uri=REPORTING.contributorStatistics__role_counts,
+    curie=SUMMARY_STATISTICS.curie("role_counts"),
+    model_uri=SUMMARY_STATISTICS.contributorStatistics__role_counts,
     domain=None,
     range=Optional[
         Union[
@@ -1240,10 +1296,10 @@ slots.contributorStatistics__role_counts = Slot(
 )
 
 slots.ontology__id = Slot(
-    uri=REPORTING.id,
+    uri=SUMMARY_STATISTICS.id,
     name="ontology__id",
-    curie=REPORTING.curie("id"),
-    model_uri=REPORTING.ontology__id,
+    curie=SUMMARY_STATISTICS.curie("id"),
+    model_uri=SUMMARY_STATISTICS.ontology__id,
     domain=None,
     range=URIRef,
 )
@@ -1252,7 +1308,7 @@ slots.ontology__description = Slot(
     uri=DCTERMS.description,
     name="ontology__description",
     curie=DCTERMS.curie("description"),
-    model_uri=REPORTING.ontology__description,
+    model_uri=SUMMARY_STATISTICS.ontology__description,
     domain=None,
     range=Optional[str],
 )
@@ -1261,7 +1317,7 @@ slots.ontology__title = Slot(
     uri=DCTERMS.title,
     name="ontology__title",
     curie=DCTERMS.curie("title"),
-    model_uri=REPORTING.ontology__title,
+    model_uri=SUMMARY_STATISTICS.ontology__title,
     domain=None,
     range=Optional[str],
 )
@@ -1270,7 +1326,7 @@ slots.ontology__prefix = Slot(
     uri=SH.prefix,
     name="ontology__prefix",
     curie=SH.curie("prefix"),
-    model_uri=REPORTING.ontology__prefix,
+    model_uri=SUMMARY_STATISTICS.ontology__prefix,
     domain=None,
     range=Optional[str],
 )
@@ -1279,7 +1335,7 @@ slots.ontology__version = Slot(
     uri=OWL.versionIRI,
     name="ontology__version",
     curie=OWL.curie("versionIRI"),
-    model_uri=REPORTING.ontology__version,
+    model_uri=SUMMARY_STATISTICS.ontology__version,
     domain=None,
     range=Optional[str],
 )
@@ -1288,7 +1344,7 @@ slots.ontology__version_info = Slot(
     uri=OWL.versionInfo,
     name="ontology__version_info",
     curie=OWL.curie("versionInfo"),
-    model_uri=REPORTING.ontology__version_info,
+    model_uri=SUMMARY_STATISTICS.ontology__version_info,
     domain=None,
     range=Optional[str],
 )
@@ -1297,7 +1353,7 @@ slots.summaryStatisticsCalculationActivity__started_at_time = Slot(
     uri=PROV.startedAtTime,
     name="summaryStatisticsCalculationActivity__started_at_time",
     curie=PROV.curie("startedAtTime"),
-    model_uri=REPORTING.summaryStatisticsCalculationActivity__started_at_time,
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsCalculationActivity__started_at_time,
     domain=None,
     range=Optional[Union[str, XSDDateTime]],
 )
@@ -1306,7 +1362,7 @@ slots.summaryStatisticsCalculationActivity__ended_at_time = Slot(
     uri=PROV.endedAtTime,
     name="summaryStatisticsCalculationActivity__ended_at_time",
     curie=PROV.curie("endedAtTime"),
-    model_uri=REPORTING.summaryStatisticsCalculationActivity__ended_at_time,
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsCalculationActivity__ended_at_time,
     domain=None,
     range=Optional[Union[str, XSDDateTime]],
 )
@@ -1315,7 +1371,7 @@ slots.summaryStatisticsCalculationActivity__was_associated_with = Slot(
     uri=PROV.wasAssociatedWith,
     name="summaryStatisticsCalculationActivity__was_associated_with",
     curie=PROV.curie("wasAssociatedWith"),
-    model_uri=REPORTING.summaryStatisticsCalculationActivity__was_associated_with,
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsCalculationActivity__was_associated_with,
     domain=None,
     range=Optional[Union[str, AgentId]],
 )
@@ -1324,16 +1380,16 @@ slots.summaryStatisticsCalculationActivity__acted_on_behalf_of = Slot(
     uri=PROV.actedOnBehalfOf,
     name="summaryStatisticsCalculationActivity__acted_on_behalf_of",
     curie=PROV.curie("actedOnBehalfOf"),
-    model_uri=REPORTING.summaryStatisticsCalculationActivity__acted_on_behalf_of,
+    model_uri=SUMMARY_STATISTICS.summaryStatisticsCalculationActivity__acted_on_behalf_of,
     domain=None,
     range=Optional[Union[str, AgentId]],
 )
 
 slots.agent__id = Slot(
-    uri=REPORTING.id,
+    uri=SUMMARY_STATISTICS.id,
     name="agent__id",
-    curie=REPORTING.curie("id"),
-    model_uri=REPORTING.agent__id,
+    curie=SUMMARY_STATISTICS.curie("id"),
+    model_uri=SUMMARY_STATISTICS.agent__id,
     domain=None,
     range=URIRef,
 )
@@ -1342,16 +1398,16 @@ slots.agent__label = Slot(
     uri=RDFS.label,
     name="agent__label",
     curie=RDFS.curie("label"),
-    model_uri=REPORTING.agent__label,
+    model_uri=SUMMARY_STATISTICS.agent__label,
     domain=None,
     range=Optional[str],
 )
 
 slots.contributorRole__id = Slot(
-    uri=REPORTING.id,
+    uri=SUMMARY_STATISTICS.id,
     name="contributorRole__id",
-    curie=REPORTING.curie("id"),
-    model_uri=REPORTING.contributorRole__id,
+    curie=SUMMARY_STATISTICS.curie("id"),
+    model_uri=SUMMARY_STATISTICS.contributorRole__id,
     domain=None,
     range=URIRef,
 )

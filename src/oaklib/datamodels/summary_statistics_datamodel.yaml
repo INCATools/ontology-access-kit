@@ -305,6 +305,27 @@ classes:
         annotations:
           filter: Mapping
           facet: Predicate
+      mapping_statement_count_by_object_source:
+        description: Number of mappings grouped by object_source (prefix of external vocabulary) in the ontology or subset
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Mapping
+          facet: ObjectSource
+      mapping_statement_count_subject_by_object_source:
+        description: Number of distinct subject entities grouped by object_source (prefix of external vocabulary) in the ontology or subset
+        comments:
+          - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
+        slot_group: metadata_statistic_group
+        range: FacetedCount
+        multivalued: true
+        inlined: true
+        annotations:
+          filter: Mapping
+          facet: ObjectSource
+          distinct: Subject
       ontology_count:
         description: Number of ontologies (including imports) for the ontology or subset
         is_a: count_statistic

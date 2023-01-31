@@ -8,6 +8,7 @@ Executed using "runoak" command
 # See https://stackoverflow.com/questions/47972638/how-can-i-define-the-order-of-click-sub-commands-in-help
 import itertools
 import logging
+import os
 import re
 import secrets
 import subprocess
@@ -17,6 +18,7 @@ from dataclasses import dataclass
 from enum import Enum, unique
 from itertools import chain
 from pathlib import Path
+from time import time
 from types import ModuleType
 from typing import (
     IO,
@@ -34,6 +36,7 @@ from typing import (
 
 import click
 import kgcl_schema.grammar.parser as kgcl_parser
+import pystow
 import rdflib
 import sssom.writers as sssom_writers
 import sssom_schema
@@ -3849,6 +3852,45 @@ def set_apikey(endpoint, keyval):
 
 
 @main.command()
+def cache_ls():
+    """
+    List the contents of the pystow oaklib cache.
+
+    TODO: this currently only works on unix-based systems.
+    """
+    directory = pystow.api.join("oaklib")
+    command = f"ls -al {directory}"
+    click.secho(f"[pystow] {command}", fg="cyan", bold=True)
+    os.system(command)  # noqa:S605
+
+
+@main.command()
+@click.option(
+    "--days-old",
+    default=100,
+    show_default=True,
+    type=click.INT,
+    help="Clear anything more than this number of days old",
+)
+def cache_clear(days_old: int):
+    """
+    Clear the contents of the pystow oaklib cache.
+
+    """
+    directory = pystow.api.join("oaklib")
+    now = time()
+    for item in Path(directory).glob("*"):
+        if ".db" not in str(item):
+            continue
+        mtime = item.stat().st_mtime
+        curr_days_old = (int(now) - int(mtime)) / 86400
+        logging.info(f"{item} is {curr_days_old}")
+        if curr_days_old > days_old:
+            click.echo(f"Deleting {item} which is {curr_days_old}")
+            item.unlink()
+
+
+@main.command()
 @click.option(
     "--rules-file",
     "-R",
@@ -3978,6 +4020,7 @@ def lexmatch(
                 logging.info("Saving index")
                 save_lexical_index(ix, lexical_index_file)
         logging.info(f"Generating mappings from {len(ix.groupings)} groupings")
+        # TODO: abstract this way from serialization format
         msdf = lexical_index_to_sssom(
             impl,
             ix,
