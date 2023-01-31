@@ -1,9 +1,7 @@
 import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
-from linkml_runtime.loaders import json_loader
 
-from oaklib.datamodels.obograph import GraphDocument
 from oaklib.parsers.boomer_parser import BoomerParser
 from tests import INPUT_DIR
 

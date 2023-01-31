@@ -1,10 +1,11 @@
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Iterator, TextIO, Union, Optional, List
+from typing import Iterator, List, Optional, TextIO, Union
 
 import click
 import sssom_schema as sssom
+from sssom.constants import SEMAPV
 
 from oaklib.datamodels.mapping_cluster_datamodel import (
     MappingCluster,
@@ -12,8 +13,6 @@ from oaklib.datamodels.mapping_cluster_datamodel import (
 )
 from oaklib.parsers.boomer_parser import BoomerParser
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
-from sssom.constants import SEMAPV
-
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +28,12 @@ class BoomerEngine:
     report: Optional[MappingClusterReport] = None
     _mappings: Optional[List[sssom.Mapping]] = None
 
-    def mappings(self, minimum_confidence: Optional[float] = None, maximum_confidence: Optional[float] = None, best_first: Optional[bool] = None) -> Iterator[sssom.Mapping]:
+    def mappings(
+        self,
+        minimum_confidence: Optional[float] = None,
+        maximum_confidence: Optional[float] = None,
+        best_first: Optional[bool] = None,
+    ) -> Iterator[sssom.Mapping]:
         """
         Yield all mappings that match the confidence threshold criteria.
 
@@ -55,7 +59,6 @@ class BoomerEngine:
             if maximum_confidence is not None and conf > maximum_confidence:
                 continue
             yield m
-
 
     def cluster_to_mappings(self, cluster: MappingCluster):
         justification = sssom.EntityReference(SEMAPV.CompositeMatching.value)
@@ -105,14 +108,18 @@ def main(verbose: int, quiet: bool, prefix_map):
 
 
 @main.command()
-@click.option("--minimum-confidence",
-              "-L",
-              type=click.FLOAT,
-              help="Do not show mappings with lower confidence")
-@click.option("--maximum-confidence",
-              "-H",
-              type=click.FLOAT,
-              help="Do not show mappings with higher confidence")
+@click.option(
+    "--minimum-confidence",
+    "-L",
+    type=click.FLOAT,
+    help="Do not show mappings with lower confidence",
+)
+@click.option(
+    "--maximum-confidence",
+    "-H",
+    type=click.FLOAT,
+    help="Do not show mappings with higher confidence",
+)
 @click.argument("input_report")
 def export(input_report, **kwargs):
     """

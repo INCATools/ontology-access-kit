@@ -1,9 +1,8 @@
 """Parser for Boomer output"""
 import hashlib
 import logging
-import math
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Iterator, Optional, TextIO
 
 from curies import Converter
