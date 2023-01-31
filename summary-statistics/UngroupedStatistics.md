@@ -35,7 +35,9 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
       UngroupedStatistics : id
       UngroupedStatistics : individual_count
       UngroupedStatistics : mapping_count
+      UngroupedStatistics : mapping_statement_count_by_object_source
       UngroupedStatistics : mapping_statement_count_by_predicate
+      UngroupedStatistics : mapping_statement_count_subject_by_object_source
       UngroupedStatistics : merged_class_count
       UngroupedStatistics : named_individual_count
       UngroupedStatistics : non_deprecated_class_count
@@ -102,14 +104,16 @@ URI: [summary_statistics:UngroupedStatistics](https://w3id.org/oaklib/summary_st
 | [class_count_by_category](class_count_by_category.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of classes grouped by category in the ontology or subset | direct |
 | [mapping_count](mapping_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of mappings (including xrefs) in the ontology or subset | direct |
 | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by predicate (e | direct |
+| [mapping_statement_count_by_object_source](mapping_statement_count_by_object_source.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of mappings grouped by object_source (prefix of external vocabulary) i... | direct |
+| [mapping_statement_count_subject_by_object_source](mapping_statement_count_subject_by_object_source.md) | 0..* <br/> [FacetedCount](FacetedCount.md) | Number of distinct subject entities grouped by object_source (prefix of exter... | direct |
 | [ontology_count](ontology_count.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | Number of ontologies (including imports) for the ontology or subset | direct |
 | [contributor_summary](contributor_summary.md) | 0..* <br/> [ContributorStatistics](ContributorStatistics.md) |  | direct |
 | [change_summary](change_summary.md) | 0..* <br/> [ChangeTypeStatistic](ChangeTypeStatistic.md) | Summary of changes between two versions of an ontology | direct |
-| [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [agents](agents.md) | 0..* <br/> [Agent](Agent.md) | Agents that contributed to the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [id](id.md) | 0..1 <br/> NONE |  | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 
 
 
@@ -558,6 +562,45 @@ attributes:
         value: Predicate
     description: Number of mappings grouped by predicate (e.g. xref, skos predicate)
       in the ontology or subset
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_by_object_source:
+    name: mapping_statement_count_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+    description: Number of mappings grouped by object_source (prefix of external vocabulary)
+      in the ontology or subset
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_subject_by_object_source:
+    name: mapping_statement_count_subject_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+      distinct:
+        tag: distinct
+        value: Subject
+    description: Number of distinct subject entities grouped by object_source (prefix
+      of external vocabulary) in the ontology or subset
+    comments:
+    - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
     from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
@@ -1131,6 +1174,53 @@ attributes:
     rank: 1000
     multivalued: true
     alias: mapping_statement_count_by_predicate
+    owner: UngroupedStatistics
+    domain_of:
+    - UngroupedStatistics
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_by_object_source:
+    name: mapping_statement_count_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+    description: Number of mappings grouped by object_source (prefix of external vocabulary)
+      in the ontology or subset
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: mapping_statement_count_by_object_source
+    owner: UngroupedStatistics
+    domain_of:
+    - UngroupedStatistics
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_subject_by_object_source:
+    name: mapping_statement_count_subject_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+      distinct:
+        tag: distinct
+        value: Subject
+    description: Number of distinct subject entities grouped by object_source (prefix
+      of external vocabulary) in the ontology or subset
+    comments:
+    - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: mapping_statement_count_subject_by_object_source
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics

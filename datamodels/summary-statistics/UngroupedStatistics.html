@@ -113,7 +113,9 @@
       UngroupedStatistics : id
       UngroupedStatistics : individual_count
       UngroupedStatistics : mapping_count
+      UngroupedStatistics : mapping_statement_count_by_object_source
       UngroupedStatistics : mapping_statement_count_by_predicate
+      UngroupedStatistics : mapping_statement_count_subject_by_object_source
       UngroupedStatistics : merged_class_count
       UngroupedStatistics : named_individual_count
       UngroupedStatistics : non_deprecated_class_count
@@ -318,6 +320,16 @@
 <td><p>Number of mappings grouped by predicate (e</p></td>
 <td><p>direct</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="mapping_statement_count_by_object_source.html"><span class="doc std std-doc">mapping_statement_count_by_object_source</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="doc std std-doc">FacetedCount</span></a></p></td>
+<td><p>Number of mappings grouped by object_source (prefix of external vocabulary) i…</p></td>
+<td><p>direct</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="mapping_statement_count_subject_by_object_source.html"><span class="doc std std-doc">mapping_statement_count_subject_by_object_source</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="FacetedCount.html"><span class="doc std std-doc">FacetedCount</span></a></p></td>
+<td><p>Number of distinct subject entities grouped by object_source (prefix of exter…</p></td>
+<td><p>direct</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ontology_count.html"><span class="doc std std-doc">ontology_count</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></p></td>
 <td><p>Number of ontologies (including imports) for the ontology or subset</p></td>
@@ -333,9 +345,9 @@
 <td><p>Summary of changes between two versions of an ontology</p></td>
 <td><p>direct</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="was_generated_by.html"><span class="doc std std-doc">was_generated_by</span></a></p></td>
-<td><p>0..1 <br/> <a class="reference internal" href="SummaryStatisticsCalculationActivity.html"><span class="doc std std-doc">SummaryStatisticsCalculationActivity</span></a></p></td>
-<td><p>The process that generated the report</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="agents.html"><span class="doc std std-doc">agents</span></a></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
+<td><p>Agents that contributed to the report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="compared_with.html"><span class="doc std std-doc">compared_with</span></a></p></td>
@@ -343,9 +355,9 @@
 <td><p>For diffs, the ontologies being compared against</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="agents.html"><span class="doc std std-doc">agents</span></a></p></td>
-<td><p>0..* <br/> <a class="reference internal" href="Agent.html"><span class="doc std std-doc">Agent</span></a></p></td>
-<td><p>Agents that contributed to the report</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
+<td><p>0..1 <br/> NONE</p></td>
+<td><p></p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ontologies.html"><span class="doc std std-doc">ontologies</span></a></p></td>
@@ -353,9 +365,9 @@
 <td><p>Ontology for which the statistics are computed</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="was_generated_by.html"><span class="doc std std-doc">was_generated_by</span></a></p></td>
+<td><p>0..1 <br/> <a class="reference internal" href="SummaryStatisticsCalculationActivity.html"><span class="doc std std-doc">SummaryStatisticsCalculationActivity</span></a></p></td>
+<td><p>The process that generated the report</p></td>
 <td><p><a class="reference internal" href="SummaryStatisticsReport.html"><span class="doc std std-doc">SummaryStatisticsReport</span></a></p></td>
 </tr>
 </tbody>
@@ -815,6 +827,45 @@ attributes:
         value: Predicate
     description: Number of mappings grouped by predicate (e.g. xref, skos predicate)
       in the ontology or subset
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_by_object_source:
+    name: mapping_statement_count_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+    description: Number of mappings grouped by object_source (prefix of external vocabulary)
+      in the ontology or subset
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_subject_by_object_source:
+    name: mapping_statement_count_subject_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+      distinct:
+        tag: distinct
+        value: Subject
+    description: Number of distinct subject entities grouped by object_source (prefix
+      of external vocabulary) in the ontology or subset
+    comments:
+    - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
     from_schema: https://w3id.org/oaklib/summary_statistics
     rank: 1000
     multivalued: true
@@ -1386,6 +1437,53 @@ attributes:
     rank: 1000
     multivalued: true
     alias: mapping_statement_count_by_predicate
+    owner: UngroupedStatistics
+    domain_of:
+    - UngroupedStatistics
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_by_object_source:
+    name: mapping_statement_count_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+    description: Number of mappings grouped by object_source (prefix of external vocabulary)
+      in the ontology or subset
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: mapping_statement_count_by_object_source
+    owner: UngroupedStatistics
+    domain_of:
+    - UngroupedStatistics
+    slot_group: metadata_statistic_group
+    range: FacetedCount
+    inlined: true
+  mapping_statement_count_subject_by_object_source:
+    name: mapping_statement_count_subject_by_object_source
+    annotations:
+      filter:
+        tag: filter
+        value: Mapping
+      facet:
+        tag: facet
+        value: ObjectSource
+      distinct:
+        tag: distinct
+        value: Subject
+    description: Number of distinct subject entities grouped by object_source (prefix
+      of external vocabulary) in the ontology or subset
+    comments:
+    - for exact or one-to-one mappings this should generally be the same as mapping_statement_count_by_object_source
+    from_schema: https://w3id.org/oaklib/summary_statistics
+    rank: 1000
+    multivalued: true
+    alias: mapping_statement_count_subject_by_object_source
     owner: UngroupedStatistics
     domain_of:
     - UngroupedStatistics

@@ -63,6 +63,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#runoak-apply-obsolete">apply-obsolete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-associations">associations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-axioms">axioms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-cache-clear">cache-clear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#runoak-cache-ls">cache-ls</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-definitions">definitions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-descendants">descendants</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#runoak-diff">diff</a></li>
@@ -878,6 +880,37 @@ to is-a descendants</p>
 <dd><p>Optional argument(s)</p>
 </dd></dl>
 
+</section>
+<section id="runoak-cache-clear">
+<h4>cache-clear<a class="headerlink" href="#runoak-cache-clear" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>Clear the contents of the pystow oaklib cache.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak cache-clear <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-runoak-cache-clear-days-old">
+<span class="sig-name descname"><span class="pre">--days-old</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;days_old&gt;</span></span><a class="headerlink" href="#cmdoption-runoak-cache-clear-days-old" title="Permalink to this definition"></a></dt>
+<dd><p>Clear anything more than this number of days old</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>100</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="runoak-cache-ls">
+<h4>cache-ls<a class="headerlink" href="#runoak-cache-ls" title="Permalink to this headline"></a></h4>
+<blockquote>
+<div><p>List the contents of the pystow oaklib cache.</p>
+<p>TODO: this currently only works on unix-based systems.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak cache-ls <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
 </section>
 <section id="runoak-definitions">
 <h4>definitions<a class="headerlink" href="#runoak-definitions" title="Permalink to this headline"></a></h4>

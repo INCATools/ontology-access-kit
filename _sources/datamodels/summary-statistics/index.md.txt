@@ -59,7 +59,9 @@ Name: summary-statistics
 | [individual_statistic_group](individual_statistic_group.md) |  |
 | [label](label.md) | the label for the agent |
 | [mapping_count](mapping_count.md) | Number of mappings (including xrefs) in the ontology or subset |
+| [mapping_statement_count_by_object_source](mapping_statement_count_by_object_source.md) | Number of mappings grouped by object_source (prefix of external vocabulary) i... |
 | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | Number of mappings grouped by predicate (e |
+| [mapping_statement_count_subject_by_object_source](mapping_statement_count_subject_by_object_source.md) | Number of distinct subject entities grouped by object_source (prefix of exter... |
 | [merged_class_count](merged_class_count.md) | Number of merged classes (obsoletions with merge reason) in the ontology or s... |
 | [metadata_statistic_group](metadata_statistic_group.md) |  |
 | [named_individual_count](named_individual_count.md) | Number of named individuals in the ontology or subset |

@@ -39,6 +39,8 @@ URI: [summary_statistics:FacetedCount](https://w3id.org/oaklib/summary_statistic
 | [UngroupedStatistics](UngroupedStatistics.md) | [class_count_by_subset](class_count_by_subset.md) | range | [FacetedCount](FacetedCount.md) |
 | [UngroupedStatistics](UngroupedStatistics.md) | [class_count_by_category](class_count_by_category.md) | range | [FacetedCount](FacetedCount.md) |
 | [UngroupedStatistics](UngroupedStatistics.md) | [mapping_statement_count_by_predicate](mapping_statement_count_by_predicate.md) | range | [FacetedCount](FacetedCount.md) |
+| [UngroupedStatistics](UngroupedStatistics.md) | [mapping_statement_count_by_object_source](mapping_statement_count_by_object_source.md) | range | [FacetedCount](FacetedCount.md) |
+| [UngroupedStatistics](UngroupedStatistics.md) | [mapping_statement_count_subject_by_object_source](mapping_statement_count_subject_by_object_source.md) | range | [FacetedCount](FacetedCount.md) |
 | [ContributorStatistics](ContributorStatistics.md) | [role_counts](role_counts.md) | range | [FacetedCount](FacetedCount.md) |
 
 
