@@ -1,23 +1,25 @@
 import logging
 from collections import defaultdict
+from copy import copy
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Iterator, List, Optional, TextIO, Union, Dict, Tuple
+from typing import Dict, Iterator, List, Optional, TextIO, Tuple, Union
 
 import click
 import sssom_schema as sssom
-from oaklib import get_implementation_from_shorthand
-from oaklib.interfaces import MappingProviderInterface
-from oaklib.io.streaming_csv_writer import StreamingCsvWriter
-from oaklib.types import CURIE, PRED_CURIE
-from sssom.constants import SEMAPV
+from sssom.constants import SEMAPV, SKOS_EXACT_MATCH
 
+from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels.mapping_cluster_datamodel import (
     MappingCluster,
     MappingClusterReport,
 )
+from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_CLOSE_MATCH
+from oaklib.interfaces import MappingProviderInterface
+from oaklib.io.streaming_csv_writer import StreamingCsvWriter
 from oaklib.parsers.boomer_parser import BoomerParser
+from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
 
 logger = logging.getLogger(__name__)
@@ -31,6 +33,7 @@ class DiffType(Enum):
     AMBIGUOUS = "AMBIGUOUS"
     NEW = "NEW"
     CONFLICT = "CONFLICT"
+    REJECT = "REJECT"
 
 
 MAPPING_DIFF = Tuple[DiffType, PRED_CURIE, sssom.Mapping, Optional[float]]
@@ -38,6 +41,7 @@ MAPPING_DIFF = Tuple[DiffType, PRED_CURIE, sssom.Mapping, Optional[float]]
 
 def _predicate_ids(mappings: List[sssom.Mapping]) -> List[CURIE]:
     return list(set([m.predicate_id for m in mappings]))
+
 
 @dataclass
 class BoomerEngine:
@@ -108,7 +112,9 @@ class BoomerEngine:
         self.report = MappingClusterReport(clusters=clusters)
         return self.report
 
-    def index_mappings(self, mappings: List[sssom.Mapping], max_per_pair: Optional[int] = None) -> MAPPING_SP_INDEX:
+    def index_mappings(
+        self, mappings: List[sssom.Mapping], max_per_pair: Optional[int] = None
+    ) -> MAPPING_SP_INDEX:
         mix: MAPPING_SP_INDEX = defaultdict(list)
         for m in mappings:
             pair = (m.subject_id, m.object_id)
@@ -117,8 +123,27 @@ class BoomerEngine:
                 raise ValueError(f"Too many for {pair} => {mix[pair]}")
         return mix
 
-    def compare(self, current_mappings: List[sssom.Mapping], minimum_confidence: Optional[float] = 0.95) -> Iterator[MAPPING_DIFF]:
-        boomer_mapping_ix = self.index_mappings(list(self.mappings(minimum_confidence=minimum_confidence)), max_per_pair=1)
+    def compare(
+        self,
+        current_mappings: List[sssom.Mapping],
+        minimum_confidence: Optional[float] = 0.95,
+        reject_non_exact=False,
+        promote_xref_to_exact=False,
+        discard_new_close_matches=True,
+    ) -> Iterator[MAPPING_DIFF]:
+        """
+        Compares a set of pre-existing mappings with boomer resolved mappings.
+
+        :param current_mappings: source mappings to evaluate
+        :param minimum_confidence: any boomer resolved mapping that has confidence beneath this is ignored
+        :param reject_non_exact: if True, then any mapping that matches a confident resolved mapping is typed REJECT
+        :param promote_xref_to_exact: if True, then any xref in the source is treated as skos:exactMatch
+        :param discard_new_close_matches: if True, then do not suggest NEW lines for high confidence closeMatch
+        :return:
+        """
+        boomer_mapping_ix = self.index_mappings(
+            list(self.mappings(minimum_confidence=minimum_confidence)), max_per_pair=1
+        )
         current_mapping_ix = self.index_mappings(current_mappings)
         for pair, mappings in boomer_mapping_ix.items():
             [bm] = mappings
@@ -127,22 +152,35 @@ class BoomerEngine:
                 current_mappings_for_pair = current_mapping_ix[pair]
                 if len(current_mappings_for_pair) > 1:
                     for m in current_mappings_for_pair:
-                        yield DiffType.AMBIGUOUS, m.predicate_id, m, None
+                        yield DiffType.AMBIGUOUS, None, m, None
                 for m in current_mappings_for_pair:
+                    if promote_xref_to_exact and m.predicate_id == HAS_DBXREF:
+                        m = copy(m)
+                        m.predicate_id = SKOS_EXACT_MATCH
                     if m.predicate_id == boomer_pred_id:
-                        yield DiffType.OK, m.predicate_id, m, bm.confidence
+                        yield DiffType.OK, None, m, bm.confidence
                     else:
-                        yield DiffType.CONFLICT, bm.predicate_id, m, bm.confidence
+                        if reject_non_exact and bm.predicate_id != SKOS_EXACT_MATCH:
+                            yield DiffType.REJECT, bm.predicate_id, m, bm.confidence
+                        else:
+                            yield DiffType.CONFLICT, bm.predicate_id, m, bm.confidence
             else:
-                yield DiffType.NEW, bm.predicate_id, bm, bm.confidence
+                if reject_non_exact and bm.predicate_id != SKOS_EXACT_MATCH:
+                    continue
+                if discard_new_close_matches and bm.predicate_id == SKOS_CLOSE_MATCH:
+                    continue
+                yield DiffType.NEW, None, bm, bm.confidence
 
 
 min_confidence_option = click.option(
     "--minimum-confidence",
     "-L",
     type=click.FLOAT,
+    default=0.95,
+    show_default=True,
     help="Do not show mappings with lower confidence",
 )
+
 
 @click.group()
 @click.option("-v", "--verbose", count=True)
@@ -178,7 +216,9 @@ def export(input_report, **kwargs):
     """
     Exports mappings from a boomer report.
 
-    boomerang export tests/input/boomer-example.md
+    Example:
+
+        boomerang export tests/input/boomer-example.md
     """
     ben = BoomerEngine()
     ben.load(input_report)
@@ -188,14 +228,58 @@ def export(input_report, **kwargs):
 
 
 @main.command()
-@click.option("--input-ontology",
-              "-i",
-              help="use OAK selector syntax")
+@click.option("--input-ontology", "-i", help="ontology from which to retrieve mappings")
+@click.option(
+    "--reject-non-exact/--no-reject-non-exact",
+    help="if set then any match to a high confidence boomer interpretation that is a reject.",
+)
+@click.option(
+    "--promote-xref-to-exact/--no-promote-xref-to-exact",
+    help="if set then any xref in the source is promoted to an EXACT.",
+)
 @min_confidence_option
 @click.argument("input_report")
 def compare(input_report, input_ontology: str, **kwargs):
     """
     Compares boomer results with existing mappings.
+
+    This assumes boomer has been executed in advance, and a markdown report generated.
+    Pass in as an argument the same ontology used in the boomer run.
+
+    Example:
+
+        boomerang foo-boomer.md -i foo.db
+
+    For any mapping marked NEW, this can be incorporated into the ontology.
+
+    For any mapping marked CONFLICT, there is some action that needs to be taken
+
+    By default any boomer resolved mapping beneath the default minimum confidence is ignored.
+    To customize, e.g. stringent:
+
+    Example:
+
+        boomerang foo-boomer.md -i foo.db -L 0.999
+
+    For each high confidence boomer mapping, this is compared against current mappings and
+    a suggestion made.
+
+    SPECIFIC SUGGESTIONS FOR OBO ONTOLOGIES:
+
+    In many ontologies it is conventional to (a) model all mappings as xrefs (b) assume
+    a default interpretation of exactMatch.
+
+    In these cases, we want to REJECT any existing xref IF there is a high confidence
+    boomer mapping FOR ANYTHING OTHER THAN exactMatch (including SiblingOf)
+
+    Example:
+
+        boomerang foo-boomer.md -i foo.db -L 0.999 --reject-non-exact --promote-xref-to-exact
+
+    The results here are straightforward, either REJECT, NEW, or OK
+
+    If this is NOT your workflow, then the results may include CONFLICT lines where
+    the interpretation you state is different from the interpretation in
 
     See https://github.com/INCATools/boomer/issues/334
     """
@@ -207,8 +291,17 @@ def compare(input_report, input_ontology: str, **kwargs):
     ben = BoomerEngine()
     ben.load(input_report)
     for md in ben.compare(current_mappings, **kwargs):
-        t, pred, m, conf = md
-        writer.emit(dict(type=t.value, confidence=conf, predicate_id=pred, subject_id=m.subject_id, object_id=m.object_id))
+        t, info, m, conf = md
+        writer.emit(
+            dict(
+                type=t.value,
+                info=info,
+                confidence=conf,
+                predicate_id=m.predicate_id,
+                subject_id=m.subject_id,
+                object_id=m.object_id,
+            )
+        )
 
 
 if __name__ == "__main__":

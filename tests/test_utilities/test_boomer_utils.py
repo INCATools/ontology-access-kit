@@ -1,9 +1,12 @@
 import unittest
 
-from oaklib.utilities.mapping.boomer_utils import BoomerEngine
-from tests import INPUT_DIR
+from oaklib import get_implementation_from_shorthand
+from oaklib.interfaces import MappingProviderInterface
+from oaklib.utilities.mapping.boomer_utils import BoomerEngine, DiffType
+from tests import EXAMPLE_ONTOLOGY_DB, INPUT_DIR, NUCLEUS, VACUOLE
 
 EXAMPLE = INPUT_DIR / "boomer-example.md"
+GO_EXAMPLE = INPUT_DIR / "boomer-fake-go-example.md"
 
 
 class TestBoomerUtils(unittest.TestCase):
@@ -24,3 +27,60 @@ class TestBoomerUtils(unittest.TestCase):
             for m in ms:
                 print(m)
             self.assertEqual(expected_n, len(ms))
+
+    def test_compare(self):
+        """
+        tests BoomerEngine.compare against a fake GO example
+        """
+        ben = BoomerEngine()
+        ben.load(GO_EXAMPLE)
+        adapter = get_implementation_from_shorthand(str(EXAMPLE_ONTOLOGY_DB))
+        if not isinstance(adapter, MappingProviderInterface):
+            raise AssertionError(f"{EXAMPLE_ONTOLOGY_DB} can't supply mappings")
+        current_mappings = list(adapter.all_sssom_mappings())
+        self.assertGreater(len(current_mappings), 10)
+        cases = [
+            (0.99, False, False, []),
+            (0.99, True, True, []),
+            (
+                0.75,
+                False,
+                False,
+                [
+                    (DiffType.NEW, NUCLEUS, "FAKE:1"),
+                    (DiffType.CONFLICT, NUCLEUS, "Wikipedia:Cell_nucleus"),
+                    (DiffType.CONFLICT, VACUOLE, "Wikipedia:Vacuole"),
+                ],
+            ),
+            (
+                0.75,
+                True,
+                False,
+                [
+                    (DiffType.NEW, NUCLEUS, "FAKE:1"),
+                    (DiffType.REJECT, NUCLEUS, "Wikipedia:Cell_nucleus"),
+                    (DiffType.CONFLICT, VACUOLE, "Wikipedia:Vacuole"),
+                ],
+            ),
+            (
+                0.75,
+                True,
+                True,
+                [
+                    (DiffType.NEW, NUCLEUS, "FAKE:1"),
+                    (DiffType.REJECT, NUCLEUS, "Wikipedia:Cell_nucleus"),
+                    (DiffType.OK, VACUOLE, "Wikipedia:Vacuole"),
+                ],
+            ),
+        ]
+        for minimum_confidence, reject_non_exact, promote_xref_to_exact, expected in cases:
+            results = list(
+                ben.compare(
+                    current_mappings,
+                    minimum_confidence=minimum_confidence,
+                    reject_non_exact=reject_non_exact,
+                    promote_xref_to_exact=promote_xref_to_exact,
+                )
+            )
+            result_tups = [(r[0], r[2].subject_id, r[2].object_id) for r in results]
+            self.assertCountEqual(expected, result_tups)

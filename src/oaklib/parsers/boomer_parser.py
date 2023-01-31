@@ -16,18 +16,20 @@ from oaklib.datamodels.vocabulary import (
 )
 from oaklib.parsers.parser_base import Parser
 
-re_new_block = re.compile(r"^## (.*)")
-re_tag_val = re.compile(r"^(\S+): (.*)")
-re_mapping1 = re.compile(r"^- (\[\S+)\s+(\w+)\s+(\S+\))\s+\(most probable\)\s+(\S+)$")
-re_mapping2 = re.compile(r"^- (\[\S+)\s+(\w+)\s+(\S+\))\s+(\S+)$")
-re_md_link = re.compile(r"^\[(.*)\]\((\S+)\)")
-
 BOOMER_TO_SKOS = {
     "SiblingOf": SKOS_CLOSE_MATCH,
     "EquivalentTo": SKOS_EXACT_MATCH,
     "ProperSubClassOf": SKOS_BROAD_MATCH,
     "ProperSuperClassOf": SKOS_NARROW_MATCH,
 }
+
+BOOMER_PRED_RE = "|".join(BOOMER_TO_SKOS.keys())
+
+re_new_block = re.compile(r"^## (.*)")
+re_tag_val = re.compile(r"^(\w.*):\s*(.*)")
+re_mapping1 = re.compile(rf"^- (\[.+)\s+({BOOMER_PRED_RE})\s+(.+\))\s+\(most probable\)\s+(\S+)$")
+re_mapping2 = re.compile(rf"^- (\[.+)\s+({BOOMER_PRED_RE})\s+(.+\))\s+(\S+)$")
+re_md_link = re.compile(r"^\[(.*)\]\((\S+)\)")
 
 
 @dataclass
@@ -62,6 +64,10 @@ class BoomerParser(Parser):
                     cluster.posterior_probability = float(val)
                 elif tag == "Confidence":
                     cluster.confidence = float(val)
+                elif tag.startswith("Subsequent"):
+                    pass
+                else:
+                    logging.warning(f"Unparsed tag {tag} in {line}")
                 continue
             m = re_mapping1.match(line)
             if not m:
@@ -85,6 +91,8 @@ class BoomerParser(Parser):
                 )
                 cluster.resolved_mappings.append(mapping)
                 continue
+            if line:
+                logging.warning(f"Cannot parse: {line}")
         if not cluster:
             logging.warning("No clusters in file")
             return
