@@ -86,7 +86,11 @@ class BoomerEngine:
 @click.group()
 @click.option("-v", "--verbose", count=True)
 @click.option("-q", "--quiet")
-def main(verbose: int, quiet: bool):
+@click.option(
+    "--prefix-map",
+    help="curie prefix map",
+)
+def main(verbose: int, quiet: bool, prefix_map):
     """Run the ValueSet CLI."""
     if verbose >= 2:
         logger.setLevel(level=logging.DEBUG)
@@ -96,6 +100,8 @@ def main(verbose: int, quiet: bool):
         logger.setLevel(level=logging.WARNING)
     if quiet:
         logger.setLevel(level=logging.ERROR)
+    if prefix_map:
+        raise NotImplementedError
 
 
 @main.command()
