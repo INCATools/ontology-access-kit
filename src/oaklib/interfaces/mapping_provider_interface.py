@@ -5,6 +5,7 @@ from typing import Iterable, Optional, Union
 from deprecation import deprecated
 from sssom_schema import Mapping
 
+from oaklib.datamodels.mapping_cluster_datamodel import MappingCluster
 from oaklib.interfaces.basic_ontology_interface import BasicOntologyInterface
 from oaklib.types import CURIE
 
@@ -96,4 +97,7 @@ class MappingProviderInterface(BasicOntologyInterface, ABC):
         :param curie:
         :return:
         """
+        raise NotImplementedError
+
+    def get_mapping_clusters(self) -> Iterable[MappingCluster]:
         raise NotImplementedError

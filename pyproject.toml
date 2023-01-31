@@ -51,6 +51,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 runoak = "oaklib.cli:main"
 vskit = "oaklib.utilities.subsets.value_set_expander:main"
+boomerang = "oaklib.utilities.mapping.boomer_utils:main"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-mermaid"]
