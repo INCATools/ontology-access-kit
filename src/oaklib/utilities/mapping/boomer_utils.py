@@ -141,7 +141,7 @@ class BoomerEngine:
             path = str(path)
         if isinstance(path, str):
             with open(path) as f:
-                return self.load(f)
+                return self.load(f, prefix_map=prefix_map)
         bp = BoomerParser(prefix_map=prefix_map)
         clusters = list(bp.parse(path))
         self.report = MappingClusterReport(clusters=clusters)
