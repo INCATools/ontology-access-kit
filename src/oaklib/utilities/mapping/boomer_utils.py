@@ -145,7 +145,7 @@ class BoomerEngine:
                 return self.load(f, prefix_map=prefix_map)
         bp = BoomerParser(prefix_map=prefix_map)
         clusters = list(bp.parse(path))
-        self._parsed_curie_label_map = bp.curie_label_map
+        self._parsed_curie_label_map = bp._curie_label_map
         self.report = MappingClusterReport(clusters=clusters)
         return self.report
 
