@@ -2,7 +2,7 @@
 import hashlib
 import logging
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Iterator, Optional, TextIO
 
 from curies import Converter
@@ -38,6 +38,7 @@ class BoomerParser(Parser):
 
     prefix_map: Dict[str, str] = None
     curie_converter: Converter = None
+    curie_label_map: Dict[str, SimpleMapping] = field(default_factory=dict)
 
     def __post_init__(self):
         if self.prefix_map and not self.curie_converter:
@@ -95,6 +96,10 @@ class BoomerParser(Parser):
                     confidence=cluster.confidence,
                     posterior_probability=cluster.posterior_probability,
                 )
+                if subject_id not in self.curie_label_map:
+                    self.curie_label_map[subject_id] = subject_label
+                if object_id not in self.curie_label_map:
+                    self.curie_label_map[object_id] = object_label
                 cluster.resolved_mappings.append(mapping)
                 continue
             if line:

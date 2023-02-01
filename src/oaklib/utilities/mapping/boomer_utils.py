@@ -69,6 +69,7 @@ class BoomerEngine:
     report: Optional[MappingClusterReport] = None
     _mappings: Optional[List[sssom.Mapping]] = None
     _mappings_by_sp: Optional[MAPPING_SP_INDEX] = None
+    _parsed_curie_label_map: Optional[Dict[str, str]] = None
 
     def mappings(
         self,
@@ -144,6 +145,7 @@ class BoomerEngine:
                 return self.load(f, prefix_map=prefix_map)
         bp = BoomerParser(prefix_map=prefix_map)
         clusters = list(bp.parse(path))
+        self._parsed_curie_label_map = bp.curie_label_map
         self.report = MappingClusterReport(clusters=clusters)
         return self.report
 
@@ -187,8 +189,12 @@ class BoomerEngine:
                 current_mappings_for_pair = current_mapping_ix[pair]
                 if len(current_mappings_for_pair) > 1:
                     for m in current_mappings_for_pair:
+                        m.subject_label = self._parsed_curie_label_map[m.subject_id]
+                        m.object_label = self._parsed_curie_label_map[m.object_id]
                         yield DiffType.AMBIGUOUS, None, m, None
                 for m in current_mappings_for_pair:
+                    m.subject_label = self._parsed_curie_label_map[m.subject_id]
+                    m.object_label = self._parsed_curie_label_map[m.object_id]
                     if promote_xref_to_exact and m.predicate_id == HAS_DBXREF:
                         m = copy(m)
                         m.predicate_id = SKOS_EXACT_MATCH
@@ -396,7 +402,9 @@ def compare(input_report, input_ontology: str, **kwargs):
                 confidence=conf,
                 predicate_id=m.predicate_id,
                 subject_id=m.subject_id,
+                subject_label=m.subject_label,
                 object_id=m.object_id,
+                object_label=m.object_label,
             )
         )
 
