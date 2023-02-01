@@ -8,16 +8,22 @@ from typing import Dict, Iterator, List, Optional, TextIO, Tuple, Union
 
 import click
 import sssom_schema as sssom
+import yaml
+from linkml_renderer.style.model import RenderRule
 from sssom.constants import SEMAPV, SKOS_EXACT_MATCH
 
 from oaklib import get_implementation_from_shorthand
+from oaklib.cli import _get_writer, output_option, output_type_option
+from oaklib.datamodels import mapping_cluster_datamodel
 from oaklib.datamodels.mapping_cluster_datamodel import (
     MappingCluster,
     MappingClusterReport,
 )
 from oaklib.datamodels.vocabulary import HAS_DBXREF, SKOS_CLOSE_MATCH
 from oaklib.interfaces import MappingProviderInterface
+from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
+from oaklib.io.streaming_yaml_writer import StreamingYamlWriter
 from oaklib.parsers.boomer_parser import BoomerParser
 from oaklib.types import CURIE, PRED_CURIE
 from oaklib.utilities.mapping.sssom_utils import StreamingSssomWriter
@@ -41,6 +47,15 @@ MAPPING_DIFF = Tuple[DiffType, PRED_CURIE, sssom.Mapping, Optional[float]]
 
 def _predicate_ids(mappings: List[sssom.Mapping]) -> List[CURIE]:
     return list(set([m.predicate_id for m in mappings]))
+
+
+def _satisfies(c, minimum_confidence: Optional[float], maximum_confidence: Optional[float]) -> bool:
+    conf = c.confidence
+    if minimum_confidence is not None and conf < minimum_confidence:
+        return False
+    if maximum_confidence is not None and conf > maximum_confidence:
+        return False
+    return True
 
 
 @dataclass
@@ -101,13 +116,33 @@ class BoomerEngine:
             )
             yield m
 
-    def load(self, path: Union[TextIO, Path, str]) -> MappingClusterReport:
+    def filter(
+        self,
+        minimum_confidence: Optional[float] = None,
+        maximum_confidence: Optional[float] = None,
+        best_first: Optional[bool] = None,
+    ) -> MappingClusterReport:
+        report = copy(self.report)
+        clusters = report.clusters
+        if best_first is not None:
+            if best_first:
+                clusters = sorted(clusters, key=lambda m: -m.confidence)
+            else:
+                clusters = sorted(clusters, key=lambda m: m.confidence)
+        report.clusters = [
+            c for c in clusters if _satisfies(c, minimum_confidence, maximum_confidence)
+        ]
+        return report
+
+    def load(
+        self, path: Union[TextIO, Path, str], prefix_map: Dict[str, str] = None
+    ) -> MappingClusterReport:
         if isinstance(path, Path):
             path = str(path)
         if isinstance(path, str):
             with open(path) as f:
                 return self.load(f)
-        bp = BoomerParser()
+        bp = BoomerParser(prefix_map=prefix_map)
         clusters = list(bp.parse(path))
         self.report = MappingClusterReport(clusters=clusters)
         return self.report
@@ -176,10 +211,22 @@ min_confidence_option = click.option(
     "--minimum-confidence",
     "-L",
     type=click.FLOAT,
-    default=0.95,
-    show_default=True,
     help="Do not show mappings with lower confidence",
 )
+max_confidence_option = click.option(
+    "--maximum-confidence",
+    "-H",
+    type=click.FLOAT,
+    help="Do not show mappings with higher confidence",
+)
+best_first_option = click.option(
+    "--best-first/--no-best-first",
+    default=True,
+    show_default=True,
+    help="Sort by highest confidence first",
+)
+
+global_prefix_map = {}
 
 
 @click.group()
@@ -200,11 +247,14 @@ def main(verbose: int, quiet: bool, prefix_map):
     if quiet:
         logger.setLevel(level=logging.ERROR)
     if prefix_map:
-        raise NotImplementedError
+        with open(prefix_map) as f:
+            global global_prefix_map
+            global_prefix_map = yaml.safe_load(f)
 
 
 @main.command()
 @min_confidence_option
+@max_confidence_option
 @click.option(
     "--maximum-confidence",
     "-H",
@@ -212,19 +262,66 @@ def main(verbose: int, quiet: bool, prefix_map):
     help="Do not show mappings with higher confidence",
 )
 @click.argument("input_report")
-def export(input_report, **kwargs):
+def mappings(input_report, **kwargs):
     """
     Exports mappings from a boomer report.
 
     Example:
 
-        boomerang export tests/input/boomer-example.md
+        boomerang mappings tests/input/boomer-example.md
+
+    To filter by confidence:
+
+        boomerang mappings tests/input/boomer-example.md -L 0.8
     """
     ben = BoomerEngine()
-    ben.load(input_report)
+    ben.load(input_report, prefix_map=global_prefix_map)
     writer = StreamingSssomWriter()
     for m in ben.mappings(**kwargs):
         writer.emit(m)
+
+
+@main.command()
+@min_confidence_option
+@max_confidence_option
+@best_first_option
+@output_option
+@output_type_option
+@click.argument("input_report")
+def report(input_report, output, output_type, **kwargs):
+    """
+    Renders a report performing optional filtering and sorting
+
+    Passing no options will just generate the input report in the desired format.
+
+    Example:
+
+        boomerang filter tests/input/boomer-example.md  report.yaml
+
+    The generic LinkML rendered can be used:
+
+    Example:
+
+        boomerang filter tests/input/boomer-example.md -O html -o report.html
+
+    To show the lowest confidence first:
+
+        boomerang filter tests/input/boomer-example.md --no-best-first
+
+    """
+    ben = BoomerEngine()
+    ben.load(input_report, prefix_map=global_prefix_map)
+    writer = _get_writer(
+        output_type, None, StreamingYamlWriter, datamodel=mapping_cluster_datamodel
+    )
+    writer.output = output
+    if isinstance(writer, HTMLWriter):
+        writer.render_rules = [
+            RenderRule(applies_to_slots=["clusters"], render_as="description_list")
+        ]
+    report = ben.filter(**kwargs)
+    writer.emit(report)
+    writer.finish()
 
 
 @main.command()
@@ -289,7 +386,7 @@ def compare(input_report, input_ontology: str, **kwargs):
         raise NotImplementedError(f"{input_ontology} can't supply mappings")
     current_mappings = list(adapter.all_sssom_mappings())
     ben = BoomerEngine()
-    ben.load(input_report)
+    ben.load(input_report, prefix_map=global_prefix_map)
     for md in ben.compare(current_mappings, **kwargs):
         t, info, m, conf = md
         writer.emit(

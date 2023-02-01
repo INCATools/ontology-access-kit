@@ -28,6 +28,8 @@ class StreamingMarkdownWriter(StreamingWriter):
     A writer that streams curies as markdown
     """
 
+    # TODO: replace with linkml-renderer
+
     def emit(self, curie, label=None, **kwargs):
         oi = self.ontology_interface
         if label is None:

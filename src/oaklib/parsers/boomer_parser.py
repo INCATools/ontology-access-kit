@@ -3,7 +3,7 @@ import hashlib
 import logging
 import re
 from dataclasses import dataclass
-from typing import Iterator, Optional, TextIO
+from typing import Dict, Iterator, Optional, TextIO
 
 from curies import Converter
 
@@ -34,8 +34,14 @@ re_md_link = re.compile(r"^\[(.*)\]\((\S+)\)")
 
 @dataclass
 class BoomerParser(Parser):
+    """Parses boomer markdown reports."""
 
+    prefix_map: Dict[str, str] = None
     curie_converter: Converter = None
+
+    def __post_init__(self):
+        if self.prefix_map and not self.curie_converter:
+            self.curie_converter = Converter.from_prefix_map(self.prefix_map)
 
     def parse(self, file: TextIO) -> Iterator[MappingCluster]:
         cluster: Optional[MappingCluster] = None

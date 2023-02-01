@@ -100,6 +100,7 @@ from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.summary_statistics_interface import SummaryStatisticsInterface
 from oaklib.interfaces.text_annotator_interface import TextAnnotatorInterface
 from oaklib.io.heatmap_writer import HeatmapWriter
+from oaklib.io.html_writer import HTMLWriter
 from oaklib.io.obograph_writer import write_graph
 from oaklib.io.streaming_axiom_writer import StreamingAxiomWriter
 from oaklib.io.streaming_csv_writer import StreamingCsvWriter
@@ -171,6 +172,7 @@ from oaklib.utilities.validation.rule_runner import RuleRunner
 OBO_FORMAT = "obo"
 RDF_FORMAT = "rdf"
 MD_FORMAT = "md"
+HTML_FORMAT = "html"
 OBOJSON_FORMAT = "obojson"
 CSV_FORMAT = "csv"
 JSON_FORMAT = "json"
@@ -201,6 +203,7 @@ WRITERS = {
     RDF_FORMAT: StreamingRdfWriter,
     OWLFUN_FORMAT: StreamingOwlFunctionalWriter,
     MD_FORMAT: StreamingMarkdownWriter,
+    HTML_FORMAT: HTMLWriter,
     OBOJSON_FORMAT: StreamingOboJsonWriter,
     CSV_FORMAT: StreamingCsvWriter,
     JSON_FORMAT: StreamingJsonWriter,
@@ -4130,26 +4133,25 @@ def diff(
                     f"Cannot set both {config.group_by_property} and {group_by_property}"
                 )
         config.group_by_property = group_by_property
-    if isinstance(impl, DifferInterface):
-        if statistics:
-            summary = impl.diff_summary(other_impl, configuration=config)
-            if isinstance(writer, StreamingCsvWriter):
-                # inject the key into object, ensuring it is the first column
-                for k, v in summary.items():
-                    v = {**{"group": k}, **v}
-                    writer.emit(v)
-            else:
-                writer.emit(summary)
-        else:
-            for change in impl.diff(other_impl, configuration=config):
-                if isinstance(writer, StreamingYamlWriter):
-                    # TODO: when a complete type designator is added to KGCL
-                    # we can remove this
-                    change.type = change.__class__.__name__
-                writer.emit(change)
-        writer.finish()
-    else:
+    if not isinstance(impl, DifferInterface):
         raise NotImplementedError
+    if statistics:
+        summary = impl.diff_summary(other_impl, configuration=config)
+        if isinstance(writer, StreamingCsvWriter):
+            # inject the key into object, ensuring it is the first column
+            for k, v in summary.items():
+                v = {**{"group": k}, **v}
+                writer.emit(v)
+        else:
+            writer.emit(summary)
+    else:
+        for change in impl.diff(other_impl, configuration=config):
+            if isinstance(writer, StreamingYamlWriter):
+                # TODO: when a complete type designator is added to KGCL
+                # we can remove this
+                change.type = change.__class__.__name__
+            writer.emit(change)
+    writer.finish()
 
 
 @main.command()
