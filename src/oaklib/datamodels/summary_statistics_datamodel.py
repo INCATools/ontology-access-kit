@@ -65,6 +65,7 @@ DEFAULT_ = REPORTING
 
 # Types
 
+
 # Class references
 class FacetedCountFacet(extended_str):
     pass

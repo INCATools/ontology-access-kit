@@ -17,7 +17,6 @@ COLS = ["id", "subject", "predicate", "object", "evidence_type", "publication", 
 
 @dataclass
 class AssociationIndex:
-
     _connection: sqlite3.Connection = None
     _session: Session = None
     _engine: Engine = None

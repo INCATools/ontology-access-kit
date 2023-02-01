@@ -345,7 +345,6 @@ class DiffCategory(EnumDefinitionImpl):
 
 
 class MappingCardinalityEnum(EnumDefinitionImpl):
-
     _defn = EnumDefinition(
         name="MappingCardinalityEnum",
     )

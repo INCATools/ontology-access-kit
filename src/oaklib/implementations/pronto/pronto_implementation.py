@@ -799,7 +799,6 @@ class ProntoImplementation(
         metadata: Mapping[PRED_CURIE, Any] = None,
         configuration: kgcl.Configuration = None,
     ) -> Optional[kgcl.Change]:
-
         tidy_change_object(patch)
         if isinstance(patch, kgcl.NodeRename):
             self.set_label(patch.about_node, patch.new_value)

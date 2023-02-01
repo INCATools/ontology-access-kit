@@ -57,6 +57,7 @@ DEFAULT_ = OG
 
 # Types
 
+
 # Class references
 class GraphId(extended_str):
     pass
@@ -617,7 +618,6 @@ class PropertyChainAxiom(Axiom):
 
 # Enumerations
 class ScopeEnum(EnumDefinitionImpl):
-
     hasExactSynonym = PermissibleValue(text="hasExactSynonym", meaning=OIO.hasExactSynonym)
     hasNarrowSynonym = PermissibleValue(text="hasNarrowSynonym", meaning=OIO.hasNarrowSynonym)
     hasBroadSynonym = PermissibleValue(text="hasBroadSynonym", meaning=OIO.hasBroadSynonym)

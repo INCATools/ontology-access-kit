@@ -338,7 +338,6 @@ class SearchResultSet(YAMLRoot):
 
 # Enumerations
 class SearchTermSyntax(EnumDefinitionImpl):
-
     PLAINTEXT = PermissibleValue(
         text="PLAINTEXT", description="The search term is plain text with no special syntax"
     )
@@ -408,7 +407,6 @@ class SearchProperty(EnumDefinitionImpl):
 
 
 class BooleanOperator(EnumDefinitionImpl):
-
     AND = PermissibleValue(text="AND")
     OR = PermissibleValue(text="OR")
     NOT = PermissibleValue(text="NOT")
@@ -420,7 +418,6 @@ class BooleanOperator(EnumDefinitionImpl):
 
 
 class GraphFunction(EnumDefinitionImpl):
-
     DESCENDANT_OF = PermissibleValue(text="DESCENDANT_OF")
     ANCESTOR_OF = PermissibleValue(text="ANCESTOR_OF")
     PROPER_DESCENDANT_OF = PermissibleValue(text="PROPER_DESCENDANT_OF")

@@ -40,7 +40,6 @@ SOURCE_TO_PREDICATE = {
 class OntoPortalImplementationBase(
     TextAnnotatorInterface, OboGraphInterface, SearchInterface, MappingProviderInterface, ABC
 ):
-
     ontoportal_client_class: ClassVar[type[PreconfiguredOntoPortalClient]] = None
     api_key: Union[str, None] = None
 
