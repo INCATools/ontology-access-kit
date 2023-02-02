@@ -447,7 +447,7 @@ class TestCommandLineInterface(unittest.TestCase):
         for input_arg in [str(TEST_ONT), f"sqlite:{TEST_DB}", TEST_OWL_RDF]:
             logging.info(f"INPUT={input_arg}")
             result = self.runner.invoke(
-                main, ["-i", input_arg, "search", "l~nucl", "-o", str(TEST_OUT)]
+                main, ["-i", input_arg, "search", "l~nucl", "-o", TEST_OUT]
             )
             out = self._out()
             err = result.stderr
@@ -472,8 +472,7 @@ class TestCommandLineInterface(unittest.TestCase):
             (["t^nucleus"], True, [NUCLEUS], []),
             (["t/^n.....s$"], True, [NUCLEUS], []),
             (["t~nucleus"], True, [NUCLEUS, CHEBI_NUCLEUS], []),
-            # TODO: empty files
-            # (["l=protoplasm"], True, [], []),
+            (["l=protoplasm"], True, [], []),
             (["t=protoplasm"], True, [INTRACELLULAR], []),
             ([".=protoplasm"], True, [INTRACELLULAR], []),
             (
@@ -523,13 +522,41 @@ class TestCommandLineInterface(unittest.TestCase):
                 [NUCLEUS, NUCLEAR_ENVELOPE],
                 [TEST_OWL_RDF],
             ),
-            # (
-            #    # no terms
-            #    [".all", ".not", ".all"],
-            #    True,
-            #    [],
-            #    [TEST_OWL_RDF],
-            # ),
+            (
+                # no terms
+                [".all", ".not", ".all"],
+                True,
+                [],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # xor
+                [NUCLEUS, MEMBRANE, ".xor", NUCLEUS, ".or", NUCLEAR_MEMBRANE],
+                True,
+                [MEMBRANE, NUCLEAR_MEMBRANE],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # set difference with additional term
+                [NUCLEUS, MEMBRANE, ".not", NUCLEUS, ".or", NUCLEAR_MEMBRANE],
+                True,
+                [MEMBRANE],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # set difference with trivial second term that is empty
+                [NUCLEUS, MEMBRANE, ".not", NUCLEUS, ".and", NUCLEAR_MEMBRANE],
+                True,
+                [NUCLEUS, MEMBRANE],
+                [TEST_OWL_RDF],
+            ),
+            (
+                # order of precedence
+                [NUCLEUS, MEMBRANE, ".not", NUCLEUS, ".or", MEMBRANE],
+                True,
+                [],
+                [TEST_OWL_RDF],
+            ),
         ]
         inputs = [TEST_ONT, f"sqlite:{TEST_DB}", TEST_OWL_RDF]
         for input_arg in inputs:
@@ -541,7 +568,7 @@ class TestCommandLineInterface(unittest.TestCase):
                     logging.info(f"Skipping {terms} as {input_arg} in Excluded: {excluded}")
                     continue
                 result = self.runner.invoke(
-                    main, ["-i", str(input_arg), "search"] + terms + ["-o", str(TEST_OUT)]
+                    main, ["-i", str(input_arg), "info"] + terms + ["-o", TEST_OUT]
                 )
                 out = self._out()
                 err = result.stderr
@@ -562,7 +589,7 @@ class TestCommandLineInterface(unittest.TestCase):
                         curies.append(m.group(1))
                 logging.info(f"SEARCH: {terms} => {curies} // {input_arg}")
                 if complete:
-                    self.assertCountEqual(expected, set(curies))
+                    self.assertCountEqual(expected, set(curies), f"{input_arg} // {terms}")
                 else:
                     for e in expected:
                         self.assertIn(e, curies)

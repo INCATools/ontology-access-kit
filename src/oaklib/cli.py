@@ -66,7 +66,7 @@ from oaklib.datamodels.vocabulary import (
     OBSOLETION_RELATIONSHIP_PREDICATES,
     PART_OF,
     PREFIX_PREDICATE,
-    RDF_TYPE,
+    RDF_TYPE, OWL_CLASS, OWL_OBJECT_PROPERTY,
 )
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
@@ -512,24 +512,25 @@ def curies_from_file(file: IO) -> Iterator[CURIE]:
         yield m.group(1)
 
 
-def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
+def query_terms_iterator(query_terms: NESTED_LIST, impl: BasicOntologyInterface) -> Iterator[CURIE]:
     """
-    Turn list of tokens that represent a term query into an iterator for curies
+    Turn list of tokens that represent a term query into an iterator for curies.
 
     For examples, see test_cli
 
-    TODO: reimplement using an explicit query model
-
-    :param terms:
+    :param query_terms:
     :param impl:
     :return:
     """
-    curie_iterator: Iterable[CURIE] = iter([])
+    # TODO: reimplement using an explicit query model
+    results: Iterable[CURIE] = iter([])
     predicates = None
-    if isinstance(terms, tuple):
-        terms = list(terms)
+    if isinstance(query_terms, tuple):
+        query_terms = list(query_terms)
 
     def _parse_params(s: str) -> Dict:
+        # some query terms are parameterized using the syntax
+        # .<TOKEN>//<P1>=<V1>//<P2>=<V2>...
         d = {}
         m = re.match(r"\.\w+//(.+)", s)
         if m:
@@ -544,53 +545,65 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
                 d[k] = v
         return d
 
-    def chain_it(v):
+    def chain_results(v):
         if isinstance(v, str):
             v = iter([v])
-        nonlocal curie_iterator
-        curie_iterator = itertools.chain(curie_iterator, v)
+        nonlocal results
+        results = itertools.chain(results, v)
 
-    terms = nest_list_of_terms(terms)
+    # queries can be nested using square brackets
+    query_terms = nest_list_of_terms(query_terms)
 
-    while len(terms) > 0:
-        term = terms[0]
-        terms = terms[1:]
+    while len(query_terms) > 0:
+        # process each query term. A query term is either:
+        # 1. local, in which case is appends to the result iterator
+        # 2. global, where it applies all subsequent terms
+        term = query_terms[0]
+        query_terms = query_terms[1:]
         if term == "-":
-            chain_it(curies_from_file(sys.stdin))
+            # read from stdin
+            chain_results(curies_from_file(sys.stdin))
         elif isinstance(term, list):
-            chain_it(query_terms_iterator(term, impl))
+            chain_results(query_terms_iterator(term, impl))
         elif term.startswith(".load="):
-            fn = term.replace(".load=", """""")
+            # load a file of IDs
+            fn = term.replace(".load=", "")
             with open(fn) as file:
-                chain_it(curies_from_file(file))
+                chain_results(curies_from_file(file))
         elif term.startswith(".idfile"):
-            fn = terms.pop(0)
+            # load a file of IDs
+            fn = query_terms.pop(0)
             logging.info(f"Reading ids from {fn}")
             file = open(fn)
-            chain_it(curies_from_file(file))
+            chain_results(curies_from_file(file))
         elif term.startswith(".termfile"):
-            fn = terms.pop(0)
+            # load a file of queries
+            fn = query_terms.pop(0)
             with open(fn) as file:
                 lines = [line.strip() for line in file.readlines()]
-                terms = lines + terms
+                query_terms = lines + query_terms
         elif re.match(r"^([\w\-\.]+):(\S+)$", term):
-            chain_it(term)
+            # CURIE
+            chain_results(term)
+        elif re.match(r"^http(\S+)$", term):
+            # URI
+            chain_results(term)
         elif re.match(r"^\.predicates=(\S*)$", term):
             logging.warning("Deprecated: pass as parameter instead")
             m = re.match(r"^\.predicates=(\S*)$", term)
             predicates = _process_predicates_arg(m.group(1))
-        elif re.match(r"^http(\S+)$", term):
-            chain_it(term)
         elif term == ".and":
-            rest = list(query_terms_iterator(terms, impl))
-            for x in curie_iterator:
+            # boolean term: consume the result of the query and intersect
+            rest = list(query_terms_iterator(query_terms, impl))
+            for x in results:
                 if x in rest:
                     yield x
-            terms = []
+            query_terms = []
         elif term == ".xor":
-            rest = list(query_terms_iterator(terms, impl))
+            # boolean term: consume the result of the query and xor
+            rest = list(query_terms_iterator(query_terms, impl))
             remaining = []
-            for x in curie_iterator:
+            for x in results:
                 if x not in rest:
                     yield x
                 else:
@@ -598,58 +611,69 @@ def query_terms_iterator(terms: NESTED_LIST, impl: BasicOntologyInterface) -> It
             for x in rest:
                 if x not in remaining:
                     yield x
+            query_terms = []
         elif term == ".not":
-            rest = list(query_terms_iterator(terms, impl))
-            for x in curie_iterator:
+            # boolean term: consume the result of the query and subtract
+            rest = list(query_terms_iterator(query_terms, impl))
+            for x in results:
                 if x not in rest:
                     yield x
-            terms = []
+            query_terms = []
         elif term == ".or":
             # or is implicit
             pass
         elif term.startswith(".all"):
-            chain_it(impl.entities())
+            chain_results(impl.entities(filter_obsoletes=False))
+        elif term.startswith(".classes"):
+            chain_results(impl.entities(owl_type=OWL_CLASS))
+        elif term.startswith(".relations"):
+            chain_results(impl.entities(owl_type=OWL_OBJECT_PROPERTY))
         elif term.startswith(".rand"):
-            for x in impl.entities():
-                if secrets.randbelow(100) == 0:
-                    yield x
+            entities = list(impl.entities())
+            sample = [entities[secrets.randbelow(len(entities))] for x in range(1, 100)]
+            chain_results(sample)
         elif term.startswith(".in"):
-            subset = terms[0]
-            terms = terms[1:]
-            chain_it(impl.subset_members(subset))
+            # subset query
+            subset = query_terms[0]
+            query_terms = query_terms[1:]
+            chain_results(impl.subset_members(subset))
         elif term.startswith(".is_obsolete"):
-            chain_it(impl.obsoletes())
+            chain_results(impl.obsoletes())
+        elif term.startswith(".non_obsolete"):
+            chain_results(impl.entities(filter_obsoletes=True))
         elif term.startswith(".filter"):
-            expr = terms[0]
-            terms = terms[1:]
-            chain_it(eval(expr, {"impl": impl, "terms": curie_iterator}))
+            # arbitrary python expression
+            expr = query_terms[0]
+            query_terms = query_terms[1:]
+            chain_results(eval(expr, {"impl": impl, "terms": results}))
         elif term.startswith(".desc"):
+            # graph query: descendants
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
-            rest = list(query_terms_iterator([terms[0]], impl))
-            terms = terms[1:]
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
             if isinstance(impl, OboGraphInterface):
-                chain_it(impl.descendants(rest, predicates=this_predicates))
+                chain_results(impl.descendants(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         elif term.startswith(".anc"):
+            # graph query: ancestors
             params = _parse_params(term)
             this_predicates = params.get("predicates", predicates)
-            rest = list(query_terms_iterator([terms[0]], impl))
-            terms = terms[1:]
+            rest = list(query_terms_iterator([query_terms[0]], impl))
+            query_terms = query_terms[1:]
             if isinstance(impl, OboGraphInterface):
-                chain_it(impl.ancestors(rest, predicates=this_predicates))
+                chain_results(impl.ancestors(rest, predicates=this_predicates))
             else:
                 raise NotImplementedError
         else:
-            if isinstance(impl, SearchInterface):
-                cfg = create_search_configuration(term)
-                logging.info(f"Search config: {term} => {cfg}")
-                chain_it(impl.basic_search(cfg.search_terms[0], config=cfg))
-            else:
+            # term is not query syntax: feed directly to search
+            if not isinstance(impl, SearchInterface):
                 raise NotImplementedError
-    for x in curie_iterator:
-        yield x
+            cfg = create_search_configuration(term)
+            logging.info(f"Search config: {term} => {cfg}")
+            chain_results(impl.basic_search(cfg.search_terms[0], config=cfg))
+    yield from results
 
 
 @click.group()
@@ -2424,6 +2448,7 @@ def info(terms, output: TextIO, display: str, output_type: str):
     logging.info(f"Input Terms={terms}; w={writer}")
     for curie in query_terms_iterator(terms, impl):
         writer.emit(curie)
+    writer.finish()
 
 
 @main.command()
