@@ -64,9 +64,11 @@ from oaklib.datamodels.vocabulary import (
     IS_A,
     IS_DEFINED_BY,
     OBSOLETION_RELATIONSHIP_PREDICATES,
+    OWL_CLASS,
+    OWL_OBJECT_PROPERTY,
     PART_OF,
     PREFIX_PREDICATE,
-    RDF_TYPE, OWL_CLASS, OWL_OBJECT_PROPERTY,
+    RDF_TYPE,
 )
 from oaklib.implementations.aggregator.aggregator_implementation import (
     AggregatorImplementation,
