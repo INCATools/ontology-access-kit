@@ -272,7 +272,7 @@ class TestTableFiller(unittest.TestCase):
         foo_id = SlotDefinition("foo_id", identifier=True)
         foo_label = SlotDefinition("foo_label", slot_uri="rdfs:label")
         sb.add_class("Person", [foo_id.name, foo_label.name])
-        sb.add_slot(foo_id).add_slot(foo_label)
+        sb.add_slot(foo_id,replace_if_present=True).add_slot(foo_label, replace_if_present=True)
         schema = sb.schema
         logging.info(yaml_dumper.dumps(schema))
         tm = tf.extract_metadata_from_linkml(schema)
