@@ -9,6 +9,7 @@ _Abstract grouping for representing individual pairwise similarities_
 URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilarity)
 
 
+
 ```{mermaid}
  classDiagram
     class PairwiseSimilarity
@@ -17,6 +18,7 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
       
       
 ```
+
 
 
 
@@ -32,6 +34,9 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 
@@ -61,6 +66,9 @@ URI: [sim:PairwiseSimilarity](https://w3id.org/linkml/similarity/PairwiseSimilar
 | ---  | ---  |
 | self | sim:PairwiseSimilarity |
 | native | sim:PairwiseSimilarity |
+
+
+
 
 
 ## LinkML Source

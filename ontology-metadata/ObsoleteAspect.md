@@ -7,11 +7,13 @@ _Auto-classifies anything that is obsolete_
 URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/ObsoleteAspect)
 
 
+
 ```{mermaid}
  classDiagram
     class ObsoleteAspect
       
 ```
+
 
 
 
@@ -22,6 +24,9 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 ## Mixin Usage
 
 | mixed into | description |
@@ -111,6 +116,9 @@ URI: [omoschema:ObsoleteAspect](http://purl.obolibrary.org/obo/omo/schema/Obsole
 | ---  | ---  |
 | self | omoschema:ObsoleteAspect |
 | native | omoschema:ObsoleteAspect |
+
+
+
 
 
 ## LinkML Source

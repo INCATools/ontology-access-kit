@@ -7,6 +7,7 @@ _key-value pair that maps a validation result type to a severity setting, for ov
 URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeverityKeyValue)
 
 
+
 ```{mermaid}
  classDiagram
     class TypeSeverityKeyValue
@@ -14,6 +15,7 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
       TypeSeverityKeyValue : type
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 | ---  | --- | --- | --- |
 | [type](type.md) | 1..1 <br/> [ConstraintComponent](ConstraintComponent.md) | The type of validation result | direct |
 | [severity](severity.md) | 0..1 <br/> [SeverityOptions](SeverityOptions.md) | the severity of the issue | direct |
+
+
 
 
 
@@ -63,6 +67,9 @@ URI: [vm:TypeSeverityKeyValue](https://w3id.org/linkml/validation-model/TypeSeve
 | ---  | ---  |
 | self | vm:TypeSeverityKeyValue |
 | native | vm:TypeSeverityKeyValue |
+
+
+
 
 
 ## LinkML Source
@@ -113,8 +120,7 @@ attributes:
     domain_of:
     - TypeSeverityKeyValue
     - ValidationResult
-    range: ConstraintComponent
-    required: true
+    range: uriorcurie
   severity:
     name: severity
     from_schema: https://w3id.org/linkml/validation_results

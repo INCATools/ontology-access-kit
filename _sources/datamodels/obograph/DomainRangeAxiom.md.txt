@@ -5,6 +5,7 @@
 URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRangeAxiom)
 
 
+
 ```{mermaid}
  classDiagram
     class DomainRangeAxiom
@@ -17,6 +18,7 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
       DomainRangeAxiom : rangeClassIds
       
 ```
+
 
 
 
@@ -36,6 +38,8 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 | [rangeClassIds](rangeClassIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
+
+
 
 
 
@@ -73,6 +77,9 @@ URI: [og:DomainRangeAxiom](https://github.com/geneontology/obographs/DomainRange
 | ---  | ---  |
 | self | og:DomainRangeAxiom |
 | native | og:DomainRangeAxiom |
+
+
+
 
 
 ## LinkML Source

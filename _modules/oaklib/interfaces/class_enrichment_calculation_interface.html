@@ -97,7 +97,7 @@
 
 <div class="viewcode-block" id="ClassEnrichmentCalculationInterface"><a class="viewcode-back" href="../../../interfaces/class-enrichment.html#oaklib.interfaces.class_enrichment_calculation_interface.ClassEnrichmentCalculationInterface">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ClassEnrichmentCalculationInterface</span><span class="p">(</span><span class="n">AssociationProviderInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An interface that provides services to test for over representation of class membership in a set of entities.</span>
 
 <span class="sd">    This interface is intended to be used to test for over representation of a class in a set of entities,</span>
@@ -118,7 +118,7 @@
         <span class="n">sort_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;greater&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">ClassEnrichmentResult</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Test for overrepresentation of classes in a set of entities.</span>
 
 <span class="sd">        :param subjects: The set of entities to test for overrepresentation of classes</span>

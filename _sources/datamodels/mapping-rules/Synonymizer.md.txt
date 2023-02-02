@@ -5,6 +5,7 @@
 URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synonymizer)
 
 
+
 ```{mermaid}
  classDiagram
     class Synonymizer
@@ -15,6 +16,7 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
       Synonymizer : the_rule
       
 ```
+
 
 
 
@@ -30,6 +32,8 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 | [match_scope](match_scope.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Scope of the reg-ex rule | direct |
 | [replacement](replacement.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Reg-ex rule to replace substrings in labels | direct |
 | [qualifier](qualifier.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Type of match for the new synonym generated | direct |
+
+
 
 
 
@@ -67,6 +71,9 @@ URI: [mrules:Synonymizer](https://w3id.org/linkml/mapping_rules_datamodel/Synony
 | ---  | ---  |
 | self | mrules:Synonymizer |
 | native | mrules:Synonymizer |
+
+
+
 
 
 ## LinkML Source

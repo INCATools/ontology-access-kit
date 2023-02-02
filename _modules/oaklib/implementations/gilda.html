@@ -98,7 +98,7 @@
 
 <div class="viewcode-block" id="GildaImplementation"><a class="viewcode-back" href="../../../implementations/gilda.html#oaklib.implementations.gilda.GildaImplementation">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">GildaImplementation</span><span class="p">(</span><span class="n">TextAnnotatorInterface</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Perform named entity normalization on text strings with Gilda [gyori2021]_.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform named entity normalization on text strings with Gilda [gyori2021]_.</span>
 
 <span class="sd">    .. [gyori2021] Benjamin M Gyori, Charles Tapley Hoyt, Albert Steppi (2021)</span>
 <span class="sd">        `Gilda: biomedical entity text normalization with machine-learned</span>
@@ -109,7 +109,7 @@
     <span class="k">def</span> <span class="nf">annotate_text</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">TextAnnotationConfiguration</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TextAnnotation</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Implements annotate_text from text_annotator_interface by calling the</span>
 <span class="sd">        `annotate` endpoint using gilda client.</span>
 

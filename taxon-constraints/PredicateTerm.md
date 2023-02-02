@@ -7,6 +7,7 @@ _A term that represents a relationship type_
 URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 
+
 ```{mermaid}
  classDiagram
     class PredicateTerm
@@ -20,6 +21,7 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 
 
 
+
 ## Inheritance
 * [Term](Term.md)
     * **PredicateTerm**
@@ -29,8 +31,11 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+| ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+
+
 
 
 
@@ -69,6 +74,9 @@ URI: [tc:PredicateTerm](https://w3id.org/linkml/taxon_constraints/PredicateTerm)
 | ---  | ---  |
 | self | tc:PredicateTerm |
 | native | tc:PredicateTerm |
+
+
+
 
 
 ## LinkML Source

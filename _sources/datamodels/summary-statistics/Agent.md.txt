@@ -7,6 +7,7 @@ _An agent_
 URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 
+
 ```{mermaid}
  classDiagram
     class Agent
@@ -17,6 +18,7 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -24,8 +26,10 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the label for the agent | direct |
+
+
 
 
 
@@ -67,6 +71,9 @@ URI: [prov:Agent](http://www.w3.org/ns/prov#Agent)
 | ---  | ---  |
 | self | prov:Agent |
 | native | summary_statistics:Agent |
+
+
+
 
 
 ## LinkML Source

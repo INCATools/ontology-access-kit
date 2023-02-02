@@ -109,7 +109,7 @@ typically compressed into a CURIE, using a prefix map.</p>
 we use the curie <code class="docutils literal notranslate"><span class="pre">UBERON:0000948</span></code>. This is a compressed form of the URL <a class="reference external" href="http://purl.obolibrary.org/obo/UBERON_0000948">http://purl.obolibrary.org/obo/UBERON_0000948</a>.</p>
 <p>Most OAK commands take CURIEs or lists of CURIEs as inputs (although primary labels and
 queries can also be supplied). For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i ubergraph info UBERON:0000948
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>ubergraph<span class="w"> </span>info<span class="w"> </span>UBERON:0000948
 </pre></div>
 </div>
 <p>Under the hood, on the backend (in this case, <a class="reference internal" href="../intro/tutorial03.html#ubergraph"><span class="std std-ref">Ubergraph</span></a>), the concept is stored
@@ -131,11 +131,11 @@ resources such as schema.org.</p>
 <section id="querying-prefixmaps">
 <h2>Querying prefixmaps<a class="headerlink" href="#querying-prefixmaps" title="Permalink to this headline"></a></h2>
 <p>You can get a list of all prefixes known to OAK using the <code class="docutils literal notranslate"><span class="pre">prefixes</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak prefixes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>prefixes
 </pre></div>
 </div>
 <p>You can also query the prefixmap for a particular prefix or set of prefixes:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak prefixes UBERON CL oio skos schema
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>prefixes<span class="w"> </span>UBERON<span class="w"> </span>CL<span class="w"> </span>oio<span class="w"> </span>skos<span class="w"> </span>schema
 </pre></div>
 </div>
 <p>This will return a table:</p>
@@ -191,7 +191,7 @@ which is the prefix (typically all uppercase) followed by a local identifier whi
 all numeric (typically zero-padded with 7 digits). However, this is not a requirement for OAK.</p>
 <p>Many semantic web ontologies such as schema.org use “semantic” URIs that a human
 can understand. These can be used in the same way:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i schema.rdf info Schema:Person
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>schema.rdf<span class="w"> </span>info<span class="w"> </span>Schema:Person
 </pre></div>
 </div>
 </section>

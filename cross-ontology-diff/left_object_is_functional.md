@@ -28,7 +28,7 @@ URI: [ann:left_object_is_functional](https://w3id.org/linkml/text_annotator/left
 
 ## Properties
 
-* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
+* Range: [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean)
 
 
 
@@ -68,7 +68,7 @@ alias: left_object_is_functional
 owner: RelationalDiff
 domain_of:
 - RelationalDiff
-range: string
+range: boolean
 
 ```
 </details>

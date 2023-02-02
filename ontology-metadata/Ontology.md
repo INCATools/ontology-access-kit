@@ -7,6 +7,7 @@ _An OWL ontology_
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
+
 ```{mermaid}
  classDiagram
     class Ontology
@@ -30,6 +31,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
+
 ## Inheritance
 * [Thing](Thing.md)
     * [NamedObject](NamedObject.md)
@@ -44,15 +46,17 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [title](title.md) | 0..1 <br/> [NarrativeText](NarrativeText.md) |  | direct |
 | [has_ontology_root_term](has_ontology_root_term.md) | 0..* <br/> [Class](Class.md) |  | direct |
 | [license](license.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
-| [source](source.md) | 0..* <br/> NONE |  | direct |
+| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [versionIRI](versionIRI.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
-| [versionInfo](versionInfo.md) | 0..1 <br/> NONE |  | direct |
-| [comment](comment.md) | 0..* <br/> NONE |  | direct |
+| [versionInfo](versionInfo.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [creator](creator.md) | 0..* <br/> [Agent](Agent.md) |  | direct |
-| [created](created.md) | 0..1 <br/> NONE | when the term came into being | direct |
-| [imports](imports.md) | 0..1 <br/> NONE |  | direct |
-| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
+| [created](created.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | when the term came into being | direct |
+| [imports](imports.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | [NamedObject](NamedObject.md) |
+| [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
+
+
 
 
 
@@ -101,6 +105,9 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | ---  | ---  |
 | self | owl:Ontology |
 | native | omoschema:Ontology |
+
+
+
 
 
 ## LinkML Source

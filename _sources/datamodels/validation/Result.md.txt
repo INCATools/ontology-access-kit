@@ -9,6 +9,7 @@ _Abstract base class for any individual report result_
 URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 
+
 ```{mermaid}
  classDiagram
     class Result
@@ -17,6 +18,7 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
       
       
 ```
+
 
 
 
@@ -32,6 +34,9 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 ## Usages
@@ -68,6 +73,9 @@ URI: [vm:Result](https://w3id.org/linkml/validation-model/Result)
 | ---  | ---  |
 | self | vm:Result |
 | native | vm:Result |
+
+
+
 
 
 ## LinkML Source

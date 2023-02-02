@@ -7,6 +7,7 @@ _a mixin for a class whose members can have synonyms_
 URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynonyms)
 
 
+
 ```{mermaid}
  classDiagram
     class HasSynonyms
@@ -40,6 +41,7 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynony
 
 
 
+
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasSynonyms**
@@ -54,11 +56,13 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynony
 | [has_narrow_synonym](has_narrow_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
 | [has_broad_synonym](has_broad_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
 | [has_related_synonym](has_related_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
-| [alternative_term](alternative_term.md) | 0..* <br/> NONE |  | direct |
-| [ISA_alternative_term](ISA_alternative_term.md) | 0..1 <br/> NONE |  | direct |
-| [IEDB_alternative_term](IEDB_alternative_term.md) | 0..1 <br/> NONE |  | direct |
-| [editor_preferred_term](editor_preferred_term.md) | 0..* <br/> NONE |  | direct |
-| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | 0..1 <br/> NONE |  | direct |
+| [alternative_term](alternative_term.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [ISA_alternative_term](ISA_alternative_term.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [IEDB_alternative_term](IEDB_alternative_term.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [editor_preferred_term](editor_preferred_term.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [OBO_foundry_unique_label](OBO_foundry_unique_label.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -101,6 +105,9 @@ URI: [omoschema:HasSynonyms](http://purl.obolibrary.org/obo/omo/schema/HasSynony
 | ---  | ---  |
 | self | omoschema:HasSynonyms |
 | native | omoschema:HasSynonyms |
+
+
+
 
 
 ## LinkML Source

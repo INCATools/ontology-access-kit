@@ -5,6 +5,7 @@
 URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/ClassExpression)
 
 
+
 ```{mermaid}
  classDiagram
     class ClassExpression
@@ -37,6 +38,7 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 
 
 
+
 ## Inheritance
 * [Expression](Expression.md)
     * **ClassExpression**
@@ -47,14 +49,16 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [disjointWith](disjointWith.md) | 0..* <br/> NONE |  | direct |
+| [disjointWith](disjointWith.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [equivalentClass](equivalentClass.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [intersectionOf](intersectionOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
 | [subClassOf](subClassOf.md) | 0..* <br/> [ClassExpression](ClassExpression.md) |  | direct |
-| [cardinality](cardinality.md) | 0..1 <br/> NONE |  | direct |
-| [complementOf](complementOf.md) | 0..1 <br/> NONE |  | direct |
+| [cardinality](cardinality.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [complementOf](complementOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [oneOf](oneOf.md) | 0..1 <br/> [ClassExpression](ClassExpression.md) |  | direct |
-| [unionOf](unionOf.md) | 0..1 <br/> NONE |  | direct |
+| [unionOf](unionOf.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -110,6 +114,9 @@ URI: [omoschema:ClassExpression](http://purl.obolibrary.org/obo/omo/schema/Class
 | ---  | ---  |
 | self | omoschema:ClassExpression |
 | native | omoschema:ClassExpression |
+
+
+
 
 
 ## LinkML Source

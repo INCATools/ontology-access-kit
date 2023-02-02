@@ -7,6 +7,7 @@ _A pattern to be matched against an individual SSSOM mapping_
 URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Precondition)
 
 
+
 ```{mermaid}
  classDiagram
     class Precondition
@@ -21,6 +22,7 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -28,12 +30,14 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> NONE |  | direct |
-| [object_source_one_of](object_source_one_of.md) | 0..* <br/> NONE |  | direct |
-| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> NONE |  | direct |
-| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> NONE |  | direct |
-| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> NONE |  | direct |
-| [transformations_included_in](transformations_included_in.md) | 0..* <br/> NONE |  | direct |
+| [subject_source_one_of](subject_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object_source_one_of](object_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [mapping_source_one_of](mapping_source_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [subject_match_field_one_of](subject_match_field_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object_match_field_one_of](object_match_field_one_of.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [transformations_included_in](transformations_included_in.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -71,6 +75,9 @@ URI: [mrules:Precondition](https://w3id.org/linkml/mapping_rules_datamodel/Preco
 | ---  | ---  |
 | self | mrules:Precondition |
 | native | mrules:Precondition |
+
+
+
 
 
 ## LinkML Source

@@ -7,6 +7,7 @@ _An index over an ontology keyed by lexical unit_
 URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalIndex
@@ -14,6 +15,7 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
       LexicalIndex : pipelines
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 | ---  | --- | --- | --- |
 | [groupings](groupings.md) | 0..* <br/> [LexicalGrouping](LexicalGrouping.md) | all groupings | direct |
 | [pipelines](pipelines.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) | all pipelines used to build the index | direct |
+
+
 
 
 
@@ -56,6 +60,9 @@ URI: [li:LexicalIndex](https://w3id.org/linkml/lexical_index/LexicalIndex)
 | ---  | ---  |
 | self | li:LexicalIndex |
 | native | li:LexicalIndex |
+
+
+
 
 
 ## LinkML Source

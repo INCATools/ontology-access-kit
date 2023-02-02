@@ -207,12 +207,12 @@ of the left edge._</p>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="left_subject_is_functional.html"><span class="doc std std-doc">left_subject_is_functional</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>True if a subject mapping is present, and maps uniquely within the same ontol…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="left_object_is_functional.html"><span class="doc std std-doc">left_object_is_functional</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a></p></td>
 <td><p>True if an object mapping is present, and maps uniquely within the same ontol…</p></td>
 <td><p>direct</p></td>
 </tr>
@@ -723,7 +723,7 @@ attributes:
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
-    range: boolean
+    range: string
   left_object_is_functional:
     name: left_object_is_functional
     description: True if an object mapping is present, and maps uniquely within the
@@ -737,7 +737,7 @@ attributes:
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
-    range: boolean
+    range: string
   subject_mapping_predicate:
     name: subject_mapping_predicate
     description: The mapping predicate that holds between left_subject_id and right_subject_id

@@ -203,7 +203,7 @@
     <span class="n">PatcherInterface</span><span class="p">,</span>
     <span class="n">SummaryStatisticsInterface</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple OBO-file backed implementation</span>
 
 <span class="sd">    This implementation is incomplete and is intended primarily as a Patcher implementation</span>
@@ -481,7 +481,7 @@
                     <span class="k">yield</span> <span class="n">curie</span><span class="p">,</span> <span class="n">SynonymPropertyValue</span><span class="p">(</span><span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;oio:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">map_shorthand_to_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel_code</span><span class="p">:</span> <span class="n">PRED_CODE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PRED_CURIE</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maps either a true relationship type CURIE or a shorthand code to a CURIE.</span>
 
 <span class="sd">        See `section 5.9 &lt;https://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9&gt;`_</span>
@@ -497,7 +497,7 @@
         <span class="k">return</span> <span class="n">rel_code</span>
 
     <span class="k">def</span> <span class="nf">map_curie_to_shorthand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel_type</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PRED_CODE</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reciprocal of `_get_relationship_type_curie`</span>
 
 <span class="sd">        :param rel_type:</span>

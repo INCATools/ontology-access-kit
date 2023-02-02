@@ -136,7 +136,7 @@
 
 <div class="viewcode-block" id="OboGraphToFHIRConverter"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">OboGraphToFHIRConverter</span><span class="p">(</span><span class="n">DataModelConverter</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts from OboGraph to FHIR.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from OboGraph to FHIR.</span>
 
 <span class="sd">    - An ontology is mapped to a FHIR `CodeSystem &lt;https://build.fhir.org/codesystem.html&gt;`_.</span>
 <span class="sd">    - Each node in the OboGraph is converted to a _FHIR Concept_.</span>
@@ -183,7 +183,7 @@
         <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dump an OBO Graph Document to a FHIR CodeSystem.</span>
 
 <span class="sd">        By default, only IS_A predicates are converted to ConceptProperties. To override this,</span>
@@ -208,7 +208,7 @@
         <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodeSystem</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert an OBO Graph Document to a FHIR CodingSystem</span>
 
 <span class="sd">        :param source:</span>
@@ -224,7 +224,7 @@
         <span class="k">return</span> <span class="n">target</span></div>
 
 <div class="viewcode-block" id="OboGraphToFHIRConverter.code"><a class="viewcode-back" href="../../../converters/obo-graph-to-fhir.html#oaklib.converters.obo_graph_to_fhir_converter.OboGraphToFHIRConverter.code">[docs]</a>    <span class="k">def</span> <span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Convert a code&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a code&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">uri</span>
         <span class="n">curie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curie_converter</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
@@ -268,7 +268,7 @@
         <span class="n">target</span><span class="p">:</span> <span class="n">CodeSystem</span><span class="p">,</span>
         <span class="n">include_all_predicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Concept</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a node to a FHIR Concept. Also collects predicates to be included in CodeSystem.property.&quot;&quot;&quot;</span>
         <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting node </span><span class="si">{</span><span class="n">_id</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">concept</span> <span class="o">=</span> <span class="n">Concept</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">_id</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="n">source</span><span class="o">.</span><span class="n">lbl</span><span class="p">)</span>

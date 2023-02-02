@@ -5,6 +5,7 @@
 URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/DefinitionPropertyValue)
 
 
+
 ```{mermaid}
  classDiagram
     class DefinitionPropertyValue
@@ -20,6 +21,7 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 
 
 
+
 ## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **DefinitionPropertyValue**
@@ -29,10 +31,13 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| ---  | --- | --- | --- |
 | [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
+
+
 
 
 
@@ -70,6 +75,9 @@ URI: [og:DefinitionPropertyValue](https://github.com/geneontology/obographs/Defi
 | ---  | ---  |
 | self | og:DefinitionPropertyValue |
 | native | og:DefinitionPropertyValue |
+
+
+
 
 
 ## LinkML Source

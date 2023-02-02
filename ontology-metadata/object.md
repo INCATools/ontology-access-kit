@@ -54,7 +54,6 @@ name: object
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 alias: object
-owner: Annotation
 domain_of:
 - Annotation
 relational_role: OBJECT

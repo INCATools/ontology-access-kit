@@ -7,6 +7,7 @@ _An existential restriction (OWL some values from) expression_
 URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 
+
 ```{mermaid}
  classDiagram
     class ExistentialRestrictionExpression
@@ -14,6 +15,7 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
       ExistentialRestrictionExpression : propertyId
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | ---  | --- | --- | --- |
 | [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -74,6 +78,9 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 | ---  | ---  |
 | self | owl:Restriction |
 | native | og:ExistentialRestrictionExpression |
+
+
+
 
 
 ## LinkML Source

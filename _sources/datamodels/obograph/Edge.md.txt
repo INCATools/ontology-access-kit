@@ -5,6 +5,7 @@
 URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 
 
+
 ```{mermaid}
  classDiagram
     class Edge
@@ -14,6 +15,7 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
       Edge : sub
       
 ```
+
 
 
 
@@ -28,6 +30,8 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 | [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [obj](obj.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+
+
 
 
 
@@ -67,6 +71,9 @@ URI: [og:Edge](https://github.com/geneontology/obographs/Edge)
 | ---  | ---  |
 | self | og:Edge |
 | native | og:Edge |
+
+
+
 
 
 ## LinkML Source

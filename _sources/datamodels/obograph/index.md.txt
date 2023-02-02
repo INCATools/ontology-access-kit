@@ -5,6 +5,8 @@ Schema for benchmarking based on obographs
 URI: https://github.com/geneontology/obographs
 Name: obographs_datamodel
 
+
+
 ## Classes
 
 | Class | Description |

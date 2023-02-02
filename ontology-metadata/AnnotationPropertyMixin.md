@@ -7,6 +7,7 @@ _Groups all annotation property bundles_
 URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/schema/AnnotationPropertyMixin)
 
 
+
 ```{mermaid}
  classDiagram
     class AnnotationPropertyMixin
@@ -20,6 +21,7 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
       
       
 ```
+
 
 
 
@@ -40,6 +42,9 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 ## Mixin Usage
 
 | mixed into | description |
@@ -75,6 +80,9 @@ URI: [omoschema:AnnotationPropertyMixin](http://purl.obolibrary.org/obo/omo/sche
 | ---  | ---  |
 | self | omoschema:AnnotationPropertyMixin |
 | native | omoschema:AnnotationPropertyMixin |
+
+
+
 
 
 ## LinkML Source

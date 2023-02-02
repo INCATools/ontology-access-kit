@@ -7,6 +7,7 @@ _An individual taxon constraint_
 URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 
 
+
 ```{mermaid}
  classDiagram
     class TaxonConstraint
@@ -25,6 +26,7 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
       TaxonConstraint : via_terms
       
 ```
+
 
 
 
@@ -48,6 +50,8 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 | [predicates](predicates.md) | 0..* <br/> [PredicateTerm](PredicateTerm.md) | The predicates that connect the subject term to the via_terms | direct |
 | [sources](sources.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [comments](comments.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -90,6 +94,9 @@ URI: [rdf:Statement](http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement)
 | ---  | ---  |
 | self | rdf:Statement |
 | native | tc:TaxonConstraint |
+
+
+
 
 
 ## LinkML Source

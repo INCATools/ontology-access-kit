@@ -167,19 +167,19 @@
 <p>if you are running this as an internal OAK developer you need to precede the command with <code class="code docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code></p>
 </div>
 <p>The general structure is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak --input HANDLE COMMAND <span class="o">[</span>COMMAND ARGS AND OPTIONS<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--input<span class="w"> </span>HANDLE<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p>The value for <code class="code docutils literal notranslate"><span class="pre">--input</span></code> (which can be shorted to <code class="code docutils literal notranslate"><span class="pre">-i</span></code>) is specified in the <a class="reference internal" href="selectors.html#selectors"><span class="std std-ref">Ontology Implementation Selectors</span></a> documentation.</p>
 <p>Examples:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak --input ubergraph: COMMAND <span class="o">[</span>COMMAND ARGS AND OPTIONS<span class="o">]</span>
-runoak --input fbbt.obo COMMAND <span class="o">[</span>COMMAND ARGS AND OPTIONS<span class="o">]</span>
-runoak --input cl.db COMMAND <span class="o">[</span>COMMAND ARGS AND OPTIONS<span class="o">]</span>
-runoak --input sqlite:obo:cl COMMAND <span class="o">[</span>COMMAND ARGS AND OPTIONS<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--input<span class="w"> </span>ubergraph:<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
+runoak<span class="w"> </span>--input<span class="w"> </span>fbbt.obo<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
+runoak<span class="w"> </span>--input<span class="w"> </span>cl.db<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
+runoak<span class="w"> </span>--input<span class="w"> </span>sqlite:obo:cl<span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>ARGS<span class="w"> </span>AND<span class="w"> </span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p>It can be useful to create aliases for individual ontologies. For example, to create an alias for the Uberon ontology:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">uberon</span><span class="o">=</span><span class="s1">&#39;runoak -i obo:sqlite:uberon&#39;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">uberon</span><span class="o">=</span><span class="s1">&#39;runoak -i obo:sqlite:uberon&#39;</span>
 </pre></div>
 </div>
 <p>You can specify further implementations with <code class="code docutils literal notranslate"><span class="pre">-a</span></code> which will create an <span class="xref std std-ref">aggregator</span> implementation that wraps
@@ -203,11 +203,11 @@ multiple implementations. For example, you can multiplex queries over different 
 </ul>
 <p>Search terms are <em>expanded</em> to matching CURIEs, and then fed into the command.</p>
 <p>For example, (assuming the alias above) the following command will look up two terms using their labels:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uberon info hand foot
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uberon<span class="w"> </span>info<span class="w"> </span>hand<span class="w"> </span>foot
 </pre></div>
 </div>
 <p>This is equivalent to:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uberon info UBERON:0002398 UBERON:0002397
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uberon<span class="w"> </span>info<span class="w"> </span>UBERON:0002398<span class="w"> </span>UBERON:0002397
 </pre></div>
 </div>
 </section>
@@ -224,7 +224,7 @@ the command line interface understands shortcuts for these:</p>
 </ul>
 <p>For example, to draw the subgraph of terms starting from “hand” and “foot”
 and tracing upwards through is_a and part_of relationships:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uberon viz -p i,p hand foot
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uberon<span class="w"> </span>viz<span class="w"> </span>-p<span class="w"> </span>i,p<span class="w"> </span>hand<span class="w"> </span>foot
 </pre></div>
 </div>
 </section>
@@ -233,7 +233,7 @@ and tracing upwards through is_a and part_of relationships:</p>
 <h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline"></a></h2>
 <p>The following section is autogenerated from the inline docs.
 You should get the same results by running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak COMMAND --help
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>COMMAND<span class="w"> </span>--help
 </pre></div>
 </div>
 <section id="runoak">
@@ -250,7 +250,7 @@ You should get the same results by running:</p>
 <div><p>runoak viz -h</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -362,7 +362,7 @@ oboInOwl, etc)</p>
 richer data if present in the ontology, including synonym categories/types, synonym provenance</p>
 <p>In future, this may become the default</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak aliases <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>aliases<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -425,7 +425,7 @@ For exampple, constrained to is-a and part-of:</p>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">https://incatools.github.io/ontology-access-kit/interfaces/obograph.html</a></p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ancestors <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ancestors<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -510,7 +510,7 @@ subject_end: 30
 subject_start: 0</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak annotate <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>WORDS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>annotate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>WORDS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -604,7 +604,7 @@ subject_start: 0</p>
 <li><p>only a subset of KGCL commands are supported by each backend</p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak apply <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>COMMANDS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>COMMANDS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -698,7 +698,7 @@ obsolete them all:</p>
 </div></blockquote>
 <p>This command is partially redundant with the more general “apply” command</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak apply-obsolete <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>apply-obsolete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -739,7 +739,7 @@ terms or term queries, plus the closure predicate(s), e.g.</p>
 <p>This shows all annotations either to “Abnormality of the liver” (HP:0001392), or
 to is-a descendants</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak associations <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -839,7 +839,7 @@ to is-a descendants</p>
 </div></blockquote>
 <p>Note this currently only works with the funowl adapter, on functional syntax files</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak axioms <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>axioms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -886,7 +886,7 @@ to is-a descendants</p>
 <blockquote>
 <div><p>Clear the contents of the pystow oaklib cache.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak cache-clear <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>cache-clear<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -908,7 +908,7 @@ to is-a descendants</p>
 <div><p>List the contents of the pystow oaklib cache.</p>
 <p>TODO: this currently only works on unix-based systems.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak cache-ls <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>cache-ls<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 </section>
@@ -930,7 +930,7 @@ to is-a descendants</p>
 <div><p>runoak -i sqlite:obo:cl definitions –additional-metadata neuron</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak definitions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1025,7 +1025,7 @@ predicates are not specified</p>
 <div><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/obograph.html">https://incatools.github.io/ontology-access-kit/interfaces/obograph.html</a></p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak descendants <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>descendants<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1102,7 +1102,7 @@ will be “__RESIDUAL__”</p>
 <p>This does not do a diff over every axiom in each ontology. For a complete OWL diff, you should
 use ROBOT.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1192,7 +1192,7 @@ use ROBOT.</p>
 <div><p>Diffs two association sources. EXPERIMENTAL.</p>
 <p>This functionality may move out of core</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-associations <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-associations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1250,7 +1250,7 @@ use ROBOT.</p>
 <div><p>Compares a pair of terms in two ontologies</p>
 <p>EXPERIMENTAL</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-terms <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-terms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1300,7 +1300,7 @@ each ontology is used (in this case, Uberon contains mappings to ZFA)</p>
 (<a class="reference external" href="https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html">https://incatools.github.io/ontology-access-kit/datamodels/cross-ontology-diff/index.html</a>)</p>
 <p>This can be serialized in YAML or TSV form</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak diff-via-mappings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>diff-via-mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1429,7 +1429,7 @@ predicates.</p>
 <p>The dump command is also blocked for remote endpoints such as Ubergraph,
 to avoid killer queries.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak dump <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>dump<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1468,7 +1468,7 @@ to avoid killer queries.</p>
 <blockquote>
 <div><p>Run class enrichment analysis.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak enrichment <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>enrichment<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1583,7 +1583,7 @@ This should follow the format used in <a class="reference external" href="https:
 <div><p>runoak  -i db/go.db eval-taxon-constraints -p i,p -E tests/input/go-evo-gains-losses.csv</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak eval-taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>eval-taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CONSTRAINTS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1622,7 +1622,7 @@ This should follow the format used in <a class="reference external" href="https:
 <div><p>runoak -i db/pato.db expand-subsets attribute_slim value_slim</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak expand-subsets <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>SUBSETS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>expand-subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>SUBSETS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1658,7 +1658,7 @@ to have performance issues with the query</p>
 <div><p>runoak -v -i ubergraph: extract-triples <a class="reference external" href="GO:0005635">GO:0005635</a> CL:0000099 -o test.ttl -O ttl</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak extract-triples <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>extract-triples<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1771,7 +1771,7 @@ for now please file an issue on github with any questions</p>
 <li><p>TODO: use most optimized method for whichever backend</p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak fill-table <span class="o">[</span>OPTIONS<span class="o">]</span> TABLE_FILE
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>fill-table<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TABLE_FILE
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1888,7 +1888,7 @@ as queries that can be combined using boolean logic</p>
 <div><p>runoak -i sqlite:obo:stato info .desc//p=i ‘statistical hypothesis test’</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak info <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -1938,7 +1938,7 @@ as queries that can be combined using boolean logic</p>
 <div><p>runoak -i cl.owl labels .all –if-absent exclude</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak labels <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>labels<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2006,7 +2006,7 @@ Note that the default is to return the roots of the relation graph over <em>all<
 oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.leafs</p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak leafs <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>leafs<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2082,7 +2082,7 @@ will be reused.</p>
 </ul>
 <p>module-oaklib.utilities.lexical.lexical_indexer</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lexmatch <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>lexmatch<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2171,7 +2171,7 @@ then applied as a separate step.</p>
 runoak -i my.obo apply –changes-input changes.kgcl</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak lint <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>lint<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2253,7 +2253,7 @@ restrictions:
 which is what is currently represented in the OboGraph datamodel.</p>
 <p>Consider using the “axioms” command for inspection of complex nested OWL axioms.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak logical-definitions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>logical-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2344,7 +2344,7 @@ that if the label is not in the source ontology, then no label will be retrieved
 <div><p>runoak -i sqlite:obo:foodon mappings -O sssom –maps-to-source SUBSET_SIREN</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak mappings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>mappings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2402,7 +2402,7 @@ source and the target</p>
 </ul>
 <p>oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak migrate-curies <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CURIE_PAIRS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>migrate-curies<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>CURIE_PAIRS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2461,7 +2461,7 @@ source and the target</p>
 <div><p>runoak -i obolibrary:go.obo obsoletes –show-migration-relationships GO:0000187 GO:0000188</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak obsoletes <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>obsoletes<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2524,7 +2524,7 @@ a single line, with the name of the input ontology</p>
 </div></blockquote>
 <p>In future this command will be expanded to allow showing more metadata about each ontology</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ontologies <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontologies<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2558,7 +2558,7 @@ a single line, with the name of the input ontology</p>
 <p>The output data model is not yet standardized – this may change in future</p>
 </div>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ontology-metadata <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontology-metadata<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2607,7 +2607,7 @@ a single line, with the name of the input ontology</p>
 <div><p>runoak -i bioportal ontology-versions –all</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak ontology-versions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>ontology-versions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>ONTOLOGIES<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2677,7 +2677,7 @@ go paths  -p i,p ‘nuclear membrane’ –target cytoplasm –flat | go viz –
 <p>This visualizes the path by first exporting the path as a flat list, then passing the
 results to viz, using the fill-gaps option</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak paths <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>paths<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2787,7 +2787,7 @@ prefixes for entities in that ontology</p>
 <div><p>runoak -i sqlite:obo:cl prefixes –used-only</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak prefixes <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>prefixes<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2852,7 +2852,7 @@ prefixes for entities in that ontology</p>
 <div><p>runoak -i uberon.db relationships -p RO:0002178 .desc//p=i “artery” .and .desc//p=i,p “limb”</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak relationships <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>relationships<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -2972,7 +2972,7 @@ and parameterizing</p>
 oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.roots</p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak roots <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>roots<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3043,7 +3043,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <p>The behavior of search is not yet fully unified across endpoints</p>
 </div>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak search <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>search<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3082,7 +3082,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 </dl>
 <p>This is stored in an OS-dependent path</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak set-apikey <span class="o">[</span>OPTIONS<span class="o">]</span> KEYVAL
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>set-apikey<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>KEYVAL
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3111,7 +3111,7 @@ ranked by relevance. There may be many results, the results are streamed, do ctr
 <p>Note that siblings is by default over ALL relationship types, so we recommend
 always being explicit and passing a predicate using -p (–predicates)</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak siblings <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>siblings<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3187,7 +3187,7 @@ runoak -i hp.db similarity -p i –set1-file HPO –set2-file HPO -O csv -o RESU
 <div><p>runoak -i hp.db similarity -p i .desc//p=i HP:0000118 &#64; .desc//p=i HP:0000118</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3287,7 +3287,7 @@ the MRCA</p>
 </div></blockquote>
 <p>Background: <a class="reference external" href="https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html">https://incatools.github.io/ontology-access-kit/interfaces/semantic-similarity.html</a></p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak similarity-pair <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>similarity-pair<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3345,7 +3345,7 @@ Note that the default is to return the singletons of the relation graph over <em
 oaklib.interfaces.basic_ontology_interface.BasicOntologyInterface.singletons</p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak singletons <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>singletons<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3422,7 +3422,7 @@ option.</p>
 <p>This will also include change stats broken down by KGCL change types. If
 a group-by option is specified, these will be grouped accordingly.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak statistics <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>BRANCHES<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>statistics<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>BRANCHES<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3532,7 +3532,7 @@ terms (directly) in goslim_generic in GO:</p>
 <div><p>term-subsets command, which shows relationships of terms to subsets</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak subsets <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3553,7 +3553,7 @@ see <a class="reference external" href="https://github.com/INCATools/kgcl">https
 </dd>
 </dl>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak synonymize <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>synonymize<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3615,7 +3615,7 @@ of NCBI Taxonomy</p>
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils">https://incatools.github.io/ontology-access-kit/src/oaklib.utilities.taxon.taxon_constraints_utils</a></p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak taxon-constraints <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>taxon-constraints<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3667,7 +3667,7 @@ of NCBI Taxonomy</p>
 <div><p>List categories for a term or set of terms</p>
 <p>TODO</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-categories <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-categories<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3713,7 +3713,7 @@ of NCBI Taxonomy</p>
 keys representing selected predicates. Values are always lists of atoms, even
 when there is typically one value (e.g. rdfs:label)</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-metadata <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-metadata<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3759,7 +3759,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <blockquote>
 <div><p>List subsets for a term or set of terms</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak term-subsets <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>term-subsets<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3809,7 +3809,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <div><p>runoak -i sqlite:obo:omo terms –owl-type owl:AnnotationProperty</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak terms <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>terms<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3847,7 +3847,7 @@ when there is typically one value (e.g. rdfs:label)</p>
 <div><p>runoak -i go.db termset-similarity -p i,p nucleus membrane &#64; “nuclear membrane” vacuole -p i,p</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak termset-similarity <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>termset-similarity<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -3946,7 +3946,7 @@ the most informative intermediate classes:</p>
 <p>Note that ‘volcano’ is the root, even though it is 2 hops from one of the terms, it can be connected
 to at least one of the seeds (highlighted with asterisks) by a path of length 1.</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak tree <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>tree<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -4061,7 +4061,7 @@ such as aligning text and logical definitions. These are off by default.</p>
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -4157,7 +4157,7 @@ on OAK datamodels.</p>
 <p>This command is largely redundant with the validate command, but is useful for
 targeted validation focused solely on definitions</p>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-definitions <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-definitions<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -4202,7 +4202,7 @@ targeted validation focused solely on definitions</p>
 <li><p><a class="reference external" href="https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html">https://incatools.github.io/ontology-access-kit/howtos/validate-an-obo-ontology.html</a></p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak validate-multiple <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>DBS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-multiple<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>DBS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -4278,7 +4278,7 @@ to a distance of 2:</p>
 <div><p>runoak -i sqlite:cl.db viz ‘T cell’ -p i,d –max-hops 2</p>
 </div></blockquote>
 </div></blockquote>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak viz <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TERMS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>viz<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TERMS<span class="o">]</span>...
 </pre></div>
 </div>
 <p class="rubric">Options</p>

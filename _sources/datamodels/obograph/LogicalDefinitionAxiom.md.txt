@@ -7,6 +7,7 @@ _An axiom that defines a class in terms of a genus or set of genus classes and a
 URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/LogicalDefinitionAxiom)
 
 
+
 ```{mermaid}
  classDiagram
     class LogicalDefinitionAxiom
@@ -22,6 +23,7 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 
 
+
 ## Inheritance
 * [Axiom](Axiom.md)
     * **LogicalDefinitionAxiom**
@@ -32,10 +34,12 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [definedClassId](definedClassId.md) | 1..1 <br/> NONE | The class that is defined by this axiom | direct |
-| [genusIds](genusIds.md) | 0..* _recommended_ <br/> NONE | The set of classes that are the genus of the defined class | direct |
+| [definedClassId](definedClassId.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The class that is defined by this axiom | direct |
+| [genusIds](genusIds.md) | 0..* _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The set of classes that are the genus of the defined class | direct |
 | [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentia of the defined class | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
+
+
 
 
 
@@ -84,6 +88,9 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 | ---  | ---  |
 | self | og:LogicalDefinitionAxiom |
 | native | og:LogicalDefinitionAxiom |
+
+
+
 
 
 ## LinkML Source

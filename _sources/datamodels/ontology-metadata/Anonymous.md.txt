@@ -9,6 +9,7 @@ _Abstract root class for all anonymous (non-named; lacking an identifier) expres
 URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 
 
+
 ```{mermaid}
  classDiagram
     class Anonymous
@@ -16,6 +17,7 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
       
       
 ```
+
 
 
 
@@ -30,6 +32,9 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 
@@ -59,6 +64,9 @@ URI: [omoschema:Anonymous](http://purl.obolibrary.org/obo/omo/schema/Anonymous)
 | ---  | ---  |
 | self | omoschema:Anonymous |
 | native | omoschema:Anonymous |
+
+
+
 
 
 ## LinkML Source

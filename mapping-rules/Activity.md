@@ -9,6 +9,7 @@ _Generic grouping for any lexical operation_
 URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
+
 ```{mermaid}
  classDiagram
     class Activity
@@ -17,6 +18,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
       
       
 ```
+
 
 
 
@@ -32,6 +34,9 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 
@@ -61,6 +66,9 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 | ---  | ---  |
 | self | prov:Activity |
 | native | li:Activity |
+
+
+
 
 
 ## LinkML Source

@@ -7,6 +7,7 @@ _Absolute minimum metadata model_
 URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/HasMinimalMetadata)
 
 
+
 ```{mermaid}
  classDiagram
     class HasMinimalMetadata
@@ -26,6 +27,7 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 
 
 
+
 ## Inheritance
 * [AnnotationPropertyMixin](AnnotationPropertyMixin.md)
     * **HasMinimalMetadata**
@@ -38,6 +40,8 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 | ---  | --- | --- | --- |
 | [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
 | [definition](definition.md) | 0..* <br/> [NarrativeText](NarrativeText.md) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -75,6 +79,9 @@ URI: [omoschema:HasMinimalMetadata](http://purl.obolibrary.org/obo/omo/schema/Ha
 | ---  | ---  |
 | self | omoschema:HasMinimalMetadata |
 | native | omoschema:HasMinimalMetadata |
+
+
+
 
 
 ## LinkML Source

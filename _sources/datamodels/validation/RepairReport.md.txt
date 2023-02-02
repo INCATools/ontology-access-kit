@@ -7,6 +7,7 @@ _A report that consists of repair operation results_
 URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 
 
+
 ```{mermaid}
  classDiagram
     class RepairReport
@@ -15,6 +16,7 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
       RepairReport : results
       
 ```
+
 
 
 
@@ -28,7 +30,10 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | [Report](Report.md) |
+| ---  | --- | --- | --- |
+| [results](results.md) | 0..* <br/> [RepairOperation](RepairOperation.md) | collection of results | [Report](Report.md) |
+
+
 
 
 
@@ -59,6 +64,9 @@ URI: [vm:RepairReport](https://w3id.org/linkml/validation-model/RepairReport)
 | ---  | ---  |
 | self | vm:RepairReport |
 | native | vm:RepairReport |
+
+
+
 
 
 ## LinkML Source

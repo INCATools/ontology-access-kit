@@ -7,6 +7,7 @@ _A simple pairwise similarity between two sets of concepts/terms_
 URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetPairwiseSimilarity)
 
 
+
 ```{mermaid}
  classDiagram
     class TermSetPairwiseSimilarity
@@ -21,6 +22,7 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
       TermSetPairwiseSimilarity : subject_termset
       
 ```
+
 
 
 
@@ -42,6 +44,8 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 | [average_score](average_score.md) | 1..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
 | [best_score](best_score.md) | 1..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
 | [metric](metric.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+
+
 
 
 
@@ -72,6 +76,9 @@ URI: [sim:TermSetPairwiseSimilarity](https://w3id.org/linkml/similarity/TermSetP
 | ---  | ---  |
 | self | sim:TermSetPairwiseSimilarity |
 | native | sim:TermSetPairwiseSimilarity |
+
+
+
 
 
 ## LinkML Source

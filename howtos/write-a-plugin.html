@@ -181,8 +181,8 @@ reference of the entry point should be the corresponding implementation. The sch
 project, and should be unique, concise, and descriptive. Don’t pollute the top level namespace!</p>
 <p>The way you specify entry points will depend on the packaging tool your project uses. When using Poetry, your project
 would include something like the following in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.poetry.plugins.&quot;oaklib.plugins&quot;]</span><span class="w"></span>
-<span class="n">robot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;oakx_robot.robot_implementation:RobotImplementation&quot;</span><span class="w"></span>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.poetry.plugins.&quot;oaklib.plugins&quot;]</span>
+<span class="n">robot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;oakx_robot.robot_implementation:RobotImplementation&quot;</span>
 </pre></div>
 </div>
 <p>If your project does not use Poetry, consult your build tool’s documentation for information on how to implement an entry

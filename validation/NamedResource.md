@@ -5,6 +5,7 @@
 URI: [vm:NamedResource](https://w3id.org/linkml/validation-model/NamedResource)
 
 
+
 ```{mermaid}
  classDiagram
     class NamedResource
@@ -14,6 +15,7 @@ URI: [vm:NamedResource](https://w3id.org/linkml/validation-model/NamedResource)
       NamedResource : id
       
 ```
+
 
 
 
@@ -30,6 +32,8 @@ URI: [vm:NamedResource](https://w3id.org/linkml/validation-model/NamedResource)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+
+
 
 
 
@@ -60,6 +64,9 @@ URI: [vm:NamedResource](https://w3id.org/linkml/validation-model/NamedResource)
 | ---  | ---  |
 | self | vm:NamedResource |
 | native | vm:NamedResource |
+
+
+
 
 
 ## LinkML Source

@@ -7,6 +7,7 @@ _A user-specified configuration that determines how a particular search operatio
 URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/SearchBaseConfiguration)
 
 
+
 ```{mermaid}
  classDiagram
     class SearchBaseConfiguration
@@ -26,6 +27,7 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -37,13 +39,15 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 | [syntax](syntax.md) | 0..1 <br/> [SearchTermSyntax](SearchTermSyntax.md) | Determines how the search term is interpreted | direct |
 | [properties](properties.md) | 0..* <br/> [SearchProperty](SearchProperty.md) | determines which properties are searched over | direct |
 | [limit](limit.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | the maximum number of search results to be returned in one batch | direct |
-| [cursor](cursor.md) | 0..1 <br/> NONE |  | direct |
+| [cursor](cursor.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [is_partial](is_partial.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | allows matches where the search term is a subset of the full span | direct |
 | [is_complete](is_complete.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [include_obsoletes_in_results](include_obsoletes_in_results.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [is_fuzzy](is_fuzzy.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [categories](categories.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | categories that should be matched | direct |
 | [force_case_insensitive](force_case_insensitive.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | force case insensitive matching | direct |
+
+
 
 
 
@@ -87,6 +91,9 @@ URI: [search:SearchBaseConfiguration](https://w3id.org/linkml/search_datamodel/S
 | ---  | ---  |
 | self | search:SearchBaseConfiguration |
 | native | search:SearchBaseConfiguration |
+
+
+
 
 
 ## LinkML Source

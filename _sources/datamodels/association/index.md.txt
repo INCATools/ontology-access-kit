@@ -8,6 +8,8 @@ as common ontology annotation data models using in the biosciences.
 URI: https://w3id.org/oak/association
 Name: association
 
+
+
 ## Classes
 
 | Class | Description |

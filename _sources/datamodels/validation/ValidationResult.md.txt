@@ -7,6 +7,7 @@ _An individual result arising from validation of a data instance using a particu
 URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
+
 ```{mermaid}
  classDiagram
     class ValidationResult
@@ -40,6 +41,7 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 
 
 
+
 ## Inheritance
 * [Result](Result.md)
     * **ValidationResult**
@@ -60,6 +62,8 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 | [object_str](object_str.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [source](source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | direct |
+
+
 
 
 
@@ -98,6 +102,9 @@ URI: [sh:ValidationResult](http://www.w3.org/ns/shacl#ValidationResult)
 | ---  | ---  |
 | self | sh:ValidationResult |
 | native | vm:ValidationResult |
+
+
+
 
 
 ## LinkML Source

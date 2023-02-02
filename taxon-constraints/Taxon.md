@@ -7,6 +7,7 @@ _A term that represents a taxonomic group, may be at species level of a higher l
 URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 
 
+
 ```{mermaid}
  classDiagram
     class Taxon
@@ -20,6 +21,7 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 
 
 
+
 ## Inheritance
 * [Term](Term.md)
     * **Taxon**
@@ -29,8 +31,11 @@ URI: [tc:Taxon](https://w3id.org/linkml/taxon_constraints/Taxon)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+| ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Term](Term.md) |
+| [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [Term](Term.md) |
+
+
 
 
 
@@ -79,6 +84,9 @@ Instances of this class *should* have identifiers with one of the following pref
 | self | tc:Taxon |
 | native | tc:Taxon |
 | exact | NCBITaxon:1 |
+
+
+
 
 
 ## LinkML Source

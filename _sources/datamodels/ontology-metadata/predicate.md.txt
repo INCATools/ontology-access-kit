@@ -54,7 +54,6 @@ name: predicate
 from_schema: http://purl.obolibrary.org/obo/omo/schema
 rank: 1000
 alias: predicate
-owner: Annotation
 domain_of:
 - Annotation
 relational_role: PREDICATE

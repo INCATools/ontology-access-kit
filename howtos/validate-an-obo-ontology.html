@@ -115,23 +115,23 @@
 </ul>
 <p>The second option is likely easiest.</p>
 <p>For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://s3.amazonaws.com/bbop-sqlite/uberon.db
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://s3.amazonaws.com/bbop-sqlite/uberon.db
 </pre></div>
 </div>
 </section>
 <section id="step-2-install-oaklib">
 <h3>Step 2: Install oaklib<a class="headerlink" href="#step-2-install-oaklib" title="Permalink to this headline"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install oaklib
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>oaklib
 </pre></div>
 </div>
 <p>Check your install works:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak --help
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>--help
 </pre></div>
 </div>
 </section>
 <section id="step-3-validate-an-individual-ontology">
 <h3>Step 3: Validate an individual ontology<a class="headerlink" href="#step-3-validate-an-individual-ontology" title="Permalink to this headline"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:uberon.db validate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:uberon.db<span class="w"> </span>validate
 </pre></div>
 </div>
 <p>This will stream yaml output. The output is linkml objects using the SHACL Validation vocabulary</p>
@@ -151,7 +151,7 @@
 </section>
 <section id="step-3-alternative-validate-multiple-ontologies">
 <h3>Step 3 (alternative): Validate multiple ontologies<a class="headerlink" href="#step-3-alternative-validate-multiple-ontologies" title="Permalink to this headline"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak validate-multiple db/*.db -o obo-validation.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>validate-multiple<span class="w"> </span>db/*.db<span class="w"> </span>-o<span class="w"> </span>obo-validation.tsv
 </pre></div>
 </div>
 </section>

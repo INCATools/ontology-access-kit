@@ -104,14 +104,14 @@
 
 
 <div class="viewcode-block" id="PatcherInterface"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface">[docs]</a><span class="k">class</span> <span class="nc">PatcherInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Applies diffs</span>
 
 <span class="sd">    See `KGCL &lt;https://github.com/INCATools/kgcl&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">auto_add_contributor_using</span><span class="p">:</span> <span class="n">PRED_CURIE</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="sd">&quot;&quot;&quot;If provided, then any creators of or contributors on a Change object are</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If provided, then any creators of or contributors on a Change object are</span>
 <span class="sd">       propagated to the entity after application of that change, using this property.</span>
 <span class="sd">       If this is set then the recommended value is dct:contributor&quot;&quot;&quot;</span>
 
@@ -122,7 +122,7 @@
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies a change description</span>
 
 <span class="sd">        :param patch: TBD use KGCL</span>
@@ -134,7 +134,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="PatcherInterface.migrate_curies"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.migrate_curies">[docs]</a>    <span class="k">def</span> <span class="nf">migrate_curies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rewire an ontology replacing all usages of some CURIEs</span>
 
 <span class="sd">        :param curie_map:</span>
@@ -143,7 +143,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="PatcherInterface.save"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Commits all changes</span>
 
 <span class="sd">        :return:</span>
@@ -152,7 +152,7 @@
 <div class="viewcode-block" id="PatcherInterface.expand_changes"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_changes">[docs]</a>    <span class="k">def</span> <span class="nf">expand_changes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">],</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expand a list of complex change objects to a list of atomic changes.</span>
 
 <span class="sd">        :param changes:</span>
@@ -162,7 +162,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">changes</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">expand_change</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="PatcherInterface.expand_change"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.expand_change">[docs]</a>    <span class="k">def</span> <span class="nf">expand_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">:</span> <span class="n">Change</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Configuration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expand a complex change object to a list of atomic changes.</span>
 
 <span class="sd">        Examples:</span>
@@ -232,7 +232,7 @@
         <span class="k">return</span> <span class="n">changes</span></div>
 
 <div class="viewcode-block" id="PatcherInterface.undo"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.undo">[docs]</a>    <span class="k">def</span> <span class="nf">undo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">],</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Undo a list of changes</span>
 
 <span class="sd">        :param changes:</span>
@@ -253,7 +253,7 @@
         <span class="k">return</span> <span class="n">applied_changes</span></div>
 
 <div class="viewcode-block" id="PatcherInterface.reverse_changes"><a class="viewcode-back" href="../../../interfaces/patcher.html#oaklib.interfaces.patcher_interface.PatcherInterface.reverse_changes">[docs]</a>    <span class="k">def</span> <span class="nf">reverse_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Change</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates reciprocal Undo operations for a list of changes</span>
 
 <span class="sd">        :param changes:</span>

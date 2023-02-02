@@ -5,6 +5,7 @@
 URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/SynonymPropertyValue)
 
 
+
 ```{mermaid}
  classDiagram
     class SynonymPropertyValue
@@ -22,6 +23,7 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 
 
 
+
 ## Inheritance
 * [PropertyValue](PropertyValue.md)
     * **SynonymPropertyValue**
@@ -35,9 +37,11 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 | [synonymType](synonymType.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [isExact](isExact.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 | [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [PropertyValue](PropertyValue.md) |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [PropertyValue](PropertyValue.md) |
+
+
 
 
 
@@ -75,6 +79,9 @@ URI: [og:SynonymPropertyValue](https://github.com/geneontology/obographs/Synonym
 | ---  | ---  |
 | self | og:SynonymPropertyValue |
 | native | og:SynonymPropertyValue |
+
+
+
 
 
 ## LinkML Source

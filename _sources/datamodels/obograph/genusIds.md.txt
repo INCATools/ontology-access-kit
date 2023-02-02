@@ -24,7 +24,7 @@ URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 ## Properties
 
-* Range: NONE
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 * Multivalued: True
 
 * Recommended: True
@@ -71,6 +71,7 @@ alias: genusIds
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
+range: string
 recommended: true
 
 ```

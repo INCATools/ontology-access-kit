@@ -7,6 +7,7 @@ _An ontology_
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
+
 ```{mermaid}
  classDiagram
     class Ontology
@@ -21,6 +22,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -28,12 +30,14 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [description](description.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | a description of the resource | direct |
 | [title](title.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the title of the resource | direct |
 | [prefix](prefix.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the prefix for the ontology | direct |
 | [version](version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the version of the resource | direct |
 | [version_info](version_info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the version info of the resource | direct |
+
+
 
 
 
@@ -76,6 +80,9 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | ---  | ---  |
 | self | owl:Ontology |
 | native | summary_statistics:Ontology |
+
+
+
 
 
 ## LinkML Source

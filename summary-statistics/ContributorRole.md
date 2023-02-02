@@ -7,12 +7,14 @@ _A role that a contributor can have_
 URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 
+
 ```{mermaid}
  classDiagram
     class ContributorRole
       ContributorRole : id
       
 ```
+
 
 
 
@@ -23,7 +25,9 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -54,6 +58,9 @@ URI: [sh:ContributorRole](https://w3id.org/shacl/ContributorRole)
 | ---  | ---  |
 | self | sh:ContributorRole |
 | native | summary_statistics:ContributorRole |
+
+
+
 
 
 ## LinkML Source

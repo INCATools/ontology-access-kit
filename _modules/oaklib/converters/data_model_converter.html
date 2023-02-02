@@ -93,23 +93,23 @@
 
 <div class="viewcode-block" id="DataModelConverter"><a class="viewcode-back" href="../../../converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">DataModelConverter</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for all inter-data model converters.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all inter-data model converters.</span>
 
 <span class="sd">    Do not use this directly: use one of the subclasses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">curie_converter</span><span class="p">:</span> <span class="n">curies</span><span class="o">.</span><span class="n">Converter</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="sd">&quot;&quot;&quot;Converts between CURIEs and URIs&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts between CURIEs and URIs&quot;&quot;&quot;</span>
 
     <span class="n">labeler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="sd">&quot;&quot;&quot;A function that returns a label for a given CURIE&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A function that returns a label for a given CURIE&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
 <div class="viewcode-block" id="DataModelConverter.convert"><a class="viewcode-back" href="../../../converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.convert">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts from a source object to a target object.</span>
 
 <span class="sd">        Individual subclasses will map this to a specific subtype.</span>
@@ -123,7 +123,7 @@
 
 <div class="viewcode-block" id="DataModelConverter.dump"><a class="viewcode-back" href="../../../converters/data-model-converter.html#oaklib.converters.data_model_converter.DataModelConverter.dump">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dumps a source object to a target file.</span>
 
 <span class="sd">        :param source:</span>

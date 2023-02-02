@@ -7,6 +7,7 @@ _Statistics for a contributor_
 URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_statistics.ContributorStatistics)
 
 
+
 ```{mermaid}
  classDiagram
     class ContributorStatistics
@@ -16,6 +17,7 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
       ContributorStatistics : role_counts
       
 ```
+
 
 
 
@@ -30,6 +32,8 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 | [contributor_name](contributor_name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the name of the contributor | direct |
 | [normalization_comments](normalization_comments.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | if contributor name normalization was applied, provide details here | direct |
 | [role_counts](role_counts.md) | 0..* <br/> [FacetedCount](FacetedCount.md) |  | direct |
+
+
 
 
 
@@ -67,6 +71,9 @@ URI: [summary_statistics:ContributorStatistics](https://w3id.org/oaklib/summary_
 | ---  | ---  |
 | self | summary_statistics:ContributorStatistics |
 | native | summary_statistics:ContributorStatistics |
+
+
+
 
 
 ## LinkML Source

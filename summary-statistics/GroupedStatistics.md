@@ -7,6 +7,7 @@ _summary statistics for the entire resource_
 URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_statistics.GroupedStatistics)
 
 
+
 ```{mermaid}
  classDiagram
     class GroupedStatistics
@@ -24,6 +25,7 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
 
 
 
+
 ## Inheritance
 * [SummaryStatisticsReport](SummaryStatisticsReport.md)
     * **GroupedStatistics**
@@ -35,11 +37,13 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [partitions](partitions.md) | 0..* <br/> [UngroupedStatistics](UngroupedStatistics.md) | statistics grouped by a particular property | direct |
+| [id](id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Unique handle for this report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [agents](agents.md) | 0..* <br/> [Agent](Agent.md) | Agents that contributed to the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
 | [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
-| [id](id.md) | 0..1 <br/> NONE |  | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+| [agents](agents.md) | 0..* <br/> [Agent](Agent.md) | Agents that contributed to the report | [SummaryStatisticsReport](SummaryStatisticsReport.md) |
+
+
 
 
 
@@ -70,6 +74,9 @@ URI: [summary_statistics:GroupedStatistics](https://w3id.org/oaklib/summary_stat
 | ---  | ---  |
 | self | summary_statistics:GroupedStatistics |
 | native | summary_statistics:GroupedStatistics |
+
+
+
 
 
 ## LinkML Source

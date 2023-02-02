@@ -7,6 +7,7 @@ _A collection of mapping rules_
 URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamodel/MappingRuleCollection)
 
 
+
 ```{mermaid}
  classDiagram
     class MappingRuleCollection
@@ -14,6 +15,7 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
       MappingRuleCollection : rules
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 | ---  | --- | --- | --- |
 | [rules](rules.md) | 0..* <br/> [MappingRule](MappingRule.md) | all rules | direct |
 | [minimum_confidence](minimum_confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
+
+
 
 
 
@@ -56,6 +60,9 @@ URI: [mrules:MappingRuleCollection](https://w3id.org/linkml/mapping_rules_datamo
 | ---  | ---  |
 | self | mrules:MappingRuleCollection |
 | native | mrules:MappingRuleCollection |
+
+
+
 
 
 ## LinkML Source

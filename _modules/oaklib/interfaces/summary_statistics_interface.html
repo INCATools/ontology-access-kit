@@ -107,7 +107,7 @@
 
 
 <div class="viewcode-block" id="SummaryStatisticsInterface"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface">[docs]</a><span class="k">class</span> <span class="nc">SummaryStatisticsInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    generates summary statistics</span>
 
 <span class="sd">    Uses SummaryStatistics datamodel, see :ref:`datamodels`</span>
@@ -124,7 +124,7 @@
         <span class="n">include_entailed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GroupedStatistics</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets summary statistics for all ontologies treated as a single ontology.</span>
 
 <span class="sd">        :param branches: if provided, only statistics for the given branch roots will be returned</span>
@@ -189,7 +189,7 @@
         <span class="n">parent</span><span class="p">:</span> <span class="n">GroupedStatistics</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">prefixes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UngroupedStatistics</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets summary statistics for all ontologies treated as a single ontology.</span>
 
 <span class="sd">        Note that different implementations may implement subsets of the full stats datamodel.</span>
@@ -250,7 +250,7 @@
         <span class="k">return</span> <span class="n">ssc</span></div>
 
     <span class="k">def</span> <span class="nf">_add_statistics_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report</span><span class="p">:</span> <span class="n">SummaryStatisticsReport</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds metadata to a report</span>
 
 <span class="sd">        :param report:</span>
@@ -265,7 +265,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_ontologies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Ontology</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maps ontology metadata to Ontology object in stats datamodel.</span>
 
 <span class="sd">        :return:</span>
@@ -285,7 +285,7 @@
             <span class="k">yield</span> <span class="n">Ontology</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ontology</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.metadata_property_summary_statistics"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.metadata_property_summary_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">metadata_property_summary_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata_property</span><span class="p">:</span> <span class="n">PRED_CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets summary statistics for all ontologies wrapped as multiple dictionaries keyed</span>
 <span class="sd">        by ontology CURIE</span>
 
@@ -302,7 +302,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata_property_summary_statistics</span><span class="p">[</span><span class="n">metadata_property</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="nf">_add_derived_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssc</span><span class="p">:</span> <span class="n">UngroupedStatistics</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds derived statistics to the summary statistics collection</span>
 
 <span class="sd">        :param ssc:</span>
@@ -315,7 +315,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="SummaryStatisticsInterface.summary_statistic_description"><a class="viewcode-back" href="../../../interfaces/summary-statistics.html#oaklib.interfaces.summary_statistics_interface.SummaryStatisticsInterface.summary_statistic_description">[docs]</a>    <span class="k">def</span> <span class="nf">summary_statistic_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Examines the data dictionary to retrieve the definition of a metric</span>
 
 <span class="sd">        Any dictionary can be used, but summary_statistics_datamodel is favored</span>

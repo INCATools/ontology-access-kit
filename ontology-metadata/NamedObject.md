@@ -7,6 +7,7 @@ _Anything with an IRI_
 URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObject)
 
 
+
 ```{mermaid}
  classDiagram
     class NamedObject
@@ -27,6 +28,7 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 
 
 
+
 ## Inheritance
 * [Thing](Thing.md)
     * **NamedObject**
@@ -41,6 +43,8 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) | this maps to the URI in RDF | direct |
 | [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [Thing](Thing.md) |
+
+
 
 
 
@@ -85,6 +89,9 @@ URI: [omoschema:NamedObject](http://purl.obolibrary.org/obo/omo/schema/NamedObje
 | ---  | ---  |
 | self | omoschema:NamedObject |
 | native | omoschema:NamedObject |
+
+
+
 
 
 ## LinkML Source

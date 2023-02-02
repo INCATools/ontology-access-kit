@@ -5,6 +5,8 @@ A datamodel for representing the results of textual named entity recognition ann
 URI: https://w3id.org/linkml/text_annotator
 Name: text-annotator
 
+
+
 ## Classes
 
 | Class | Description |

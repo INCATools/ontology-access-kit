@@ -112,16 +112,16 @@
 </pre></div>
 </div>
 <p>In OBO Format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYO:123456</span><span class="w"></span>
-<span class="nt">is_obsolete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYO:123456</span>
+<span class="nt">is_obsolete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
 <p>You can query for all obsolete entities in an ontology using the <a class="reference external" href="https://incatools.github.io/ontology-access-kit/cli.html#runoak-obsoletes">obsoletes</a> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i myontology.db obsoletes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>myontology.db<span class="w"> </span>obsoletes
 </pre></div>
 </div>
 <p>You can also use <code class="docutils literal notranslate"><span class="pre">.is_obsolete</span></code> as a query term as input to other commands, e.g</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i myontology.db info .is_obsolete
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>myontology.db<span class="w"> </span>info<span class="w"> </span>.is_obsolete
 </pre></div>
 </div>
 <p>In python, querying obsoleted entities is provided by the <a class="reference internal" href="../interfaces/basic.html#basic-ontology-interface"><span class="std std-ref">Basic Ontology Interface</span></a>:</p>
@@ -150,37 +150,37 @@ are not yet fully standardized within OMO:</p>
 </ul>
 <p>In OAK, this can be retrieved like any other metadata using the entity_metadata methods from <span class="xref std std-ref">BasicOntologyInterface</span>.</p>
 <p>On the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:go term-metadata GO:0000005
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>term-metadata<span class="w"> </span>GO:0000005
 </pre></div>
 </div>
 <p>returns:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">IAO:0000115</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OBSOLETE. Assists in the correct assembly of ribosomes or ribosomal subunits in</span><span class="w"></span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">vivo, but is not a component of the assembled ribosome when performing its normal</span><span class="w"></span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">biological function.</span><span class="w"></span>
-<span class="nt">id</span><span class="p">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000005</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">oio:consider</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0042254</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0044183</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0051082</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">oio:hasExactSynonym</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ribosomal chaperone activity</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">oio:hasOBONamespace</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">molecular_function</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">oio:id</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000005</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">owl:deprecated</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;true&#39;</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">rdfs:comment</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">This term was made obsolete because it refers to a class of gene products and a</span><span class="w"></span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">biological process rather than a molecular function.</span><span class="w"></span>
-<span class="l l-Scalar l-Scalar-Plain">rdfs:label</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">obsolete ribosomal chaperone activity</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">IAO:0000115</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OBSOLETE. Assists in the correct assembly of ribosomes or ribosomal subunits in</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">vivo, but is not a component of the assembled ribosome when performing its normal</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">biological function.</span>
+<span class="nt">id</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000005</span>
+<span class="nt">oio:consider</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0042254</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0044183</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0051082</span>
+<span class="nt">oio:hasExactSynonym</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ribosomal chaperone activity</span>
+<span class="nt">oio:hasOBONamespace</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">molecular_function</span>
+<span class="nt">oio:id</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000005</span>
+<span class="nt">owl:deprecated</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="nt">rdfs:comment</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">This term was made obsolete because it refers to a class of gene products and a</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">biological process rather than a molecular function.</span>
+<span class="nt">rdfs:label</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">obsolete ribosomal chaperone activity</span>
 </pre></div>
 </div>
 <p>To get information about all obsolete entities in an ontology, use the <code class="docutils literal notranslate"><span class="pre">.is_obsolete</span></code> query term:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:go term-metadata .is_obsolete
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>term-metadata<span class="w"> </span>.is_obsolete
 </pre></div>
 </div>
 </section>
@@ -191,9 +191,9 @@ are not yet fully standardized within OMO:</p>
 This is similar to standard obsoletion with a replaced-by term, but this is more extreme as metadata
 about the merged entity is lost.</p>
 <p>In OBO format, this is handled with the <code class="docutils literal notranslate"><span class="pre">alt_id</span></code> tag. For example:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X:1</span><span class="w"></span>
-<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x1</span><span class="w"></span>
-<span class="nt">alt_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X:2</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X:1</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x1</span>
+<span class="nt">alt_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X:2</span>
 </pre></div>
 </div>
 <p>Here, there was previously an entity <code class="docutils literal notranslate"><span class="pre">X:2</span></code>, this was merged into <code class="docutils literal notranslate"><span class="pre">X:1</span></code>, and all metadata
@@ -214,7 +214,7 @@ there is an additional IAO “obsoletion reason” annotation, with type “term
 <p>OAK uses the underlying OWL model as the standard, so from OAK’s perspective, the structure of merged terms and terms that have been obsoleted with
 replacement is this is largely similar.</p>
 <p>If you run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:hp obsoletes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes
 </pre></div>
 </div>
 <p>It will show all deprecated IDs, regardless of whether they were merged or not (i.e
@@ -222,7 +222,7 @@ alt_ids from OBO format are included). Note that merged entities will show “No
 label.</p>
 <p>If you wish to exclude merged IDs (i.e. the equivalent of OBO Format stanzas that have
 an <code class="docutils literal notranslate"><span class="pre">is_obsolete:</span> <span class="pre">true</span></code>) then pass <code class="docutils literal notranslate"><span class="pre">--no-include-merged</span></code> to the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:hp obsoletes --no-include-merged
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:hp<span class="w"> </span>obsoletes<span class="w"> </span>--no-include-merged
 </pre></div>
 </div>
 </section>

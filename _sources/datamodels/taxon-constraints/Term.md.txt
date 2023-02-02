@@ -9,6 +9,7 @@ _An ontology term. In this model this is either the SubjectTerm of a taxon const
 URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 
 
+
 ```{mermaid}
  classDiagram
     class Term
@@ -20,6 +21,7 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
       Term : label
       
 ```
+
 
 
 
@@ -38,6 +40,8 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 | ---  | --- | --- | --- |
 | [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [label](label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -68,6 +72,9 @@ URI: [owl:Class](http://www.w3.org/2002/07/owl#Class)
 | ---  | ---  |
 | self | owl:Class |
 | native | tc:Term |
+
+
+
 
 
 ## LinkML Source

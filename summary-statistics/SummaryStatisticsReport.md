@@ -9,6 +9,7 @@ _abstract base class for all summary statistics reports_
 URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summary_statistics.SummaryStatisticsReport)
 
 
+
 ```{mermaid}
  classDiagram
     class SummaryStatisticsReport
@@ -26,6 +27,7 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 
 
 
+
 ## Inheritance
 * **SummaryStatisticsReport**
     * [GroupedStatistics](GroupedStatistics.md)
@@ -37,11 +39,13 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [id](id.md) | 0..1 <br/> NONE |  | direct |
+| [id](id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [ontologies](ontologies.md) | 0..* <br/> [Ontology](Ontology.md) | Ontology for which the statistics are computed | direct |
 | [compared_with](compared_with.md) | 0..* <br/> [Ontology](Ontology.md) | For diffs, the ontologies being compared against | direct |
 | [was_generated_by](was_generated_by.md) | 0..1 <br/> [SummaryStatisticsCalculationActivity](SummaryStatisticsCalculationActivity.md) | The process that generated the report | direct |
 | [agents](agents.md) | 0..* <br/> [Agent](Agent.md) | Agents that contributed to the report | direct |
+
+
 
 
 
@@ -72,6 +76,9 @@ URI: [summary_statistics:SummaryStatisticsReport](https://w3id.org/oaklib/summar
 | ---  | ---  |
 | self | summary_statistics:SummaryStatisticsReport |
 | native | summary_statistics:SummaryStatisticsReport |
+
+
+
 
 
 ## LinkML Source

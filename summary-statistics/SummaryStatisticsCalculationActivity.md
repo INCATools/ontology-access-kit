@@ -7,6 +7,7 @@ _An activity that calculates summary statistics for an ontology_
 URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/oaklib/summary_statistics.SummaryStatisticsCalculationActivity)
 
 
+
 ```{mermaid}
  classDiagram
     class SummaryStatisticsCalculationActivity
@@ -16,6 +17,7 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
       SummaryStatisticsCalculationActivity : was_associated_with
       
 ```
+
 
 
 
@@ -30,6 +32,8 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 | [ended_at_time](ended_at_time.md) | 0..1 <br/> [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime) | the time at which the activity ended | direct |
 | [was_associated_with](was_associated_with.md) | 0..1 <br/> [Agent](Agent.md) | the agent that was associated with the activity | direct |
 | [acted_on_behalf_of](acted_on_behalf_of.md) | 0..1 <br/> [Agent](Agent.md) | the agent that the activity acted on behalf of | direct |
+
+
 
 
 
@@ -69,6 +73,9 @@ URI: [summary_statistics:SummaryStatisticsCalculationActivity](https://w3id.org/
 | ---  | ---  |
 | self | summary_statistics:SummaryStatisticsCalculationActivity |
 | native | summary_statistics:SummaryStatisticsCalculationActivity |
+
+
+
 
 
 ## LinkML Source

@@ -91,7 +91,7 @@
 
 
 <span class="k">class</span> <span class="nc">TermAssociation</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A minimal datamodel for relating a subject entity to an object term</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -110,7 +110,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlComplexAxiom</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An axiom that is composed of two or more statements</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -125,7 +125,7 @@
 
 
 <span class="k">class</span> <span class="nc">Prefix</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Maps CURIEs to URIs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -139,7 +139,7 @@
 
 
 <div class="viewcode-block" id="Statements"><a class="viewcode-back" href="../../../implementations/sqldb.html#semsql.sqla.semsql.Statements">[docs]</a><span class="k">class</span> <span class="nc">Statements</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an RDF triple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -158,7 +158,7 @@
 
 
 <span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The basic unit of representation in an RDF or OWL graph</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -171,7 +171,7 @@
 
 
 <span class="k">class</span> <span class="nc">NodeIdentifier</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;node_identifier&quot;</span>
 
@@ -184,7 +184,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfLevelSummaryStatistic</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract grouping for views/classes that provide some kind of count summary about an individual element</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -198,7 +198,7 @@
 
 
 <span class="k">class</span> <span class="nc">RelationGraphConstruct</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A construct used as part of a Relation Graph</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -213,7 +213,7 @@
 
 
 <span class="k">class</span> <span class="nc">RepairAction</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an action that needs to be taken to repair a problem</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -227,7 +227,7 @@
 
 
 <span class="k">class</span> <span class="nc">Problem</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an instance of a problem pertaining to conformance to OBO guidelines</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -242,7 +242,7 @@
 
 
 <span class="k">class</span> <span class="nc">Orcid</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;orcid&quot;</span>
 
@@ -257,7 +257,7 @@
 
 
 <span class="k">class</span> <span class="nc">OntologyNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an ontology</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -273,7 +273,7 @@
 
 
 <span class="k">class</span> <span class="nc">DeprecatedNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;deprecated_node&quot;</span>
 
@@ -287,7 +287,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlReifiedAxiom</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An OWL axiom that has been reified - i.e. it includes an [id](id) field that uniquely identifies that axiom and which can be the subject of additional statements</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -310,7 +310,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlAxiom</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_axiom&quot;</span>
 
@@ -331,7 +331,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlAxiomAnnotation</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_axiom_annotation&quot;</span>
 
@@ -358,7 +358,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlSubclassOfSomeValuesFrom</span><span class="p">(</span><span class="n">OwlComplexAxiom</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Composition of subClassOf and SomeValuesFrom</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -376,7 +376,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlEquivalentToIntersectionMember</span><span class="p">(</span><span class="n">OwlComplexAxiom</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Composition of `OwlEquivalentClass`, `OwlIntersectionOf`, and `RdfListMember`; `C = X1 and ... and Xn`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -394,7 +394,7 @@
 
 
 <span class="k">class</span> <span class="nc">NodeToNodeStatement</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement where object is non-null and value is not populated</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -416,7 +416,7 @@
 
 
 <span class="k">class</span> <span class="nc">NodeToValueStatement</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement where value is non-null and object is not populated</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -438,7 +438,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfListStatement</span><span class="p">(</span><span class="n">Statements</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement that is used to represent aspects of RDF lists</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -460,7 +460,7 @@
 
 
 <span class="k">class</span> <span class="nc">BlankNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node with an ID that is not preserved between databases</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -476,7 +476,7 @@
 
 
 <span class="k">class</span> <span class="nc">IriNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;iri_node&quot;</span>
 
@@ -490,7 +490,7 @@
 
 
 <span class="k">class</span> <span class="nc">ClassNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node that represents an RDFS/OWL class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -506,7 +506,7 @@
 
 
 <span class="k">class</span> <span class="nc">PropertyNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Note this only directly classifies nodes asserted to be rdf:Properties</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -522,7 +522,7 @@
 
 
 <span class="k">class</span> <span class="nc">NamedIndividualNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node that represents an OWL Named Individual</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -538,7 +538,7 @@
 
 
 <span class="k">class</span> <span class="nc">CountOfPredicates</span><span class="p">(</span><span class="n">RdfLevelSummaryStatistic</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Number of distinct usages of a predicate. NOTE MAY CHANGE: does not currently count existential usage in OWL</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -555,7 +555,7 @@
 
 
 <span class="k">class</span> <span class="nc">CountOfInstantiatedClasses</span><span class="p">(</span><span class="n">RdfLevelSummaryStatistic</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Number of distinct instantiations of a class. Note in many OBOs, classes are not directly instantiated</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -572,7 +572,7 @@
 
 
 <span class="k">class</span> <span class="nc">CountOfSubclasses</span><span class="p">(</span><span class="n">RdfLevelSummaryStatistic</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Number of subclasses for a given class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -589,7 +589,7 @@
 
 
 <div class="viewcode-block" id="Edge"><a class="viewcode-back" href="../../../implementations/sqldb.html#semsql.sqla.semsql.Edge">[docs]</a><span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that connects two entities by a predicate. Note an edge is distinct from a statement, in that an axiom such as A SubClassOf R some B is represented as multiple statements, but is a single relation graph edge</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -607,7 +607,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphQuery</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A subgraph query encompasses as subgraph edge and a seed/anchor object and seed/anchor predicate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -627,7 +627,7 @@
 
 
 <div class="viewcode-block" id="EntailedEdge"><a class="viewcode-back" href="../../../implementations/sqldb.html#semsql.sqla.semsql.EntailedEdge">[docs]</a><span class="k">class</span> <span class="nc">EntailedEdge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that is inferred</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -645,7 +645,7 @@
 
 
 <span class="k">class</span> <span class="nc">EntailedEdgeCycle</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An edge that composes with another edge to make a cycle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -664,7 +664,7 @@
 
 
 <span class="k">class</span> <span class="nc">TransitiveEdge</span><span class="p">(</span><span class="n">RelationGraphConstruct</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A relation graph edge that is formed from a chain of one or more edges</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -682,7 +682,7 @@
 
 
 <span class="k">class</span> <span class="nc">LexicalProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    a problem with the textual value of an annotation property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -700,7 +700,7 @@
 
 
 <span class="k">class</span> <span class="nc">TrailingWhitespaceProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;trailing_whitespace_problem&quot;</span>
 
@@ -716,7 +716,7 @@
 
 
 <span class="k">class</span> <span class="nc">PropertyUsedWithDatatypeValuesAndObjects</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A problem in which the same property is used two two different ways, one in which the range is a literal value, the other where it is an object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -734,7 +734,7 @@
 
 
 <span class="k">class</span> <span class="nc">NodeWithTwoLabelsProblem</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;node_with_two_labels_problem&quot;</span>
 
@@ -752,7 +752,7 @@
 
 
 <span class="k">class</span> <span class="nc">AllProblems</span><span class="p">(</span><span class="n">Problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;all_problems&quot;</span>
 
@@ -768,7 +768,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasTextDefinitionStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_text_definition_statement&quot;</span>
 
@@ -788,7 +788,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasOioSynonymStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_oio_synonym_statement&quot;</span>
 
@@ -808,7 +808,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasSynonymStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_synonym_statement&quot;</span>
 
@@ -828,7 +828,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasMatchStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_match_statement&quot;</span>
 
@@ -848,7 +848,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasMappingStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_mapping_statement&quot;</span>
 
@@ -868,7 +868,7 @@
 
 
 <span class="k">class</span> <span class="nc">Contributor</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;contributor&quot;</span>
 
@@ -888,7 +888,7 @@
 
 
 <span class="k">class</span> <span class="nc">Creator</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;creator&quot;</span>
 
@@ -908,7 +908,7 @@
 
 
 <span class="k">class</span> <span class="nc">AxiomDbxrefAnnotation</span><span class="p">(</span><span class="n">OwlAxiomAnnotation</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;axiom_dbxref_annotation&quot;</span>
 
@@ -935,7 +935,7 @@
 
 
 <span class="k">class</span> <span class="nc">ObjectPropertyNode</span><span class="p">(</span><span class="n">PropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an OWL object property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -951,7 +951,7 @@
 
 
 <span class="k">class</span> <span class="nc">AnnotationPropertyNode</span><span class="p">(</span><span class="n">PropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an OWL annotation property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -967,7 +967,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlImportsStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_imports_statement&quot;</span>
 
@@ -987,7 +987,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlInverseOfStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_inverse_of_statement&quot;</span>
 
@@ -1007,7 +1007,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlComplementOfStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_complement_of_statement&quot;</span>
 
@@ -1027,7 +1027,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlEquivalentClassStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement that connects two class_nodes where both classes are equivalent</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1049,7 +1049,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlSameAsStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement that connects two individual nodes where both individual are equivalent</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1071,7 +1071,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlDisjointClassStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_disjoint_class_statement&quot;</span>
 
@@ -1091,7 +1091,7 @@
 
 
 <span class="k">class</span> <span class="nc">AnonymousExpression</span><span class="p">(</span><span class="n">BlankNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An OWL expression, such as a class expression. Expressions are &quot;anonymous&quot; as they are a composition of named elements rather than a named element themselves</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1107,7 +1107,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfTypeStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement that indicates the asserted type of the subject entity</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1129,7 +1129,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfsSubclassOfStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdfs_subclass_of_statement&quot;</span>
 
@@ -1149,7 +1149,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfsSubpropertyOfStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdfs_subproperty_of_statement&quot;</span>
 
@@ -1169,7 +1169,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfsLabelStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdfs_label_statement&quot;</span>
 
@@ -1189,7 +1189,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfsDomainStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdfs_domain_statement&quot;</span>
 
@@ -1209,7 +1209,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfsRangeStatement</span><span class="p">(</span><span class="n">NodeToNodeStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdfs_range_statement&quot;</span>
 
@@ -1229,7 +1229,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfFirstStatement</span><span class="p">(</span><span class="n">RdfListStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement that connects a list to its first element. This is a low-level triple, it is unlikely you need to use this directly. It is used to define rdf_list_member_statement, which is more useful</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1251,7 +1251,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfRestStatement</span><span class="p">(</span><span class="n">RdfListStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A statement that connects a list to its remaining elements. This is a low-level triple, it is unlikely you need to use this directly. It is used to define rdf_list_member_statement, which is more useful</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1273,7 +1273,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfRestTransitiveStatement</span><span class="p">(</span><span class="n">RdfListStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdf_rest_transitive_statement&quot;</span>
 
@@ -1293,7 +1293,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfListMemberStatement</span><span class="p">(</span><span class="n">RdfListStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdf_list_member_statement&quot;</span>
 
@@ -1313,7 +1313,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfListNode</span><span class="p">(</span><span class="n">BlankNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an RDF list. Note that you will not likely need to use this directly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1329,7 +1329,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphEdgeByAncestor</span><span class="p">(</span><span class="n">SubgraphQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An edge within a subgraph anchored around a set of ancestor terms</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1349,7 +1349,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphEdgeByDescendant</span><span class="p">(</span><span class="n">SubgraphQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An edge within a subgraph anchored around a set of descendant terms</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1369,7 +1369,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphEdgeByAncestorOrDescendant</span><span class="p">(</span><span class="n">SubgraphQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;subgraph_edge_by_ancestor_or_descendant&quot;</span>
 
@@ -1387,7 +1387,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphEdgeByParent</span><span class="p">(</span><span class="n">SubgraphQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An edge within a subgraph anchored around a set of parent terms</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1407,7 +1407,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphEdgeByChild</span><span class="p">(</span><span class="n">SubgraphQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An edge within a subgraph anchored around a set of child terms</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1427,7 +1427,7 @@
 
 
 <span class="k">class</span> <span class="nc">SubgraphEdgeBySelf</span><span class="p">(</span><span class="n">SubgraphQuery</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A special null form of a subgraph query where there is no expansion</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1447,7 +1447,7 @@
 
 
 <span class="k">class</span> <span class="nc">EntailedEdgeSamePredicateCycle</span><span class="p">(</span><span class="n">EntailedEdgeCycle</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An entailed_edge_cycle over a single predicate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1466,7 +1466,7 @@
 
 
 <span class="k">class</span> <span class="nc">OntologyStatusStatement</span><span class="p">(</span><span class="n">NodeToValueStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;ontology_status_statement&quot;</span>
 
@@ -1486,7 +1486,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasExactSynonymStatement</span><span class="p">(</span><span class="n">HasOioSynonymStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_exact_synonym_statement&quot;</span>
 
@@ -1506,7 +1506,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasBroadSynonymStatement</span><span class="p">(</span><span class="n">HasOioSynonymStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_broad_synonym_statement&quot;</span>
 
@@ -1526,7 +1526,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasNarrowSynonymStatement</span><span class="p">(</span><span class="n">HasOioSynonymStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_narrow_synonym_statement&quot;</span>
 
@@ -1546,7 +1546,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasRelatedSynonymStatement</span><span class="p">(</span><span class="n">HasOioSynonymStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_related_synonym_statement&quot;</span>
 
@@ -1566,7 +1566,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasExactMatchStatement</span><span class="p">(</span><span class="n">HasMatchStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_exact_match_statement&quot;</span>
 
@@ -1586,7 +1586,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasBroadMatchStatement</span><span class="p">(</span><span class="n">HasMatchStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_broad_match_statement&quot;</span>
 
@@ -1606,7 +1606,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasNarrowMatchStatement</span><span class="p">(</span><span class="n">HasMatchStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_narrow_match_statement&quot;</span>
 
@@ -1626,7 +1626,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasRelatedMatchStatement</span><span class="p">(</span><span class="n">HasMatchStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_related_match_statement&quot;</span>
 
@@ -1646,7 +1646,7 @@
 
 
 <span class="k">class</span> <span class="nc">HasDbxrefStatement</span><span class="p">(</span><span class="n">HasMappingStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;has_dbxref_statement&quot;</span>
 
@@ -1666,7 +1666,7 @@
 
 
 <span class="k">class</span> <span class="nc">TransitivePropertyNode</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an OWL transitive object property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1682,7 +1682,7 @@
 
 
 <span class="k">class</span> <span class="nc">SymmetricPropertyNode</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an OWL symmetric object property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1698,7 +1698,7 @@
 
 
 <span class="k">class</span> <span class="nc">ReflexivePropertyNode</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an OWL reflexive object property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1714,7 +1714,7 @@
 
 
 <span class="k">class</span> <span class="nc">IrreflexivePropertyNode</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A node representing an OWL irreflexive object property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1730,7 +1730,7 @@
 
 
 <span class="k">class</span> <span class="nc">AsymmetricPropertyNode</span><span class="p">(</span><span class="n">ObjectPropertyNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;asymmetric_property_node&quot;</span>
 
@@ -1744,7 +1744,7 @@
 
 
 <span class="k">class</span> <span class="nc">AnonymousClassExpression</span><span class="p">(</span><span class="n">AnonymousExpression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An OWL anonymous class expression, such as for example `SomeValuesFrom(partOf Hand)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1760,7 +1760,7 @@
 
 
 <span class="k">class</span> <span class="nc">AnonymousPropertyExpression</span><span class="p">(</span><span class="n">AnonymousExpression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;anonymous_property_expression&quot;</span>
 
@@ -1774,7 +1774,7 @@
 
 
 <span class="k">class</span> <span class="nc">AnonymousIndividualExpression</span><span class="p">(</span><span class="n">AnonymousExpression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;anonymous_individual_expression&quot;</span>
 
@@ -1788,7 +1788,7 @@
 
 
 <span class="k">class</span> <span class="nc">RdfsSubclassOfNamedStatement</span><span class="p">(</span><span class="n">RdfsSubclassOfStatement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;rdfs_subclass_of_named_statement&quot;</span>
 
@@ -1808,7 +1808,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlRestriction</span><span class="p">(</span><span class="n">AnonymousClassExpression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An OWL restriction, such as `SomeValuesFrom(partOf Hand)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1826,7 +1826,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlSomeValuesFrom</span><span class="p">(</span><span class="n">OwlRestriction</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An OWL SomeValuesFrom restriction</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1844,7 +1844,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlAllValuesFrom</span><span class="p">(</span><span class="n">OwlRestriction</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_all_values_from&quot;</span>
 
@@ -1860,7 +1860,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlHasValue</span><span class="p">(</span><span class="n">OwlRestriction</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_has_value&quot;</span>
 
@@ -1876,7 +1876,7 @@
 
 
 <span class="k">class</span> <span class="nc">OwlHasSelf</span><span class="p">(</span><span class="n">OwlRestriction</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
 
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;owl_has_self&quot;</span>
 

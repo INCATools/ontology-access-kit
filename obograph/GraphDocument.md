@@ -5,6 +5,7 @@
 URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 
 
+
 ```{mermaid}
  classDiagram
     class GraphDocument
@@ -13,6 +14,7 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
       GraphDocument : prefixes
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
 | [graphs](graphs.md) | 0..* <br/> [Graph](Graph.md) |  | direct |
 | [prefixes](prefixes.md) | 0..* <br/> [PrefixDeclaration](PrefixDeclaration.md) | maps prefixes to namespaces | direct |
+
+
 
 
 
@@ -56,6 +60,9 @@ URI: [og:GraphDocument](https://github.com/geneontology/obographs/GraphDocument)
 | ---  | ---  |
 | self | og:GraphDocument |
 | native | og:GraphDocument |
+
+
+
 
 
 ## LinkML Source

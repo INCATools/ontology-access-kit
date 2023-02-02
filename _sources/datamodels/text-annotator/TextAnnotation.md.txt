@@ -7,6 +7,7 @@ _An individual text annotation_
 URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
+
 ```{mermaid}
  classDiagram
     class TextAnnotation
@@ -34,6 +35,7 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 
 
+
 ## Inheritance
 * **TextAnnotation** [ [HasSpan](HasSpan.md)]
 
@@ -43,22 +45,24 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate_id](predicate_id.md) | 0..1 <br/> NONE |  | direct |
-| [object_id](object_id.md) | 0..1 <br/> NONE |  | direct |
-| [object_label](object_label.md) | 0..1 <br/> NONE |  | direct |
-| [object_source](object_source.md) | 0..1 <br/> NONE |  | direct |
+| [predicate_id](predicate_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object_id](object_id.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object_label](object_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [confidence](confidence.md) | 0..1 <br/> [xsd:float](http://www.w3.org/2001/XMLSchema#float) |  | direct |
-| [match_string](match_string.md) | 0..1 <br/> NONE |  | direct |
+| [match_string](match_string.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [is_longest_match](is_longest_match.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> NONE |  | direct |
-| [match_type](match_type.md) | 0..1 <br/> NONE |  | direct |
-| [info](info.md) | 0..1 <br/> NONE |  | direct |
-| [object_aliases](object_aliases.md) | 0..* <br/> NONE |  | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | [HasSpan](HasSpan.md) |
+| [matches_whole_text](matches_whole_text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [match_type](match_type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object_aliases](object_aliases.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
-| [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
-| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | [HasSpan](HasSpan.md) |
 | [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | [HasSpan](HasSpan.md) |
+| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The portion of the subject text that is matched, ranging from subject_start t... | [HasSpan](HasSpan.md) |
+| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | [HasSpan](HasSpan.md) |
+| [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | [HasSpan](HasSpan.md) |
+
+
 
 
 
@@ -96,6 +100,9 @@ URI: [oa:Annotation](http://www.w3.org/ns/oa#Annotation)
 | ---  | ---  |
 | self | oa:Annotation |
 | native | ann:TextAnnotation |
+
+
+
 
 
 ## LinkML Source

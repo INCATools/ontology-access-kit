@@ -5,6 +5,7 @@
 URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 
+
 ```{mermaid}
  classDiagram
     class HasSpan
@@ -20,6 +21,7 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -29,9 +31,11 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 | ---  | --- | --- | --- |
 | [subject_start](subject_start.md) | 0..1 <br/> [Position](Position.md) |  | direct |
 | [subject_end](subject_end.md) | 0..1 <br/> [Position](Position.md) |  | direct |
-| [subject_label](subject_label.md) | 0..1 <br/> NONE | The portion of the subject text that is matched, ranging from subject_start t... | direct |
-| [subject_source](subject_source.md) | 0..1 <br/> NONE |  | direct |
+| [subject_label](subject_label.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The portion of the subject text that is matched, ranging from subject_start t... | direct |
+| [subject_source](subject_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [subject_text_id](subject_text_id.md) | 0..1 <br/> [TextualElement](TextualElement.md) |  | direct |
+
+
 
 ## Mixin Usage
 
@@ -69,6 +73,9 @@ URI: [ann:HasSpan](https://w3id.org/linkml/text_annotator/HasSpan)
 | ---  | ---  |
 | self | ann:HasSpan |
 | native | ann:HasSpan |
+
+
+
 
 
 ## LinkML Source

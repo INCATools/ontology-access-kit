@@ -5,6 +5,7 @@
 URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 
 
+
 ```{mermaid}
  classDiagram
     class Node
@@ -14,6 +15,7 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
       Node : type
       
 ```
+
 
 
 
@@ -28,6 +30,8 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | [lbl](lbl.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [type](type.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+
+
 
 
 
@@ -65,6 +69,9 @@ URI: [rdf:Resource](http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource)
 | ---  | ---  |
 | self | rdf:Resource |
 | native | og:Node |
+
+
+
 
 
 ## LinkML Source

@@ -5,6 +5,7 @@
 URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 
 
+
 ```{mermaid}
  classDiagram
     class EquivalentNodesSet
@@ -15,6 +16,7 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
       EquivalentNodesSet : representativeNodeId
       
 ```
+
 
 
 
@@ -32,6 +34,8 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 | [representativeNodeId](representativeNodeId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [nodeIds](nodeIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
+
+
 
 
 
@@ -69,6 +73,9 @@ URI: [owl:equivalentClass](http://www.w3.org/2002/07/owl#equivalentClass)
 | ---  | ---  |
 | self | owl:equivalentClass |
 | native | og:EquivalentNodesSet |
+
+
+
 
 
 ## LinkML Source

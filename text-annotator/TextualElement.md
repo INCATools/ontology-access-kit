@@ -5,6 +5,7 @@
 URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 
 
+
 ```{mermaid}
  classDiagram
     class TextualElement
@@ -14,6 +15,7 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
       TextualElement : text
       
 ```
+
 
 
 
@@ -28,6 +30,8 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 | [text](text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [source_text](source_text.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [parent_document](parent_document.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+
+
 
 
 
@@ -66,6 +70,9 @@ URI: [ann:TextualElement](https://w3id.org/linkml/text_annotator/TextualElement)
 | ---  | ---  |
 | self | ann:TextualElement |
 | native | ann:TextualElement |
+
+
+
 
 
 ## LinkML Source

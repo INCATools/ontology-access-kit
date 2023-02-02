@@ -5,6 +5,8 @@ A datamodel for representing inferred and asserted taxon constraints.
 URI: https://w3id.org/linkml/taxon_constraints
 Name: taxon-constraints
 
+
+
 ## Classes
 
 | Class | Description |

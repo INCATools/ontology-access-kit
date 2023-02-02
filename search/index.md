@@ -13,6 +13,8 @@ search results, e.g. google search, although parts could be generalized for this
 URI: https://w3id.org/linkml/search_datamodel
 Name: search-datamodel
 
+
+
 ## Classes
 
 | Class | Description |

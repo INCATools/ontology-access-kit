@@ -9,6 +9,7 @@ _A report object that is a holder to multiple report results_
 URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 
 
+
 ```{mermaid}
  classDiagram
     class Report
@@ -18,6 +19,7 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
       Report : results
       
 ```
+
 
 
 
@@ -34,6 +36,8 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | direct |
+
+
 
 
 
@@ -64,6 +68,9 @@ URI: [vm:Report](https://w3id.org/linkml/validation-model/Report)
 | ---  | ---  |
 | self | vm:Report |
 | native | vm:Report |
+
+
+
 
 
 ## LinkML Source

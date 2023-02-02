@@ -5,6 +5,8 @@ A datamodel for representing a lexical index of an ontology. A lexical index is 
 URI: https://w3id.org/linkml/lexical_index
 Name: lexical-index
 
+
+
 ## Classes
 
 | Class | Description |

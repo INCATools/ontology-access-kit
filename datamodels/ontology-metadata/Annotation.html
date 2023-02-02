@@ -104,12 +104,12 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="predicate.html"><span class="doc std std-doc">predicate</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="object.html"><span class="doc std std-doc">object</span></a></p></td>
-<td><p>0..1 <br/> NONE</p></td>
+<td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
 <td><p></p></td>
 <td><p>direct</p></td>
 </tr>
@@ -177,12 +177,10 @@ attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     relational_role: PREDICATE
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     relational_role: OBJECT
 represents_relationship: true
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
@@ -199,7 +197,6 @@ attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     alias: predicate
     owner: Annotation
     domain_of:
@@ -209,7 +206,6 @@ attributes:
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     alias: object
     owner: Annotation
     domain_of:

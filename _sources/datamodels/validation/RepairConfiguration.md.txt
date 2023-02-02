@@ -7,6 +7,7 @@ _Configuration parameters for execution of validation repairs_
 URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairConfiguration)
 
 
+
 ```{mermaid}
  classDiagram
     class RepairConfiguration
@@ -14,6 +15,7 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
       RepairConfiguration : validation_configuration
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 | ---  | --- | --- | --- |
 | [validation_configuration](validation_configuration.md) | 0..1 <br/> [ValidationConfiguration](ValidationConfiguration.md) | repair configurations include validation configurations | direct |
 | [dry_run](dry_run.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+
+
 
 
 
@@ -56,6 +60,9 @@ URI: [vm:RepairConfiguration](https://w3id.org/linkml/validation-model/RepairCon
 | ---  | ---  |
 | self | vm:RepairConfiguration |
 | native | vm:RepairConfiguration |
+
+
+
 
 
 ## LinkML Source

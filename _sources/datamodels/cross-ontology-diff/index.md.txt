@@ -5,6 +5,8 @@ A datamodel for representing the results of relational diffs across a pair of on
 URI: https://w3id.org/linkml/cross_ontology_diff
 Name: cross-ontology-diff
 
+
+
 ## Classes
 
 | Class | Description |

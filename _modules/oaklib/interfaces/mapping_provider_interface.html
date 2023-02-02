@@ -88,12 +88,13 @@
 <span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">sssom_schema</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
+<span class="kn">from</span> <span class="nn">oaklib.datamodels.mapping_cluster_datamodel</span> <span class="kn">import</span> <span class="n">MappingCluster</span>
 <span class="kn">from</span> <span class="nn">oaklib.interfaces.basic_ontology_interface</span> <span class="kn">import</span> <span class="n">BasicOntologyInterface</span>
 <span class="kn">from</span> <span class="nn">oaklib.types</span> <span class="kn">import</span> <span class="n">CURIE</span>
 
 
 <div class="viewcode-block" id="MappingProviderInterface"><a class="viewcode-back" href="../../../interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface">[docs]</a><span class="k">class</span> <span class="nc">MappingProviderInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An ontology provider that provides SSSOM mappings</span>
 
 <span class="sd">    TODO: move code from mapping-walker</span>
@@ -109,7 +110,7 @@
 <div class="viewcode-block" id="MappingProviderInterface.sssom_mappings_by_source"><a class="viewcode-back" href="../../../interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings_by_source">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings_by_source</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject_or_object_source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All SSSOM mappings in the ontology</span>
 
 <span class="sd">        The subject_id MUST be a CURIE in the ontology</span>
@@ -137,7 +138,7 @@
 
 <div class="viewcode-block" id="MappingProviderInterface.get_sssom_mappings_by_curie"><a class="viewcode-back" href="../../../interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_sssom_mappings_by_curie">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;Use sssom_mappings()&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_sssom_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All SSSOM mappings about a curie</span>
 
 <span class="sd">        MUST yield mappings where EITHER subject OR object equals the CURIE</span>
@@ -150,7 +151,7 @@
 <div class="viewcode-block" id="MappingProviderInterface.sssom_mappings"><a class="viewcode-back" href="../../../interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.sssom_mappings">[docs]</a>    <span class="k">def</span> <span class="nf">sssom_mappings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        returns all sssom mappings matching filter conditions</span>
 
 <span class="sd">        :param curies:</span>
@@ -174,12 +175,15 @@
                 <span class="k">yield</span> <span class="n">m</span></div>
 
 <div class="viewcode-block" id="MappingProviderInterface.get_transitive_mappings_by_curie"><a class="viewcode-back" href="../../../interfaces/mapping-provider.html#oaklib.interfaces.mapping_provider_interface.MappingProviderInterface.get_transitive_mappings_by_curie">[docs]</a>    <span class="k">def</span> <span class="nf">get_transitive_mappings_by_curie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param curie:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="nf">get_mapping_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">MappingCluster</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 </pre></div>
 
            </div>

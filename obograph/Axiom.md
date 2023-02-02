@@ -7,6 +7,7 @@
 URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 
+
 ```{mermaid}
  classDiagram
     class Axiom
@@ -18,6 +19,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
       Axiom : meta
       
 ```
+
 
 
 
@@ -36,6 +38,8 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+
+
 
 
 
@@ -66,6 +70,9 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 | ---  | ---  |
 | self | og:Axiom |
 | native | og:Axiom |
+
+
+
 
 
 ## LinkML Source

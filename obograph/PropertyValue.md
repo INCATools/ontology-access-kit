@@ -7,6 +7,7 @@
 URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyValue
@@ -21,6 +22,7 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
       PropertyValue : xrefs
       
 ```
+
 
 
 
@@ -42,6 +44,8 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 | [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+
+
 
 
 
@@ -72,6 +76,9 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 | ---  | ---  |
 | self | og:PropertyValue |
 | native | og:PropertyValue |
+
+
+
 
 
 ## LinkML Source

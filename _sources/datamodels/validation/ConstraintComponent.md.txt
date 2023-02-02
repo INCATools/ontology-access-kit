@@ -5,6 +5,7 @@
 URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/ConstraintComponent)
 
 
+
 ```{mermaid}
  classDiagram
     class ConstraintComponent
@@ -13,6 +14,7 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
       ConstraintComponent : id
       
 ```
+
 
 
 
@@ -26,7 +28,10 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [NamedResource](NamedResource.md) |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [NamedResource](NamedResource.md) |
+
+
 
 
 
@@ -34,7 +39,6 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [TypeSeverityKeyValue](TypeSeverityKeyValue.md) | [type](type.md) | range | [ConstraintComponent](ConstraintComponent.md) |
 | [ValidationResult](ValidationResult.md) | [type](type.md) | range | [ConstraintComponent](ConstraintComponent.md) |
 | [ExternalReferenceValidationResult](ExternalReferenceValidationResult.md) | [type](type.md) | range | [ConstraintComponent](ConstraintComponent.md) |
 
@@ -66,6 +70,9 @@ URI: [vm:ConstraintComponent](https://w3id.org/linkml/validation-model/Constrain
 | ---  | ---  |
 | self | vm:ConstraintComponent |
 | native | vm:ConstraintComponent |
+
+
+
 
 
 ## LinkML Source

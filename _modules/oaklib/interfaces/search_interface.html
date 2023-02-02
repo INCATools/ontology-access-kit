@@ -92,14 +92,14 @@
 
 
 <div class="viewcode-block" id="SearchInterface"><a class="viewcode-back" href="../../../interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface">[docs]</a><span class="k">class</span> <span class="nc">SearchInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An Ontology Interface that supports text-based search</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SearchInterface.basic_search"><a class="viewcode-back" href="../../../interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.basic_search">[docs]</a>    <span class="k">def</span> <span class="nf">basic_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Search over ontology using the specified search term.</span>
 
 <span class="sd">        The search term may be a CURIE, label, or alias</span>
@@ -113,7 +113,7 @@
 <div class="viewcode-block" id="SearchInterface.multiterm_search"><a class="viewcode-back" href="../../../interfaces/search.html#oaklib.interfaces.search_interface.SearchInterface.multiterm_search">[docs]</a>    <span class="k">def</span> <span class="nf">multiterm_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">search_terms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SearchConfiguration</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        As basic_search, using multiple terms</span>
 
 <span class="sd">        :param search_terms:</span>

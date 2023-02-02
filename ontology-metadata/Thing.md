@@ -7,6 +7,7 @@
 URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 
 
+
 ```{mermaid}
  classDiagram
     class Thing
@@ -15,6 +16,7 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
       Thing : type
       
 ```
+
 
 
 
@@ -30,6 +32,8 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [type](type.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
+
+
 
 
 
@@ -154,6 +158,9 @@ URI: [owl:Thing](http://www.w3.org/2002/07/owl#Thing)
 | ---  | ---  |
 | self | owl:Thing |
 | native | omoschema:Thing |
+
+
+
 
 
 ## LinkML Source

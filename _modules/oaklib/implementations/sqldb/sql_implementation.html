@@ -233,13 +233,13 @@
 
 
 <span class="k">class</span> <span class="nc">SqlSchemaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raised when there are issues with the version of the SQL DDL uses&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when there are issues with the version of the SQL DDL uses&quot;&quot;&quot;</span>
 
     <span class="k">pass</span>
 
 
 <span class="k">class</span> <span class="nc">ViewNotFoundError</span><span class="p">(</span><span class="n">SqlSchemaError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raised when a SQL view is not found&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a SQL view is not found&quot;&quot;&quot;</span>
 
     <span class="k">pass</span>
 
@@ -270,7 +270,7 @@
 
 
 <span class="k">def</span> <span class="nf">regex_to_sql_like</span><span class="p">(</span><span class="n">regex</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    convert a regex to a LIKE</span>
 
 <span class="sd">    TODO: implement various different DBMS flavors</span>
@@ -321,7 +321,7 @@
     <span class="n">OwlInterface</span><span class="p">,</span>
     <span class="n">DumperInterface</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A :class:`OntologyInterface` implementation that wraps a SQL Relational Database.</span>
 
 <span class="sd">    This could be a local file (accessed via SQL Lite) or a local/remote server (e.g PostgreSQL).</span>
@@ -990,7 +990,7 @@
         <span class="k">return</span> <span class="n">g</span>
 
     <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">syntax</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Implements :ref:`dump`.</span>
 
 <span class="sd">        Supported syntaxes:</span>
@@ -1157,7 +1157,7 @@
         <span class="k">return</span> <span class="n">n</span>
 
     <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all nodes in all graphs</span>
 
 <span class="sd">        :param expand_curies:</span>
@@ -1502,7 +1502,7 @@
     <span class="k">def</span> <span class="nf">_check_slot</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">slot_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Class&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">vdm</span><span class="o">.</span><span class="n">ValidationResult</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates all data with respect to a specific slot.</span>
 
 <span class="sd">        :param slot_name:</span>

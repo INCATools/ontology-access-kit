@@ -122,10 +122,10 @@ both different historic practice, and different uses cases.</p>
 may be searching using the string “ornithine cycle”. In this case, the search system should
 be able to return the right concept using a synonym in GO.</p>
 <p>In OBO format, a partial representation of this term is:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000050</span><span class="w"></span>
-<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">urea cycle</span><span class="w"></span>
-<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ornithine</span><span class="nv"> </span><span class="s">cycle&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXACT []</span><span class="w"></span>
-<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;urea</span><span class="nv"> </span><span class="s">biosynthesis&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED []</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GO:0000050</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">urea cycle</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ornithine</span><span class="nv"> </span><span class="s">cycle&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXACT []</span>
+<span class="nt">synonym</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;urea</span><span class="nv"> </span><span class="s">biosynthesis&quot;</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RELATED []</span>
 </pre></div>
 </div>
 <p>To support search, a relatively simple synonym system is required, although advanced searches
@@ -233,8 +233,8 @@ the predicate, so we can use <code class="docutils literal notranslate"><span cl
 <p>(note that label is treated as an alias by default, but you can pass <code class="docutils literal notranslate"><span class="pre">exclude_labels=True</span></code> to
 override this)</p>
 <p>You can get the same information on the command line with the <code class="docutils literal notranslate"><span class="pre">aliases</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">hp</span><span class="o">=</span><span class="s1">&#39;runoak -i sqlite:obo:hp&#39;</span>
-hp aliases HP:0001698
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">hp</span><span class="o">=</span><span class="s1">&#39;runoak -i sqlite:obo:hp&#39;</span>
+hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698
 </pre></div>
 </div>
 <p>This will give a table:</p>
@@ -282,7 +282,7 @@ conforming to the OboGraph datamodel.</p>
 </pre></div>
 </div>
 <p>You can also get similar behavior by passing <code class="docutils literal notranslate"><span class="pre">--obo-model</span></code> to the <code class="docutils literal notranslate"><span class="pre">aliases</span></code> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hp aliases HP:0001698 --obo-model
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hp<span class="w"> </span>aliases<span class="w"> </span>HP:0001698<span class="w"> </span>--obo-model
 </pre></div>
 </div>
 <table class="docutils align-default" id="id2">

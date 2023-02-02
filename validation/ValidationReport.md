@@ -7,6 +7,7 @@ _A report that consists of validation results_
 URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 
 
+
 ```{mermaid}
  classDiagram
     class ValidationReport
@@ -15,6 +16,7 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
       ValidationReport : results
       
 ```
+
 
 
 
@@ -28,7 +30,10 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [results](results.md) | 0..* <br/> [Result](Result.md) | collection of results | [Report](Report.md) |
+| ---  | --- | --- | --- |
+| [results](results.md) | 0..* <br/> [ValidationResult](ValidationResult.md) | collection of results | [Report](Report.md) |
+
+
 
 
 
@@ -63,6 +68,9 @@ URI: [sh:ValidationReport](http://www.w3.org/ns/shacl#ValidationReport)
 | ---  | ---  |
 | self | sh:ValidationReport |
 | native | vm:ValidationReport |
+
+
+
 
 
 ## LinkML Source

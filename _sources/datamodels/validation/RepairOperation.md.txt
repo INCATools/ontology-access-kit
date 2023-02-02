@@ -7,6 +7,7 @@ _The result of performing an individual repair_
 URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperation)
 
 
+
 ```{mermaid}
  classDiagram
     class RepairOperation
@@ -18,6 +19,7 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
       RepairOperation : successful
       
 ```
+
 
 
 
@@ -36,6 +38,8 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 | [modified](modified.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [successful](successful.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
 | [info](info.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | additional information about the issue | direct |
+
+
 
 
 
@@ -77,6 +81,9 @@ URI: [vm:RepairOperation](https://w3id.org/linkml/validation-model/RepairOperati
 | ---  | ---  |
 | self | vm:RepairOperation |
 | native | vm:RepairOperation |
+
+
+
 
 
 ## LinkML Source

@@ -7,6 +7,7 @@ _A collection of atomic lexical transformations that are applied in serial fashi
 URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/LexicalTransformationPipeline)
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalTransformationPipeline
@@ -16,6 +17,7 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
       LexicalTransformationPipeline : transformations
       
 ```
+
 
 
 
@@ -30,8 +32,10 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [name](name.md) | 0..1 <br/> NONE |  | direct |
+| [name](name.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [transformations](transformations.md) | 0..* <br/> [LexicalTransformation](LexicalTransformation.md) |  | direct |
+
+
 
 
 
@@ -70,6 +74,9 @@ URI: [li:LexicalTransformationPipeline](https://w3id.org/linkml/lexical_index/Le
 | ---  | ---  |
 | self | li:LexicalTransformationPipeline |
 | native | li:LexicalTransformationPipeline |
+
+
+
 
 
 ## LinkML Source

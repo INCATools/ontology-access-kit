@@ -89,7 +89,7 @@
 
 
 <div class="viewcode-block" id="RelationGraphInterface"><a class="viewcode-back" href="../../../interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface">[docs]</a><span class="k">class</span> <span class="nc">RelationGraphInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    an interface that provides relation graph abstractions</span>
 
 <span class="sd">    .. note ::</span>
@@ -103,7 +103,7 @@
 <div class="viewcode-block" id="RelationGraphInterface.entailed_outgoing_relationships"><a class="viewcode-back" href="../../../interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_outgoing_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">entailed_outgoing_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The return relationship map is keyed by relationship type, where the values</span>
 <span class="sd">        are the &#39;parents&#39; or fillers</span>
 
@@ -126,7 +126,7 @@
 <div class="viewcode-block" id="RelationGraphInterface.entailed_incoming_relationships"><a class="viewcode-back" href="../../../interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_incoming_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">entailed_incoming_relationships</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The return relationship map is keyed by relationship type, where the values</span>
 <span class="sd">        are the &#39;parents&#39; or fillers</span>
 
@@ -147,7 +147,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entailed_incoming_relationships</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RelationGraphInterface.entailed_relationships_between"><a class="viewcode-back" href="../../../interfaces/relation-graph.html#oaklib.interfaces.relation_graph_interface.RelationGraphInterface.entailed_relationships_between">[docs]</a>    <span class="k">def</span> <span class="nf">entailed_relationships_between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="nb">object</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yield the predicates of all valid relationships connecting subject and object, both direct and indirect</span>
 
 <span class="sd">        :param subject:</span>

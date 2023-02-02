@@ -108,7 +108,7 @@
 
 
 <span class="k">class</span> <span class="nc">Distance</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Specifies how many hops to walk in any given direction</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -134,7 +134,7 @@
 
 <div class="viewcode-block" id="TraversalConfiguration"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.TraversalConfiguration">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">TraversalConfiguration</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Specifies how to walk up and down a graph</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -144,7 +144,7 @@
 
 
 <div class="viewcode-block" id="OboGraphInterface"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface">[docs]</a><span class="k">class</span> <span class="nc">OboGraphInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    an interface that provides an Object Oriented view of an ontology, following the OBO Graph Datamodel</span>
 
 <span class="sd">    See `OBOGraphs &lt;https://github.com/geneontology/obographs&gt;`_</span>
@@ -161,19 +161,19 @@
     <span class="n">transitive_query_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="OboGraphInterface.enable_transitive_query_cache"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.enable_transitive_query_cache">[docs]</a>    <span class="k">def</span> <span class="nf">enable_transitive_query_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cache transitive queries</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transitive_query_cache</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.disable_transitive_query_cache"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.disable_transitive_query_cache">[docs]</a>    <span class="k">def</span> <span class="nf">disable_transitive_query_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Do not cache transitive queries (default)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transitive_query_cache</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.nodes"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.nodes">[docs]</a>    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all nodes in all graphs</span>
 
 <span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
@@ -183,7 +183,7 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="n">expand_curies</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.edges"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.edges">[docs]</a>    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Edge</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all edges in all graphs.</span>
 
 <span class="sd">        :param expand_curies: if True expand CURIEs to URIs</span>
@@ -205,7 +205,7 @@
                 <span class="k">yield</span> <span class="n">Edge</span><span class="p">(</span><span class="n">sub</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="n">o</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.node"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.node">[docs]</a>    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Look up a node object by CURIE</span>
 
 <span class="sd">        :param curie: identifier of node</span>
@@ -224,7 +224,7 @@
 <div class="viewcode-block" id="OboGraphInterface.synonym_map_for_curies"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.synonym_map_for_curies">[docs]</a>    <span class="k">def</span> <span class="nf">synonym_map_for_curies</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">SynonymPropertyValue</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a map of SynonymPropertyValue objects keyed by curie</span>
 
 <span class="sd">        :param subject: curie or list of curies</span>
@@ -254,7 +254,7 @@
 <div class="viewcode-block" id="OboGraphInterface.ancestor_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.ancestor_graph">[docs]</a>    <span class="k">def</span> <span class="nf">ancestor_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a graph object that consists of all the nodes specified in the start_curies list,</span>
 <span class="sd">        extended with an interactive walk up the graph following all relationships (optionally filtered by the predicate</span>
 <span class="sd">        list)</span>
@@ -282,7 +282,7 @@
 <div class="viewcode-block" id="OboGraphInterface.descendant_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.descendant_graph">[docs]</a>    <span class="k">def</span> <span class="nf">descendant_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        As ancestor graph, but in opposite direction</span>
 
 <span class="sd">        :param start_curies:</span>
@@ -308,7 +308,7 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ancestors obtained from a walk starting from start_curies ending in roots, following only the specified</span>
 <span class="sd">        predicates.</span>
 
@@ -331,7 +331,7 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Descendants obtained from a walk downwards starting from start_curies</span>
 <span class="sd">        ending in roots, following only the specified predicates.</span>
 
@@ -354,7 +354,7 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reflexive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Count of descendants.</span>
 
 <span class="sd">        See :ref:`descendants` for more details.</span>
@@ -372,7 +372,7 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">traversal</span><span class="p">:</span> <span class="n">TraversalConfiguration</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Combines ancestors and descendants according to a traversal configuration</span>
 
 <span class="sd">        :param start_curies:</span>
@@ -401,7 +401,7 @@
         <span class="n">dangling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extract a subgraph from the graph that contains the specified entities and predicates</span>
 
 <span class="sd">        :param entities: entities to extract</span>
@@ -418,7 +418,7 @@
         <span class="k">return</span> <span class="n">g</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.relationships_to_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.relationships_to_graph">[docs]</a>    <span class="k">def</span> <span class="nf">relationships_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationships</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates an OboGraph from a list of relationships</span>
 
 <span class="sd">        :param relationships:</span>
@@ -435,7 +435,7 @@
 <div class="viewcode-block" id="OboGraphInterface.walk_up_relationship_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.walk_up_relationship_graph">[docs]</a>    <span class="k">def</span> <span class="nf">walk_up_relationship_graph</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">start_curies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">RELATIONSHIP</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Walks up the relation graph from a seed set of curies or individual curie, returning the full ancestry graph</span>
 
 <span class="sd">        Note: this may be inefficient for remote endpoints, in future a graph walking endpoint will implement this</span>
@@ -454,7 +454,7 @@
         <span class="n">predicate_weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">shortest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">GRAPH_PATH</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns all paths between sources and targets</span>
 
 <span class="sd">        :param start_curies:</span>
@@ -485,7 +485,7 @@
 <div class="viewcode-block" id="OboGraphInterface.logical_definitions"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.logical_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">logical_definitions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">LogicalDefinitionAxiom</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields all logical definitions for input subjects</span>
 
 <span class="sd">        :param subjects:</span>
@@ -494,7 +494,7 @@
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(())</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.add_metadata"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.add_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">add_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decorates the graph with meta objects on all nodes</span>
 <span class="sd">        :param graph:</span>
 <span class="sd">        :return:</span>
@@ -502,7 +502,7 @@
         <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.as_obograph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.as_obograph">[docs]</a>    <span class="k">def</span> <span class="nf">as_obograph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expand_curies</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert entire resource to an OBO Graph object</span>
 
 <span class="sd">        .. warning ::</span>
@@ -530,7 +530,7 @@
         <span class="k">return</span> <span class="n">g</span></div>
 
 <div class="viewcode-block" id="OboGraphInterface.load_graph"><a class="viewcode-back" href="../../../interfaces/obograph.html#oaklib.interfaces.obograph_interface.OboGraphInterface.load_graph">[docs]</a>    <span class="k">def</span> <span class="nf">load_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads a graph into the repository</span>
 
 <span class="sd">        :param graph:</span>

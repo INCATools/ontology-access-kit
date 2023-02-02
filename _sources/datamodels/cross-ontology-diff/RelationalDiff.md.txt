@@ -31,6 +31,7 @@ of the left edge._
 URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
+
 ```{mermaid}
  classDiagram
     class RelationalDiff
@@ -59,6 +60,7 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -79,13 +81,15 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 | [right_subject_label](right_subject_label.md) | 0..1 <br/> [Label](Label.md) | The name of the subject (child) of the matched/right edge, if matchable | direct |
 | [right_object_label](right_object_label.md) | 0..1 <br/> [Label](Label.md) | The name of the object (parent) of the matched/right edge, if matchable | direct |
 | [right_predicate_labels](right_predicate_labels.md) | 0..* <br/> [Label](Label.md) | The names corresponding to the right_predicate_ids | direct |
-| [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> NONE | True if a subject mapping is present, and maps uniquely within the same ontol... | direct |
-| [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> NONE | True if an object mapping is present, and maps uniquely within the same ontol... | direct |
+| [left_subject_is_functional](left_subject_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | True if a subject mapping is present, and maps uniquely within the same ontol... | direct |
+| [left_object_is_functional](left_object_is_functional.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | True if an object mapping is present, and maps uniquely within the same ontol... | direct |
 | [subject_mapping_predicate](subject_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_subject_id and right_subject_id | direct |
 | [object_mapping_predicate](object_mapping_predicate.md) | 0..1 <br/> [EntityReference](EntityReference.md) | The mapping predicate that holds between left_object_id and right_object_id | direct |
 | [right_intermediate_ids](right_intermediate_ids.md) | 0..* <br/> [EntityReference](EntityReference.md) |  | direct |
 | [subject_mapping_cardinality](subject_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md) | The mapping cardinality of the subject pair | direct |
 | [object_mapping_cardinality](object_mapping_cardinality.md) | 0..1 <br/> [MappingCardinalityEnum](MappingCardinalityEnum.md) | The mapping cardinality of the object pair | direct |
+
+
 
 
 
@@ -123,6 +127,9 @@ URI: [ann:RelationalDiff](https://w3id.org/linkml/text_annotator/RelationalDiff)
 | ---  | ---  |
 | self | ann:RelationalDiff |
 | native | ann:RelationalDiff |
+
+
+
 
 
 ## LinkML Source
@@ -560,7 +567,7 @@ attributes:
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
-    range: boolean
+    range: string
   left_object_is_functional:
     name: left_object_is_functional
     description: True if an object mapping is present, and maps uniquely within the
@@ -574,7 +581,7 @@ attributes:
     owner: RelationalDiff
     domain_of:
     - RelationalDiff
-    range: boolean
+    range: string
   subject_mapping_predicate:
     name: subject_mapping_predicate
     description: The mapping predicate that holds between left_subject_id and right_subject_id

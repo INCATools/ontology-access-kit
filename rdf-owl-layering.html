@@ -169,12 +169,12 @@ But the goal is to make the commonly used constructs easy and intuitive to acces
 </pre></div>
 </div>
 <p>In OBO Format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYO:123456</span><span class="w"></span>
-<span class="nt">is_obsolete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYO:123456</span>
+<span class="nt">is_obsolete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
 <p>You can query for all obsolete entities in an ontology using the <a href="#id1"><span class="problematic" id="id2">`obsoletes&lt;https://incatools.github.io/ontology-access-kit/cli.html#runoak-obsoletes&gt;`_</span></a> command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ runoak -i myontology.db obsoletes
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>runoak<span class="w"> </span>-i<span class="w"> </span>myontology.db<span class="w"> </span>obsoletes
 </pre></div>
 </div>
 <p>In python, this is provided in the <span class="xref std std-ref">BasicOntologyInterface</span>:</p>
@@ -205,11 +205,11 @@ are not yet fully standardized within OMO:</p>
 </ul>
 <p>In OAK, this can be retrieved like any other metadata using the entity_metadata methods from <span class="xref std std-ref">BasicOntologyInterface</span>.</p>
 <p>On the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:go entity_metadata GO:0000005
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>entity_metadata<span class="w"> </span>GO:0000005
 </pre></div>
 </div>
 <p>Or for all obsolete entities:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:go entity_metadata .is_obsolete
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:go<span class="w"> </span>entity_metadata<span class="w"> </span>.is_obsolete
 </pre></div>
 </div>
 </section>

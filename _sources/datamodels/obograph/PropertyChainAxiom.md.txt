@@ -5,6 +5,7 @@
 URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyChainAxiom)
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyChainAxiom
@@ -15,6 +16,7 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
       PropertyChainAxiom : predicateId
       
 ```
+
 
 
 
@@ -32,6 +34,8 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 | [predicateId](predicateId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [chainPredicateIds](chainPredicateIds.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
+
+
 
 
 
@@ -69,6 +73,9 @@ URI: [og:PropertyChainAxiom](https://github.com/geneontology/obographs/PropertyC
 | ---  | ---  |
 | self | og:PropertyChainAxiom |
 | native | og:PropertyChainAxiom |
+
+
+
 
 
 ## LinkML Source

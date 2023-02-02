@@ -5,11 +5,13 @@
 URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 
+
 ```{mermaid}
  classDiagram
     class Any
       
 ```
+
 
 
 
@@ -20,6 +22,9 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
+
+
+
 
 
 ## Usages
@@ -80,6 +85,9 @@ URI: [linkml:Any](https://w3id.org/linkml/Any)
 | ---  | ---  |
 | self | linkml:Any |
 | native | omoschema:Any |
+
+
+
 
 
 ## LinkML Source

@@ -7,6 +7,7 @@ _A reified property-object pair_
 URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation)
 
 
+
 ```{mermaid}
  classDiagram
     class Annotation
@@ -17,6 +18,7 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -24,8 +26,10 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [predicate](predicate.md) | 0..1 <br/> NONE |  | direct |
-| [object](object.md) | 0..1 <br/> NONE |  | direct |
+| [predicate](predicate.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [object](object.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -65,6 +69,9 @@ URI: [omoschema:Annotation](http://purl.obolibrary.org/obo/omo/schema/Annotation
 | native | omoschema:Annotation |
 
 
+
+
+
 ## LinkML Source
 
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
@@ -81,12 +88,10 @@ attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     relational_role: PREDICATE
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     relational_role: OBJECT
 represents_relationship: true
 
@@ -105,7 +110,6 @@ attributes:
   predicate:
     name: predicate
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     alias: predicate
     owner: Annotation
     domain_of:
@@ -115,7 +119,6 @@ attributes:
   object:
     name: object
     from_schema: http://purl.obolibrary.org/obo/omo/schema
-    rank: 1000
     alias: object
     owner: Annotation
     domain_of:

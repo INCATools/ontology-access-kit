@@ -7,6 +7,7 @@ _A relationship of an ontology element to a lexical term_
 URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipToTerm)
 
 
+
 ```{mermaid}
  classDiagram
     class RelationshipToTerm
@@ -21,6 +22,7 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -30,10 +32,12 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 | ---  | --- | --- | --- |
 | [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [element](element.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
-| [element_term](element_term.md) | 0..1 <br/> NONE | the original term used in the element | direct |
+| [element_term](element_term.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the original term used in the element | direct |
 | [source](source.md) | 0..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [pipeline](pipeline.md) | 0..* <br/> [LexicalTransformationPipeline](LexicalTransformationPipeline.md) |  | direct |
 | [synonymized](synonymized.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+
+
 
 
 
@@ -71,6 +75,9 @@ URI: [li:RelationshipToTerm](https://w3id.org/linkml/lexical_index/RelationshipT
 | ---  | ---  |
 | self | li:RelationshipToTerm |
 | native | li:RelationshipToTerm |
+
+
+
 
 
 ## LinkML Source

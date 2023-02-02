@@ -5,6 +5,8 @@ A datamodel for specifying lexical mapping rules. NOTE -- this may move to anoth
 URI: https://w3id.org/linkml/mapping_rules_datamodel
 Name: mapping-rules
 
+
+
 ## Classes
 
 | Class | Description |

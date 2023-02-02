@@ -105,7 +105,7 @@
 
 
 <div class="viewcode-block" id="SemanticSimilarityInterface"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface">[docs]</a><span class="k">class</span> <span class="nc">SemanticSimilarityInterface</span><span class="p">(</span><span class="n">BasicOntologyInterface</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An interface for calculating similarity measures between pairs of terms or</span>
 <span class="sd">    collections of terms</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -117,7 +117,7 @@
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_owl_thing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Most recent common ancestors (MRCAs) for a pair of entities</span>
 
 <span class="sd">        The MRCAs are the set of Common Ancestors (CAs) that are not themselves proper</span>
@@ -151,7 +151,7 @@
 <div class="viewcode-block" id="SemanticSimilarityInterface.multiset_most_recent_common_ancestors"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.multiset_most_recent_common_ancestors">[docs]</a>    <span class="k">def</span> <span class="nf">multiset_most_recent_common_ancestors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">asymmetric</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">CURIE</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        All pairwise common ancestors for all pairs in a set of terms</span>
 
 <span class="sd">        :param subjects:</span>
@@ -183,7 +183,7 @@
         <span class="n">object_ancestors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_owl_thing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Common ancestors of a subject-object pair</span>
 
 <span class="sd">        :param subject:</span>
@@ -220,7 +220,7 @@
 <div class="viewcode-block" id="SemanticSimilarityInterface.get_information_content"><a class="viewcode-back" href="../../../interfaces/semantic-similarity.html#oaklib.interfaces.semsim_interface.SemanticSimilarityInterface.get_information_content">[docs]</a>    <span class="k">def</span> <span class="nf">get_information_content</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the information content of a term.</span>
 
 <span class="sd">        IC(t) = -log2(Pr(t))</span>
@@ -242,7 +242,7 @@
         <span class="n">object_closure_predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">use_associations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">CURIE</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Yields entity-score pairs for a given collection of entities.</span>
 
 <span class="sd">        The Information Content (IC) score for a term t is determined by:</span>
@@ -268,7 +268,7 @@
         <span class="n">subject_ancestors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">object_ancestors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TermPairwiseSimilarity</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pairwise similarity between a pair of ontology terms</span>
 
 <span class="sd">        :param subject:</span>
@@ -393,7 +393,7 @@
         <span class="n">objects</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">CURIE</span><span class="p">],</span>
         <span class="n">predicates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TermPairwiseSimilarity</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute similarity for all combinations of terms in subsets vs all terms in objects</span>
 
 <span class="sd">        :param subjects:</span>

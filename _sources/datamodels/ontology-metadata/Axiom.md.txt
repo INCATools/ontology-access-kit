@@ -7,6 +7,7 @@ _A logical or non-logical statement_
 URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
+
 ```{mermaid}
  classDiagram
     class Axiom
@@ -36,6 +37,7 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -47,23 +49,25 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 | [annotatedSource](annotatedSource.md) | 0..1 <br/> [NamedObject](NamedObject.md) |  | direct |
 | [annotatedTarget](annotatedTarget.md) | 0..1 <br/> [Any](Any.md) |  | direct |
 | [annotations](annotations.md) | 0..* <br/> [Annotation](Annotation.md) |  | direct |
-| [source](source.md) | 0..* <br/> NONE |  | direct |
+| [source](source.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [is_inferred](is_inferred.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
-| [notes](notes.md) | 0..* <br/> NONE |  | direct |
-| [url](url.md) | 0..1 <br/> NONE |  | direct |
+| [notes](notes.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [url](url.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [has_axiom_label](has_axiom_label.md) | 0..1 <br/> [Thing](Thing.md) |  | direct |
-| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> NONE |  | direct |
-| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | 0..1 <br/> NONE |  | direct |
-| [created_by](created_by.md) | 0..1 <br/> NONE |  | direct |
-| [date_retrieved](date_retrieved.md) | 0..1 <br/> NONE |  | direct |
-| [evidence](evidence.md) | 0..1 <br/> NONE |  | direct |
-| [external_ontology](external_ontology.md) | 0..* <br/> NONE |  | direct |
+| [is_a_defining_property_chain_axiom](is_a_defining_property_chain_axiom.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [is_a_defining_property_chain_axiom_where_second_argument_is_reflexive](is_a_defining_property_chain_axiom_where_second_argument_is_reflexive.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [created_by](created_by.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [date_retrieved](date_retrieved.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [evidence](evidence.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [external_ontology](external_ontology.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [database_cross_reference](database_cross_reference.md) | 0..* <br/> [CURIELiteral](CURIELiteral.md) |  | direct |
 | [has_exact_synonym](has_exact_synonym.md) | 0..* <br/> [LabelType](LabelType.md) |  | direct |
 | [has_synonym_type](has_synonym_type.md) | 0..* <br/> [AnnotationProperty](AnnotationProperty.md) |  | direct |
-| [comment](comment.md) | 0..* <br/> NONE |  | direct |
+| [comment](comment.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
 | [label](label.md) | 0..1 <br/> [LabelType](LabelType.md) |  | direct |
 | [seeAlso](seeAlso.md) | 0..* <br/> [Thing](Thing.md) |  | direct |
+
+
 
 
 
@@ -95,6 +99,9 @@ URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 | self | owl:Axiom |
 | native | omoschema:Axiom |
 | exact | rdf:Statement |
+
+
+
 
 
 ## LinkML Source

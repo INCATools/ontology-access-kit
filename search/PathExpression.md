@@ -7,6 +7,7 @@ _A path query_
 URI: [search:PathExpression](https://w3id.org/linkml/search_datamodel/PathExpression)
 
 
+
 ```{mermaid}
  classDiagram
     class PathExpression
@@ -15,6 +16,7 @@ URI: [search:PathExpression](https://w3id.org/linkml/search_datamodel/PathExpres
       PathExpression : traversal
       
 ```
+
 
 
 
@@ -28,6 +30,8 @@ URI: [search:PathExpression](https://w3id.org/linkml/search_datamodel/PathExpres
 | [traversal](traversal.md) | 0..1 <br/> [GraphFunction](GraphFunction.md) |  | direct |
 | [graph_predicates](graph_predicates.md) | 0..* <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | direct |
 | [search_term](search_term.md) | 0..1 <br/> [SearchBaseConfiguration](SearchBaseConfiguration.md) |  | direct |
+
+
 
 
 
@@ -58,6 +62,9 @@ URI: [search:PathExpression](https://w3id.org/linkml/search_datamodel/PathExpres
 | ---  | ---  |
 | self | search:PathExpression |
 | native | search:PathExpression |
+
+
+
 
 
 ## LinkML Source

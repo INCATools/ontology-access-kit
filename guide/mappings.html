@@ -117,13 +117,13 @@ for ontology mappings. It provides both a standard TSV/CSV format, and a standar
 <section id="mappings-in-oak">
 <h2>Mappings in OAK<a class="headerlink" href="#mappings-in-oak" title="Permalink to this headline"></a></h2>
 <p>To see all mappings for a concept or concept, you can use the mappings command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:uberon mappings brain
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>brain
 </pre></div>
 </div>
 <p>This will return YAML conforming to SSSOM by default. Like all OAK
 commands, this also allows for other output formats.</p>
 <p>To get this as SSSOM TSV:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak -i sqlite:obo:uberon mappings brain --output-type sssom
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>runoak<span class="w"> </span>-i<span class="w"> </span>sqlite:obo:uberon<span class="w"> </span>mappings<span class="w"> </span>brain<span class="w"> </span>--output-type<span class="w"> </span>sssom
 </pre></div>
 </div>
 <p>Under the hood, OAK will query using standard mapping predicates, including

@@ -24,7 +24,7 @@ URI: [og:definedClassId](https://github.com/geneontology/obographs/definedClassI
 
 ## Properties
 
-* Range: NONE
+* Range: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 * Required: True
 
 
@@ -62,6 +62,7 @@ alias: definedClassId
 owner: LogicalDefinitionAxiom
 domain_of:
 - LogicalDefinitionAxiom
+range: string
 required: true
 
 ```

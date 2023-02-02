@@ -7,6 +7,7 @@ _A collection of relational diff results_
 URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/StructureDiffResultSet)
 
 
+
 ```{mermaid}
  classDiagram
     class StructureDiffResultSet
@@ -15,6 +16,7 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
       StructureDiffResultSet : right_source
       
 ```
+
 
 
 
@@ -28,6 +30,8 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 | [results](results.md) | 0..* <br/> [RelationalDiff](RelationalDiff.md) | all differences between a pair of ontologies | direct |
 | [left_source](left_source.md) | 0..1 <br/> [Source](Source.md) | Ontology source for left entities | direct |
 | [right_source](right_source.md) | 0..1 <br/> [Source](Source.md) | Ontology source for right entities | direct |
+
+
 
 
 
@@ -58,6 +62,9 @@ URI: [ann:StructureDiffResultSet](https://w3id.org/linkml/text_annotator/Structu
 | ---  | ---  |
 | self | ann:StructureDiffResultSet |
 | native | ann:StructureDiffResultSet |
+
+
+
 
 
 ## LinkML Source

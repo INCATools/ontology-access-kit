@@ -7,6 +7,7 @@ _An atomic lexical transformation applied on a term (string) yielding a transfor
 URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTransformation)
 
 
+
 ```{mermaid}
  classDiagram
     class LexicalTransformation
@@ -16,6 +17,7 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
       LexicalTransformation : type
       
 ```
+
 
 
 
@@ -31,7 +33,9 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [type](type.md) | 0..1 <br/> [TransformationType](TransformationType.md) | The type of transformation | direct |
-| [params](params.md) | 0..1 <br/> NONE | Any parameters to be applied to the transformation algorithm | direct |
+| [params](params.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Any parameters to be applied to the transformation algorithm | direct |
+
+
 
 
 
@@ -69,6 +73,9 @@ URI: [li:LexicalTransformation](https://w3id.org/linkml/lexical_index/LexicalTra
 | ---  | ---  |
 | self | li:LexicalTransformation |
 | native | li:LexicalTransformation |
+
+
+
 
 
 ## LinkML Source

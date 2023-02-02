@@ -7,6 +7,7 @@ _An individual search result_
 URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult)
 
 
+
 ```{mermaid}
  classDiagram
     class SearchResult
@@ -23,6 +24,7 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -31,13 +33,15 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [rank](rank.md) | 0..1 <br/> [xsd:integer](http://www.w3.org/2001/XMLSchema#integer) | For relevancy-ranked results, this indicates the relevancy, with low numbers ... | direct |
-| [object_id](object_id.md) | 1..1 <br/> NONE | The CURIE of the matched term | direct |
-| [object_label](object_label.md) | 0..1 _recommended_ <br/> NONE | The label/name of the matched term | direct |
-| [object_source](object_source.md) | 0..1 <br/> NONE | The ontology or other source that contains the matched term | direct |
-| [object_source_version](object_source_version.md) | 0..1 <br/> NONE | Version IRI or version string of the source of the object term | direct |
-| [object_match_field](object_match_field.md) | 0..1 <br/> NONE | The field/property in which the match was found | direct |
+| [object_id](object_id.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The CURIE of the matched term | direct |
+| [object_label](object_label.md) | 0..1 _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The label/name of the matched term | direct |
+| [object_source](object_source.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The ontology or other source that contains the matched term | direct |
+| [object_source_version](object_source_version.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | Version IRI or version string of the source of the object term | direct |
+| [object_match_field](object_match_field.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The field/property in which the match was found | direct |
 | [matches_full_search_term](matches_full_search_term.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | Does the matched field match the full string | direct |
-| [snippet](snippet.md) | 0..1 <br/> NONE | shows how the field was matched | direct |
+| [snippet](snippet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | shows how the field was matched | direct |
+
+
 
 
 
@@ -75,6 +79,9 @@ URI: [search:SearchResult](https://w3id.org/linkml/search_datamodel/SearchResult
 | ---  | ---  |
 | self | search:SearchResult |
 | native | search:SearchResult |
+
+
+
 
 
 ## LinkML Source

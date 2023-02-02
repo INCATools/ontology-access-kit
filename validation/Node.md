@@ -5,6 +5,7 @@
 URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 
 
+
 ```{mermaid}
  classDiagram
     class Node
@@ -13,6 +14,7 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
       Node : id
       
 ```
+
 
 
 
@@ -26,7 +28,10 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
-| ---  | --- | --- | --- || [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [NamedResource](NamedResource.md) |
+| ---  | --- | --- | --- |
+| [id](id.md) | 1..1 <br/> [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI) |  | [NamedResource](NamedResource.md) |
+
+
 
 
 
@@ -71,6 +76,9 @@ URI: [vm:Node](https://w3id.org/linkml/validation-model/Node)
 | ---  | ---  |
 | self | vm:Node |
 | native | vm:Node |
+
+
+
 
 
 ## LinkML Source

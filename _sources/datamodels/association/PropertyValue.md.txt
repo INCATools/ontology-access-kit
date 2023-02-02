@@ -7,6 +7,7 @@ _A generic tag-value that can be associated with an association._
 URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 
 
+
 ```{mermaid}
  classDiagram
     class PropertyValue
@@ -14,6 +15,7 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
       PropertyValue : predicate
       
 ```
+
 
 
 
@@ -26,6 +28,8 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 | ---  | --- | --- | --- |
 | [predicate](predicate.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | The type of relationship between the subject and object | direct |
 | [object](object.md) | 0..1 <br/> [xsd:anyURI](xsd:anyURI) | An ontology entity that is associated with the subject | direct |
+
+
 
 
 
@@ -63,6 +67,9 @@ URI: [assoc:PropertyValue](https://w3id.org/oak/association/PropertyValue)
 | ---  | ---  |
 | self | assoc:PropertyValue |
 | native | assoc:PropertyValue |
+
+
+
 
 
 ## LinkML Source

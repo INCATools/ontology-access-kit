@@ -5,6 +5,7 @@
 URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 
 
+
 ```{mermaid}
  classDiagram
     class Meta
@@ -18,6 +19,7 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
       Meta : xrefs
       
 ```
+
 
 
 
@@ -36,6 +38,8 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 | [synonyms](synonyms.md) | 0..* <br/> [SynonymPropertyValue](SynonymPropertyValue.md) |  | direct |
 | [basicPropertyValues](basicPropertyValues.md) | 0..* <br/> [BasicPropertyValue](BasicPropertyValue.md) |  | direct |
 | [deprecated](deprecated.md) | 0..1 <br/> [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) |  | direct |
+
+
 
 
 
@@ -86,6 +90,9 @@ URI: [og:Meta](https://github.com/geneontology/obographs/Meta)
 | ---  | ---  |
 | self | og:Meta |
 | native | og:Meta |
+
+
+
 
 
 ## LinkML Source

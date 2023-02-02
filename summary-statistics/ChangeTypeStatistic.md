@@ -7,6 +7,7 @@ _statistics for a particular kind of diff_
 URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_statistics.ChangeTypeStatistic)
 
 
+
 ```{mermaid}
  classDiagram
     class ChangeTypeStatistic
@@ -17,6 +18,7 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 
 
 
+
 <!-- no inheritance hierarchy -->
 
 
@@ -24,8 +26,10 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [facet](facet.md) | 0..1 <br/> NONE |  | direct |
-| [filtered_count](filtered_count.md) | 0..1 <br/> NONE |  | direct |
+| [facet](facet.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [filtered_count](filtered_count.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+
+
 
 
 
@@ -63,6 +67,9 @@ URI: [summary_statistics:ChangeTypeStatistic](https://w3id.org/oaklib/summary_st
 | ---  | ---  |
 | self | summary_statistics:ChangeTypeStatistic |
 | native | summary_statistics:ChangeTypeStatistic |
+
+
+
 
 
 ## LinkML Source

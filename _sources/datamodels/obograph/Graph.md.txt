@@ -5,6 +5,7 @@
 URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 
 
+
 ```{mermaid}
  classDiagram
     class Graph
@@ -20,6 +21,7 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
       Graph : propertyChainAxioms
       
 ```
+
 
 
 
@@ -40,6 +42,8 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | [domainRangeAxioms](domainRangeAxioms.md) | 0..* <br/> [DomainRangeAxiom](DomainRangeAxiom.md) |  | direct |
 | [allValuesFromEdges](allValuesFromEdges.md) | 0..* <br/> [Edge](Edge.md) | A list of edges that represent subclasses of universal restrictions | direct |
 | [propertyChainAxioms](propertyChainAxioms.md) | 0..* <br/> [PropertyChainAxiom](PropertyChainAxiom.md) |  | direct |
+
+
 
 
 
@@ -77,6 +81,9 @@ URI: [owl:Ontology](http://www.w3.org/2002/07/owl#Ontology)
 | ---  | ---  |
 | self | owl:Ontology |
 | native | og:Graph |
+
+
+
 
 
 ## LinkML Source
