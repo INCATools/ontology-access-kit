@@ -50,6 +50,7 @@ DEFAULT_ = VSCONF
 
 # Types
 
+
 # Class references
 class ResolverName(extended_str):
     pass
@@ -165,7 +166,6 @@ class NamedResolver(Resolver):
 
 # Enumerations
 class ResolverMethod(EnumDefinitionImpl):
-
     SemanticSQL = PermissibleValue(text="SemanticSQL")
     OLS = PermissibleValue(text="OLS")
     BioPortal = PermissibleValue(text="BioPortal")

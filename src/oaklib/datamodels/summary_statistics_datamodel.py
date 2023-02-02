@@ -67,6 +67,7 @@ DEFAULT_ = SUMMARY_STATISTICS
 
 # Types
 
+
 # Class references
 class FacetedCountFacet(extended_str):
     pass

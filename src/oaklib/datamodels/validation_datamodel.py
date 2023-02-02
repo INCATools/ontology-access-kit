@@ -61,6 +61,7 @@ DEFAULT_ = VM
 
 # Types
 
+
 # Class references
 class NamedResourceId(URIorCURIE):
     pass
@@ -459,7 +460,6 @@ class ExternalReferenceValidationResult(ValidationResult):
 
 # Enumerations
 class SeverityOptions(EnumDefinitionImpl):
-
     FATAL = PermissibleValue(text="FATAL")
     ERROR = PermissibleValue(text="ERROR", meaning=SH.Violation)
     WARNING = PermissibleValue(text="WARNING", meaning=SH.Warning)
@@ -471,7 +471,6 @@ class SeverityOptions(EnumDefinitionImpl):
 
 
 class ValidationResultType(EnumDefinitionImpl):
-
     DatatypeConstraintComponent = PermissibleValue(
         text="DatatypeConstraintComponent",
         description="constraint in which the range is a type, and the slot value must conform to the type",

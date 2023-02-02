@@ -174,6 +174,19 @@ class DifferInterface(BasicOntologyInterface, ABC):
         :return:
         """
         summary = {}
+        bins = {
+            "All_Obsoletion": [
+                kgcl.NodeObsoletion.__name__,
+                kgcl.NodeObsoletionWithDirectReplacement.__name__,
+                kgcl.NodeDirectMerge.__name__,
+            ],
+            "All_Synonym": [
+                kgcl.NewSynonym.__name__,
+                kgcl.RemoveSynonym.__name__,
+                kgcl.SynonymPredicateChange.__name__,
+                kgcl.SynonymReplacement.__name__,
+            ],
+        }
         for change in self.diff(other_ontology, configuration):
             if isinstance(change, kgcl.NodeChange):
                 about = change.about_node
@@ -182,7 +195,7 @@ class DifferInterface(BasicOntologyInterface, ABC):
             else:
                 about = None
             partition = RESIDUAL_KEY
-            if about and configuration.group_by_property:
+            if about and configuration and configuration.group_by_property:
                 md = self.entity_metadata_map(about)
                 if not md or configuration.group_by_property not in md:
                     md = other_ontology.entity_metadata_map(about)
@@ -200,6 +213,9 @@ class DifferInterface(BasicOntologyInterface, ABC):
             if typ not in summary[partition]:
                 summary[partition][typ] = 0
             summary[partition][typ] += 1
+        for partition_summary in summary.values():
+            for k, categories in bins.items():
+                partition_summary[k] = sum([partition_summary.get(cat, 0) for cat in categories])
         return dict(summary)
 
     def different_from(

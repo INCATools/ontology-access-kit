@@ -46,6 +46,7 @@ DEFAULT_ = TC
 
 # Types
 
+
 # Class references
 class TermId(URIorCURIE):
     pass

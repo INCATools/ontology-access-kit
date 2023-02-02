@@ -43,7 +43,7 @@ class FunOwlImplementation(OwlInterface, PatcherInterface, SearchInterface):
             self.ontology_document = doc
         if self.functional_writer is None:
             self.functional_writer = FunctionalWriter()
-            for prefix in doc.prefixDeclarations:
+            for prefix in doc.prefixDeclarations.as_prefixes():
                 self.functional_writer.bind(prefix.prefixName, prefix.fullIRI)
 
     @property

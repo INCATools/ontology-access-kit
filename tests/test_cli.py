@@ -666,13 +666,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 result = self.runner.invoke(
                     main,
                     args
-                    + [
-                        "lexmatch",
-                        "-R",
-                        RULES_FILE,
-                        "-o",
-                        outfile,
-                    ],
+                    + ["lexmatch", "-R", RULES_FILE, "-o", outfile, "--no-ensure-strict-prefixes"],
                 )
                 err = result.stderr
                 self.assertEqual(0, result.exit_code)
@@ -712,6 +706,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 RULES_FILE,
                 "-o",
                 outfile,
+                "--no-ensure-strict-prefixes",
             ],
         )
         result.stdout
@@ -739,6 +734,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 RULES_FILE,
                 "-o",
                 outfile,
+                "--no-ensure-strict-prefixes",
             ],
         )
         result.stdout

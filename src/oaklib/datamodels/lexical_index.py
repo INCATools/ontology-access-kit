@@ -63,6 +63,7 @@ DEFAULT_ = LI
 
 # Types
 
+
 # Class references
 class LexicalGroupingTerm(extended_str):
     pass

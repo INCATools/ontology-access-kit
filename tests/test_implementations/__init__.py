@@ -706,6 +706,18 @@ class ComplianceTester:
             ch.type = type(ch).__name__
         test.assertEqual(0, len(expected_rev), f"Expected changes not found: {expected_rev}")
         test.assertEqual(0, n_unexpected)
+        # test diff summary
+        summary = oi.diff_summary(oi_modified)
+        print(summary)
+        residual = summary["__RESIDUAL__"]
+        cases = [
+            ("RemoveSynonym", 1),
+            ("NewSynonym", 1),
+            ("NodeDeletion", 1),
+            ("All_Synonym", 2),
+        ]
+        for typ, expected in cases:
+            test.assertEqual(expected, residual[typ])
 
     def test_extract_graph(self, oi: OboGraphInterface, test_metadata=False):
         test = self.test

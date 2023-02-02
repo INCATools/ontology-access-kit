@@ -8,7 +8,6 @@ from oaklib.io.streaming_writer import StreamingWriter
 
 
 class AbstractDatamodelTestCase(unittest.TestCase):
-
     writer_types = [StreamingJsonWriter, StreamingCsvWriter]
 
     def attempt_streaming_writers(

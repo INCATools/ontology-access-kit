@@ -548,6 +548,12 @@ slots:
     comments:
       - SHOULD be in Aristotelian (genus-differentia) form
 
+  predicate:
+    relational_role: PREDICATE
+
+  object:
+    relational_role: OBJECT
+
   title:
     slot_uri: dcterms:title
     range: narrative text
