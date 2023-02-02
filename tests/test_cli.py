@@ -672,6 +672,8 @@ class TestCommandLineInterface(unittest.TestCase):
                         RULES_FILE,
                         "-o",
                         outfile,
+                        "--no-ensure-strict-prefixes"
+                        
                     ],
                 )
                 err = result.stderr
@@ -712,6 +714,7 @@ class TestCommandLineInterface(unittest.TestCase):
                 RULES_FILE,
                 "-o",
                 outfile,
+                "--no-ensure-strict-prefixes"
             ],
         )
         result.stdout
@@ -739,6 +742,8 @@ class TestCommandLineInterface(unittest.TestCase):
                 RULES_FILE,
                 "-o",
                 outfile,
+                "--no-ensure-strict-prefixes",
+                
             ],
         )
         result.stdout
