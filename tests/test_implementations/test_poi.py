@@ -3,13 +3,22 @@ import unittest
 
 from linkml_runtime.dumpers import yaml_dumper
 
-from oaklib import get_implementation_from_shorthand, OntologyResource
+from oaklib import get_implementation_from_shorthand
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.implementations.poi.pickled_poi_implementation import PickledPoiImplementation
+from oaklib.implementations.poi.pickled_poi_implementation import (
+    PickledPoiImplementation,
+)
 from oaklib.implementations.poi.poi_implementation import PoiImplementation
 from oaklib.interfaces.obograph_interface import OboGraphInterface
-
-from tests import INPUT_DIR, NUCLEUS, OUTPUT_DIR, VACUOLE, IMBO, NUCLEAR_MEMBRANE, NUCLEAR_ENVELOPE
+from tests import (
+    IMBO,
+    INPUT_DIR,
+    NUCLEAR_ENVELOPE,
+    NUCLEAR_MEMBRANE,
+    NUCLEUS,
+    OUTPUT_DIR,
+    VACUOLE,
+)
 from tests.test_implementations import ComplianceTester
 
 TEST_ONT = INPUT_DIR / "go-nucleus.obo"
@@ -65,10 +74,12 @@ class TestPoiImplementation(unittest.TestCase):
         oi = self.oi
         oix = oi.ontology_index
         self.compliance_tester.test_information_content_scores(oi)
-        cases = [(NUCLEUS, IMBO),
-                 (NUCLEAR_MEMBRANE, NUCLEUS)]
+        cases = [(NUCLEUS, IMBO), (NUCLEAR_MEMBRANE, NUCLEUS)]
         for sub, sup in cases:
-            self.assertGreater(oi.get_information_content(sub, predicates=[IS_A, PART_OF]), oi.get_information_content(sup, predicates=[IS_A, PART_OF]))
+            self.assertGreater(
+                oi.get_information_content(sub, predicates=[IS_A, PART_OF]),
+                oi.get_information_content(sup, predicates=[IS_A, PART_OF]),
+            )
         for e in oi.entities():
             e_ix = oix.curie_to_int[e]
             ic = oi.get_information_content(e, predicates=[IS_A, PART_OF])
@@ -82,8 +93,7 @@ class TestPoiImplementation(unittest.TestCase):
     def test_pairwise_similarity(self):
         oi = self.oi
         sim = oi.termset_pairwise_similarity(
-                [NUCLEUS, VACUOLE],
-                [NUCLEAR_ENVELOPE],
-                predicates=[IS_A, PART_OF], labels=True)
-        # print(yaml_dumper.dumps(sim))
+            [NUCLEUS, VACUOLE], [NUCLEAR_ENVELOPE], predicates=[IS_A, PART_OF], labels=True
+        )
+        logging.info(yaml_dumper.dumps(sim))
         self.compliance_tester.test_pairwise_similarity(self.oi, isa_partof_only=True)

@@ -863,7 +863,7 @@ class ComplianceTester:
             if isa_partof_only and ps != [IS_A, PART_OF]:
                 continue
             sim = oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
-            #if expected_avg == 5.6:
+            # if expected_avg == 5.6:
             #    print(yaml_dumper.dumps(sim))
             test.assertLess(
                 abs(sim.average_score - expected_avg), error_range, f"TermSet: {ts} Sim: {sim}"

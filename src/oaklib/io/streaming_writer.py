@@ -1,6 +1,6 @@
 import atexit
 import sys
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Dict, List, Mapping, Optional, Type, Union
 
@@ -81,9 +81,11 @@ class StreamingWriter(ABC):
     def emit_obj(self, obj: YAMLRoot):
         raise NotImplementedError
 
+    @abstractmethod
     def close(self):
         pass
 
+    @abstractmethod
     def finish(self):
         pass
 

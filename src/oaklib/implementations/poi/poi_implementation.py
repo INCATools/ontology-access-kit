@@ -5,7 +5,7 @@ import pickle
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import ClassVar, Dict, Iterable, Iterator, List, Set, Tuple, Union, Optional
+from typing import ClassVar, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
 
 from oaklib.datamodels.association import Association
 from oaklib.datamodels.similarity import (
@@ -15,7 +15,6 @@ from oaklib.datamodels.similarity import (
     TermSetPairwiseSimilarity,
 )
 from oaklib.datamodels.vocabulary import IS_A, PART_OF
-from oaklib.utilities.indexes.intset_ontology_index import POS, IntSetOntologyIndex
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -34,6 +33,7 @@ from oaklib.interfaces.search_interface import SearchInterface
 from oaklib.interfaces.semsim_interface import SemanticSimilarityInterface
 from oaklib.interfaces.validator_interface import ValidatorInterface
 from oaklib.types import CURIE
+from oaklib.utilities.indexes.intset_ontology_index import POS, IntSetOntologyIndex
 
 
 @dataclass
@@ -53,7 +53,7 @@ class PoiImplementation(
 ):
     """
     Python Ontology Index.
-    
+
     A pure-python implementation of an integer-indexed ontology.
 
     Command line:
@@ -131,7 +131,7 @@ class PoiImplementation(
         self.build_curie_index()
         self.build_ancestor_index()
         self.build_information_content_index()
-        #self.build_term_pair_index()
+        # self.build_term_pair_index()
 
     def add_associations(self, associations: Iterable[Association]) -> bool:
         super().add_associations(associations)
@@ -179,7 +179,7 @@ class PoiImplementation(
         if self._association_index:
             raise NotImplementedError
         else:
-            for i, e in oix.int_to_curie.items():
+            for i in oix.int_to_curie.keys():
                 ancs = self.ontology_index.ancestor_map[i]
                 for a in ancs:
                     counts[a] += 1
@@ -218,7 +218,9 @@ class PoiImplementation(
                             best_ancs = [
                                 i
                                 for i in anc_intersection
-                                if math.isclose(oix.information_content_map[i], max_ics, rel_tol=1e-5)
+                                if math.isclose(
+                                    oix.information_content_map[i], max_ics, rel_tol=1e-5
+                                )
                             ]
                             oix.term_pair_best_ancestor[(e1_ix, e2_ix)] = best_ancs
 
@@ -316,7 +318,13 @@ class PoiImplementation(
         self._check_predicates(predicates)
         oix = self.ontology_index
         if subject not in oix.curie_to_int or object not in oix.curie_to_int:
-            return TermPairwiseSimilarity(subject, object, jaccard_similarity=0.0, ancestor_information_content=0.0, phenodigm_score=0.0)
+            return TermPairwiseSimilarity(
+                subject,
+                object,
+                jaccard_similarity=0.0,
+                ancestor_information_content=0.0,
+                phenodigm_score=0.0,
+            )
         s_ix = oix.curie_to_int[subject]
         o_ix = oix.curie_to_int[object]
         k = (s_ix, o_ix)
@@ -332,11 +340,8 @@ class PoiImplementation(
                 jaccard_similarity=jaccard,
                 ancestor_information_content=oix.term_pair_max_information_content[k],
                 ancestor_id=list(self._map_ints_to_curies(oix.term_pair_best_ancestor[k]))[0],
-
             )
-            ts.phenodigm_score = math.sqrt(
-                ts.jaccard_similarity * ts.ancestor_information_content
-            )
+            ts.phenodigm_score = math.sqrt(ts.jaccard_similarity * ts.ancestor_information_content)
             return ts
         else:
             return TermPairwiseSimilarity(

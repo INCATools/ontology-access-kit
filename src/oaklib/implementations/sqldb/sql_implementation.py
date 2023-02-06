@@ -1467,10 +1467,10 @@ class SqlImplementation(
                 self.session.query(TermAssociation).distinct(TermAssociation.subject).count()
             )
         else:
-            #num_nodes = (
-                #self.session.query(EntailedEdge.subject).distinct(EntailedEdge.subject).count()
+            # num_nodes = (
+            # self.session.query(EntailedEdge.subject).distinct(EntailedEdge.subject).count()
             #    self.session.query(Node.id).distinct(Node.id).count()
-            #)
+            # )
             # TODO: make more efficient
             num_nodes = len(list(self.entities(filter_obsoletes=False)))
             logging.info(f"Number of nodes in background set={num_nodes}")

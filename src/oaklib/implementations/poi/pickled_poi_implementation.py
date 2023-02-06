@@ -1,6 +1,6 @@
 import inspect
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from oaklib import OntologyResource
 from oaklib.implementations.poi.poi_implementation import PoiImplementation
@@ -23,6 +23,7 @@ class PickledPoiImplementation(PoiImplementation):
 
         runoak -i pickledpoi:/tmp/hp.pkl termset-similarity HP:0000023 HP:0000024 HP:0000013 @ HP:0000016 HP:0000036
     """
+
     pickle_path: str = None
 
     def __post_init__(self):
