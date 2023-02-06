@@ -211,3 +211,16 @@ classes:
       probability:
         range: Probability
 
+enums:
+  MappingConcordanceEnum:
+    description: >-
+      The degree to which a mapping interpreted in light of a mapping cluster is consistent with the input mappings
+    permissible_values:
+      NEW:
+        description: this mapping interpretation can be added with high confidence
+      AMBIGUOUS:
+        description: the source ontology has different interpretations (e.g. exact, broad) for the same term pair. If you get this then you should tidy up your inputs
+      CONFLICT:
+        description: the source ontology mapping interpretation is different from what is inferred to be the correct one
+      REJECT:
+        description: a CONFLICT in which the source interpretation is non-exact

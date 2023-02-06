@@ -287,7 +287,7 @@ class Structure:
                     continue
             tvs.append(tv)
         if not n:
-            raise ValueError(f"No values to set for {tag} = {val}")
+            raise ValueError(f"No values to remove for {tag} = {val} // {self}")
         self.tag_values = tvs
 
     def remove_pairwise_tag_value(self, tag: TAG, val1: str, val2: str) -> None:
@@ -308,7 +308,7 @@ class Structure:
                     continue
             tvs.append(tv)
         if not n:
-            raise ValueError(f"No values to set for {tag} = {val1} {val2}")
+            raise ValueError(f"No values to remove for {tag} = {val1} {val2} // {self}")
         self.tag_values = tvs
 
     def add_tag_value(self, tag: TAG, val: str) -> None:

@@ -30,6 +30,7 @@ from oaklib.datamodels.vocabulary import (
     EQUIVALENT_CLASS,
     HAS_DBXREF,
     HAS_EXACT_SYNONYM,
+    HAS_PART,
     IS_A,
     LOCATED_IN,
     NEVER_IN_TAXON,
@@ -67,11 +68,14 @@ from tests import (
     CATALYTIC_ACTIVITY,
     CELL,
     CELL_CORTEX,
+    CELL_CORTEX_REGION,
     CELL_PERIPHERY,
     CELLULAR_ANATOMICAL_ENTITY,
     CELLULAR_COMPONENT,
     CELLULAR_ORGANISMS,
     CYTOPLASM,
+    CYTOPLASMIC_REGION,
+    ENDOMEMBRANE_SYSTEM,
     EUKARYOTA,
     FAKE_ID,
     FUNGI,
@@ -459,7 +463,6 @@ class ComplianceTester:
     def test_obograph_node(self, oi: OboGraphInterface):
         test = self.test
         node = oi.node(NUCLEUS)
-        print(yaml_dumper.dumps(node))
         test.assertEqual(NUCLEUS, node.id)
         test.assertEqual("nucleus", node.lbl)
         meta = node.meta
@@ -641,7 +644,7 @@ class ComplianceTester:
         test = self.test
         diff = list(oi.diff(oi))
         for ch in diff:
-            print(ch)
+            logging.info(ch)
         test.assertEqual(0, len(diff), f"Reflexive diff is not empty: {diff}")
 
     def test_diff(self, oi: DifferInterface, oi_modified: DifferInterface):
@@ -708,7 +711,7 @@ class ComplianceTester:
         test.assertEqual(0, n_unexpected)
         # test diff summary
         summary = oi.diff_summary(oi_modified)
-        print(summary)
+        logging.info(summary)
         residual = summary["__RESIDUAL__"]
         cases = [
             ("RemoveSynonym", 1),
@@ -859,7 +862,7 @@ class ComplianceTester:
             if not expects_raises:
                 change_obj = _as_json_dict_no_id(change)
                 expected_changes.append(change_obj)
-                print(f"EXPECTS: {change_obj}")
+                logging.info(f"EXPECTS: {change_obj}")
         if original_oi:
             diffs = original_oi.diff(oi2)
             for diff in diffs:
@@ -870,7 +873,7 @@ class ComplianceTester:
                 if change_obj in expected_changes:
                     expected_changes.remove(change_obj)
                 # TODO: raise exception
-                print(f"Cannot find: {change_obj}")
+                logging.warning(f"Cannot find: {change_obj}")
                 # else:
                 #    raise ValueError(f"Cannot find: {change_obj}")
             # not all changes are easily recapitulated yet; e.g.
@@ -878,6 +881,91 @@ class ComplianceTester:
                 # TODO: raise exception
                 print(f"Expected change not found: {ch}")
             test.assertLessEqual(len(expected_changes), 4)
+
+    def test_patcher_obsoletion_chains(self, get_adapter_function: Callable):
+        """
+        Tests logic for expanding multiple obsoletions.
+
+        An obsoletion change can be expanded into multiple additional changes,
+        to *rewire* the ontology around the removed class.
+
+        This rewiring should also work when multiple obsoletions are
+        combined together
+
+        :param get_adapter_function: function to generate a fresh adapter
+        """
+        test = self.test
+        cases = [
+            ([CYTOPLASM], "cannot be obsoleted as used in logical definition", []),
+            ([VACUOLE], None, [(ENDOMEMBRANE_SYSTEM, HAS_PART, IMBO)]),
+            (
+                [ENDOMEMBRANE_SYSTEM],
+                None,
+                [(NUCLEAR_ENVELOPE, PART_OF, CELLULAR_ANATOMICAL_ENTITY)],
+            ),
+            (
+                [ENDOMEMBRANE_SYSTEM, VACUOLE],
+                None,
+                [(NUCLEAR_ENVELOPE, PART_OF, CELLULAR_ANATOMICAL_ENTITY)],
+            ),
+            (
+                [VACUOLE, ENDOMEMBRANE_SYSTEM],
+                None,
+                [(NUCLEAR_ENVELOPE, PART_OF, CELLULAR_ANATOMICAL_ENTITY)],
+            ),
+            ([NUCLEAR_ENVELOPE], None, [(NUCLEAR_MEMBRANE, PART_OF, ENDOMEMBRANE_SYSTEM)]),
+            (
+                [NUCLEAR_ENVELOPE, ENDOMEMBRANE_SYSTEM],
+                None,
+                [(NUCLEAR_MEMBRANE, PART_OF, CELLULAR_ANATOMICAL_ENTITY)],
+            ),
+            (
+                [NUCLEAR_ENVELOPE, ENDOMEMBRANE_SYSTEM, VACUOLE],
+                None,
+                [(NUCLEAR_MEMBRANE, PART_OF, CELLULAR_ANATOMICAL_ENTITY)],
+            ),
+            (
+                [CYTOPLASMIC_REGION],
+                None,
+                [(CELL_CORTEX_REGION, IS_A, CYTOPLASM), (CELL_CORTEX_REGION, PART_OF, CYTOPLASM)],
+            ),
+            ([CELL_CORTEX_REGION, CELL_CORTEX], None, []),
+            ([CELL_CORTEX_REGION, CELL_CORTEX, CYTOPLASMIC_REGION, CYTOPLASM], None, []),
+            (
+                [CYTOPLASM, CELL_CORTEX_REGION, CELL_CORTEX, CYTOPLASMIC_REGION],
+                "order of obsoletion is wrong",
+                [],
+            ),
+        ]
+        for obsoletions, failure_reason, expected_edges in cases:
+            commands = [f"obsolete {t}" for t in obsoletions]
+            changes = [kgcl_parser.parse_statement(c) for c in commands]
+            oi = get_adapter_function()
+            current_obsolete_entities = list(oi.obsoletes())
+            for o in obsoletions:
+                test.assertNotIn(o, current_obsolete_entities)
+            current_relationships = list(oi.relationships())
+            for e in expected_edges:
+                test.assertNotIn(e, current_relationships)
+            if failure_reason:
+                with test.assertRaises(ValueError):
+                    oi.expand_changes(changes, apply=True)
+                continue
+            # expanded_changes = oi.expand_changes(changes, apply=False)
+            # for change in expanded_changes:
+            #    print(json_dumper.dumps(change))
+            expanded_changes = oi.expand_changes(changes, apply=True)
+            logging.info(f"Expanded changes: {len(expanded_changes)}")
+            test.assertGreater(len(expanded_changes), 1)
+            refreshed_obsolete_entities = list(oi.obsoletes())
+            for o in obsoletions:
+                test.assertIn(o, refreshed_obsolete_entities)
+            test.assertCountEqual(
+                obsoletions, set(refreshed_obsolete_entities) - set(current_obsolete_entities)
+            )
+            refreshed_relationships = list(oi.relationships())
+            for e in expected_edges:
+                test.assertIn(e, refreshed_relationships)
 
     def test_add_contributors(self, oi: PatcherInterface, legacy: bool = True):
         """
@@ -912,7 +1000,7 @@ class ComplianceTester:
         test = self.test
         oi.include_residuals = True
         stats = oi.branch_summary_statistics(include_entailed=True)
-        print(yaml_dumper.dumps(stats))
+        # print(yaml_dumper.dumps(stats))
         test.assertEqual(247, stats.class_count)
         test.assertEqual(94, stats.class_count_with_text_definitions)
         test.assertEqual(16, stats.subset_count)

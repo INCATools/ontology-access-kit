@@ -3382,6 +3382,7 @@ def eval_taxon_constraints(constraints, evolution_file, predicates: List, output
 )
 @click.option(
     "--terms-role",
+    "-Q",
     type=click.Choice([x.value for x in SubjectOrObjectRole]),
     default=SubjectOrObjectRole.OBJECT.value,
     show_default=True,
@@ -4241,6 +4242,12 @@ def diff(
     show_default=True,
     help="if true, expand complex changes to atomic changes",
 )
+@click.option(
+    "--ignore-invalid-changes/--no-ignore-invalid-changes",
+    default=False,
+    show_default=True,
+    help="if true, ignore invalid changes, e.g. obsoletions of dependent entities",
+)
 @click.option("--contributor", help="CURIE for the person contributing the patch")
 @output_type_option
 @overwrite_option
@@ -4253,6 +4260,7 @@ def apply(
     changes_format,
     changes_output,
     contributor: str,
+    ignore_invalid_changes: bool,
     dry_run: bool,
     expand: bool,
     overwrite: bool,
@@ -4286,6 +4294,7 @@ def apply(
     configuration = kgcl.Configuration()
     if isinstance(impl, PatcherInterface):
         impl.autosave = settings.autosave
+        impl.ignore_invalid_changes = ignore_invalid_changes
         changes = []
         files = []
         if changes_input:
@@ -4298,23 +4307,27 @@ def apply(
                 logging.info(f"parsed {command} == {change}")
                 changes.append(change)
         changes += list(parse_kgcl_files(files, changes_format))
-        if expand:
-            changes = impl.expand_changes(changes, configuration=configuration)
+        applied_changes = []
+        for change in changes:
+            if expand:
+                expanded_changes = impl.expand_changes([change], configuration=configuration)
+            else:
+                expanded_changes = [change]
+            for expanded_change in expanded_changes:
+                if contributor:
+                    if expanded_change.contributor and expanded_change.contributor != contributor:
+                        raise ValueError(
+                            f"Cannot set contributor to {contributor} existing value = {expanded_change.contributor}"
+                        )
+                    expanded_change.contributor = contributor
+                logging.info(f"Change: {expanded_change}")
+                if dry_run:
+                    logging.info(f"Skipping application of change: {change}")
+                else:
+                    impl.apply_patch(expanded_change)
+            applied_changes.append(expanded_change)
         if dry_run or changes_output:
             write_kgcl(changes, changes_output, changes_format)
-        for change in changes:
-            if contributor:
-                if change.contributor and change.contributor != contributor:
-                    raise ValueError(
-                        f"Cannot set contributor to {contributor} existing value = {change.contributor}"
-                    )
-                change.contributor = contributor
-            logging.info(f"Change: {change}")
-            if dry_run:
-                # print(json_dumper.dumps(change))
-                logging.info(" (skipping)")
-            else:
-                impl.apply_patch(change)
         if not settings.autosave and not overwrite and not output:
             logging.warning("--autosave not passed, changes are NOT saved")
         if output:
