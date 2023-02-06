@@ -37,7 +37,7 @@ URI: [og:LogicalDefinitionAxiom](https://github.com/geneontology/obographs/Logic
 | [definedClassId](definedClassId.md) | 1..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The class that is defined by this axiom | direct |
 | [genusIds](genusIds.md) | 0..* _recommended_ <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | The set of classes that are the genus of the defined class | direct |
 | [restrictions](restrictions.md) | 0..* _recommended_ <br/> [ExistentialRestrictionExpression](ExistentialRestrictionExpression.md) | The set of restrictions that are the differentia of the defined class | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | [Axiom](Axiom.md) |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | [Axiom](Axiom.md) |
 
 
 
@@ -126,13 +126,19 @@ attributes:
     comments:
     - typically, this will be a single class
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     rank: 1000
     multivalued: true
     recommended: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
+    comments:
+    - typically this will always be present.
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     aliases:
     - differentia
     rank: 1000
@@ -177,6 +183,8 @@ attributes:
     comments:
     - typically, this will be a single class
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     rank: 1000
     multivalued: true
     alias: genusIds
@@ -187,7 +195,11 @@ attributes:
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
+    comments:
+    - typically this will always be present.
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     aliases:
     - differentia
     rank: 1000
@@ -201,7 +213,11 @@ attributes:
     recommended: true
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: LogicalDefinitionAxiom

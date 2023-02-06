@@ -1,6 +1,6 @@
 # Slot: deprecated
 
-URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
+URI: [owl:deprecated](http://www.w3.org/2002/07/owl#deprecated)
 
 
 
@@ -13,7 +13,7 @@ URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | 
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
 
 
 
@@ -53,6 +53,7 @@ URI: [og:deprecated](https://github.com/geneontology/obographs/deprecated)
 name: deprecated
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: owl:deprecated
 alias: deprecated
 domain_of:
 - Meta

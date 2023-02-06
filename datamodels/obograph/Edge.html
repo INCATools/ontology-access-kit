@@ -83,6 +83,7 @@
              
   <section id="class-edge">
 <h1>Class: Edge<a class="headerlink" href="#class-edge" title="Permalink to this headline"></a></h1>
+<p><em>An edge is a typed relationship between two nodes</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/Edge">og:Edge</a></p>
 <div class="mermaid">
              classDiagram
@@ -106,22 +107,22 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="sub.html"><span class="doc std std-doc">sub</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>the subject of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>the predicate of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="obj.html"><span class="doc std std-doc">obj</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>the object of an edge</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -191,6 +192,7 @@
 <details>
 ```yaml
 name: Edge
+description: An edge is a typed relationship between two nodes
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
@@ -205,13 +207,16 @@ slots:
 &lt;details&gt;
 ```yaml
 name: Edge
+description: An edge is a typed relationship between two nodes
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   sub:
     name: sub
+    description: the subject of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:subject
     alias: sub
     owner: Edge
     domain_of:
@@ -219,8 +224,10 @@ attributes:
     range: string
   pred:
     name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:predicate
     alias: pred
     owner: Edge
     domain_of:
@@ -230,8 +237,10 @@ attributes:
     range: string
   obj:
     name: obj
+    description: the object of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:object
     alias: obj
     owner: Edge
     domain_of:
@@ -239,7 +248,11 @@ attributes:
     range: string
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: Edge

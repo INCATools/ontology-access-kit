@@ -133,7 +133,7 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
 </tr>
 </tbody>
@@ -238,13 +238,19 @@ attributes:
     comments:
     - typically, this will be a single class
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     rank: 1000
     multivalued: true
     recommended: true
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
+    comments:
+    - typically this will always be present.
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     aliases:
     - differentia
     rank: 1000
@@ -287,6 +293,8 @@ attributes:
     comments:
     - typically, this will be a single class
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     rank: 1000
     multivalued: true
     alias: genusIds
@@ -297,7 +305,11 @@ attributes:
   restrictions:
     name: restrictions
     description: The set of restrictions that are the differentia of the defined class
+    comments:
+    - typically this will always be present.
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://github.com/geneontology/obographs/issues/89
     aliases:
     - differentia
     rank: 1000
@@ -311,7 +323,11 @@ attributes:
     recommended: true
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: LogicalDefinitionAxiom

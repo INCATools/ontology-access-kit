@@ -83,6 +83,7 @@
              
   <section id="slot-xrefs">
 <h1>Slot: xrefs<a class="headerlink" href="#slot-xrefs" title="Permalink to this headline"></a></h1>
+<p><em>A list of cross references to other entities represented in other ontologies, vocabularies, databases, or websites. The semantics of xrefs are intentionally weak, and most closely align with rdfs:seeAlso</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/xrefs">og:xrefs</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,22 +96,22 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of annotations on an entity or ontology or axiom</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an external reference to …</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
 </tbody>
 </table>
@@ -118,7 +119,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Range: <a class="reference internal" href="XrefString.html"><span class="doc std std-doc">XrefString</span></a></p></li>
 <li><p>Multivalued: True</p></li>
 </ul>
 </section>
@@ -136,14 +137,19 @@
 <details>
 ```yaml
 name: xrefs
+description: A list of cross references to other entities represented in other ontologies,
+  vocabularies, databases, or websites. The semantics of xrefs are intentionally weak,
+  and most closely align with rdfs:seeAlso
 from_schema: https://github.com/geneontology/obographs
+close_mappings:
+- rdfs:seeAlso
 rank: 1000
 multivalued: true
 alias: xrefs
 domain_of:
 - Meta
 - PropertyValue
-range: string
+range: XrefString
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

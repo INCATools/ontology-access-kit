@@ -1,10 +1,13 @@
 # Class: Axiom
+_A generic grouping for any OWL axiom that is not captured by existing constructs in this standard.
+_
+
 
 
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
+URI: [owl:Axiom](http://www.w3.org/2002/07/owl#Axiom)
 
 
 
@@ -37,7 +40,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 
 
@@ -68,7 +71,7 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | og:Axiom |
+| self | owl:Axiom |
 | native | og:Axiom |
 
 
@@ -84,11 +87,16 @@ URI: [og:Axiom](https://github.com/geneontology/obographs/Axiom)
 <details>
 ```yaml
 name: Axiom
+description: 'A generic grouping for any OWL axiom that is not captured by existing
+  constructs in this standard.
+
+  '
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 abstract: true
 slots:
 - meta
+class_uri: owl:Axiom
 
 ```
 </details>
@@ -98,13 +106,21 @@ slots:
 <details>
 ```yaml
 name: Axiom
+description: 'A generic grouping for any OWL axiom that is not captured by existing
+  constructs in this standard.
+
+  '
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 abstract: true
 attributes:
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: Axiom
@@ -116,6 +132,7 @@ attributes:
     - PropertyValue
     - Axiom
     range: Meta
+class_uri: owl:Axiom
 
 ```
 </details>

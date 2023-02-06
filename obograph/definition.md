@@ -1,6 +1,8 @@
 # Slot: definition
+_A definition of an entity_
 
-URI: [og:definition](https://github.com/geneontology/obographs/definition)
+
+URI: [IAO:0000115](http://purl.obolibrary.org/obo/IAO_0000115)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:definition](https://github.com/geneontology/obographs/definition)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | 
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
 
 
 
@@ -51,8 +53,10 @@ URI: [og:definition](https://github.com/geneontology/obographs/definition)
 <details>
 ```yaml
 name: definition
+description: A definition of an entity
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: IAO:0000115
 alias: definition
 domain_of:
 - Meta

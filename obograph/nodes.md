@@ -1,4 +1,6 @@
 # Slot: nodes
+_All nodes present in a graph. This includes class nodes as well as supporting nodes, including nodes representing relationship types, subsets, annotation proeprties, etc_
+
 
 URI: [og:nodes](https://github.com/geneontology/obographs/nodes)
 
@@ -13,7 +15,7 @@ URI: [og:nodes](https://github.com/geneontology/obographs/nodes)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
 
 
 
@@ -53,6 +55,9 @@ URI: [og:nodes](https://github.com/geneontology/obographs/nodes)
 <details>
 ```yaml
 name: nodes
+description: All nodes present in a graph. This includes class nodes as well as supporting
+  nodes, including nodes representing relationship types, subsets, annotation proeprties,
+  etc
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

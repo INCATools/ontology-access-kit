@@ -83,6 +83,7 @@
              
   <section id="class-node">
 <h1>Class: Node<a class="headerlink" href="#class-node" title="Permalink to this headline"></a></h1>
+<p><em>A node is a class, property, or other entity in an ontology</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Resource">rdf:Resource</a></p>
 <div class="mermaid">
              classDiagram
@@ -105,13 +106,13 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="OboIdentifierString.html"><span class="doc std std-doc">OboIdentifierString</span></a></p></td>
+<td><p>The identifier of the entity</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="doc std std-doc">lbl</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>the human-readable label of a node</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="type.html"><span class="doc std std-doc">type</span></a></p></td>
@@ -121,7 +122,7 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -181,6 +182,7 @@
 <details>
 ```yaml
 name: Node
+description: A node is a class, property, or other entity in an ontology
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
@@ -196,12 +198,16 @@ class_uri: rdf:Resource
 &lt;details&gt;
 ```yaml
 name: Node
+description: A node is a class, property, or other entity in an ontology
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   id:
     name: id
+    description: The identifier of the entity
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
     rank: 1000
     identifier: true
     alias: id
@@ -209,11 +215,19 @@ attributes:
     domain_of:
     - Graph
     - Node
-    range: string
+    range: OboIdentifierString
   lbl:
     name: lbl
+    description: the human-readable label of a node
+    comments:
+    - the name &quot;lbl&quot; exists for legacy purposes, this should be considered identical
+      to label in rdfs
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - label
+    - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: lbl
     owner: Node
     domain_of:
@@ -231,7 +245,11 @@ attributes:
     range: string
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: Node

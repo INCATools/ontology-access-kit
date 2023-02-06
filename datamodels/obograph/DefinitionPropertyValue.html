@@ -83,6 +83,7 @@
              
   <section id="class-definitionpropertyvalue">
 <h1>Class: DefinitionPropertyValue<a class="headerlink" href="#class-definitionpropertyvalue" title="Permalink to this headline"></a></h1>
+<p><em>A property value that represents an assertion about the textual definition of an entity</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/DefinitionPropertyValue">og:DefinitionPropertyValue</a></p>
 <div class="mermaid">
              classDiagram
@@ -117,22 +118,22 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="pred.html"><span class="doc std std-doc">pred</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>the predicate of an edge</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="val.html"><span class="doc std std-doc">val</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>The textual string representing the definition</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="XrefString.html"><span class="doc std std-doc">XrefString</span></a></p></td>
+<td><p>A list of identifiers that support the definition</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
 </tr>
 </tbody>
@@ -192,9 +193,32 @@
 <details>
 ```yaml
 name: DefinitionPropertyValue
+description: A property value that represents an assertion about the textual definition
+  of an entity
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: PropertyValue
+slot_usage:
+  val:
+    name: val
+    description: The textual string representing the definition.
+    domain_of:
+    - PropertyValue
+    - PropertyValue
+    role: definition text
+  xrefs:
+    name: xrefs
+    description: A list of identifiers that support the definition. The semantics
+      are intentionally broad, and these identifiers might represent individual agents
+      that contributed to the text of the definition, external publications, websites,
+      or links to supporting information, or external vocabulary entities that played
+      a contributing role in the definition.
+    domain_of:
+    - Meta
+    - PropertyValue
+    - Meta
+    - PropertyValue
+    role: supporting identifiers
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;/details&gt;
 
 ### Induced
@@ -202,14 +226,39 @@ is_a: PropertyValue
 &lt;details&gt;
 ```yaml
 name: DefinitionPropertyValue
+description: A property value that represents an assertion about the textual definition
+  of an entity
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: PropertyValue
+slot_usage:
+  val:
+    name: val
+    description: The textual string representing the definition.
+    domain_of:
+    - PropertyValue
+    - PropertyValue
+    role: definition text
+  xrefs:
+    name: xrefs
+    description: A list of identifiers that support the definition. The semantics
+      are intentionally broad, and these identifiers might represent individual agents
+      that contributed to the text of the definition, external publications, websites,
+      or links to supporting information, or external vocabulary entities that played
+      a contributing role in the definition.
+    domain_of:
+    - Meta
+    - PropertyValue
+    - Meta
+    - PropertyValue
+    role: supporting identifiers
 attributes:
   pred:
     name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:predicate
     alias: pred
     owner: DefinitionPropertyValue
     domain_of:
@@ -219,15 +268,24 @@ attributes:
     range: string
   val:
     name: val
+    description: The textual string representing the definition.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:object
     alias: val
     owner: DefinitionPropertyValue
     domain_of:
     - PropertyValue
+    - PropertyValue
+    role: definition text
     range: string
   xrefs:
     name: xrefs
+    description: A list of identifiers that support the definition. The semantics
+      are intentionally broad, and these identifiers might represent individual agents
+      that contributed to the text of the definition, external publications, websites,
+      or links to supporting information, or external vocabulary entities that played
+      a contributing role in the definition.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -236,10 +294,17 @@ attributes:
     domain_of:
     - Meta
     - PropertyValue
-    range: string
+    - Meta
+    - PropertyValue
+    role: supporting identifiers
+    range: XrefString
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: DefinitionPropertyValue

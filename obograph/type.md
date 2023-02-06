@@ -13,7 +13,7 @@ URI: [og:type](https://github.com/geneontology/obographs/type)
 
 | Name | Description |
 | --- | --- |
-[Node](Node.md) | 
+[Node](Node.md) | A node is a class, property, or other entity in an ontology
 
 
 

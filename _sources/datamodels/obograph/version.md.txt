@@ -1,6 +1,6 @@
 # Slot: version
 
-URI: [og:version](https://github.com/geneontology/obographs/version)
+URI: [owl:versionInfo](http://www.w3.org/2002/07/owl#versionInfo)
 
 
 
@@ -13,7 +13,7 @@ URI: [og:version](https://github.com/geneontology/obographs/version)
 
 | Name | Description |
 | --- | --- |
-[Meta](Meta.md) | 
+[Meta](Meta.md) | A collection of annotations on an entity or ontology or axiom
 
 
 
@@ -53,6 +53,7 @@ URI: [og:version](https://github.com/geneontology/obographs/version)
 name: version
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: owl:versionInfo
 alias: version
 domain_of:
 - Meta

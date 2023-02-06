@@ -15,8 +15,8 @@ URI: [og:allValuesFromEdges](https://github.com/geneontology/obographs/allValues
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
-[DomainRangeAxiom](DomainRangeAxiom.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[DomainRangeAxiom](DomainRangeAxiom.md) | An axiom that represents some combination of domain and range assertions
 
 
 

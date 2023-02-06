@@ -1,4 +1,6 @@
 # Slot: chainPredicateIds
+_A list of identifiers of predicates that form the precedent clause of a property chain rule_
+
 
 URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredicateIds)
 
@@ -13,7 +15,7 @@ URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredi
 
 | Name | Description |
 | --- | --- |
-[PropertyChainAxiom](PropertyChainAxiom.md) | 
+[PropertyChainAxiom](PropertyChainAxiom.md) | An axiom that represents an OWL property chain, e
 
 
 
@@ -53,6 +55,8 @@ URI: [og:chainPredicateIds](https://github.com/geneontology/obographs/chainPredi
 <details>
 ```yaml
 name: chainPredicateIds
+description: A list of identifiers of predicates that form the precedent clause of
+  a property chain rule
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

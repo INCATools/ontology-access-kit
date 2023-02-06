@@ -1,4 +1,6 @@
 # Slot: equivalentNodesSets
+_A list of sets of nodes that form equivalence cliques_
+
 
 URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivalentNodesSets)
 
@@ -13,7 +15,7 @@ URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivale
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
 
 
 
@@ -53,6 +55,7 @@ URI: [og:equivalentNodesSets](https://github.com/geneontology/obographs/equivale
 <details>
 ```yaml
 name: equivalentNodesSets
+description: A list of sets of nodes that form equivalence cliques
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

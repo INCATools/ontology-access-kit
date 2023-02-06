@@ -15,7 +15,7 @@ URI: [sh:declare](https://w3id.org/shacl/declare)
 
 | Name | Description |
 | --- | --- |
-[GraphDocument](GraphDocument.md) | 
+[GraphDocument](GraphDocument.md) | A graph document is a collection of graphs together with a set of prefixes th...
 
 
 

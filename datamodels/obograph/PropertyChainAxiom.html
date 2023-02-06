@@ -83,6 +83,7 @@
              
   <section id="class-propertychainaxiom">
 <h1>Class: PropertyChainAxiom<a class="headerlink" href="#class-propertychainaxiom" title="Permalink to this headline"></a></h1>
+<p><em>An axiom that represents an OWL property chain, e.g. R &lt;- R1 o … o Rn</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/PropertyChainAxiom">og:PropertyChainAxiom</a></p>
 <div class="mermaid">
              classDiagram
@@ -121,12 +122,12 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="chainPredicateIds.html"><span class="doc std std-doc">chainPredicateIds</span></a></p></td>
 <td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>A list of identifiers of predicates that form the precedent clause of a prope…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
 </tr>
 </tbody>
@@ -186,6 +187,8 @@
 <details>
 ```yaml
 name: PropertyChainAxiom
+description: An axiom that represents an OWL property chain, e.g. R <- R1 o ... o
+  Rn
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
@@ -199,6 +202,8 @@ slots:
 &lt;details&gt;
 ```yaml
 name: PropertyChainAxiom
+description: An axiom that represents an OWL property chain, e.g. R &lt;- R1 o ... o
+  Rn
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 is_a: Axiom
@@ -215,6 +220,8 @@ attributes:
     range: string
   chainPredicateIds:
     name: chainPredicateIds
+    description: A list of identifiers of predicates that form the precedent clause
+      of a property chain rule
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -225,7 +232,11 @@ attributes:
     range: string
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: PropertyChainAxiom

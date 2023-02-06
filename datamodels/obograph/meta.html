@@ -83,6 +83,7 @@
              
   <section id="slot-meta">
 <h1>Slot: meta<a class="headerlink" href="#slot-meta" title="Permalink to this headline"></a></h1>
+<p><em>A collection of metadata about either an ontology (graph), an entity, or an axiom</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/meta">og:meta</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,46 +96,46 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="GraphDocument.html"><span class="doc std std-doc">GraphDocument</span></a></p></td>
-<td><p></p></td>
+<td><p>A graph document is a collection of graphs together with a set of prefixes th…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
-<td><p></p></td>
+<td><p>A graph is a collection of nodes and edges that represents a single ontology</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="Node.html"><span class="doc std std-doc">Node</span></a></p></td>
-<td><p></p></td>
+<td><p>A node is a class, property, or other entity in an ontology</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
-<td><p></p></td>
+<td><p>An edge is a typed relationship between two nodes</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Axiom.html"><span class="doc std std-doc">Axiom</span></a></p></td>
-<td><p></p></td>
+<td><p>A generic grouping for any OWL axiom that is not captured by existing constru…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an external reference to …</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="DomainRangeAxiom.html"><span class="doc std std-doc">DomainRangeAxiom</span></a></p></td>
-<td><p></p></td>
+<td><p>An axiom that represents some combination of domain and range assertions</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="EquivalentNodesSet.html"><span class="doc std std-doc">EquivalentNodesSet</span></a></p></td>
-<td><p></p></td>
+<td><p>A clique of nodes that are all mutually equivalent</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="doc std std-doc">LogicalDefinitionAxiom</span></a></p></td>
 <td><p>An axiom that defines a class in terms of a genus or set of genus classes and…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="PropertyChainAxiom.html"><span class="doc std std-doc">PropertyChainAxiom</span></a></p></td>
-<td><p></p></td>
+<td><p>An axiom that represents an OWL property chain, e</p></td>
 </tr>
 </tbody>
 </table>
@@ -143,6 +144,12 @@
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></li>
+</ul>
+</section>
+<section id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>annotations</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -159,7 +166,11 @@
 <details>
 ```yaml
 name: meta
+description: A collection of metadata about either an ontology (graph), an entity,
+  or an axiom
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- annotations
 rank: 1000
 alias: meta
 domain_of:

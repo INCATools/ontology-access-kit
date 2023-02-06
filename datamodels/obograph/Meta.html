@@ -83,6 +83,7 @@
              
   <section id="class-meta">
 <h1>Class: Meta<a class="headerlink" href="#class-meta" title="Permalink to this headline"></a></h1>
+<p><em>A collection of annotations on an entity or ontology or axiom</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/Meta">og:Meta</a></p>
 <div class="mermaid">
              classDiagram
@@ -110,7 +111,7 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="subsets.html"><span class="doc std std-doc">subsets</span></a></p></td>
 <td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>A list of subsets to which this entity belongs</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="version.html"><span class="doc std std-doc">version</span></a></p></td>
@@ -120,27 +121,27 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="comments.html"><span class="doc std std-doc">comments</span></a></p></td>
 <td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>A list of comments about the entity</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="definition.html"><span class="doc std std-doc">definition</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A definition of an entity</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="xrefs.html"><span class="doc std std-doc">xrefs</span></a></p></td>
-<td><p>0..* <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>0..* <br/> <a class="reference internal" href="XrefString.html"><span class="doc std std-doc">XrefString</span></a></p></td>
+<td><p>A list of cross references to other entities represented in other ontologies,…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="synonyms.html"><span class="doc std std-doc">synonyms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of synonym property value assertions for an entity</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="basicPropertyValues.html"><span class="doc std std-doc">basicPropertyValues</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of open-ended property values that does not correspond to those predef…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="deprecated.html"><span class="doc std std-doc">deprecated</span></a></p></td>
@@ -235,6 +236,12 @@
 </tbody>
 </table>
 </section>
+<section id="aliases">
+<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>annotation collection</p></li>
+</ul>
+</section>
 <section id="identifier-and-mapping-information">
 <h2>Identifier and Mapping Information<a class="headerlink" href="#identifier-and-mapping-information" title="Permalink to this headline"></a></h2>
 <section id="schema-source">
@@ -270,7 +277,10 @@
 <details>
 ```yaml
 name: Meta
+description: A collection of annotations on an entity or ontology or axiom
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- annotation collection
 rank: 1000
 slots:
 - subsets
@@ -298,7 +308,10 @@ slot_usage:
 &lt;details&gt;
 ```yaml
 name: Meta
+description: A collection of annotations on an entity or ontology or axiom
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- annotation collection
 rank: 1000
 slot_usage:
   xrefs:
@@ -313,8 +326,10 @@ slot_usage:
 attributes:
   subsets:
     name: subsets
+    description: A list of subsets to which this entity belongs
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: oio:inSubset
     multivalued: true
     alias: subsets
     owner: Meta
@@ -325,6 +340,7 @@ attributes:
     name: version
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: owl:versionInfo
     alias: version
     owner: Meta
     domain_of:
@@ -332,8 +348,14 @@ attributes:
     range: string
   comments:
     name: comments
+    description: A list of comments about the entity
+    comments:
+    - for historic reasons obo format only supports a single comment per entity. This
+      limitation is not carried over here, but users should be aware that multiple
+      comments will not be supported in converting back to obo format.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdfs:comment
     multivalued: true
     alias: comments
     owner: Meta
@@ -342,8 +364,10 @@ attributes:
     range: string
   definition:
     name: definition
+    description: A definition of an entity
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: IAO:0000115
     alias: definition
     owner: Meta
     domain_of:
@@ -351,6 +375,9 @@ attributes:
     range: DefinitionPropertyValue
   xrefs:
     name: xrefs
+    description: A list of cross references to other entities represented in other
+      ontologies, vocabularies, databases, or websites. The semantics of xrefs are
+      intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -364,6 +391,7 @@ attributes:
     range: XrefPropertyValue
   synonyms:
     name: synonyms
+    description: A list of synonym property value assertions for an entity
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -374,6 +402,8 @@ attributes:
     range: SynonymPropertyValue
   basicPropertyValues:
     name: basicPropertyValues
+    description: A list of open-ended property values that does not correspond to
+      those predefined in this standard, i.e xref, synonyms, definition
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -386,6 +416,7 @@ attributes:
     name: deprecated
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: owl:deprecated
     alias: deprecated
     owner: Meta
     domain_of:

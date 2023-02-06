@@ -1,6 +1,8 @@
 # Slot: obj
+_the object of an edge_
 
-URI: [og:obj](https://github.com/geneontology/obographs/obj)
+
+URI: [rdf:object](http://www.w3.org/1999/02/22-rdf-syntax-ns#object)
 
 
 
@@ -13,7 +15,7 @@ URI: [og:obj](https://github.com/geneontology/obographs/obj)
 
 | Name | Description |
 | --- | --- |
-[Edge](Edge.md) | 
+[Edge](Edge.md) | An edge is a typed relationship between two nodes
 
 
 
@@ -51,8 +53,10 @@ URI: [og:obj](https://github.com/geneontology/obographs/obj)
 <details>
 ```yaml
 name: obj
+description: the object of an edge
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: rdf:object
 alias: obj
 domain_of:
 - Edge

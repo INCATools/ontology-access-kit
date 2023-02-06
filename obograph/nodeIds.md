@@ -13,7 +13,7 @@ URI: [og:nodeIds](https://github.com/geneontology/obographs/nodeIds)
 
 | Name | Description |
 | --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | 
+[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent
 
 
 

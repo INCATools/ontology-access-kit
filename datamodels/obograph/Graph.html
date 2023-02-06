@@ -83,6 +83,7 @@
              
   <section id="class-graph">
 <h1>Class: Graph<a class="headerlink" href="#class-graph" title="Permalink to this headline"></a></h1>
+<p><em>A graph is a collection of nodes and edges that represents a single ontology</em></p>
 <p>URI: <a class="reference external" href="http://www.w3.org/2002/07/owl#Ontology">owl:Ontology</a></p>
 <div class="mermaid">
              classDiagram
@@ -111,43 +112,43 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="id.html"><span class="doc std std-doc">id</span></a></p></td>
-<td><p>1..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>1..1 <br/> <a class="reference internal" href="OboIdentifierString.html"><span class="doc std std-doc">OboIdentifierString</span></a></p></td>
+<td><p>The identifier of the entity</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="lbl.html"><span class="doc std std-doc">lbl</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></td>
-<td><p></p></td>
+<td><p>the human-readable label of a node</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="meta.html"><span class="doc std std-doc">meta</span></a></p></td>
 <td><p>0..1 <br/> <a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of metadata about either an ontology (graph), an entity, or an a…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="nodes.html"><span class="doc std std-doc">nodes</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Node.html"><span class="doc std std-doc">Node</span></a></p></td>
-<td><p></p></td>
+<td><p>All nodes present in a graph</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="edges.html"><span class="doc std std-doc">edges</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
-<td><p></p></td>
+<td><p>All edges present in a graph</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="equivalentNodesSets.html"><span class="doc std std-doc">equivalentNodesSets</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="EquivalentNodesSet.html"><span class="doc std std-doc">EquivalentNodesSet</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of sets of nodes that form equivalence cliques</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="logicalDefinitionAxioms.html"><span class="doc std std-doc">logicalDefinitionAxioms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="LogicalDefinitionAxiom.html"><span class="doc std std-doc">LogicalDefinitionAxiom</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of logical definition axioms that define the meaning of a class in ter…</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="domainRangeAxioms.html"><span class="doc std std-doc">domainRangeAxioms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="DomainRangeAxiom.html"><span class="doc std std-doc">DomainRangeAxiom</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of axioms that define the domain and range of a property</p></td>
 <td><p>direct</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="allValuesFromEdges.html"><span class="doc std std-doc">allValuesFromEdges</span></a></p></td>
@@ -157,7 +158,7 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="propertyChainAxioms.html"><span class="doc std std-doc">propertyChainAxioms</span></a></p></td>
 <td><p>0..* <br/> <a class="reference internal" href="PropertyChainAxiom.html"><span class="doc std std-doc">PropertyChainAxiom</span></a></p></td>
-<td><p></p></td>
+<td><p>A list of axioms that define an OWL property chain</p></td>
 <td><p>direct</p></td>
 </tr>
 </tbody>
@@ -217,6 +218,7 @@
 <details>
 ```yaml
 name: Graph
+description: A graph is a collection of nodes and edges that represents a single ontology
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 slots:
@@ -238,12 +240,16 @@ class_uri: owl:Ontology
 &lt;details&gt;
 ```yaml
 name: Graph
+description: A graph is a collection of nodes and edges that represents a single ontology
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 attributes:
   id:
     name: id
+    description: The identifier of the entity
     from_schema: https://github.com/geneontology/obographs
+    see_also:
+    - https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
     rank: 1000
     identifier: true
     alias: id
@@ -251,11 +257,19 @@ attributes:
     domain_of:
     - Graph
     - Node
-    range: string
+    range: OboIdentifierString
   lbl:
     name: lbl
+    description: the human-readable label of a node
+    comments:
+    - the name &quot;lbl&quot; exists for legacy purposes, this should be considered identical
+      to label in rdfs
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - label
+    - name
     rank: 1000
+    slot_uri: rdfs:label
     alias: lbl
     owner: Graph
     domain_of:
@@ -264,7 +278,11 @@ attributes:
     range: string
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: Graph
@@ -278,6 +296,9 @@ attributes:
     range: Meta
   nodes:
     name: nodes
+    description: All nodes present in a graph. This includes class nodes as well as
+      supporting nodes, including nodes representing relationship types, subsets,
+      annotation proeprties, etc
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -290,6 +311,11 @@ attributes:
     inlined_as_list: true
   edges:
     name: edges
+    description: All edges present in a graph.
+    comments:
+    - Note that this only includes core edges, formed by translating (a) SubClassOf
+      between named classes (b) SubPropertyOf (c) SubClassOf between a named class
+      and a simple existential axiom (d) ObjectPropertyAssertions
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -302,6 +328,7 @@ attributes:
     inlined_as_list: true
   equivalentNodesSets:
     name: equivalentNodesSets
+    description: A list of sets of nodes that form equivalence cliques
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -312,6 +339,8 @@ attributes:
     range: EquivalentNodesSet
   logicalDefinitionAxioms:
     name: logicalDefinitionAxioms
+    description: A list of logical definition axioms that define the meaning of a
+      class in terms of other classes.
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -324,6 +353,7 @@ attributes:
     inlined_as_list: true
   domainRangeAxioms:
     name: domainRangeAxioms
+    description: A list of axioms that define the domain and range of a property
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true
@@ -346,6 +376,7 @@ attributes:
     range: Edge
   propertyChainAxioms:
     name: propertyChainAxioms
+    description: A list of axioms that define an OWL property chain
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     multivalued: true

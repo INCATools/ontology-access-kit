@@ -83,7 +83,8 @@
              
   <section id="slot-comments">
 <h1>Slot: comments<a class="headerlink" href="#slot-comments" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/comments">og:comments</a></p>
+<p><em>A list of comments about the entity</em></p>
+<p>URI: <a class="reference external" href="http://www.w3.org/2000/01/rdf-schema#comment">rdfs:comment</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
@@ -95,7 +96,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Meta.html"><span class="doc std std-doc">Meta</span></a></p></td>
-<td><p></p></td>
+<td><p>A collection of annotations on an entity or ontology or axiom</p></td>
 </tr>
 </tbody>
 </table>
@@ -105,6 +106,12 @@
 <ul class="simple">
 <li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
 <li><p>Multivalued: True</p></li>
+</ul>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>for historic reasons obo format only supports a single comment per entity. This limitation is not carried over here, but users should be aware that multiple comments will not be supported in converting back to obo format.</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -121,8 +128,14 @@
 <details>
 ```yaml
 name: comments
+description: A list of comments about the entity
+comments:
+- for historic reasons obo format only supports a single comment per entity. This
+  limitation is not carried over here, but users should be aware that multiple comments
+  will not be supported in converting back to obo format.
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: rdfs:comment
 multivalued: true
 alias: comments
 domain_of:

@@ -83,7 +83,8 @@
              
   <section id="slot-val">
 <h1>Slot: val<a class="headerlink" href="#slot-val" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/val">og:val</a></p>
+<p><em>the value of a property</em></p>
+<p>URI: <a class="reference external" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#object">rdf:object</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
@@ -95,19 +96,19 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an external reference to …</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
 </tbody>
 </table>
@@ -132,8 +133,10 @@
 <details>
 ```yaml
 name: val
+description: the value of a property
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: rdf:object
 alias: val
 domain_of:
 - PropertyValue

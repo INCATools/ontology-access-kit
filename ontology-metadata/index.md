@@ -192,6 +192,7 @@ Name: Ontology-Metadata
 | Type | Description |
 | --- | --- |
 | [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean) | A binary (true or false) value |
+| [xsd:string](http://www.w3.org/2001/XMLSchema#string) | a compact URI |
 | [CURIELiteral](CURIELiteral.md) | A string representation of a CURIE |
 | [xsd:date](http://www.w3.org/2001/XMLSchema#date) | a date (year, month and day) in an idealized calendar |
 | [linkml:DateOrDatetime](https://w3id.org/linkml/DateOrDatetime) | Either a date or a datetime |

@@ -83,6 +83,7 @@
              
   <section id="slot-id">
 <h1>Slot: id<a class="headerlink" href="#slot-id" title="Permalink to this headline"></a></h1>
+<p><em>The identifier of the entity</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/id">og:id</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,10 +96,10 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
-<td><p></p></td>
+<td><p>A graph is a collection of nodes and edges that represents a single ontology</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="Node.html"><span class="doc std std-doc">Node</span></a></p></td>
-<td><p></p></td>
+<td><p>A node is a class, property, or other entity in an ontology</p></td>
 </tr>
 </tbody>
 </table>
@@ -106,7 +107,13 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Range: <a class="reference internal" href="OboIdentifierString.html"><span class="doc std std-doc">OboIdentifierString</span></a></p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5">https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5</a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -123,14 +130,17 @@
 <details>
 ```yaml
 name: id
+description: The identifier of the entity
 from_schema: https://github.com/geneontology/obographs
+see_also:
+- https://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5
 rank: 1000
 identifier: true
 alias: id
 domain_of:
 - Graph
 - Node
-range: string
+range: OboIdentifierString
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

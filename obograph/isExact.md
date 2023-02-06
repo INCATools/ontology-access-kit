@@ -13,7 +13,7 @@ URI: [og:isExact](https://github.com/geneontology/obographs/isExact)
 
 | Name | Description |
 | --- | --- |
-[SynonymPropertyValue](SynonymPropertyValue.md) | 
+[SynonymPropertyValue](SynonymPropertyValue.md) | A property value that represents an assertion about a synonym of an entity
 
 
 
@@ -51,6 +51,7 @@ URI: [og:isExact](https://github.com/geneontology/obographs/isExact)
 <details>
 ```yaml
 name: isExact
+deprecated: use synonymType instead
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 alias: isExact

@@ -1,6 +1,8 @@
 # Slot: lbl
+_the human-readable label of a node_
 
-URI: [og:lbl](https://github.com/geneontology/obographs/lbl)
+
+URI: [rdfs:label](http://www.w3.org/2000/01/rdf-schema#label)
 
 
 
@@ -13,8 +15,8 @@ URI: [og:lbl](https://github.com/geneontology/obographs/lbl)
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
-[Node](Node.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
+[Node](Node.md) | A node is a class, property, or other entity in an ontology
 
 
 
@@ -29,7 +31,17 @@ URI: [og:lbl](https://github.com/geneontology/obographs/lbl)
 
 
 
+## Aliases
 
+
+* label
+* name
+
+
+
+## Comments
+
+* the name "lbl" exists for legacy purposes, this should be considered identical to label in rdfs
 
 ## Identifier and Mapping Information
 
@@ -52,8 +64,16 @@ URI: [og:lbl](https://github.com/geneontology/obographs/lbl)
 <details>
 ```yaml
 name: lbl
+description: the human-readable label of a node
+comments:
+- the name "lbl" exists for legacy purposes, this should be considered identical to
+  label in rdfs
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- label
+- name
 rank: 1000
+slot_uri: rdfs:label
 alias: lbl
 domain_of:
 - Graph

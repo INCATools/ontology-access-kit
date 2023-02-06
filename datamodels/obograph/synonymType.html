@@ -83,6 +83,7 @@
              
   <section id="slot-synonymtype">
 <h1>Slot: synonymType<a class="headerlink" href="#slot-synonymtype" title="Permalink to this headline"></a></h1>
+<p><em>This standard follows oboInOwl in allowing an open ended list of synonym types</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/synonymType">og:synonymType</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,7 +96,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
 </tbody>
 </table>
@@ -103,7 +104,7 @@
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
 <ul class="simple">
-<li><p>Range: <a class="reference external" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p></li>
+<li><p>Range: <a class="reference internal" href="SynonymTypeIdentifierString.html"><span class="doc std std-doc">SynonymTypeIdentifierString</span></a></p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -120,12 +121,14 @@
 <details>
 ```yaml
 name: synonymType
+description: This standard follows oboInOwl in allowing an open ended list of synonym
+  types
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 alias: synonymType
 domain_of:
 - SynonymPropertyValue
-range: string
+range: SynonymTypeIdentifierString
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </pre></div>
 </div>

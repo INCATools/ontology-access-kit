@@ -433,7 +433,9 @@
         <span class="k">if</span> <span class="n">predicate</span> <span class="o">==</span> <span class="n">IS_A</span><span class="p">:</span>
             <span class="n">t</span><span class="o">.</span><span class="n">add_tag_value</span><span class="p">(</span><span class="n">TAG_IS_A</span><span class="p">,</span> <span class="n">filler</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">add_tag_value_pair</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">,</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">filler</span><span class="p">)</span>
+            <span class="n">predicate_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_curie_to_shorthand</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">add_tag_value_pair</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">,</span> <span class="n">predicate_code</span><span class="p">,</span> <span class="n">filler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clear_relationship_index</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">remove_relationship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">,</span> <span class="n">predicate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PRED_CURIE</span><span class="p">],</span> <span class="n">filler</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">):</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
@@ -442,6 +444,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">predicate_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_curie_to_shorthand</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
             <span class="n">t</span><span class="o">.</span><span class="n">remove_pairwise_tag_value</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">,</span> <span class="n">predicate_code</span><span class="p">,</span> <span class="n">filler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clear_relationship_index</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curie</span><span class="p">:</span> <span class="n">CURIE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stanza</span><span class="p">(</span><span class="n">curie</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -817,6 +820,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">Change</span><span class="p">:</span>
         <span class="n">od</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obo_document</span>
         <span class="n">tidy_change_object</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applying </span><span class="si">{</span><span class="n">patch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">kgcl</span><span class="o">.</span><span class="n">NodeRename</span><span class="p">):</span>
             <span class="c1"># self.set_label(patch.about_node, _clean(patch.new_value))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">about_node</span><span class="p">,</span> <span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="p">)</span>
@@ -886,6 +890,7 @@
                 <span class="n">t</span><span class="o">.</span><span class="n">add_tag_value</span><span class="p">(</span><span class="n">TAG_IS_A</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">t</span><span class="o">.</span><span class="n">add_tag_value</span><span class="p">(</span><span class="n">TAG_RELATIONSHIP</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">new_value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">object</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clear_relationship_index</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cannot handle KGCL type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">patch</span><span class="o">.</span><span class="n">contributor</span><span class="p">:</span>

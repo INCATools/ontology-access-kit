@@ -41,6 +41,14 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 
 
 
+## Comments
+
+* typically this will always be present.
+
+## See Also
+
+* [https://github.com/geneontology/obographs/issues/89](https://github.com/geneontology/obographs/issues/89)
+
 ## Identifier and Mapping Information
 
 
@@ -63,7 +71,11 @@ URI: [owl:someValuesFrom](http://www.w3.org/2002/07/owl#someValuesFrom)
 ```yaml
 name: restrictions
 description: The set of restrictions that are the differentia of the defined class
+comments:
+- typically this will always be present.
 from_schema: https://github.com/geneontology/obographs
+see_also:
+- https://github.com/geneontology/obographs/issues/89
 aliases:
 - differentia
 rank: 1000

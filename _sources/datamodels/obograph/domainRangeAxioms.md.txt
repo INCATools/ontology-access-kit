@@ -1,4 +1,6 @@
 # Slot: domainRangeAxioms
+_A list of axioms that define the domain and range of a property_
+
 
 URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRangeAxioms)
 
@@ -13,7 +15,7 @@ URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRang
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
 
 
 
@@ -53,6 +55,7 @@ URI: [og:domainRangeAxioms](https://github.com/geneontology/obographs/domainRang
 <details>
 ```yaml
 name: domainRangeAxioms
+description: A list of axioms that define the domain and range of a property
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

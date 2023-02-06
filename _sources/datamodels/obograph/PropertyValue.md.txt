@@ -1,4 +1,6 @@
 # Class: PropertyValue
+_A generic grouping for the different kinds of key-value associations on object. Minimally, a property value has a predicate and a value. It can also have a list of xrefs indicating provenance, as well as a metadata object._
+
 
 
 * __NOTE__: this is an abstract class and should not be instantiated directly
@@ -40,10 +42,10 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [xrefs](xrefs.md) | 0..* <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) |  | direct |
+| [pred](pred.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the predicate of an edge | direct |
+| [val](val.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | the value of a property | direct |
+| [xrefs](xrefs.md) | 0..* <br/> [XrefString](XrefString.md) | A list of cross references to other entities represented in other ontologies,... | direct |
+| [meta](meta.md) | 0..1 <br/> [Meta](Meta.md) | A collection of metadata about either an ontology (graph), an entity, or an a... | direct |
 
 
 
@@ -51,7 +53,16 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 
 
 
+## Aliases
 
+
+* annotation
+
+
+
+## Comments
+
+* Any PropertyValue can have a meta object, which can itself have basicPropertyValues, meaning that like the OWL annotation model, axiom annotations can be nested to arbitrary levels.
 
 ## Identifier and Mapping Information
 
@@ -90,7 +101,16 @@ URI: [og:PropertyValue](https://github.com/geneontology/obographs/PropertyValue)
 <details>
 ```yaml
 name: PropertyValue
+description: A generic grouping for the different kinds of key-value associations
+  on object. Minimally, a property value has a predicate and a value. It can also
+  have a list of xrefs indicating provenance, as well as a metadata object.
+comments:
+- Any PropertyValue can have a meta object, which can itself have basicPropertyValues,
+  meaning that like the OWL annotation model, axiom annotations can be nested to arbitrary
+  levels.
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- annotation
 rank: 1000
 abstract: true
 slots:
@@ -107,14 +127,25 @@ slots:
 <details>
 ```yaml
 name: PropertyValue
+description: A generic grouping for the different kinds of key-value associations
+  on object. Minimally, a property value has a predicate and a value. It can also
+  have a list of xrefs indicating provenance, as well as a metadata object.
+comments:
+- Any PropertyValue can have a meta object, which can itself have basicPropertyValues,
+  meaning that like the OWL annotation model, axiom annotations can be nested to arbitrary
+  levels.
 from_schema: https://github.com/geneontology/obographs
+aliases:
+- annotation
 rank: 1000
 abstract: true
 attributes:
   pred:
     name: pred
+    description: the predicate of an edge
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:predicate
     alias: pred
     owner: PropertyValue
     domain_of:
@@ -124,8 +155,10 @@ attributes:
     range: string
   val:
     name: val
+    description: the value of a property
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
+    slot_uri: rdf:object
     alias: val
     owner: PropertyValue
     domain_of:
@@ -133,7 +166,12 @@ attributes:
     range: string
   xrefs:
     name: xrefs
+    description: A list of cross references to other entities represented in other
+      ontologies, vocabularies, databases, or websites. The semantics of xrefs are
+      intentionally weak, and most closely align with rdfs:seeAlso
     from_schema: https://github.com/geneontology/obographs
+    close_mappings:
+    - rdfs:seeAlso
     rank: 1000
     multivalued: true
     alias: xrefs
@@ -141,10 +179,14 @@ attributes:
     domain_of:
     - Meta
     - PropertyValue
-    range: string
+    range: XrefString
   meta:
     name: meta
+    description: A collection of metadata about either an ontology (graph), an entity,
+      or an axiom
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - annotations
     rank: 1000
     alias: meta
     owner: PropertyValue

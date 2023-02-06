@@ -40,6 +40,10 @@ URI: [og:genusIds](https://github.com/geneontology/obographs/genusIds)
 
 * typically, this will be a single class
 
+## See Also
+
+* [https://github.com/geneontology/obographs/issues/89](https://github.com/geneontology/obographs/issues/89)
+
 ## Identifier and Mapping Information
 
 
@@ -65,6 +69,8 @@ description: The set of classes that are the genus of the defined class
 comments:
 - typically, this will be a single class
 from_schema: https://github.com/geneontology/obographs
+see_also:
+- https://github.com/geneontology/obographs/issues/89
 rank: 1000
 multivalued: true
 alias: genusIds

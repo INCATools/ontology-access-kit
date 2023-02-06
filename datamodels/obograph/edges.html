@@ -83,6 +83,7 @@
              
   <section id="slot-edges">
 <h1>Slot: edges<a class="headerlink" href="#slot-edges" title="Permalink to this headline"></a></h1>
+<p><em>All edges present in a graph.</em></p>
 <p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/edges">og:edges</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
@@ -95,7 +96,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Graph.html"><span class="doc std std-doc">Graph</span></a></p></td>
-<td><p></p></td>
+<td><p>A graph is a collection of nodes and edges that represents a single ontology</p></td>
 </tr>
 </tbody>
 </table>
@@ -105,6 +106,12 @@
 <ul class="simple">
 <li><p>Range: <a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></li>
 <li><p>Multivalued: True</p></li>
+</ul>
+</section>
+<section id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Note that this only includes core edges, formed by translating (a) SubClassOf between named classes (b) SubPropertyOf (c) SubClassOf between a named class and a simple existential axiom (d) ObjectPropertyAssertions</p></li>
 </ul>
 </section>
 <section id="identifier-and-mapping-information">
@@ -121,6 +128,11 @@
 <details>
 ```yaml
 name: edges
+description: All edges present in a graph.
+comments:
+- Note that this only includes core edges, formed by translating (a) SubClassOf between
+  named classes (b) SubPropertyOf (c) SubClassOf between a named class and a simple
+  existential axiom (d) ObjectPropertyAssertions
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

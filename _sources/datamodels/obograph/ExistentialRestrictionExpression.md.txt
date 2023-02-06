@@ -26,8 +26,8 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
-| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) |  | direct |
+| [fillerId](fillerId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | in an OWL restriction expression, the filler is the object of the restriction | direct |
+| [propertyId](propertyId.md) | 0..1 <br/> [xsd:string](http://www.w3.org/2001/XMLSchema#string) | in an OWL restriction expression, this is the predicate | direct |
 
 
 
@@ -48,6 +48,10 @@ URI: [owl:Restriction](http://www.w3.org/2002/07/owl#Restriction)
 * some values from expression
 
 
+
+## Comments
+
+* note that most existing restrictions are present in simple A SubClassOf R some B axioms, which are translated to *edges* in a graph. This class exists for other cases that do not map to edges.
 
 ## Identifier and Mapping Information
 
@@ -97,6 +101,10 @@ annotations:
     tag: owl.fstring
     value: ObjectSomeValuesFrom({propertyId} {fillerId})
 description: An existential restriction (OWL some values from) expression
+comments:
+- note that most existing restrictions are present in simple A SubClassOf R some B
+  axioms, which are translated to *edges* in a graph. This class exists for other
+  cases that do not map to edges.
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - some values from expression
@@ -119,6 +127,10 @@ annotations:
     tag: owl.fstring
     value: ObjectSomeValuesFrom({propertyId} {fillerId})
 description: An existential restriction (OWL some values from) expression
+comments:
+- note that most existing restrictions are present in simple A SubClassOf R some B
+  axioms, which are translated to *edges* in a graph. This class exists for other
+  cases that do not map to edges.
 from_schema: https://github.com/geneontology/obographs
 aliases:
 - some values from expression
@@ -126,7 +138,11 @@ rank: 1000
 attributes:
   fillerId:
     name: fillerId
+    description: in an OWL restriction expression, the filler is the object of the
+      restriction
     from_schema: https://github.com/geneontology/obographs
+    aliases:
+    - object
     rank: 1000
     alias: fillerId
     owner: ExistentialRestrictionExpression
@@ -135,6 +151,7 @@ attributes:
     range: string
   propertyId:
     name: propertyId
+    description: in an OWL restriction expression, this is the predicate
     from_schema: https://github.com/geneontology/obographs
     rank: 1000
     alias: propertyId

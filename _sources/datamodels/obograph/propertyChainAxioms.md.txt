@@ -1,4 +1,6 @@
 # Slot: propertyChainAxioms
+_A list of axioms that define an OWL property chain_
+
 
 URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/propertyChainAxioms)
 
@@ -13,7 +15,7 @@ URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/property
 
 | Name | Description |
 | --- | --- |
-[Graph](Graph.md) | 
+[Graph](Graph.md) | A graph is a collection of nodes and edges that represents a single ontology
 
 
 
@@ -53,6 +55,7 @@ URI: [og:propertyChainAxioms](https://github.com/geneontology/obographs/property
 <details>
 ```yaml
 name: propertyChainAxioms
+description: A list of axioms that define an OWL property chain
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 multivalued: true

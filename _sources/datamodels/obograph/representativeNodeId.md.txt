@@ -1,4 +1,6 @@
 # Slot: representativeNodeId
+_The identifier of a node that represents the class in an OWL equivalence clique_
+
 
 URI: [og:representativeNodeId](https://github.com/geneontology/obographs/representativeNodeId)
 
@@ -13,7 +15,7 @@ URI: [og:representativeNodeId](https://github.com/geneontology/obographs/represe
 
 | Name | Description |
 | --- | --- |
-[EquivalentNodesSet](EquivalentNodesSet.md) | 
+[EquivalentNodesSet](EquivalentNodesSet.md) | A clique of nodes that are all mutually equivalent
 
 
 
@@ -51,6 +53,8 @@ URI: [og:representativeNodeId](https://github.com/geneontology/obographs/represe
 <details>
 ```yaml
 name: representativeNodeId
+description: The identifier of a node that represents the class in an OWL equivalence
+  clique
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
 alias: representativeNodeId

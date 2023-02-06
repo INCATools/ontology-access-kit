@@ -83,7 +83,8 @@
              
   <section id="slot-pred">
 <h1>Slot: pred<a class="headerlink" href="#slot-pred" title="Permalink to this headline"></a></h1>
-<p>URI: <a class="reference external" href="https://github.com/geneontology/obographs/pred">og:pred</a></p>
+<p><em>the predicate of an edge</em></p>
+<p>URI: <a class="reference external" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate">rdf:predicate</a></p>
 <!-- no inheritance hierarchy -->
 <section id="applicable-classes">
 <h2>Applicable Classes<a class="headerlink" href="#applicable-classes" title="Permalink to this headline"></a></h2>
@@ -95,22 +96,22 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="Edge.html"><span class="doc std std-doc">Edge</span></a></p></td>
-<td><p></p></td>
+<td><p>An edge is a typed relationship between two nodes</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="SynonymPropertyValue.html"><span class="doc std std-doc">SynonymPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about a synonym of an entity</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="PropertyValue.html"><span class="doc std std-doc">PropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A generic grouping for the different kinds of key-value associations on objec…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="DefinitionPropertyValue.html"><span class="doc std std-doc">DefinitionPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about the textual definition of…</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="BasicPropertyValue.html"><span class="doc std std-doc">BasicPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an entity that is not a d…</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="XrefPropertyValue.html"><span class="doc std std-doc">XrefPropertyValue</span></a></p></td>
-<td><p></p></td>
+<td><p>A property value that represents an assertion about an external reference to …</p></td>
 </tr>
 </tbody>
 </table>
@@ -135,8 +136,10 @@
 <details>
 ```yaml
 name: pred
+description: the predicate of an edge
 from_schema: https://github.com/geneontology/obographs
 rank: 1000
+slot_uri: rdf:predicate
 alias: pred
 domain_of:
 - Edge
