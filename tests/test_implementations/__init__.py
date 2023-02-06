@@ -786,10 +786,11 @@ class ComplianceTester:
                     print(f"{m[child]} > {m[parent]}")
                     test.assertGreaterEqual(m[child], m[parent])
             else:
-                test.assertGreater(m[child], m[parent],
-                                   f"{child} !> {parent} {m[child]} !> {m[parent]}")
+                test.assertGreater(
+                    m[child], m[parent], f"{child} !> {parent} {m[child]} !> {m[parent]}"
+                )
 
-    def test_pairwise_similarity(self, oi: SemanticSimilarityInterface):
+    def test_pairwise_similarity(self, oi: SemanticSimilarityInterface, isa_partof_only=False):
         test = self.test
         # test non-existent item
         test.assertEqual([(OWL_THING, 0.0)], list(oi.information_content_scores([OWL_THING])))
@@ -798,37 +799,37 @@ class ComplianceTester:
         test.assertEqual(0.0, sim.ancestor_information_content)
         test.assertEqual(0.0, sim.jaccard_similarity)
         terms = [NUCLEUS, FAKE_ID]
-        pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
+        pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A, PART_OF]))
         test.assertEqual(4, len(pairs))
         for pair in pairs:
             if pair.subject_id == pair.object_id:
                 test.assertGreater(pair.jaccard_similarity, 0.99)
             else:
                 test.assertEqual(0.0, pair.ancestor_information_content)
-        terms = [
+        real_terms = [
             NUCLEUS,
             VACUOLE,
             NUCLEAR_ENVELOPE,
             PLASMA_MEMBRANE,
             BACTERIA,
             CELLULAR_ORGANISMS,
-            FAKE_ID,
         ]
+        terms = real_terms + [FAKE_ID]
         # test each member vs itself
-        pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A]))
+        pairs = list(oi.all_by_all_pairwise_similarity(terms, terms, predicates=[IS_A, PART_OF]))
         distances = {}
         for pair in pairs:
             if pair.subject_id == pair.object_id:
                 test.assertGreater(pair.jaccard_similarity, 0.99)
-                if pair.subject_id == FAKE_ID:
+                if pair.subject_id == FAKE_ID or pair.object_id == FAKE_ID:
                     test.assertIsNone(pair.phenodigm_score)
                 else:
                     test.assertGreater(pair.phenodigm_score, 0.5)
             distances[(pair.subject_id, pair.object_id)] = 1 - pair.jaccard_similarity
         # test triangle inequality
-        for x in terms:
-            for y in terms:
-                for z in terms:
+        for x in real_terms:
+            for y in real_terms:
+                for z in real_terms:
                     test.assertGreaterEqual(
                         distances[(x, y)] + distances[(y, z)], distances[(x, z)]
                     )
@@ -859,8 +860,16 @@ class ComplianceTester:
         error_range = 1.0
         for ts in termsets:
             ts1, ts2, ps, expected_avg, expected_max = ts
+            if isa_partof_only and ps != [IS_A, PART_OF]:
+                continue
             sim = oi.termset_pairwise_similarity(ts1, ts2, predicates=ps, labels=True)
+            #if expected_avg == 5.6:
+            #    print(yaml_dumper.dumps(sim))
             test.assertLess(
                 abs(sim.average_score - expected_avg), error_range, f"TermSet: {ts} Sim: {sim}"
             )
             test.assertLess(abs(sim.best_score - expected_max), error_range)
+            # similarity is symmetric
+            rev_sim = oi.termset_pairwise_similarity(ts2, ts1, predicates=ps, labels=True)
+            test.assertAlmostEqual(sim.average_score, rev_sim.average_score)
+            test.assertAlmostEqual(sim.best_score, rev_sim.best_score)

@@ -2071,12 +2071,12 @@ def termset_similarity(
 @autolabel_option
 @click.argument("terms", nargs=-1)
 def assoc_similarity(
-        terms,
-        predicates,
-        association_predicates,
-        autolabel,
-        output_type,
-        output: TextIO,
+    terms,
+    predicates,
+    association_predicates,
+    autolabel,
+    output_type,
+    output: TextIO,
 ):
     """
     Calculate similarity between entities with associations.
@@ -2109,8 +2109,16 @@ def assoc_similarity(
                 if entity1 < entity2:
                     pairs.append((entity1, entity2))
         for entity1, entity2 in pairs:
-            set1 = list(impl.association_objects(subjects=[entity1], predicates=actual_association_predicates))
-            set2 = list(impl.association_objects(subjects=[entity2], predicates=actual_association_predicates))
+            set1 = list(
+                impl.association_objects(
+                    subjects=[entity1], predicates=actual_association_predicates
+                )
+            )
+            set2 = list(
+                impl.association_objects(
+                    subjects=[entity2], predicates=actual_association_predicates
+                )
+            )
             logging.info(f"Set1={set1}")
             logging.info(f"Set2={set2}")
             actual_predicates = _process_predicates_arg(predicates)

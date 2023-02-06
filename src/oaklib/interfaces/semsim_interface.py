@@ -229,7 +229,7 @@ class SemanticSimilarityInterface(BasicOntologyInterface, ABC):
                 sim.jaccard_similarity * sim.ancestor_information_content
             )
         return sim
-
+    
     def termset_pairwise_similarity(
         self,
         subjects: List[CURIE],

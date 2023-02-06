@@ -107,7 +107,7 @@ class AssociationProviderInterface(BasicOntologyInterface, ABC):
         :param kwargs:
         :return:
         """
-        subjects= set()
+        subjects = set()
         for assoc in self.associations(**kwargs):
             if assoc.subject not in subjects:
                 yield assoc.subject

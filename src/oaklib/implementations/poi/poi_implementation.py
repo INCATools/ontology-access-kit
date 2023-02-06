@@ -5,14 +5,17 @@ import pickle
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import ClassVar, List, Iterable, Dict, Iterator, Union, Tuple, Set
+from typing import ClassVar, Dict, Iterable, Iterator, List, Set, Tuple, Union, Optional
 
-from oaklib.datamodels.similarity import TermPairwiseSimilarity, TermSetPairwiseSimilarity, TermInfo, BestMatch
-from oaklib.datamodels.vocabulary import (
-    IS_A,
-    PART_OF,
+from oaklib.datamodels.association import Association
+from oaklib.datamodels.similarity import (
+    BestMatch,
+    TermInfo,
+    TermPairwiseSimilarity,
+    TermSetPairwiseSimilarity,
 )
-from oaklib.implementations.poi.intset_ontology_index import IntSetOntologyIndex, POS
+from oaklib.datamodels.vocabulary import IS_A, PART_OF
+from oaklib.utilities.indexes.intset_ontology_index import POS, IntSetOntologyIndex
 from oaklib.interfaces import SubsetterInterface, TextAnnotatorInterface
 from oaklib.interfaces.association_provider_interface import (
     AssociationProviderInterface,
@@ -48,12 +51,20 @@ class PoiImplementation(
     AssociationProviderInterface,
     TextAnnotatorInterface,
 ):
-    wrapped_adapter: OboGraphInterface = None
     """
     Python Ontology Index.
     
-    A pure-python implementation of an integer-indexed ontology
+    A pure-python implementation of an integer-indexed ontology.
+
+    Command line:
+
+    .. code-block:: bash
+
+        runoak -v -i poi:$db/cl.db similarity l~neuron @ l~neuron
     """
+
+    wrapped_adapter: BasicOntologyInterface = None
+    """A POI delegates most of its methods to the wrapped adapter"""
 
     closure_predicates: List[PRED_CURIE] = field(default_factory=lambda: [IS_A, PART_OF])
     """Predicates to use for traversal. These must be fixed at time of indexing."""
@@ -64,10 +75,13 @@ class PoiImplementation(
     ontology_index: IntSetOntologyIndex = None
     """In-memory index of ontology entities plus closures."""
 
+    cache_pairwise_information_content: bool = True
+
     delegated_methods: ClassVar[List[str]] = [
         BasicOntologyInterface.entities,
         BasicOntologyInterface.label,
         BasicOntologyInterface.labels,
+        BasicOntologyInterface.curies_by_label,
         BasicOntologyInterface.curie_to_uri,
         BasicOntologyInterface.uri_to_curie,
         BasicOntologyInterface.ontologies,
@@ -78,29 +92,50 @@ class PoiImplementation(
     """all methods that should be delegated to wrapped_adapter"""
 
     def __post_init__(self):
+        source = None
         if self.wrapped_adapter is None:
             from oaklib.selector import get_implementation_from_shorthand
 
-            slug = self.resource.slug
-            logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
-            inner_oi = get_implementation_from_shorthand(slug)
-            if isinstance(inner_oi, OboGraphInterface):
-                self.wrapped_adapter = inner_oi
-            else:
-                raise NotImplementedError
+            if self.resource:
+                slug = self.resource.slug
+                logging.info(f"Wrapping an existing OAK implementation to fetch {slug}")
+                inner_oi = get_implementation_from_shorthand(slug)
+                if isinstance(inner_oi, OboGraphInterface):
+                    self.wrapped_adapter = inner_oi
+                else:
+                    raise NotImplementedError
+                source = str(self.resource.slug)
+        else:
+            source = str(self.wrapped_adapter.resource.slug)
         # delegation magic
         methods = dict(inspect.getmembers(self.wrapped_adapter))
         for m in self.delegated_methods:
             mn = m if isinstance(m, str) else m.__name__
             setattr(PoiImplementation, mn, methods[mn])
-        self.build_index()
+        if source:
+            self.build_index(source)
 
-    def build_index(self):
-        self.ontology_index = IntSetOntologyIndex()
+    def build_index(self, source: str = None):
+        """
+        Build the POI index.
+
+        - build_curie_index: curies <-> ints
+        - build_ancestor_index
+        - build_association_index
+        - build_information_content_index
+        - build_term_pair_index
+
+        :return:
+        """
+        self.ontology_index = IntSetOntologyIndex(source=source)
         self.build_curie_index()
         self.build_ancestor_index()
         self.build_information_content_index()
-        self.build_term_pair_index()
+        #self.build_term_pair_index()
+
+    def add_associations(self, associations: Iterable[Association]) -> bool:
+        super().add_associations(associations)
+        self.build_association_index()
 
     def build_curie_index(self):
         logging.info("Building curie index")
@@ -108,7 +143,7 @@ class PoiImplementation(
         n = 0
         _curie_to_int = {}
         _int_to_curie = {}
-        for e in self.wrapped_adapter.entities():
+        for e in self.wrapped_adapter.entities(filter_obsoletes=False):
             _curie_to_int[e] = n
             _int_to_curie[n] = e
             n += 1
@@ -120,6 +155,8 @@ class PoiImplementation(
         oix = self.ontology_index
         oix.ancestor_map = {}
         inner_oi = self.wrapped_adapter
+        if not isinstance(inner_oi, OboGraphInterface):
+            raise NotImplementedError
         for i, e in oix.int_to_curie.items():
             ancs = inner_oi.ancestors(e, predicates=self.closure_predicates, reflexive=True)
             oix.ancestor_map[i] = set(self._map_curies_to_ints(ancs))
@@ -128,7 +165,7 @@ class PoiImplementation(
         logging.info("Building association index")
         oix = self.ontology_index
         _curie_to_int = oix.curie_to_int
-        obj_closure_by_subj: Dict[POS, List[POS]] = defaultdict(set())
+        obj_closure_by_subj: Dict[POS, List[POS]] = defaultdict(set)
         for a in self.associations():
             s_ix = _curie_to_int[a.subject]
             obj_closure_ixs = oix.ancestor_map[_curie_to_int[a.object]]
@@ -146,8 +183,11 @@ class PoiImplementation(
                 ancs = self.ontology_index.ancestor_map[i]
                 for a in ancs:
                     counts[a] += 1
+            oix.reflexive_descendant_count_map = counts
             for i, count in counts.items():
-                oix.information_content_map[i] = -math.log(count / len(oix.int_to_curie))/math.log(2)
+                oix.information_content_map[i] = -math.log(
+                    count / len(oix.int_to_curie)
+                ) / math.log(2)
 
     def build_term_pair_index(self):
         logging.info("Building term pair index")
@@ -171,11 +211,16 @@ class PoiImplementation(
                     jaccard = len(anc_intersection) / len(anc_union)
                     if jaccard > self.jaccard_threshold:
                         oix.term_pair_jaccard_index[(e1_ix, e2_ix)] = jaccard
-                        ics = [oix.information_content_map[i] for i in anc_intersection]
-                        max_ics = max(ics)
-                        oix.term_pair_max_information_content[(e1_ix, e2_ix)] = max_ics
-                        best_ancs = [i for i in anc_intersection if math.isclose(oix.information_content_map[i], max_ics, rel_tol=1e-5)]
-                        oix.term_pair_best_ancestor[(e1_ix, e2_ix)] = best_ancs
+                        if self.cache_pairwise_information_content:
+                            ics = [oix.information_content_map[i] for i in anc_intersection]
+                            max_ics = max(ics)
+                            oix.term_pair_max_information_content[(e1_ix, e2_ix)] = max_ics
+                            best_ancs = [
+                                i
+                                for i in anc_intersection
+                                if math.isclose(oix.information_content_map[i], max_ics, rel_tol=1e-5)
+                            ]
+                            oix.term_pair_best_ancestor[(e1_ix, e2_ix)] = best_ancs
 
     def _jaccard_using_ints(self, e1_ix: POS, e2_ix: POS, e1_ancs: Set[POS] = None) -> float:
         oix = self.ontology_index
@@ -186,6 +231,15 @@ class PoiImplementation(
         anc_union = e1_ancs.union(e2_ancs)
         return len(anc_intersection) / len(anc_union)
 
+    def _maxic_using_ints(self, e1_ix: POS, e2_ix: POS, e1_ancs: Set[POS] = None) -> float:
+        oix = self.ontology_index
+        if e1_ancs is None:
+            e1_ancs = oix.ancestor_map[e1_ix]
+        e2_ancs = oix.ancestor_map[e2_ix]
+        anc_intersection = e1_ancs.intersection(e2_ancs)
+        ics = [oix.information_content_map[i] for i in anc_intersection]
+        return max(ics + [0.0])
+
     def filtered_entities(self) -> List[CURIE]:
         return list(self.entities())
 
@@ -194,9 +248,14 @@ class PoiImplementation(
         if syntax is not None:
             if "." in syntax:
                 protocol = int(syntax.split(".")[-1])
-        logging.info("Duping index")
+        logging.info("Dumping index")
         with open(path, "wb") as file:
             pickle.dump(self.ontology_index, file, protocol=protocol)
+
+    def load(self, path: str = None, syntax: str = None):
+        logging.info(f"Loading index from {path}")
+        with open(path, "rb") as file:
+            self.ontology_index = pickle.load(file)
 
     def _map_curies_to_ints(self, curies: Iterable[CURIE]) -> Iterator[POS]:
         oix = self.ontology_index
@@ -206,12 +265,17 @@ class PoiImplementation(
         oix = self.ontology_index
         return [oix.int_to_curie[i] for i in ints]
 
+    def _check_predicates(self, predicates: Optional[List[PRED_CURIE]]):
+        if predicates is not None and set(predicates) != set(self.closure_predicates):
+            raise ValueError(f"Only a single index is supported: {self.closure_predicates}")
+
     def ancestors(
         self,
         start_curies: Union[CURIE, List[CURIE]],
         predicates: List[PRED_CURIE] = None,
         reflexive=True,
     ) -> Iterable[CURIE]:
+        self._check_predicates(predicates)
         if isinstance(start_curies, str):
             start_curies = [start_curies]
         oix = self.ontology_index
@@ -222,12 +286,13 @@ class PoiImplementation(
             yield oix.int_to_curie[i]
 
     def information_content_scores(
-            self,
-            curies: Iterable[CURIE],
-            predicates: List[PRED_CURIE] = None,
-            object_closure_predicates: List[PRED_CURIE] = None,
-            use_associations: bool = None,
+        self,
+        curies: Iterable[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        object_closure_predicates: List[PRED_CURIE] = None,
+        use_associations: bool = None,
     ) -> Iterator[Tuple[CURIE, float]]:
+        self._check_predicates(predicates)
         oix = self.ontology_index
         for c in curies:
             if c in oix.curie_to_int:
@@ -241,54 +306,66 @@ class PoiImplementation(
                 yield c, 0.0
 
     def pairwise_similarity(
-            self,
-            subject: CURIE,
-            object: CURIE,
-            predicates: List[PRED_CURIE] = None,
-            subject_ancestors: List[CURIE] = None,
-            object_ancestors: List[CURIE] = None,
+        self,
+        subject: CURIE,
+        object: CURIE,
+        predicates: List[PRED_CURIE] = None,
+        subject_ancestors: List[CURIE] = None,
+        object_ancestors: List[CURIE] = None,
     ) -> TermPairwiseSimilarity:
+        self._check_predicates(predicates)
         oix = self.ontology_index
+        if subject not in oix.curie_to_int or object not in oix.curie_to_int:
+            return TermPairwiseSimilarity(subject, object, jaccard_similarity=0.0, ancestor_information_content=0.0, phenodigm_score=0.0)
         s_ix = oix.curie_to_int[subject]
         o_ix = oix.curie_to_int[object]
         k = (s_ix, o_ix)
+        if oix.term_pair_jaccard_index is None:
+            self.build_term_pair_index()
         if k not in oix.term_pair_jaccard_index:
             k = (o_ix, s_ix)
         if k in oix.term_pair_jaccard_index:
             jaccard = oix.term_pair_jaccard_index[k]
-            return TermPairwiseSimilarity(
+            ts = TermPairwiseSimilarity(
                 subject_id=subject,
                 object_id=object,
                 jaccard_similarity=jaccard,
                 ancestor_information_content=oix.term_pair_max_information_content[k],
-                ancestor_id=self._map_ints_to_curies(oix.term_pair_best_ancestor[k])[0],
+                ancestor_id=list(self._map_ints_to_curies(oix.term_pair_best_ancestor[k]))[0],
+
             )
+            ts.phenodigm_score = math.sqrt(
+                ts.jaccard_similarity * ts.ancestor_information_content
+            )
+            return ts
         else:
             return TermPairwiseSimilarity(
                 subject_id=subject,
                 object_id=object,
                 jaccard_similarity=0,
                 ancestor_information_content=0.0,
+                phenodigm_score=0.0,
             )
 
     def _all_by_all_pairwise_similarity_on_indexes(
-            self,
-            subjects: Iterable[POS],
-            objects: Iterable[POS],
+        self,
+        subjects: Iterable[POS],
+        objects: Iterable[POS],
     ) -> Iterator[Tuple]:
         objects = list(objects)
         for s in subjects:
             s_ancs = self.ontology_index.ancestor_map[s]
             for o in objects:
-                yield s, o, self._jaccard_using_ints(s, o, s_ancs)
+                yield s, o, self._maxic_using_ints(s, o, s_ancs)
 
     def termset_pairwise_similarity(
-            self,
-            subjects: List[CURIE],
-            objects: List[CURIE],
-            predicates: List[PRED_CURIE] = None,
-            labels=False,
+        self,
+        subjects: List[CURIE],
+        objects: List[CURIE],
+        predicates: List[PRED_CURIE] = None,
+        labels=False,
     ) -> TermSetPairwiseSimilarity:
+        self._check_predicates(predicates)
         oix = self.ontology_index
         subject_ixs = self._map_curies_to_ints(subjects)
         object_ixs = self._map_curies_to_ints(objects)
@@ -318,14 +395,18 @@ class PoiImplementation(
             s = oix.int_to_curie[s_ix]
             score = bm_subject_score[s_ix]
             sim.subject_best_matches[s] = BestMatch(
-                s, match_target=oix.int_to_curie[t_ix], score=score,
+                s,
+                match_target=oix.int_to_curie[t_ix],
+                score=score,
             )
             scores.append(score)
         for s_ix, t_ix in bm_object.items():
             s = oix.int_to_curie[s_ix]
             score = bm_object_score[s_ix]
             sim.object_best_matches[s] = BestMatch(
-                s, match_target=oix.int_to_curie[t_ix], score=score,
+                s,
+                match_target=oix.int_to_curie[t_ix],
+                score=score,
             )
             scores.append(score)
         if not scores:
@@ -333,4 +414,3 @@ class PoiImplementation(
         sim.average_score = statistics.mean(scores)
         sim.best_score = max(scores)
         return sim
-

@@ -6,7 +6,6 @@ from typing import Optional, Type
 from oaklib import BasicOntologyInterface
 from oaklib import datamodels as datamodels_package
 from oaklib.implementations import GildaImplementation
-from oaklib.implementations.poi.poi_implementation import PoiImplementation
 from oaklib.implementations.funowl.funowl_implementation import FunOwlImplementation
 from oaklib.implementations.obograph.obograph_implementation import (
     OboGraphImplementation,
@@ -25,6 +24,8 @@ from oaklib.implementations.ontoportal.ecoportal_implementation import (
 from oaklib.implementations.ontoportal.matportal_implementation import (
     MatPortalImplementation,
 )
+from oaklib.implementations.poi.pickled_poi_implementation import PickledPoiImplementation
+from oaklib.implementations.poi.poi_implementation import PoiImplementation
 from oaklib.implementations.pronto.pronto_implementation import ProntoImplementation
 from oaklib.implementations.simpleobo.simple_obo_implementation import (
     SimpleOboImplementation,
