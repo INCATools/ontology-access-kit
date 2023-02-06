@@ -49,7 +49,8 @@ OBSOLETION_RELATIONSHIP_PREDICATES = [TERM_REPLACED_BY, CONSIDER_REPLACEMENT]
 HAS_ONTOLOGY_ROOT_TERM = omd.slots.has_ontology_root_term.curie
 HAS_OBO_NAMESPACE = omd.slots.has_obo_namespace.curie
 
-IN_CATEGORY_PREDS = ["biolink:category", "dbont:category"]
+BIOLINK_CATEGORY = "biolink:category"
+IN_CATEGORY_PREDS = [BIOLINK_CATEGORY, "dbont:category"]
 
 OWL_CLASS = "owl:Class"
 OWL_OBJECT_PROPERTY = "owl:ObjectProperty"

@@ -1,0 +1,2 @@
+create exact synonym 'test1' for GO:0043226
+create exact synonym 'test2' for GO:0043226
